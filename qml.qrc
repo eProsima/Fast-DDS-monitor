@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Panels.qml</file>
+        <file>Testing.qml</file>
+        <file>EntityList.qml</file>
+        <file>PhysicalView.qml</file>
+    </qresource>
+</RCC>
