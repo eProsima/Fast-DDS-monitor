@@ -71,3 +71,10 @@ else:unix: LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMock
 INCLUDEPATH += $$PWD/../fastdds-statistics-backend-mock/include
 DEPENDPATH += $$PWD/../fastdds-statistics-backend-mock/include
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/install/StaticMockSimple_FastDDSStatisticsBackend/lib/release/ -lStaticMockSimple
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/install/StaticMockSimple_FastDDSStatisticsBackend/lib/debug/ -lStaticMockSimple
+else:unix: LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/install/StaticMockSimple_FastDDSStatisticsBackend/lib/ -lStaticMockSimple
+
+INCLUDEPATH += $$PWD/../../FastDDSStatisticsBackEnd/include
+DEPENDPATH += $$PWD/../../FastDDSStatisticsBackEnd/include
