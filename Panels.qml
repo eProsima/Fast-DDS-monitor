@@ -47,10 +47,6 @@ Item {
                 TabButton {
                     text: "Entity List"
                 }
-
-                TabButton {
-                    text: "Topic List"
-                }
             }
 
             StackLayout {

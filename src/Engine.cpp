@@ -20,6 +20,7 @@ using nlohmann::json;
 Engine::Engine()
 {
     participantsModel = new models::SubListedListModel(new models::ParticipantModelItem());
+    backend_connection.fill_dds_data(participantsModel);
 
     physicalModel = new models::SubListedListModel(new models::HostModelItem());
     backend_connection.fill_physical_data(physicalModel);

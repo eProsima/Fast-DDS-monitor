@@ -10,7 +10,7 @@ namespace backend {
 typedef eprosima::fastdds::dds::statistics::EntityId EntityId;
 typedef eprosima::fastdds::dds::statistics::EntityType EntityType;
 
-#define ALL_ID_BACKEND 0
+#define ALL_ID_BACKEND "-1"
 
 } //namespace backend
 

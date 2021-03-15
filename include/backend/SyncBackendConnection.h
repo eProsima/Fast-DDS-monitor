@@ -45,10 +45,18 @@ public:
     bool update_domain_data(models::ListModel* logical_model, EntityId id);
     bool update_topic_data(models::ListModel* logical_model, EntityId id);
 
+    // DDS PARTITION
+    // Fill a DDS Model from scratch getting the participants from the id and its subentities
+    bool fill_dds_data(models::ListModel* dds_model, EntityId id = ALL_ID_BACKEND);
+
+    // Update the model with a new or updated entity
+    bool update_participant_data(models::ListModel* dds_model, EntityId id);
+    bool update_endpoint_data(models::ListModel* dds_model, EntityId id);
+
 protected:
     static bool _update_physical_data(models::ListModel* physical_model);
-    static bool _update_logical_data(models::ListModel* physical_model);
-    static bool _update_dds_data(models::ListModel* physical_model, EntityId id);
+    static bool _update_logical_data(models::ListModel* logical_model);
+    static bool _update_dds_data(models::ListModel* dds_model, EntityId id);
 
     static bool _update_host_data(ListItem* host_item);
     static bool _update_user_data(ListItem* user_item);
@@ -57,12 +65,18 @@ protected:
     static bool _update_domain_data(ListItem* domain_item);
     static bool _update_topic_data(ListItem* topic_item);
 
+    static bool _update_participant_data(ListItem* participant_item);
+    static bool _update_endpoint_data(ListItem* endpoint_item);
+
     static ListItem* _create_process_data(backend::EntityId id);
     static ListItem* _create_user_data(backend::EntityId id);
     static ListItem* _create_host_data(backend::EntityId id);
 
     static ListItem* _create_domain_data(backend::EntityId id);
     static ListItem* _create_topic_data(backend::EntityId id);
+
+    static ListItem* _create_participant_data(backend::EntityId id);
+    static ListItem* _create_endpoint_data(backend::EntityId id);
 
     static bool __update_entity_data(
             SubListedListItem* item,
@@ -73,6 +87,7 @@ protected:
     static bool __update_model_data(
             ListModel* model,
             EntityType type,
+            EntityId id,
             bool (*update_function)(ListItem*),
             ListItem* (*create_function)(EntityId));
 
