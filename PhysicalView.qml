@@ -17,8 +17,10 @@ Item {
         id: listdelegate
 
         Item {
+            id: hostItem
             width: 300
             height: hostListColumn.childrenRect.height
+            property var item_id: id
 
             Column {
                 id: hostListColumn
@@ -42,13 +44,18 @@ Item {
                         }
                     }
                     Text {
-                        text: hostId
+                        text: name
                         leftPadding: 5
                     }
                 }
+                Text {
+                    text: id
+                    font.pixelSize: 9
+                    leftPadding: 20
+                }
                 ListView {
                     id: userList
-                    model: hostModel.subModelFromEntityId(hostId)
+                    model: hostModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
                     delegate: Component {
@@ -83,19 +90,19 @@ Item {
                                         }
                                     }
                                     Text {
-                                        text: username
+                                        text: name
                                         leftPadding: 5
                                     }
                                 }
                                 Text {
-                                    text: userId
+                                    text: id
                                     font.pixelSize: 9
                                     leftPadding: 20
                                 }
                                 ListView {
                                     id: processList
                                     model: hostModel.subModelFromEntityId(
-                                               hostId).subModelFromEntityId(userId)
+                                               hostItem.item_id).subModelFromEntityId(id)
                                     property int collapseHeightFlag: childrenRect.height
                                     leftMargin: 20
                                     delegate: Component {
@@ -114,16 +121,18 @@ Item {
                                                         height: 10
                                                     }
                                                     Text {
-                                                        text: processId
+                                                        text: name
                                                         leftPadding: 5
                                                     }
                                                 }
                                                 Text {
-                                                    text: processExec
+                                                    text: id
+                                                    font.pixelSize: 9
                                                     leftPadding: 20
                                                 }
                                                 Text {
                                                     text: processPID
+                                                    font.pixelSize: 9
                                                     leftPadding: 20
                                                 }
                                             }

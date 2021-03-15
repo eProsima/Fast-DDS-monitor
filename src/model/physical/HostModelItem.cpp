@@ -4,6 +4,9 @@
 #include <include/model/SubListedListModel.h>
 #include <include/model/physical/UserModelItem.h>
 
+#include <include/backend/backend_types.h>
+#include <include/backend/backend_utils.h>
+
 HostModelItem::HostModelItem(QObject *parent)
     : SubListedListItem(parent)
 {
@@ -11,7 +14,7 @@ HostModelItem::HostModelItem(QObject *parent)
 }
 
 HostModelItem::HostModelItem(
-        QString id,
+        backend::EntityId id,
         QObject *parent)
     : SubListedListItem(parent)
     , id_(id)
@@ -26,6 +29,11 @@ HostModelItem::~HostModelItem()
 }
 
 QString HostModelItem::entityId() const
+{
+    return backend::backend_id_to_model_id(id_);
+}
+
+backend::EntityId HostModelItem::get_entityId() const
 {
     return id_;
 }

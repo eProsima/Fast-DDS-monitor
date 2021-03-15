@@ -66,13 +66,22 @@ Item {
                 TabButton {
                     text: "Physical List"
                 }
+
+                TabButton {
+                    text: "Logical List"
+                }
             }
 
             StackLayout {
                 currentIndex: physicalViewTabBar.currentIndex
 
-                PhysicalView {}
+                Item{
+                    PhysicalView {}
+                }
 
+                Item{
+                    LogicalView {}
+                }
             }
         }
     }

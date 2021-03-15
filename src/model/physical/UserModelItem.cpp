@@ -3,6 +3,9 @@
 #include <include/model/physical/UserModelItem.h>
 #include <include/model/physical/ProcessModelItem.h>
 
+#include <include/backend/backend_types.h>
+#include <include/backend/backend_utils.h>
+
 UserModelItem::UserModelItem(
         QObject *parent)
     : SubListedListItem(parent)
@@ -11,12 +14,10 @@ UserModelItem::UserModelItem(
 }
 
 UserModelItem::UserModelItem(
-        QString id,
-        QString username,
+        backend::EntityId id,
         QObject *parent)
     : SubListedListItem(parent)
     , id_(id)
-    , username_(username)
 {
     processListModel_ = new models::ListModel(new ProcessModelItem());
 }
@@ -29,6 +30,16 @@ UserModelItem::~UserModelItem()
 
 QString UserModelItem::entityId() const
 {
+    return backend::backend_id_to_model_id(id_);
+}
+
+QString UserModelItem::username() const
+{
+    return backend::id_to_QString(id_);
+}
+
+backend::EntityId UserModelItem::get_entityId() const
+{
     return id_;
 }
 
@@ -40,7 +51,7 @@ QVariant UserModelItem::data(
        case userIdRole:
            return this->entityId();
        case usernameRole:
-           return this->username_;
+           return this->username();
        default:
            return QVariant();
    }

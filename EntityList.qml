@@ -42,18 +42,28 @@ Item {
                         }
                     }
                     Text {
-                        text: participantName
+                        text: name
                         leftPadding: 5
                     }
                 }
                 Text {
-                    text: participantGuid
+                    text: id
+                    font.pixelSize: 9
+                    leftPadding: 20
+                }
+                Text {
+                    text: guid
+                    font.pixelSize: 9
+                    leftPadding: 20
+                }
+                Text {
+                    text: domain
                     font.pixelSize: 9
                     leftPadding: 20
                 }
                 ListView {
                     id: endpointList
-                    model: participantModel.subModelFromEntityId(participantGuid)
+                    model: participantModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
                     delegate: Component {
@@ -87,12 +97,22 @@ Item {
                                         }
                                     }
                                     Text {
-                                        text: endpointType
+                                        text: name
                                         leftPadding: 5
                                     }
                                 }
                                 Text {
-                                    text: endpointGuid
+                                    text: id
+                                    font.pixelSize: 9
+                                    leftPadding: 20
+                                }
+                                Text {
+                                    text: id
+                                    font.pixelSize: 9
+                                    leftPadding: 20
+                                }
+                                Text {
+                                    text: topic
                                     font.pixelSize: 9
                                     leftPadding: 20
                                 }

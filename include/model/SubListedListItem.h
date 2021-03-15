@@ -1,14 +1,15 @@
 #ifndef SUBLISTEDLISTITEM_H
 #define SUBLISTEDLISTITEM_H
 
-#include "ListItem.h"
-
-
+#include <include/model/ListItem.h>
+#include <include/model/ListModel.h>
+#include <include/backend/backend_types.h>
 namespace models {
 
-class ListModel;
-
-class SubListedListItem : public models::ListItem
+// Class that represents:
+//  an item in a list
+//  it has subentities that are items
+class SubListedListItem : public ListItem
 {
     Q_OBJECT
 
@@ -16,15 +17,31 @@ public:
 
     SubListedListItem(
             QObject *parent = 0)
-        : models::ListItem(parent)
+        : ListItem(parent)
     {
     }
 
-    virtual ~SubListedListItem()
+    SubListedListItem(
+            backend::EntityId id,
+            QObject* parent = 0)
+        : ListItem(id, parent)
     {
     }
 
-    virtual models::ListModel*  submodel()  const = 0;
+    ~SubListedListItem()
+    {
+        subEntitiesListModel_->clear();
+        delete subEntitiesListModel_;
+    }
+
+    ListModel* submodel()  const
+    {
+        return subEntitiesListModel_;
+    }
+
+protected:
+
+    ListModel* subEntitiesListModel_;
 };
 
 } // namespace models

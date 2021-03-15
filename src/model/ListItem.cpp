@@ -25,31 +25,68 @@
 **
 ****************************************************************************/
 
-#include <iostream>
-#include <include/model/SubListedListModel.h>
+#include <include/model/ListItem.h>
 #include <include/backend/backend_types.h>
-
+#include <include/model/SubListedListModel.h>
 #include <include/utils.h>
+// DEBUG
+#include <iostream>
+#include <QDebug>
 
 namespace models {
 
-SubListedListModel::SubListedListModel(
-        SubListedListItem* prototype,
+ListItem::ListItem(
         QObject *parent)
-    : ListModel(prototype, parent)
+    : QObject(parent)
+{}
+
+ListItem::ListItem(
+        backend::EntityId id,
+        QObject* parent)
+    : QObject(parent)
+    , id_(id)
+{}
+
+ListItem::~ListItem()
+{}
+
+QString ListItem::entityId() const
 {
+    return backend::id_to_QString(id_); //backend::id_to_QString(id_);
 }
 
-QObject* SubListedListModel::subModelFromEntityId(
-        EntityId entityId)
+QString ListItem::name() const
 {
-    SubListedListItem* item = (SubListedListItem*)find(entityId);
-    if (item != nullptr)
+    return backend::get_name(id_);
+}
+
+backend::EntityId ListItem::get_entityId() const
+{
+    return id_;
+}
+
+QVariant ListItem::data(
+        int role) const
+{
+    switch (role)
     {
-        std::cout << "Found model with id: " << utils::to_string(entityId) << std::endl;
-        return item->submodel();
+        case idRole:
+            return this->entityId();
+        case nameRole:
+            return this->name();
+        default:
+            return QVariant();
     }
-    return nullptr;
 }
 
-} // namespace models
+QHash<int, QByteArray> ListItem::roleNames() const
+{
+    QHash<int, QByteArray>  roles;
+
+    roles[idRole] = "id";
+    roles[nameRole] = "name";
+
+    return roles;
+}
+
+} //namespace models

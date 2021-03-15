@@ -1,53 +1,39 @@
-#include <iostream>
 
 #include <include/model/physical/ProcessModelItem.h>
 
-ProcessModelItem::ProcessModelItem(
-        QObject *parent)
-    : ListItem(parent)
-{
-}
+#include <include/backend/backend_utils.h>
 
-ProcessModelItem::ProcessModelItem(
-        QString id,
-        QString executable,
-        QString pid,
-        QObject *parent)
-    : ListItem(parent)
-    , id_(id)
-    , executable_(executable)
-    , pid_(pid)
-{
-}
-
-QString ProcessModelItem::entityId() const
-{
-    return id_;
-}
+namespace models {
 
 QVariant ProcessModelItem::data(
         int role) const
 {
    switch (role)
    {
-        case processIdRole:
+        case idRole:
            return this->entityId();
-        case processExecRole:
-            return this->executable_;
-        case processPIDRole:
-           return this->pid_;
+        case nameRole:
+            return this->name();
+        case pidRole:
+           return this->pid();
         default:
            return QVariant();
    }
 }
 
+QString ProcessModelItem::pid() const
+{
+    return QString::fromUtf8("pid");
+}
+
+
 QHash<int, QByteArray> ProcessModelItem::roleNames() const
 {
-    QHash<int, QByteArray>  roles;
+    QHash<int, QByteArray>  roles = ListItem::roleNames();
 
-    roles[processIdRole] = "processId";
-    roles[processExecRole] = "processExec";
-    roles[processPIDRole] = "processPID";
+    roles[pidRole] = "processPID";
 
     return roles;
+}
+
 }

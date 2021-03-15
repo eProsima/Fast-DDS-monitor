@@ -10,6 +10,7 @@
 #include <QQmlEngine>
 
 #include <include/model/ListItem.h>
+#include <include/backend/backend_types.h>
 
 namespace models {
 
@@ -91,7 +92,7 @@ public:
      * Returns the item whose id matches the itemId.
      */
     ListItem* find(
-            QString itemId) const;
+            EntityId itemId) const;
 
     /**
      * Returns the row index of item in the model.
@@ -120,7 +121,7 @@ public:
      * Returns the row index of an item given the item id.
      */
     Q_INVOKABLE int rowIndexFromId(
-            QString id);
+            EntityId itemId);
 
     /**
      * Clears the whole model removing all rows.

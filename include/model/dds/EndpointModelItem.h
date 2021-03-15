@@ -1,28 +1,29 @@
-#ifndef PROCESSMODELITEM_H
-#define PROCESSMODELITEM_H
+#ifndef ENDPOINTMODELITEM_H
+#define ENDPOINTMODELITEM_H
 
 #include <include/model/ListItem.h>
 
 namespace models {
 
-class ProcessModelItem : public ListItem
+class EndpointModelItem : public ListItem
 {
     Q_OBJECT
 
 public:
 
-    enum ProcessModelItemRoles
+    enum EndpointModelItemRoles
     {
-        pidRole = ModelItemRoles::nameRole + 1,
+        guidRole = ModelItemRoles::nameRole + 1,
+        topicRole
     };
 
-    ProcessModelItem(
+    EndpointModelItem(
             QObject *parent = 0)
         : ListItem(parent)
     {
     }
 
-    ProcessModelItem(
+    EndpointModelItem(
             backend::EntityId id,
             QObject* parent = 0)
         : ListItem(id, parent)
@@ -32,11 +33,12 @@ public:
     QVariant data(
             int role) const override;
 
-    QString pid() const;
+    QString guid() const;
+    QString topic() const;
 
     QHash<int, QByteArray> roleNames() const override;
 };
 
-} //namespace models
+}
 
-#endif // PROCESSMODELITEM_H
+#endif

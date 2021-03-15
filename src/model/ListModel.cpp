@@ -26,11 +26,13 @@
 ****************************************************************************/
 
 #include <include/model/ListModel.h>
+#include <include/backend/backend_types.h>
+#include <include/utils.h>
 // DEBUG
 #include <iostream>
 #include <QDebug>
 
-using namespace models;
+namespace models {
 
 ListModel::ListModel(
         ListItem *prototype,
@@ -165,15 +167,15 @@ QModelIndex ListModel::indexFromItem(
 }
 
 ListItem* ListModel::find(
-        QString itemId) const
+        EntityId itemId) const
 {
     foreach(ListItem *item, items_)
         if (item->entityId() == itemId)
         {
-            std::cout << "Found item with id: " << itemId.toUtf8().constData() << std::endl;
+            std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
             return item;
         }
-    std::cout << "Not found item with id: " << itemId.toUtf8().constData() << std::endl;
+    std::cout << "Not found item with id: " << utils::to_string(itemId) << std::endl;
     return nullptr;
 }
 
@@ -218,7 +220,7 @@ QVariant ListModel::get(
 }
 
 int ListModel::rowIndexFromId(
-        QString id)
+        EntityId id)
 {
     ListItem* item = find(id);
 
@@ -226,3 +228,5 @@ int ListModel::rowIndexFromId(
         return indexFromItem(item).row();
     return -1;
 }
+
+} // namespace models

@@ -25,31 +25,42 @@
 **
 ****************************************************************************/
 
-#include <iostream>
-#include <include/model/SubListedListModel.h>
+#include <include/model/SubListedListItem.h>
 #include <include/backend/backend_types.h>
-
+#include <include/model/SubListedListModel.h>
 #include <include/utils.h>
+// DEBUG
+#include <iostream>
+#include <QDebug>
 
 namespace models {
 
-SubListedListModel::SubListedListModel(
-        SubListedListItem* prototype,
+SubListedListItem::SubListedListItem(
         QObject *parent)
-    : ListModel(prototype, parent)
+    : QObject(parent)
 {
+    subEntitiesListModel_ = new models::SubListedListModel(new SubEntityClass());
 }
 
-QObject* SubListedListModel::subModelFromEntityId(
-        EntityId entityId)
+SubListedListItem::SubListedListItem(
+        backend::EntityId id,
+        QObject* parent)
+    : QObject(parent)
+    , id_(id)
 {
-    SubListedListItem* item = (SubListedListItem*)find(entityId);
-    if (item != nullptr)
-    {
-        std::cout << "Found model with id: " << utils::to_string(entityId) << std::endl;
-        return item->submodel();
-    }
-    return nullptr;
+    subEntitiesListModel_ = new models::SubListedListModel(new SubEntityClass());
 }
 
-} // namespace models
+SubListedListItem::~SubListedListItem()
+{
+    subEntitiesListModel_->clear();
+    delete subEntitiesListModel_;
+}
+
+ListModel* SubListedListItem::submodel() const
+{
+    std::cout << "Getting submodule from : " << utils::to_string(name()) << std::endl;
+    return subEntitiesListModel_;
+}
+
+} //namespace models
