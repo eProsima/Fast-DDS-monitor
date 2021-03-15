@@ -1,0 +1,27 @@
+#ifndef FASTDDS_MONITOR_BACKEND_UTILS_H
+#define FASTDDS_MONITOR_BACKEND_UTILS_H
+
+#include <QString>
+#include <string>
+
+#include <include/model/model_types.h>
+#include <include/utils.h>
+#include <include/backend/backend_types.h>
+
+namespace backend{
+
+QString id_to_QString(const EntityId id);
+
+QString get_name(const EntityId id);
+
+// PROCESS
+QString process_pid(backend::EntityId process_id);
+
+// DDS GUID
+QString entity_guid(backend::EntityId id);
+
+// TOPIC
+QString topic_type(backend::EntityId id);
+} //namespace backend
+
+#endif // FASTDDS_MONITOR_BACKEND_UTILS_H

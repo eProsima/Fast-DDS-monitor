@@ -1,0 +1,3 @@
+
+# ignore .pro.user file
+*.pro.user
