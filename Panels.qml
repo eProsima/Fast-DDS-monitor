@@ -84,5 +84,43 @@ Item {
                 }
             }
         }
+
+        Rectangle {
+            Layout.row:1
+            Layout.column: 1
+            width: parent.width / 5 * 3
+            height: parent.width
+            color: "grey"
+        }
+
+        ColumnLayout {
+            id: rightColumnLayout
+
+            Layout.row: 1
+            Layout.column: 2
+
+            TabBar {
+                id: settingsViewTabBar
+
+                TabButton {
+                    text: "QoS"
+                }
+
+                TabButton {
+                    text: "Statistics"
+                }
+                TabButton {
+                    text: "Issues"
+                }
+            }
+
+            StackLayout {
+                currentIndex: settingsViewTabBar.currentIndex
+
+                QosView {}
+
+            }
+
+        }
     }
 }

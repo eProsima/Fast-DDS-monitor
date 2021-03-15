@@ -21,6 +21,8 @@ SOURCES += \
         src/model/ListModel.cpp \
         src/model/SubListedListModel.cpp \
         src/main.cpp \
+    src/model/tree/TreeItem.cpp \
+        src/model/tree/TreeModel.cpp \
         src/utils.cpp \
         src/Engine.cpp
 
@@ -38,29 +40,34 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    include/backend/AsyncBackendConnection_copy.h \
-    include/backend/SyncBackendConnection.h \
-    include/backend/backend_types.h \
-    include/model/EntityContainerModelItem.h \
-    include/model/model_types.h \
-    include/utils.h \
-    include/backend/backend_utils.h \
-    include/model/dds/ParticipantModelItem.h \
-    include/model/dds/EndpointModelItem.h \
-    include/model/logical/DomainModelItem.h \
-    include/model/logical/TopicModelItem.h \
-    include/model/physical/HostModelItem.h \
-    include/model/physical/UserModelItem.h \
-    include/model/physical/ProcessModelItem.h \
-    include/model/ListModel.h \
-    include/model/ListItem.h \
-    include/model/SubListedListModel.h \
-    include/model/SubListedListItem.h \
-    include/Engine.h
+        include/backend/AsyncBackendConnection_copy.h \
+        include/backend/SyncBackendConnection.h \
+        include/backend/backend_types.h \
+        include/model/EntityContainerModelItem.h \
+        include/model/model_types.h \
+        include/utils.h \
+        include/backend/backend_utils.h \
+        include/model/dds/ParticipantModelItem.h \
+        include/model/dds/EndpointModelItem.h \
+        include/model/logical/DomainModelItem.h \
+        include/model/logical/TopicModelItem.h \
+        include/model/physical/HostModelItem.h \
+        include/model/physical/UserModelItem.h \
+        include/model/physical/ProcessModelItem.h \
+        include/model/ListModel.h \
+        include/model/ListItem.h \
+        include/model/SubListedListModel.h \
+        include/model/SubListedListItem.h \
+        include/Engine.h \
+        include/model/tree/TreeModel.h \
+        include/model/tree/TreeItem.h \
+        json.hpp
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/build/StaticMockSimple_FastDDSStatisticsBackend/src/mock/static_mock/static_mock_simple/release/ -lStaticMockSimple
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/build/StaticMockSimple_FastDDSStatisticsBackend/src/mock/static_mock/static_mock_simple/debug/ -lStaticMockSimple
-else:unix: LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/build/StaticMockSimple_FastDDSStatisticsBackend/src/mock/static_mock/static_mock_simple/ -lStaticMockSimple
 
-INCLUDEPATH += $$PWD/../../FastDDSStatisticsBackEnd/include
-DEPENDPATH += $$PWD/../../FastDDSStatisticsBackEnd/include
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMockSimple_FastDDSStatisticsBackend/lib/release/ -lStaticMockSimple
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMockSimple_FastDDSStatisticsBackend/lib/debug/ -lStaticMockSimple
+else:unix: LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMockSimple_FastDDSStatisticsBackend/lib/ -lStaticMockSimple
+
+INCLUDEPATH += $$PWD/../fastdds-statistics-backend-mock/include
+DEPENDPATH += $$PWD/../fastdds-statistics-backend-mock/include
+

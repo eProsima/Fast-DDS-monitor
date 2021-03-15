@@ -6,5 +6,6 @@
         <file>EntityList.qml</file>
         <file>PhysicalView.qml</file>
         <file>LogicalView.qml</file>
+        <file>QosView.qml</file>
     </qresource>
 </RCC>
