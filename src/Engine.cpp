@@ -11,6 +11,12 @@
 #include <include/backend/SyncBackendConnection.h>
 #include <include/Engine.h>
 
+#include <include/model/tree/TreeModel.h>
+
+#include <json.hpp>
+
+using nlohmann::json;
+
 Engine::Engine()
 {
     participantsModel = new models::SubListedListModel(new models::ParticipantModelItem());
@@ -20,6 +26,18 @@ Engine::Engine()
 
     logicalModel = new models::SubListedListModel(new models::DomainModelItem());
     backend_connection.fill_logical_data(logicalModel);
+
+    json qos = R"({
+        "DurabilityQosPolicy": "TRANSIENT_LOCAL_DURABILITY_QOS",
+        "DeadlineQosPolicy": "5ms",
+        "LivelinessQosPolicy": {
+            "kind": "AUTOMATIC_LIVELINES_QOS",
+            "lease_duration": "c_TimeInfinite",
+            "announcement_period": "c_TimeInfinite"
+        }
+    })"_json;
+
+    qosModel = new models::TreeModel(qos);
 }
 
 void Engine::enable()
@@ -27,5 +45,8 @@ void Engine::enable()
     rootContext()->setContextProperty("participantModel", participantsModel);
     rootContext()->setContextProperty("hostModel", physicalModel);
     rootContext()->setContextProperty("domainModel", logicalModel);
+
+    rootContext()->setContextProperty("qosModel", qosModel);
+
     load(QUrl(QLatin1String("qrc:/main.qml")));
 }

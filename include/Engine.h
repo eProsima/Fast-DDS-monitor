@@ -6,6 +6,8 @@
 #include <include/backend/SyncBackendConnection.h>
 #include <include/model/SubListedListModel.h>
 
+#include <include/model/tree/TreeModel.h>
+
 class Engine : public QQmlApplicationEngine
 {
 public:
@@ -17,6 +19,8 @@ private:
     models::ListModel* participantsModel;
     models::ListModel* physicalModel;
     models::ListModel* logicalModel;
+
+    models::TreeModel* qosModel;
 
     backend::SyncBackendConnection backend_connection;
 };

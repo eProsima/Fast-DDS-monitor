@@ -26,19 +26,19 @@ int main(int argc, char *argv[])
      * QoS view static data                                                                                      *
      ******************************************************************************************************************/
 
-    using nlohmann::json;
+//    using nlohmann::json;
 
-    json qos = R"({
-        "DurabilityQosPolicy": "TRANSIENT_LOCAL_DURABILITY_QOS",
-        "DeadlineQosPolicy": "5ms",
-        "LivelinessQosPolicy": {
-            "kind": "AUTOMATIC_LIVELINES_QOS",
-            "lease_duration": "c_TimeInfinite",
-            "announcement_period": "c_TimeInfinite"
-        }
-    })"_json;
+//    json qos = R"({
+//        "DurabilityQosPolicy": "TRANSIENT_LOCAL_DURABILITY_QOS",
+//        "DeadlineQosPolicy": "5ms",
+//        "LivelinessQosPolicy": {
+//            "kind": "AUTOMATIC_LIVELINES_QOS",
+//            "lease_duration": "c_TimeInfinite",
+//            "announcement_period": "c_TimeInfinite"
+//        }
+//    })"_json;
 
-    TreeModel* qosModel = new TreeModel(qos);
+//    TreeModel* qosModel = new TreeModel(qos);
 
     /******************************************************************************************************************
      * Application engine                                                                                             *
@@ -48,15 +48,16 @@ int main(int argc, char *argv[])
     Engine engine;
     engine.enable();
 
-    engine.rootContext()->setContextProperty("qosModel", qosModel);
+    //engine.rootContext()->setContextProperty("qosModel", qosModel);
 
     QObject *topLevel = engine.rootObjects().value(0);
-        QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel); \
-        if ( !window ) {
-            qWarning("Error: Your root item has to be a Window."); \
-            return -1;
-        }
-        window->show();
+
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel); \
+    if ( !window ) {
+        qWarning("Error: Your root item has to be a Window."); \
+        return -1;
+    }
+    window->show();
 
     return app.exec();
 }

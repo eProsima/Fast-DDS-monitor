@@ -11,6 +11,8 @@ using json = nlohmann::json;
 
 class TreeItem;
 
+namespace models {
+
 struct RecursiveStructType
 
 {
@@ -85,5 +87,7 @@ private:
 
     TreeItem* rootItem_;
 };
+
+} // namespace models
 
 #endif // TREEMODEL_H

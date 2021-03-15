@@ -8,6 +8,8 @@
 
 using json = nlohmann::json;
 
+namespace models {
+
 TreeModel::TreeModel(
         const json& data,
         QObject* parent)
@@ -173,3 +175,5 @@ void TreeModel::setupModelData(
         }
     }
 }
+
+} // namespace models
