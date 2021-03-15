@@ -13,12 +13,32 @@
 #include <include/model/physical/UserModelItem.h>
 #include <include/model/physical/ProcessModelItem.h>
 #include <include/backend/backend_utils.h>
+#include <include/model/tree/TreeModel.h>
+
 #include <core/StatisticsBackend.hpp>
+#include <json.hpp>
 
 namespace backend {
 
 using namespace eprosima::fastdds::dds::statistics;
 using namespace models;
+
+models::TreeModel* SyncBackendConnection::entity_qos(EntityId id /*ALL_ID_BACKEND*/)
+{
+    // TODO get the QoS info from backend
+    static_cast<void>(id);
+    nlohmann::json qos = R"({
+        "DurabilityQosPolicy": "TRANSIENT_LOCAL_DURABILITY_QOS",
+        "DeadlineQosPolicy": "5ms",
+        "LivelinessQosPolicy": {
+            "kind": "AUTOMATIC_LIVELINES_QOS",
+            "lease_duration": "c_TimeInfinite",
+            "announcement_period": "c_TimeInfinite"
+        }
+    })"_json;
+
+    return new models::TreeModel(qos);
+}
 
 /// Backend API
 bool SyncBackendConnection::fill_physical_data(models::ListModel* physical_model)

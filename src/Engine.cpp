@@ -28,17 +28,7 @@ Engine::Engine()
     logicalModel = new models::SubListedListModel(new models::DomainModelItem());
     backend_connection.fill_logical_data(logicalModel);
 
-    json qos = R"({
-        "DurabilityQosPolicy": "TRANSIENT_LOCAL_DURABILITY_QOS",
-        "DeadlineQosPolicy": "5ms",
-        "LivelinessQosPolicy": {
-            "kind": "AUTOMATIC_LIVELINES_QOS",
-            "lease_duration": "c_TimeInfinite",
-            "announcement_period": "c_TimeInfinite"
-        }
-    })"_json;
-
-    qosModel = new models::TreeModel(qos);
+    qosModel = backend_connection.entity_qos();
 }
 
 void Engine::enable()

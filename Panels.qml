@@ -13,11 +13,15 @@ Item {
         anchors.fill: parent
         anchors.margins: 5
 
-        rows: 2
+        rows: 3
         columns: 3
 
         RowLayout {
             id: rowLayout
+
+            Layout.row:0
+            Layout.column: 0
+            Layout.columnSpan: 3
 
             RowLayout {
 
@@ -41,20 +45,24 @@ Item {
             Layout.row:1
             Layout.column: 0
 
-            TabBar {
-                id: logicalViewTabBar
-
-                TabButton {
-                    text: "Entity List"
-                }
+            Text {
+                id: entityLabel
+                text: qsTr("DDS ENTITIES")
+                font.pixelSize: 15
+                font.bold: true
             }
 
-            StackLayout {
-                currentIndex: logicalViewTabBar.currentIndex
-
+            ColumnLayout {
                 EntityList {}
-
             }
+
+        }
+
+        ColumnLayout {
+            id: columnLayoutContainer
+
+            Layout.row:2
+            Layout.column: 0
 
             TabBar {
                 id: physicalViewTabBar
@@ -71,18 +79,15 @@ Item {
             StackLayout {
                 currentIndex: physicalViewTabBar.currentIndex
 
-                Item{
-                    PhysicalView {}
-                }
+                PhysicalView {}
 
-                Item{
-                    LogicalView {}
-                }
+                LogicalView {}
             }
         }
 
         Rectangle {
             Layout.row:1
+            Layout.rowSpan: 2
             Layout.column: 1
             width: parent.width / 5 * 3
             height: parent.width
@@ -93,6 +98,7 @@ Item {
             id: rightColumnLayout
 
             Layout.row: 1
+            Layout.rowSpan: 2
             Layout.column: 2
 
             TabBar {

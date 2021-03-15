@@ -12,6 +12,8 @@
 #include <core/StatisticsBackend.hpp>
 #include <include/backend/backend_types.h>
 
+#include <include/model/tree/TreeModel.h>
+
 namespace backend {
 
 using namespace models;
@@ -52,6 +54,11 @@ public:
     // Update the model with a new or updated entity
     bool update_participant_data(models::ListModel* dds_model, EntityId id);
     bool update_endpoint_data(models::ListModel* dds_model, EntityId id);
+
+    // QoS DATA
+    // Retrieve the QoS information. With ALL or incorrect ID it
+    // returns an empty QoS Configuration
+    models::TreeModel* entity_qos(EntityId id = ALL_ID_BACKEND);
 
 protected:
     static bool _update_physical_data(models::ListModel* physical_model);
