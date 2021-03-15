@@ -5,20 +5,40 @@
 #include <include/model/ListItem.h>
 #include <include/model/ListModel.h>
 #include <include/model/SubListedListModel.h>
-//#include <include/model/dds/ParticipantModelItem.h>
-//#include <include/model/dds/EndpointModelItem.h>
+#include <include/model/dds/ParticipantModelItem.h>
+#include <include/model/dds/EndpointModelItem.h>
 #include <include/model/logical/TopicModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/physical/HostModelItem.h>
 #include <include/model/physical/UserModelItem.h>
 #include <include/model/physical/ProcessModelItem.h>
 #include <include/backend/backend_utils.h>
+#include <include/model/tree/TreeModel.h>
+
 #include <core/StatisticsBackend.hpp>
+#include <json.hpp>
 
 namespace backend {
 
 using namespace eprosima::fastdds::dds::statistics;
 using namespace models;
+
+models::TreeModel* SyncBackendConnection::entity_qos(EntityId id /*ALL_ID_BACKEND*/)
+{
+    // TODO get the QoS info from backend
+    static_cast<void>(id);
+    nlohmann::json qos = R"({
+        "DurabilityQosPolicy": "TRANSIENT_LOCAL_DURABILITY_QOS",
+        "DeadlineQosPolicy": "5ms",
+        "LivelinessQosPolicy": {
+            "kind": "AUTOMATIC_LIVELINES_QOS",
+            "lease_duration": "c_TimeInfinite",
+            "announcement_period": "c_TimeInfinite"
+        }
+    })"_json;
+
+    return new models::TreeModel(qos);
+}
 
 /// Backend API
 bool SyncBackendConnection::fill_physical_data(models::ListModel* physical_model)
@@ -61,6 +81,28 @@ bool SyncBackendConnection::update_topic_data(models::ListModel* logical_model, 
     return _update_logical_data(logical_model);
 }
 
+bool SyncBackendConnection::fill_dds_data(
+        models::ListModel* dds_model,
+        EntityId id /*ALL_ID_BACKEND*/)
+{
+    return _update_dds_data(dds_model, id);
+}
+
+// Update the model with a new or updated entity
+bool SyncBackendConnection::update_participant_data(models::ListModel* dds_model, EntityId id)
+{
+    // TODO update only the entity that has changed
+    static_cast<void>(id);
+    return _update_dds_data(dds_model, ALL_ID_BACKEND);
+}
+
+bool SyncBackendConnection::update_endpoint_data(models::ListModel* dds_model, EntityId id)
+{
+    // TODO update only the entity that has changed
+    static_cast<void>(id);
+    return _update_dds_data(dds_model, ALL_ID_BACKEND);
+}
+
 /// CREATE PRIVATE FUNCTIONS
 ListItem* SyncBackendConnection::_create_process_data(EntityId id)
 {
@@ -93,6 +135,18 @@ ListItem* SyncBackendConnection::_create_topic_data(EntityId id)
 {
     std::cout << "Creating Topic " << id << std::endl;
     return new TopicModelItem(id);
+}
+
+ListItem* SyncBackendConnection::_create_participant_data(backend::EntityId id)
+{
+    std::cout << "Creating Participant " << id << std::endl;
+    return new ParticipantModelItem(id);
+}
+
+ListItem* SyncBackendConnection::_create_endpoint_data(backend::EntityId id)
+{
+    std::cout << "Creating Endpoint " << id << std::endl;
+    return new EndpointModelItem(id);
 }
 
 /// UPDATE PRIVATE FUNCTIONS
@@ -143,12 +197,40 @@ bool SyncBackendConnection::_update_topic_data(ListItem* topic_item)
     return false;
 }
 
-/// UPDATE StrUCTURE PRIVATE FUNCTIONS
+
+bool SyncBackendConnection::_update_participant_data(ListItem* participant_item)
+{
+    auto participant_item_sublist = static_cast<SubListedListItem*>(participant_item);
+
+    bool res = __update_entity_data(
+                participant_item_sublist,
+                EntityType::DATAREADER,
+                _update_endpoint_data,
+                _create_endpoint_data);
+
+    res = __update_entity_data(
+                participant_item_sublist,
+                EntityType::DATAWRITER,
+                _update_endpoint_data,
+                _create_endpoint_data) || res;
+
+    return res;
+}
+
+bool SyncBackendConnection::_update_endpoint_data(ListItem* endpoint_item)
+{
+    // Endpoint does not have update
+    static_cast<void>(endpoint_item);
+    return false;
+}
+
+/// UPDATE STRUCTURE PRIVATE FUNCTIONS
 bool SyncBackendConnection::_update_physical_data(models::ListModel* physical_model)
 {
     return __update_model_data(
                 physical_model,
                 EntityType::HOST,
+                ALL_ID_BACKEND,
                 _update_host_data,
                 _create_host_data);
 }
@@ -158,10 +240,22 @@ bool SyncBackendConnection::_update_logical_data(models::ListModel* logical_mode
     return __update_model_data(
                 logical_model,
                 EntityType::DOMAIN,
+                ALL_ID_BACKEND,
                 _update_domain_data,
                 _create_domain_data);
 }
 
+bool SyncBackendConnection::_update_dds_data(models::ListModel* dds_model, EntityId id)
+{
+    return __update_model_data(
+                dds_model,
+                EntityType::DOMAIN,
+                id,
+                _update_participant_data,
+                _create_participant_data);
+}
+
+// Template functions to update
 bool SyncBackendConnection::__update_entity_data(
         SubListedListItem* item,
         EntityType type,
@@ -199,13 +293,14 @@ bool SyncBackendConnection::__update_entity_data(
 bool SyncBackendConnection::__update_model_data(
         ListModel* model,
         EntityType type,
+        EntityId id,
         bool (*update_function)(ListItem*),
         ListItem* (*create_function)(EntityId))
 {
     bool changed = false;
 
     // For each User get all processes
-    for (auto subentity_id : backend_object()->get_entities(type))
+    for (auto subentity_id : backend_object()->get_entities(type, id))
     {
         // Check if it exists already
         models::ListItem* subentity_item = model->find(backend::id_to_QString(subentity_id));
