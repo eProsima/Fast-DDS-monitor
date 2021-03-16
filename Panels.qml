@@ -5,9 +5,6 @@ import QtQml.Models 2.12
 
 Item {
     id: item1
-    width: 1600
-    height: 900
-
     GridLayout {
         id: gridLayout
         anchors.fill: parent
@@ -23,20 +20,26 @@ Item {
             Layout.column: 0
             Layout.columnSpan: 3
 
-            RowLayout {
+            Button {
 
-                id: domainIdLayout
-
-                Text {
-                    id: domainIdText
-                    text: qsTr("Domain ID")
-                    font.pixelSize: 12
-                }
-
-                SpinBox {
-                    value: 0
-                }
+                text: "Init new monitor"
+                onClicked: dialogInitMonitor.open()
             }
+
+            //            RowLayout {
+
+            //                id: domainIdLayout
+
+            //                Text {
+            //                    id: domainIdText
+            //                    text: qsTr("Domain ID")
+            //                    font.pixelSize: 12
+            //                }
+
+            //                SpinBox {
+            //                    value: 0
+            //                }
+            //            }
         }
 
         ColumnLayout {
@@ -90,7 +93,7 @@ Item {
             Layout.rowSpan: 2
             Layout.column: 1
             width: parent.width / 5 * 3
-            height: parent.width
+            height: parent.height / 5 * 4
             color: "grey"
         }
 
