@@ -13,6 +13,8 @@
 
 #include <include/model/tree/TreeModel.h>
 
+#include <include/Controller.h>
+
 #include <json.hpp>
 
 using nlohmann::json;
@@ -38,6 +40,8 @@ void Engine::enable()
     rootContext()->setContextProperty("domainModel", logicalModel);
 
     rootContext()->setContextProperty("qosModel", qosModel);
+
+    qmlRegisterType<Controller>("com.myself", 1, 0, "Controller");
 
     load(QUrl(QLatin1String("qrc:/main.qml")));
 }

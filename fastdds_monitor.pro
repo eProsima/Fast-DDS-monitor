@@ -1,4 +1,4 @@
-QT += quick
+QT += qml quick
 
 CONFIG += c++11
 
@@ -7,6 +7,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/Controller.cpp \
         src/backend/AsyncBackendConnection.cpp \
         src/backend/SyncBackendConnection.cpp \
         src/backend/backend_utils.cpp \
@@ -40,6 +41,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+        include/Controller.h \
         include/backend/AsyncBackendConnection_copy.h \
         include/backend/SyncBackendConnection.h \
         include/backend/backend_types.h \
