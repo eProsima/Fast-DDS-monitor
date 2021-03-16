@@ -12,6 +12,8 @@ namespace backend{
 
 QString id_to_QString(const EntityId id);
 
+EntityId models_id_to_backend_id(const models::EntityId id);
+
 QString get_name(const EntityId id);
 
 // PROCESS

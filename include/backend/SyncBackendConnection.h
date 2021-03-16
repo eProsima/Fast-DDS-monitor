@@ -17,6 +17,7 @@
 namespace backend {
 
 using namespace models;
+using nlohmann::json;
 
 class SyncBackendConnection
 {
@@ -30,50 +31,26 @@ public:
         return eprosima::fastdds::dds::statistics::StatisticsBackend::get_instance();
     }
 
-    // PHYSICAL PARTITION
-    // Fill a Physical Model from scratch getting all systems and their subentities
-    bool fill_physical_data(models::ListModel* physical_model);
+    static bool update_physical_data(models::ListModel* physical_model);
+    static bool update_logical_data(models::ListModel* logical_model);
+    static bool update_dds_data(models::ListModel* dds_model, EntityId id);
 
-    // Update the model with a new or updated entity
-    bool update_host_data(models::ListModel* physical_model, EntityId id);
-    bool update_user_data(models::ListModel* physical_model, EntityId id);
-    bool update_process_data(models::ListModel* physical_model, EntityId id);
+    static bool update_host_data(ListItem* host_item);
+    static bool update_user_data(ListItem* user_item);
+    static bool update_process_data(ListItem* process_item);
 
-    // LOGICAL PARTITION
-    // Fill a Logical Model from scratch getting all systems and their subentities
-    bool fill_logical_data(models::ListModel* logical_model);
+    static bool update_domain_data(ListItem* domain_item);
+    static bool update_topic_data(ListItem* topic_item);
 
-    // Update the model with a new or updated entity
-    bool update_domain_data(models::ListModel* logical_model, EntityId id);
-    bool update_topic_data(models::ListModel* logical_model, EntityId id);
+    static bool update_participant_data(ListItem* participant_item);
+    static bool update_endpoint_data(ListItem* endpoint_item);
 
-    // DDS PARTITION
-    // Fill a DDS Model from scratch getting the participants from the id and its subentities
-    bool fill_dds_data(models::ListModel* dds_model, EntityId id = ALL_ID_BACKEND);
+    static bool init_monitor(int domain);
+    static bool init_monitor(QString locators);
 
-    // Update the model with a new or updated entity
-    bool update_participant_data(models::ListModel* dds_model, EntityId id);
-    bool update_endpoint_data(models::ListModel* dds_model, EntityId id);
-
-    // QoS DATA
-    // Retrieve the QoS information. With ALL or incorrect ID it
-    // returns an empty QoS Configuration
-    models::TreeModel* entity_qos(EntityId id = ALL_ID_BACKEND);
+    static json get_qos(EntityId id);
 
 protected:
-    static bool _update_physical_data(models::ListModel* physical_model);
-    static bool _update_logical_data(models::ListModel* logical_model);
-    static bool _update_dds_data(models::ListModel* dds_model, EntityId id);
-
-    static bool _update_host_data(ListItem* host_item);
-    static bool _update_user_data(ListItem* user_item);
-    static bool _update_process_data(ListItem* process_item);
-
-    static bool _update_domain_data(ListItem* domain_item);
-    static bool _update_topic_data(ListItem* topic_item);
-
-    static bool _update_participant_data(ListItem* participant_item);
-    static bool _update_endpoint_data(ListItem* endpoint_item);
 
     static ListItem* _create_process_data(backend::EntityId id);
     static ListItem* _create_user_data(backend::EntityId id);

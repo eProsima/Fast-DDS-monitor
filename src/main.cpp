@@ -5,14 +5,7 @@
 
 #include <iostream>
 
-#include <include/model/SubListedListModel.h>
 #include <include/Engine.h>
-
-#include <include/backend/SyncBackendConnection.h>
-
-#include <include/model/tree/TreeModel.h>
-
-#include <json.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -26,10 +19,7 @@ int main(int argc, char *argv[])
      * Application engine                                                                                             *
      ******************************************************************************************************************/
 
-    Engine engine;
-    engine.enable();
-
-    QObject *topLevel = engine.rootObjects().value(0);
+    QObject *topLevel = Engine::get_instance()->enable();
 
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel); \
     if ( !window ) {

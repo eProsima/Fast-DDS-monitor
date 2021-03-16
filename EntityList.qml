@@ -45,6 +45,18 @@ Item {
                         text: name
                         leftPadding: 5
                     }
+                    Rectangle {
+                        color: "red"
+                        width: 10
+                        height: 10
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                controller.participant_click(id)
+                            }
+                        }
+                    }
                 }
                 Text {
                     text: id
@@ -84,6 +96,18 @@ Item {
                                     Text {
                                         text: name
                                         leftPadding: 5
+                                    }
+                                    Rectangle {
+                                        color: "red"
+                                        width: 10
+                                        height: 10
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {
+                                                controller.endpoint_click(id)
+                                            }
+                                        }
                                     }
                                 }
                                 Text {

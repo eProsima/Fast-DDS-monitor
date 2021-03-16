@@ -10,6 +10,11 @@ QString id_to_QString(const EntityId id)
     return utils::to_QString(id);
 }
 
+EntityId models_id_to_backend_id(const models::EntityId id)
+{
+    return id.toStdString();
+}
+
 QString get_name(const EntityId id)
 {
     // TODO

@@ -38,14 +38,27 @@ Item {
                                 if(userList.height === userList.collapseHeightFlag) {
                                     userList.height = 0;
                                 }
-                                else
+                                else{
                                     userList.height = userList.collapseHeightFlag;
+                                }
                             }
                         }
                     }
                     Text {
                         text: name
                         leftPadding: 5
+                    }
+                    Rectangle {
+                        color: "red"
+                        width: 10
+                        height: 10
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                controller.host_click(id)
+                            }
+                        }
                     }
                 }
                 Text {
@@ -93,6 +106,18 @@ Item {
                                         text: name
                                         leftPadding: 5
                                     }
+                                    Rectangle {
+                                        color: "red"
+                                        width: 10
+                                        height: 10
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {
+                                                controller.host_click(id)
+                                            }
+                                        }
+                                    }
                                 }
                                 Text {
                                     text: id
@@ -116,13 +141,25 @@ Item {
                                                 anchors.right: parent.right
                                                 RowLayout {
                                                     Rectangle {
-                                                        color: "grey"
+                                                        color: "blue"
                                                         width: 10
                                                         height: 10
                                                     }
                                                     Text {
                                                         text: name
                                                         leftPadding: 5
+                                                    }
+                                                    Rectangle {
+                                                        color: "red"
+                                                        width: 10
+                                                        height: 10
+
+                                                        MouseArea {
+                                                            anchors.fill: parent
+                                                            onClicked: {
+                                                                controller.host_click(id)
+                                                            }
+                                                        }
                                                     }
                                                 }
                                                 Text {

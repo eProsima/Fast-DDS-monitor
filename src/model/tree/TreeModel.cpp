@@ -195,4 +195,20 @@ void TreeModel::setupModelData(
     }
 }
 
+void TreeModel::clear()
+{
+    beginResetModel();
+    rootItem_->clear();
+    endResetModel();
+}
+
+void TreeModel::update(const json& data)
+{
+    //clear();
+    setupModelData(data, rootItem_);
+
+    // re draw info
+    emit dataChanged(QModelIndex(), QModelIndex());
+}
+
 } // namespace models

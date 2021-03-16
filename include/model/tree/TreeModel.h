@@ -75,6 +75,10 @@ public:
     int columnCount(
             const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
+    void clear();
+
+    void update(const json& data);
+
     QHash<int, QByteArray> roleNames() const override;
 
 protected:

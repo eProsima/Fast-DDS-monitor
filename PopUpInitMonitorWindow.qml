@@ -1,7 +1,7 @@
 import QtQuick 2.6
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.1
 import com.myself 1.0
 
 Dialog {
@@ -9,65 +9,63 @@ Dialog {
     title: "Init Monitor"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    property int domain
+    width: 400
+    height: 250
 
     onAccepted: {
-        console.log(domain)
-        console.log(monitorTab.getTab(0).tab1_value)
-
-        if (monitorTab.currentIndex == 0)
-            controller.init_monitor(-1)
-        else
-            controller.init_monitor("127:1")
-        // TODO get value from simpleDiscoveryAnswer and discoveryServerAnswer
+        if (monitorTab.currentIndex == 0){
+            controller.init_monitor(simpleDiscoveryAnswer.value)
+        }
+        else{
+            controller.init_monitor(discoveryServerAnswer.text)
+        }
     }
-//    ColumnLayout {
-//        SpinBox {
-//            id: simpleDiscoveryAnswer_2
-//            minimumValue: 0
-//            maximumValue: 200
-//            // property var item_value: value
-//        }
-//    }
 
-    TabView {
+    TabBar {
         id: monitorTab
-        Tab {
-            id: monitorSimpleDiscoveryTab
-            title: "Simple Discovery"
+        width: parent.width
+        TabButton {
+            text: "Simple Discovery"
+        }
+        TabButton {
+            text: "Discovery Server"
+        }
+    }
 
-            property var tab1_value: simpleDiscoveryAnswer.value
-
-            ColumnLayout {
-                id: simpleDiscovery
-                Label {
-                    text: "DDS Domain <int>"
-                    font.bold: true
-                }
-                SpinBox {
-                    id: simpleDiscoveryAnswer
-                    minimumValue: 0
-                    maximumValue: 200
-                    onEditingFinished: {dialogInitMonitor.domain = simpleDiscoveryAnswer.value}
-                    // property var item_value: value
+    StackLayout {
+        width: parent.width
+        currentIndex: monitorTab.currentIndex
+        anchors.fill: parent
+        Item {
+            Column{
+                ColumnLayout {
+                    Label {
+                        text: "DDS Domain <int>"
+                        font.bold: true
+                    }
+                    SpinBox {
+                        id: simpleDiscoveryAnswer
+                        from: 0
+                        to: 200
+                    }
                 }
             }
         }
 
-        Tab {
-            title: "Discovery Server"
-            ColumnLayout {
-                id: discoveryServer
-                Label {
-                    text: "Discovery Server Locators"
-                    font.bold: true
-                }
-                Text {
-                    text: "Add Ip and port from each\nDiscovery Server separated with ;\n i.e. '127.0.0.1:11811'"
-                }
-                TextField {
-                    id: discoveryServerAnswer
-                    placeholderText: "127.0.0.1:11811;127.0.0.1:11812"
+        Item {
+            Column{
+                ColumnLayout {
+                    Label {
+                        text: "Discovery Server Locators"
+                        font.bold: true
+                    }
+                    Text {
+                        text: "Add Ip and port from each\nDiscovery Server separated with ;\n i.e. '127.0.0.1:11811'"
+                    }
+                    TextField {
+                        id: discoveryServerAnswer
+                        placeholderText: "127.0.0.1:11811;127.0.0.1:11812"
+                    }
                 }
             }
         }
