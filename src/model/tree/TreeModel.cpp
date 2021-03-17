@@ -149,30 +149,70 @@ void TreeModel::setupModelData(
 {
     QList<QString> qosData;
 
-    bool last_child = false;
+    bool lastChild = false;
 
     for (json::const_iterator it = data.begin(); it != data.end(); ++it) {
 
-        qosData << QString::fromUtf8(it.key().c_str());
-
-        if ((it.value().size() == 1) && (it.value().is_string()))
+        if(it.value().is_array())
         {
-            qosData << QString::fromUtf8(static_cast<std::string>(it.value()).c_str());
-            last_child = true;
+            qosData << QString::fromUtf8(it.key().c_str());
+
+            if (it.value().size() == 1)
+            {
+                if (it.value().at(0).is_string())
+                {
+                    qosData << QString::fromUtf8(static_cast<std::string>(it.value().at(0)).c_str());
+                    lastChild = true;
+                }
+                else if (it.value().at(0).is_number())
+                {
+                    qosData << QString::number(static_cast<int>(it.value().at(0)));
+                    lastChild = true;
+                }
+                else if (it.value().at(0).is_boolean())
+                {
+                    qosData << (it.value().at(0) ? QString("true") : QString("false"));
+                    lastChild = true;
+                }
+            }
         }
         else
         {
-            qosData << QString();
-            last_child = false;
+            if ((data.is_array() && !it.value().is_primitive()) || !data.is_array())
+            {
+                qosData << QString::fromUtf8(it.key().c_str());
+            }
+
+            if (it.value().size() == 1)
+            {
+                if (it.value().is_string())
+                {
+                    qosData << QString::fromUtf8(static_cast<std::string>(it.value()).c_str());
+                    lastChild = true;
+                }
+                else if (it.value().is_number())
+                {
+                    qosData << QString::number(static_cast<int>(it.value()));
+                    lastChild = true;
+                }
+                else if (it.value().is_boolean())
+                {
+                    qosData << (it.value() ? QString("true") : QString("false"));
+                    lastChild = true;
+                }
+            }
         }
 
         TreeItem* current_child = new TreeItem(qosData, parent);
         parent->appendChild(current_child);
         qosData.clear();
 
-        if (!last_child) {
-            this->setupModelData(static_cast<json>(it.value()), current_child);
+        if (!lastChild)
+        {
+            setupModelData(static_cast<json>(it.value()), current_child);
         }
+
+        lastChild = false;
     }
 }
 
