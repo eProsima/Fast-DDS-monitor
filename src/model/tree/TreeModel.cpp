@@ -155,27 +155,15 @@ void TreeModel::setupModelData(
 
     for (json::const_iterator it = data.begin(); it != data.end(); ++it) {
 
-        if(it.value().is_array())
+        if (!data.is_array() || (data.is_array() && !it.value().is_primitive()) || it.value().is_array())
         {
             qosData << QString::fromUtf8(it.key().c_str());
-
-            if (it.value().size() == 1)
-            {
-                value = it.value().at(0);
-            }
-        }
-        else
-        {
-            if ((data.is_array() && !it.value().is_primitive()) || !data.is_array())
-            {
-                qosData << QString::fromUtf8(it.key().c_str());
-            }
-
-            value = it.value();
         }
 
         if (it.value().size() == 1)
         {
+
+            value = it.value().is_array() ? it.value().at(0) : it.value();
 
             if (value.is_string())
             {
