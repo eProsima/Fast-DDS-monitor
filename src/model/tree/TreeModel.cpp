@@ -151,6 +151,8 @@ void TreeModel::setupModelData(
 
     bool lastChild = false;
 
+    json value;
+
     for (json::const_iterator it = data.begin(); it != data.end(); ++it) {
 
         if(it.value().is_array())
@@ -159,21 +161,7 @@ void TreeModel::setupModelData(
 
             if (it.value().size() == 1)
             {
-                if (it.value().at(0).is_string())
-                {
-                    qosData << QString::fromUtf8(static_cast<std::string>(it.value().at(0)).c_str());
-                    lastChild = true;
-                }
-                else if (it.value().at(0).is_number())
-                {
-                    qosData << QString::number(static_cast<int>(it.value().at(0)));
-                    lastChild = true;
-                }
-                else if (it.value().at(0).is_boolean())
-                {
-                    qosData << (it.value().at(0) ? QString("true") : QString("false"));
-                    lastChild = true;
-                }
+                value = it.value().at(0);
             }
         }
         else
@@ -183,23 +171,26 @@ void TreeModel::setupModelData(
                 qosData << QString::fromUtf8(it.key().c_str());
             }
 
-            if (it.value().size() == 1)
+            value = it.value();
+        }
+
+        if (it.value().size() == 1)
+        {
+
+            if (value.is_string())
             {
-                if (it.value().is_string())
-                {
-                    qosData << QString::fromUtf8(static_cast<std::string>(it.value()).c_str());
-                    lastChild = true;
-                }
-                else if (it.value().is_number())
-                {
-                    qosData << QString::number(static_cast<int>(it.value()));
-                    lastChild = true;
-                }
-                else if (it.value().is_boolean())
-                {
-                    qosData << (it.value() ? QString("true") : QString("false"));
-                    lastChild = true;
-                }
+                qosData << QString::fromUtf8(static_cast<std::string>(value).c_str());
+                lastChild = true;
+            }
+            else if (value.is_number())
+            {
+                qosData << QString::number(static_cast<int>(value));
+                lastChild = true;
+            }
+            else if (value.is_boolean())
+            {
+                qosData << (value ? QString("true") : QString("false"));
+                lastChild = true;
             }
         }
 
