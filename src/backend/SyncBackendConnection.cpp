@@ -28,13 +28,131 @@ models::TreeModel* SyncBackendConnection::entity_qos(EntityId id /*ALL_ID_BACKEN
     // TODO get the QoS info from backend
     static_cast<void>(id);
     nlohmann::json qos = R"({
-        "DurabilityQosPolicy": "TRANSIENT_LOCAL_DURABILITY_QOS",
-        "DeadlineQosPolicy": "5ms",
-        "LivelinessQosPolicy": {
-            "kind": "AUTOMATIC_LIVELINES_QOS",
-            "lease_duration": "c_TimeInfinite",
-            "announcement_period": "c_TimeInfinite"
-        }
+        "data_sharing":
+        {
+            "domain_ids":
+            [
+                0
+            ],
+            "kind": "AUTO",
+            "max_domains": 1,
+            "shm_directory": "/dev/shm"
+        },
+        "deadline":
+        {
+            "period":
+            {
+                "nanoseconds": 50,
+                "seconds": 10
+            }
+        },
+        "destination_order":
+        {
+            "kind": "BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS"
+        },
+        "disable_positive_acks":
+        {
+            "duration":
+            {
+                "nanoseconds": 100,
+                "seconds": 0
+            },
+            "enabled": true
+        },
+        "durability":
+        {
+            "kind": "VOLATILE_DURABILITY_QOS"
+        },
+        "durability_service":
+        {
+            "history_depth": "1",
+            "history_kind": "KEEP_LAST_HISTORY_QOS",
+            "max_instances": "30",
+            "max_samples": "3000",
+            "max_samples_per_instance": "100",
+            "service_cleanup_delay":
+            {
+                "nanoseconds": 0,
+                "seconds": 5
+            }
+        },
+        "group_data": "9d46781410ff",
+        "latency_budget":
+        {
+            "duration":
+            {
+                "nanoseconds": 50,
+                "seconds": 10
+            }
+        },
+        "lifespan":
+        {
+            "duration":
+            {
+                "nanoseconds": 0,
+                "seconds": 10000
+            }
+        },
+        "liveliness":
+        {
+            "announcement_period":
+            {
+                "nanoseconds": 0,
+                "seconds": 3
+            },
+            "lease_duration":
+            {
+                "nanoseconds": 0,
+                "seconds": 10
+            },
+            "kind": "AUTOMATIC_LIVELINESS_QOS"
+        },
+        "ownership":
+        {
+            "kind": "SHARED_OWNERSHIP_QOS"
+        },
+        "partition":
+        [
+            "partition_1",
+            "partition_2"
+        ],
+        "presentation":
+        {
+            "access_scope": "INSTANCE_PRESENTATION_QOS",
+            "coherent_access": false,
+            "ordered_access": false
+        },
+        "reliability":
+        {
+            "kind": "RELIABLE_RELIABILITY_QOS",
+            "max_blocking_time":
+            {
+                "nanoseconds": 0,
+                "seconds": 3
+            }
+        },
+        "representation":
+        [
+        ],
+        "time_based_filter":
+        {
+            "minimum_separation":
+            {
+                "seconds": 12,
+                "nanoseconds": 0
+            }
+        },
+        "topic_data": "5b33419a",
+        "type_consistency":
+        {
+            "force_type_validation": false,
+            "ignore_member_names": false,
+            "ignore_sequence_bounds": true,
+            "ignore_string_bounds": true,
+            "kind": "DISALLOW_TYPE_COERCION",
+            "prevent_type_widening": false
+        },
+        "user_data": "ff00"
     })"_json;
 
     return new models::TreeModel(qos);
