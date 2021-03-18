@@ -42,8 +42,8 @@ QObject* Engine::enable()
     logicalModel_ = new models::SubListedListModel(new models::DomainModelItem());
     fill_logical_data(logicalModel_);
 
-    qosModel_ = new models::TreeModel();
-    fill_dds_qos(ALL_ID_BACKEND);
+    infoModel_ = new models::TreeModel();
+    fill_dds_info(ALL_ID_BACKEND);
 
     summaryModel_ = new models::TreeModel();
     fill_summary(ALL_ID_BACKEND);
@@ -53,7 +53,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("hostModel", physicalModel_);
     rootContext()->setContextProperty("domainModel",  logicalModel_);
 
-    rootContext()->setContextProperty("qosModel", qosModel_);
+    rootContext()->setContextProperty("qosModel", infoModel_);
     rootContext()->setContextProperty("summaryModel", summaryModel_);
 
     qmlRegisterType<Controller>("com.myself", 1, 0, "Controller");
@@ -88,9 +88,9 @@ Engine::~Engine()
             delete logicalModel_;
         }
 
-        if (qosModel_)
+        if (infoModel_)
         {
-            delete qosModel_;
+            delete infoModel_;
         }
 
         if (summaryModel_)
@@ -111,10 +111,10 @@ void Engine::init_monitor(QString locators)
     backend_connection_.init_monitor(locators);
 }
 
-bool Engine::fill_dds_qos(backend::EntityId id /*ALL_ID_BACKEND*/)
+bool Engine::fill_dds_info(backend::EntityId id /*ALL_ID_BACKEND*/)
 {
     // TODO implement update
-    qosModel_->update(backend_connection_.get_qos(id));
+    infoModel_->update(backend_connection_.get_info(id));
     return false;
 }
 
@@ -192,13 +192,13 @@ bool Engine::update_endpoint_data(models::ListModel* dds_model, backend::EntityI
 
 bool Engine::on_dds_entity_clicked(backend::EntityId id)
 {
-    bool res = fill_dds_qos(id);
+    bool res = fill_dds_info(id);
     return fill_summary(id) or res;
 }
 
 bool Engine::on_entity_clicked(backend::EntityId id)
 {
     bool res = fill_dds_data(id);
-    res = fill_dds_qos(id) or res;
+    res = fill_dds_info(id) or res;
     return fill_summary(id) or res;
 }

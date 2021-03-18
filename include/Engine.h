@@ -47,7 +47,7 @@ public:
     // QoS DATA
     // Retrieve the QoS information. With ALL or incorrect ID it
     // returns an empty QoS Configuration
-    bool fill_dds_qos(backend::EntityId id = ALL_ID_BACKEND);
+    bool fill_dds_info(backend::EntityId id = ALL_ID_BACKEND);
 
     // Statistic summary DATA
     // Retrieve the QoS information. With ALL or incorrect ID it
@@ -71,7 +71,7 @@ protected:
     bool fill_logical_data(models::ListModel* logical_model);
 
     static bool update_tree_model(models::TreeModel* old_model, const json& data);
-    static models::TreeModel* entity_qos(backend::EntityId id = ALL_ID_BACKEND);
+    static models::TreeModel* entity_info(backend::EntityId id = ALL_ID_BACKEND);
 
 private:
 
@@ -83,7 +83,7 @@ private:
     models::ListModel* physicalModel_;
     models::ListModel* logicalModel_;
 
-    models::TreeModel* qosModel_;
+    models::TreeModel* infoModel_;
     models::TreeModel* summaryModel_;
 
     backend::SyncBackendConnection backend_connection_;

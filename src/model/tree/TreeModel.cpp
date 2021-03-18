@@ -215,11 +215,11 @@ void TreeModel::clear()
 
 void TreeModel::update(const json& data)
 {
-    //clear();
+    clear();
     setupModelData(data, rootItem_);
 
     // re draw info
-    emit dataChanged(QModelIndex(), QModelIndex());
+    // emit dataChanged(0, 0);
 }
 
 } // namespace models

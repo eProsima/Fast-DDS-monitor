@@ -13,29 +13,6 @@ class TreeItem;
 
 namespace models {
 
-struct RecursiveStructType
-
-{
-    QString label;
-    QList<RecursiveStructType> children;
-
-    RecursiveStructType(
-            QString label,
-            QList<RecursiveStructType> children)
-        : label(label)
-        , children(children)
-    {
-    }
-
-    RecursiveStructType(
-            QString label)
-        : label(label)
-    {
-    }
-
-};
-
-
 class TreeModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -93,6 +70,12 @@ protected:
 private:
 
     TreeItem* rootItem_;
+
+signals:
+
+    void countChanged(
+            int count);
+
 };
 
 } // namespace models

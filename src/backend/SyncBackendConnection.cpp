@@ -287,7 +287,7 @@ bool SyncBackendConnection::init_monitor(QString locators)
     return true;
 }
 
-json SyncBackendConnection::get_qos(EntityId id)
+json SyncBackendConnection::get_info(EntityId id)
 {
     return StatisticsBackend::get_info(id);
 }
