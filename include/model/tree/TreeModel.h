@@ -52,6 +52,9 @@ public:
             const json& data,
             QObject* parent = 0);
 
+    explicit TreeModel(
+            QObject* parent = 0);
+
     ~TreeModel();
 
     QVariant data(

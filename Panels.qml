@@ -124,6 +124,8 @@ Item {
 
                 QosView {}
 
+                SummaryView {}
+
             }
 
         }

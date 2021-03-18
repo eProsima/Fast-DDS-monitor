@@ -2,10 +2,12 @@
 #define ENDPOINTMODELITEM_H
 
 #include <include/model/ListItem.h>
+#include <include/model/dds/LocatorModelItem.h>
+#include <include/model/EntityContainerModelItem.h>
 
 namespace models {
 
-class EndpointModelItem : public ListItem
+class EndpointModelItem : public EntityContainerModelItem<LocatorModelItem, ListModel>
 {
     Q_OBJECT
 
@@ -19,14 +21,14 @@ public:
 
     EndpointModelItem(
             QObject *parent = 0)
-        : ListItem(parent)
+        : EntityContainerModelItem(parent)
     {
     }
 
     EndpointModelItem(
             backend::EntityId id,
             QObject* parent = 0)
-        : ListItem(id, parent)
+        : EntityContainerModelItem(id, parent)
     {
     }
 

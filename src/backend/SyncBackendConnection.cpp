@@ -7,6 +7,7 @@
 #include <include/model/SubListedListModel.h>
 #include <include/model/dds/ParticipantModelItem.h>
 #include <include/model/dds/EndpointModelItem.h>
+#include <include/model/dds/LocatorModelItem.h>
 #include <include/model/logical/TopicModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/physical/HostModelItem.h>
@@ -15,14 +16,14 @@
 #include <include/backend/backend_utils.h>
 #include <include/model/tree/TreeModel.h>
 
-#include <core/StatisticsBackend.hpp>
+#include <StatisticsBackend.hpp>
 #include <json.hpp>
 
 #include <QDebug>
 
 namespace backend {
 
-using namespace eprosima::fastdds::dds::statistics;
+using namespace eprosima::statistics_backend;
 using namespace models;
 
 /// CREATE PRIVATE FUNCTIONS
@@ -69,6 +70,12 @@ ListItem* SyncBackendConnection::_create_endpoint_data(backend::EntityId id)
 {
     std::cout << "Creating Endpoint " << id << std::endl;
     return new EndpointModelItem(id);
+}
+
+ListItem* SyncBackendConnection::_create_locator_data(backend::EntityId id)
+{
+    std::cout << "Creating Locator " << id << std::endl;
+    return new LocatorModelItem(id);
 }
 
 /// UPDATE PRIVATE FUNCTIONS
@@ -141,8 +148,19 @@ bool SyncBackendConnection::update_participant_data(ListItem* participant_item)
 
 bool SyncBackendConnection::update_endpoint_data(ListItem* endpoint_item)
 {
-    // Endpoint does not have update
-    static_cast<void>(endpoint_item);
+    auto endpoint_item_sublist = static_cast<SubListedListItem*>(endpoint_item);
+
+    return __update_entity_data(
+                endpoint_item_sublist,
+                EntityType::LOCATOR,
+                update_locator_data,
+                _create_locator_data);
+}
+
+bool SyncBackendConnection::update_locator_data(ListItem* locator_item)
+{
+    // Locator does not have update
+    static_cast<void>(locator_item);
     return false;
 }
 
@@ -171,7 +189,7 @@ bool SyncBackendConnection::update_dds_data(models::ListModel* dds_model, Entity
 {
     return __update_model_data(
                 dds_model,
-                EntityType::DOMAIN,
+                EntityType::PARTICIPANT,
                 id,
                 update_participant_data,
                 _create_participant_data);
@@ -190,7 +208,7 @@ bool SyncBackendConnection::__update_entity_data(
     EntityId id = item->get_entityId();
 
     // For each User get all processes
-    for (auto subentity_id : backend_object()->get_entities(type, id))
+    for (auto subentity_id : StatisticsBackend::get_entities(id, type))
     {
         // Check if it exists already
         models::ListItem* subentity_item = item->submodel()->find(backend::id_to_QString(subentity_id));
@@ -222,7 +240,7 @@ bool SyncBackendConnection::__update_model_data(
     bool changed = false;
 
     // For each User get all processes
-    for (auto subentity_id : backend_object()->get_entities(type, id))
+    for (auto subentity_id : StatisticsBackend::get_entities(id, type))
     {
         // Check if it exists already
         models::ListItem* subentity_item = model->find(backend::id_to_QString(subentity_id));
@@ -244,153 +262,52 @@ bool SyncBackendConnection::__update_model_data(
     return changed;
 }
 
+bool SyncBackendConnection::set_listener(Listener* listener)
+{
+    StatisticsBackend::set_physical_listener(listener);
+    return true;
+}
+
+bool SyncBackendConnection::unset_listener()
+{
+    StatisticsBackend::set_physical_listener(nullptr);
+    return true;
+}
+
+
 bool SyncBackendConnection::init_monitor(int domain)
 {
-    std::cout << "Initializing monitor " << domain;
-    return false;
+    StatisticsBackend::init_monitor(domain);
+    return true;
 }
 
 bool SyncBackendConnection::init_monitor(QString locators)
 {
-    std::cout << "Initializing monitor " << locators.toStdString();
-    return false;
+    StatisticsBackend::init_monitor(locators.toStdString());
+    return true;
 }
 
 json SyncBackendConnection::get_qos(EntityId id)
 {
-    // TODO get the QoS info from backend
-    static_cast<void>(id);
-    nlohmann::json json_obj = R"({
-        "data_sharing":
-        {
-            "domain_ids":
-            [
-                0
-            ],
-            "kind": "AUTO",
-            "max_domains": 1,
-            "shm_directory": "/dev/shm"
-        },
-        "deadline":
-        {
-            "period":
-            {
-                "nanoseconds": 50,
-                "seconds": 10
-            }
-        },
-        "destination_order":
-        {
-            "kind": "BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS"
-        },
-        "disable_positive_acks":
-        {
-            "duration":
-            {
-                "nanoseconds": 100,
-                "seconds": 0
-            },
-            "enabled": true
-        },
-        "durability":
-        {
-            "kind": "VOLATILE_DURABILITY_QOS"
-        },
-        "durability_service":
-        {
-            "history_depth": "1",
-            "history_kind": "KEEP_LAST_HISTORY_QOS",
-            "max_instances": "30",
-            "max_samples": "3000",
-            "max_samples_per_instance": "100",
-            "service_cleanup_delay":
-            {
-                "nanoseconds": 0,
-                "seconds": 5
-            }
-        },
-        "group_data": "9d46781410ff",
-        "latency_budget":
-        {
-            "duration":
-            {
-                "nanoseconds": 50,
-                "seconds": 10
-            }
-        },
-        "lifespan":
-        {
-            "duration":
-            {
-                "nanoseconds": 0,
-                "seconds": 10000
-            }
-        },
-        "liveliness":
-        {
-            "announcement_period":
-            {
-                "nanoseconds": 0,
-                "seconds": 3
-            },
-            "lease_duration":
-            {
-                "nanoseconds": 0,
-                "seconds": 10
-            },
-            "kind": "AUTOMATIC_LIVELINESS_QOS"
-        },
-        "ownership":
-        {
-            "kind": "SHARED_OWNERSHIP_QOS"
-        },
-        "partition":
-        [
-            "partition_1",
-            "partition_2"
-        ],
-        "presentation":
-        {
-            "access_scope": "INSTANCE_PRESENTATION_QOS",
-            "coherent_access": false,
-            "ordered_access": false
-        },
-        "reliability":
-        {
-            "kind": "RELIABLE_RELIABILITY_QOS",
-            "max_blocking_time":
-            {
-                "nanoseconds": 0,
-                "seconds": 3
-            }
-        },
-        "representation":
-        [
-        ],
-        "time_based_filter":
-        {
-            "minimum_separation":
-            {
-                "seconds": 12,
-                "nanoseconds": 0
-            }
-        },
-        "topic_data": "5b33419a",
-        "type_consistency":
-        {
-            "force_type_validation": false,
-            "ignore_member_names": false,
-            "ignore_sequence_bounds": true,
-            "ignore_string_bounds": true,
-            "kind": "DISALLOW_TYPE_COERCION",
-            "prevent_type_widening": false
-        },
-        "user_data": "ff00"
-    })"_json;
-
-    json_obj["id"] = id;
-
-    return json_obj;
+    return StatisticsBackend::get_qos(id);
 }
+
+json SyncBackendConnection::get_summary(backend::EntityId id)
+{
+    json summary;
+
+    // Throughput
+    summary["Throughput"]["mean"] =
+            std::to_string(StatisticsBackend::get_data(
+                DataKind::PUBLICATION_THROUGHPUT,
+                id,
+                1)[0].second);
+
+    // Latency
+    summary["Latency"]["mean"] = "0";
+
+    return summary;
+}
+
 
 } //namespace backend

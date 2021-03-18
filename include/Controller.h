@@ -25,6 +25,7 @@ public:
 
     Q_INVOKABLE void participant_click(QString id);
     Q_INVOKABLE void endpoint_click(QString id);
+    Q_INVOKABLE void locator_click(QString id);
 
 private:
 };

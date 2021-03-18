@@ -1,6 +1,6 @@
 QT += qml quick
 
-CONFIG += c++11
+CONFIG += c++14
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -43,9 +43,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
         include/Controller.h \
         include/backend/AsyncBackendConnection_copy.h \
+        include/backend/Listener.h \
         include/backend/SyncBackendConnection.h \
         include/backend/backend_types.h \
         include/model/EntityContainerModelItem.h \
+        include/model/dds/LocatorModelItem.h \
         include/model/model_types.h \
         include/utils.h \
         include/backend/backend_utils.h \
@@ -73,10 +75,9 @@ else:unix: LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMock
 INCLUDEPATH += $$PWD/../fastdds-statistics-backend-mock/include
 DEPENDPATH += $$PWD/../fastdds-statistics-backend-mock/include
 
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple
+else:unix: LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/ -lStaticMockSimple
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/install/StaticMockSimple_FastDDSStatisticsBackend/lib/release/ -lStaticMockSimple
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/install/StaticMockSimple_FastDDSStatisticsBackend/lib/debug/ -lStaticMockSimple
-else:unix: LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/install/StaticMockSimple_FastDDSStatisticsBackend/lib/ -lStaticMockSimple
-
-INCLUDEPATH += $$PWD/../../FastDDSStatisticsBackEnd/include
-DEPENDPATH += $$PWD/../../FastDDSStatisticsBackEnd/include
+INCLUDEPATH += $$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/include
+DEPENDPATH += $$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/include

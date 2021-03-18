@@ -7,6 +7,7 @@
 #include <include/model/model_types.h>
 #include <include/utils.h>
 #include <include/backend/backend_types.h>
+#include <json.hpp>
 
 namespace backend{
 
@@ -24,6 +25,7 @@ QString entity_guid(backend::EntityId id);
 
 // TOPIC
 QString topic_type(backend::EntityId id);
+
 } //namespace backend
 
 #endif // FASTDDS_MONITOR_BACKEND_UTILS_H

@@ -8,5 +8,6 @@
         <file>LogicalView.qml</file>
         <file>QosView.qml</file>
         <file>PopUpInitMonitorWindow.qml</file>
+        <file>SummaryView.qml</file>
     </qresource>
 </RCC>

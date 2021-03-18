@@ -9,8 +9,9 @@
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/logical/TopicModelItem.h>
 
-#include <core/StatisticsBackend.hpp>
+#include <StatisticsBackend.hpp>
 #include <include/backend/backend_types.h>
+#include <include/backend/Listener.h>
 
 #include <include/model/tree/TreeModel.h>
 
@@ -25,11 +26,8 @@ public:
     SyncBackendConnection()
     {}
 
-    // Those functions will not be static in case in the futute we want the SyncBackendConnection to store some Data from Backend
-    static eprosima::fastdds::dds::statistics::StatisticsBackend* backend_object()
-    {
-        return eprosima::fastdds::dds::statistics::StatisticsBackend::get_instance();
-    }
+    static bool set_listener(Listener* listener);
+    static bool unset_listener();
 
     static bool update_physical_data(models::ListModel* physical_model);
     static bool update_logical_data(models::ListModel* logical_model);
@@ -44,11 +42,13 @@ public:
 
     static bool update_participant_data(ListItem* participant_item);
     static bool update_endpoint_data(ListItem* endpoint_item);
+    static bool update_locator_data(ListItem* locator_item);
 
     static bool init_monitor(int domain);
     static bool init_monitor(QString locators);
 
     static json get_qos(EntityId id);
+    static json get_summary(backend::EntityId id);
 
 protected:
 
@@ -61,6 +61,7 @@ protected:
 
     static ListItem* _create_participant_data(backend::EntityId id);
     static ListItem* _create_endpoint_data(backend::EntityId id);
+    static ListItem* _create_locator_data(backend::EntityId id);
 
     static bool __update_entity_data(
             SubListedListItem* item,

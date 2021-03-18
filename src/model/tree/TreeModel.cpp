@@ -19,8 +19,19 @@ TreeModel::TreeModel(
     setupModelData(data, rootItem_);
 }
 
+TreeModel::TreeModel(
+        QObject* parent)
+    : QAbstractItemModel(parent)
+{
+    rootItem_ = new TreeItem(QList<QString>() << "Name" << "Value");
+}
+
+
 TreeModel::~TreeModel()
 {
+    beginResetModel();
+    rootItem_->clear();
+    endResetModel();
     delete rootItem_;
 }
 

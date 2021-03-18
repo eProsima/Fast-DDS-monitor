@@ -4,6 +4,8 @@
 #include <QQmlApplicationEngine>
 
 #include <include/backend/SyncBackendConnection.h>
+#include <include/backend/Listener.h>
+
 #include <include/model/SubListedListModel.h>
 
 #include <include/model/tree/TreeModel.h>
@@ -22,6 +24,7 @@ public:
     void init_monitor(int domain);
     void init_monitor(QString locators);
 
+    // TODO eliminate models in args as they are private values in class
     // PHYSICAL PARTITION
     // Update the model with a new or updated entity
     bool update_host_data(models::ListModel* physical_model, backend::EntityId id);
@@ -35,7 +38,7 @@ public:
 
     // DDS PARTITION
     // Fill a DDS Model from scratch getting the participants from the id and its subentities
-    bool fill_dds_data(models::ListModel* dds_model, backend::EntityId id = ALL_ID_BACKEND);
+    bool fill_dds_data(backend::EntityId id = ALL_ID_BACKEND);
 
     // Update the model with a new or updated entity
     bool update_participant_data(models::ListModel* dds_model, backend::EntityId id);
@@ -46,8 +49,20 @@ public:
     // returns an empty QoS Configuration
     bool fill_dds_qos(backend::EntityId id = ALL_ID_BACKEND);
 
+    // Statistic summary DATA
+    // Retrieve the QoS information. With ALL or incorrect ID it
+    // returns an empty QoS Configuration
+    bool fill_summary(backend::EntityId id = ALL_ID_BACKEND);
+
+    // ON CLICKED
+    // Update by click functions
+    bool on_dds_entity_clicked(backend::EntityId id);
+    bool on_entity_clicked(backend::EntityId id);
+
 protected:
     Engine();
+
+    ~Engine();
 
     // Fill a Physical Model from scratch getting all systems and their subentities
     bool fill_physical_data(models::ListModel* physical_model);
@@ -59,13 +74,19 @@ protected:
     static models::TreeModel* entity_qos(backend::EntityId id = ALL_ID_BACKEND);
 
 private:
-    models::ListModel* participantsModel;
-    models::ListModel* physicalModel;
-    models::ListModel* logicalModel;
 
-    models::TreeModel* qosModel;
+    bool enabled_;
 
-    backend::SyncBackendConnection backend_connection;
+    backend::Listener* listener_;
+
+    models::ListModel* participantsModel_;
+    models::ListModel* physicalModel_;
+    models::ListModel* logicalModel_;
+
+    models::TreeModel* qosModel_;
+    models::TreeModel* summaryModel_;
+
+    backend::SyncBackendConnection backend_connection_;
 };
 
 #endif // ENGINE_H

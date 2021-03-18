@@ -59,6 +59,7 @@ signals:
 protected:
 
     backend::EntityId id_;
+    QString name_;
 
 };
 

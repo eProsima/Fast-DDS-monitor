@@ -9,6 +9,8 @@
 #include <include/model/SubListedListModel.h>
 
 #include <include/backend/SyncBackendConnection.h>
+#include <include/backend/Listener.h>
+
 #include <include/Engine.h>
 
 #include <include/model/tree/TreeModel.h>
@@ -20,50 +22,110 @@
 using nlohmann::json;
 
 Engine::Engine()
+    : enabled_(false)
 {
-    participantsModel = new models::SubListedListModel(new models::ParticipantModelItem());
-    fill_dds_data(participantsModel);
-
-    physicalModel = new models::SubListedListModel(new models::HostModelItem());
-    fill_physical_data(physicalModel);
-
-    logicalModel = new models::SubListedListModel(new models::DomainModelItem());
-    fill_logical_data(logicalModel);
-
-    qosModel = new models::TreeModel(backend_connection.get_qos(ALL_ID_BACKEND));
 }
 
 QObject* Engine::enable()
 {
-    rootContext()->setContextProperty("participantModel", participantsModel);
-    rootContext()->setContextProperty("hostModel", physicalModel);
-    rootContext()->setContextProperty("domainModel",  logicalModel);
+    // Initialize async backend
+    listener_ = new backend::Listener();
+    backend_connection_.set_listener(listener_);
 
-    rootContext()->setContextProperty("qosModel", qosModel);
+    // Initialize models
+    participantsModel_ = new models::SubListedListModel(new models::ParticipantModelItem());
+    fill_dds_data();
+
+    physicalModel_ = new models::SubListedListModel(new models::HostModelItem());
+    fill_physical_data(physicalModel_);
+
+    logicalModel_ = new models::SubListedListModel(new models::DomainModelItem());
+    fill_logical_data(logicalModel_);
+
+    qosModel_ = new models::TreeModel();
+    fill_dds_qos(ALL_ID_BACKEND);
+
+    summaryModel_ = new models::TreeModel();
+    fill_summary(ALL_ID_BACKEND);
+
+    // Initialized qml
+    rootContext()->setContextProperty("participantModel", participantsModel_);
+    rootContext()->setContextProperty("hostModel", physicalModel_);
+    rootContext()->setContextProperty("domainModel",  logicalModel_);
+
+    rootContext()->setContextProperty("qosModel", qosModel_);
+    rootContext()->setContextProperty("summaryModel", summaryModel_);
 
     qmlRegisterType<Controller>("com.myself", 1, 0, "Controller");
 
     load(QUrl(QLatin1String("qrc:/main.qml")));
 
+    enabled_ = true;
+
     return rootObjects().value(0);
 }
 
+Engine::~Engine()
+{
+    if  (enabled_){
+        if (listener_){
+            backend_connection_.unset_listener();
+            delete listener_;
+        }
+
+        if (participantsModel_)
+        {
+            delete participantsModel_;
+        }
+
+        if (physicalModel_)
+        {
+            delete physicalModel_;
+        }
+
+        if (logicalModel_)
+        {
+            delete logicalModel_;
+        }
+
+        if (qosModel_)
+        {
+            delete qosModel_;
+        }
+
+        if (summaryModel_)
+        {
+            delete summaryModel_;
+        }
+    }
+}
+
+
 void Engine::init_monitor(int domain)
 {
-    backend_connection.init_monitor(domain);
+    backend_connection_.init_monitor(domain);
 }
 
 void Engine::init_monitor(QString locators)
 {
-    backend_connection.init_monitor(locators);
+    backend_connection_.init_monitor(locators);
 }
 
 bool Engine::fill_dds_qos(backend::EntityId id /*ALL_ID_BACKEND*/)
 {
     // TODO implement update
-    qosModel->update(backend_connection.get_qos(id));
+    qosModel_->update(backend_connection_.get_qos(id));
     return false;
 }
+
+
+bool Engine::fill_summary(backend::EntityId id /*ALL_ID_BACKEND*/)
+{
+    // TODO implement update
+    summaryModel_->update(backend_connection_.get_summary(id));
+    return false;
+}
+
 
 /// Backend API
 bool Engine::fill_physical_data(models::ListModel* physical_model)
@@ -107,11 +169,10 @@ bool Engine::update_topic_data(models::ListModel* logical_model, backend::Entity
 }
 
 bool Engine::fill_dds_data(
-        models::ListModel* dds_model,
         backend::EntityId id /*ALL_ID_BACKEND*/)
 {
-    dds_model->clear();
-    return backend::SyncBackendConnection::update_dds_data(dds_model, id);
+    participantsModel_->clear();
+    return backend::SyncBackendConnection::update_dds_data(participantsModel_, id);
 }
 
 // Update the model with a new or updated entity
@@ -127,4 +188,17 @@ bool Engine::update_endpoint_data(models::ListModel* dds_model, backend::EntityI
     // TODO update only the entity that has changed
     static_cast<void>(id);
     return backend::SyncBackendConnection::update_dds_data(dds_model, ALL_ID_BACKEND);
+}
+
+bool Engine::on_dds_entity_clicked(backend::EntityId id)
+{
+    bool res = fill_dds_qos(id);
+    return fill_summary(id) or res;
+}
+
+bool Engine::on_entity_clicked(backend::EntityId id)
+{
+    bool res = fill_dds_data(id);
+    res = fill_dds_qos(id) or res;
+    return fill_summary(id) or res;
 }

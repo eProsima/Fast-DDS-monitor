@@ -6,49 +6,50 @@
 
 void Controller::init_monitor(int domain)
 {
-    qDebug() << "click init monitor int" << domain;
     Engine::get_instance()->init_monitor(domain);
 }
 
 void Controller::init_monitor(QString locators)
 {
-    qDebug() << "init monitor string" << locators;
     Engine::get_instance()->init_monitor(locators);
 }
 
 void Controller::host_click(QString id)
 {
-    qDebug() << "host click " << id;
+    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
 }
 
 void Controller::user_click(QString id)
 {
-    qDebug() << "user click " << id;
+    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
 }
 
 void Controller::process_click(QString id)
 {
-    qDebug() << "process click " << id;
+    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
 }
 
 void Controller::domain_click(QString id)
 {
-    qDebug() << "domain click " << id;
+    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
 }
 
 void Controller::topic_click(QString id)
 {
-    qDebug() << "topic click " << id;
+    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
 }
 
 void Controller::participant_click(QString id)
 {
-    qDebug() << "participant click " << id;
-    Engine::get_instance()->fill_dds_qos(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->on_dds_entity_clicked(backend::models_id_to_backend_id(id));
 }
 
 void Controller::endpoint_click(QString id)
 {
-    qDebug() << "endpoint click " << id;
-    Engine::get_instance()->fill_dds_qos(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->on_dds_entity_clicked(backend::models_id_to_backend_id(id));
+}
+
+void Controller::locator_click(QString id)
+{
+    Engine::get_instance()->on_dds_entity_clicked(backend::models_id_to_backend_id(id));
 }
