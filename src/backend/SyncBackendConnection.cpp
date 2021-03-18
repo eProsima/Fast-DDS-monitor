@@ -16,7 +16,7 @@
 #include <include/backend/backend_utils.h>
 #include <include/model/tree/TreeModel.h>
 
-#include <StatisticsBackend.hpp>
+#include <fastdds-statistics-backend/StatisticsBackend.hpp>
 #include <json.hpp>
 
 #include <QDebug>
@@ -208,7 +208,7 @@ bool SyncBackendConnection::__update_entity_data(
     EntityId id = item->get_entityId();
 
     // For each User get all processes
-    for (auto subentity_id : StatisticsBackend::get_entities(id, type))
+    for (auto subentity_id : StatisticsBackend::get_entities(type, id))
     {
         // Check if it exists already
         models::ListItem* subentity_item = item->submodel()->find(backend::id_to_QString(subentity_id));
@@ -240,7 +240,7 @@ bool SyncBackendConnection::__update_model_data(
     bool changed = false;
 
     // For each User get all processes
-    for (auto subentity_id : StatisticsBackend::get_entities(id, type))
+    for (auto subentity_id : StatisticsBackend::get_entities(type, id))
     {
         // Check if it exists already
         models::ListItem* subentity_item = model->find(backend::id_to_QString(subentity_id));
@@ -289,7 +289,7 @@ bool SyncBackendConnection::init_monitor(QString locators)
 
 json SyncBackendConnection::get_qos(EntityId id)
 {
-    return StatisticsBackend::get_qos(id);
+    return StatisticsBackend::get_info(id);
 }
 
 json SyncBackendConnection::get_summary(backend::EntityId id)
@@ -301,7 +301,8 @@ json SyncBackendConnection::get_summary(backend::EntityId id)
             std::to_string(StatisticsBackend::get_data(
                 DataKind::PUBLICATION_THROUGHPUT,
                 id,
-                1)[0].second);
+                1,
+                StatisticKind::MEAN)[0].second);
 
     // Latency
     summary["Latency"]["mean"] = "0";

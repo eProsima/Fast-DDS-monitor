@@ -101,7 +101,7 @@ Item {
                                                 if(locatorList.height === locatorList.collapseHeightFlag) {
                                                     locatorList.height = 0;
                                                     endpointList.height =
-                                                            userList.height - locatorList.collapseHeightFlag;
+                                                            endpointList.height - locatorList.collapseHeightFlag;
                                                 }
                                                 else
                                                 {

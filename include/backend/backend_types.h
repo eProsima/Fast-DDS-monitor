@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include <types/types.hpp>
+#include <fastdds-statistics-backend/types/types.hpp>
 
 namespace backend {
 

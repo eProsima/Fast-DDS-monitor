@@ -3,7 +3,7 @@
 #include <include/backend/backend_types.h>
 #include <include/model/model_types.h>
 
-#include <StatisticsBackend.hpp>
+#include <fastdds-statistics-backend/StatisticsBackend.hpp>
 
 namespace backend{
 
@@ -14,13 +14,13 @@ QString id_to_QString(const EntityId id)
 
 EntityId models_id_to_backend_id(const models::EntityId id)
 {
-    return id.toStdString();
+    return EntityId(id.toUtf8());
 }
 
 QString get_name(const EntityId id)
 {
     return utils::to_QString(
-                eprosima::statistics_backend::StatisticsBackend::get_name(id));
+                eprosima::statistics_backend::StatisticsBackend::get_info(id)["name"]);
 }
 
 // PROCESS

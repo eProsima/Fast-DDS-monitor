@@ -9,7 +9,7 @@
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/logical/TopicModelItem.h>
 
-#include <StatisticsBackend.hpp>
+#include <fastdds-statistics-backend/StatisticsBackend.hpp>
 #include <include/backend/backend_types.h>
 #include <include/backend/Listener.h>
 
