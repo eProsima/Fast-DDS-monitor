@@ -21,25 +21,9 @@ Item {
             Layout.columnSpan: 3
 
             Button {
-
                 text: "Init new monitor"
                 onClicked: dialogInitMonitor.open()
             }
-
-            //            RowLayout {
-
-            //                id: domainIdLayout
-
-            //                Text {
-            //                    id: domainIdText
-            //                    text: qsTr("Domain ID")
-            //                    font.pixelSize: 12
-            //                }
-
-            //                SpinBox {
-            //                    value: 0
-            //                }
-            //            }
         }
 
         ColumnLayout {

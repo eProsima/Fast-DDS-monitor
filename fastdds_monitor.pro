@@ -22,7 +22,7 @@ SOURCES += \
         src/model/ListModel.cpp \
         src/model/SubListedListModel.cpp \
         src/main.cpp \
-    src/model/tree/TreeItem.cpp \
+        src/model/tree/TreeItem.cpp \
         src/model/tree/TreeModel.cpp \
         src/utils.cpp \
         src/Engine.cpp
@@ -67,6 +67,8 @@ HEADERS += \
         include/model/tree/TreeItem.h \
         json.hpp
 
+DISTFILES += \
+    qml/*
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple

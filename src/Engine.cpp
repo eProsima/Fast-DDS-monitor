@@ -56,9 +56,9 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("qosModel", infoModel_);
     rootContext()->setContextProperty("summaryModel", summaryModel_);
 
-    qmlRegisterType<Controller>("com.myself", 1, 0, "Controller");
+    qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
 
-    load(QUrl(QLatin1String("qrc:/main.qml")));
+    load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     enabled_ = true;
 
