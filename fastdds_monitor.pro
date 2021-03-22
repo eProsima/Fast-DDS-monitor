@@ -68,12 +68,12 @@ HEADERS += \
         json.hpp
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMockSimple_FastDDSStatisticsBackend/lib/release/ -lStaticMockSimple
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMockSimple_FastDDSStatisticsBackend/lib/debug/ -lStaticMockSimple
-else:unix: LIBS += -L$$PWD/../fastdds-statistics-backend-mock/install/StaticMockSimple_FastDDSStatisticsBackend/lib/ -lStaticMockSimple
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple
+else:unix: LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/ -lStaticMockSimple
 
-INCLUDEPATH += $$PWD/../fastdds-statistics-backend-mock/include
-DEPENDPATH += $$PWD/../fastdds-statistics-backend-mock/include
+INCLUDEPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
+DEPENDPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple

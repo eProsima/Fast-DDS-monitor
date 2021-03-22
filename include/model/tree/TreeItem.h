@@ -8,6 +8,12 @@ class TreeItem
 {
 public:
 
+    enum TreeItemData
+    {
+        NAME,
+        VALUE
+    };
+
     explicit TreeItem(
             const QList<QString>& data,
             TreeItem* parentItem = 0);
@@ -26,6 +32,10 @@ public:
 
     QVariant data(
             int column) const;
+
+    QVariant getItemName() const;
+
+    QVariant getItemValue() const;
 
     int row() const;
 

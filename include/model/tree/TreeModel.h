@@ -61,6 +61,9 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
+    TreeItem* getItem(
+            const QModelIndex &index) const;
+
 protected:
 
     void setupModelData(
@@ -70,11 +73,6 @@ protected:
 private:
 
     TreeItem* rootItem_;
-
-signals:
-
-    void countChanged(
-            int count);
 
 };
 

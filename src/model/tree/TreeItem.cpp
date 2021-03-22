@@ -42,6 +42,16 @@ QVariant TreeItem::data(int column) const
     return itemData_.value(column);
 }
 
+QVariant TreeItem::getItemName() const
+{
+    return itemData_.value(TreeItemData::NAME);
+}
+
+QVariant TreeItem::getItemValue() const
+{
+    return itemData_.value(TreeItemData::VALUE);
+}
+
 TreeItem* TreeItem::parentItem()
 {
     return parentItem_;
