@@ -37,7 +37,7 @@ public :
 
     ~ListItem();
 
-    virtual QString entityId() const;
+    virtual EntityId entityId() const;
     virtual QString name() const;
 
     backend::EntityId get_entityId() const;
@@ -59,6 +59,7 @@ signals:
 protected:
 
     backend::EntityId id_;
+    QString name_;
 
 };
 

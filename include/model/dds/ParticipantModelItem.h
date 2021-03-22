@@ -7,7 +7,7 @@
 
 namespace models {
 
-class ParticipantModelItem : public EntityContainerModelItem<EndpointModelItem, ListModel>
+class ParticipantModelItem : public EntityContainerModelItem<EndpointModelItem, SubListedListModel>
 {
     Q_OBJECT
 

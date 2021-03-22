@@ -7,10 +7,13 @@
 #include <include/model/model_types.h>
 #include <include/utils.h>
 #include <include/backend/backend_types.h>
+#include <json.hpp>
 
 namespace backend{
 
 QString id_to_QString(const EntityId id);
+
+EntityId models_id_to_backend_id(const models::EntityId id);
 
 QString get_name(const EntityId id);
 
@@ -22,6 +25,7 @@ QString entity_guid(backend::EntityId id);
 
 // TOPIC
 QString topic_type(backend::EntityId id);
+
 } //namespace backend
 
 #endif // FASTDDS_MONITOR_BACKEND_UTILS_H

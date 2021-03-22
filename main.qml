@@ -1,12 +1,15 @@
 import QtQuick 2.12
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import QtQuick.Window 2.2
+import QtQuick.Controls 2.12
+import com.myself 1.0
 
 ApplicationWindow {
     id: window
     visible: true
-    width: 1600
-    height: 900
+    width: 1200
+    height: 675
     title: qsTr("Hello World")
 
     TabView {
@@ -21,5 +24,13 @@ ApplicationWindow {
             title: "Testing"
             Testing {}
         }
+    }
+
+    Controller {
+        id: controller
+    }
+
+    PopUpInitMonitorWindow {
+        id: dialogInitMonitor
     }
 }

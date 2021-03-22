@@ -13,29 +13,6 @@ class TreeItem;
 
 namespace models {
 
-struct RecursiveStructType
-
-{
-    QString label;
-    QList<RecursiveStructType> children;
-
-    RecursiveStructType(
-            QString label,
-            QList<RecursiveStructType> children)
-        : label(label)
-        , children(children)
-    {
-    }
-
-    RecursiveStructType(
-            QString label)
-        : label(label)
-    {
-    }
-
-};
-
-
 class TreeModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -50,6 +27,9 @@ public:
 
     explicit TreeModel(
             const json& data,
+            QObject* parent = 0);
+
+    explicit TreeModel(
             QObject* parent = 0);
 
     ~TreeModel();
@@ -75,6 +55,10 @@ public:
     int columnCount(
             const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
+    void clear();
+
+    void update(const json& data);
+
     QHash<int, QByteArray> roleNames() const override;
 
 protected:
@@ -86,6 +70,12 @@ protected:
 private:
 
     TreeItem* rootItem_;
+
+signals:
+
+    void countChanged(
+            int count);
+
 };
 
 } // namespace models

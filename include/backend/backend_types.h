@@ -3,12 +3,12 @@
 
 #include <QString>
 
-#include <core/types/types.hpp>
+#include <fastdds-statistics-backend/types/types.hpp>
 
 namespace backend {
 
-typedef eprosima::fastdds::dds::statistics::EntityId EntityId;
-typedef eprosima::fastdds::dds::statistics::EntityType EntityType;
+typedef eprosima::statistics_backend::EntityId EntityId;
+typedef eprosima::statistics_backend::EntityKind EntityType;
 
 #define ALL_ID_BACKEND "-1"
 

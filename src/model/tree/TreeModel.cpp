@@ -19,8 +19,19 @@ TreeModel::TreeModel(
     setupModelData(data, rootItem_);
 }
 
+TreeModel::TreeModel(
+        QObject* parent)
+    : QAbstractItemModel(parent)
+{
+    rootItem_ = new TreeItem(QList<QString>() << "Name" << "Value");
+}
+
+
 TreeModel::~TreeModel()
 {
+    beginResetModel();
+    rootItem_->clear();
+    endResetModel();
     delete rootItem_;
 }
 
@@ -193,6 +204,22 @@ void TreeModel::setupModelData(
 
         lastChild = false;
     }
+}
+
+void TreeModel::clear()
+{
+    beginResetModel();
+    rootItem_->clear();
+    endResetModel();
+}
+
+void TreeModel::update(const json& data)
+{
+    clear();
+    setupModelData(data, rootItem_);
+
+    // re draw info
+    // emit dataChanged(0, 0);
 }
 
 } // namespace models

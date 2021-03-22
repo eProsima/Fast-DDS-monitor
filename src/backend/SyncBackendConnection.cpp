@@ -7,6 +7,7 @@
 #include <include/model/SubListedListModel.h>
 #include <include/model/dds/ParticipantModelItem.h>
 #include <include/model/dds/EndpointModelItem.h>
+#include <include/model/dds/LocatorModelItem.h>
 #include <include/model/logical/TopicModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/physical/HostModelItem.h>
@@ -15,211 +16,15 @@
 #include <include/backend/backend_utils.h>
 #include <include/model/tree/TreeModel.h>
 
-#include <core/StatisticsBackend.hpp>
+#include <fastdds-statistics-backend/StatisticsBackend.hpp>
 #include <json.hpp>
+
+#include <QDebug>
 
 namespace backend {
 
-using namespace eprosima::fastdds::dds::statistics;
+using namespace eprosima::statistics_backend;
 using namespace models;
-
-models::TreeModel* SyncBackendConnection::entity_qos(EntityId id /*ALL_ID_BACKEND*/)
-{
-    // TODO get the QoS info from backend
-    static_cast<void>(id);
-    nlohmann::json qos = R"({
-        "data_sharing":
-        {
-            "domain_ids":
-            [
-                0
-            ],
-            "kind": "AUTO",
-            "max_domains": 1,
-            "shm_directory": "/dev/shm"
-        },
-        "deadline":
-        {
-            "period":
-            {
-                "nanoseconds": 50,
-                "seconds": 10
-            }
-        },
-        "destination_order":
-        {
-            "kind": "BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS"
-        },
-        "disable_positive_acks":
-        {
-            "duration":
-            {
-                "nanoseconds": 100,
-                "seconds": 0
-            },
-            "enabled": true
-        },
-        "durability":
-        {
-            "kind": "VOLATILE_DURABILITY_QOS"
-        },
-        "durability_service":
-        {
-            "history_depth": "1",
-            "history_kind": "KEEP_LAST_HISTORY_QOS",
-            "max_instances": "30",
-            "max_samples": "3000",
-            "max_samples_per_instance": "100",
-            "service_cleanup_delay":
-            {
-                "nanoseconds": 0,
-                "seconds": 5
-            }
-        },
-        "group_data": "9d46781410ff",
-        "latency_budget":
-        {
-            "duration":
-            {
-                "nanoseconds": 50,
-                "seconds": 10
-            }
-        },
-        "lifespan":
-        {
-            "duration":
-            {
-                "nanoseconds": 0,
-                "seconds": 10000
-            }
-        },
-        "liveliness":
-        {
-            "announcement_period":
-            {
-                "nanoseconds": 0,
-                "seconds": 3
-            },
-            "lease_duration":
-            {
-                "nanoseconds": 0,
-                "seconds": 10
-            },
-            "kind": "AUTOMATIC_LIVELINESS_QOS"
-        },
-        "ownership":
-        {
-            "kind": "SHARED_OWNERSHIP_QOS"
-        },
-        "partition":
-        [
-            "partition_1",
-            "partition_2"
-        ],
-        "presentation":
-        {
-            "access_scope": "INSTANCE_PRESENTATION_QOS",
-            "coherent_access": false,
-            "ordered_access": false
-        },
-        "reliability":
-        {
-            "kind": "RELIABLE_RELIABILITY_QOS",
-            "max_blocking_time":
-            {
-                "nanoseconds": 0,
-                "seconds": 3
-            }
-        },
-        "representation":
-        [
-        ],
-        "time_based_filter":
-        {
-            "minimum_separation":
-            {
-                "seconds": 12,
-                "nanoseconds": 0
-            }
-        },
-        "topic_data": "5b33419a",
-        "type_consistency":
-        {
-            "force_type_validation": false,
-            "ignore_member_names": false,
-            "ignore_sequence_bounds": true,
-            "ignore_string_bounds": true,
-            "kind": "DISALLOW_TYPE_COERCION",
-            "prevent_type_widening": false
-        },
-        "user_data": "ff00"
-    })"_json;
-
-    return new models::TreeModel(qos);
-}
-
-/// Backend API
-bool SyncBackendConnection::fill_physical_data(models::ListModel* physical_model)
-{
-    return _update_physical_data(physical_model);
-}
-
-// TODO reimplement these functions so it is not needed to call the whole fill
-bool SyncBackendConnection::update_host_data(models::ListModel* physical_model, EntityId id)
-{
-    static_cast<void>(id);
-    return _update_physical_data(physical_model);
-}
-bool SyncBackendConnection::update_user_data(models::ListModel* physical_model, EntityId id)
-{
-    static_cast<void>(id);
-    return _update_physical_data(physical_model);
-}
-bool SyncBackendConnection::update_process_data(models::ListModel* physical_model, EntityId id)
-{
-    static_cast<void>(id);
-    return _update_physical_data(physical_model);
-}
-
-// LOGICAL PARTITION
-bool SyncBackendConnection::fill_logical_data(models::ListModel* logical_model)
-{
-    return _update_logical_data(logical_model);
-}
-
-bool SyncBackendConnection::update_domain_data(models::ListModel* logical_model, EntityId id)
-{
-    static_cast<void>(id);
-    return _update_logical_data(logical_model);
-}
-
-bool SyncBackendConnection::update_topic_data(models::ListModel* logical_model, EntityId id)
-{
-    static_cast<void>(id);
-    return _update_logical_data(logical_model);
-}
-
-bool SyncBackendConnection::fill_dds_data(
-        models::ListModel* dds_model,
-        EntityId id /*ALL_ID_BACKEND*/)
-{
-    return _update_dds_data(dds_model, id);
-}
-
-// Update the model with a new or updated entity
-bool SyncBackendConnection::update_participant_data(models::ListModel* dds_model, EntityId id)
-{
-    // TODO update only the entity that has changed
-    static_cast<void>(id);
-    return _update_dds_data(dds_model, ALL_ID_BACKEND);
-}
-
-bool SyncBackendConnection::update_endpoint_data(models::ListModel* dds_model, EntityId id)
-{
-    // TODO update only the entity that has changed
-    static_cast<void>(id);
-    return _update_dds_data(dds_model, ALL_ID_BACKEND);
-}
 
 /// CREATE PRIVATE FUNCTIONS
 ListItem* SyncBackendConnection::_create_process_data(EntityId id)
@@ -267,48 +72,54 @@ ListItem* SyncBackendConnection::_create_endpoint_data(backend::EntityId id)
     return new EndpointModelItem(id);
 }
 
+ListItem* SyncBackendConnection::_create_locator_data(backend::EntityId id)
+{
+    std::cout << "Creating Locator " << id << std::endl;
+    return new LocatorModelItem(id);
+}
+
 /// UPDATE PRIVATE FUNCTIONS
-bool SyncBackendConnection::_update_host_data(ListItem* host_item)
+bool SyncBackendConnection::update_host_data(ListItem* host_item)
 {
     auto host_item_sublist = static_cast<SubListedListItem*>(host_item);
 
     return __update_entity_data(
                 host_item_sublist,
                 EntityType::USER,
-                _update_user_data,
+                update_user_data,
                 _create_user_data);
 }
 
-bool SyncBackendConnection::_update_user_data(ListItem* user_item)
+bool SyncBackendConnection::update_user_data(ListItem* user_item)
 {
     auto user_item_sublist = static_cast<SubListedListItem*>(user_item);
 
     return __update_entity_data(
                 user_item_sublist,
                 EntityType::PROCESS,
-                _update_process_data,
+                update_process_data,
                 _create_process_data);
 }
 
-bool SyncBackendConnection::_update_process_data(ListItem* process_item)
+bool SyncBackendConnection::update_process_data(ListItem* process_item)
 {
     // Process does not have update
     static_cast<void>(process_item);
     return false;
 }
 
-bool SyncBackendConnection::_update_domain_data(ListItem* domain_item)
+bool SyncBackendConnection::update_domain_data(ListItem* domain_item)
 {
     auto domain_item_sublist = static_cast<SubListedListItem*>(domain_item);
 
     return __update_entity_data(
                 domain_item_sublist,
                 EntityType::TOPIC,
-                _update_topic_data,
+                update_topic_data,
                 _create_topic_data);
 }
 
-bool SyncBackendConnection::_update_topic_data(ListItem* topic_item)
+bool SyncBackendConnection::update_topic_data(ListItem* topic_item)
 {
     // Process does not have update
     static_cast<void>(topic_item);
@@ -316,60 +127,71 @@ bool SyncBackendConnection::_update_topic_data(ListItem* topic_item)
 }
 
 
-bool SyncBackendConnection::_update_participant_data(ListItem* participant_item)
+bool SyncBackendConnection::update_participant_data(ListItem* participant_item)
 {
     auto participant_item_sublist = static_cast<SubListedListItem*>(participant_item);
 
     bool res = __update_entity_data(
                 participant_item_sublist,
                 EntityType::DATAREADER,
-                _update_endpoint_data,
+                update_endpoint_data,
                 _create_endpoint_data);
 
     res = __update_entity_data(
                 participant_item_sublist,
                 EntityType::DATAWRITER,
-                _update_endpoint_data,
+                update_endpoint_data,
                 _create_endpoint_data) || res;
 
     return res;
 }
 
-bool SyncBackendConnection::_update_endpoint_data(ListItem* endpoint_item)
+bool SyncBackendConnection::update_endpoint_data(ListItem* endpoint_item)
 {
-    // Endpoint does not have update
-    static_cast<void>(endpoint_item);
+    auto endpoint_item_sublist = static_cast<SubListedListItem*>(endpoint_item);
+
+    return __update_entity_data(
+                endpoint_item_sublist,
+                EntityType::LOCATOR,
+                update_locator_data,
+                _create_locator_data);
+}
+
+bool SyncBackendConnection::update_locator_data(ListItem* locator_item)
+{
+    // Locator does not have update
+    static_cast<void>(locator_item);
     return false;
 }
 
 /// UPDATE STRUCTURE PRIVATE FUNCTIONS
-bool SyncBackendConnection::_update_physical_data(models::ListModel* physical_model)
+bool SyncBackendConnection::update_physical_data(models::ListModel* physical_model)
 {
     return __update_model_data(
                 physical_model,
                 EntityType::HOST,
                 ALL_ID_BACKEND,
-                _update_host_data,
+                update_host_data,
                 _create_host_data);
 }
 
-bool SyncBackendConnection::_update_logical_data(models::ListModel* logical_model)
+bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model)
 {
     return __update_model_data(
                 logical_model,
                 EntityType::DOMAIN,
                 ALL_ID_BACKEND,
-                _update_domain_data,
+                update_domain_data,
                 _create_domain_data);
 }
 
-bool SyncBackendConnection::_update_dds_data(models::ListModel* dds_model, EntityId id)
+bool SyncBackendConnection::update_dds_data(models::ListModel* dds_model, EntityId id)
 {
     return __update_model_data(
                 dds_model,
-                EntityType::DOMAIN,
+                EntityType::PARTICIPANT,
                 id,
-                _update_participant_data,
+                update_participant_data,
                 _create_participant_data);
 }
 
@@ -386,7 +208,7 @@ bool SyncBackendConnection::__update_entity_data(
     EntityId id = item->get_entityId();
 
     // For each User get all processes
-    for (auto subentity_id : backend_object()->get_entities(type, id))
+    for (auto subentity_id : StatisticsBackend::get_entities(type, id))
     {
         // Check if it exists already
         models::ListItem* subentity_item = item->submodel()->find(backend::id_to_QString(subentity_id));
@@ -418,7 +240,7 @@ bool SyncBackendConnection::__update_model_data(
     bool changed = false;
 
     // For each User get all processes
-    for (auto subentity_id : backend_object()->get_entities(type, id))
+    for (auto subentity_id : StatisticsBackend::get_entities(type, id))
     {
         // Check if it exists already
         models::ListItem* subentity_item = model->find(backend::id_to_QString(subentity_id));
@@ -439,5 +261,54 @@ bool SyncBackendConnection::__update_model_data(
 
     return changed;
 }
+
+bool SyncBackendConnection::set_listener(Listener* listener)
+{
+    StatisticsBackend::set_physical_listener(listener);
+    return true;
+}
+
+bool SyncBackendConnection::unset_listener()
+{
+    StatisticsBackend::set_physical_listener(nullptr);
+    return true;
+}
+
+
+bool SyncBackendConnection::init_monitor(int domain)
+{
+    StatisticsBackend::init_monitor(domain);
+    return true;
+}
+
+bool SyncBackendConnection::init_monitor(QString locators)
+{
+    StatisticsBackend::init_monitor(locators.toStdString());
+    return true;
+}
+
+json SyncBackendConnection::get_info(EntityId id)
+{
+    return StatisticsBackend::get_info(id);
+}
+
+json SyncBackendConnection::get_summary(backend::EntityId id)
+{
+    json summary;
+
+    // Throughput
+    summary["Throughput"]["mean"] =
+            std::to_string(StatisticsBackend::get_data(
+                DataKind::PUBLICATION_THROUGHPUT,
+                id,
+                1,
+                StatisticKind::MEAN)[0].second);
+
+    // Latency
+    summary["Latency"]["mean"] = "0";
+
+    return summary;
+}
+
 
 } //namespace backend
