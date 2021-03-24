@@ -8,7 +8,7 @@
 namespace backend {
 
 typedef eprosima::statistics_backend::EntityId EntityId;
-typedef eprosima::statistics_backend::EntityKind EntityType;
+typedef eprosima::statistics_backend::EntityKind EntityKind;
 
 #define ALL_ID_BACKEND "-1"
 

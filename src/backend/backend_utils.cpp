@@ -44,4 +44,34 @@ QString topic_type(backend::EntityId id)
     return id_to_QString(id);
 }
 
+EntityKind stringToEntityKind(
+        const QString& entityKind)
+{
+    static std::unordered_map<QString, EntityKind> const conversionTable = {
+        {"Host", EntityKind::HOST},
+        {"User", EntityKind::USER},
+        {"Process", EntityKind::PROCESS},
+        {"Domain", EntityKind::DOMAIN},
+        {"Topic", EntityKind::TOPIC},
+        {"Participant", EntityKind::PARTICIPANT},
+        {"DomainParticipant", EntityKind::PARTICIPANT},
+        {"DataWriter", EntityKind::DATAWRITER},
+        {"DataReader", EntityKind::DATAREADER},
+        {"Locator", EntityKind::LOCATOR}
+    };
+
+    auto it = conversionTable.find(entityKind);
+    if (it != conversionTable.end())
+    {
+      return it->second;
+    }
+    else
+    {
+        // TODO: Change to a non valid EntityKind
+        return EntityKind::HOST;
+    }
+}
+
+
+
 } //namespace backend

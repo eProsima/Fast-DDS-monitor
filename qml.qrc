@@ -7,7 +7,9 @@
         <file>qml/PhysicalView.qml</file>
         <file>qml/LogicalView.qml</file>
         <file>qml/QosView.qml</file>
-        <file>qml/PopUpInitMonitorWindow.qml</file>
+        <file>qml/InitMonitorDialog.qml</file>
         <file>qml/SummaryView.qml</file>
+        <file>qml/DisplayStatisticsDialog.qml</file>
+        <file>qml/AdditionalEntityId.qml</file>
     </qresource>
 </RCC>

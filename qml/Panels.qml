@@ -24,6 +24,11 @@ Item {
                 text: "Init new monitor"
                 onClicked: dialogInitMonitor.open()
             }
+
+            Button {
+                text: "Display new data"
+                onClicked: displayStatisticsDialog.open()
+            }
         }
 
         ColumnLayout {

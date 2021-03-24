@@ -59,6 +59,8 @@ public:
     bool on_dds_entity_clicked(backend::EntityId id);
     bool on_entity_clicked(backend::EntityId id);
 
+    bool onSelectedEntityKind(backend::EntityKind entityKind, QString entityModelId);
+
 protected:
     Engine();
 
@@ -69,6 +71,8 @@ protected:
 
     // Fill a Logical Model from scratch getting all systems and their subentities
     bool fill_logical_data(models::ListModel* logical_model);
+
+    bool fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId);
 
     static bool update_tree_model(models::TreeModel* old_model, const json& data);
     static models::TreeModel* entity_info(backend::EntityId id = ALL_ID_BACKEND);
@@ -85,6 +89,9 @@ private:
 
     models::TreeModel* infoModel_;
     models::TreeModel* summaryModel_;
+
+    models::ListModel* entityIdModelFirst_;
+    models::ListModel* entityIdModelSecond_;
 
     backend::SyncBackendConnection backend_connection_;
 };

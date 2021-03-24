@@ -4,6 +4,7 @@
 #include <include/model/physical/HostModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/dds/ParticipantModelItem.h>
+#include <include/model/EntityItem.h>
 
 #include <include/model/SubListedListItem.h>
 #include <include/model/SubListedListModel.h>
@@ -48,6 +49,11 @@ QObject* Engine::enable()
     summaryModel_ = new models::TreeModel();
     fill_summary(ALL_ID_BACKEND);
 
+    entityIdModelFirst_ = new models::ListModel(new models::EntityItem());
+    fillAvailableEntityIdList(backend::EntityKind::HOST, "getDataDialogEntityIdModelFirst");
+    entityIdModelSecond_ = new models::ListModel(new models::EntityItem());
+    fillAvailableEntityIdList(backend::EntityKind::HOST, "getDataDialogEntityIdModelSecond");
+
     // Initialized qml
     rootContext()->setContextProperty("participantModel", participantsModel_);
     rootContext()->setContextProperty("hostModel", physicalModel_);
@@ -55,6 +61,9 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("qosModel", infoModel_);
     rootContext()->setContextProperty("summaryModel", summaryModel_);
+
+    rootContext()->setContextProperty("entityModelFirst", entityIdModelFirst_);
+    rootContext()->setContextProperty("entityModelSecond", entityIdModelSecond_);
 
     qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
 
@@ -201,4 +210,27 @@ bool Engine::on_entity_clicked(backend::EntityId id)
     bool res = fill_dds_data(id);
     res = fill_dds_info(id) or res;
     return fill_summary(id) or res;
+}
+
+bool Engine::fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId)
+{
+    return onSelectedEntityKind(entityKind, entityModelId);
+}
+
+bool Engine::onSelectedEntityKind(backend::EntityKind entityKind, QString entityModelId)
+{
+    if (entityModelId == "getDataDialogEntityIdModelFirst")
+    {
+        entityIdModelFirst_->clear();
+        return backend::SyncBackendConnection::updateGetDataDialogEntityId(entityIdModelFirst_, entityKind);
+    }
+    else if (entityModelId == "getDataDialogEntityIdModelSecond")
+    {
+        entityIdModelSecond_->clear();
+        return backend::SyncBackendConnection::updateGetDataDialogEntityId(entityIdModelSecond_, entityKind);
+    }
+    else
+    {
+        return false;
+    }
 }

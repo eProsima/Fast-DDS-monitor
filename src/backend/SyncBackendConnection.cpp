@@ -8,6 +8,7 @@
 #include <include/model/dds/ParticipantModelItem.h>
 #include <include/model/dds/EndpointModelItem.h>
 #include <include/model/dds/LocatorModelItem.h>
+#include <include/model/EntityItem.h>
 #include <include/model/logical/TopicModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/physical/HostModelItem.h>
@@ -78,6 +79,12 @@ ListItem* SyncBackendConnection::_create_locator_data(backend::EntityId id)
     return new LocatorModelItem(id);
 }
 
+ListItem* SyncBackendConnection::_createEntityIdData(backend::EntityId id)
+{
+    std::cout << "Creating EntityId " << id  << "---------------------------------" << std::endl;
+    return new EntityItem(id);
+}
+
 /// UPDATE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_host_data(ListItem* host_item)
 {
@@ -85,7 +92,7 @@ bool SyncBackendConnection::update_host_data(ListItem* host_item)
 
     return __update_entity_data(
                 host_item_sublist,
-                EntityType::USER,
+                EntityKind::USER,
                 update_user_data,
                 _create_user_data);
 }
@@ -96,7 +103,7 @@ bool SyncBackendConnection::update_user_data(ListItem* user_item)
 
     return __update_entity_data(
                 user_item_sublist,
-                EntityType::PROCESS,
+                EntityKind::PROCESS,
                 update_process_data,
                 _create_process_data);
 }
@@ -114,7 +121,7 @@ bool SyncBackendConnection::update_domain_data(ListItem* domain_item)
 
     return __update_entity_data(
                 domain_item_sublist,
-                EntityType::TOPIC,
+                EntityKind::TOPIC,
                 update_topic_data,
                 _create_topic_data);
 }
@@ -133,13 +140,13 @@ bool SyncBackendConnection::update_participant_data(ListItem* participant_item)
 
     bool res = __update_entity_data(
                 participant_item_sublist,
-                EntityType::DATAREADER,
+                EntityKind::DATAREADER,
                 update_endpoint_data,
                 _create_endpoint_data);
 
     res = __update_entity_data(
                 participant_item_sublist,
-                EntityType::DATAWRITER,
+                EntityKind::DATAWRITER,
                 update_endpoint_data,
                 _create_endpoint_data) || res;
 
@@ -152,7 +159,7 @@ bool SyncBackendConnection::update_endpoint_data(ListItem* endpoint_item)
 
     return __update_entity_data(
                 endpoint_item_sublist,
-                EntityType::LOCATOR,
+                EntityKind::LOCATOR,
                 update_locator_data,
                 _create_locator_data);
 }
@@ -164,12 +171,19 @@ bool SyncBackendConnection::update_locator_data(ListItem* locator_item)
     return false;
 }
 
+bool SyncBackendConnection::updateEntityIdData(ListItem* entityItem)
+{
+    // Locator does not have update
+    static_cast<void>(entityItem);
+    return false;
+}
+
 /// UPDATE STRUCTURE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_physical_data(models::ListModel* physical_model)
 {
     return __update_model_data(
                 physical_model,
-                EntityType::HOST,
+                EntityKind::HOST,
                 ALL_ID_BACKEND,
                 update_host_data,
                 _create_host_data);
@@ -179,7 +193,7 @@ bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model
 {
     return __update_model_data(
                 logical_model,
-                EntityType::DOMAIN,
+                EntityKind::DOMAIN,
                 ALL_ID_BACKEND,
                 update_domain_data,
                 _create_domain_data);
@@ -189,16 +203,31 @@ bool SyncBackendConnection::update_dds_data(models::ListModel* dds_model, Entity
 {
     return __update_model_data(
                 dds_model,
-                EntityType::PARTICIPANT,
+                EntityKind::PARTICIPANT,
                 id,
                 update_participant_data,
                 _create_participant_data);
 }
 
+bool SyncBackendConnection::updateGetDataDialogEntityId(models::ListModel* entityModel, EntityKind entityKind)
+{
+
+    bool changed = false;
+
+    for (auto entityId : StatisticsBackend::get_entities(entityKind, ALL_ID_BACKEND))
+    {
+        entityModel->appendRow(new EntityItem(entityId));
+        changed = true;
+    }
+
+    return changed;
+}
+
+
 // Template functions to update
 bool SyncBackendConnection::__update_entity_data(
         SubListedListItem* item,
-        EntityType type,
+        EntityKind type,
         bool (*update_function)(ListItem*),
         ListItem* (*create_function)(EntityId))
 {
@@ -232,7 +261,7 @@ bool SyncBackendConnection::__update_entity_data(
 
 bool SyncBackendConnection::__update_model_data(
         ListModel* model,
-        EntityType type,
+        EntityKind type,
         EntityId id,
         bool (*update_function)(ListItem*),
         ListItem* (*create_function)(EntityId))

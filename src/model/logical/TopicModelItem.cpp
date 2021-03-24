@@ -36,4 +36,4 @@ QHash<int, QByteArray> TopicModelItem::roleNames() const
     return roles;
 }
 
-}
+} // namespace models

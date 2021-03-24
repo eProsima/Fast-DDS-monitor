@@ -26,6 +26,10 @@ QString entity_guid(backend::EntityId id);
 // TOPIC
 QString topic_type(backend::EntityId id);
 
+
+backend::EntityKind stringToEntityKind(
+        const QString& entityKind);
+
 } //namespace backend
 
 #endif // FASTDDS_MONITOR_BACKEND_UTILS_H

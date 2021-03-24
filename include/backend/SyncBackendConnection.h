@@ -32,6 +32,7 @@ public:
     static bool update_physical_data(models::ListModel* physical_model);
     static bool update_logical_data(models::ListModel* logical_model);
     static bool update_dds_data(models::ListModel* dds_model, EntityId id);
+    static bool updateGetDataDialogEntityId(models::ListModel* entityModel, EntityKind entityKind);
 
     static bool update_host_data(ListItem* host_item);
     static bool update_user_data(ListItem* user_item);
@@ -43,6 +44,8 @@ public:
     static bool update_participant_data(ListItem* participant_item);
     static bool update_endpoint_data(ListItem* endpoint_item);
     static bool update_locator_data(ListItem* locator_item);
+
+    static bool updateEntityIdData(ListItem* entityItem);
 
     static bool init_monitor(int domain);
     static bool init_monitor(QString locators);
@@ -63,15 +66,17 @@ protected:
     static ListItem* _create_endpoint_data(backend::EntityId id);
     static ListItem* _create_locator_data(backend::EntityId id);
 
+    static ListItem* _createEntityIdData(backend::EntityId id);
+
     static bool __update_entity_data(
             SubListedListItem* item,
-            backend::EntityType type,
+            backend::EntityKind type,
             bool (*update_function)(ListItem*),
             ListItem* (*create_function)(backend::EntityId));
 
     static bool __update_model_data(
             ListModel* model,
-            EntityType type,
+            EntityKind type,
             EntityId id,
             bool (*update_function)(ListItem*),
             ListItem* (*create_function)(EntityId));

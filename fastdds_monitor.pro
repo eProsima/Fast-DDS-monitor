@@ -1,4 +1,4 @@
-QT += qml quick
+QT += charts qml quick
 
 CONFIG += c++14
 
@@ -7,7 +7,8 @@ CONFIG += c++14
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    src/Controller.cpp \
+        src/model/EntityItem.cpp \
+        src/Controller.cpp \
         src/backend/AsyncBackendConnection.cpp \
         src/backend/SyncBackendConnection.cpp \
         src/backend/backend_utils.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
         include/backend/SyncBackendConnection.h \
         include/backend/backend_types.h \
         include/model/EntityContainerModelItem.h \
+        include/model/EntityItem.h \
         include/model/dds/LocatorModelItem.h \
         include/model/model_types.h \
         include/utils.h \

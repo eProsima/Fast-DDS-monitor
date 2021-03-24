@@ -30,7 +30,11 @@ ApplicationWindow {
         id: controller
     }
 
-    PopUpInitMonitorWindow {
+    InitMonitorDialog {
         id: dialogInitMonitor
+    }
+
+    DisplayStatisticsDialog {
+        id: displayStatisticsDialog
     }
 }
