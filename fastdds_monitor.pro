@@ -7,6 +7,8 @@ CONFIG += c++14
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        src/chart/DataSource.cpp \
+        src/statistics/StatisticsData.cpp \
         src/model/EntityItem.cpp \
         src/Controller.cpp \
         src/backend/AsyncBackendConnection.cpp \
@@ -42,6 +44,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+        include/chart/DataSource.h \
         include/Controller.h \
         include/backend/AsyncBackendConnection_copy.h \
         include/backend/Listener.h \
@@ -67,6 +70,7 @@ HEADERS += \
         include/Engine.h \
         include/model/tree/TreeModel.h \
         include/model/tree/TreeItem.h \
+        include/statistics/StatisticsData.h \
         json.hpp
 
 DISTFILES += \

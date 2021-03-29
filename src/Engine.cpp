@@ -1,6 +1,8 @@
 #include <QQmlApplicationEngine>
 #include <qqmlcontext.h>
 
+#include <include/chart/DataSource.h>
+
 #include <include/model/physical/HostModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/dds/ParticipantModelItem.h>
@@ -64,6 +66,9 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("entityModelFirst", entityIdModelFirst_);
     rootContext()->setContextProperty("entityModelSecond", entityIdModelSecond_);
+
+    DataSource* dataSource = new DataSource();
+    rootContext()->setContextProperty("dataSource", dataSource);
 
     qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
 

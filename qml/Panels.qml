@@ -3,120 +3,130 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
-Item {
-    id: item1
-    GridLayout {
-        id: gridLayout
-        anchors.fill: parent
-        anchors.margins: 5
+GridLayout {
+    id: panels
+    anchors.fill: parent
+    anchors.margins: 5
 
-        rows: 3
-        columns: 3
+    rows: 3
+    columns: 3
 
-        RowLayout {
-            id: rowLayout
+    RowLayout {
+        id: rowLayout
 
-            Layout.row:0
-            Layout.column: 0
-            Layout.columnSpan: 3
+        Layout.row:0
+        Layout.column: 0
+        Layout.columnSpan: 3
 
-            Button {
-                text: "Init new monitor"
-                onClicked: dialogInitMonitor.open()
+        Button {
+            text: "Init new monitor"
+            onClicked: {
+                dialogInitMonitor.open()
             }
+        }
 
-            Button {
-                text: "Display new data"
-                onClicked: displayStatisticsDialog.open()
+        Button {
+            text: "Display new data"
+            onClicked: {
+                dataKindDialog.open()
             }
+        }
+    }
+
+    ColumnLayout {
+        id: columnLayout
+
+        Layout.row:1
+        Layout.column: 0
+
+        Text {
+            id: entityLabel
+            text: qsTr("DDS ENTITIES")
+            font.pixelSize: 15
+            font.bold: true
         }
 
         ColumnLayout {
-            id: columnLayout
-
-            Layout.row:1
-            Layout.column: 0
-
-            Text {
-                id: entityLabel
-                text: qsTr("DDS ENTITIES")
-                font.pixelSize: 15
-                font.bold: true
-            }
-
-            ColumnLayout {
-                EntityList {}
-            }
-
+            EntityList {}
         }
 
-        ColumnLayout {
-            id: columnLayoutContainer
+    }
 
-            Layout.row:2
-            Layout.column: 0
+    ColumnLayout {
+        id: columnLayoutContainer
 
-            TabBar {
-                id: physicalViewTabBar
+        Layout.row:2
+        Layout.column: 0
 
-                TabButton {
-                    text: "Physical List"
-                }
+        TabBar {
+            id: physicalViewTabBar
 
-                TabButton {
-                    text: "Logical List"
-                }
+            TabButton {
+                text: "Physical List"
             }
 
-            StackLayout {
-                currentIndex: physicalViewTabBar.currentIndex
-
-                PhysicalView {}
-
-                LogicalView {}
+            TabButton {
+                text: "Logical List"
             }
         }
 
-        Rectangle {
-            Layout.row:1
-            Layout.rowSpan: 2
-            Layout.column: 1
-            width: parent.width / 5 * 3
-            height: parent.height / 5 * 4
-            color: "grey"
+        StackLayout {
+            currentIndex: physicalViewTabBar.currentIndex
+
+            PhysicalView {}
+
+            LogicalView {}
+        }
+    }
+
+    ColumnLayout {
+        id: chartsLayout
+        Layout.row:1
+        Layout.rowSpan: 2
+        Layout.column: 1
+        width: parent.width / 5 * 3
+        height: parent.height / 5 * 4
+    }
+
+    ColumnLayout {
+        id: rightColumnLayout
+
+        Layout.row: 1
+        Layout.rowSpan: 2
+        Layout.column: 2
+
+        TabBar {
+            id: settingsViewTabBar
+
+            TabButton {
+                text: "QoS"
+            }
+
+            TabButton {
+                text: "Statistics"
+            }
+            TabButton {
+                text: "Issues"
+            }
         }
 
-        ColumnLayout {
-            id: rightColumnLayout
+        StackLayout {
+            currentIndex: settingsViewTabBar.currentIndex
 
-            Layout.row: 1
-            Layout.rowSpan: 2
-            Layout.column: 2
+            QosView {}
 
-            TabBar {
-                id: settingsViewTabBar
+            SummaryView {}
 
-                TabButton {
-                    text: "QoS"
-                }
+        }
 
-                TabButton {
-                    text: "Statistics"
-                }
-                TabButton {
-                    text: "Issues"
-                }
-            }
+    }
 
-            StackLayout {
-                currentIndex: settingsViewTabBar.currentIndex
+    function createChart(dataKind){
+        var chartBox = Qt.createComponent("StatisticsChartBox.qml")
 
-                QosView {}
-
-                SummaryView {}
-
-            }
-
+        if (chartBox.status === Component.Ready) {
+            chartBox.createObject(chartsLayout, {"chartTitle": dataKind})
         }
     }
 }
+

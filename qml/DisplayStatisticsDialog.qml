@@ -11,60 +11,39 @@ Dialog {
     modality: Qt.NonModal
     title: "Display new statistics data"
 
-    width: 400
+    width: 450
     height: 250
 
     property string startTimeDate: "" + new Date().toLocaleDateString(Qt.locale(), "dd.MM.yy")
     property string endTimeDate: "" + new Date().toLocaleDateString(Qt.locale(), "dd.MM.yy")
 
     property var component: Qt.createComponent("AdditionalEntityId.qml")
-    property var entityIdSecondObject: component.createObject(entityIdModelSecondRow);
+    property var entityIdSecondObject: null
+
+    Component.onCompleted: {
+        if (label == "FASTDDS_LATENCY" |
+                label == "NETWORK_LATENCY" |
+                label == "RTPS_PACKETS_SENT" |
+                label == "RTPS_BYTES_SENT" |
+                label == "RTPS_PACKETS_LOST" |
+                label == "RTPS_BYTES_LOST") {
+            if (entityIdSecondObject === null) {
+                entityIdSecondObject = component.createObject(entityIdModelSecondRow);
+            }
+        } else {
+            if (entityIdSecondObject !== null) {
+                entityIdSecondObject.destroy();
+            }
+        }
+    }
+
+    onAccepted: {
+        controlPanel.addSeries();
+    }
 
     GridLayout{
 
         columns: 2
-
-        Label {
-            text: "Data kind: "
-        }
-        ComboBox {
-            id: dataKind
-            model: [
-                "FASTDDS_LATENCY",
-                "NETWORK_LATENCY",
-                "PUBLICATION_THROUGHPUT",
-                "SUBSCRIPTION_THROUGHPUT",
-                "RTPS_PACKETS_SENT",
-                "RTPS_BYTES_SENT",
-                "RTPS_PACKETS_LOST",
-                "RTPS_BYTES_LOST",
-                "RESENT_DATA",
-                "HEARTBEAT_COUNT",
-                "ACKNACK_COUNT",
-                "NACKFRAG_COUNT",
-                "GAP_COUNT",
-                "DATA_COUNT",
-                "PDP_PACKETS",
-                "EDP_PACKETS",
-                "DISCOVERED_ENTITY",
-                "SAMPLE_DATAS"]
-            onActivated: {
-                if (currentText == "FASTDDS_LATENCY" |
-                        currentText == "NETWORK_LATENCY" |
-                        currentText == "RTPS_PACKETS_SENT" |
-                        currentText == "RTPS_BYTES_SENT" |
-                        currentText == "RTPS_PACKETS_LOST" |
-                        currentText == "RTPS_BYTES_LOST") {
-                    if (entityIdSecondObject === null) {
-                        entityIdSecondObject = component.createObject(entityIdModelSecondRow);
-                    }
-                } else {
-                    if (entityIdSecondObject !== null) {
-                        entityIdSecondObject.destroy();
-                    }
-                }
-            }
-        }
 
         Label {
             text: "Source Entity Id: "

@@ -11,5 +11,8 @@
         <file>qml/SummaryView.qml</file>
         <file>qml/DisplayStatisticsDialog.qml</file>
         <file>qml/AdditionalEntityId.qml</file>
+        <file>qml/StatisticsChartView.qml</file>
+        <file>qml/StatisticsChartBox.qml</file>
+        <file>qml/DataKindDialog.qml</file>
     </qresource>
 </RCC>

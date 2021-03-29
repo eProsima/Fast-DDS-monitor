@@ -10,20 +10,10 @@ ApplicationWindow {
     visible: true
     width: 1200
     height: 675
-    title: qsTr("Hello World")
+    title: qsTr("Fast DDS Monitor")
 
-    TabView {
-        anchors.fill: parent
-
-        Tab {
-            title: "Panels"
-            Panels {}
-        }
-
-        Tab {
-            title: "Testing"
-            Testing {}
-        }
+    Panels {
+        id: panels
     }
 
     Controller {
@@ -34,7 +24,8 @@ ApplicationWindow {
         id: dialogInitMonitor
     }
 
-    DisplayStatisticsDialog {
-        id: displayStatisticsDialog
+    DataKindDialog {
+        id: dataKindDialog
+        onCreateChart: panels.createChart(dataKind)
     }
 }
