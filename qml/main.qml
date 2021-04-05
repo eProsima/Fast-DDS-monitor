@@ -1,8 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 1.2
+import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
 import Controller 1.0
 
 ApplicationWindow {
@@ -11,6 +10,10 @@ ApplicationWindow {
     width: 1200
     height: 675
     title: qsTr("Fast DDS Monitor")
+
+    header: MonitorToolBar {
+        id: toolBar
+    }
 
     Panels {
         id: panels

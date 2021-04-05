@@ -3,9 +3,12 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 
 RowLayout {
+    id: additionalEntityId
+
+    property string targetEntityId
 
     Label {
-        text: "Destination Entity Id: "
+        text: "Target Entity Id: "
     }
 
     ComboBox {
@@ -22,12 +25,22 @@ RowLayout {
             "Locator"]
         onActivated:  {
             controller.updateAvailableEntityIds(currentText, "getDataDialogEntityIdModelSecond")
+            targetEntityId = targetEntityIdComboBox.currentText
         }
     }
 
     ComboBox {
+        id: targetEntityIdComboBox
         textRole: "id"
         model: entityModelSecond
+
+        Component.onCompleted: {
+            targetEntityId = targetEntityIdComboBox.currentText
+        }
+
+        onActivated:  {
+            targetEntityId = currentText
+        }
     }
 
 

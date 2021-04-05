@@ -1,102 +1,92 @@
 import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
-GridLayout {
+SplitView {
     id: panels
     anchors.fill: parent
-    anchors.margins: 5
 
-    rows: 3
-    columns: 3
+    SplitView {
+        id: leftPanels
+        orientation: Qt.Vertical
+        SplitView.preferredWidth: parent.width / 6
+        SplitView.minimumWidth: parent.width / 6
 
-    RowLayout {
-        id: rowLayout
+        ColumnLayout {
+            SplitView.preferredHeight: parent.height / 2
+            SplitView.minimumHeight: parent.height / 4
 
-        Layout.row:0
-        Layout.column: 0
-        Layout.columnSpan: 3
-
-        Button {
-            text: "Init new monitor"
-            onClicked: {
-                dialogInitMonitor.open()
+            Label {
+                id: entityLabel
+                text: qsTr("DDS ENTITIES")
+                font.pixelSize: 15
+                font.bold: true
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: 5
             }
-        }
 
-        Button {
-            text: "Display new data"
-            onClicked: {
-                dataKindDialog.open()
+            EntityList {
+                id: entityList
+                anchors.top: entityLabel.bottom
+                anchors.left: parent.left
+                anchors.margins: 5
             }
-        }
-    }
-
-    ColumnLayout {
-        id: columnLayout
-
-        Layout.row:1
-        Layout.column: 0
-
-        Text {
-            id: entityLabel
-            text: qsTr("DDS ENTITIES")
-            font.pixelSize: 15
-            font.bold: true
         }
 
         ColumnLayout {
-            EntityList {}
-        }
+            SplitView.fillHeight: true
+            SplitView.minimumHeight: parent.height / 4
 
-    }
+            TabBar {
+                id: physicalViewTabBar
+                Layout.fillWidth: true
+                Layout.alignment: parent.top | parent.left
 
-    ColumnLayout {
-        id: columnLayoutContainer
+                TabButton {
+                    text: "Physical List"
+                }
 
-        Layout.row:2
-        Layout.column: 0
-
-        TabBar {
-            id: physicalViewTabBar
-
-            TabButton {
-                text: "Physical List"
+                TabButton {
+                    text: "Logical List"
+                }
             }
 
-            TabButton {
-                text: "Logical List"
+            StackLayout {
+                currentIndex: physicalViewTabBar.currentIndex
+
+                PhysicalView {
+                    id: physicalView
+                    anchors.top: entityLabel.bottom
+                    anchors.left: parent.left
+                    anchors.margins: 5
+                }
+
+                LogicalView {
+                    id: logicalView
+                    anchors.top: entityLabel.bottom
+                    anchors.left: parent.left
+                    anchors.margins: 5
+                }
             }
         }
-
-        StackLayout {
-            currentIndex: physicalViewTabBar.currentIndex
-
-            PhysicalView {}
-
-            LogicalView {}
-        }
     }
+
 
     ColumnLayout {
         id: chartsLayout
-        Layout.row:1
-        Layout.rowSpan: 2
-        Layout.column: 1
-        width: parent.width / 5 * 3
-        height: parent.height / 5 * 4
+        SplitView.fillWidth: true
     }
 
     ColumnLayout {
         id: rightColumnLayout
-
-        Layout.row: 1
-        Layout.rowSpan: 2
-        Layout.column: 2
+        SplitView.preferredWidth: parent.width / 6
+        SplitView.minimumWidth: parent.width / 6
 
         TabBar {
             id: settingsViewTabBar
+            Layout.fillWidth: true
 
             TabButton {
                 text: "QoS"
@@ -116,9 +106,7 @@ GridLayout {
             QosView {}
 
             SummaryView {}
-
         }
-
     }
 
     function createChart(dataKind){

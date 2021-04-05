@@ -9,25 +9,32 @@ class Controller : public QObject
     Q_OBJECT
 
 public:
-    explicit Controller(QObject *parent = nullptr):QObject(parent)
-    {}
+    explicit Controller(
+            QObject *parent = nullptr)
+        : QObject(parent)
+    {
+    }
 
-    Q_INVOKABLE void init_monitor(int domain);
+Q_SIGNALS:
 
-    Q_INVOKABLE void init_monitor(QString locators);
+public slots:
 
-    Q_INVOKABLE void host_click(QString id);
-    Q_INVOKABLE void user_click(QString id);
-    Q_INVOKABLE void process_click(QString id);
+    void init_monitor(int domain);
 
-    Q_INVOKABLE void domain_click(QString id);
-    Q_INVOKABLE void topic_click(QString id);
+    void init_monitor(QString locators);
 
-    Q_INVOKABLE void participant_click(QString id);
-    Q_INVOKABLE void endpoint_click(QString id);
-    Q_INVOKABLE void locator_click(QString id);
+    void host_click(QString id);
+    void user_click(QString id);
+    void process_click(QString id);
 
-    Q_INVOKABLE void updateAvailableEntityIds(QString entityKind, QString entityModelId);
+    void domain_click(QString id);
+    void topic_click(QString id);
+
+    void participant_click(QString id);
+    void endpoint_click(QString id);
+    void locator_click(QString id);
+
+    void updateAvailableEntityIds(QString entityKind, QString entityModelId);
 
 private:
 };

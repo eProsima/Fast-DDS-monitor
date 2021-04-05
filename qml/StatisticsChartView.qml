@@ -17,14 +17,33 @@ ChartView {
         id: dateTimeAxisX
     }
 
-    function addSeries() {
-        dataSource.generateData(8)
-        axisY.max = dataSource.axisYMax;
-        axisY.min = dataSource.axisYMin;
-        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(dataSource.axisXMin);
-        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(dataSource.axisXMax);
+    function addSeries(
+            dataKind,
+            sourceEntityId,
+            targetEntityId,
+            bins,
+            startTime,
+            startTimeDefault,
+            endTime,
+            endTimeDefault,
+            statisticKind) {
+        console.log("Data Kind: " + dataKind + "\n" +
+                    "Source Entity Id: " + sourceEntityId + "\n" +
+                    "Target Entity Id: " + targetEntityId + "\n" +
+                    "Bins: " + bins + "\n" +
+                    "Time Start: " + startTime + "\n" +
+                    "Time Start Default: " + startTimeDefault + "\n" +
+                    "End Start: " + endTime + "\n" +
+                    "End Start Default: " + endTimeDefault + "\n" +
+                    "Statistics Kind: " + statisticKind)
+
+        statisticsData.generateData(8)
+        axisY.max = statisticsData.axisYMax;
+        axisY.min = statisticsData.axisYMin;
+        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(statisticsData.axisXMin);
+        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(statisticsData.axisXMax);
         var series = chartView.createSeries(ChartView.SeriesTypeLine, "signal", dateTimeAxisX, axisY);
-        dataSource.update(series);
+        statisticsData.update(series);
     }
 
     function clearChart() {

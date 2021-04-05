@@ -58,3 +58,5 @@ void Controller::updateAvailableEntityIds(QString entityKind, QString entityMode
 {
     Engine::get_instance()->onSelectedEntityKind(backend::stringToEntityKind(entityKind), entityModelId);
 }
+
+

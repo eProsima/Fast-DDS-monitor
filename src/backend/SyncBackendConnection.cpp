@@ -339,5 +339,4 @@ json SyncBackendConnection::get_summary(backend::EntityId id)
     return summary;
 }
 
-
 } //namespace backend

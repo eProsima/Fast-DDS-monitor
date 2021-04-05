@@ -2,25 +2,46 @@ import QtQuick 2.0
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 
-GroupBox {
-    property string chartTitle
-    ColumnLayout {
-        id: statisticsChartBox
+Rectangle {
+    id: statisticsChartBox
+    width: 600
+    height: 500
 
+    property string chartTitle
+
+    ColumnLayout {
 
         Label {
             id: statisticsChartBoxLabel
             text: chartTitle
         }
 
-        Row {
+        RowLayout {
             id: controlPanel
             spacing: 8
 
-            signal addSeries()
+            signal addSeries(
+                string dataKind,
+                string sourceEntityId,
+                string targetEntityId,
+                int bins,
+                date startTime,
+                bool startTimeDefault,
+                date endTime,
+                bool endTimeDefault,
+                string statisticKind)
             signal clearChart()
 
-            onAddSeries: statisticsChartView.addSeries();
+            onAddSeries: statisticsChartView.addSeries(
+                             dataKind,
+                             sourceEntityId,
+                             targetEntityId,
+                             bins,
+                             startTime,
+                             startTimeDefault,
+                             endTime,
+                             endTimeDefault,
+                             statisticKind);
             onClearChart: statisticsChartView.clearChart();
 
             Button {
@@ -45,8 +66,8 @@ GroupBox {
 
         StatisticsChartView {
             id: statisticsChartView
-            height: 300
-            width: 500
+            Layout.preferredWidth: 500
+            Layout.preferredHeight: 300
         }
 
         DisplayStatisticsDialog {

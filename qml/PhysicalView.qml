@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
 Item {
-    id: logicalViewEntityList
+    id: physicalView
 
     ListView {
         id: hostList

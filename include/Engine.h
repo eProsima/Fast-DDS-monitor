@@ -5,10 +5,9 @@
 
 #include <include/backend/SyncBackendConnection.h>
 #include <include/backend/Listener.h>
-
 #include <include/model/SubListedListModel.h>
-
 #include <include/model/tree/TreeModel.h>
+#include <include/statistics/StatisticsData.h>
 
 class Engine : public QQmlApplicationEngine
 {
@@ -92,6 +91,8 @@ private:
 
     models::ListModel* entityIdModelFirst_;
     models::ListModel* entityIdModelSecond_;
+
+    StatisticsData* statisticsData_;
 
     backend::SyncBackendConnection backend_connection_;
 };

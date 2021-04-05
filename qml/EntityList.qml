@@ -3,8 +3,9 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
-Item {
-    id: logicalViewEntityList
+Rectangle {
+    id: entityList
+    Layout.preferredHeight: 200
 
     ListView {
         id: participantList
@@ -20,6 +21,7 @@ Item {
             id: participantItem
             width: 300
             height: participantListColumn.childrenRect.height
+
             property var item_id: id
 
             Column {

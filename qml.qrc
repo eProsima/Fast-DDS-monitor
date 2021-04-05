@@ -14,5 +14,6 @@
         <file>qml/StatisticsChartView.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/DataKindDialog.qml</file>
+        <file>qml/MonitorToolBar.qml</file>
     </qresource>
 </RCC>

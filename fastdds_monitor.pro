@@ -7,7 +7,6 @@ CONFIG += c++14
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        src/chart/DataSource.cpp \
         src/statistics/StatisticsData.cpp \
         src/model/EntityItem.cpp \
         src/Controller.cpp \
@@ -17,10 +16,7 @@ SOURCES += \
         src/model/ListItem.cpp \
         src/model/dds/ParticipantModelItem.cpp \
         src/model/dds/EndpointModelItem.cpp \
-#        src/model/logical/DomainModelItem.cpp \
         src/model/logical/TopicModelItem.cpp \
-#        src/model/physical/HostModelItem.cpp \
-#        src/model/physical/UserModelItem.cpp \
         src/model/physical/ProcessModelItem.cpp \
         src/model/ListModel.cpp \
         src/model/SubListedListModel.cpp \
@@ -44,7 +40,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-        include/chart/DataSource.h \
         include/Controller.h \
         include/backend/AsyncBackendConnection_copy.h \
         include/backend/Listener.h \

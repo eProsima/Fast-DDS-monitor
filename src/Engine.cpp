@@ -1,23 +1,17 @@
 #include <QQmlApplicationEngine>
 #include <qqmlcontext.h>
 
-#include <include/chart/DataSource.h>
-
+#include <include/statistics/StatisticsData.h>
 #include <include/model/physical/HostModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/dds/ParticipantModelItem.h>
 #include <include/model/EntityItem.h>
-
 #include <include/model/SubListedListItem.h>
 #include <include/model/SubListedListModel.h>
-
 #include <include/backend/SyncBackendConnection.h>
 #include <include/backend/Listener.h>
-
 #include <include/Engine.h>
-
 #include <include/model/tree/TreeModel.h>
-
 #include <include/Controller.h>
 
 #include <json.hpp>
@@ -56,6 +50,8 @@ QObject* Engine::enable()
     entityIdModelSecond_ = new models::ListModel(new models::EntityItem());
     fillAvailableEntityIdList(backend::EntityKind::HOST, "getDataDialogEntityIdModelSecond");
 
+    statisticsData_ = new StatisticsData();
+
     // Initialized qml
     rootContext()->setContextProperty("participantModel", participantsModel_);
     rootContext()->setContextProperty("hostModel", physicalModel_);
@@ -67,8 +63,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("entityModelFirst", entityIdModelFirst_);
     rootContext()->setContextProperty("entityModelSecond", entityIdModelSecond_);
 
-    DataSource* dataSource = new DataSource();
-    rootContext()->setContextProperty("dataSource", dataSource);
+    rootContext()->setContextProperty("statisticsData", statisticsData_);
 
     qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
 
