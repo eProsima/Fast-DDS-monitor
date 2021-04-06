@@ -15,40 +15,32 @@ class StatisticsData : public QObject
     Q_OBJECT
     Q_PROPERTY(qreal axisYMax READ axisYMax NOTIFY axisYMaxChanged)
     Q_PROPERTY(qreal axisYMin READ axisYMin NOTIFY axisYMinChanged)
-    Q_PROPERTY(qreal axisXMax READ axisXMax NOTIFY axisXMaxChanged)
-    Q_PROPERTY(qreal axisXMin READ axisXMin NOTIFY axisXMinChanged)
+    Q_PROPERTY(quint64 axisXMax READ axisXMax NOTIFY axisXMaxChanged)
+    Q_PROPERTY(quint64 axisXMin READ axisXMin NOTIFY axisXMinChanged)
 
 public:
 
     explicit StatisticsData(
             QObject *parent = 0);
 
-    qreal axisYMax()
-    {
-        return axisYMax_;
-    }
 
-    qreal axisYMin()
-    {
-        return axisYMin_;
-    }
+    void setData(const QList<QVector<QPointF>>& data);
+    void appendData(const QVector<QPointF>& dataSeries);
+    void clear();
 
-    qreal axisXMax()
-    {
-        return axisXMax_;
-    }
+    qreal axisYMax();
+    qreal axisYMin();
+    quint64 axisXMax();
+    quint64 axisXMin();
 
-    qreal axisXMin()
-    {
-        return axisXMin_;
-    }
+    void setAxisYMax(qreal axisYMax);
+    void setAxisYMin(qreal axisYMin);
+    void setAxisXMax(quint64 axisXMax);
+    void setAxisXMin(quint64 axisXMin);
 
 Q_SIGNALS:
 
 public slots:
-
-    void generateData(
-            int colCount);
 
     void update(
             QAbstractSeries* series);
@@ -64,8 +56,8 @@ private:
     int index_;
     qreal axisYMax_;
     qreal axisYMin_;
-    qreal axisXMax_;
-    qreal axisXMin_;
+    quint64 axisXMax_;
+    quint64 axisXMin_;
 };
 
 

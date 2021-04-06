@@ -24,7 +24,8 @@ class SyncBackendConnection
 {
 public:
     SyncBackendConnection()
-    {}
+    {
+    }
 
     static bool set_listener(Listener* listener);
     static bool unset_listener();
@@ -52,6 +53,15 @@ public:
 
     static json get_info(EntityId id);
     static json get_summary(backend::EntityId id);
+
+    static std::vector<backend::StatisticsData> get_data(
+            DataKind dataKind,
+            EntityId sourceEntityId,
+            EntityId targetEntityId,
+            uint16_t bins,
+            Timestamp startTime,
+            Timestamp endTime,
+            StatisticKind statisticKind);
 
 protected:
 

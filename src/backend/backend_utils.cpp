@@ -72,6 +72,65 @@ EntityKind stringToEntityKind(
     }
 }
 
+DataKind stringToDataKind(
+       const QString& dataKind)
+{
+    static std::unordered_map<QString, DataKind> const conversionTable = {
+        {"FASTDDS_LATENCY", DataKind::FASTDDS_LATENCY},
+        {"NETWORK_LATENCY", DataKind::NETWORK_LATENCY},
+        {"PUBLICATION_THROUGHPUT", DataKind::PUBLICATION_THROUGHPUT},
+        {"SUBSCRIPTION_THROUGHPUT", DataKind::SUBSCRIPTION_THROUGHPUT},
+        {"RTPS_PACKETS_SENT", DataKind::RTPS_PACKETS_SENT},
+        {"RTPS_BYTES_SENT", DataKind::RTPS_BYTES_SENT},
+        {"RTPS_PACKETS_LOST", DataKind::RTPS_PACKETS_LOST},
+        {"RTPS_BYTES_LOST", DataKind::RTPS_BYTES_LOST},
+        {"RESENT_DATA", DataKind::RESENT_DATA},
+        {"HEARTBEAT_COUNT", DataKind::HEARTBEAT_COUNT},
+        {"ACKNACK_COUNT", DataKind::ACKNACK_COUNT},
+        {"NACKFRAG_COUNT", DataKind::NACKFRAG_COUNT},
+        {"GAP_COUNT", DataKind::GAP_COUNT},
+        {"DATA_COUNT", DataKind::DATA_COUNT},
+        {"PDP_PACKETS", DataKind::PDP_PACKETS},
+        {"EDP_PACKETS", DataKind::EDP_PACKETS},
+        {"DISCOVERY_TIME", DataKind::DISCOVERY_TIME},
+        {"SAMPLE_DATAS", DataKind::SAMPLE_DATAS}
+   };
 
+   auto it = conversionTable.find(dataKind);
+   if (it != conversionTable.end())
+   {
+     return it->second;
+   }
+   else
+   {
+       // TODO: Change to a non valid DataKind
+       return DataKind::NONE;
+   }
+}
+
+StatisticKind stringToStatisticKind(
+       const QString& statisticKind)
+{
+    static std::unordered_map<QString, StatisticKind> const conversionTable = {
+        {"NONE", StatisticKind::NONE},
+        {"MEAN", StatisticKind::MEAN},
+        {"STANDARD_DEVIATION", StatisticKind::STANDARD_DEVIATION},
+        {"MAX", StatisticKind::MAX},
+        {"MIN", StatisticKind::MIN},
+        {"MEDIAN", StatisticKind::MEDIAN},
+        {"COUNT", StatisticKind::COUNT},
+        {"SUM", StatisticKind::SUM}
+   };
+
+   auto it = conversionTable.find(statisticKind);
+   if (it != conversionTable.end())
+   {
+     return it->second;
+   }
+   else
+   {
+       return StatisticKind::NONE;
+   }
+}
 
 } //namespace backend

@@ -34,9 +34,20 @@ public slots:
     void endpoint_click(QString id);
     void locator_click(QString id);
 
-    void updateAvailableEntityIds(QString entityKind, QString entityModelId);
+    void updateAvailableEntityIds(
+            QString entityKind,
+            QString entityModelId);
 
-private:
+    void addStatisticsData(
+            QString dataKind,
+            QString sourceEntityId,
+            QString targetEntityId,
+            quint16 bins,
+            quint64 startTime,
+            bool startTimeDefault,
+            quint64 endTime,
+            bool endTimeDefault,
+            QString statisticKind);
 };
 
 #endif // CONTROLLER_H

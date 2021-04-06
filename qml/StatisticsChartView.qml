@@ -15,6 +15,8 @@ ChartView {
 
     DateTimeAxis {
         id: dateTimeAxisX
+        min: new Date()
+        max: new Date()
     }
 
     function addSeries(
@@ -27,21 +29,28 @@ ChartView {
             endTime,
             endTimeDefault,
             statisticKind) {
-        console.log("Data Kind: " + dataKind + "\n" +
-                    "Source Entity Id: " + sourceEntityId + "\n" +
-                    "Target Entity Id: " + targetEntityId + "\n" +
-                    "Bins: " + bins + "\n" +
-                    "Time Start: " + startTime + "\n" +
-                    "Time Start Default: " + startTimeDefault + "\n" +
-                    "End Start: " + endTime + "\n" +
-                    "End Start Default: " + endTimeDefault + "\n" +
-                    "Statistics Kind: " + statisticKind)
+        controller.addStatisticsData(dataKind,
+                                     sourceEntityId,
+                                     targetEntityId,
+                                     bins,
+                                     chartView.toMsecsSinceEpoch(startTime),
+                                     startTimeDefault,
+                                     chartView.toMsecsSinceEpoch(endTime),
+                                     endTimeDefault,
+                                     statisticKind)
 
-        statisticsData.generateData(8)
-        axisY.max = statisticsData.axisYMax;
-        axisY.min = statisticsData.axisYMin;
-        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(statisticsData.axisXMin);
-        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(statisticsData.axisXMax);
+        if (statisticsData.axisYMax > axisY.max)
+            axisY.max = statisticsData.axisYMax
+
+        if (statisticsData.axisYMin < axisY.min)
+            axisY.min = statisticsData.axisYMin
+
+        if (chartView.fromMsecsSinceEpoch(statisticsData.axisXMax) > dateTimeAxisX.max)
+            dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(statisticsData.axisXMax)
+
+        if (chartView.fromMsecsSinceEpoch(statisticsData.axisXMin) < dateTimeAxisX.min)
+            dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(statisticsData.axisXMin)
+
         var series = chartView.createSeries(ChartView.SeriesTypeLine, "signal", dateTimeAxisX, axisY);
         statisticsData.update(series);
     }
@@ -51,7 +60,10 @@ ChartView {
     }
 
     function createAxis(min, max) {
-        return Qt.createQmlObject("import QtQuick 2.0; import QtCharts 2.0; ValueAxis { min: " + min + "; max: " + max + " }", chartView);
+        return Qt.createQmlObject("import QtQuick 2.0; " +
+                                  "import QtCharts 2.0; " +
+                                  "ValueAxis { min: " + min + "; max: " + max + " }",
+                                  chartView);
     }
 
     function toMsecsSinceEpoch(date) {

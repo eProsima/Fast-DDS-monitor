@@ -22,16 +22,15 @@ SplitView {
                 text: qsTr("DDS ENTITIES")
                 font.pixelSize: 15
                 font.bold: true
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.margins: 5
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                Layout.topMargin: 5
+                Layout.leftMargin: 5
             }
 
             EntityList {
                 id: entityList
-                anchors.top: entityLabel.bottom
-                anchors.left: parent.left
-                anchors.margins: 5
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                Layout.leftMargin: 5
             }
         }
 
@@ -56,18 +55,15 @@ SplitView {
             StackLayout {
                 currentIndex: physicalViewTabBar.currentIndex
 
+                Layout.alignment: Qt.AlignTop
+                Layout.leftMargin: 5
+
                 PhysicalView {
                     id: physicalView
-                    anchors.top: entityLabel.bottom
-                    anchors.left: parent.left
-                    anchors.margins: 5
                 }
 
                 LogicalView {
                     id: logicalView
-                    anchors.top: entityLabel.bottom
-                    anchors.left: parent.left
-                    anchors.margins: 5
                 }
             }
         }

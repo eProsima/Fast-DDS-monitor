@@ -29,6 +29,63 @@ StatisticsData::StatisticsData(QObject *parent)
     qRegisterMetaType<QAbstractAxis*>();
 }
 
+void StatisticsData::setData(const QList<QVector<QPointF>> &data)
+{
+    data_.clear();
+    data_.append(data);
+}
+
+void StatisticsData::appendData(const QVector<QPointF>& dataSeries)
+{
+    data_.append(dataSeries);
+}
+
+
+void StatisticsData::clear()
+{
+    data_.clear();
+}
+
+qreal StatisticsData::axisYMax()
+{
+    return axisYMax_;
+}
+
+qreal StatisticsData::axisYMin()
+{
+    return axisYMin_;
+}
+
+quint64 StatisticsData::axisXMax()
+{
+    return axisXMax_;
+}
+
+quint64 StatisticsData::axisXMin()
+{
+    return axisXMin_;
+}
+
+void StatisticsData::setAxisYMax(qreal axisYMax)
+{
+    axisYMax_ = axisYMax;
+}
+
+void StatisticsData::setAxisYMin(qreal axisYMin)
+{
+    axisYMin_ = axisYMin;
+}
+
+void StatisticsData::setAxisXMax(quint64 axisXMax)
+{
+    axisXMax_ = axisXMax;
+}
+
+void StatisticsData::setAxisXMin(quint64 axisXMin)
+{
+    axisXMin_ = axisXMin;
+}
+
 void StatisticsData::update(QAbstractSeries* series)
 {
     if (series)
@@ -43,52 +100,4 @@ void StatisticsData::update(QAbstractSeries* series)
         QVector<QPointF> points = data_.at(index_);
         xySeries->replace(points);
     }
-}
-
-void StatisticsData::generateData(int colCount)
-{
-    // Remove previous data
-    data_.clear();
-
-    QVector<QPointF> points;
-    points.reserve(colCount);
-
-    QDateTime xValue;
-    xValue.setDate(QDate(2016,7,3));
-    xValue.setTime(QTime(0,0));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setTime(QTime(7,0));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setTime(QTime(9,0));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setTime(QTime(12,0));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setTime(QTime(14,0));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setTime(QTime(18,0));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setTime(QTime(21,0));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setTime(QTime(23,30));
-    points.append(QPointF(xValue.toMSecsSinceEpoch(), QRandomGenerator::global()->bounded(250)));
-    xValue.setDate(QDate(2016,7,4));
-
-    data_.append(points);
-
-//    for (QVector<QPointF>& d : data_)
-//    {
-//        qDebug() << "------------------------------------------------";
-//        for (QPointF p : d)
-//        {
-//            qDebug() << "x: " << p.x() << "\t| y: " << p.y();
-//        }
-//        qDebug() << "------------------------------------------------";
-//    }
-
-    axisYMax_ = 300;
-    axisYMin_ = 0;
-    QDateTime startDate(QDate(2016, 7, 3), QTime(0, 0, 0));
-    QDateTime endDate(QDate(2016, 7, 4), QTime(0, 0, 0));
-    axisXMax_ = endDate.toMSecsSinceEpoch();
-    axisXMin_ = startDate.toMSecsSinceEpoch();
 }

@@ -58,7 +58,20 @@ public:
     bool on_dds_entity_clicked(backend::EntityId id);
     bool on_entity_clicked(backend::EntityId id);
 
-    bool onSelectedEntityKind(backend::EntityKind entityKind, QString entityModelId);
+    bool onSelectedEntityKind(
+            backend::EntityKind entityKind,
+            QString entityModelId);
+
+    bool onAddStatisticsDataSeries(
+            backend::DataKind dataKind,
+            backend::EntityId sourceEntityId,
+            backend::EntityId targetEntityId,
+            quint16 bins,
+            quint64 startTime,
+            bool startTimeDefault,
+            quint64 endTime,
+            bool endTimeDefault,
+            backend::StatisticKind statisticKind);
 
 protected:
     Engine();

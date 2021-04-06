@@ -54,7 +54,7 @@ Dialog {
         controlPanel.addSeries(
                     chartTitle,
                     sourceEntityId.currentText,
-                    (targetEntityIdObject === null) ? 'INVALID' : targetEntityIdObject.targetEntityId,
+                    (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
                     bins.value,
                     startTime,
                     startTimeDefault.checked,

@@ -1,4 +1,7 @@
 #include <QQmlApplicationEngine>
+#include <QDateTime>
+#include <QtCore/QRandomGenerator>
+
 #include <qqmlcontext.h>
 
 #include <include/statistics/StatisticsData.h>
@@ -13,6 +16,8 @@
 #include <include/Engine.h>
 #include <include/model/tree/TreeModel.h>
 #include <include/Controller.h>
+
+#include <chrono>
 
 #include <json.hpp>
 
@@ -233,4 +238,62 @@ bool Engine::onSelectedEntityKind(backend::EntityKind entityKind, QString entity
     {
         return false;
     }
+}
+
+bool Engine::onAddStatisticsDataSeries(
+        backend::DataKind dataKind,
+        backend::EntityId sourceEntityId,
+        backend::EntityId targetEntityId,
+        quint16 bins,
+        quint64 startTime,
+        bool startTimeDefault,
+        quint64 endTime,
+        bool endTimeDefault,
+        backend::StatisticKind statisticKind)
+{
+    backend::Timestamp timeFrom =
+            startTimeDefault ? backend::Timestamp() : backend::Timestamp(std::chrono::milliseconds(startTime));
+    backend::Timestamp timeTo =
+            endTimeDefault ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(endTime));
+
+    std::vector<backend::StatisticsData> statisticData = backend::SyncBackendConnection::get_data(
+                dataKind,
+                sourceEntityId,
+                targetEntityId,
+                bins,
+                timeFrom,
+                timeTo,
+                statisticKind);
+
+    QVector<QPointF> points;
+    points.reserve(statisticData.size());
+    qreal maxValue = 0;
+    qreal minValue = 0;
+
+    for (backend::StatisticsData data : statisticData)
+    {
+        points.append(QPointF(
+                    std::chrono::duration_cast<std::chrono::milliseconds>(data.first.time_since_epoch()).count(),
+                    data.second));
+        maxValue = (data.second > maxValue) ? data.second : maxValue;
+        minValue = (data.second < minValue) ? data.second : maxValue;
+    }
+
+    // Remove previous data
+    statisticsData_->clear();
+    statisticsData_->appendData(points);
+
+    QDateTime startDate;
+    startDate.setMSecsSinceEpoch(
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    statisticData.front().first.time_since_epoch()).count());
+    QDateTime endDate;
+    endDate.setMSecsSinceEpoch(
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    statisticData.back().first.time_since_epoch()).count());
+
+    statisticsData_->setAxisYMax(maxValue);
+    statisticsData_->setAxisYMin(minValue);
+    statisticsData_->setAxisXMax(endDate.toMSecsSinceEpoch());
+    statisticsData_->setAxisXMin(startDate.toMSecsSinceEpoch());
 }

@@ -81,7 +81,7 @@ ListItem* SyncBackendConnection::_create_locator_data(backend::EntityId id)
 
 ListItem* SyncBackendConnection::_createEntityIdData(backend::EntityId id)
 {
-    std::cout << "Creating EntityId " << id  << "---------------------------------" << std::endl;
+    std::cout << "Creating EntityId " << id  << std::endl;
     return new EntityItem(id);
 }
 
@@ -337,6 +337,38 @@ json SyncBackendConnection::get_summary(backend::EntityId id)
     summary["Latency"]["mean"] = "0";
 
     return summary;
+}
+
+std::vector<StatisticsData> SyncBackendConnection::get_data(
+        DataKind dataKind,
+        EntityId sourceEntityId,
+        EntityId targetEntityId,
+        uint16_t bins,
+        Timestamp startTime,
+        Timestamp endTime,
+        StatisticKind statisticKind)
+{
+    if (targetEntityId.empty())
+    {
+        return StatisticsBackend::get_data(
+                    dataKind,
+                    sourceEntityId,
+                    bins,
+                    startTime,
+                    endTime,
+                    statisticKind);
+    }
+    else
+    {
+        return StatisticsBackend::get_data(
+                    dataKind,
+                    sourceEntityId,
+                    targetEntityId,
+                    bins,
+                    startTime,
+                    endTime,
+                    statisticKind);
+    }
 }
 
 } //namespace backend

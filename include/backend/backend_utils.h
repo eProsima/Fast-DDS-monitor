@@ -30,6 +30,12 @@ QString topic_type(backend::EntityId id);
 backend::EntityKind stringToEntityKind(
         const QString& entityKind);
 
+backend::DataKind stringToDataKind(
+       const QString& dataKind);
+
+backend::StatisticKind stringToStatisticKind(
+       const QString& statisticKind);
+
 } //namespace backend
 
 #endif // FASTDDS_MONITOR_BACKEND_UTILS_H
