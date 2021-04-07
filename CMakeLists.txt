@@ -85,7 +85,7 @@ endif()
 ###############################################################################
 # Load external eProsima projects.
 ###############################################################################
-find_package(StaticMockSimple_FastDDSStatisticsBackend REQUIRED)
+find_package(FastDDSStatisticsBackend REQUIRED)
 
 ###############################################################################
 # Compile
@@ -139,3 +139,16 @@ target_compile_definitions(${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(${PROJECT_NAME}
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+
+###############################################################################
+# Compile MOCK
+###############################################################################
+message(STATUS "Configuring MOCK ...")
+
+# add_library (StaticSimpleMock StatisticsBackend.cpp)
+# target_include_directories (StaticSimpleMock PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# TODO rebase over new Entity id
+# add_subdirectory(src/mock/static_mock_simple)
+
+add_subdirectory(src/mock/complex_mock)
