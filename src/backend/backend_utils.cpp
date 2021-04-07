@@ -1,4 +1,6 @@
 
+#include <sstream>      // std::ostringstream
+
 #include <include/utils.h>
 #include <include/backend/backend_types.h>
 #include <include/model/model_types.h>
@@ -7,14 +9,19 @@
 
 namespace backend{
 
+const EntityId ID_ALL = EntityId::all();
+
 QString id_to_QString(const EntityId id)
 {
-    return utils::to_QString(id);
+    std::ostringstream stream;
+    stream << id;
+    return utils::to_QString(stream.str());
 }
 
 EntityId models_id_to_backend_id(const models::EntityId id)
 {
-    return EntityId(id.toUtf8());
+    // TODO
+    //return EntityId(id.toInt());
 }
 
 QString get_name(const EntityId id)

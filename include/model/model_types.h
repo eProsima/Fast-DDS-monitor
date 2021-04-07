@@ -8,7 +8,7 @@
 namespace models
 {
 
-typedef QString EntityId;
+using EntityId = QString;
 
 } // namespace models
 

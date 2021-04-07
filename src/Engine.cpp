@@ -45,10 +45,10 @@ QObject* Engine::enable()
     fill_logical_data(logicalModel_);
 
     infoModel_ = new models::TreeModel();
-    fill_dds_info(ALL_ID_BACKEND);
+    fill_dds_info(backend::ID_ALL);
 
     summaryModel_ = new models::TreeModel();
-    fill_summary(ALL_ID_BACKEND);
+    fill_summary(backend::ID_ALL);
 
     entityIdModelFirst_ = new models::ListModel(new models::EntityItem());
     fillAvailableEntityIdList(backend::EntityKind::HOST, "getDataDialogEntityIdModelFirst");
@@ -125,7 +125,7 @@ void Engine::init_monitor(QString locators)
     backend_connection_.init_monitor(locators);
 }
 
-bool Engine::fill_dds_info(backend::EntityId id /*ALL_ID_BACKEND*/)
+bool Engine::fill_dds_info(backend::EntityId id /*ID_ALL*/)
 {
     // TODO implement update
     infoModel_->update(backend_connection_.get_info(id));
@@ -133,7 +133,7 @@ bool Engine::fill_dds_info(backend::EntityId id /*ALL_ID_BACKEND*/)
 }
 
 
-bool Engine::fill_summary(backend::EntityId id /*ALL_ID_BACKEND*/)
+bool Engine::fill_summary(backend::EntityId id /*ID_ALL*/)
 {
     // TODO implement update
     summaryModel_->update(backend_connection_.get_summary(id));
@@ -183,7 +183,7 @@ bool Engine::update_topic_data(models::ListModel* logical_model, backend::Entity
 }
 
 bool Engine::fill_dds_data(
-        backend::EntityId id /*ALL_ID_BACKEND*/)
+        backend::EntityId id /*ID_ALL*/)
 {
     participantsModel_->clear();
     return backend::SyncBackendConnection::update_dds_data(participantsModel_, id);
@@ -194,14 +194,14 @@ bool Engine::update_participant_data(models::ListModel* dds_model, backend::Enti
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_dds_data(dds_model, ALL_ID_BACKEND);
+    return backend::SyncBackendConnection::update_dds_data(dds_model, backend::ID_ALL);
 }
 
 bool Engine::update_endpoint_data(models::ListModel* dds_model, backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_dds_data(dds_model, ALL_ID_BACKEND);
+    return backend::SyncBackendConnection::update_dds_data(dds_model, backend::ID_ALL);
 }
 
 bool Engine::on_dds_entity_clicked(backend::EntityId id)

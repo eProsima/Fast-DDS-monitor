@@ -37,7 +37,7 @@ public:
 
     // DDS PARTITION
     // Fill a DDS Model from scratch getting the participants from the id and its subentities
-    bool fill_dds_data(backend::EntityId id = ALL_ID_BACKEND);
+    bool fill_dds_data(backend::EntityId id = backend::ID_ALL);
 
     // Update the model with a new or updated entity
     bool update_participant_data(models::ListModel* dds_model, backend::EntityId id);
@@ -46,12 +46,12 @@ public:
     // QoS DATA
     // Retrieve the QoS information. With ALL or incorrect ID it
     // returns an empty QoS Configuration
-    bool fill_dds_info(backend::EntityId id = ALL_ID_BACKEND);
+    bool fill_dds_info(backend::EntityId id = backend::ID_ALL);
 
     // Statistic summary DATA
     // Retrieve the QoS information. With ALL or incorrect ID it
     // returns an empty QoS Configuration
-    bool fill_summary(backend::EntityId id = ALL_ID_BACKEND);
+    bool fill_summary(backend::EntityId id = backend::ID_ALL);
 
     // ON CLICKED
     // Update by click functions
@@ -87,7 +87,7 @@ protected:
     bool fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId);
 
     static bool update_tree_model(models::TreeModel* old_model, const json& data);
-    static models::TreeModel* entity_info(backend::EntityId id = ALL_ID_BACKEND);
+    static models::TreeModel* entity_info(backend::EntityId id = backend::ID_ALL);
 
 private:
 

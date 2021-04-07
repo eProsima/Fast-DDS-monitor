@@ -71,16 +71,16 @@ HEADERS += \
 DISTFILES += \
     qml/*
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple
-else:unix: LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/ -lStaticMockSimple
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple
+#else:unix: LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/ -lStaticMockSimple
 
-INCLUDEPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
-DEPENDPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
+#INCLUDEPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
+#DEPENDPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple
-else:unix: LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/ -lStaticMockSimple
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/build/fastdds-statistics-backend/src/mock/complex_mock/release/ -lComplexMock
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/build/fastdds-statistics-backend/src/mock/complex_mock/debug/ -lComplexMock
+else:unix: LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/build/fastdds-statistics-backend/src/mock/complex_mock/ -lComplexMock
 
 INCLUDEPATH += $$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/include
 DEPENDPATH += $$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/include

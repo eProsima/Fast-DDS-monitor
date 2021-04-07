@@ -7,12 +7,12 @@
 
 namespace backend {
 
-typedef eprosima::statistics_backend::EntityId EntityId;
-typedef eprosima::statistics_backend::EntityKind EntityKind;
-typedef eprosima::statistics_backend::DataKind DataKind;
-typedef eprosima::statistics_backend::StatisticKind StatisticKind;
+using EntityId = eprosima::statistics_backend::EntityId;
+using EntityKind = eprosima::statistics_backend::EntityKind;
+using DataKind = eprosima::statistics_backend::DataKind;
+using StatisticKind = eprosima::statistics_backend::StatisticKind;
 
-#define ALL_ID_BACKEND "-1"
+extern const EntityId ID_ALL;
 
 } //namespace backend
 

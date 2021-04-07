@@ -184,7 +184,7 @@ bool SyncBackendConnection::update_physical_data(models::ListModel* physical_mod
     return __update_model_data(
                 physical_model,
                 EntityKind::HOST,
-                ALL_ID_BACKEND,
+                ID_ALL,
                 update_host_data,
                 _create_host_data);
 }
@@ -194,7 +194,7 @@ bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model
     return __update_model_data(
                 logical_model,
                 EntityKind::DOMAIN,
-                ALL_ID_BACKEND,
+                ID_ALL,
                 update_domain_data,
                 _create_domain_data);
 }
@@ -214,7 +214,7 @@ bool SyncBackendConnection::updateGetDataDialogEntityId(models::ListModel* entit
 
     bool changed = false;
 
-    for (auto entityId : StatisticsBackend::get_entities(entityKind, ALL_ID_BACKEND))
+    for (auto entityId : StatisticsBackend::get_entities(entityKind, ID_ALL))
     {
         entityModel->appendRow(new EntityItem(entityId));
         changed = true;
@@ -348,7 +348,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         Timestamp endTime,
         StatisticKind statisticKind)
 {
-    if (targetEntityId.empty())
+    if (targetEntityId.is_valid())
     {
         return StatisticsBackend::get_data(
                     dataKind,
