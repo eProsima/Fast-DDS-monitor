@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qml/main.qml</file>
         <file>qml/Panels.qml</file>
-        <file>qml/Testing.qml</file>
         <file>qml/EntityList.qml</file>
         <file>qml/PhysicalView.qml</file>
         <file>qml/LogicalView.qml</file>
@@ -16,5 +15,6 @@
         <file>qml/DataKindDialog.qml</file>
         <file>qml/MonitorToolBar.qml</file>
         <file>qml/IssueView.qml</file>
+        <file>qml/ChartsLayout.qml</file>
     </qresource>
 </RCC>

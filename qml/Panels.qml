@@ -13,64 +13,83 @@ SplitView {
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
 
-        ColumnLayout {
+        Rectangle{
+            id: entityListBox
             SplitView.preferredHeight: parent.height / 2
             SplitView.minimumHeight: parent.height / 4
 
-            Label {
-                id: entityLabel
-                text: qsTr("DDS ENTITIES")
-                font.pixelSize: 15
-                font.bold: true
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                Layout.topMargin: 5
-                Layout.leftMargin: 5
-            }
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
-            EntityList {
-                id: entityList
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                Layout.leftMargin: 5
+            ColumnLayout {
+
+                Rectangle {
+                    id: entityLabel
+                    width: entityListBox.width
+                    Layout.alignment: Qt.AlignTop
+                    height: 25
+                    color: "grey"
+
+                    Label {
+                        text: qsTr("DDS ENTITIES")
+                        font.pixelSize: 15
+                        font.bold: true
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                }
+
+                EntityList {
+                    id: entityList
+                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                    Layout.leftMargin: 5
+                }
             }
         }
 
-        ColumnLayout {
+        Rectangle {
+            id: physicalViewBox
             SplitView.fillHeight: true
             SplitView.minimumHeight: parent.height / 4
 
-            TabBar {
-                id: physicalViewTabBar
-                Layout.fillWidth: true
-                Layout.alignment: parent.top | parent.left
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
-                TabButton {
-                    text: "Physical List"
+            ColumnLayout {
+
+                TabBar {
+                    id: physicalViewTabBar
+                    width: physicalViewBox.width
+                    Layout.alignment: Qt.AlignTop
+
+                    TabButton {
+                        text: "Physical List"
+                    }
+
+                    TabButton {
+                        text: "Logical List"
+                    }
                 }
 
-                TabButton {
-                    text: "Logical List"
-                }
-            }
+                StackLayout {
+                    currentIndex: physicalViewTabBar.currentIndex
 
-            StackLayout {
-                currentIndex: physicalViewTabBar.currentIndex
+                    Layout.alignment: Qt.AlignTop
+                    Layout.leftMargin: 5
 
-                Layout.alignment: Qt.AlignTop
-                Layout.leftMargin: 5
+                    PhysicalView {
+                        id: physicalView
+                    }
 
-                PhysicalView {
-                    id: physicalView
-                }
-
-                LogicalView {
-                    id: logicalView
+                    LogicalView {
+                        id: logicalView
+                    }
                 }
             }
         }
     }
 
-
-    ColumnLayout {
+    ChartsLayout {
         id: chartsLayout
         SplitView.fillWidth: true
     }
@@ -79,6 +98,7 @@ SplitView {
         id: rightColumnLayout
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
+        spacing: 0
 
         TabBar {
             id: settingsViewTabBar
@@ -97,6 +117,8 @@ SplitView {
 
         StackLayout {
             currentIndex: settingsViewTabBar.currentIndex
+            Layout.alignment: Qt.AlignTop
+            Layout.fillHeight: true
 
             QosView {}
 
@@ -107,11 +129,7 @@ SplitView {
     }
 
     function createChart(dataKind){
-        var chartBox = Qt.createComponent("StatisticsChartBox.qml")
-
-        if (chartBox.status === Component.Ready) {
-            chartBox.createObject(chartsLayout, {"chartTitle": dataKind})
-        }
+        chartsLayout.createChart(dataKind)
     }
 }
 

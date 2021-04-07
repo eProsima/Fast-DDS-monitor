@@ -8,16 +8,17 @@ Rectangle {
         width: 2
         color: "#09487e"
     }
-    width: 600
-    height: 500
 
     property string chartTitle
+    property int index
+    property bool visibility: true
 
     ColumnLayout {
 
         Layout.fillWidth: true
         Layout.fillHeight: true
         spacing: 0
+        visible: visibility
 
         Rectangle {
             id: chartBoxTitle
@@ -85,6 +86,7 @@ Rectangle {
                 Button {
                     text: "Remove chart"
                     onClicked: {
+                        statisticsChartBoxModel.remove(index)
                         statisticsChartBox.destroy()
                     }
                 }
@@ -102,5 +104,13 @@ Rectangle {
         DisplayStatisticsDialog {
             id: displayStatisticsDialog
         }
+    }
+
+    Text {
+        text: chartTitle
+        color: "white"
+        visible: !visibility
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 }

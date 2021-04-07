@@ -5,7 +5,7 @@ import QtQml.Models 2.12
 
 Rectangle {
     id: entityList
-    Layout.preferredHeight: 200
+    Layout.fillHeight: true
 
     ListView {
         id: participantList
