@@ -31,8 +31,11 @@ Rectangle {
                 RowLayout {
                     Rectangle {
                         color: "grey"
-                        width: 10
-                        height: 10
+                        width: 5; height: 5; radius: 5
+                    }
+                    Label {
+                        text: name
+                        leftPadding: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -43,36 +46,23 @@ Rectangle {
                                 else
                                     endpointList.height = endpointList.collapseHeightFlag;
                             }
-                        }
-                    }
-                    Text {
-                        text: name
-                        leftPadding: 5
-                    }
-                    Rectangle {
-                        color: "red"
-                        width: 10
-                        height: 10
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
+                            onDoubleClicked: {
                                 controller.participant_click(id)
                             }
                         }
                     }
                 }
-                Text {
+                Label {
                     text: id
                     font.pixelSize: 9
                     leftPadding: 20
                 }
-                Text {
+                Label {
                     text: guid
                     font.pixelSize: 9
                     leftPadding: 20
                 }
-                Text {
+                Label {
                     text: domain
                     font.pixelSize: 9
                     leftPadding: 20
@@ -95,8 +85,11 @@ Rectangle {
                                 RowLayout {
                                     Rectangle {
                                         color: "grey"
-                                        width: 10
-                                        height: 10
+                                        width: 5; height: 5; radius: 5
+                                    }
+                                    Label {
+                                        text: name
+                                        leftPadding: 5
 
                                         MouseArea {
                                             anchors.fill: parent
@@ -112,36 +105,23 @@ Rectangle {
                                                     endpointList.height = endpointList.height + locatorList.height;
                                                 }
                                             }
-                                        }
-                                    }
-                                    Text {
-                                        text: name
-                                        leftPadding: 5
-                                    }
-                                    Rectangle {
-                                        color: "red"
-                                        width: 10
-                                        height: 10
-
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
+                                            onDoubleClicked: {
                                                 controller.endpoint_click(id)
                                             }
                                         }
                                     }
                                 }
-                                Text {
+                                Label {
                                     text: id
                                     font.pixelSize: 9
                                     leftPadding: 20
                                 }
-                                Text {
+                                Label {
                                     text: guid
                                     font.pixelSize: 9
                                     leftPadding: 20
                                 }
-                                Text {
+                                Label {
                                     text: topic
                                     font.pixelSize: 9
                                     leftPadding: 20
@@ -164,27 +144,21 @@ Rectangle {
                                                 RowLayout {
                                                     Rectangle {
                                                         color: "blue"
-                                                        width: 10
-                                                        height: 10
+                                                        width: 5; height: 5; radius: 5
                                                     }
-                                                    Text {
+                                                    Label {
                                                         text: name
                                                         leftPadding: 5
-                                                    }
-                                                    Rectangle {
-                                                        color: "red"
-                                                        width: 10
-                                                        height: 10
 
                                                         MouseArea {
                                                             anchors.fill: parent
-                                                            onClicked: {
+                                                            onDoubleClicked: {
                                                                 controller.locator_click(id)
                                                             }
                                                         }
                                                     }
                                                 }
-                                                Text {
+                                                Label {
                                                     text: id
                                                     font.pixelSize: 9
                                                     leftPadding: 20

@@ -31,7 +31,7 @@ SplitView {
                     color: "grey"
 
                     Label {
-                        text: qsTr("DDS ENTITIES")
+                        text: qsTr("DDS Entities")
                         font.pixelSize: 15
                         font.bold: true
                         anchors.verticalCenter: parent.verticalCenter

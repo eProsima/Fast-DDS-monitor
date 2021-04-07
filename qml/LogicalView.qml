@@ -29,8 +29,11 @@ Item {
                 RowLayout {
                     Rectangle {
                         color: "grey"
-                        width: 10
-                        height: 10
+                        width: 5; height: 5; radius: 5
+                    }
+                    Label {
+                        text: name
+                        leftPadding: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -38,14 +41,11 @@ Item {
                                 if(topicList.height === topicList.collapseHeightFlag) {
                                     topicList.height = 0;
                                 }
-                                else
+                                else {
                                     topicList.height = topicList.collapseHeightFlag;
+                                }
                             }
                         }
-                    }
-                    Text {
-                        text: name
-                        leftPadding: 5
                     }
                     Rectangle {
                         color: "red"
@@ -60,7 +60,7 @@ Item {
                         }
                     }
                 }
-                Text {
+                Label {
                     text: id
                     font.pixelSize: 9
                     leftPadding: 20
@@ -82,10 +82,9 @@ Item {
                                 RowLayout {
                                     Rectangle {
                                         color: "grey"
-                                        width: 10
-                                        height: 10
+                                        width: 5; height: 5; radius: 5
                                     }
-                                    Text {
+                                    Label {
                                         text: name
                                         leftPadding: 5
                                     }
@@ -102,12 +101,12 @@ Item {
                                         }
                                     }
                                 }
-                                Text {
+                                Label {
                                     text: id
                                     font.pixelSize: 9
                                     leftPadding: 20
                                 }
-                                Text {
+                                Label {
                                     text: type
                                     font.pixelSize: 9
                                     leftPadding: 20

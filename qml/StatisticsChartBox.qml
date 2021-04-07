@@ -26,7 +26,7 @@ Rectangle {
             height: statisticsChartBox.height/20
             color: "#09487e"
 
-            Text {
+            Label {
                 id: statisticsChartBoxLabel
                 text: chartTitle
                 color: "white"
@@ -106,7 +106,7 @@ Rectangle {
         }
     }
 
-    Text {
+    Label {
         text: chartTitle
         color: "white"
         visible: !visibility

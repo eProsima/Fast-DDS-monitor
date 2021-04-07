@@ -29,8 +29,11 @@ Item {
                 RowLayout {
                     Rectangle {
                         color: "grey"
-                        width: 10
-                        height: 10
+                        width: 5; height: 5; radius: 5
+                    }
+                    Label {
+                        text: name
+                        leftPadding: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -42,26 +45,13 @@ Item {
                                     userList.height = userList.collapseHeightFlag;
                                 }
                             }
-                        }
-                    }
-                    Text {
-                        text: name
-                        leftPadding: 5
-                    }
-                    Rectangle {
-                        color: "red"
-                        width: 10
-                        height: 10
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
+                            onDoubleClicked: {
                                 controller.host_click(id)
                             }
                         }
                     }
                 }
-                Text {
+                Label {
                     text: id
                     font.pixelSize: 9
                     leftPadding: 20
@@ -83,8 +73,11 @@ Item {
                                 RowLayout {
                                     Rectangle {
                                         color: "grey"
-                                        width: 10
-                                        height: 10
+                                        width: 5; height: 5; radius: 5
+                                    }
+                                    Label {
+                                        text: name
+                                        leftPadding: 5
 
                                         MouseArea {
                                             anchors.fill: parent
@@ -100,26 +93,13 @@ Item {
                                                     userList.height = userList.height + processList.height;
                                                 }
                                             }
-                                        }
-                                    }
-                                    Text {
-                                        text: name
-                                        leftPadding: 5
-                                    }
-                                    Rectangle {
-                                        color: "red"
-                                        width: 10
-                                        height: 10
-
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
+                                            onDoubleClicked: {
                                                 controller.host_click(id)
                                             }
                                         }
                                     }
                                 }
-                                Text {
+                                Label {
                                     text: id
                                     font.pixelSize: 9
                                     leftPadding: 20
@@ -142,27 +122,21 @@ Item {
                                                 RowLayout {
                                                     Rectangle {
                                                         color: "blue"
-                                                        width: 10
-                                                        height: 10
+                                                        width: 5; height: 5; radius: 5
                                                     }
-                                                    Text {
+                                                    Label {
                                                         text: name
                                                         leftPadding: 5
-                                                    }
-                                                    Rectangle {
-                                                        color: "red"
-                                                        width: 10
-                                                        height: 10
 
                                                         MouseArea {
                                                             anchors.fill: parent
-                                                            onClicked: {
+                                                            onDoubleClicked: {
                                                                 controller.host_click(id)
                                                             }
                                                         }
                                                     }
                                                 }
-                                                Text {
+                                                Label {
                                                     text: id
                                                     font.pixelSize: 9
                                                     leftPadding: 20
