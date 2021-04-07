@@ -28,23 +28,7 @@ namespace eprosima {
 namespace statistics_backend {
 
 /*
- * Host     : Host_0
  *
- * User     : User_0(Host_1)
- *
- * Process  : Process_0(User_0)
- *
- * Domain   : Domain_0
- *
- * Topic    : Topic_0(Domain_0)
- *
- * Participant  : Participant_0(Process_0, Domain_0)
- *
- * DataWriter   : DW_0(Participant_0, topic_0)
- *
- * DataReader   : DR_0(Participant_0, topic_0)
- *
- * Locator  : locator_0(Participant_0, DW_0, DR_0)
  */
 
 // Implemented without Mask
@@ -55,11 +39,11 @@ void StatisticsBackend::set_physical_listener(
     if (listener)
     {
         std::cout << "CONGRATULATIONS, you have set the physical listener" << std::endl;
-        // TODO initiate thread to create random data
     }
     else
     {
         std::cout << "CONGRATULATIONS, you have unset the physical listener" << std::endl;
+        Database::get_instance()->stop();
     }
 
 

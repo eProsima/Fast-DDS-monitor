@@ -25,24 +25,26 @@
 namespace eprosima {
 namespace statistics_backend {
 
+static int ID = 0;
+
 /*
- * Host     : Host_0
+ * Host         : Host_0                                    : 0
  *
- * User     : User_0(Host_1)
+ * User         : User_0(Host_1)                            : 1
  *
- * Process  : Process_0(User_0)
+ * Process      : Process_0(User_0)                         : 2
  *
- * Domain   : Domain_0
+ * Domain       : Domain_0                                  : 3
  *
- * Topic    : Topic_0(Domain_0)
+ * Topic        : Topic_0(Domain_0)                         : 4
  *
- * Participant  : Participant_0(Process_0, Domain_0)
+ * Participant  : Participant_0(Process_0, Domain_0)        : 5
  *
- * DataWriter   : DW_0(Participant_0, topic_0)
+ * DataWriter   : DW_0(Participant_0, topic_0)              : 6
  *
- * DataReader   : DR_0(Participant_0, topic_0)
+ * DataReader   : DR_0(Participant_0, topic_0)              : 7
  *
- * Locator  : locator_0(Participant_0, DW_0, DR_0)
+ * Locator      : locator_0(Participant_0, DW_0, DR_0)      : 8
  */
 
 void StatisticsBackend::set_physical_listener(
@@ -73,7 +75,7 @@ EntityId StatisticsBackend::init_monitor(
     static_cast<void>(domain_listener);
     static_cast<void>(callback_mask);
     static_cast<void>(data_mask);
-    return "DOMAIN MONITOR";
+    return ++ID;
 }
 
 EntityId StatisticsBackend::init_monitor(
@@ -87,7 +89,7 @@ EntityId StatisticsBackend::init_monitor(
     static_cast<void>(domain_listener);
     static_cast<void>(callback_mask);
     static_cast<void>(data_mask);
-    return "DISCOVERY SERVER MONITOR";
+    return ++ID;
 }
 
 std::vector<EntityId> StatisticsBackend::get_entities(
@@ -103,39 +105,39 @@ std::vector<EntityId> StatisticsBackend::get_entities(
     switch (entity_type)
     {
         case EntityKind::HOST:
-            result.push_back("Host_0");
+            result.push_back(0);
             break;
 
         case EntityKind::USER:
-            result.push_back("User_0");
+            result.push_back(1);
             break;
 
         case EntityKind::PROCESS:
-            result.push_back("Process_0");
+            result.push_back(2);
             break;
 
         case EntityKind::DOMAIN:
-            result.push_back("Domain_0");
+            result.push_back(3);
             break;
 
         case EntityKind::TOPIC:
-            result.push_back("Topic_0");
+            result.push_back(4);
             break;
 
         case EntityKind::PARTICIPANT:
-            result.push_back("Participant_0");
+            result.push_back(5);
             break;
 
         case EntityKind::DATAWRITER:
-            result.push_back("Writer_0");
+            result.push_back(6);
             break;
 
         case EntityKind::DATAREADER:
-            result.push_back("Reader_0");
+            result.push_back(7);
             break;
 
         case EntityKind::LOCATOR:
-            result.push_back("Locator_0");
+            result.push_back(8);
             break;
 
         default:
@@ -279,7 +281,49 @@ Info StatisticsBackend::get_info(
         }
     })"_json;
 
-    json_obj["name"] = entity_id;
+    json_obj["id"] = entity_id.value();
+
+    switch (entity_id.value())
+    {
+        case 0:
+            json_obj["name"] = "Host_0";
+            break;
+
+        case 1:
+            json_obj["name"] = "User_0";
+            break;
+
+        case 2:
+            json_obj["name"] = "Process_0";
+            break;
+
+        case 3:
+            json_obj["name"] = "Domain_0";
+            break;
+
+        case 4:
+            json_obj["name"] = "Topic_0";
+            break;
+
+        case 5:
+            json_obj["name"] = "Participant_0";
+            break;
+
+        case 6:
+            json_obj["name"] = "Writer_0";
+            break;
+
+        case 7:
+            json_obj["name"] = "Reader_0";
+            break;
+
+        case 8:
+            json_obj["name"] = "Locator_0";
+            break;
+
+        default:
+            break;
+    }
 
     return json_obj;
 }
@@ -308,7 +352,7 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
     std::cout << "CONGRATULATIONS, you have asked for the data of " << entity_id << std::endl;
 
     static_cast<void> (statistic);
-    srand(int(entity_id[0]) * int(data_type));
+    srand(int(entity_id.value()) * int(data_type));
 
     if (0 == bins)
     {
@@ -328,6 +372,38 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
     }
 
     return result;
+}
+
+std::vector<StatisticsData> StatisticsBackend::get_data(
+        DataKind data_type,
+        EntityId entity_id_source,
+        EntityId entity_id_target,
+        uint16_t bins,
+        StatisticKind statistic)
+{
+    return get_data(
+        data_type,
+        entity_id_source,
+        entity_id_target,
+        bins,
+        Timestamp(),
+        std::chrono::system_clock::now(),
+        statistic);
+}
+
+std::vector<StatisticsData> StatisticsBackend::get_data(
+        DataKind data_type,
+        EntityId entity_id,
+        uint16_t bins,
+        StatisticKind statistic)
+{
+    return get_data(
+        data_type,
+        entity_id,
+        bins,
+        Timestamp(),
+        std::chrono::system_clock::now(),
+        statistic);
 }
 
 } //namespace statistics_backend

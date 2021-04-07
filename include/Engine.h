@@ -26,14 +26,14 @@ public:
     // TODO eliminate models in args as they are private values in class
     // PHYSICAL PARTITION
     // Update the model with a new or updated entity
-    bool update_host_data(models::ListModel* physical_model, backend::EntityId id);
-    bool update_user_data(models::ListModel* physical_model, backend::EntityId id);
-    bool update_process_data(models::ListModel* physical_model, backend::EntityId id);
+    bool update_host_data(backend::EntityId id);
+    bool update_user_data(backend::EntityId id);
+    bool update_process_data(backend::EntityId id);
 
     // LOGICAL PARTITION
     // Update the model with a new or updated entity
-    bool update_domain_data(models::ListModel* logical_model, backend::EntityId id);
-    bool update_topic_data(models::ListModel* logical_model, backend::EntityId id);
+    bool update_domain_data(backend::EntityId id);
+    bool update_topic_data(backend::EntityId id);
 
     // DDS PARTITION
     // Fill a DDS Model from scratch getting the participants from the id and its subentities
@@ -79,10 +79,10 @@ protected:
     ~Engine();
 
     // Fill a Physical Model from scratch getting all systems and their subentities
-    bool fill_physical_data(models::ListModel* physical_model);
+    bool fill_physical_data();
 
     // Fill a Logical Model from scratch getting all systems and their subentities
-    bool fill_logical_data(models::ListModel* logical_model);
+    bool fill_logical_data();
 
     bool fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId);
 

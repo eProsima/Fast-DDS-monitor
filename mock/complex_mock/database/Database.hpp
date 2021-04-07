@@ -20,6 +20,7 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
+#include <tuple>
 
 #include <fastdds-statistics-backend/listener/PhysicalListener.hpp>
 #include <fastdds-statistics-backend/types/types.hpp>
@@ -72,9 +73,9 @@ protected:
     void generate_random_data_thread();
     void callback_listener_thread();
 
-    void add_entity(EntityPointer entity);
+    void add_entity(EntityPointer entity, EntityId domain);
 
-    void add_entities(std::vector<EntityPointer> entities);
+    void add_entities(std::vector<EntityPointer> entities, EntityId domain);
 
     size_t count_domains();
     size_t count_entities();
@@ -83,16 +84,29 @@ private:
 
     std::vector<EntityId> domains_;
     std::map<EntityId, EntityPointer> entities_;
+    std::vector<std::tuple<EntityId, EntityKind, EntityId>> new_entities_;
     int64_t last_id_;
     PhysicalListener* listener_;
 
-    std::thread generate_data_thread_;
-    std::thread listener_thread_;
     std::recursive_mutex data_mutex_;
+
+    //! Indicates to the threads that must keep running
     std::atomic<bool> run_;
 
-    mutable std::condition_variable cv_;
+    // Condition variable to create new entities
+    // It starts when a domain is initialize, and stops when Database destroys
+    std::thread generate_data_thread_;
+    mutable std::condition_variable cv_run_;
     mutable std::mutex run_mutex_;
+
+    // Condition variable to call callbacks from listener
+    // It starts when a new entity is created and run while there are new entities in the new_entity vector
+    // It stops till next add_entity is called
+    std::thread listener_thread_;
+    mutable std::condition_variable cv_callback_;
+    mutable std::mutex callback_mutex_;
+    mutable std::condition_variable cv_callback_start_;
+    mutable std::mutex callback_mutex_start_;
 };
 
 } // namespace statistics_backend

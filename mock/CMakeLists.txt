@@ -22,17 +22,13 @@ endif()
 
 project(monitor-mock)
 
+find_package(fastcdr REQUIRED)
+find_package(fastrtps REQUIRED)
 find_package(fastdds-statistics-backend REQUIRED)
 
 ###############################################################################
-# Compile MOCK
+# Compile MOCKs
 ###############################################################################
-message(STATUS "Configuring MOCK ...")
+add_subdirectory(static_mock)
 
-# add_library (StaticSimpleMock StatisticsBackend.cpp)
-# target_include_directories (StaticSimpleMock PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-# TODO rebase over new Entity id
-# add_subdirectory(src/mock/static_mock_simple)
-
-add_subdirectory(src/complex_mock)
+add_subdirectory(complex_mock)

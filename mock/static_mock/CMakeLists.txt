@@ -19,39 +19,27 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
 endif()
 
 # Find FastDDS Statistics Backend library
+find_package(fastcdr REQUIRED)
+find_package(fastrtps REQUIRED)
 find_package(fastdds-statistics-backend REQUIRED)
 
 # Allow to use threads
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-project(complex-mock)
+project(static-mock)
 
 set(STATIC_MOCK_COMPLEX_SOURCE
-
     StatisticsBackend.cpp
     EntityId.cpp
-
-    database/Database.cpp
-    database/RandomGenerator.cpp
-
-    entities/utils.cpp
-    entities/source/Entity.cpp
-    entities/source/Host.cpp
-    entities/source/User.cpp
-    entities/source/Process.cpp
-    entities/source/Domain.cpp
-    entities/source/Topic.cpp
-    entities/source/Participant.cpp
-    entities/source/Endpoint.cpp
-    entities/source/Locator.cpp
     )
 
-add_library(ComplexMock ${STATIC_MOCK_COMPLEX_SOURCE})
+add_library(StaticMock ${STATIC_MOCK_COMPLEX_SOURCE})
 
-target_compile_definitions(ComplexMock PRIVATE
+target_compile_definitions(StaticMock PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
     $<$<BOOL:${INTERNAL_DEBUG}>:__INTERNALDEBUG> # Internal debug activated.
 )
-target_link_libraries(ComplexMock)
-install(TARGETS ComplexMock
-    RUNTIME DESTINATION Mock/ComplexMock/${BIN_INSTALL_DIR})
+
+target_link_libraries(StaticMock fastdds-statistics-backend)
+install(TARGETS StaticMock
+    RUNTIME DESTINATION Mock/StaticMock/${BIN_INSTALL_DIR})

@@ -30,8 +30,11 @@ public:
 
     ~SubListedListItem()
     {
-        subEntitiesListModel_->clear();
-        delete subEntitiesListModel_;
+        if (subEntitiesListModel_)
+        {
+            subEntitiesListModel_->clear();
+            delete subEntitiesListModel_;
+        }
     }
 
     ListModel* submodel()  const

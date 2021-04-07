@@ -7,6 +7,7 @@ CONFIG += c++14
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        src/backend/Listener.cpp \
         src/statistics/StatisticsData.cpp \
         src/model/EntityItem.cpp \
         src/Controller.cpp \
@@ -71,16 +72,28 @@ HEADERS += \
 DISTFILES += \
     qml/*
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/release/ -lStaticMockSimple
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/debug/ -lStaticMockSimple
-#else:unix: LIBS += -L$$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/lib/ -lStaticMockSimple
+# This path remains when the project is build with colcon by downloadinf fastdds-monitor.repos
+INCLUDEPATH += $$PWD/../../install/fastdds-statistics-backend/include
+DEPENDPATH += $$PWD/../../install/fastdds-statistics-backend/include
 
-#INCLUDEPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
-#DEPENDPATH += $$PWD/../Fast-DDS-statistics-backend/install/fastdds-statistics-backend/include
+# Static Mock
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/static_mock/ -lStaticMock
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/static_mock/ -lStaticMockd
+#else:unix: LIBS += -L$$PWD/../../build/fastdds-monitor/mock/static_mock/ -lStaticMock
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/build/fastdds-statistics-backend/src/mock/complex_mock/release/ -lComplexMock
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/build/fastdds-statistics-backend/src/mock/complex_mock/debug/ -lComplexMock
-else:unix: LIBS += -L$$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/build/fastdds-statistics-backend/src/mock/complex_mock/ -lComplexMock
+#win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/libStaticMock.a
+#else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/libStaticMockd.a
+#else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/StaticMock.lib
+#else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/StaticMockd.lib
+#else:unix: PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/libStaticMock.a
 
-INCLUDEPATH += $$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/include
-DEPENDPATH += $$PWD/../../FastDDSStatisticsBackEnd/mockup/Fast-DDS-statistics-backend/include
+# Complex Mock
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMock
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMockd
+else:unix: LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMock
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMock.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMockd.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/ComplexMock.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/ComplexMockd.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMock.a

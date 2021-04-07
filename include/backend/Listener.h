@@ -3,13 +3,33 @@
 
 #include <fastdds-statistics-backend/listener/PhysicalListener.hpp>
 
+#include <iostream>
+
 namespace backend {
 
 using namespace eprosima::statistics_backend;
 
 class Listener : public PhysicalListener
 {
-    // TODO Implement listeners
+    void on_participant_discovery(
+            EntityId domain_id,
+            EntityId participant_id,
+            const Status& status) override;
+
+    void on_datareader_discovery(
+            EntityId domain_id,
+            EntityId datareader_id,
+            const Status& status) override;
+
+    void on_datawriter_discovery(
+            EntityId domain_id,
+            EntityId datawriter_id,
+            const Status& status) override;
+
+    void on_host_discovery(
+            EntityId participant_id,
+            EntityId host_id,
+            const Status& status) override;
 };
 
 } //namespace backend

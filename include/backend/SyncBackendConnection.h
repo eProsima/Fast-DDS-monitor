@@ -48,8 +48,8 @@ public:
 
     static bool updateEntityIdData(ListItem* entityItem);
 
-    static bool init_monitor(int domain);
-    static bool init_monitor(QString locators);
+    static EntityId init_monitor(int domain);
+    static EntityId init_monitor(QString locators);
 
     static json get_info(EntityId id);
     static json get_summary(backend::EntityId id);

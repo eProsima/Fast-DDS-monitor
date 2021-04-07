@@ -16,6 +16,7 @@
 #include <include/Engine.h>
 #include <include/model/tree/TreeModel.h>
 #include <include/Controller.h>
+#include <include/backend/backend_types.h>
 
 #include <chrono>
 
@@ -39,10 +40,10 @@ QObject* Engine::enable()
     fill_dds_data();
 
     physicalModel_ = new models::SubListedListModel(new models::HostModelItem());
-    fill_physical_data(physicalModel_);
+    fill_physical_data();
 
     logicalModel_ = new models::SubListedListModel(new models::DomainModelItem());
-    fill_logical_data(logicalModel_);
+    fill_logical_data();
 
     infoModel_ = new models::TreeModel();
     fill_dds_info(backend::ID_ALL);
@@ -117,12 +118,24 @@ Engine::~Engine()
 
 void Engine::init_monitor(int domain)
 {
-    backend_connection_.init_monitor(domain);
+    backend::EntityId domain_id = backend_connection_.init_monitor(domain);
+
+    if (domain_id.is_valid())
+    {
+        update_domain_data(domain_id);
+    }
+    // TODO : error popup
 }
 
 void Engine::init_monitor(QString locators)
 {
-    backend_connection_.init_monitor(locators);
+    backend::EntityId domain_id = backend_connection_.init_monitor(locators);
+
+    if (domain_id.is_valid())
+    {
+        update_domain_data(domain_id);
+    }
+    // TODO : error popup
 }
 
 bool Engine::fill_dds_info(backend::EntityId id /*ID_ALL*/)
@@ -142,44 +155,44 @@ bool Engine::fill_summary(backend::EntityId id /*ID_ALL*/)
 
 
 /// Backend API
-bool Engine::fill_physical_data(models::ListModel* physical_model)
+bool Engine::fill_physical_data()
 {
-    return backend::SyncBackendConnection::update_physical_data(physical_model);
+    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
 }
 
 // TODO reimplement these functions so it is not needed to call the whole fill
-bool Engine::update_host_data(models::ListModel* physical_model, backend::EntityId id)
+bool Engine::update_host_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_physical_data(physical_model);
+    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
 }
-bool Engine::update_user_data(models::ListModel* physical_model, backend::EntityId id)
+bool Engine::update_user_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_physical_data(physical_model);
+    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
 }
-bool Engine::update_process_data(models::ListModel* physical_model, backend::EntityId id)
+bool Engine::update_process_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_physical_data(physical_model);
+    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
 }
 
 // LOGICAL PARTITION
-bool Engine::fill_logical_data(models::ListModel* logical_model)
+bool Engine::fill_logical_data()
 {
-    return backend::SyncBackendConnection::update_logical_data(logical_model);
+    return backend::SyncBackendConnection::update_logical_data(logicalModel_);
 }
 
-bool Engine::update_domain_data(models::ListModel* logical_model, backend::EntityId id)
+bool Engine::update_domain_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_logical_data(logical_model);
+    return backend::SyncBackendConnection::update_logical_data(logicalModel_);
 }
 
-bool Engine::update_topic_data(models::ListModel* logical_model, backend::EntityId id)
+bool Engine::update_topic_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_logical_data(logical_model);
+    return backend::SyncBackendConnection::update_logical_data(logicalModel_);
 }
 
 bool Engine::fill_dds_data(
@@ -296,4 +309,6 @@ bool Engine::onAddStatisticsDataSeries(
     statisticsData_->setAxisYMin(minValue);
     statisticsData_->setAxisXMax(endDate.toMSecsSinceEpoch());
     statisticsData_->setAxisXMin(startDate.toMSecsSinceEpoch());
+
+    return true;
 }

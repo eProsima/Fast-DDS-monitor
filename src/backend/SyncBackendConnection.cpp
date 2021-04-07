@@ -304,13 +304,12 @@ bool SyncBackendConnection::unset_listener()
 }
 
 
-bool SyncBackendConnection::init_monitor(int domain)
+EntityId SyncBackendConnection::init_monitor(int domain)
 {
-    StatisticsBackend::init_monitor(domain);
-    return true;
+    return StatisticsBackend::init_monitor(domain);
 }
 
-bool SyncBackendConnection::init_monitor(QString locators)
+EntityId SyncBackendConnection::init_monitor(QString locators)
 {
     StatisticsBackend::init_monitor(locators.toStdString());
     return true;
@@ -334,7 +333,7 @@ json SyncBackendConnection::get_summary(backend::EntityId id)
                 StatisticKind::MEAN)[0].second);
 
     // Latency
-    summary["Latency"]["mean"] = "0";
+    summary["Latency"]["mean"] = "-0";
 
     return summary;
 }

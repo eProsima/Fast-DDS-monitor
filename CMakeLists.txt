@@ -3,7 +3,7 @@
 ###############################################################################
 cmake_minimum_required(VERSION 3.14)
 
-file(READ version.pri FASTDDSMONITORVERSION)
+# file(READ version.pri FASTDDSMONITORVERSION)
 
 set(IS_TOP_LEVEL TRUE)
 if(PROJECT_SOURCE_DIR)
@@ -19,7 +19,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
-project(fastdds_monitor LANGUAGES CXX)
+project(fastdds-monitor LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -27,8 +27,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_CXX_STANDARD 11)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(FORCE_CXX "14" CACHE STRING "C++ standard fulfillment selection")
 
 message(STATUS "Configuring ${PROJECT_NAME}")
 
@@ -85,70 +86,83 @@ endif()
 ###############################################################################
 # Load external eProsima projects.
 ###############################################################################
-find_package(FastDDSStatisticsBackend REQUIRED)
+find_package(fastcdr REQUIRED)
+find_package(fastrtps REQUIRED)
+find_package(fastdds-statistics-backend REQUIRED)
 
 ###############################################################################
 # Compile
 ###############################################################################
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
+include_directories(include/)
+
+find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui Quick Charts)
+#find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
+#find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 message(STATUS "Configuring Fast DDS Monitor...")
 set(PROJECT_SOURCES
+        src/statistics/StatisticsData.cpp
+        src/Controller.cpp
         src/backend/AsyncBackendConnection.cpp
-        src/backend/backend_utils.cpp
         src/backend/SyncBackendConnection.cpp
-        src/Engine.cpp
-        src/main.cpp
-        src/model/dds/EndpointModelItem.cpp
+        src/backend/backend_utils.cpp
         src/model/dds/ParticipantModelItem.cpp
-        src/model/EntityModelItem.cpp
+        src/model/dds/EndpointModelItem.cpp
+        src/model/logical/TopicModelItem.cpp
+        src/model/physical/ProcessModelItem.cpp
+        src/model/EntityItem.cpp
         src/model/ListItem.cpp
         src/model/ListModel.cpp
-        src/model/logical/DomainModelItem.cpp
-        src/model/logical/TopicModelItem.cpp
-        src/model/physical/HostModelItem.cpp
-        src/model/physical/ProcessModelItem.cpp
-        src/model/physical/UserModelItem.cpp
-        src/model/SubListedListItem.cpp
         src/model/SubListedListModel.cpp
         src/model/tree/TreeItem.cpp
         src/model/tree/TreeModel.cpp
-        src/utils.cpp
         src/main.cpp
+        src/utils.cpp
+        src/Engine.cpp
         qml.qrc
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(${PROJECT_NAME}
-        ${PROJECT_SOURCES}
-    )
-else()
-    if(ANDROID)
-        add_library(${PROJECT_NAME} SHARED
-            ${PROJECT_SOURCES}
-        )
-    else()
-        add_executable(${PROJECT_NAME}
-          ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
+# if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+#     qt_add_executable(${PROJECT_NAME}
+#         ${PROJECT_SOURCES}
+#     )
+# else()
+#     if(ANDROID)
+#         add_library(${PROJECT_NAME} SHARED
+#             ${PROJECT_SOURCES}
+#         )
+#     else()
+#         add_executable(${PROJECT_NAME}
+#           ${PROJECT_SOURCES}
+#         )
+#     endif()
+# endif()
 
-target_compile_definitions(${PROJECT_NAME}
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-target_link_libraries(${PROJECT_NAME}
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+# TODO fix link error
+# if(ANDROID)
+#     add_library(${PROJECT_NAME} SHARED
+#         ${PROJECT_SOURCES}
+#     )
+# else()
+#     add_executable(${PROJECT_NAME}
+#         ${PROJECT_SOURCES}
+#     )
+# endif()
+
+# target_compile_definitions(${PROJECT_NAME}
+#   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+# target_link_libraries(${PROJECT_NAME}
+#   #PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
+#   Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Charts
+#   fastdds-statistics-backend)
 
 ###############################################################################
 # Compile MOCK
 ###############################################################################
-message(STATUS "Configuring MOCK ...")
+option(BUILD_MOCK "Build Fast DDS Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
 
-# add_library (StaticSimpleMock StatisticsBackend.cpp)
-# target_include_directories (StaticSimpleMock PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+if(BUILD_MOCK)
+    message(STATUS "Compiling MOCKs")
 
-# TODO rebase over new Entity id
-# add_subdirectory(src/mock/static_mock_simple)
-
-add_subdirectory(src/mock/complex_mock)
+    add_subdirectory(mock)
+endif()
