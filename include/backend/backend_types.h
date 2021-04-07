@@ -13,6 +13,7 @@ using DataKind = eprosima::statistics_backend::DataKind;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
 
 extern const EntityId ID_ALL;
+extern const EntityId ID_NONE;
 
 } //namespace backend
 

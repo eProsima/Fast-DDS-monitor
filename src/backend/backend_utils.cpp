@@ -10,6 +10,7 @@
 namespace backend{
 
 const EntityId ID_ALL = EntityId::all();
+const EntityId ID_NONE = EntityId::invalid();
 
 QString id_to_QString(const EntityId id)
 {
@@ -20,8 +21,7 @@ QString id_to_QString(const EntityId id)
 
 EntityId models_id_to_backend_id(const models::EntityId id)
 {
-    // TODO
-    //return EntityId(id.toInt());
+    return EntityId(id.toInt());
 }
 
 QString get_name(const EntityId id)
