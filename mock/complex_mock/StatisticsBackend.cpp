@@ -52,15 +52,13 @@ void StatisticsBackend::set_physical_listener(
     static_cast<void>(callback_mask);
 }
 
-// Domains are not implemented. It only allows to change between existint domains / DS
+// Call DS init_monitor
 EntityId StatisticsBackend::init_monitor(
         DomainId domain,
         DomainListener* domain_listener,
         CallbackMask callback_mask,
         DataKindMask data_mask)
 {
-    std::cout << "CONGRATULATIONS, you have init a monitor in domain " << domain << std::endl;
-
     return init_monitor(std::to_string(domain), domain_listener, callback_mask, data_mask);
 }
 
@@ -71,7 +69,7 @@ EntityId StatisticsBackend::init_monitor(
         CallbackMask callback_mask,
         DataKindMask data_mask)
 {
-    std::cout << "CONGRATULATIONS, you have init a monitor with locators " << discovery_server_locators << std::endl;
+    std::cout << "CONGRATULATIONS, you have init a monitor in " << discovery_server_locators << std::endl;
 
     EntityId domain_id = Database::get_instance()->add_domain();
 

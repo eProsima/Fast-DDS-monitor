@@ -25,6 +25,9 @@ void Listener::on_datareader_discovery(
         const Status& status)
 {
     std::cout << "DATAREADER " << datareader_id << " DISCOVERED" << std::endl;
+
+    Engine::get_instance()->update_endpoint_data(domain_id);
+
     static_cast<void>(domain_id);
     static_cast<void>(datareader_id);
     static_cast<void>(status);
@@ -36,6 +39,9 @@ void Listener::on_datawriter_discovery(
         const Status& status)
 {
     std::cout << "DATAWRITER " << datawriter_id << " DISCOVERED" << std::endl;
+
+    Engine::get_instance()->update_endpoint_data(domain_id);
+
     static_cast<void>(domain_id);
     static_cast<void>(datawriter_id);
     static_cast<void>(status);

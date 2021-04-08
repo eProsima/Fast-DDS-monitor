@@ -40,8 +40,9 @@ public:
     bool fill_dds_data(backend::EntityId id = backend::ID_ALL);
 
     // Update the model with a new or updated entity
-    bool update_participant_data(models::ListModel* dds_model, backend::EntityId id);
-    bool update_endpoint_data(models::ListModel* dds_model, backend::EntityId id);
+    bool update_participant_data(backend::EntityId id);
+    bool update_endpoint_data(backend::EntityId id);
+    bool update_locator_data(backend::EntityId id);
 
     // QoS DATA
     // Retrieve the QoS information. With ALL or incorrect ID it
@@ -89,6 +90,8 @@ protected:
     static bool update_tree_model(models::TreeModel* old_model, const json& data);
     static models::TreeModel* entity_info(backend::EntityId id = backend::ID_ALL);
 
+    void shared_init_monitor_(backend::EntityId domain_id);
+
 private:
 
     bool enabled_;
@@ -104,6 +107,8 @@ private:
 
     models::ListModel* entityIdModelFirst_;
     models::ListModel* entityIdModelSecond_;
+
+    backend::EntityId last_entity_clicked_;
 
     StatisticsData* statisticsData_;
 

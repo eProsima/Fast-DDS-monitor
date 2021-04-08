@@ -246,7 +246,13 @@ bool SyncBackendConnection::__update_entity_data(
         // If it exists it updates its info
         if (nullptr == subentity_item)
         {
-            item->submodel()->appendRow(create_function(subentity_id));
+            std::cout << "Looking for info " << subentity_id << std::endl;
+
+            auto e = create_function(subentity_id);
+
+            std::cout << "Appending row " << subentity_id << std::endl;
+
+            item->submodel()->appendRow(e);
             changed = true;
             subentity_item = item->submodel()->find(backend::id_to_QString(subentity_id));
 

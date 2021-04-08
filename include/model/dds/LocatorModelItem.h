@@ -11,18 +11,8 @@ class LocatorModelItem : public ListItem
 
 public:
 
-    LocatorModelItem(
-            QObject *parent = 0)
-        : ListItem(parent)
-    {
-    }
+    using ListItem::ListItem;
 
-    LocatorModelItem(
-            backend::EntityId id,
-            QObject* parent = 0)
-        : ListItem(id, parent)
-    {
-    }
 };
 
 }

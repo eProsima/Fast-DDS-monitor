@@ -33,7 +33,7 @@
 namespace eprosima {
 namespace statistics_backend {
 
-#define DATA_GENERATION_TIME 10
+#define DATA_GENERATION_TIME 20
 
 class Database
 {

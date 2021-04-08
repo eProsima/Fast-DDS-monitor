@@ -50,6 +50,5 @@ void Host::add_user(const EntityPointer user)
     users_[user->id()] = user;
 }
 
-
 } // namespace statistics_backend
 } // namespace eprosima

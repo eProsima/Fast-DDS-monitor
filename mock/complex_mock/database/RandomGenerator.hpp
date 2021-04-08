@@ -34,8 +34,6 @@
 namespace eprosima {
 namespace statistics_backend {
 
-#define DATA_GENERATION_TIME 10
-
 struct RandomGenerator
 {
     static Info random_qos(EntityId seed);

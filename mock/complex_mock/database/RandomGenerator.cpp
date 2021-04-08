@@ -19,9 +19,10 @@
 #include <memory>
 #include <string>
 
-#include "../entities/utils.hpp"
+#include "Database.hpp"
 #include "RandomGenerator.hpp"
 
+#include "../entities/utils.hpp"
 #include "../entities/headers/Entity.hpp"
 #include "../entities/headers/Host.hpp"
 #include "../entities/headers/User.hpp"
@@ -43,28 +44,19 @@ std::vector<EntityPointer> RandomGenerator::init_random_domain(DomainPointer dom
     HostPointer host = random_host();
 
     UserPointer user = random_user(host);
-    host->add_user(user);
 
     ProcessPointer process = random_process(user);
-    user->add_process(process);
 
     ParticipantPointer part = random_participant(domain, process);
-    process->add_participant(part);
-    domain->add_participant(part);
 
     TopicPointer topic = random_topic(domain);
-    domain->add_topic(topic);
 
     EndpointPointer writer = random_datawriter(part, topic);
-    topic->add_endpoint(writer);
-    part->add_endpoint(writer);
 
     EndpointPointer reader = random_datareader(part, topic);
-    topic->add_endpoint(reader);
-    part->add_endpoint(reader);
 
     LocatorPointer locator = random_locator(writer);
-    locator->add_endpoint(reader);
+    reader->add_locator(locator);
 
     LocatorPointer locatorw = random_locator(writer);
 
@@ -76,15 +68,21 @@ std::vector<EntityPointer> RandomGenerator::random_dds_entity(DomainPointer doma
     // This implementation only creates datawriters and datareaders
     int aux_ran;
 
-    // Get the first participant in domain (must only be one)
+    // Get the last participant in domain
     std::vector<EntityPointer> parts = domain->participants();
     assert (!parts.empty());
-    ParticipantPointer part = std::dynamic_pointer_cast<Participant>(parts[0]);
+    ParticipantPointer part = std::dynamic_pointer_cast<Participant>(parts.back());
 
-    // Get the first topic in domain (must only be one)
+    // Get the last topic in domain
     std::vector<EntityPointer> topics = domain->topics();
     assert (!topics.empty());
-    TopicPointer topic = std::dynamic_pointer_cast<Topic>(topics[0]);
+    TopicPointer topic = std::dynamic_pointer_cast<Topic>(topics.back());
+
+    // Get the last locator in participant
+    std::vector<EntityId> locator_ids = part->get_entities(EntityKind::LOCATOR);
+    assert (!locator_ids.empty());
+    LocatorPointer locator = std::dynamic_pointer_cast<Locator>(
+        Database::get_instance()->get_entity(locator_ids.back()));
 
     aux_ran = rand() % 2;
 
@@ -100,56 +98,62 @@ std::vector<EntityPointer> RandomGenerator::random_dds_entity(DomainPointer doma
         endpoint = random_datareader(part, topic);
     }
 
+    locator->add_endpoint(endpoint);
+    endpoint->add_locator(locator);
+
     return std::vector<EntityPointer>({endpoint});
 }
 
 DomainPointer RandomGenerator::random_domain()
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     DomainPointer entity_p = std::make_shared<Domain>(id, "Domain_" + entityId_to_string(id));
     return entity_p;
 }
 
 HostPointer RandomGenerator::random_host()
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     HostPointer entity_p = std::make_shared<Host>(id, "Host_" + entityId_to_string(id));
     return entity_p;
 }
 
 UserPointer RandomGenerator::random_user(HostPointer host)
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     UserPointer entity_p = std::make_shared<User>(id, "User_" + entityId_to_string(id));
 
     entity_p->host(host);
+    host->add_user(entity_p);
 
     return entity_p;
 }
 
 ProcessPointer RandomGenerator::random_process(UserPointer user)
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     ProcessPointer entity_p = std::make_shared<Process>(id, "Process_" + entityId_to_string(id));
 
     entity_p->user(user);
+    user->add_process(entity_p);
 
     return entity_p;
 }
 
 TopicPointer RandomGenerator::random_topic(DomainPointer domain)
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     TopicPointer entity_p = std::make_shared<Topic>(id, "Topic_" + entityId_to_string(id));
 
     entity_p->domain(domain);
+    domain->add_topic(entity_p);
 
     return entity_p;
 }
 
 ParticipantPointer RandomGenerator::random_participant(DomainPointer domain, ProcessPointer process)
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     ParticipantPointer entity_p = std::make_shared<Participant>(id, "Participant_" + entityId_to_string(id));
 
     entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
@@ -158,12 +162,15 @@ ParticipantPointer RandomGenerator::random_participant(DomainPointer domain, Pro
     entity_p->domain(domain);
     entity_p->process(process);
 
+    domain->add_participant(entity_p);
+    process->add_participant(entity_p);
+
     return entity_p;
 }
 
 EndpointPointer RandomGenerator::random_datawriter(ParticipantPointer participant, TopicPointer topic)
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     DataWriterPointer entity_p = std::make_shared<DataWriter>(id, "DataWriter_" + entityId_to_string(id));
 
     entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
@@ -172,12 +179,15 @@ EndpointPointer RandomGenerator::random_datawriter(ParticipantPointer participan
     entity_p->participant(participant);
     entity_p->topic(topic);
 
+    participant->add_endpoint(entity_p);
+    topic->add_endpoint(entity_p);
+
     return entity_p;
 }
 
 EndpointPointer RandomGenerator::random_datareader(ParticipantPointer participant, TopicPointer topic)
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     DataReaderPointer entity_p = std::make_shared<DataReader>(id, "DataReader_" + entityId_to_string(id));
 
     entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
@@ -186,15 +196,20 @@ EndpointPointer RandomGenerator::random_datareader(ParticipantPointer participan
     entity_p->participant(participant);
     entity_p->topic(topic);
 
+    participant->add_endpoint(entity_p);
+    topic->add_endpoint(entity_p);
+
     return entity_p;
 }
 
 LocatorPointer RandomGenerator::random_locator(EndpointPointer endpoint)
 {
-    EntityId id = EntityId();
+    EntityId id = EntityId(Database::get_instance()->next_id());
     LocatorPointer entity_p = std::make_shared<Locator>(id, "Locator_" + entityId_to_string(id));
 
     entity_p->add_endpoint(endpoint);
+
+    endpoint->add_locator(entity_p);
 
     return entity_p;
 }

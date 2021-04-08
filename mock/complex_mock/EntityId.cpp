@@ -21,7 +21,7 @@ namespace statistics_backend {
 
 // Mock up the EntityId default constructor to auto increment value
 EntityId::EntityId()
-    : value_(Database::get_instance()->next_id())
+    : value_(ENTITY_ID_INVALID)
 {
 }
 

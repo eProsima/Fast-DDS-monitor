@@ -26,6 +26,7 @@ using nlohmann::json;
 
 Engine::Engine()
     : enabled_(false)
+    , last_entity_clicked_(backend::ID_ALL)
 {
 }
 
@@ -118,24 +119,21 @@ Engine::~Engine()
 
 void Engine::init_monitor(int domain)
 {
-    backend::EntityId domain_id = backend_connection_.init_monitor(domain);
-
-    if (domain_id.is_valid())
-    {
-        update_domain_data(domain_id);
-    }
-    // TODO : error popup
+    shared_init_monitor_(backend_connection_.init_monitor(domain));
 }
 
 void Engine::init_monitor(QString locators)
 {
-    backend::EntityId domain_id = backend_connection_.init_monitor(locators);
+    shared_init_monitor_(backend_connection_.init_monitor(locators));
+}
 
+void Engine::shared_init_monitor_(backend::EntityId domain_id)
+{
     if (domain_id.is_valid())
     {
         update_domain_data(domain_id);
+        last_entity_clicked_ = domain_id;
     }
-    // TODO : error popup
 }
 
 bool Engine::fill_dds_info(backend::EntityId id /*ID_ALL*/)
@@ -164,16 +162,19 @@ bool Engine::fill_physical_data()
 bool Engine::update_host_data(backend::EntityId id)
 {
     static_cast<void>(id);
+    physicalModel_->clear();
     return backend::SyncBackendConnection::update_physical_data(physicalModel_);
 }
 bool Engine::update_user_data(backend::EntityId id)
 {
     static_cast<void>(id);
+    physicalModel_->clear();
     return backend::SyncBackendConnection::update_physical_data(physicalModel_);
 }
 bool Engine::update_process_data(backend::EntityId id)
 {
     static_cast<void>(id);
+    physicalModel_->clear();
     return backend::SyncBackendConnection::update_physical_data(physicalModel_);
 }
 
@@ -186,12 +187,14 @@ bool Engine::fill_logical_data()
 bool Engine::update_domain_data(backend::EntityId id)
 {
     static_cast<void>(id);
+    logicalModel_->clear();
     return backend::SyncBackendConnection::update_logical_data(logicalModel_);
 }
 
 bool Engine::update_topic_data(backend::EntityId id)
 {
     static_cast<void>(id);
+    logicalModel_->clear();
     return backend::SyncBackendConnection::update_logical_data(logicalModel_);
 }
 
@@ -203,18 +206,28 @@ bool Engine::fill_dds_data(
 }
 
 // Update the model with a new or updated entity
-bool Engine::update_participant_data(models::ListModel* dds_model, backend::EntityId id)
+bool Engine::update_participant_data(backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_dds_data(dds_model, backend::ID_ALL);
+    participantsModel_->clear();
+    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
 }
 
-bool Engine::update_endpoint_data(models::ListModel* dds_model, backend::EntityId id)
+bool Engine::update_endpoint_data(backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
-    return backend::SyncBackendConnection::update_dds_data(dds_model, backend::ID_ALL);
+    participantsModel_->clear();
+    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
+}
+
+bool Engine::update_locator_data(backend::EntityId id)
+{
+    // TODO update only the entity that has changed
+    static_cast<void>(id);
+    participantsModel_->clear();
+    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
 }
 
 bool Engine::on_dds_entity_clicked(backend::EntityId id)
@@ -225,6 +238,7 @@ bool Engine::on_dds_entity_clicked(backend::EntityId id)
 
 bool Engine::on_entity_clicked(backend::EntityId id)
 {
+    last_entity_clicked_ = id;
     bool res = fill_dds_data(id);
     res = fill_dds_info(id) or res;
     return fill_summary(id) or res;

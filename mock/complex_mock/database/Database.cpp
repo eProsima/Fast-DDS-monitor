@@ -36,12 +36,12 @@ void Database::start()
     run_.store(true);
 
     {
-        std::unique_lock<std::mutex> lock(run_mutex_);
+        // std::unique_lock<std::mutex> lock(run_mutex_);
         cv_run_.notify_all();
     }
 
     {
-        std::unique_lock<std::mutex> lock(callback_mutex_start_);
+        // std::unique_lock<std::mutex> lock(callback_mutex_start_);
         cv_callback_start_.notify_all();
     }
 }
@@ -51,12 +51,12 @@ void Database::stop()
     run_.store(false);
 
     {
-        std::unique_lock<std::mutex> lock(run_mutex_);
+        // std::unique_lock<std::mutex> lock(run_mutex_);
         cv_run_.notify_all();
     }
 
     {
-        std::unique_lock<std::mutex> lock(callback_mutex_);
+        // std::unique_lock<std::mutex> lock(callback_mutex_);
         cv_callback_.notify_all();
     }
 }
@@ -161,11 +161,17 @@ Info Database::get_info(EntityId entity_id)
 
 EntityId Database::add_domain()
 {
+    std::cout << "add domain" << std::endl;
+
     // Generates the Domain entity
     DomainPointer domain = RandomGenerator::random_domain();
 
+    std::cout << "domain random generated " << domain->id() << std::endl;
+
     // Add the Entity to the entities map
     add_entity(domain, domain->id());
+
+    std::cout << "domain added" << std::endl;
 
     // Add domain in domains list
     {
@@ -173,8 +179,12 @@ EntityId Database::add_domain()
         domains_.push_back(domain->id());
     }
 
+    std::cout << "domain add into domains" << std::endl;
+
     // Generates random Entities to fill this domain
     add_entities(RandomGenerator::init_random_domain(domain), domain->id());
+
+    std::cout << "domain random generate new entities" << std::endl;
 
     start();
 
@@ -189,7 +199,7 @@ void Database::add_entity(EntityPointer entity, EntityId domain)
     new_entities_.push_back(std::tuple<EntityId, EntityKind, EntityId>(entity->id(), entity->kind(), domain));
 
     {
-        std::unique_lock<std::mutex> lock(callback_mutex_);
+        // std::unique_lock<std::mutex> lock(callback_mutex_);
         cv_callback_.notify_one();
     }
 }

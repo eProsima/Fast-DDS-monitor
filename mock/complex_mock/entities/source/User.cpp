@@ -58,6 +58,5 @@ void User::host(const EntityPointer host)
     host_ = host;
 }
 
-
 } // namespace statistics_backend
 } // namespace eprosima

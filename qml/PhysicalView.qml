@@ -167,11 +167,11 @@ Item {
                                                     font.pixelSize: 9
                                                     leftPadding: 20
                                                 }
-                                                Text {
-                                                    text: processPID
-                                                    font.pixelSize: 9
-                                                    leftPadding: 20
-                                                }
+//                                                Text {
+//                                                    text: processPID
+//                                                    font.pixelSize: 9
+//                                                    leftPadding: 20
+//                                                }
                                             }
                                         }
                                     }

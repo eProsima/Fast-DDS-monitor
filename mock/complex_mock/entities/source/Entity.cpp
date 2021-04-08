@@ -27,7 +27,6 @@ Info Entity::get_info() const
     json_obj["name"] = name();
     json_obj["kind"] = kind();
 
-
     return json_obj;
 }
 
