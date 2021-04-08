@@ -1,66 +1,67 @@
 import QtQuick 2.6
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.12
 import Controller 1.0
 
 Dialog {
     id: dialogInitMonitor
-    modality: Qt.WindowModal
+    modal: false
     title: "Init Monitor"
     standardButtons: Dialog.Ok | Dialog.Cancel
+
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
 
     property int simpleMonitor: -1
     property string discoveryServerMonitor: ""
 
-    width: 400
-    height: 250
-
     onAccepted: {
         if (monitorTab.currentIndex == 0){
-            controller.init_monitor(simpleMonitor)
+            controller.init_monitor(simpleDiscoveryAnswer.value)
         }
         else{
-            controller.init_monitor(discoveryServerMonitor)
+            controller.init_monitor(discoveryServerAnswer.text)
         }
     }
 
-    TabView {
-        id: monitorTab
-        height: parent.height
-        width: parent.width
-        Tab {
-            id: simpleDiscoveryTab
-            title: "Simple Discovery"
-
-            ColumnLayout {
-                Column {
-                    spacing: 10
-
-                    Label {
-                        text: "DDS Domain <int>"
-                        font.bold: true
-                    }
-                    SpinBox {
-                        id: simpleDiscoveryAnswer
-                        value: 0
-                        maximumValue: 200
-                    }
-                }
-                Button {
-                    text: "Apply"
-                    Layout.alignment: Qt.AlignBottom | Qt.AlignRight
-                    onClicked: {
-                        simpleMonitor = simpleDiscoveryAnswer.value;
-                    }
-                }
+    ColumnLayout {
+        TabBar {
+            id: monitorTab
+            width: parent.width
+            TabButton {
+                id: simpleDiscoveryTab
+                text: "Simple Discovery"
+            }
+            TabButton {
+                id: discoveryServerTab
+                text: "Discovery Server"
             }
         }
-        Tab {
-            id: discoveryServerTab
-            title: "Discovery Server"
+
+        StackLayout {
+            id: monitorStack
+            currentIndex: monitorTab.currentIndex
+            width: parent.width
+            Layout.alignment: Qt.AlignTop | Qt.AlignCenter
+            Layout.fillHeight: true
 
             ColumnLayout {
+                Layout.topMargin: 50
+
+                Label {
+                    text: "DDS Domain: "
+                }
+                SpinBox {
+                    id: simpleDiscoveryAnswer
+                    value: 0
+                    Layout.alignment: Qt.AlignTop
+                    Keys.onReturnPressed: dialogInitMonitor.accept()
+                }
+            }
+
+            ColumnLayout {
+                Layout.topMargin: 20
                 Column {
                     spacing: 10
 
@@ -68,22 +69,16 @@ Dialog {
                         text: "Discovery Server Locators"
                         font.bold: true
                     }
-                    Text {
-                        width: parent.width
+                    Label {
                         text: 'Add Ip and port from each Discovery Server separated with ; i.e. 127.0.0.1:11811'
+                        width: monitorStack.width
                         wrapMode: Text.WordWrap
                     }
                     TextField {
                         id: discoveryServerAnswer
                         width: parent.width
                         placeholderText: "127.0.0.1:11811;127.0.0.1:11812"
-                    }
-                }
-                Button {
-                    text: "Apply"
-                    Layout.alignment: Qt.AlignBottom | Qt.AlignRight
-                    onClicked: {
-                        discoveryServerMonitor = discoveryServerAnswer.text;
+                        Keys.onReturnPressed: dialogInitMonitor.accept()
                     }
                 }
             }
