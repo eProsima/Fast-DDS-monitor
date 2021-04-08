@@ -101,4 +101,3 @@ void Controller::addStatisticsData(
                 endTimeDefault,
                 backend::stringToStatisticKind(statisticKind));
 }
-

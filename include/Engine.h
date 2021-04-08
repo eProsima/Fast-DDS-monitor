@@ -5,6 +5,7 @@
 #include <QRecursiveMutex>
 #include <QQueue>
 #include <QWaitCondition>
+#include <QThread>
 
 #include <atomic>
 
@@ -14,6 +15,7 @@
 #include <include/model/SubListedListModel.h>
 #include <include/model/tree/TreeModel.h>
 #include <include/statistics/StatisticsData.h>
+#include <include/CallbackListener.h>
 
 class Engine : public QQmlApplicationEngine
 {
@@ -42,8 +44,11 @@ public:
     bool update_topic_data(backend::EntityId id);
 
     // DDS PARTITION
-    // Fill a DDS Model from scratch getting the participants from the id and its subentities
-    bool fill_dds_data(backend::EntityId id = backend::ID_ALL);
+    // Fill a DDS Model getting the participants related with <id> and its subentities
+    // With ID_NONE
+    bool update_dds_data(backend::EntityId id);
+    // Fill a DDS Model as <fill_dds_data> but reseting the previous model
+    bool update_reset_dds_data(backend::EntityId id);
 
     // Update the model with a new or updated entity
     bool update_participant_data(backend::EntityId id);
@@ -83,16 +88,25 @@ public:
 
     void refresh_engine();
 
+    // Get all callbacks from the queue and process each of them
+    void process_callback_queue();
+
+signals:
+    void callback_added();
+
 protected:
     Engine();
 
     ~Engine();
 
-    // Fill a Physical Model from scratch getting all systems and their subentities
+    // Fill a Physical Model getting all systems and their subentities
     bool fill_physical_data();
 
-    // Fill a Logical Model from scratch getting all systems and their subentities
+    // Fill a Logical Model getting all hosts and their subentities
     bool fill_logical_data();
+
+    // Fill a DDS Model getting all participants related with the <last_clicked_entity> and their subentities
+    bool fill_dds_data();
 
     bool fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId);
 
@@ -100,9 +114,6 @@ protected:
     static models::TreeModel* entity_info(backend::EntityId id = backend::ID_ALL);
 
     void shared_init_monitor_(backend::EntityId domain_id);
-
-    // Void
-    void process_callback_queue_();
 
     // True if there are callbacks in the queue. It is useful to get the mutex and ask
     bool are_callbacks_to_process_();
@@ -143,6 +154,23 @@ private:
 
     QWaitCondition callback_process_cv_;
     std::atomic<bool> callback_process_run_;
+
+    CallbackListener call_listener;
+
+    // Thread to
+//    class CallbackThread : public QThread
+//    {
+//        Q_OBJECT
+//        void run() override {
+//            while(callback_process_run_.load())
+//            {
+//                callback_process_cv_.w
+//            }
+//        }
+//    signals:
+//        void refresh();
+//    } callback_thread_;
+
 };
 
 #endif // ENGINE_H

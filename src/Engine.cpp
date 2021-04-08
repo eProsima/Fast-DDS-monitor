@@ -77,6 +77,11 @@ QObject* Engine::enable()
 
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
+    // Connect Callback Listener
+    QObject::connect(&call_listener, &CallbackListener::new_callback_signal,
+                         &call_listener, &CallbackListener::new_callback_slot);
+
+    // Set enable as True
     enabled_ = true;
 
     return rootObjects().value(0);
@@ -197,10 +202,22 @@ bool Engine::update_topic_data(backend::EntityId id)
     return backend::SyncBackendConnection::update_logical_data(logicalModel_);
 }
 
-bool Engine::fill_dds_data(
+// DDS PARTITION
+bool Engine::fill_dds_data()
+{
+    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
+}
+
+bool Engine::update_reset_dds_data(
         backend::EntityId id /*ID_ALL*/)
 {
     participantsModel_->clear();
+    return update_dds_data(id);
+}
+
+bool Engine::update_dds_data(
+        backend::EntityId id /*ID_ALL*/)
+{
     return backend::SyncBackendConnection::update_dds_data(participantsModel_, id);
 }
 
@@ -247,7 +264,7 @@ bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
         last_entity_clicked_ = id;
         last_entity_clicked_kind_ = kind;
 
-        res = fill_dds_data(id) or res;
+        res = update_reset_dds_data(id) or res;
 
         // Without break as it needs to do as well the info update
         [[fallthrough]];
@@ -348,10 +365,11 @@ bool Engine::onAddStatisticsDataSeries(
 void Engine::refresh_engine()
 {
     std::cout << "REFRESH" << std::endl;
-    process_callback_queue_();
+    // TODO this should be changed from erase all models and re draw them
+    process_callback_queue();
 }
 
-void Engine::process_callback_queue_()
+void Engine::process_callback_queue()
 {
     // It iterates while run_ is activate and the queue has elements
     while (callback_process_run_.load() && !callback_queue_.empty())
@@ -371,6 +389,9 @@ bool Engine::add_callback(backend::Callback callback)
     QMutexLocker ml(&callback_queue_mutex_);
     callback_queue_.append(callback);
     callback_process_cv_.wakeOne();
+
+    // Emit signal to specify there are new data
+    call_listener.new_callback();
 
     return true;
 }
@@ -407,7 +428,8 @@ bool Engine::read_callback_(backend::Callback callback)
 
     default:
         // DDS Model entities
-        return fill_dds_data(callback.new_entity);
+        // TODO this is only needed when new entity is related with the last_clicked entity
+        return fill_dds_data();
     }
 
     return res;
