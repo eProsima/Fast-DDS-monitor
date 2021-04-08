@@ -18,7 +18,6 @@ class TreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-
     enum TreeModelRoles
     {
         treeModelNameRole = Qt::UserRole + 1,
@@ -63,6 +62,9 @@ public:
 
     TreeItem* getItem(
             const QModelIndex &index) const;
+
+signals:
+    void updatedData();
 
 protected:
 

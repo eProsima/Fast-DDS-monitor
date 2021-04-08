@@ -120,11 +120,39 @@ SplitView {
             Layout.alignment: Qt.AlignTop
             Layout.fillHeight: true
 
-            QosView {}
+            QosView {
+                id: qosView
+            }
 
-            SummaryView {}
+            SummaryView {
+                id: summary_view
+            }
 
             IssueView {}
+        }
+
+        function expand_all(view, model) {
+            for(var i=0; i < model.rowCount(); i++) {
+                var index = model.index(i, 0)
+                if (!view.isExpanded(index)) {
+                    view.expand(index)
+                }
+                if (model.rowCount(index) > 0) {
+                    expand_childs(view, model, index)
+                }
+            }
+        }
+
+        function expand_childs(view, model, parent) {
+            for(var i=0; i < model.rowCount(parent); i++) {
+                var index = model.index(i, 0, parent)
+                if (!view.isExpanded(index)) {
+                    view.expand(index)
+                }
+                if (model.rowCount(index) > 0) {
+                    expand_childs(view, model, index)
+                }
+            }
         }
     }
 

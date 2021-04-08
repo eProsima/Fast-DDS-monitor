@@ -2,13 +2,21 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
+import QtQml.Models 2.11
 
 Item {
+    id: qos_view
     visible: true
 
     TreeView {
+        id: qos_tree_view
         anchors.fill: parent
         model: qosModel
+        selectionMode: SelectionMode.SingleSelection
+        selection: ItemSelectionModel {
+            id: item_selection_model
+            model: qosModel
+        }
         itemDelegate: Item {
             Text {
                 anchors.fill: parent
@@ -27,6 +35,15 @@ Item {
             width: parent.width / 2
             role: "value"
             title: "Value"
+        }
+
+        Component.onCompleted: rightColumnLayout.expand_all(qos_tree_view, qosModel)
+
+        Connections {
+            target: qosModel
+            function onUpdatedData() {
+                rightColumnLayout.expand_all(qos_tree_view, qosModel)
+            }
         }
     }
 }

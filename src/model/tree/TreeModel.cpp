@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include <QDebug>
+
 using json = nlohmann::json;
 
 namespace models {
@@ -254,6 +256,7 @@ void TreeModel::update(const json& data)
     clear();
     setupModelData(data, rootItem_);
     endResetModel();
+    emit updatedData();
 }
 
 } // namespace models
