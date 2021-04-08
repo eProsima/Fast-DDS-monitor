@@ -16,42 +16,43 @@ void Controller::init_monitor(QString locators)
 
 void Controller::host_click(QString id)
 {
-    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::HOST);
 }
 
 void Controller::user_click(QString id)
 {
-    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::USER);
 }
 
 void Controller::process_click(QString id)
 {
-    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::PROCESS);
 }
 
 void Controller::domain_click(QString id)
 {
-    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::DOMAIN);
 }
 
 void Controller::topic_click(QString id)
 {
-    Engine::get_instance()->on_entity_clicked(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::TOPIC);
 }
 
 void Controller::participant_click(QString id)
 {
-    Engine::get_instance()->on_dds_entity_clicked(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::PARTICIPANT);
 }
 
 void Controller::endpoint_click(QString id)
 {
-    Engine::get_instance()->on_dds_entity_clicked(backend::models_id_to_backend_id(id));
+    // WARNING: we do not know if it is DataWriter or DataReader
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::DATAWRITER);
 }
 
 void Controller::locator_click(QString id)
 {
-    Engine::get_instance()->on_dds_entity_clicked(backend::models_id_to_backend_id(id));
+    Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::LOCATOR);
 }
 
 void Controller::updateAvailableEntityIds(
@@ -59,6 +60,11 @@ void Controller::updateAvailableEntityIds(
         QString entityModelId)
 {
     Engine::get_instance()->onSelectedEntityKind(backend::stringToEntityKind(entityKind), entityModelId);
+}
+
+void Controller::refresh_click()
+{
+    Engine::get_instance()->refresh_engine();
 }
 
 void Controller::addStatisticsData(

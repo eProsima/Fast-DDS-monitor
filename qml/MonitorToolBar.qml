@@ -25,6 +25,15 @@ ToolBar {
 
         ToolSeparator {}
 
+        ToolButton {
+            text: "Refresh"
+            onClicked: {
+                controller.refresh_click()
+            }
+        }
+
+        ToolSeparator {}
+
         Item {
             Layout.fillWidth: true
         }

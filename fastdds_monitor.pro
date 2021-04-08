@@ -43,6 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
         include/Controller.h \
         include/backend/AsyncBackendConnection_copy.h \
+        include/backend/Callback.h \
         include/backend/Listener.h \
         include/backend/SyncBackendConnection.h \
         include/backend/backend_types.h \

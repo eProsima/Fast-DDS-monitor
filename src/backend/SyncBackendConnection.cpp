@@ -181,6 +181,8 @@ bool SyncBackendConnection::updateEntityIdData(ListItem* entityItem)
 /// UPDATE STRUCTURE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_physical_data(models::ListModel* physical_model)
 {
+    std::cout << "Update Physical Data" << std::endl;
+
     return __update_model_data(
                 physical_model,
                 EntityKind::HOST,
@@ -191,6 +193,8 @@ bool SyncBackendConnection::update_physical_data(models::ListModel* physical_mod
 
 bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model)
 {
+    std::cout << "Update Logical Data" << std::endl;
+
     return __update_model_data(
                 logical_model,
                 EntityKind::DOMAIN,
@@ -201,6 +205,8 @@ bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model
 
 bool SyncBackendConnection::update_dds_data(models::ListModel* dds_model, EntityId id)
 {
+    std::cout << "Update DDS Data" << std::endl;
+
     return __update_model_data(
                 dds_model,
                 EntityKind::PARTICIPANT,

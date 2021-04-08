@@ -2,9 +2,15 @@
 #define ENGINE_H
 
 #include <QQmlApplicationEngine>
+#include <QRecursiveMutex>
+#include <QQueue>
+#include <QWaitCondition>
+
+#include <atomic>
 
 #include <include/backend/SyncBackendConnection.h>
 #include <include/backend/Listener.h>
+#include <include/backend/Callback.h>
 #include <include/model/SubListedListModel.h>
 #include <include/model/tree/TreeModel.h>
 #include <include/statistics/StatisticsData.h>
@@ -47,7 +53,7 @@ public:
     // QoS DATA
     // Retrieve the QoS information. With ALL or incorrect ID it
     // returns an empty QoS Configuration
-    bool fill_dds_info(backend::EntityId id = backend::ID_ALL);
+    bool fill_entity_info(backend::EntityId id = backend::ID_ALL);
 
     // Statistic summary DATA
     // Retrieve the QoS information. With ALL or incorrect ID it
@@ -56,8 +62,7 @@ public:
 
     // ON CLICKED
     // Update by click functions
-    bool on_dds_entity_clicked(backend::EntityId id);
-    bool on_entity_clicked(backend::EntityId id);
+    bool entity_clicked(backend::EntityId id, backend::EntityKind kind);
 
     bool onSelectedEntityKind(
             backend::EntityKind entityKind,
@@ -73,6 +78,10 @@ public:
             quint64 endTime,
             bool endTimeDefault,
             backend::StatisticKind statisticKind);
+
+    bool add_callback(backend::Callback callback);
+
+    void refresh_engine();
 
 protected:
     Engine();
@@ -92,6 +101,19 @@ protected:
 
     void shared_init_monitor_(backend::EntityId domain_id);
 
+    // Void
+    void process_callback_queue_();
+
+    // True if there are callbacks in the queue. It is useful to get the mutex and ask
+    bool are_callbacks_to_process_();
+
+    // Pops one callback from callbacks queue and process it
+    bool process_callback_();
+
+    // Applies the changes to models of one callback
+    bool read_callback_(backend::Callback callback);
+
+
 private:
 
     bool enabled_;
@@ -109,10 +131,18 @@ private:
     models::ListModel* entityIdModelSecond_;
 
     backend::EntityId last_entity_clicked_;
+    backend::EntityKind last_entity_clicked_kind_;
 
     StatisticsData* statisticsData_;
 
     backend::SyncBackendConnection backend_connection_;
+
+    // Queue of callbacks from backend to execute in an internal thread
+    QRecursiveMutex callback_queue_mutex_;
+    QQueue<backend::Callback> callback_queue_;
+
+    QWaitCondition callback_process_cv_;
+    std::atomic<bool> callback_process_run_;
 };
 
 #endif // ENGINE_H

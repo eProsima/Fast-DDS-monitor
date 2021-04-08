@@ -34,6 +34,8 @@ public slots:
     void endpoint_click(QString id);
     void locator_click(QString id);
 
+    void refresh_click();
+
     void updateAvailableEntityIds(
             QString entityKind,
             QString entityModelId);

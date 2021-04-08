@@ -27,6 +27,7 @@ using nlohmann::json;
 Engine::Engine()
     : enabled_(false)
     , last_entity_clicked_(backend::ID_ALL)
+    , callback_process_run_(true)
 {
 }
 
@@ -47,7 +48,7 @@ QObject* Engine::enable()
     fill_logical_data();
 
     infoModel_ = new models::TreeModel();
-    fill_dds_info(backend::ID_ALL);
+    fill_entity_info(backend::ID_ALL);
 
     summaryModel_ = new models::TreeModel();
     fill_summary(backend::ID_ALL);
@@ -136,19 +137,17 @@ void Engine::shared_init_monitor_(backend::EntityId domain_id)
     }
 }
 
-bool Engine::fill_dds_info(backend::EntityId id /*ID_ALL*/)
+bool Engine::fill_entity_info(backend::EntityId id /*ID_ALL*/)
 {
-    // TODO implement update
     infoModel_->update(backend_connection_.get_info(id));
-    return false;
+    return true;
 }
 
 
 bool Engine::fill_summary(backend::EntityId id /*ID_ALL*/)
 {
-    // TODO implement update
     summaryModel_->update(backend_connection_.get_summary(id));
-    return false;
+    return true;
 }
 
 
@@ -230,18 +229,37 @@ bool Engine::update_locator_data(backend::EntityId id)
     return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
 }
 
-bool Engine::on_dds_entity_clicked(backend::EntityId id)
+bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
 {
-    bool res = fill_dds_info(id);
-    return fill_summary(id) or res;
-}
+    bool res = false;
 
-bool Engine::on_entity_clicked(backend::EntityId id)
-{
-    last_entity_clicked_ = id;
-    bool res = fill_dds_data(id);
-    res = fill_dds_info(id) or res;
-    return fill_summary(id) or res;
+    switch (kind)
+    {
+    case backend::EntityKind::HOST:
+    case backend::EntityKind::USER:
+    case backend::EntityKind::PROCESS:
+    case backend::EntityKind::DOMAIN:
+    case backend::EntityKind::TOPIC:
+        // All Entities in Physical and Logical Models
+        // Those entities affect over the participant view
+
+        // Set as clicked entity to update whit new dds entities
+        last_entity_clicked_ = id;
+        last_entity_clicked_kind_ = kind;
+
+        res = fill_dds_data(id) or res;
+
+        // Without break as it needs to do as well the info update
+        [[fallthrough]];
+
+    default:
+        // DDS Entities
+        res = fill_entity_info(id) or res;
+        res = fill_summary(id) or res;
+        break;
+    }
+
+    return res;
 }
 
 bool Engine::fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId)
@@ -326,3 +344,73 @@ bool Engine::onAddStatisticsDataSeries(
 
     return true;
 }
+
+void Engine::refresh_engine()
+{
+    std::cout << "REFRESH" << std::endl;
+    process_callback_queue_();
+}
+
+void Engine::process_callback_queue_()
+{
+    // It iterates while run_ is activate and the queue has elements
+    while (callback_process_run_.load() && !callback_queue_.empty())
+    {
+        process_callback_();
+    }
+}
+
+bool Engine::are_callbacks_to_process_()
+{
+    QMutexLocker ml(&callback_queue_mutex_);
+    return callback_queue_.empty();
+}
+
+bool Engine::add_callback(backend::Callback callback)
+{
+    QMutexLocker ml(&callback_queue_mutex_);
+    callback_queue_.append(callback);
+    callback_process_cv_.wakeOne();
+
+    return true;
+}
+
+bool Engine::process_callback_()
+{
+    backend::Callback first_callback;
+
+    {
+        QMutexLocker ml(&callback_queue_mutex_);
+        first_callback = callback_queue_.front();
+        callback_queue_.pop_front();
+    }
+
+    std::cout << "Callback: " << first_callback.new_entity << std::endl;
+
+    return read_callback_(first_callback);
+}
+
+bool Engine::read_callback_(backend::Callback callback)
+{
+    bool res = false;
+
+    switch (callback.new_entity_kind)
+    {
+    case backend::EntityKind::HOST:
+    case backend::EntityKind::USER:
+    case backend::EntityKind::PROCESS:
+        return fill_physical_data();
+
+    case backend::EntityKind::DOMAIN:
+    case backend::EntityKind::TOPIC:
+        return fill_logical_data();
+
+    default:
+        // DDS Model entities
+        return fill_dds_data(callback.new_entity);
+    }
+
+    return res;
+}
+
+
