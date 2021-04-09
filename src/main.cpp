@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/resources/images/eprosima_logo.ico"));
 
     /******************************************************************************************************************
      * Application engine                                                                                             *

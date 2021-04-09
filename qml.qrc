@@ -17,4 +17,7 @@
         <file>qml/IssueView.qml</file>
         <file>qml/ChartsLayout.qml</file>
     </qresource>
+    <qresource prefix="/resources/images">
+        <file>eprosima_logo.ico</file>
+    </qresource>
 </RCC>
