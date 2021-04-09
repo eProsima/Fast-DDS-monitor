@@ -33,7 +33,8 @@
 namespace eprosima {
 namespace statistics_backend {
 
-#define DATA_GENERATION_TIME 20
+#define DATA_GENERATION_TIME 15
+#define MIN_DATA_GENERATION_TIME 3
 
 class Database
 {
@@ -70,7 +71,7 @@ protected:
 
     ~Database();
 
-    void generate_random_data_thread();
+    void generate_random_entity_thread();
     void callback_listener_thread();
 
     void add_entity(EntityPointer entity, EntityId domain);
@@ -95,7 +96,7 @@ private:
 
     // Condition variable to create new entities
     // It starts when a domain is initialize, and stops when Database destroys
-    std::thread generate_data_thread_;
+    std::thread generate_entity_thread_;
     mutable std::condition_variable cv_run_;
     mutable std::mutex run_mutex_;
 

@@ -53,6 +53,7 @@ public:
 
     static json get_info(EntityId id);
     static json get_summary(backend::EntityId id);
+    static std::string get_name(backend::EntityId id);
 
     static std::vector<backend::StatisticsData> get_data(
             DataKind dataKind,

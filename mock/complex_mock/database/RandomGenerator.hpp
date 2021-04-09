@@ -41,18 +41,41 @@ struct RandomGenerator
     static std::vector<EntityPointer> init_random_domain(DomainPointer domain);
     static DomainPointer random_domain();
 
-    static std::vector<EntityPointer> random_dds_entity(DomainPointer domain);
+    // It chooeses randomly between creating a topic, a participant or an endpoint
+    static std::vector<EntityPointer> add_random_entity(DomainPointer domain);
 
 protected:
 
-    static HostPointer random_host();
-    static UserPointer random_user(HostPointer host);
-    static ProcessPointer random_process(UserPointer user);
-    static TopicPointer random_topic(DomainPointer domain);
-    static ParticipantPointer random_participant(DomainPointer domain, ProcessPointer process);
-    static EndpointPointer random_datawriter(ParticipantPointer participant, TopicPointer topic);
-    static EndpointPointer random_datareader(ParticipantPointer participant, TopicPointer topic);
-    static LocatorPointer random_locator(EndpointPointer endpoint);
+    static const int ENDPOINT_PERC = 65;
+    static const int TOPIC_PERC = 20;
+    static const int PARTICIPANT_PERC = 30;
+
+    static HostPointer new_host_();
+    static UserPointer new_user_(HostPointer host);
+    static ProcessPointer new_process_(UserPointer user);
+    static TopicPointer new_topic_(DomainPointer domain);
+    static ParticipantPointer new_participant_(DomainPointer domain, ProcessPointer process);
+    static EndpointPointer new_datawriter_(ParticipantPointer participant, TopicPointer topic);
+    static EndpointPointer new_datareader_(ParticipantPointer participant, TopicPointer topic);
+    static EndpointPointer new_endpoint_(ParticipantPointer participant, TopicPointer topic, LocatorPointer locator);
+    static LocatorPointer new_locator_(EndpointPointer endpoint);
+
+    // Create a new topic in domain, and creates a new endpoint in this topic in a random participant
+    static std::vector<EntityPointer> random_topic_(DomainPointer domain);
+
+    // Creates a new Participant in a new Process in a random Host and a random endpoint underneath
+    static std::vector<EntityPointer> random_participant_(DomainPointer domain);
+
+    // Creates a new Random Endpoint under a random Participant and with Random Locator
+    static std::vector<EntityPointer> random_endpoint_(DomainPointer domain);
+
+    static int random_range(int max, unsigned int seed = 0);
+
+    template <class T>
+    static T random_choice(std::vector<T> vector)
+    {
+        return vector[random_range(vector.size())];
+    }
 };
 
 } // namespace statistics_backend

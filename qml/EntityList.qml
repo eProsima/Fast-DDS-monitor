@@ -82,6 +82,7 @@ Rectangle {
                     model: participantModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
+                    ScrollBar.vertical: ScrollBar {policy: ScrollBar.AlwaysOn}
                     delegate: Component {
                         Item {
                             width: parent.width

@@ -350,6 +350,11 @@ json SyncBackendConnection::get_summary(backend::EntityId id)
     return summary;
 }
 
+std::string SyncBackendConnection::get_name(EntityId id)
+{
+    return StatisticsBackend::get_info(id)["name"];
+}
+
 std::vector<StatisticsData> SyncBackendConnection::get_data(
         DataKind dataKind,
         EntityId sourceEntityId,

@@ -65,6 +65,13 @@ public:
     // returns an empty QoS Configuration
     bool fill_summary(backend::EntityId id = backend::ID_ALL);
 
+    // Remove the Issue model and creates a new one by the json structure stored in <issueInfo_>
+    bool fill_issue();
+
+    // Add to Issue Model a callback or an issue
+    bool add_issue_callback(std::string callback, std::string time);
+    bool add_issue_issue(std::string issue);
+
     // ON CLICKED
     // Update by click functions
     bool entity_clicked(backend::EntityId id, backend::EntityKind kind);
@@ -124,6 +131,14 @@ protected:
     // Applies the changes to models of one callback
     bool read_callback_(backend::Callback callback);
 
+    // Generates a new issue info in json format
+    void generate_new_issue_info();
+
+    // Update the general <issueInfo_> info for the whole system
+    void sum_entity_number_issue(int n);
+    void add_domain_issue(std::string name);
+
+    bool fill_first_entity_info();
 
 private:
 
@@ -137,6 +152,9 @@ private:
 
     models::TreeModel* infoModel_;
     models::TreeModel* summaryModel_;
+
+    models::TreeModel* issueModel_;
+    json issueInfo_;
 
     models::ListModel* entityIdModelFirst_;
     models::ListModel* entityIdModelSecond_;

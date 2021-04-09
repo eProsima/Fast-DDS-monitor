@@ -48,10 +48,16 @@ QObject* Engine::enable()
     fill_logical_data();
 
     infoModel_ = new models::TreeModel();
-    fill_entity_info(backend::ID_ALL);
+    fill_first_entity_info();
 
     summaryModel_ = new models::TreeModel();
     fill_summary(backend::ID_ALL);
+
+    // Creates a default structure for issue json and fills the tree model with it
+    issueModel_ = new models::TreeModel();
+    generate_new_issue_info();
+    fill_issue();
+
 
     entityIdModelFirst_ = new models::ListModel(new models::EntityItem());
     fillAvailableEntityIdList(backend::EntityKind::HOST, "getDataDialogEntityIdModelFirst");
@@ -67,6 +73,7 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("qosModel", infoModel_);
     rootContext()->setContextProperty("summaryModel", summaryModel_);
+    rootContext()->setContextProperty("issueModel", issueModel_);
 
     rootContext()->setContextProperty("entityModelFirst", entityIdModelFirst_);
     rootContext()->setContextProperty("entityModelSecond", entityIdModelSecond_);
@@ -135,6 +142,8 @@ void Engine::init_monitor(QString locators)
 
 void Engine::shared_init_monitor_(backend::EntityId domain_id)
 {
+    add_domain_issue(backend_connection_.get_name(domain_id));
+
     if (domain_id.is_valid())
     {
         update_domain_data(domain_id);
@@ -155,6 +164,53 @@ bool Engine::fill_summary(backend::EntityId id /*ID_ALL*/)
     return true;
 }
 
+bool Engine::fill_issue()
+{
+    issueModel_->update(issueInfo_);
+    return true;
+}
+
+void Engine::generate_new_issue_info()
+{
+    json info;
+
+    info["Callbacks"] = json::array();
+    info["Issues"] = json::array();
+    info["Entities"] = json();
+    info["Entities"]["Domains"] = json::array();
+    info["Entities"]["Entities"] = 0;
+
+    issueInfo_ = info;
+}
+
+void Engine::sum_entity_number_issue(int n)
+{
+    issueInfo_["Entities"]["Entities"] = issueInfo_["Entities"]["Entities"].get<double>() + n;
+    fill_issue();
+}
+
+void Engine::add_domain_issue(std::string name)
+{
+    issueInfo_["Entities"]["Domains"].emplace_back(name);
+    add_issue_callback("Monitor initialized in domain " + name, "Now");
+    fill_issue();
+}
+
+bool Engine::add_issue_callback(std::string callback, std::string time)
+{
+    issueInfo_["Callbacks"].emplace_back(callback);
+    fill_issue();
+
+    static_cast<void>(time);
+    return true;
+}
+
+bool Engine::fill_first_entity_info()
+{
+    json info = R"({"No monitors active.":"Start a monitor in a specific domain"})"_json;
+    infoModel_->update(info);
+    return true;
+}
 
 /// Backend API
 bool Engine::fill_physical_data()
@@ -388,7 +444,10 @@ bool Engine::add_callback(backend::Callback callback)
 {
     QMutexLocker ml(&callback_queue_mutex_);
     callback_queue_.append(callback);
-    callback_process_cv_.wakeOne();
+    // callback_process_cv_.wakeOne();
+
+    // Add callback to issue model
+    add_issue_callback("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", "Now");
 
     // Emit signal to specify there are new data
     call_listener.new_callback();
@@ -413,6 +472,9 @@ bool Engine::process_callback_()
 
 bool Engine::read_callback_(backend::Callback callback)
 {
+    // Add one to the number of discovered entities
+    sum_entity_number_issue(1);
+
     bool res = false;
 
     switch (callback.new_entity_kind)

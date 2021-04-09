@@ -74,7 +74,7 @@ Database::Database()
 {
     std::cout << "Database constructor" << std::endl;
 
-    generate_data_thread_ = std::thread(&Database::generate_random_data_thread, this);
+    generate_entity_thread_ = std::thread(&Database::generate_random_entity_thread, this);
     listener_thread_ = std::thread(&Database::callback_listener_thread, this);
 
     std::cout << "Database constructor finish" << std::endl;
@@ -84,7 +84,7 @@ Database::~Database()
 {
     stop();
 
-    generate_data_thread_.join();
+    generate_entity_thread_.join();
     listener_thread_.join();
 
     // This must be done from where the listener has been created
@@ -224,7 +224,7 @@ size_t Database::count_entities()
     return entities_.size();
 }
 
-void Database::generate_random_data_thread()
+void Database::generate_random_entity_thread()
 {
     std::cout << "Random Data Generator Thread starting" << std::endl;
 
@@ -234,7 +234,8 @@ void Database::generate_random_data_thread()
 
     std::cout << "Random Data Generator Thread running" << std::endl;
 
-    int entity_count = 0;
+    // Index to round robin over domains
+    int domain_rr = 0;
 
     // Start the loop while it does not stop
     while(run_.load())
@@ -242,7 +243,10 @@ void Database::generate_random_data_thread()
         std::cout << "Random Data Generator Thread init loop" << std::endl;
 
         // Sleep a time depending the number of domains we have
-        uint32_t sleep_seconds = (count_domains() <= 1) ? DATA_GENERATION_TIME : DATA_GENERATION_TIME / count_domains();
+        // It is max(DATA_GENERATION_TIME seconds - # of domains, MIN_DATA_GENERATION_TIME
+        uint32_t sleep_seconds = (count_domains() <= 1) ? DATA_GENERATION_TIME : DATA_GENERATION_TIME - count_domains();
+        sleep_seconds = (sleep_seconds < MIN_DATA_GENERATION_TIME) ? MIN_DATA_GENERATION_TIME : sleep_seconds;
+
         std::this_thread::sleep_for(std::chrono::seconds(sleep_seconds));
 
         // Exit with stop if it has activated while sleeping
@@ -253,11 +257,11 @@ void Database::generate_random_data_thread()
 
         // Each time a new domain will create an entity
         // Beware that when new domains are created, this would not be equitative in first n (# domains) iterations
-        uint32_t domain_index = entity_count % count_domains();
+        uint32_t domain_index = domain_rr++ % count_domains();
 
         // Generates a new dds Entity
         DomainPointer domain = std::dynamic_pointer_cast<Domain>(entities_[domains_[domain_index]]);
-        add_entities(RandomGenerator::random_dds_entity(domain), domain->id());
+        add_entities(RandomGenerator::add_random_entity(domain), domain->id());
     }
 
     std::cout << "Random Data Generator Thread stopping" << std::endl;

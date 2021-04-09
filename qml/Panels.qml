@@ -87,7 +87,6 @@ SplitView {
             TabButton {
                 text: "QoS"
             }
-
             TabButton {
                 text: "Statistics"
             }
@@ -102,6 +101,8 @@ SplitView {
             QosView {}
 
             SummaryView {}
+
+            IssueView {}
         }
     }
 
