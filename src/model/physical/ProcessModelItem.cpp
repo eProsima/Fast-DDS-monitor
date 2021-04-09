@@ -23,7 +23,7 @@ QVariant ProcessModelItem::data(
 
 QString ProcessModelItem::pid() const
 {
-    return QString::fromUtf8("pid");
+    return utils::to_QString(info_["pid"]);
 }
 
 

@@ -53,8 +53,13 @@ QString topic_type(backend::EntityId id)
     return id_to_QString(id);
 }
 
-EntityKind string_to_entity_kind(
-        const QString& entity_kind)
+EntityInfo get_info(backend::EntityId id)
+{
+    return eprosima::statistics_backend::StatisticsBackend::get_info(id);
+}
+
+EntityKind stringToEntityKind(
+        const QString& entityKind)
 {
     static std::unordered_map<QString, EntityKind> const conversionTable = {
         {"Host", EntityKind::HOST},

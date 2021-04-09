@@ -42,6 +42,10 @@ public:
         return EntityKind::PROCESS;
     }
 
+    std::string pid() const;
+
+    Info get_info() const override;
+
 private:
     std::map<EntityId, EntityPointer> participants_;
     EntityPointer user_;

@@ -10,7 +10,7 @@ repositories:
     fastdds:
         type: git
         url: https://github.com/eProsima/Fast-DDS.git
-        version: feature/statistics/api
+        version: master
     fastdds-statistics-backend:
         type: git
         url: https://github.com/eProsima/Fast-DDS-statistics-backend.git
@@ -23,7 +23,7 @@ repositories:
         type: git
         url: https://github.com/eProsima/IDL-Parser.git
         version: master
-    fastrtps-monitor:
+    fastdds-monitor:
         type: git
         url: https://github.com/eProsima/Fast-DDS-monitor.git
         version main

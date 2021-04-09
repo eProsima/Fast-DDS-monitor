@@ -42,6 +42,10 @@ public:
         return EntityKind::TOPIC;
     }
 
+    std::string type() const;
+
+    Info get_info() const override;
+
 private:
     std::map<EntityId, EntityPointer> endpoints_;
     EntityPointer domain_;

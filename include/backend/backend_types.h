@@ -11,6 +11,7 @@ using EntityId = eprosima::statistics_backend::EntityId;
 using EntityKind = eprosima::statistics_backend::EntityKind;
 using DataKind = eprosima::statistics_backend::DataKind;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
+using EntityInfo = eprosima::statistics_backend::Info;
 
 extern const EntityId ID_ALL;
 extern const EntityId ID_NONE;

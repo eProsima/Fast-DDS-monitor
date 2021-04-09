@@ -38,6 +38,10 @@ public:
     void participant(EntityPointer participant);
     void topic(EntityPointer topic);
 
+    std::string topic_name() const;
+
+    Info get_info() const override;
+
 private:
     std::map<EntityId, EntityPointer> locators_;
     EntityPointer participant_;

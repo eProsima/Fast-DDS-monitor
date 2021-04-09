@@ -67,6 +67,17 @@ void Endpoint::topic(const EntityPointer topic)
     topic_ = topic;
 }
 
+std::string Endpoint::topic_name() const
+{
+    return topic_->name();
+}
+
+Info Endpoint::get_info() const
+{
+    Info info = DDSEntity::get_info();
+    info["topic"] = topic_name();
+    return info;
+}
 
 } // namespace statistics_backend
 } // namespace eprosima

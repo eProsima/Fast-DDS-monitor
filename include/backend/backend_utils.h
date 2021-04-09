@@ -26,6 +26,9 @@ QString entity_guid(backend::EntityId id);
 // TOPIC
 QString topic_type(backend::EntityId id);
 
+// Info
+EntityInfo get_info(backend::EntityId id);
+
 
 backend::EntityKind string_to_entity_kind(
         const QString& entity_kind);

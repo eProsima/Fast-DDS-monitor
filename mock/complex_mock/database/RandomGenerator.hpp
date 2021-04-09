@@ -46,9 +46,9 @@ struct RandomGenerator
 
 protected:
 
-    static const int ENDPOINT_PERC = 65;
-    static const int TOPIC_PERC = 20;
-    static const int PARTICIPANT_PERC = 30;
+    static const int ENDPOINT_PERC = 50;
+    static const int TOPIC_PERC = 30;
+    static const int PARTICIPANT_PERC = 20;
 
     static HostPointer new_host_();
     static UserPointer new_user_(HostPointer host);

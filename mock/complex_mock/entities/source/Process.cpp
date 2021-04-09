@@ -60,6 +60,18 @@ void Process::user(const EntityPointer user)
     user_ = user;
 }
 
+std::string Process::pid() const
+{
+    return std::to_string(id().value());
+}
+
+Info Process::get_info() const
+{
+    Info info = Entity::get_info();
+    info["pid"] = pid();
+
+    return info;
+}
 
 } // namespace statistics_backend
 } // namespace eprosima

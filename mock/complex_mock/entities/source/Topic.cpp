@@ -62,6 +62,18 @@ void Topic::domain(const EntityPointer domain)
     domain_ = domain;
 }
 
+std::string Topic::type() const
+{
+    return "some type";
+}
+
+Info Topic::get_info() const
+{
+    Info info = Entity::get_info();
+    info["type"] = type();
+
+    return info;
+}
 
 } // namespace statistics_backend
 } // namespace eprosima

@@ -23,7 +23,7 @@ QVariant TopicModelItem::data(
 
 QString TopicModelItem::type() const
 {
-    return QString::fromUtf8("topic type name");
+    return utils::to_QString(info_["type"]);
 }
 
 

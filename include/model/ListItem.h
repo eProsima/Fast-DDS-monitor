@@ -39,6 +39,7 @@ public :
 
     virtual EntityId entity_id() const;
     virtual QString name() const;
+    virtual backend::EntityInfo info() const;
 
     backend::EntityId get_entity_id() const;
 
@@ -59,7 +60,7 @@ signals:
 protected:
 
     backend::EntityId id_;
-    QString name_;
+    backend::EntityInfo info_;
 
 };
 

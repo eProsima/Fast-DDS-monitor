@@ -46,7 +46,7 @@ ListItem::ListItem(
     : QObject(parent)
     , id_(id)
 {
-    name_ = backend::get_name(id_);
+    info_ = backend::get_info(id_);
 }
 
 ListItem::~ListItem()
@@ -59,7 +59,12 @@ QString ListItem::entity_id() const
 
 QString ListItem::name() const
 {
-    return name_;
+    return utils::to_QString(info_["name"]);
+}
+
+backend::EntityInfo ListItem::info() const
+{
+    return info_;
 }
 
 backend::EntityId ListItem::get_entity_id() const

@@ -13,7 +13,7 @@ void Listener::on_participant_discovery(
         const Status& status)
 {
     std::cout << "PARTICIPANT " << participant_id << " DISCOVERED" << std::endl;
-    Engine::get_instance()->add_callback(Callback(participant_id, EntityKind::DATAREADER));
+    Engine::get_instance()->add_callback(Callback(participant_id, EntityKind::PARTICIPANT));
 
     static_cast<void>(domain_id);
     static_cast<void>(status);
@@ -61,7 +61,7 @@ void Listener::on_user_discovery(
         const Status& status)
 {
     std::cout << "USER " << user_id << " DISCOVERED" << std::endl;
-    Engine::get_instance()->add_callback(Callback(user_id, EntityKind::HOST));
+    Engine::get_instance()->add_callback(Callback(user_id, EntityKind::USER));
 
     static_cast<void>(participant_id);
     static_cast<void>(status);
@@ -73,7 +73,7 @@ void Listener::on_process_discovery(
         const Status& status)
 {
     std::cout << "PROCESS " << process_id << " DISCOVERED" << std::endl;
-    Engine::get_instance()->add_callback(Callback(process_id, EntityKind::HOST));
+    Engine::get_instance()->add_callback(Callback(process_id, EntityKind::PROCESS));
 
     static_cast<void>(participant_id);
     static_cast<void>(status);
@@ -85,7 +85,7 @@ void Listener::on_locator_discovery(
         const Status& status)
 {
     std::cout << "LOCATOR " << locator_id << " DISCOVERED" << std::endl;
-    Engine::get_instance()->add_callback(Callback(locator_id, EntityKind::HOST));
+    Engine::get_instance()->add_callback(Callback(locator_id, EntityKind::LOCATOR));
 
     static_cast<void>(participant_id);
     static_cast<void>(status);
@@ -97,7 +97,7 @@ void Listener::on_topic_discovery(
         const Status& status)
 {
     std::cout << "TOPIC " << topic_id << " DISCOVERED" << std::endl;
-    Engine::get_instance()->add_callback(Callback(topic_id, EntityKind::HOST));
+    Engine::get_instance()->add_callback(Callback(topic_id, EntityKind::TOPIC));
 
     static_cast<void>(domain_id);
     static_cast<void>(status);
