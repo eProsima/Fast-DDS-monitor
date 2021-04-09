@@ -15,18 +15,30 @@ Rectangle {
     MouseArea {
         id: coords
         anchors.fill: parent
+        enabled: true
         onPressAndHold: {
-            gridView.firstIndexDrag = gridView.indexAt(mouseX, mouseY)
+            gridView.firstIndexDrag = gridView.indexAt(mouseX, mouseY + gridView.contentY)
         }
         onReleased: {
             if (gridView.firstIndexDrag != -1)
-                statisticsChartBoxModel.move(gridView.firstIndexDrag, gridView.indexAt(mouseX, mouseY), 1)
+                statisticsChartBoxModel.move(
+                            gridView.firstIndexDrag, gridView.indexAt(mouseX, mouseY + gridView.contentY), 1)
             gridView.firstIndexDrag = -1
+        }
+        onWheel: {
+            if (wheel.angleDelta.y > 0) {
+                scrollBar.decrease()
+            } else {
+                scrollBar.increase()
+            }
+
         }
 
         Component {
             id: widgetdelegate
+
             Item {
+                property int indexOfThisDelegate: index
                 width: gridView.cellWidth; height: gridView.cellHeight
                 StatisticsChartBox {
                     id: statisticsChartBox
@@ -89,24 +101,30 @@ Rectangle {
         }
 
         GridView {
-            property int firstIndexDrag: -1
-
             id: gridView
-            x: 0; y: 0
-            interactive: false
-
             anchors.fill: parent
             cellWidth: 500; cellHeight: 500;
-
+            interactive: false
             model: statisticsChartBoxModel
             delegate: widgetdelegate
+
+            property int firstIndexDrag: -1
 
             Item {
                 id: container
                 anchors.fill: parent
             }
+
+            ScrollBar.vertical: ScrollBar {
+                id: scrollBar
+                visible: true
+                hoverEnabled: true
+            }
+
+
         }
     }
+
     function createChart(dataKind){
         statisticsChartBoxModel.append({"dataKind": dataKind})
     }
