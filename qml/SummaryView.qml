@@ -38,12 +38,12 @@ Item {
             title: "Value"
         }
 
-        Component.onCompleted: rightColumnLayout.expand_all(summary_tree_view, summaryModel)
+        Component.onCompleted: rightPanel.expand_all(summary_tree_view, summaryModel)
 
         Connections {
             target: summaryModel
             function onUpdatedData() {
-                rightColumnLayout.expand_all(summary_tree_view, summaryModel)
+                rightPanel.expand_all(summary_tree_view, summaryModel)
             }
         }
     }

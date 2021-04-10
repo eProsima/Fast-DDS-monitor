@@ -16,8 +16,10 @@
         <file>qml/MonitorToolBar.qml</file>
         <file>qml/IssueView.qml</file>
         <file>qml/ChartsLayout.qml</file>
+        <file>qml/RightPanel.qml</file>
+        <file>qml/LeftPanel.qml</file>
     </qresource>
     <qresource prefix="/resources/images">
-        <file>eprosima_logo.ico</file>
+        <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
     </qresource>
 </RCC>

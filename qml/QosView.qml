@@ -37,12 +37,12 @@ Item {
             title: "Value"
         }
 
-        Component.onCompleted: rightColumnLayout.expand_all(qos_tree_view, qosModel)
+        Component.onCompleted: rightPanel.expand_all(qos_tree_view, qosModel)
 
         Connections {
             target: qosModel
             function onUpdatedData() {
-                rightColumnLayout.expand_all(qos_tree_view, qosModel)
+                rightPanel.expand_all(qos_tree_view, qosModel)
             }
         }
     }
