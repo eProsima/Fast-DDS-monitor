@@ -3,29 +3,32 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
-Item {
+Rectangle {
     id: logicalView
 
     ListView {
         id: domainList
         model: domainModel
-        delegate: listdelegate
-        anchors.fill: parent
+        clip: true
+        leftMargin: 5
+        bottomMargin: 5
+        width: parent.width
+        height: parent.height
+        delegate: domainListDelegate
     }
 
     Component {
-        id: listdelegate
+        id: domainListDelegate
 
         Item {
             id: domainItem
-            width: 300
+            width: domainList.width - domainList.leftMargin
             height: domainListColumn.childrenRect.height
             property var item_id: id
 
             Column {
                 id: domainListColumn
-                anchors.left: parent.left
-                anchors.right: parent.right
+
                 RowLayout {
                     Rectangle {
                         color: "grey"
@@ -45,16 +48,7 @@ Item {
                                     topicList.height = topicList.collapseHeightFlag;
                                 }
                             }
-                        }
-                    }
-                    Rectangle {
-                        color: "red"
-                        width: 10
-                        height: 10
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
+                            onDoubleClicked: {
                                 controller.domain_click(id)
                             }
                         }
@@ -70,55 +64,54 @@ Item {
                     model: domainModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
-                    delegate: Component {
-                        Item {
-                            width: parent.width
-                            height: topicListColumn.childrenRect.height
+                    width: domainList.width - domainList.leftMargin
+                    height: 0
+                    contentHeight: contentItem.childrenRect.height
+                    clip: true
+                    ScrollBar.vertical: ScrollBar {
+                        policy: ScrollBar.AlwaysOn
+                    }
+                    delegate: topicListDelegate
+                }
 
-                            Column {
-                                id: topicListColumn
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                RowLayout {
-                                    Rectangle {
-                                        color: "grey"
-                                        width: 5; height: 5; radius: 5
-                                    }
-                                    Label {
-                                        text: name
-                                        leftPadding: 5
-                                    }
-                                    Rectangle {
-                                        color: "red"
-                                        width: 10
-                                        height: 10
+                Component {
+                    id: topicListDelegate
 
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                controller.topic_click(id)
-                                            }
+                    Item {
+                        height: topicListColumn.childrenRect.height
+
+                        Column {
+                            id: topicListColumn
+
+                            RowLayout {
+                                Rectangle {
+                                    color: "grey"
+                                    width: 5; height: 5; radius: 5
+                                }
+                                Label {
+                                    text: name
+                                    leftPadding: 5
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onDoubleClicked: {
+                                            controller.topic_click(id)
                                         }
                                     }
                                 }
-                                Label {
-                                    text: id
-                                    font.pixelSize: 9
-                                    leftPadding: 20
-                                }
-                                Label {
-                                    text: type
-                                    font.pixelSize: 9
-                                    leftPadding: 20
-                                }
+                            }
+                            Label {
+                                text: id
+                                font.pixelSize: 9
+                                leftPadding: 20
+                            }
+                            Label {
+                                text: type
+                                font.pixelSize: 9
+                                leftPadding: 20
                             }
                         }
                     }
-                    contentHeight: contentItem.childrenRect.height
-                    height: 0
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    clip: true
                 }
             }
         }

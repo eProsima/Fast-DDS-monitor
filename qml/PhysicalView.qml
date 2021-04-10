@@ -3,29 +3,31 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
-Item {
+Rectangle {
     id: physicalView
 
     ListView {
         id: hostList
         model: hostModel
-        delegate: listdelegate
-        anchors.fill: parent
+        delegate: hostListDelegate
+        clip: true
+        leftMargin: 5
+        bottomMargin: 5
+        width: parent.width
+        height: parent.height
     }
 
     Component {
-        id: listdelegate
+        id: hostListDelegate
 
         Item {
             id: hostItem
-            width: 300
+            width: hostList.width - hostList.leftMargin
             height: hostListColumn.childrenRect.height
             property var item_id: id
 
             Column {
                 id: hostListColumn
-                anchors.left: parent.left
-                anchors.right: parent.right
                 RowLayout {
                     Rectangle {
                         color: "grey"
@@ -61,108 +63,115 @@ Item {
                     model: hostModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
-                    delegate: Component {
-                        Item {
-                            width: parent.width
-                            height: userListColumn.childrenRect.height
+                    width: hostList.width - hostList.leftMargin
+                    height: 0
+                    contentHeight: contentItem.childrenRect.height
+                    clip: true
+                    ScrollBar.vertical: ScrollBar {
+                        policy: ScrollBar.AlwaysOn
+                    }
+                    delegate: userListDelegate
+                }
 
-                            Column {
-                                id: userListColumn
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                RowLayout {
-                                    Rectangle {
-                                        color: "grey"
-                                        width: 5; height: 5; radius: 5
-                                    }
-                                    Label {
-                                        text: name
-                                        leftPadding: 5
+                Component {
+                    id: userListDelegate
 
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                if(processList.height === processList.collapseHeightFlag) {
-                                                    processList.height = 0;
-                                                    userList.height =
-                                                            userList.height - processList.collapseHeightFlag;
-                                                }
-                                                else
-                                                {
-                                                    processList.height = processList.collapseHeightFlag;
-                                                    userList.height = userList.height + processList.height;
-                                                }
-                                            }
-                                            onDoubleClicked: {
-                                                controller.host_click(id)
-                                            }
-                                        }
-                                    }
+                    Item {
+                        width: parent.width
+                        height: userListColumn.childrenRect.height
+
+                        Column {
+                            id: userListColumn
+
+                            RowLayout {
+                                Rectangle {
+                                    color: "grey"
+                                    width: 5; height: 5; radius: 5
                                 }
                                 Label {
-                                    text: id
-                                    font.pixelSize: 9
-                                    leftPadding: 20
-                                }
-                                ListView {
-                                    id: processList
-                                    model: hostModel.subModelFromEntityId(
-                                               hostItem.item_id).subModelFromEntityId(id)
-                                    property int collapseHeightFlag: childrenRect.height
-                                    leftMargin: 20
-                                    delegate: Component {
-                                        Item {
-                                            width: parent.width
-                                            height: processListColumn.childrenRect.height
+                                    text: name
+                                    leftPadding: 5
 
-                                            Column {
-                                                id: processListColumn
-                                                anchors.left: parent.left
-                                                anchors.right: parent.right
-                                                RowLayout {
-                                                    Rectangle {
-                                                        color: "blue"
-                                                        width: 5; height: 5; radius: 5
-                                                    }
-                                                    Label {
-                                                        text: name
-                                                        leftPadding: 5
-
-                                                        MouseArea {
-                                                            anchors.fill: parent
-                                                            onDoubleClicked: {
-                                                                controller.host_click(id)
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                Label {
-                                                    text: id
-                                                    font.pixelSize: 9
-                                                    leftPadding: 20
-                                                }
-//                                                Text {
-//                                                    text: processPID
-//                                                    font.pixelSize: 9
-//                                                    leftPadding: 20
-//                                                }
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            if(processList.height === processList.collapseHeightFlag) {
+                                                processList.height = 0;
+                                                userList.height =
+                                                        userList.height - processList.collapseHeightFlag;
+                                            }
+                                            else
+                                            {
+                                                processList.height = processList.collapseHeightFlag;
+                                                userList.height = userList.height + processList.height;
                                             }
                                         }
+                                        onDoubleClicked: {
+                                            controller.host_click(id)
+                                        }
                                     }
-                                    contentHeight: contentItem.childrenRect.height
-                                    height: 0
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
-                                    clip: true
+                                }
+                            }
+                            Label {
+                                text: id
+                                font.pixelSize: 9
+                                leftPadding: 20
+                            }
+                            ListView {
+                                id: processList
+                                model: hostModel.subModelFromEntityId(
+                                           hostItem.item_id).subModelFromEntityId(id)
+                                property int collapseHeightFlag: childrenRect.height
+                                leftMargin: 20
+                                width: hostList.width - hostList.leftMargin
+                                height: 0
+                                contentHeight: contentItem.childrenRect.height
+                                clip: true
+                                delegate: processListDelegate
+                            }
+
+                            Component {
+                                id: processListDelegate
+                                Item {
+                                    width: parent.width
+                                    height: processListColumn.childrenRect.height
+
+                                    Column {
+                                        id: processListColumn
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        RowLayout {
+                                            Rectangle {
+                                                color: "blue"
+                                                width: 5; height: 5; radius: 5
+                                            }
+                                            Label {
+                                                text: name
+                                                leftPadding: 5
+
+                                                MouseArea {
+                                                    anchors.fill: parent
+                                                    onDoubleClicked: {
+                                                        controller.host_click(id)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        Label {
+                                            text: id
+                                            font.pixelSize: 9
+                                            leftPadding: 20
+                                        }
+                                        Label {
+                                            text: processPID
+                                            font.pixelSize: 9
+                                            leftPadding: 20
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                    contentHeight: contentItem.childrenRect.height
-                    height: 0
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    clip: true
                 }
             }
         }

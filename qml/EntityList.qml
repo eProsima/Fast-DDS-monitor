@@ -6,28 +6,31 @@ import QtQml.Models 2.12
 Rectangle {
     id: entityList
     Layout.fillHeight: true
+    Layout.fillWidth: true
 
     ListView {
         id: participantList
         model: participantModel
-        delegate: listdelegate
-        anchors.fill: parent
+        clip: true
+        leftMargin: 5
+        bottomMargin: 5
+        width: parent.width
+        height: parent.height
+        delegate: participantListDelegate
     }
 
     Component {
-        id: listdelegate
+        id: participantListDelegate
 
         Item {
             id: participantItem
-            width: 300
+            width: participantList.width - participantList.leftMargin
             height: participantListColumn.childrenRect.height
-
             property var item_id: id
 
             Column {
                 id: participantListColumn
-                anchors.left: parent.left
-                anchors.right: parent.right
+
                 RowLayout {
                     Rectangle {
                         color: "grey"
@@ -72,114 +75,120 @@ Rectangle {
                     model: participantModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
-                    ScrollBar.vertical: ScrollBar {policy: ScrollBar.AlwaysOn}
-                    delegate: Component {
-                        Item {
-                            width: parent.width
-                            height: endpointListColumn.childrenRect.height
+                    width: participantList.width - participantList.leftMargin
+                    height: 0
+                    contentHeight: contentItem.childrenRect.height
+                    clip: true
+                    ScrollBar.vertical: ScrollBar {
+                        policy: ScrollBar.AlwaysOn
+                    }
+                    delegate: endpointListDelegate
+                }
 
-                            Column {
-                                id: endpointListColumn
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                RowLayout {
-                                    Rectangle {
-                                        color: "grey"
-                                        width: 5; height: 5; radius: 5
-                                    }
-                                    Label {
-                                        text: name
-                                        leftPadding: 5
+                Component {
+                    id: endpointListDelegate
 
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                if(locatorList.height === locatorList.collapseHeightFlag) {
-                                                    locatorList.height = 0;
-                                                    endpointList.height =
-                                                            endpointList.height - locatorList.collapseHeightFlag;
-                                                }
-                                                else
-                                                {
-                                                    locatorList.height = locatorList.collapseHeightFlag;
-                                                    endpointList.height = endpointList.height + locatorList.height;
-                                                }
+                    Item {
+                        height: endpointListColumn.childrenRect.height
+
+                        Column {
+                            id: endpointListColumn
+
+                            RowLayout {
+                                Rectangle {
+                                    color: "grey"
+                                    width: 5; height: 5; radius: 5
+                                }
+                                Label {
+                                    text: name
+                                    leftPadding: 5
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            if(locatorList.height === locatorList.collapseHeightFlag) {
+                                                locatorList.height = 0;
+                                                endpointList.height =
+                                                        endpointList.height - locatorList.collapseHeightFlag;
                                             }
-                                            onDoubleClicked: {
-                                                controller.endpoint_click(id)
+                                            else
+                                            {
+                                                locatorList.height = locatorList.collapseHeightFlag;
+                                                endpointList.height = endpointList.height + locatorList.height;
                                             }
+                                        }
+                                        onDoubleClicked: {
+                                            controller.endpoint_click(id)
                                         }
                                     }
                                 }
-                                Label {
-                                    text: id
-                                    font.pixelSize: 9
-                                    leftPadding: 20
-                                }
-                                Label {
-                                    text: guid
-                                    font.pixelSize: 9
-                                    leftPadding: 20
-                                }
-                                Label {
-                                    text: topic
-                                    font.pixelSize: 9
-                                    leftPadding: 20
-                                }
-                                ListView {
-                                    id: locatorList
-                                    model: participantModel.subModelFromEntityId(
-                                               participantItem.item_id).subModelFromEntityId(id)
-                                    property int collapseHeightFlag: childrenRect.height
-                                    leftMargin: 20
-                                    delegate: Component {
-                                        Item {
-                                            width: parent.width
-                                            height: locatorListColumn.childrenRect.height
+                            }
+                            Label {
+                                text: id
+                                font.pixelSize: 9
+                                leftPadding: 20
+                            }
+                            Label {
+                                text: guid
+                                font.pixelSize: 9
+                                leftPadding: 20
+                            }
+                            Label {
+                                text: topic
+                                font.pixelSize: 9
+                                leftPadding: 20
+                            }
+                            ListView {
+                                id: locatorList
+                                model: participantModel.subModelFromEntityId(
+                                           participantItem.item_id).subModelFromEntityId(id)
+                                property int collapseHeightFlag: childrenRect.height
+                                leftMargin: 20
+                                contentHeight: contentItem.childrenRect.height
+                                width: participantList.width - participantList.leftMargin
+                                height: 0
+                                clip: true
+                                delegate: locatorListDelegate
+                            }
 
-                                            Column {
-                                                id: locatorListColumn
-                                                anchors.left: parent.left
-                                                anchors.right: parent.right
-                                                RowLayout {
-                                                    Rectangle {
-                                                        color: "blue"
-                                                        width: 5; height: 5; radius: 5
-                                                    }
-                                                    Label {
-                                                        text: name
-                                                        leftPadding: 5
+                            Component {
+                                id: locatorListDelegate
 
-                                                        MouseArea {
-                                                            anchors.fill: parent
-                                                            onDoubleClicked: {
-                                                                controller.locator_click(id)
-                                                            }
-                                                        }
+                                Item {
+                                    width: parent.width
+                                    height: locatorListColumn.childrenRect.height
+
+                                    Column {
+                                        id: locatorListColumn
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        RowLayout {
+                                            Rectangle {
+                                                color: "blue"
+                                                width: 5; height: 5; radius: 5
+                                            }
+                                            Label {
+                                                text: name
+                                                leftPadding: 5
+
+                                                MouseArea {
+                                                    anchors.fill: parent
+                                                    onDoubleClicked: {
+                                                        controller.locator_click(id)
                                                     }
-                                                }
-                                                Label {
-                                                    text: id
-                                                    font.pixelSize: 9
-                                                    leftPadding: 20
                                                 }
                                             }
                                         }
+                                        Label {
+                                            text: id
+                                            font.pixelSize: 9
+                                            leftPadding: 20
+                                        }
                                     }
-                                    contentHeight: contentItem.childrenRect.height
-                                    height: 0
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
-                                    clip: true
                                 }
                             }
                         }
                     }
-                    contentHeight: contentItem.childrenRect.height
-                    height: 0
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    clip: true
                 }
             }
         }

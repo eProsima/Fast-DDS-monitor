@@ -13,77 +13,65 @@ SplitView {
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
 
-        Rectangle{
-            id: entityListBox
+        ColumnLayout {
             SplitView.preferredHeight: parent.height / 2
             SplitView.minimumHeight: parent.height / 4
+            spacing: 0
 
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            Rectangle {
+                id: entityLabel
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                height: 25
+                color: "grey"
+                z: entityList.z + 1
 
-            ColumnLayout {
-
-                Rectangle {
-                    id: entityLabel
-                    width: entityListBox.width
-                    Layout.alignment: Qt.AlignTop
-                    height: 25
-                    color: "grey"
-
-                    Label {
-                        text: qsTr("DDS Entities")
-                        font.pixelSize: 15
-                        font.bold: true
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
+                Label {
+                    text: qsTr("DDS Entities")
+                    color: "white"
+                    font.pixelSize: 15
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
+            }
 
-                EntityList {
-                    id: entityList
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    Layout.leftMargin: 5
-                }
+            EntityList {
+                id: entityList
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
             }
         }
 
-        Rectangle {
-            id: physicalViewBox
+        ColumnLayout {
             SplitView.fillHeight: true
             SplitView.minimumHeight: parent.height / 4
+            spacing: 0
 
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            TabBar {
+                id: physicalViewTabBar
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                z: phisicalViewStackLayout.z + 1
 
-            ColumnLayout {
-
-                TabBar {
-                    id: physicalViewTabBar
-                    width: physicalViewBox.width
-                    Layout.alignment: Qt.AlignTop
-
-                    TabButton {
-                        text: "Physical List"
-                    }
-
-                    TabButton {
-                        text: "Logical List"
-                    }
+                TabButton {
+                    text: "Physical List"
                 }
 
-                StackLayout {
-                    currentIndex: physicalViewTabBar.currentIndex
+                TabButton {
+                    text: "Logical List"
+                }
+            }
 
-                    Layout.alignment: Qt.AlignTop
-                    Layout.leftMargin: 5
+            StackLayout {
+                id: phisicalViewStackLayout
+                currentIndex: physicalViewTabBar.currentIndex
+                Layout.alignment: Qt.AlignTop
 
-                    PhysicalView {
-                        id: physicalView
-                    }
+                PhysicalView {
+                    id: physicalView
+                }
 
-                    LogicalView {
-                        id: logicalView
-                    }
+                LogicalView {
+                    id: logicalView
                 }
             }
         }
@@ -125,10 +113,12 @@ SplitView {
             }
 
             SummaryView {
-                id: summary_view
+                id: summaryView
             }
 
-            IssueView {}
+            IssueView {
+                id: issueView
+            }
         }
 
         function expand_all(view, model) {

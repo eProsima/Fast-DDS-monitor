@@ -4,6 +4,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
 
 Item {
+    id: issueView
     visible: true
 
     TreeView {
