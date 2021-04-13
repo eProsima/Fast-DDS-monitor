@@ -55,23 +55,6 @@ public:
     bool update_endpoint_data(backend::EntityId id);
     bool update_locator_data(backend::EntityId id);
 
-    // QoS DATA
-    // Retrieve the QoS information. With ALL or incorrect ID it
-    // returns an empty QoS Configuration
-    bool fill_entity_info(backend::EntityId id = backend::ID_ALL);
-
-    // Statistic summary DATA
-    // Retrieve the QoS information. With ALL or incorrect ID it
-    // returns an empty QoS Configuration
-    bool fill_summary(backend::EntityId id = backend::ID_ALL);
-
-    // Remove the Issue model and creates a new one by the json structure stored in <issue_info_>
-    bool fill_issue();
-
-    // Add to Issue Model a callback or an issue
-    bool add_issue_callback(std::string callback, std::string time);
-    bool add_issue_issue(std::string issue);
-
     // ON CLICKED
     // Update by click functions
     bool entity_clicked(backend::EntityId id, backend::EntityKind kind);
@@ -103,6 +86,30 @@ signals:
 
 protected:
 
+    // QoS DATA
+    // Retrieve the QoS information. With ALL or incorrect ID it
+    // returns an empty QoS Configuration
+    bool fill_entity_info(backend::EntityId id = backend::ID_ALL);
+
+    // Statistic summary DATA
+    // Retrieve the QoS information. With ALL or incorrect ID it
+    // returns an empty QoS Configuration
+    bool fill_summary(backend::EntityId id = backend::ID_ALL);
+
+    // Remove the Issue model and creates a new one by the json structure stored in <issue_info_>
+    bool fill_issue();
+
+    // Add to Issue Model a callback or an issue
+    bool add_issue_callback(std::string callback, std::string time);
+    bool add_issue_issue(std::string issue, std::string time);
+    bool add_issue_domain(std::string name, std::string time);
+
+    // Generates a new issue info in json format
+    void generate_new_issue_info();
+
+    // Update the general <issue_info_> info for the whole system
+    void sum_entity_number_issue(int n);
+
     // Fill a Physical Model getting all systems and their subentities
     bool fill_physical_data();
 
@@ -128,12 +135,7 @@ protected:
     // Applies the changes to models of one callback
     bool read_callback_(backend::Callback callback);
 
-    // Generates a new issue info in json format
-    void generate_new_issue_info();
-
-    // Update the general <issue_info_> info for the whole system
-    void sum_entity_number_issue(int n);
-    void add_domain_issue(std::string name);
+    void clear_callback_issue();
 
     bool fill_first_entity_info();
 

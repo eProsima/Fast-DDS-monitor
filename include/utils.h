@@ -11,6 +11,8 @@ QString to_QString(std::string st);
 
 std::string to_string(QString st);
 
+std::string now(bool miliseconds = true);
+
 } //namespace utils
 
 // // This is required to use QString as a key in maps

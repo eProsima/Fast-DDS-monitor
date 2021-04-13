@@ -149,7 +149,7 @@ void Engine::init_monitor(QString locators)
 
 void Engine::shared_init_monitor_(backend::EntityId domain_id)
 {
-    add_domain_issue(backend_connection_.get_name(domain_id));
+    add_issue_domain(backend_connection_.get_name(domain_id), utils::now());
 
     entity_clicked(domain_id, backend::EntityKind::DOMAIN);
 
@@ -192,10 +192,10 @@ void Engine::generate_new_issue_info()
 {
     json info;
 
-    info["Callbacks"] = json::array();
-    info["Issues"] = json::array();
+    info["Callbacks"] = json();
+    info["Issues"] = json();
     info["Entities"] = json();
-    info["Entities"]["Domains"] = json::array();
+    info["Entities"]["Domains"] = json();
     info["Entities"]["Entities"] = 0;
 
     issue_info_ = info;
@@ -207,20 +207,27 @@ void Engine::sum_entity_number_issue(int n)
     fill_issue();
 }
 
-void Engine::add_domain_issue(std::string name)
+bool Engine::add_issue_domain(std::string name, std::string time)
 {
-    issue_info_["Entities"]["Domains"].emplace_back(name);
-    add_issue_callback("Monitor initialized in domain " + name, "Now");
+    issue_info_["Entities"]["Domains"][time] = name;
+    add_issue_callback("Monitor initialized in domain " + name, time);
     fill_issue();
+
+    return true;
 }
 
 bool Engine::add_issue_callback(std::string callback, std::string time)
 {
-    issue_info_["Callbacks"].emplace_back(callback);
+    issue_info_["Callbacks"][time] = callback;
     fill_issue();
 
-    static_cast<void>(time);
     return true;
+}
+
+void Engine::clear_callback_issue()
+{
+    issue_info_["Callbacks"] = json();
+    fill_issue();
 }
 
 bool Engine::fill_first_entity_info()
@@ -440,6 +447,7 @@ void Engine::refresh_engine()
 {
     std::cout << "REFRESH" << std::endl;
     // TODO this should be changed from erase all models and re draw them
+    clear_callback_issue();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
     process_callback_queue();
 }
@@ -466,7 +474,7 @@ bool Engine::add_callback(backend::Callback callback)
     // callback_process_cv_.wakeOne();
 
     // Add callback to issue model
-    add_issue_callback("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", "Now");
+    add_issue_callback("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
 
     // Emit signal to specify there are new data
     callback_listener_.new_callback();

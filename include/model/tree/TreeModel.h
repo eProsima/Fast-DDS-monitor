@@ -54,6 +54,20 @@ public:
     int columnCount(
             const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
+    // Add a new child under a parent Tree Item
+    // If this key already exists, it is eliminated
+    void add_child(
+            TreeItem* parent,
+            const json& json_data);
+
+    TreeItem* find(
+            const QString key) const;
+
+    int getRowFromItem(
+            TreeItem* item) const;
+
+
+
     void clear();
 
     void update(const json& data);

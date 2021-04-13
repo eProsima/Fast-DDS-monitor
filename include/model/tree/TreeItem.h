@@ -39,12 +39,16 @@ public:
 
     QVariant get_item_value() const;
 
+    QString name() const;
+
     int row() const;
 
     TreeItem* parent_item();
 
     void clear();
 
+    TreeItem* find(
+            QString key) const;
 private:
 
     QList<TreeItem*> child_items_;

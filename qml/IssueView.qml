@@ -8,6 +8,7 @@ Item {
     visible: true
 
     TreeView {
+        id: issue_tree_view
         anchors.fill: parent
         model: issueModel
         itemDelegate: Item {
@@ -28,6 +29,16 @@ Item {
             width: parent.width / 2
             role: "value"
             title: "Value"
+        }
+
+
+        Component.onCompleted: rightPanel.expand_all(issue_tree_view, issueModel)
+
+        Connections {
+            target: issueModel
+            function onUpdatedData() {
+                rightPanel.expand_all(issue_tree_view, issueModel)
+            }
         }
     }
 }
