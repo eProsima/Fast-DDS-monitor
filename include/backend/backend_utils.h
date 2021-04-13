@@ -26,6 +26,22 @@ QString entity_guid(backend::EntityId id);
 // TOPIC
 QString topic_type(backend::EntityId id);
 
+// Info
+EntityInfo get_info(backend::EntityId id);
+
+// Specific field of info
+QString get_info_value(EntityInfo info, std::string key);
+
+
+backend::EntityKind string_to_entity_kind(
+        const QString& entity_kind);
+
+backend::DataKind string_to_data_kind(
+       const QString& data_kind);
+
+backend::StatisticKind string_to_statistic_kind(
+       const QString& statistic_kind);
+
 } //namespace backend
 
 #endif // FASTDDS_MONITOR_BACKEND_UTILS_H

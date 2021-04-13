@@ -7,9 +7,9 @@
 #include <QModelIndex>
 #include <QVariant>
 
-using json = nlohmann::json;
+#include <include/model/tree/TreeItem.h>
 
-class TreeItem;
+using json = nlohmann::json;
 
 namespace models {
 
@@ -18,7 +18,6 @@ class TreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-
     enum TreeModelRoles
     {
         treeModelNameRole = Qt::UserRole + 1,
@@ -55,26 +54,41 @@ public:
     int columnCount(
             const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
+    // Add a new child under a parent Tree Item
+    // If this key already exists, it is eliminated
+    void add_child(
+            TreeItem* parent,
+            const json& json_data);
+
+    TreeItem* find(
+            const QString key) const;
+
+    int getRowFromItem(
+            TreeItem* item) const;
+
+
+
     void clear();
 
     void update(const json& data);
 
-    QHash<int, QByteArray> roleNames() const override;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+
+    TreeItem* get_item(
+            const QModelIndex &index) const;
+
+signals:
+    void updatedData();
 
 protected:
 
-    void setupModelData(
-            const json& data,
+    void setup_model_data(
+            const json& json_data,
             TreeItem* parent);
 
 private:
 
-    TreeItem* rootItem_;
-
-signals:
-
-    void countChanged(
-            int count);
+    TreeItem* root_item_;
 
 };
 

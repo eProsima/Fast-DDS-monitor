@@ -12,7 +12,7 @@ QVariant EndpointModelItem::data(
    switch (role)
    {
        case idRole:
-           return this->entityId();
+           return this->entity_id();
        case nameRole:
            return this->name();
        case guidRole:
@@ -26,12 +26,12 @@ QVariant EndpointModelItem::data(
 
 QString EndpointModelItem::guid() const
 {
-    return QString::fromUtf8("guid");
+    return backend::get_info_value(info_, "guid");
 }
 
 QString EndpointModelItem::topic() const
 {
-    return QString::fromUtf8("topic");
+    return backend::get_info_value(info_, "topic");
 }
 
 QHash<int, QByteArray> EndpointModelItem::roleNames() const

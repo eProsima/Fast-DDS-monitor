@@ -8,6 +8,7 @@
 #include <include/model/dds/ParticipantModelItem.h>
 #include <include/model/dds/EndpointModelItem.h>
 #include <include/model/dds/LocatorModelItem.h>
+#include <include/model/EntityItem.h>
 #include <include/model/logical/TopicModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/physical/HostModelItem.h>
@@ -27,7 +28,7 @@ using namespace eprosima::statistics_backend;
 using namespace models;
 
 /// CREATE PRIVATE FUNCTIONS
-ListItem* SyncBackendConnection::_create_process_data(EntityId id)
+ListItem* SyncBackendConnection::create_process_data_(EntityId id)
 {
     std::cout << "Creating Process " << id << std::endl;
 //    struct timespec ts = { 10, 0 };
@@ -36,46 +37,52 @@ ListItem* SyncBackendConnection::_create_process_data(EntityId id)
     return new ProcessModelItem(id);
 }
 
-ListItem* SyncBackendConnection::_create_host_data(EntityId id)
+ListItem* SyncBackendConnection::create_host_data_(EntityId id)
 {
     std::cout << "Creating Host " << id << std::endl;
     return new HostModelItem(id);
 }
 
-ListItem* SyncBackendConnection::_create_user_data(EntityId id)
+ListItem* SyncBackendConnection::create_user_data_(EntityId id)
 {
     std::cout << "Creating User " << id << std::endl;
     return new UserModelItem(id);
 }
 
-ListItem* SyncBackendConnection::_create_domain_data(EntityId id)
+ListItem* SyncBackendConnection::create_domain_data_(EntityId id)
 {
     std::cout << "Creating Domain " << id << std::endl;
     return new DomainModelItem(id);
 }
 
-ListItem* SyncBackendConnection::_create_topic_data(EntityId id)
+ListItem* SyncBackendConnection::create_topic_data_(EntityId id)
 {
     std::cout << "Creating Topic " << id << std::endl;
     return new TopicModelItem(id);
 }
 
-ListItem* SyncBackendConnection::_create_participant_data(backend::EntityId id)
+ListItem* SyncBackendConnection::create_participant_data_(backend::EntityId id)
 {
     std::cout << "Creating Participant " << id << std::endl;
     return new ParticipantModelItem(id);
 }
 
-ListItem* SyncBackendConnection::_create_endpoint_data(backend::EntityId id)
+ListItem* SyncBackendConnection::create_endpoint_data_(backend::EntityId id)
 {
     std::cout << "Creating Endpoint " << id << std::endl;
     return new EndpointModelItem(id);
 }
 
-ListItem* SyncBackendConnection::_create_locator_data(backend::EntityId id)
+ListItem* SyncBackendConnection::create_locator_data_(backend::EntityId id)
 {
     std::cout << "Creating Locator " << id << std::endl;
     return new LocatorModelItem(id);
+}
+
+ListItem* SyncBackendConnection::create_entity_id_data_(backend::EntityId id)
+{
+    std::cout << "Creating EntityId " << id  << std::endl;
+    return new EntityItem(id);
 }
 
 /// UPDATE PRIVATE FUNCTIONS
@@ -83,22 +90,22 @@ bool SyncBackendConnection::update_host_data(ListItem* host_item)
 {
     auto host_item_sublist = static_cast<SubListedListItem*>(host_item);
 
-    return __update_entity_data(
+    return update_entity_data_(
                 host_item_sublist,
-                EntityType::USER,
+                EntityKind::USER,
                 update_user_data,
-                _create_user_data);
+                create_user_data_);
 }
 
 bool SyncBackendConnection::update_user_data(ListItem* user_item)
 {
     auto user_item_sublist = static_cast<SubListedListItem*>(user_item);
 
-    return __update_entity_data(
+    return update_entity_data_(
                 user_item_sublist,
-                EntityType::PROCESS,
+                EntityKind::PROCESS,
                 update_process_data,
-                _create_process_data);
+                create_process_data_);
 }
 
 bool SyncBackendConnection::update_process_data(ListItem* process_item)
@@ -112,11 +119,11 @@ bool SyncBackendConnection::update_domain_data(ListItem* domain_item)
 {
     auto domain_item_sublist = static_cast<SubListedListItem*>(domain_item);
 
-    return __update_entity_data(
+    return update_entity_data_(
                 domain_item_sublist,
-                EntityType::TOPIC,
+                EntityKind::TOPIC,
                 update_topic_data,
-                _create_topic_data);
+                create_topic_data_);
 }
 
 bool SyncBackendConnection::update_topic_data(ListItem* topic_item)
@@ -131,17 +138,17 @@ bool SyncBackendConnection::update_participant_data(ListItem* participant_item)
 {
     auto participant_item_sublist = static_cast<SubListedListItem*>(participant_item);
 
-    bool res = __update_entity_data(
+    bool res = update_entity_data_(
                 participant_item_sublist,
-                EntityType::DATAREADER,
+                EntityKind::DATAREADER,
                 update_endpoint_data,
-                _create_endpoint_data);
+                create_endpoint_data_);
 
-    res = __update_entity_data(
+    res = update_entity_data_(
                 participant_item_sublist,
-                EntityType::DATAWRITER,
+                EntityKind::DATAWRITER,
                 update_endpoint_data,
-                _create_endpoint_data) || res;
+                create_endpoint_data_) || res;
 
     return res;
 }
@@ -150,11 +157,11 @@ bool SyncBackendConnection::update_endpoint_data(ListItem* endpoint_item)
 {
     auto endpoint_item_sublist = static_cast<SubListedListItem*>(endpoint_item);
 
-    return __update_entity_data(
+    return update_entity_data_(
                 endpoint_item_sublist,
-                EntityType::LOCATOR,
+                EntityKind::LOCATOR,
                 update_locator_data,
-                _create_locator_data);
+                create_locator_data_);
 }
 
 bool SyncBackendConnection::update_locator_data(ListItem* locator_item)
@@ -164,48 +171,76 @@ bool SyncBackendConnection::update_locator_data(ListItem* locator_item)
     return false;
 }
 
+bool SyncBackendConnection::update_entity_id_data(ListItem* entity_item)
+{
+    // Locator does not have update
+    static_cast<void>(entity_item);
+    return false;
+}
+
 /// UPDATE STRUCTURE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_physical_data(models::ListModel* physical_model)
 {
-    return __update_model_data(
+    std::cout << "Update Physical Data" << std::endl;
+
+    return update_model_data_(
                 physical_model,
-                EntityType::HOST,
-                ALL_ID_BACKEND,
+                EntityKind::HOST,
+                ID_ALL,
                 update_host_data,
-                _create_host_data);
+                create_host_data_);
 }
 
 bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model)
 {
-    return __update_model_data(
+    std::cout << "Update Logical Data" << std::endl;
+
+    return update_model_data_(
                 logical_model,
-                EntityType::DOMAIN,
-                ALL_ID_BACKEND,
+                EntityKind::DOMAIN,
+                ID_ALL,
                 update_domain_data,
-                _create_domain_data);
+                create_domain_data_);
 }
 
 bool SyncBackendConnection::update_dds_data(models::ListModel* dds_model, EntityId id)
 {
-    return __update_model_data(
+    std::cout << "Update DDS Data" << std::endl;
+
+    return update_model_data_(
                 dds_model,
-                EntityType::PARTICIPANT,
+                EntityKind::PARTICIPANT,
                 id,
                 update_participant_data,
-                _create_participant_data);
+                create_participant_data_);
 }
 
+bool SyncBackendConnection::update_get_data_dialog_entity_id(models::ListModel* entity_model, EntityKind entity_kind)
+{
+
+    bool changed = false;
+
+    for (auto entity_id : StatisticsBackend::get_entities(entity_kind, ID_ALL))
+    {
+        entity_model->appendRow(new EntityItem(entity_id));
+        changed = true;
+    }
+
+    return changed;
+}
+
+
 // Template functions to update
-bool SyncBackendConnection::__update_entity_data(
+bool SyncBackendConnection::update_entity_data_(
         SubListedListItem* item,
-        EntityType type,
+        EntityKind type,
         bool (*update_function)(ListItem*),
         ListItem* (*create_function)(EntityId))
 {
     bool changed = false;
 
     // Get Item id
-    EntityId id = item->get_entityId();
+    EntityId id = item->get_entity_id();
 
     // For each User get all processes
     for (auto subentity_id : StatisticsBackend::get_entities(type, id))
@@ -217,7 +252,13 @@ bool SyncBackendConnection::__update_entity_data(
         // If it exists it updates its info
         if (nullptr == subentity_item)
         {
-            item->submodel()->appendRow(create_function(subentity_id));
+            std::cout << "Looking for info " << subentity_id << std::endl;
+
+            auto e = create_function(subentity_id);
+
+            std::cout << "Appending row " << subentity_id << std::endl;
+
+            item->submodel()->appendRow(e);
             changed = true;
             subentity_item = item->submodel()->find(backend::id_to_QString(subentity_id));
 
@@ -230,9 +271,9 @@ bool SyncBackendConnection::__update_entity_data(
     return changed;
 }
 
-bool SyncBackendConnection::__update_model_data(
+bool SyncBackendConnection::update_model_data_(
         ListModel* model,
-        EntityType type,
+        EntityKind type,
         EntityId id,
         bool (*update_function)(ListItem*),
         ListItem* (*create_function)(EntityId))
@@ -275,13 +316,12 @@ bool SyncBackendConnection::unset_listener()
 }
 
 
-bool SyncBackendConnection::init_monitor(int domain)
+EntityId SyncBackendConnection::init_monitor(int domain)
 {
-    StatisticsBackend::init_monitor(domain);
-    return true;
+    return StatisticsBackend::init_monitor(domain);
 }
 
-bool SyncBackendConnection::init_monitor(QString locators)
+EntityId SyncBackendConnection::init_monitor(QString locators)
 {
     StatisticsBackend::init_monitor(locators.toStdString());
     return true;
@@ -305,10 +345,46 @@ json SyncBackendConnection::get_summary(backend::EntityId id)
                 StatisticKind::MEAN)[0].second);
 
     // Latency
-    summary["Latency"]["mean"] = "0";
+    summary["Latency"]["mean"] = "-0";
 
     return summary;
 }
 
+std::string SyncBackendConnection::get_name(EntityId id)
+{
+    return StatisticsBackend::get_info(id)["name"];
+}
+
+std::vector<StatisticsData> SyncBackendConnection::get_data(
+        DataKind data_kind,
+        EntityId source_entity_id,
+        EntityId target_entity_id,
+        uint16_t bins,
+        Timestamp start_time,
+        Timestamp end_time,
+        StatisticKind statistic_kind)
+{
+    if (target_entity_id.is_valid())
+    {
+        return StatisticsBackend::get_data(
+                    data_kind,
+                    source_entity_id,
+                    bins,
+                    start_time,
+                    end_time,
+                    statistic_kind);
+    }
+    else
+    {
+        return StatisticsBackend::get_data(
+                    data_kind,
+                    source_entity_id,
+                    target_entity_id,
+                    bins,
+                    start_time,
+                    end_time,
+                    statistic_kind);
+    }
+}
 
 } //namespace backend

@@ -2,63 +2,102 @@
 
 #include <QStringList>
 
+namespace models {
+
 TreeItem::TreeItem(
         const QList<QString>& data,
         TreeItem* parent)
 {
-    parentItem_ = parent;
-    itemData_ = data;
+    parent_item_ = parent;
+    item_data_ = data;
 }
 
 TreeItem::~TreeItem()
 {
-    qDeleteAll(childItems_);
+    qDeleteAll(child_items_);
 }
 
-void TreeItem::appendChild(
+void TreeItem::append_child(
         TreeItem* item)
 {
-    childItems_.append(item);
+    child_items_.append(item);
 }
 
-TreeItem* TreeItem::childItem(
+TreeItem* TreeItem::child_item(
         int row)
 {
-    return childItems_.value(row);
+    return child_items_.value(row);
 }
 
-int TreeItem::childCount() const
+int TreeItem::child_count() const
 {
-    return childItems_.count();
+    return child_items_.count();
 }
 
-int TreeItem::columnCount() const
+int TreeItem::column_count() const
 {
-    return itemData_.count();
+    return item_data_.count();
 }
 
 QVariant TreeItem::data(int column) const
 {
-    return itemData_.value(column);
+    return item_data_.value(column);
 }
 
-TreeItem* TreeItem::parentItem()
+QVariant TreeItem::get_item_name() const
 {
-    return parentItem_;
+    return item_data_.value(TreeItemData::NAME);
+}
+
+QVariant TreeItem::get_item_value() const
+{
+    return item_data_.value(TreeItemData::VALUE);
+}
+
+QString TreeItem::name() const
+{
+    return get_item_name().toString();
+}
+
+TreeItem* TreeItem::parent_item()
+{
+    return parent_item_;
 }
 
 void TreeItem::clear()
 {
-    qDeleteAll(childItems_);
-    childItems_.clear();
+    qDeleteAll(child_items_);
+    child_items_.clear();
 }
 
 int TreeItem::row() const
 {
-    if (parentItem_)
+    if (parent_item_)
     {
-        return parentItem_->childItems_.indexOf(const_cast<TreeItem*>(this));
+        return parent_item_->child_items_.indexOf(const_cast<TreeItem*>(this));
     }
 
     return 0;
 }
+
+TreeItem* TreeItem::find(QString key) const
+{
+    for (auto item : child_items_)
+    {
+        if (item->name() == key)
+        {
+            return item;
+        }
+
+        // Recursive search
+        TreeItem* child_item = item->find(key);
+        if (child_item != nullptr)
+        {
+            return child_item;
+        }
+    }
+    return nullptr;
+}
+
+} // namespace models
+

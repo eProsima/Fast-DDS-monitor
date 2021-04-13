@@ -11,7 +11,7 @@ QVariant ProcessModelItem::data(
    switch (role)
    {
         case idRole:
-           return this->entityId();
+           return this->entity_id();
         case nameRole:
             return this->name();
         case pidRole:
@@ -23,7 +23,7 @@ QVariant ProcessModelItem::data(
 
 QString ProcessModelItem::pid() const
 {
-    return QString::fromUtf8("pid");
+    return backend::get_info_value(info_, "pid");
 }
 
 

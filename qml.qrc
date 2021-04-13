@@ -1,13 +1,25 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>Panels.qml</file>
-        <file>Testing.qml</file>
-        <file>EntityList.qml</file>
-        <file>PhysicalView.qml</file>
-        <file>LogicalView.qml</file>
-        <file>QosView.qml</file>
-        <file>PopUpInitMonitorWindow.qml</file>
-        <file>SummaryView.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/Panels.qml</file>
+        <file>qml/EntityList.qml</file>
+        <file>qml/PhysicalView.qml</file>
+        <file>qml/LogicalView.qml</file>
+        <file>qml/QosView.qml</file>
+        <file>qml/InitMonitorDialog.qml</file>
+        <file>qml/SummaryView.qml</file>
+        <file>qml/DisplayStatisticsDialog.qml</file>
+        <file>qml/AdditionalEntityId.qml</file>
+        <file>qml/StatisticsChartView.qml</file>
+        <file>qml/StatisticsChartBox.qml</file>
+        <file>qml/DataKindDialog.qml</file>
+        <file>qml/MonitorToolBar.qml</file>
+        <file>qml/IssueView.qml</file>
+        <file>qml/ChartsLayout.qml</file>
+        <file>qml/RightPanel.qml</file>
+        <file>qml/LeftPanel.qml</file>
+    </qresource>
+    <qresource prefix="/resources/images">
+        <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
     </qresource>
 </RCC>

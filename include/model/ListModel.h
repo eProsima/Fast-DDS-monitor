@@ -38,19 +38,19 @@ public:
      * When the parent is valid it means that rowCount is returning the number of children of parent.
      */
     int rowCount(
-            const QModelIndex& parent = QModelIndex()) const;
+            const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
     /**
      * Returns the data stored under the given role for the item referred to by the index.
      */
     QVariant data(
             const QModelIndex& index,
-            int role) const;
+            int role) const Q_DECL_OVERRIDE;
 
     /**
      * Returns the model's role names.
      */
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
     /**
      * This function provides a convenient way to append a single new item.
@@ -86,7 +86,7 @@ public:
     bool removeRows(
             int row,
             int count,
-            const QModelIndex& index = QModelIndex());
+            const QModelIndex& index = QModelIndex()) Q_DECL_OVERRIDE;
 
     /**
      * Returns the item whose id matches the itemId.
@@ -109,7 +109,7 @@ public:
     /**
      * Returns a QList containing the items of the model.
      */
-    QList<ListItem*> toList() const;
+    QList<ListItem*> to_QList() const;
 
     /**
      * Returns a QVariant containg the data of the row item at a given index in the model.
