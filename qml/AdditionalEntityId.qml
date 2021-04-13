@@ -12,7 +12,7 @@ RowLayout {
     }
 
     ComboBox {
-        id: getDataDialogEntityIdModelSecond
+        id: getDataDialogDestinationEntityId
         model: [
             "Host",
             "User",
@@ -24,7 +24,7 @@ RowLayout {
             "DataReader",
             "Locator"]
         onActivated:  {
-            controller.updateAvailableEntityIds(currentText, "getDataDialogEntityIdModelSecond")
+            controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
             targetEntityId = targetEntityIdComboBox.currentText
         }
     }

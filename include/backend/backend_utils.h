@@ -27,14 +27,14 @@ QString entity_guid(backend::EntityId id);
 QString topic_type(backend::EntityId id);
 
 
-backend::EntityKind stringToEntityKind(
-        const QString& entityKind);
+backend::EntityKind string_to_entity_kind(
+        const QString& entity_kind);
 
-backend::DataKind stringToDataKind(
-       const QString& dataKind);
+backend::DataKind string_to_data_kind(
+       const QString& data_kind);
 
-backend::StatisticKind stringToStatisticKind(
-       const QString& statisticKind);
+backend::StatisticKind string_to_statistic_kind(
+       const QString& statistic_kind);
 
 } //namespace backend
 

@@ -4,11 +4,12 @@
 #include <include/model/ListItem.h>
 #include <include/model/ListModel.h>
 #include <include/backend/backend_types.h>
+
 namespace models {
 
 // Class that represents:
-//  an item in a list
-//  it has subentities that are items
+// an item in a list
+// it has subentities that are items
 class SubListedListItem : public ListItem
 {
     Q_OBJECT
@@ -30,21 +31,21 @@ public:
 
     ~SubListedListItem()
     {
-        if (subEntitiesListModel_)
+        if (subentities_list_model_)
         {
-            subEntitiesListModel_->clear();
-            delete subEntitiesListModel_;
+            subentities_list_model_->clear();
+            delete subentities_list_model_;
         }
     }
 
     ListModel* submodel()  const
     {
-        return subEntitiesListModel_;
+        return subentities_list_model_;
     }
 
 protected:
 
-    ListModel* subEntitiesListModel_;
+    ListModel* subentities_list_model_;
 };
 
 } // namespace models

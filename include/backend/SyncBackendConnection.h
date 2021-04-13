@@ -33,7 +33,7 @@ public:
     static bool update_physical_data(models::ListModel* physical_model);
     static bool update_logical_data(models::ListModel* logical_model);
     static bool update_dds_data(models::ListModel* dds_model, EntityId id);
-    static bool updateGetDataDialogEntityId(models::ListModel* entityModel, EntityKind entityKind);
+    static bool update_get_data_dialog_entity_id(models::ListModel* entity_model, EntityKind entity_kind);
 
     static bool update_host_data(ListItem* host_item);
     static bool update_user_data(ListItem* user_item);
@@ -46,7 +46,7 @@ public:
     static bool update_endpoint_data(ListItem* endpoint_item);
     static bool update_locator_data(ListItem* locator_item);
 
-    static bool updateEntityIdData(ListItem* entityItem);
+    static bool update_entity_id_data(ListItem* entity_item);
 
     static EntityId init_monitor(int domain);
     static EntityId init_monitor(QString locators);
@@ -56,36 +56,36 @@ public:
     static std::string get_name(backend::EntityId id);
 
     static std::vector<backend::StatisticsData> get_data(
-            DataKind dataKind,
-            EntityId sourceEntityId,
-            EntityId targetEntityId,
+            DataKind data_kind,
+            EntityId source_entity_id,
+            EntityId target_entity_id,
             uint16_t bins,
-            Timestamp startTime,
-            Timestamp endTime,
-            StatisticKind statisticKind);
+            Timestamp start_time,
+            Timestamp end_time,
+            StatisticKind statistic_kind);
 
 protected:
 
-    static ListItem* _create_process_data(backend::EntityId id);
-    static ListItem* _create_user_data(backend::EntityId id);
-    static ListItem* _create_host_data(backend::EntityId id);
+    static ListItem* create_process_data_(backend::EntityId id);
+    static ListItem* create_user_data_(backend::EntityId id);
+    static ListItem* create_host_data_(backend::EntityId id);
 
-    static ListItem* _create_domain_data(backend::EntityId id);
-    static ListItem* _create_topic_data(backend::EntityId id);
+    static ListItem* create_domain_data_(backend::EntityId id);
+    static ListItem* create_topic_data_(backend::EntityId id);
 
-    static ListItem* _create_participant_data(backend::EntityId id);
-    static ListItem* _create_endpoint_data(backend::EntityId id);
-    static ListItem* _create_locator_data(backend::EntityId id);
+    static ListItem* create_participant_data_(backend::EntityId id);
+    static ListItem* create_endpoint_data_(backend::EntityId id);
+    static ListItem* create_locator_data_(backend::EntityId id);
 
-    static ListItem* _createEntityIdData(backend::EntityId id);
+    static ListItem* create_entity_id_data_(backend::EntityId id);
 
-    static bool __update_entity_data(
+    static bool update_entity_data_(
             SubListedListItem* item,
             backend::EntityKind type,
             bool (*update_function)(ListItem*),
             ListItem* (*create_function)(backend::EntityId));
 
-    static bool __update_model_data(
+    static bool update_model_data_(
             ListModel* model,
             EntityKind type,
             EntityId id,

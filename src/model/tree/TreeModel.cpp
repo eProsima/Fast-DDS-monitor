@@ -17,24 +17,24 @@ TreeModel::TreeModel(
         QObject* parent)
     : QAbstractItemModel(parent)
 {
-    rootItem_ = new TreeItem(QList<QString>() << "Name" << "Value");
-    setupModelData(data, rootItem_);
+    root_item_ = new TreeItem(QList<QString>() << "Name" << "Value");
+    setup_model_data(data, root_item_);
 }
 
 TreeModel::TreeModel(
         QObject* parent)
     : QAbstractItemModel(parent)
 {
-    rootItem_ = new TreeItem(QList<QString>() << "Name" << "Value");
+    root_item_ = new TreeItem(QList<QString>() << "Name" << "Value");
 }
 
 
 TreeModel::~TreeModel()
 {
     beginResetModel();
-    rootItem_->clear();
+    root_item_->clear();
     endResetModel();
-    delete rootItem_;
+    delete root_item_;
 }
 
 int TreeModel::columnCount(
@@ -42,11 +42,11 @@ int TreeModel::columnCount(
 {
     if (parent.isValid())
     {
-        return getItem(parent)->columnCount();
+        return get_item(parent)->column_count();
     }
     else
     {
-        return rootItem_->columnCount();
+        return root_item_->column_count();
     }
 }
 
@@ -59,16 +59,16 @@ QVariant TreeModel::data(
         return QVariant();
     }
 
-    TreeItem* childItem = getItem(index);
+    TreeItem* child_item = get_item(index);
 
-    if (childItem != nullptr)
+    if (child_item != nullptr)
     {
         switch (role)
         {
             case treeModelNameRole:
-                return childItem->getItemName();
+                return child_item->get_item_name();
             case treeModelValueRole:
-                return childItem->getItemValue();
+                return child_item->get_item_value();
             default:
                 return QVariant();
         }
@@ -98,20 +98,20 @@ QModelIndex TreeModel::index(
         return QModelIndex();
     }
 
-    TreeItem* parentItem;
+    TreeItem* parent_item;
     if (!parent.isValid())
     {
-        parentItem = rootItem_;
+        parent_item = root_item_;
     }
     else
     {
-        parentItem = static_cast<TreeItem*>(parent.internalPointer());
+        parent_item = static_cast<TreeItem*>(parent.internalPointer());
     }
 
-    TreeItem* childItem = parentItem->childItem(row);
-    if (childItem)
+    TreeItem* child_item = parent_item->child_item(row);
+    if (child_item)
     {
-        return createIndex(row, column, childItem);
+        return createIndex(row, column, child_item);
     }
     else
     {
@@ -123,24 +123,24 @@ QModelIndex TreeModel::parent(
         const QModelIndex& index) const
 {
 
-    TreeItem* parentItem = nullptr;
-    TreeItem* childItem = nullptr;
+    TreeItem* parent_item = nullptr;
+    TreeItem* child_item = nullptr;
 
     if (!index.isValid())
     {
         return QModelIndex();
     }
 
-    if (parentItem == rootItem_)
+    if (parent_item == root_item_)
     {
         return QModelIndex();
     }
 
-    if ((childItem = getItem(index)) != nullptr)
+    if ((child_item = get_item(index)) != nullptr)
     {
-        if ((parentItem = childItem->parentItem()) != nullptr)
+        if ((parent_item = child_item->parent_item()) != nullptr)
         {
-            return createIndex(parentItem->row(), 0, parentItem);
+            return createIndex(parent_item->row(), 0, parent_item);
         }
     }
 
@@ -149,20 +149,20 @@ QModelIndex TreeModel::parent(
 
 int TreeModel::rowCount(const QModelIndex& parent) const
 {
-    TreeItem* parentItem;
+    TreeItem* parent_item;
     if (parent.column() > 0)
         return 0;
 
     if (!parent.isValid())
     {
-        parentItem = rootItem_;
+        parent_item = root_item_;
     }
     else
     {
-        parentItem = getItem(parent);
+        parent_item = get_item(parent);
     }
 
-    return parentItem->childCount();
+    return parent_item->child_count();
 }
 
 QHash<int, QByteArray> TreeModel::roleNames() const
@@ -175,7 +175,7 @@ QHash<int, QByteArray> TreeModel::roleNames() const
     return roles;
 }
 
-TreeItem* TreeModel::getItem(
+TreeItem* TreeModel::get_item(
         const QModelIndex &index) const
 {
 
@@ -190,24 +190,24 @@ TreeItem* TreeModel::getItem(
         }
     }
 
-    return rootItem_;
+    return root_item_;
 }
 
-void TreeModel::setupModelData(
-        const json& data,
+void TreeModel::setup_model_data(
+        const json& json_data,
         TreeItem* parent)
 {
-    QList<QString> qosData;
+    QList<QString> data;
 
-    bool lastChild = false;
+    bool last_child = false;
 
     json value;
 
-    for (json::const_iterator it = data.begin(); it != data.end(); ++it) {
+    for (json::const_iterator it = json_data.begin(); it != json_data.end(); ++it) {
 
-        if (!data.is_array() || (data.is_array() && !it.value().is_primitive()) || it.value().is_array())
+        if (!json_data.is_array() || (json_data.is_array() && !it.value().is_primitive()) || it.value().is_array())
         {
-            qosData << QString::fromUtf8(it.key().c_str());
+            data << QString::fromUtf8(it.key().c_str());
         }
 
         if (it.value().size() == 1)
@@ -217,44 +217,44 @@ void TreeModel::setupModelData(
 
             if (value.is_string())
             {
-                qosData << QString::fromUtf8(static_cast<std::string>(value).c_str());
-                lastChild = true;
+                data << QString::fromUtf8(static_cast<std::string>(value).c_str());
+                last_child = true;
             }
             else if (value.is_number())
             {
-                qosData << QString::number(static_cast<int>(value));
-                lastChild = true;
+                data << QString::number(static_cast<int>(value));
+                last_child = true;
             }
             else if (value.is_boolean())
             {
-                qosData << (value ? QString("true") : QString("false"));
-                lastChild = true;
+                data << (value ? QString("true") : QString("false"));
+                last_child = true;
             }
         }
 
-        TreeItem* currentChild = new TreeItem(qosData, parent);
-        parent->appendChild(currentChild);
-        qosData.clear();
+        TreeItem* current_child = new TreeItem(data, parent);
+        parent->append_child(current_child);
+        data.clear();
 
-        if (!lastChild)
+        if (!last_child)
         {
-            setupModelData(static_cast<json>(it.value()), currentChild);
+            setup_model_data(static_cast<json>(it.value()), current_child);
         }
 
-        lastChild = false;
+        last_child = false;
     }
 }
 
 void TreeModel::clear()
 {
-    rootItem_->clear();
+    root_item_->clear();
 }
 
 void TreeModel::update(const json& data)
 {
     beginResetModel();
     clear();
-    setupModelData(data, rootItem_);
+    setup_model_data(data, root_item_);
     endResetModel();
     emit updatedData();
 }

@@ -55,11 +55,11 @@ void Controller::locator_click(QString id)
     Engine::get_instance()->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::LOCATOR);
 }
 
-void Controller::updateAvailableEntityIds(
-        QString entityKind,
-        QString entityModelId)
+void Controller::update_available_entity_ids(
+        QString entity_kind,
+        QString entity_model_id)
 {
-    Engine::get_instance()->onSelectedEntityKind(backend::stringToEntityKind(entityKind), entityModelId);
+    Engine::get_instance()->on_selected_entity_kind(backend::string_to_entity_kind(entity_kind), entity_model_id);
 }
 
 void Controller::refresh_click()
@@ -67,37 +67,25 @@ void Controller::refresh_click()
     Engine::get_instance()->refresh_engine();
 }
 
-void Controller::addStatisticsData(
-        QString dataKind,
-        QString sourceEntityId,
-        QString targetEntityId,
+void Controller::add_statistics_data(
+        QString data_kind,
+        QString source_entity_id,
+        QString target_entity_id,
         quint16 bins,
-        quint64 startTime,
-        bool startTimeDefault,
-        quint64 endTime,
-        bool endTimeDefault,
-        QString statisticKind)
+        quint64 start_time,
+        bool start_time_default,
+        quint64 end_time,
+        bool end_time_default,
+        QString statistic_kind)
 {
-
-    qDebug() << "Data Kind: " << dataKind << "\n" <<
-                "Source Entity Id: " << sourceEntityId << "\n" <<
-                "Target Entity Id: " << targetEntityId << "\n" <<
-                "Bins: " << bins << "\n" <<
-                "Time Start: " << startTime << "\n" <<
-                "Time Start Default: " << startTimeDefault << "\n" <<
-                "End Start: " << endTime << "\n" <<
-                "End Start Default: " << endTimeDefault << "\n" <<
-                "Statistics Kind: " << statisticKind;
-
-
-    Engine::get_instance()->onAddStatisticsDataSeries(
-                backend::stringToDataKind(dataKind),
-                backend::models_id_to_backend_id(sourceEntityId),
-                backend::models_id_to_backend_id(targetEntityId),
+    Engine::get_instance()->on_add_statistics_data_series(
+                backend::string_to_data_kind(data_kind),
+                backend::models_id_to_backend_id(source_entity_id),
+                backend::models_id_to_backend_id(target_entity_id),
                 bins,
-                startTime,
-                startTimeDefault,
-                endTime,
-                endTimeDefault,
-                backend::stringToStatisticKind(statisticKind));
+                start_time,
+                start_time_default,
+                end_time,
+                end_time_default,
+                backend::string_to_statistic_kind(statistic_kind));
 }

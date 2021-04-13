@@ -21,7 +21,8 @@ class Engine : public QQmlApplicationEngine
 {
 public:
 
-    static Engine* get_instance(){
+    static Engine* get_instance()
+    {
         static Engine instance;
         return &instance;
     }
@@ -65,7 +66,7 @@ public:
     // returns an empty QoS Configuration
     bool fill_summary(backend::EntityId id = backend::ID_ALL);
 
-    // Remove the Issue model and creates a new one by the json structure stored in <issueInfo_>
+    // Remove the Issue model and creates a new one by the json structure stored in <issue_info_>
     bool fill_issue();
 
     // Add to Issue Model a callback or an issue
@@ -76,20 +77,20 @@ public:
     // Update by click functions
     bool entity_clicked(backend::EntityId id, backend::EntityKind kind);
 
-    bool onSelectedEntityKind(
-            backend::EntityKind entityKind,
-            QString entityModelId);
+    bool on_selected_entity_kind(
+            backend::EntityKind entity_kind,
+            QString entity_model_id);
 
-    bool onAddStatisticsDataSeries(
-            backend::DataKind dataKind,
-            backend::EntityId sourceEntityId,
-            backend::EntityId targetEntityId,
+    bool on_add_statistics_data_series(
+            backend::DataKind data_kind,
+            backend::EntityId source_entity_id,
+            backend::EntityId target_entity_id,
             quint16 bins,
-            quint64 startTime,
-            bool startTimeDefault,
-            quint64 endTime,
-            bool endTimeDefault,
-            backend::StatisticKind statisticKind);
+            quint64 start_time,
+            bool start_time_default,
+            quint64 end_time,
+            bool end_time_default,
+            backend::StatisticKind statistic_kind);
 
     bool add_callback(backend::Callback callback);
 
@@ -115,7 +116,7 @@ protected:
     // Fill a DDS Model getting all participants related with the <last_clicked_entity> and their subentities
     bool fill_dds_data();
 
-    bool fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId);
+    bool fill_available_entity_id_list(backend::EntityKind entity_kind, QString entity_model_id);
 
     static bool update_tree_model(models::TreeModel* old_model, const json& data);
     static models::TreeModel* entity_info(backend::EntityId id = backend::ID_ALL);
@@ -134,7 +135,7 @@ protected:
     // Generates a new issue info in json format
     void generate_new_issue_info();
 
-    // Update the general <issueInfo_> info for the whole system
+    // Update the general <issue_info_> info for the whole system
     void sum_entity_number_issue(int n);
     void add_domain_issue(std::string name);
 
@@ -146,23 +147,23 @@ private:
 
     backend::Listener* listener_;
 
-    models::ListModel* participantsModel_;
-    models::ListModel* physicalModel_;
-    models::ListModel* logicalModel_;
+    models::ListModel* participants_model_;
+    models::ListModel* physical_model_;
+    models::ListModel* logical_model_;
 
-    models::TreeModel* infoModel_;
-    models::TreeModel* summaryModel_;
+    models::TreeModel* info_model_;
+    models::TreeModel* summary_model_;
 
-    models::TreeModel* issueModel_;
-    json issueInfo_;
+    models::TreeModel* issue_model_;
+    json issue_info_;
 
-    models::ListModel* entityIdModelFirst_;
-    models::ListModel* entityIdModelSecond_;
+    models::ListModel* source_entity_id_model_;
+    models::ListModel* destination_entity_id_model_;
 
     backend::EntityId last_entity_clicked_;
     backend::EntityKind last_entity_clicked_kind_;
 
-    StatisticsData* statisticsData_;
+    StatisticsData* statistics_data_;
 
     backend::SyncBackendConnection backend_connection_;
 
@@ -173,7 +174,7 @@ private:
     QWaitCondition callback_process_cv_;
     std::atomic<bool> callback_process_run_;
 
-    CallbackListener call_listener;
+    CallbackListener callback_listener_;
 
     // Thread to
 //    class CallbackThread : public QThread

@@ -38,55 +38,58 @@ QObject* Engine::enable()
     backend_connection_.set_listener(listener_);
 
     // Initialize models
-    participantsModel_ = new models::SubListedListModel(new models::ParticipantModelItem());
+    participants_model_ = new models::SubListedListModel(new models::ParticipantModelItem());
     fill_dds_data();
 
-    physicalModel_ = new models::SubListedListModel(new models::HostModelItem());
+    physical_model_ = new models::SubListedListModel(new models::HostModelItem());
     fill_physical_data();
 
-    logicalModel_ = new models::SubListedListModel(new models::DomainModelItem());
+    logical_model_ = new models::SubListedListModel(new models::DomainModelItem());
     fill_logical_data();
 
-    infoModel_ = new models::TreeModel();
+    info_model_ = new models::TreeModel();
     fill_first_entity_info();
 
-    summaryModel_ = new models::TreeModel();
+    summary_model_ = new models::TreeModel();
     fill_summary(backend::ID_ALL);
 
     // Creates a default structure for issue json and fills the tree model with it
-    issueModel_ = new models::TreeModel();
+    issue_model_ = new models::TreeModel();
     generate_new_issue_info();
     fill_issue();
 
 
-    entityIdModelFirst_ = new models::ListModel(new models::EntityItem());
-    fillAvailableEntityIdList(backend::EntityKind::HOST, "getDataDialogEntityIdModelFirst");
-    entityIdModelSecond_ = new models::ListModel(new models::EntityItem());
-    fillAvailableEntityIdList(backend::EntityKind::HOST, "getDataDialogEntityIdModelSecond");
+    source_entity_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
+    destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
-    statisticsData_ = new StatisticsData();
+    statistics_data_ = new StatisticsData();
 
     // Initialized qml
-    rootContext()->setContextProperty("participantModel", participantsModel_);
-    rootContext()->setContextProperty("hostModel", physicalModel_);
-    rootContext()->setContextProperty("domainModel",  logicalModel_);
+    rootContext()->setContextProperty("participantModel", participants_model_);
+    rootContext()->setContextProperty("hostModel", physical_model_);
+    rootContext()->setContextProperty("domainModel",  logical_model_);
 
-    rootContext()->setContextProperty("qosModel", infoModel_);
-    rootContext()->setContextProperty("summaryModel", summaryModel_);
-    rootContext()->setContextProperty("issueModel", issueModel_);
+    rootContext()->setContextProperty("qosModel", info_model_);
+    rootContext()->setContextProperty("summaryModel", summary_model_);
+    rootContext()->setContextProperty("issueModel", issue_model_);
 
-    rootContext()->setContextProperty("entityModelFirst", entityIdModelFirst_);
-    rootContext()->setContextProperty("entityModelSecond", entityIdModelSecond_);
+    rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
+    rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
 
-    rootContext()->setContextProperty("statisticsData", statisticsData_);
+    rootContext()->setContextProperty("statisticsData", statistics_data_);
 
     qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
 
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     // Connect Callback Listener
-    QObject::connect(&call_listener, &CallbackListener::new_callback_signal,
-                         &call_listener, &CallbackListener::new_callback_slot);
+    QObject::connect(
+            &callback_listener_,
+            &CallbackListener::new_callback_signal,
+            &callback_listener_,
+            &CallbackListener::new_callback_slot);
 
     // Set enable as True
     enabled_ = true;
@@ -102,29 +105,29 @@ Engine::~Engine()
             delete listener_;
         }
 
-        if (participantsModel_)
+        if (participants_model_)
         {
-            delete participantsModel_;
+            delete participants_model_;
         }
 
-        if (physicalModel_)
+        if (physical_model_)
         {
-            delete physicalModel_;
+            delete physical_model_;
         }
 
-        if (logicalModel_)
+        if (logical_model_)
         {
-            delete logicalModel_;
+            delete logical_model_;
         }
 
-        if (infoModel_)
+        if (info_model_)
         {
-            delete infoModel_;
+            delete info_model_;
         }
 
-        if (summaryModel_)
+        if (summary_model_)
         {
-            delete summaryModel_;
+            delete summary_model_;
         }
     }
 }
@@ -153,20 +156,20 @@ void Engine::shared_init_monitor_(backend::EntityId domain_id)
 
 bool Engine::fill_entity_info(backend::EntityId id /*ID_ALL*/)
 {
-    infoModel_->update(backend_connection_.get_info(id));
+    info_model_->update(backend_connection_.get_info(id));
     return true;
 }
 
 
 bool Engine::fill_summary(backend::EntityId id /*ID_ALL*/)
 {
-    summaryModel_->update(backend_connection_.get_summary(id));
+    summary_model_->update(backend_connection_.get_summary(id));
     return true;
 }
 
 bool Engine::fill_issue()
 {
-    issueModel_->update(issueInfo_);
+    issue_model_->update(issue_info_);
     return true;
 }
 
@@ -180,25 +183,25 @@ void Engine::generate_new_issue_info()
     info["Entities"]["Domains"] = json::array();
     info["Entities"]["Entities"] = 0;
 
-    issueInfo_ = info;
+    issue_info_ = info;
 }
 
 void Engine::sum_entity_number_issue(int n)
 {
-    issueInfo_["Entities"]["Entities"] = issueInfo_["Entities"]["Entities"].get<double>() + n;
+    issue_info_["Entities"]["Entities"] = issue_info_["Entities"]["Entities"].get<double>() + n;
     fill_issue();
 }
 
 void Engine::add_domain_issue(std::string name)
 {
-    issueInfo_["Entities"]["Domains"].emplace_back(name);
+    issue_info_["Entities"]["Domains"].emplace_back(name);
     add_issue_callback("Monitor initialized in domain " + name, "Now");
     fill_issue();
 }
 
 bool Engine::add_issue_callback(std::string callback, std::string time)
 {
-    issueInfo_["Callbacks"].emplace_back(callback);
+    issue_info_["Callbacks"].emplace_back(callback);
     fill_issue();
 
     static_cast<void>(time);
@@ -208,73 +211,73 @@ bool Engine::add_issue_callback(std::string callback, std::string time)
 bool Engine::fill_first_entity_info()
 {
     json info = R"({"No monitors active.":"Start a monitor in a specific domain"})"_json;
-    infoModel_->update(info);
+    info_model_->update(info);
     return true;
 }
 
 /// Backend API
 bool Engine::fill_physical_data()
 {
-    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
+    return backend::SyncBackendConnection::update_physical_data(physical_model_);
 }
 
 // TODO reimplement these functions so it is not needed to call the whole fill
 bool Engine::update_host_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    physicalModel_->clear();
-    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
+    physical_model_->clear();
+    return backend::SyncBackendConnection::update_physical_data(physical_model_);
 }
 bool Engine::update_user_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    physicalModel_->clear();
-    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
+    physical_model_->clear();
+    return backend::SyncBackendConnection::update_physical_data(physical_model_);
 }
 bool Engine::update_process_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    physicalModel_->clear();
-    return backend::SyncBackendConnection::update_physical_data(physicalModel_);
+    physical_model_->clear();
+    return backend::SyncBackendConnection::update_physical_data(physical_model_);
 }
 
 // LOGICAL PARTITION
 bool Engine::fill_logical_data()
 {
-    return backend::SyncBackendConnection::update_logical_data(logicalModel_);
+    return backend::SyncBackendConnection::update_logical_data(logical_model_);
 }
 
 bool Engine::update_domain_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    logicalModel_->clear();
-    return backend::SyncBackendConnection::update_logical_data(logicalModel_);
+    logical_model_->clear();
+    return backend::SyncBackendConnection::update_logical_data(logical_model_);
 }
 
 bool Engine::update_topic_data(backend::EntityId id)
 {
     static_cast<void>(id);
-    logicalModel_->clear();
-    return backend::SyncBackendConnection::update_logical_data(logicalModel_);
+    logical_model_->clear();
+    return backend::SyncBackendConnection::update_logical_data(logical_model_);
 }
 
 // DDS PARTITION
 bool Engine::fill_dds_data()
 {
-    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
+    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::update_reset_dds_data(
         backend::EntityId id /*ID_ALL*/)
 {
-    participantsModel_->clear();
+    participants_model_->clear();
     return update_dds_data(id);
 }
 
 bool Engine::update_dds_data(
         backend::EntityId id /*ID_ALL*/)
 {
-    return backend::SyncBackendConnection::update_dds_data(participantsModel_, id);
+    return backend::SyncBackendConnection::update_dds_data(participants_model_, id);
 }
 
 // Update the model with a new or updated entity
@@ -282,24 +285,24 @@ bool Engine::update_participant_data(backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
-    participantsModel_->clear();
-    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
+    participants_model_->clear();
+    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::update_endpoint_data(backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
-    participantsModel_->clear();
-    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
+    participants_model_->clear();
+    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::update_locator_data(backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
-    participantsModel_->clear();
-    return backend::SyncBackendConnection::update_dds_data(participantsModel_, last_entity_clicked_);
+    participants_model_->clear();
+    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
@@ -335,22 +338,22 @@ bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
     return res;
 }
 
-bool Engine::fillAvailableEntityIdList(backend::EntityKind entityKind, QString entityModelId)
+bool Engine::fill_available_entity_id_list(backend::EntityKind entity_kind, QString entity_model_id)
 {
-    return onSelectedEntityKind(entityKind, entityModelId);
+    return on_selected_entity_kind(entity_kind, entity_model_id);
 }
 
-bool Engine::onSelectedEntityKind(backend::EntityKind entityKind, QString entityModelId)
+bool Engine::on_selected_entity_kind(backend::EntityKind entity_kind, QString entity_model_id)
 {
-    if (entityModelId == "getDataDialogEntityIdModelFirst")
+    if (entity_model_id == "getDataDialogSourceEntityId")
     {
-        entityIdModelFirst_->clear();
-        return backend::SyncBackendConnection::updateGetDataDialogEntityId(entityIdModelFirst_, entityKind);
+        source_entity_id_model_->clear();
+        return backend::SyncBackendConnection::update_get_data_dialog_entity_id(source_entity_id_model_, entity_kind);
     }
-    else if (entityModelId == "getDataDialogEntityIdModelSecond")
+    else if (entity_model_id == "getDataDialogDestinationEntityId")
     {
-        entityIdModelSecond_->clear();
-        return backend::SyncBackendConnection::updateGetDataDialogEntityId(entityIdModelSecond_, entityKind);
+        destination_entity_id_model_->clear();
+        return backend::SyncBackendConnection::update_get_data_dialog_entity_id(destination_entity_id_model_, entity_kind);
     }
     else
     {
@@ -358,62 +361,62 @@ bool Engine::onSelectedEntityKind(backend::EntityKind entityKind, QString entity
     }
 }
 
-bool Engine::onAddStatisticsDataSeries(
-        backend::DataKind dataKind,
-        backend::EntityId sourceEntityId,
-        backend::EntityId targetEntityId,
+bool Engine::on_add_statistics_data_series(
+        backend::DataKind data_kind,
+        backend::EntityId source_entity_id,
+        backend::EntityId target_entity_id,
         quint16 bins,
-        quint64 startTime,
-        bool startTimeDefault,
-        quint64 endTime,
-        bool endTimeDefault,
-        backend::StatisticKind statisticKind)
+        quint64 start_time,
+        bool start_time_default,
+        quint64 end_time,
+        bool end_time_default,
+        backend::StatisticKind statistic_kind)
 {
-    backend::Timestamp timeFrom =
-            startTimeDefault ? backend::Timestamp() : backend::Timestamp(std::chrono::milliseconds(startTime));
-    backend::Timestamp timeTo =
-            endTimeDefault ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(endTime));
+    backend::Timestamp time_from =
+            start_time_default ? backend::Timestamp() : backend::Timestamp(std::chrono::milliseconds(start_time));
+    backend::Timestamp time_to =
+            end_time_default ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(end_time));
 
-    std::vector<backend::StatisticsData> statisticData = backend::SyncBackendConnection::get_data(
-                dataKind,
-                sourceEntityId,
-                targetEntityId,
+    std::vector<backend::StatisticsData> statistic_data = backend::SyncBackendConnection::get_data(
+                data_kind,
+                source_entity_id,
+                target_entity_id,
                 bins,
-                timeFrom,
-                timeTo,
-                statisticKind);
+                time_from,
+                time_to,
+                statistic_kind);
 
     QVector<QPointF> points;
-    points.reserve(statisticData.size());
-    qreal maxValue = 0;
-    qreal minValue = 0;
+    points.reserve(statistic_data.size());
+    qreal max_value = 0;
+    qreal min_value = 0;
 
-    for (backend::StatisticsData data : statisticData)
+    for (backend::StatisticsData data : statistic_data)
     {
         points.append(QPointF(
                     std::chrono::duration_cast<std::chrono::milliseconds>(data.first.time_since_epoch()).count(),
                     data.second));
-        maxValue = (data.second > maxValue) ? data.second : maxValue;
-        minValue = (data.second < minValue) ? data.second : maxValue;
+        max_value = (data.second > max_value) ? data.second : max_value;
+        min_value = (data.second < min_value) ? data.second : max_value;
     }
 
     // Remove previous data
-    statisticsData_->clear();
-    statisticsData_->appendData(points);
+    statistics_data_->clear();
+    statistics_data_->appendData(points);
 
     QDateTime startDate;
     startDate.setMSecsSinceEpoch(
                 std::chrono::duration_cast<std::chrono::milliseconds>(
-                    statisticData.front().first.time_since_epoch()).count());
+                    statistic_data.front().first.time_since_epoch()).count());
     QDateTime endDate;
     endDate.setMSecsSinceEpoch(
                 std::chrono::duration_cast<std::chrono::milliseconds>(
-                    statisticData.back().first.time_since_epoch()).count());
+                    statistic_data.back().first.time_since_epoch()).count());
 
-    statisticsData_->setAxisYMax(maxValue);
-    statisticsData_->setAxisYMin(minValue);
-    statisticsData_->setAxisXMax(endDate.toMSecsSinceEpoch());
-    statisticsData_->setAxisXMin(startDate.toMSecsSinceEpoch());
+    statistics_data_->setAxisYMax(max_value);
+    statistics_data_->setAxisYMin(min_value);
+    statistics_data_->setAxisXMax(endDate.toMSecsSinceEpoch());
+    statistics_data_->setAxisXMin(startDate.toMSecsSinceEpoch());
 
     return true;
 }
@@ -450,7 +453,7 @@ bool Engine::add_callback(backend::Callback callback)
     add_issue_callback("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", "Now");
 
     // Emit signal to specify there are new data
-    call_listener.new_callback();
+    callback_listener_.new_callback();
 
     return true;
 }

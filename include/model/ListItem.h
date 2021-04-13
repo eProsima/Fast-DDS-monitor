@@ -37,10 +37,10 @@ public :
 
     ~ListItem();
 
-    virtual EntityId entityId() const;
+    virtual EntityId entity_id() const;
     virtual QString name() const;
 
-    backend::EntityId get_entityId() const;
+    backend::EntityId get_entity_id() const;
 
     virtual QVariant data(
             int role) const;

@@ -50,17 +50,21 @@ Dialog {
                     endTimeDate + " " +
                         endTimeHour.value + ":" + endTimeMinute.value + ":" + endTimeSecond.value,
                     "dd.MM.yyyy h:m:s")
+        if (startTime <= endTime) {
+            controlPanel.addSeries(
+                        chartTitle,
+                        sourceEntityId.currentText,
+                        (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
+                        bins.value,
+                        startTime,
+                        startTimeDefault.checked,
+                        endTime,
+                        endTimeDefault.checked,
+                        statisticKind.currentText)
+        } else {
+            wrongDatesDialog.open()
+        }
 
-        controlPanel.addSeries(
-                    chartTitle,
-                    sourceEntityId.currentText,
-                    (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
-                    bins.value,
-                    startTime,
-                    startTimeDefault.checked,
-                    endTime,
-                    endTimeDefault.checked,
-                    statisticKind.currentText)
     }
 
     GridLayout{
@@ -74,7 +78,7 @@ Dialog {
         }
         Row {
             ComboBox {
-                id: getDataDialogEntityIdModelFirst
+                id: getDataDialogSourceEntityId
                 model: [
                     "Host",
                     "User",
@@ -86,7 +90,7 @@ Dialog {
                     "DataReader",
                     "Locator"]
                 onActivated:  {
-                    controller.updateAvailableEntityIds(currentText, "getDataDialogEntityIdModelFirst")
+                    controller.update_available_entity_ids(currentText, "getDataDialogSourceEntityId")
                 }
             }
             ComboBox {
@@ -334,6 +338,17 @@ Dialog {
             onDoubleClicked: {
                 endTimeCalendarDialog.click(StandardButton.Save)
             }
+        }
+    }
+
+    MessageDialog {
+        id: wrongDatesDialog
+        title: "Wrong timestamps"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The start timestamp entered is posterior to the end timestamp."
+        onAccepted: {
+            displayStatisticsDialog.open()
         }
     }
 }

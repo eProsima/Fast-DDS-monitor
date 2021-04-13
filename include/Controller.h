@@ -36,20 +36,20 @@ public slots:
 
     void refresh_click();
 
-    void updateAvailableEntityIds(
-            QString entityKind,
-            QString entityModelId);
+    void update_available_entity_ids(
+            QString entity_kind,
+            QString entity_model_id);
 
-    void addStatisticsData(
-            QString dataKind,
-            QString sourceEntityId,
-            QString targetEntityId,
+    void add_statistics_data(
+            QString data_kind,
+            QString source_entity_id,
+            QString target_entity_id,
             quint16 bins,
-            quint64 startTime,
-            bool startTimeDefault,
-            quint64 endTime,
-            bool endTimeDefault,
-            QString statisticKind);
+            quint64 start_time,
+            bool start_time_default,
+            quint64 end_time,
+            bool end_time_default,
+            QString statistic_kind);
 };
 
 #endif // CONTROLLER_H

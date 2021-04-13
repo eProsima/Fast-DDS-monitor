@@ -15,6 +15,8 @@ Rectangle {
         bottomMargin: 5
         width: parent.width
         height: parent.height
+
+        ScrollBar.vertical: ScrollBar { }
     }
 
     Component {
@@ -67,9 +69,6 @@ Rectangle {
                     height: 0
                     contentHeight: contentItem.childrenRect.height
                     clip: true
-                    ScrollBar.vertical: ScrollBar {
-                        policy: ScrollBar.AlwaysOn
-                    }
                     delegate: userListDelegate
                 }
 
@@ -79,6 +78,12 @@ Rectangle {
                     Item {
                         width: parent.width
                         height: userListColumn.childrenRect.height
+
+                        ListView.onAdd: {
+                            if(userList.height != 0) {
+                                userList.height = userList.collapseHeightFlag;
+                            }
+                        }
 
                         Column {
                             id: userListColumn
@@ -135,6 +140,13 @@ Rectangle {
                                 Item {
                                     width: parent.width
                                     height: processListColumn.childrenRect.height
+
+                                    ListView.onAdd: {
+                                        if(processList.height != 0) {
+                                            processList.height = processList.collapseHeightFlag;
+                                            userList.height = userList.height + processList.height;
+                                        }
+                                    }
 
                                     Column {
                                         id: processListColumn

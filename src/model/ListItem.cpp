@@ -52,7 +52,7 @@ ListItem::ListItem(
 ListItem::~ListItem()
 {}
 
-QString ListItem::entityId() const
+QString ListItem::entity_id() const
 {
     return backend::id_to_QString(id_); //backend::id_to_QString(id_);
 }
@@ -62,7 +62,7 @@ QString ListItem::name() const
     return name_;
 }
 
-backend::EntityId ListItem::get_entityId() const
+backend::EntityId ListItem::get_entity_id() const
 {
     return id_;
 }
@@ -73,7 +73,7 @@ QVariant ListItem::data(
     switch (role)
     {
         case idRole:
-            return this->entityId();
+            return this->entity_id();
         case nameRole:
             return this->name();
         default:

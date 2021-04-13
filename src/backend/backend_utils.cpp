@@ -53,8 +53,8 @@ QString topic_type(backend::EntityId id)
     return id_to_QString(id);
 }
 
-EntityKind stringToEntityKind(
-        const QString& entityKind)
+EntityKind string_to_entity_kind(
+        const QString& entity_kind)
 {
     static std::unordered_map<QString, EntityKind> const conversionTable = {
         {"Host", EntityKind::HOST},
@@ -69,20 +69,19 @@ EntityKind stringToEntityKind(
         {"Locator", EntityKind::LOCATOR}
     };
 
-    auto it = conversionTable.find(entityKind);
+    auto it = conversionTable.find(entity_kind);
     if (it != conversionTable.end())
     {
       return it->second;
     }
     else
     {
-        // TODO: Change to a non valid EntityKind
-        return EntityKind::HOST;
+        return EntityKind::INVALID;
     }
 }
 
-DataKind stringToDataKind(
-       const QString& dataKind)
+DataKind string_to_data_kind(
+       const QString& data_kind)
 {
     static std::unordered_map<QString, DataKind> const conversionTable = {
         {"FASTDDS_LATENCY", DataKind::FASTDDS_LATENCY},
@@ -105,7 +104,7 @@ DataKind stringToDataKind(
         {"SAMPLE_DATAS", DataKind::SAMPLE_DATAS}
    };
 
-   auto it = conversionTable.find(dataKind);
+   auto it = conversionTable.find(data_kind);
    if (it != conversionTable.end())
    {
      return it->second;
@@ -117,8 +116,8 @@ DataKind stringToDataKind(
    }
 }
 
-StatisticKind stringToStatisticKind(
-       const QString& statisticKind)
+StatisticKind string_to_statistic_kind(
+       const QString& statistic_kind)
 {
     static std::unordered_map<QString, StatisticKind> const conversionTable = {
         {"NONE", StatisticKind::NONE},
@@ -131,7 +130,7 @@ StatisticKind stringToStatisticKind(
         {"SUM", StatisticKind::SUM}
    };
 
-   auto it = conversionTable.find(statisticKind);
+   auto it = conversionTable.find(statistic_kind);
    if (it != conversionTable.end())
    {
      return it->second;

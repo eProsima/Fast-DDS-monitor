@@ -29,7 +29,7 @@ ChartView {
             endTime,
             endTimeDefault,
             statisticKind) {
-        controller.addStatisticsData(dataKind,
+        controller.add_statistics_data(dataKind,
                                      sourceEntityId,
                                      targetEntityId,
                                      bins,

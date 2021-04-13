@@ -10,7 +10,7 @@ QVariant EntityItem::data(
    switch (role)
    {
         case idRole:
-           return this->entityId();
+           return this->entity_id();
         case nameRole:
             return this->name();
         default:

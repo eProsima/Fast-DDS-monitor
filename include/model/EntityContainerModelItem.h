@@ -25,7 +25,7 @@ public :
             QObject *parent = 0)
         : SubListedListItem(parent)
     {
-        subEntitiesListModel_ = new SubEntityModelClass(new SubEntityClass());
+        subentities_list_model_ = new SubEntityModelClass(new SubEntityClass());
     }
 
     EntityContainerModelItem(
@@ -33,7 +33,7 @@ public :
             QObject* parent = 0)
         : SubListedListItem(id, parent)
     {
-        subEntitiesListModel_ = new SubEntityModelClass(new SubEntityClass());
+        subentities_list_model_ = new SubEntityModelClass(new SubEntityClass());
     }
 
 };

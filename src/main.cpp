@@ -7,6 +7,8 @@
 
 #include <include/Engine.h>
 
+#include <QDebug>
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -22,12 +24,16 @@ int main(int argc, char *argv[])
 
     QObject *topLevel = Engine::get_instance()->enable();
 
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel); \
+    QQuickWindow *window = qobject_cast<QQuickWindow*>(topLevel); \
     if ( !window ) {
         qWarning("Error: Your root item has to be a Window."); \
         return -1;
     }
     window->show();
 
-    return app.exec();
+    int return_code = app.exec();
+
+    qDebug() << return_code;
+
+    return return_code;
 }

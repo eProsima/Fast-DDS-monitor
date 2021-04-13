@@ -170,7 +170,7 @@ ListItem* ListModel::find(
         EntityId itemId) const
 {
     foreach(ListItem *item, items_)
-        if (item->entityId() == itemId)
+        if (item->entity_id() == itemId)
         {
             std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
             return item;
@@ -189,7 +189,7 @@ int ListModel::getRowFromItem(
     return -1;
 }
 
-QList<ListItem*> ListModel::toList() const
+QList<ListItem*> ListModel::to_QList() const
 {
     return items_;
 }

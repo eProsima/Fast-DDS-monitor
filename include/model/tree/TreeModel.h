@@ -7,9 +7,9 @@
 #include <QModelIndex>
 #include <QVariant>
 
-using json = nlohmann::json;
+#include <include/model/tree/TreeItem.h>
 
-class TreeItem;
+using json = nlohmann::json;
 
 namespace models {
 
@@ -58,9 +58,9 @@ public:
 
     void update(const json& data);
 
-    QHash<int, QByteArray> roleNames() const override;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
-    TreeItem* getItem(
+    TreeItem* get_item(
             const QModelIndex &index) const;
 
 signals:
@@ -68,13 +68,13 @@ signals:
 
 protected:
 
-    void setupModelData(
-            const json& data,
+    void setup_model_data(
+            const json& json_data,
             TreeItem* parent);
 
 private:
 
-    TreeItem* rootItem_;
+    TreeItem* root_item_;
 
 };
 

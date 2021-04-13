@@ -24,7 +24,7 @@ public:
      * Returns the model contained by row item identified by a given item id.
      */
     Q_INVOKABLE QObject* subModelFromEntityId(
-            QString entityId);
+            QString entity_id);
 };
 
 } // namespace models

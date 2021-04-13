@@ -17,6 +17,8 @@ Rectangle {
         width: parent.width
         height: parent.height
         delegate: participantListDelegate
+
+        ScrollBar.vertical: ScrollBar { }
     }
 
     Component {
@@ -45,9 +47,9 @@ Rectangle {
                             onClicked: {
                                 if(endpointList.height === endpointList.collapseHeightFlag) {
                                     endpointList.height = 0;
-                                }
-                                else
+                                } else {
                                     endpointList.height = endpointList.collapseHeightFlag;
+                                }
                             }
                             onDoubleClicked: {
                                 controller.participant_click(id)
@@ -79,9 +81,6 @@ Rectangle {
                     height: 0
                     contentHeight: contentItem.childrenRect.height
                     clip: true
-                    ScrollBar.vertical: ScrollBar {
-                        policy: ScrollBar.AlwaysOn
-                    }
                     delegate: endpointListDelegate
                 }
 
@@ -90,6 +89,12 @@ Rectangle {
 
                     Item {
                         height: endpointListColumn.childrenRect.height
+
+                        ListView.onAdd: {
+                            if(endpointList.height != 0) {
+                                endpointList.height = endpointList.collapseHeightFlag;
+                            }
+                        }
 
                         Column {
                             id: endpointListColumn
@@ -110,9 +115,7 @@ Rectangle {
                                                 locatorList.height = 0;
                                                 endpointList.height =
                                                         endpointList.height - locatorList.collapseHeightFlag;
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 locatorList.height = locatorList.collapseHeightFlag;
                                                 endpointList.height = endpointList.height + locatorList.height;
                                             }
@@ -157,6 +160,13 @@ Rectangle {
                                 Item {
                                     width: parent.width
                                     height: locatorListColumn.childrenRect.height
+
+                                    ListView.onAdd: {
+                                        if(locatorList.height != 0) {
+                                            locatorList.height = locatorList.collapseHeightFlag;
+                                            endpointList.height = endpointList.height + locatorList.height;
+                                        }
+                                    }
 
                                     Column {
                                         id: locatorListColumn

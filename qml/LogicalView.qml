@@ -68,9 +68,6 @@ Rectangle {
                     height: 0
                     contentHeight: contentItem.childrenRect.height
                     clip: true
-                    ScrollBar.vertical: ScrollBar {
-                        policy: ScrollBar.AlwaysOn
-                    }
                     delegate: topicListDelegate
                 }
 
@@ -79,6 +76,12 @@ Rectangle {
 
                     Item {
                         height: topicListColumn.childrenRect.height
+
+                        ListView.onAdd: {
+                            if(topicList.height != 0) {
+                                topicList.height = topicList.collapseHeightFlag;
+                            }
+                        }
 
                         Column {
                             id: topicListColumn
