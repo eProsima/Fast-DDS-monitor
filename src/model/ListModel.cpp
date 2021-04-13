@@ -172,10 +172,10 @@ ListItem* ListModel::find(
     foreach(ListItem *item, items_)
         if (item->entity_id() == itemId)
         {
-            std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
+            // std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
             return item;
         }
-    std::cout << "Not found item with id: " << utils::to_string(itemId) << std::endl;
+    // std::cout << "Not found item with id: " << utils::to_string(itemId) << std::endl;
     return nullptr;
 }
 

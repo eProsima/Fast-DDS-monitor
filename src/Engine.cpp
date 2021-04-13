@@ -28,13 +28,14 @@ Engine::Engine()
     : enabled_(false)
     , last_entity_clicked_(backend::ID_ALL)
     , callback_process_run_(true)
+    , callback_listener_(this)
 {
 }
 
 QObject* Engine::enable()
 {
     // Initialize async backend
-    listener_ = new backend::Listener();
+    listener_ = new backend::Listener(this);
     backend_connection_.set_listener(listener_);
 
     // Initialize models
@@ -64,7 +65,8 @@ QObject* Engine::enable()
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
-    statistics_data_ = new StatisticsData();
+    statisticsData_ = new StatisticsData();
+    controller_ = new Controller(this);
 
     // Initialized qml
     rootContext()->setContextProperty("participantModel", participants_model_);
@@ -78,9 +80,10 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
 
-    rootContext()->setContextProperty("statisticsData", statistics_data_);
+    rootContext()->setContextProperty("statisticsData", statisticsData_);
+    rootContext()->setContextProperty("controller", controller_);
 
-    qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
+    // qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
 
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 

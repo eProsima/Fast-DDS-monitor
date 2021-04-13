@@ -4,14 +4,18 @@
 #include <QObject>
 #include <QDebug>
 
+class Engine;
+
 class Controller : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Controller(
+    Controller(
+            Engine* engine,
             QObject *parent = nullptr)
         : QObject(parent)
+        , engine_(engine)
     {
     }
 
@@ -45,11 +49,15 @@ public slots:
             QString source_entity_id,
             QString target_entity_id,
             quint16 bins,
-            quint64 start_time,
-            bool start_time_default,
-            quint64 end_time,
-            bool end_time_default,
-            QString statistic_kind);
+            quint64 startTime,
+            bool startTimeDefault,
+            quint64 endTime,
+            bool endTimeDefault,
+            QString statisticKind);
+
+protected:
+    // Engine object
+    Engine* engine_;
 };
 
 #endif // CONTROLLER_H

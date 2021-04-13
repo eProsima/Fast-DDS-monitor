@@ -26,12 +26,12 @@ QVariant EndpointModelItem::data(
 
 QString EndpointModelItem::guid() const
 {
-    return utils::to_QString(info_["guid"]);
+    return backend::get_info_value(info_, "guid");
 }
 
 QString EndpointModelItem::topic() const
 {
-    return utils::to_QString(info_["topic"]);
+    return backend::get_info_value(info_, "topic");
 }
 
 QHash<int, QByteArray> EndpointModelItem::roleNames() const

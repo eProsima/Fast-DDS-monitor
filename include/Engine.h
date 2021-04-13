@@ -16,16 +16,15 @@
 #include <include/model/tree/TreeModel.h>
 #include <include/statistics/StatisticsData.h>
 #include <include/CallbackListener.h>
+#include <include/Controller.h>
 
 class Engine : public QQmlApplicationEngine
 {
 public:
 
-    static Engine* get_instance()
-    {
-        static Engine instance;
-        return &instance;
-    }
+    Engine();
+
+    ~Engine();
 
     QObject* enable();
 
@@ -103,9 +102,6 @@ signals:
     void callback_added();
 
 protected:
-    Engine();
-
-    ~Engine();
 
     // Fill a Physical Model getting all systems and their subentities
     bool fill_physical_data();
@@ -141,8 +137,6 @@ protected:
 
     bool fill_first_entity_info();
 
-private:
-
     bool enabled_;
 
     backend::Listener* listener_;
@@ -175,6 +169,8 @@ private:
     std::atomic<bool> callback_process_run_;
 
     CallbackListener callback_listener_;
+
+    Controller* controller_;
 
     // Thread to
 //    class CallbackThread : public QThread

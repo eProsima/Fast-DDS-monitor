@@ -3,11 +3,16 @@
 
 #include <QObject>
 
+class Engine;
+
 class CallbackListener : public QObject
 {
     Q_OBJECT
 
 public:
+
+    CallbackListener(Engine* engine);
+
     void new_callback();
 
 signals:
@@ -15,6 +20,9 @@ signals:
 
 public slots:
     void new_callback_slot();
+
+protected:
+    Engine* engine_;
 };
 
 #endif // CALLBACKLISTENER_H

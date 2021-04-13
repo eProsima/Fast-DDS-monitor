@@ -5,12 +5,17 @@
 
 #include <iostream>
 
+class Engine;
+
 namespace backend {
 
 using namespace eprosima::statistics_backend;
 
 class Listener : public PhysicalListener
 {
+public:
+    Listener(Engine* engine);
+
     void on_host_discovery(
             EntityId participant_id,
             EntityId host_id,
@@ -50,6 +55,9 @@ class Listener : public PhysicalListener
             EntityId domain_id,
             EntityId datawriter_id,
             const Status& status) override;
+
+protected:
+    Engine* engine_;
 };
 
 } //namespace backend

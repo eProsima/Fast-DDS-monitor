@@ -25,12 +25,12 @@ QVariant ParticipantModelItem::data(
 
 QString ParticipantModelItem::guid() const
 {
-    return QString::fromUtf8("guid");
+    return backend::get_info_value(info_, "guid");
 }
 
 QString ParticipantModelItem::domain() const
 {
-    return QString::fromUtf8("domain");
+    return backend::get_info_value(info_, "domain");
 }
 
 QHash<int, QByteArray> ParticipantModelItem::roleNames() const

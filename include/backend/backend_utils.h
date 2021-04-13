@@ -29,6 +29,9 @@ QString topic_type(backend::EntityId id);
 // Info
 EntityInfo get_info(backend::EntityId id);
 
+// Specific field of info
+QString get_info_value(EntityInfo info, std::string key);
+
 
 backend::EntityKind string_to_entity_kind(
         const QString& entity_kind);

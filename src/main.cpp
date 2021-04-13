@@ -22,7 +22,10 @@ int main(int argc, char *argv[])
      * Application engine                                                                                             *
      ******************************************************************************************************************/
 
-    QObject *topLevel = Engine::get_instance()->enable();
+    // QObject *topLevel = Engine::get_instance()->enable();
+
+    Engine engine;
+    QObject *topLevel = engine.enable();
 
     QQuickWindow *window = qobject_cast<QQuickWindow*>(topLevel); \
     if ( !window ) {

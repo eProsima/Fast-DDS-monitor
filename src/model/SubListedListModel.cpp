@@ -46,7 +46,7 @@ QObject* SubListedListModel::subModelFromEntityId(
     SubListedListItem* item = (SubListedListItem*)find(entity_id);
     if (item != nullptr)
     {
-        std::cout << "Found model with id: " << utils::to_string(entity_id) << std::endl;
+        // std::cout << "Found model with id: " << utils::to_string(entityId) << std::endl;
         return item->submodel();
     }
     return nullptr;
