@@ -15,6 +15,8 @@ Rectangle {
         width: parent.width
         height: parent.height
         delegate: domainListDelegate
+
+        ScrollBar.vertical: ScrollBar { }
     }
 
     Component {
