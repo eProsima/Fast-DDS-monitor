@@ -31,7 +31,7 @@ project(complex-mock)
 set(STATIC_MOCK_COMPLEX_SOURCE
 
     StatisticsBackend.cpp
-    EntityId.cpp
+    # EntityId.cpp
 
     database/Database.cpp
     database/RandomGenerator.cpp
@@ -52,7 +52,6 @@ add_library(ComplexMock ${STATIC_MOCK_COMPLEX_SOURCE})
 
 target_compile_definitions(ComplexMock PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
-    $<$<BOOL:${INTERNAL_DEBUG}>:__INTERNALDEBUG> # Internal debug activated.
 )
 
 target_link_libraries(ComplexMock fastdds-statistics-backend)

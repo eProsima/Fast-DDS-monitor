@@ -75,28 +75,22 @@ HEADERS += \
 DISTFILES += \
     qml/*
 
-# This path remains when the project is build with colcon by downloadinf fastdds-monitor.repos
+# This path remains when the project is build with colcon by downloading fastdds-monitor.repos
 INCLUDEPATH += $$PWD/../../install/fastdds-statistics-backend/include
 DEPENDPATH += $$PWD/../../install/fastdds-statistics-backend/include
 
 # Static Mock
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/static_mock/ -lStaticMock
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/static_mock/ -lStaticMockd
-#else:unix: LIBS += -L$$PWD/../../build/fastdds-monitor/mock/static_mock/ -lStaticMock
-
-#win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/libStaticMock.a
-#else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/libStaticMockd.a
-#else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/StaticMock.lib
-#else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/StaticMockd.lib
-#else:unix: PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/static_mock/libStaticMock.a
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lStaticMock
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lStaticMockd
+else:unix: LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lStaticMock
 
 # Complex Mock
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMock
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMockd
-else:unix: LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMock
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMock
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMockd
+#else:unix: LIBS += -L$$PWD/../../build/fastdds-monitor/mock/complex_mock/ -lComplexMock
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMock.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMockd.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/ComplexMock.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/ComplexMockd.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMock.a
+#win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMock.so
+#else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMockd.so
+#else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/ComplexMock.lib
+#else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/ComplexMockd.lib
+#else:unix: PRE_TARGETDEPS += $$PWD/../../build/fastdds-monitor/mock/complex_mock/libComplexMock.so

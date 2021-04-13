@@ -1,4 +1,4 @@
-# Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+# Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,11 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 2.8.12)
-
-if(NOT CMAKE_VERSION VERSION_LESS 3.0)
-    cmake_policy(SET CMP0048 NEW)
-endif()
+cmake_minimum_required(VERSION 3.14)
 
 # Find FastDDS Statistics Backend library
 find_package(fastcdr REQUIRED)
@@ -30,14 +26,13 @@ project(static-mock)
 
 set(STATIC_MOCK_COMPLEX_SOURCE
     StatisticsBackend.cpp
-    EntityId.cpp
+    # EntityId.cpp
     )
 
 add_library(StaticMock ${STATIC_MOCK_COMPLEX_SOURCE})
 
 target_compile_definitions(StaticMock PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
-    $<$<BOOL:${INTERNAL_DEBUG}>:__INTERNALDEBUG> # Internal debug activated.
 )
 
 target_link_libraries(StaticMock fastdds-statistics-backend)
