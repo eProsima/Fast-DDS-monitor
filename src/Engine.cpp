@@ -27,6 +27,7 @@ using nlohmann::json;
 Engine::Engine()
     : enabled_(false)
     , last_entity_clicked_(backend::ID_ALL)
+    , last_entity_clicked_kind_(backend::EntityKind::INVALID)
     , callback_process_run_(true)
     , callback_listener_(this)
 {
@@ -150,6 +151,8 @@ void Engine::shared_init_monitor_(backend::EntityId domain_id)
 {
     add_domain_issue(backend_connection_.get_name(domain_id));
 
+    entity_clicked(domain_id, backend::EntityKind::DOMAIN);
+
     if (domain_id.is_valid())
     {
         update_domain_data(domain_id);
@@ -159,7 +162,16 @@ void Engine::shared_init_monitor_(backend::EntityId domain_id)
 
 bool Engine::fill_entity_info(backend::EntityId id /*ID_ALL*/)
 {
-    info_model_->update(backend_connection_.get_info(id));
+    if (id == backend::ID_ALL)
+    {
+        json default_info;
+        default_info["No entity"] = "Double click over any entity to see its values";
+        info_model_->update(default_info);
+    }
+    else
+    {
+        info_model_->update(backend_connection_.get_info(id));
+    }
     return true;
 }
 
@@ -319,6 +331,7 @@ bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
     case backend::EntityKind::PROCESS:
     case backend::EntityKind::DOMAIN:
     case backend::EntityKind::TOPIC:
+    case backend::EntityKind::INVALID: // all case
         // All Entities in Physical and Logical Models
         // Those entities affect over the participant view
 
@@ -330,7 +343,6 @@ bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
 
         // Without break as it needs to do as well the info update
         [[fallthrough]];
-
     default:
         // DDS Entities
         res = fill_entity_info(id) or res;
@@ -428,6 +440,7 @@ void Engine::refresh_engine()
 {
     std::cout << "REFRESH" << std::endl;
     // TODO this should be changed from erase all models and re draw them
+    entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
     process_callback_queue();
 }
 

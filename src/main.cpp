@@ -34,9 +34,5 @@ int main(int argc, char *argv[])
     }
     window->show();
 
-    int return_code = app.exec();
-
-    qDebug() << return_code;
-
-    return return_code;
+    return app.exec();
 }
