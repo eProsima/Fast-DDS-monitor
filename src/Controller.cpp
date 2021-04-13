@@ -59,7 +59,7 @@ void Controller::update_available_entity_ids(
         QString entity_kind,
         QString entity_model_id)
 {
-    engine_->onSelectedEntityKind(backend::stringToEntityKind(entityKind), entityModelId);
+    engine_->on_selected_entity_kind(backend::string_to_entity_kind(entity_kind), entity_model_id);
 }
 
 void Controller::refresh_click()
@@ -79,21 +79,21 @@ void Controller::add_statistics_data(
         QString statistic_kind)
 {
 
-    qDebug() << "Data Kind: " << dataKind << "\n" <<
-                "Source Entity Id: " << sourceEntityId << "\n" <<
-                "Target Entity Id: " << targetEntityId << "\n" <<
+    qDebug() << "Data Kind: " << data_kind << "\n" <<
+                "Source Entity Id: " << source_entity_id << "\n" <<
+                "Target Entity Id: " << target_entity_id << "\n" <<
                 "Bins: " << bins << "\n" <<
-                "Time Start: " << startTime << "\n" <<
-                "Time Start Default: " << startTimeDefault << "\n" <<
-                "End Start: " << endTime << "\n" <<
-                "End Start Default: " << endTimeDefault << "\n" <<
-                "Statistics Kind: " << statisticKind;
+                "Time Start: " << start_time << "\n" <<
+                "Time Start Default: " << start_time_default << "\n" <<
+                "End Start: " << end_time << "\n" <<
+                "End Start Default: " << end_time_default << "\n" <<
+                "Statistics Kind: " << statistic_kind;
 
 
-    engine_->onAddStatisticsDataSeries(
-                backend::stringToDataKind(dataKind),
-                backend::models_id_to_backend_id(sourceEntityId),
-                backend::models_id_to_backend_id(targetEntityId),
+    engine_->on_add_statistics_data_series(
+                backend::string_to_data_kind(data_kind),
+                backend::models_id_to_backend_id(source_entity_id),
+                backend::models_id_to_backend_id(target_entity_id),
                 bins,
                 start_time,
                 start_time_default,

@@ -7,7 +7,6 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls 1.4 as QCC1
 import QtQuick.Controls.Styles 1.4
 import QtQml.Models 2.12
-import Controller 1.0
 
 Dialog {
     id: displayStatisticsDialog

@@ -65,7 +65,7 @@ QObject* Engine::enable()
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
-    statisticsData_ = new StatisticsData();
+    statistics_data_ = new StatisticsData();
     controller_ = new Controller(this);
 
     // Initialized qml
@@ -80,7 +80,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
 
-    rootContext()->setContextProperty("statisticsData", statisticsData_);
+    rootContext()->setContextProperty("statisticsData", statistics_data_);
     rootContext()->setContextProperty("controller", controller_);
 
     // qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
