@@ -1,26 +1,30 @@
 import QtQuick 2.0
 import QtQuick.Dialogs 1.2
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
 
 Dialog {
     id: dataKindDialog
-    modality: Qt.NonModal
+    modal: false
     title: "Display new statistics data"
+    standardButtons: Dialog.Ok | Dialog.Cancel
+
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
 
     signal createChart(string dataKind)
 
     onAccepted: createChart(dataKindComboBox.currentText)
 
+    RowLayout {
+
         Label {
             id: dataKindLabel
             text: "Data kind: "
-            anchors.left: parent.left
-            anchors.bottom: dataKindComboBox.bottom
         }
         ComboBox {
             id: dataKindComboBox
-            anchors.left: dataKindLabel.right
-            width: 250
+            implicitWidth: 300
             model: [
                 "FASTDDS_LATENCY",
                 "NETWORK_LATENCY",
@@ -41,6 +45,7 @@ Dialog {
                 "DISCOVERED_ENTITY",
                 "SAMPLE_DATAS"]
         }
+    }
 }
 
 

@@ -1,22 +1,25 @@
+import QtQml 2.15
 import QtQuick 2.0
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
+import Qt.labs.calendar 1.0
+import QtQuick.Controls 2.15
+import QtQuick.Controls 1.4 as QCC1
 import QtQuick.Controls.Styles 1.4
 import QtQml.Models 2.12
 import Controller 1.0
 
 Dialog {
     id: displayStatisticsDialog
-    modality: Qt.NonModal
+    modal: false
     title: "Display new statistics data"
+    standardButtons: Dialog.Ok | Dialog.Cancel
 
-    width: 450
-    height: 250
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
 
-    property var locale: Qt.locale()
-    property string startTimeDate: "" + new Date().toLocaleDateString(locale, "dd.MM.yyyy")
-    property string endTimeDate: "" + new Date().toLocaleDateString(locale, "dd.MM.yyyy")
+    property string startTimeDate: "" + new Date().toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
+    property string endTimeDate: "" + new Date().toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
 
     property var targetEntityIdComponent: Qt.createComponent("AdditionalEntityId.qml")
     property var targetEntityIdObject: null
@@ -36,20 +39,20 @@ Dialog {
                 targetEntityIdObject.destroy();
             }
         }
+
+        controller.update_available_entity_ids("Host", "getDataDialogSourceEntityId")
     }
 
     onAccepted: {
         var startTime = Date.fromLocaleString(
-                    locale,
-                    startTimeDate + " " +
-                        startTimeHour.value + ":" + startTimeMinute.value + ":" + startTimeSecond.value,
-                    "dd.MM.yyyy h:m:s")
+                    Qt.locale(),
+                    startTimeDate,
+                    "dd.MM.yyyy HH:mm:ss")
 
         var endTime = Date.fromLocaleString(
-                    locale,
-                    endTimeDate + " " +
-                        endTimeHour.value + ":" + endTimeMinute.value + ":" + endTimeSecond.value,
-                    "dd.MM.yyyy h:m:s")
+                    Qt.locale(),
+                    endTimeDate,
+                    "dd.MM.yyyy HH:mm:ss")
         if (startTime <= endTime) {
             controlPanel.addSeries(
                         chartTitle,
@@ -62,7 +65,9 @@ Dialog {
                         endTimeDefault.checked,
                         statisticKind.currentText)
         } else {
-            wrongDatesDialog.open()
+            if (!startTimeDefault.checked) {
+                wrongDatesDialog.open()
+            }
         }
 
     }
@@ -76,7 +81,7 @@ Dialog {
             id: sourceEntityIdLabel
             text: "Source Entity Id: "
         }
-        Row {
+        RowLayout {
             ComboBox {
                 id: getDataDialogSourceEntityId
                 model: [
@@ -100,7 +105,7 @@ Dialog {
             }
         }
 
-        Row {
+        RowLayout {
             id: entityIdModelSecondRow
             Layout.columnSpan: 2
         }
@@ -111,97 +116,44 @@ Dialog {
         }
         SpinBox {
             id: bins
-            minimumValue: 0
+            from: 0
             value: 0
         }
 
         Label {
             text: "Start time: "
         }
-        Column {
+        ColumnLayout {
             id: startTimeValues
 
-            Row {
+            RowLayout {
                 Label {
                     text: "Default inital timestamp: "
                 }
 
-                RadioButton {
+                CheckBox {
                     id: startTimeDefault
                     checked: false
+                    indicator.width: 20
+                    indicator.height: 20
                     onCheckedChanged: {
                         if (checked) {
                             startTimeCalendarButton.enabled = false
-                            startTimeHour.enabled = false
-                            startTimeMinute.enabled = false
-                            startTimeSecond.enabled = false
-                            startTimeHourSeparator.color = "grey"
-                            startTimeMinuteSeparator.color = "grey"
 
                         } else {
                             startTimeCalendarButton.enabled = true
-                            startTimeHour.enabled = true
-                            startTimeMinute.enabled = true
-                            startTimeSecond.enabled = true
-                            startTimeHourSeparator.color = "black"
-                            startTimeMinuteSeparator.color = "black"
                         }
                     }
                 }
             }
 
-            Row {
-                Button {
-                    id: startTimeCalendarButton
-                    text: startTimeDate
-                    anchors.bottom: parent.bottom
-
-                    onClicked: {
-                        startTimeCalendarDialog.open()
-                    }
-                    enabled: true
+            Button {
+                id: startTimeCalendarButton
+                text: startTimeDate
+                onClicked: {
+                    startTimeCalendarDialog.open()
                 }
-                Text {
-                    text: "   "
-                    font.bold: true
-                }
-                SpinBox {
-                    id: startTimeHour
-                    anchors.bottom: parent.bottom
-                    value: 0
-                    minimumValue: 0
-                    maximumValue: 24
-                    enabled: true
-                }
-                Text {
-                    id: startTimeHourSeparator
-                    text: " : "
-                    anchors.bottom: parent.bottom
-                    font.bold: true
-                    color: "black"
-                }
-                SpinBox {
-                    id: startTimeMinute
-                    anchors.bottom: parent.bottom
-                    value: 0
-                    minimumValue: 0
-                    maximumValue: 60
-                    enabled: true
-                }
-                Text {
-                    id: startTimeMinuteSeparator
-                    text: " : "
-                    anchors.bottom: parent.bottom
-                    font.bold: true
-                }
-                SpinBox {
-                    id: startTimeSecond
-                    anchors.bottom: parent.bottom
-                    value: 0
-                    minimumValue: 0
-                    maximumValue: 60
-                    enabled: true
-                }
+                enabled: true
             }
         }
 
@@ -209,83 +161,35 @@ Dialog {
         Label {
             text: "End time: "
         }
-        Column {
+        ColumnLayout {
             id: endTimeValues
 
-            Row {
+            RowLayout {
                 Label {
                     text: "Now: "
                 }
 
-                RadioButton {
+                CheckBox {
                     id: endTimeDefault
                     checked: false
+                    indicator.width: 20
+                    indicator.height: 20
                     onCheckedChanged: {
                         if (checked) {
                             endTimeCalendarButton.enabled = false
-                            endTimeHour.enabled = false
-                            endTimeMinute.enabled = false
-                            endTimeSecond.enabled = false
-                            endTimeHourSeparator.color = "grey"
-                            endTimeMinuteSeparator.color = "grey"
 
                         } else {
                             endTimeCalendarButton.enabled = true
-                            endTimeHour.enabled = true
-                            endTimeMinute.enabled = true
-                            endTimeSecond.enabled = true
-                            endTimeHourSeparator.color = "black"
-                            endTimeMinuteSeparator.color = "black"
                         }
                     }
                 }
             }
 
-            Row {
-                Button {
-                    id: endTimeCalendarButton
-                    text: endTimeDate
-                    anchors.bottom: parent.bottom
-                    onClicked: {
-                        endTimeCalendarDialog.open()
-                    }
-                }
-                Text {
-                    text: "   "
-                    font.bold: true
-                }
-                SpinBox {
-                    id: endTimeHour
-                    anchors.bottom: parent.bottom
-                    value: 0
-                    minimumValue: 0
-                    maximumValue: 24
-                }
-                Text {
-                    id: endTimeHourSeparator
-                    text: " : "
-                    anchors.bottom: parent.bottom
-                    font.bold: true
-                }
-                SpinBox {
-                    id: endTimeMinute
-                    anchors.bottom: parent.bottom
-                    value: 0
-                    minimumValue: 0
-                    maximumValue: 60
-                }
-                Text {
-                    id: endTimeMinuteSeparator
-                    text: " : "
-                    anchors.bottom: parent.bottom
-                    font.bold: true
-                }
-                SpinBox {
-                    id: endTimeSecond
-                    anchors.bottom: parent.bottom
-                    value: 0
-                    minimumValue: 0
-                    maximumValue: 60
+            Button {
+                id: endTimeCalendarButton
+                text: endTimeDate
+                onClicked: {
+                    endTimeCalendarDialog.open()
                 }
             }
         }
@@ -313,13 +217,62 @@ Dialog {
         standardButtons: StandardButton.Save | StandardButton.Cancel
 
         onAccepted: {
-            startTimeDate = startTimeCalendar.selectedDate.toLocaleDateString(locale, "dd.MM.yyyy");
+            var tmpDate = new Date(startTimeCalendar.selectedDate)
+            tmpDate.setHours(parseInt(startTimeHour.currentItem.text),
+                             parseInt(startTimeMinute.currentItem.text),
+                             parseInt(startTimeSecond.currentItem.text),
+                             0)
+            startTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
-        Calendar {
-            id: startTimeCalendar
-            onDoubleClicked: {
-                startTimeCalendarDialog.click(StandardButton.Save)
+        RowLayout {
+            QCC1.Calendar {
+                id: startTimeCalendar
+            }
+
+            Rectangle {
+                width: startTimeFrame.implicitWidth + 10
+                height: startTimeFrame.implicitHeight + 10
+
+                Component {
+                    id: startTimeDelegate
+
+                    Label {
+                        text: formatText(Tumbler.tumbler.count, modelData)
+                        opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+
+                Frame {
+                    id: startTimeFrame
+                    padding: 0
+                    anchors.centerIn: parent
+
+                    RowLayout {
+                        Tumbler {
+                            id: startTimeHour
+                            model: 24
+                            wrap: false
+                            delegate: startTimeDelegate
+                        }
+
+                        Tumbler {
+                            id: startTimeMinute
+                            model: 60
+                            wrap: false
+                            delegate: startTimeDelegate
+                        }
+
+                        Tumbler {
+                            id: startTimeSecond
+                            model: 60
+                            wrap: false
+                            delegate: startTimeDelegate
+                        }
+                    }
+                }
             }
         }
     }
@@ -330,13 +283,62 @@ Dialog {
         standardButtons: StandardButton.Save | StandardButton.Cancel
 
         onAccepted: {
-            endTimeDate = endTimeCalendar.selectedDate.toLocaleDateString(locale, "dd.MM.yyyy");
+            var tmpDate = new Date(endTimeCalendar.selectedDate)
+            tmpDate.setHours(parseInt(endTimeHour.currentItem.text),
+                             parseInt(endTimeMinute.currentItem.text),
+                             parseInt(endTimeSecond.currentItem.text),
+                             0)
+            endTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
-        Calendar {
-            id: endTimeCalendar
-            onDoubleClicked: {
-                endTimeCalendarDialog.click(StandardButton.Save)
+        RowLayout {
+            QCC1.Calendar {
+                id: endTimeCalendar
+            }
+
+            Rectangle {
+                width: endTimeFrame.implicitWidth + 10
+                height: endTimeFrame.implicitHeight + 10
+
+                Component {
+                    id: endTimeDelegate
+
+                    Label {
+                        text: formatText(Tumbler.tumbler.count, modelData)
+                        opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+
+                Frame {
+                    id: endTimeFrame
+                    padding: 0
+                    anchors.centerIn: parent
+
+                    RowLayout {
+                        Tumbler {
+                            id: endTimeHour
+                            model: 24
+                            wrap: false
+                            delegate: endTimeDelegate
+                        }
+
+                        Tumbler {
+                            id: endTimeMinute
+                            model: 60
+                            wrap: false
+                            delegate: endTimeDelegate
+                        }
+
+                        Tumbler {
+                            id: endTimeSecond
+                            model: 60
+                            wrap: false
+                            delegate: endTimeDelegate
+                        }
+                    }
+                }
             }
         }
     }
@@ -350,6 +352,11 @@ Dialog {
         onAccepted: {
             displayStatisticsDialog.open()
         }
+    }
+
+    function formatText(count, modelData) {
+        var data = count === 24 ? modelData + 1 : modelData;
+        return data.toString().length < 2 ? "0" + data : data;
     }
 }
 

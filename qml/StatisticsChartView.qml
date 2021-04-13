@@ -17,6 +17,9 @@ ChartView {
         id: dateTimeAxisX
         min: new Date()
         max: new Date()
+        format: "hh:mm:ss (dd.MM)"
+        labelsAngle: -45
+        labelsFont: Qt.font({pointSize: 8})
     }
 
     function addSeries(
@@ -57,6 +60,8 @@ ChartView {
 
     function clearChart() {
         chartView.removeAllSeries();
+        dateTimeAxisX.max = new Date()
+        dateTimeAxisX.min = new Date()
     }
 
     function createAxis(min, max) {

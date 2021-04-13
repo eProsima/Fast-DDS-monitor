@@ -1,11 +1,16 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
 RowLayout {
     id: additionalEntityId
 
     property string targetEntityId
+
+    Component.onCompleted: {
+        controller.update_available_entity_ids("Host", "getDataDialogDestinationEntityId")
+        targetEntityId = targetEntityIdComboBox.currentText
+    }
 
     Label {
         text: "Target Entity Id: "

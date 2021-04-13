@@ -31,6 +31,30 @@ Rectangle {
             } else {
                 scrollBar.increase()
             }
+        }
+
+        GridView {
+            id: gridView
+            anchors.fill: parent
+            cellWidth: 500
+            cellHeight: 500
+            interactive: false
+            model: statisticsChartBoxModel
+            delegate: widgetdelegate
+
+            property int firstIndexDrag: -1
+
+            Item {
+                id: container
+                anchors.fill: parent
+            }
+
+            ScrollBar.vertical: ScrollBar {
+                id: scrollBar
+                visible: true
+                hoverEnabled: true
+            }
+
 
         }
 
@@ -98,30 +122,6 @@ Rectangle {
                     }
                 ]
             }
-        }
-
-        GridView {
-            id: gridView
-            anchors.fill: parent
-            cellWidth: 500; cellHeight: 500;
-            interactive: false
-            model: statisticsChartBoxModel
-            delegate: widgetdelegate
-
-            property int firstIndexDrag: -1
-
-            Item {
-                id: container
-                anchors.fill: parent
-            }
-
-            ScrollBar.vertical: ScrollBar {
-                id: scrollBar
-                visible: true
-                hoverEnabled: true
-            }
-
-
         }
     }
 
