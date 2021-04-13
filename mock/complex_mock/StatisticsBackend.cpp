@@ -31,6 +31,9 @@ namespace statistics_backend {
  *
  */
 
+// Variable to set the seed as first monitor initialized
+static bool first_domain = true;
+
 // Implemented without Mask
 void StatisticsBackend::set_physical_listener(
         PhysicalListener* listener,
@@ -70,6 +73,19 @@ EntityId StatisticsBackend::init_monitor(
         DataKindMask data_mask)
 {
     std::cout << "CONGRATULATIONS, you have init a monitor in " << discovery_server_locators << std::endl;
+
+    if (first_domain)
+    {
+        first_domain = false;
+        if (!discovery_server_locators.empty())
+        {
+            srand(discovery_server_locators[0]);
+        }
+        else
+        {
+            srand(0);
+        }
+    }
 
     EntityId domain_id = Database::get_instance()->add_domain();
 
@@ -124,8 +140,8 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
 {
     std::cout << "CONGRATULATIONS, you have asked for the data of " << entity_id << std::endl;
 
+    static_cast<void> (data_type);
     static_cast<void> (statistic);
-    srand(entity_id.value() * int(data_type));
 
     if (0 == bins)
     {

@@ -65,6 +65,8 @@ public:
 
     EntityPointer get_entity(EntityId id);
 
+    bool first_call();
+
 protected:
 
     Database();
@@ -91,6 +93,8 @@ private:
 
     std::recursive_mutex data_mutex_;
 
+    //! Indicates to the threads that must start
+    std::atomic<bool> start_;
     //! Indicates to the threads that must keep running
     std::atomic<bool> run_;
 

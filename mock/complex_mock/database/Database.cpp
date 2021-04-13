@@ -33,6 +33,7 @@ namespace statistics_backend {
 
 void Database::start()
 {
+    start_.store(true);
     run_.store(true);
 
     {
@@ -48,11 +49,19 @@ void Database::start()
 
 void Database::stop()
 {
+    // Must set start as true in case start() has not been called yet. If not, the threads will keep waiting.
+    start_.store(true);
     run_.store(false);
 
     {
         // std::unique_lock<std::mutex> lock(run_mutex_);
         cv_run_.notify_all();
+    }
+
+    {
+        // In case it is closed before a domain has been set
+        // std::unique_lock<std::mutex> lock(callback_mutex_start_);
+        cv_callback_start_.notify_all();
     }
 
     {
@@ -70,6 +79,7 @@ void Database::listener(PhysicalListener* listener)
 Database::Database()
     : last_id_(0)
     , listener_(nullptr)
+    , start_(false)
     , run_(false)
 {
     std::cout << "Database constructor" << std::endl;
@@ -179,7 +189,7 @@ EntityId Database::add_domain()
         domains_.push_back(domain->id());
     }
 
-    std::cout << "domain add into domains" << std::endl;
+    std::cout << "domain added into domains" << std::endl;
 
     // Generates random Entities to fill this domain
     add_entities(RandomGenerator::init_random_domain(domain), domain->id());
@@ -229,8 +239,10 @@ void Database::generate_random_entity_thread()
     std::cout << "Random Data Generator Thread starting" << std::endl;
 
     // Wait till is ready to generate data
-    std::unique_lock<std::mutex> lock(run_mutex_);
-    cv_run_.wait(lock, [this]{return run_.load();});
+    {
+        std::unique_lock<std::mutex> lock(run_mutex_);
+        cv_run_.wait(lock, [this]{return start_.load();});
+    }
 
     std::cout << "Random Data Generator Thread running" << std::endl;
 
@@ -247,7 +259,11 @@ void Database::generate_random_entity_thread()
         uint32_t sleep_seconds = (count_domains() <= 1) ? DATA_GENERATION_TIME : DATA_GENERATION_TIME - count_domains();
         sleep_seconds = (sleep_seconds < MIN_DATA_GENERATION_TIME) ? MIN_DATA_GENERATION_TIME : sleep_seconds;
 
-        std::this_thread::sleep_for(std::chrono::seconds(sleep_seconds));
+        // Wait to represent data receiving and unlock if stop has been clicked
+        {
+            std::unique_lock<std::mutex> lock(run_mutex_);
+            cv_run_.wait_for(lock, std::chrono::seconds(sleep_seconds));
+        }
 
         // Exit with stop if it has activated while sleeping
         if (!run_.load())
@@ -274,7 +290,7 @@ void Database::callback_listener_thread()
     // Wait till is ready to create callbacks
     // This is needed because if not it will end before run_ has set to true
     std::unique_lock<std::mutex> lock(callback_mutex_start_);
-    cv_callback_start_.wait(lock, [this]{return (!new_entities_.empty());});
+    cv_callback_start_.wait(lock, [this]{return start_.load();});
 
     std::cout << "Callback Listener Thread running" << std::endl;
 
@@ -282,7 +298,13 @@ void Database::callback_listener_thread()
     {
         // Wait till is ready to generate data
         std::unique_lock<std::mutex> lock(callback_mutex_);
-        cv_callback_.wait(lock, [this]{return (!new_entities_.empty());});
+        cv_callback_.wait(lock, [this]{return (!run_.load() || !new_entities_.empty());});
+
+        // Exit with stop if it has activated while sleeping
+        if (!run_.load())
+        {
+            break;
+        }
 
         std::cout << "Callback Listener Thread notifying" << std::endl;
 
