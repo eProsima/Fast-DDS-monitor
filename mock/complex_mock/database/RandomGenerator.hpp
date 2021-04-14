@@ -94,6 +94,7 @@ protected:
 
     /////
     // New entities factories
+    // The name generated for each entity is <kind>_<id>
 
     // Create a new Entity Host
     static HostPointer new_host_();

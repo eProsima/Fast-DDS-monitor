@@ -24,18 +24,22 @@
 namespace eprosima {
 namespace statistics_backend {
 
+//! DataWriter Entity in Database
 class DataWriter : public Endpoint
 {
 public:
 
+    // Using Endpoint constructors
     using Endpoint::Endpoint;
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::DATAWRITER;
     }
 };
 
+//! Type name for entity shared pointer
 using DataWriterPointer = std::shared_ptr<DataWriter>;
 
 } // namespace statistics_backend

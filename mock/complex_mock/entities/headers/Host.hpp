@@ -24,17 +24,22 @@
 namespace eprosima {
 namespace statistics_backend {
 
+//! Host Entity in Database
 class Host : public Entity
 {
 public:
 
+    // Using Entity constructors
     using Entity::Entity;
 
+    //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
         const EntityKind entity_type) const override;
 
+    //! Add Entity to User list
     void add_user(EntityPointer user);
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::HOST;
@@ -44,6 +49,7 @@ private:
     std::map<EntityId, EntityPointer> users_;
 };
 
+//! Type name for entity shared pointer
 using HostPointer = std::shared_ptr<Host>;
 
 } // namespace statistics_backend

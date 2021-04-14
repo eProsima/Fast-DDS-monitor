@@ -28,16 +28,22 @@ class Participant : public DDSEntity
 {
 public:
 
+    // Using DDSEntity constructors
     using DDSEntity::DDSEntity;
 
+    //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
         const EntityKind entity_type) const override;
 
+    //! Add Entity to Endpoint list
     void add_endpoint(EntityPointer endpoint);
 
+    //! Add Process as connected Entity
     void process(EntityPointer process);
+    //! Add Domain as connected Entity
     void domain(EntityPointer domain);
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::PARTICIPANT;
@@ -49,6 +55,7 @@ private:
     EntityPointer domain_;
 };
 
+//! Type name for entity shared pointer
 using ParticipantPointer = std::shared_ptr<Participant>;
 
 } // namespace statistics_backend

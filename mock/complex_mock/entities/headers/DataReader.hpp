@@ -24,18 +24,22 @@
 namespace eprosima {
 namespace statistics_backend {
 
+//! DataReader Entity in Database
 class DataReader : public Endpoint
 {
 public:
 
+    // Using Endpoint constructors
     using Endpoint::Endpoint;
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::DATAREADER;
     }
 };
 
+//! Type name for entity shared pointer
 using DataReaderPointer = std::shared_ptr<DataReader>;
 
 } // namespace statistics_backend

@@ -24,16 +24,25 @@
 namespace eprosima {
 namespace statistics_backend {
 
+/**
+ * All Entities in the Database are subclasses of \c Entity
+ * This class represents the interface for each entity kind
+ *
+ * The entities along the Database are referenced one to each other when they are directly related
+ * These entities hold a shared pointer to those connected entities
+ *
+ * In order to simplify the logic, all Entities would containe \c EntityPointer instead of more
+ * specific pointers for every subentity or superentity they have
+ */
 class Entity
 {
 public:
 
     /**
-     * @brief Return a vector with the ids in a map of entities
+     * @brief Entity standard constructor
      *
-     * @param map map of entities
-     *
-     * @return ids of entities in map
+     * @param id new entity id (must be unique)
+     * @param name new entity name
      */
     Entity(EntityId& id, std::string name)
         : id_(id)
@@ -42,30 +51,31 @@ public:
     }
 
     /**
-     * @brief Return a vector with the ids in a map of entities
+     * @brief Get all entity ids of a kind related with this one
      *
-     * @param map map of entities
+     * @warning It is not implemented to remove duplicate ids
      *
-     * @return ids of entities in map
+     * @param entity_type kind of entities to retrieve information
+     *
+     * @return vector of entity ids
      */
     virtual std::vector<EntityId> get_entities(
         const EntityKind entity_type) const;
 
     /**
-     * @brief Return a vector with the ids in a map of entities
+     * @brief Get info of entity
      *
-     * @param map map of entities
+     * This function must be override in subentities that has extra information
+     * It is recommended to call the father method in every subentity implementation
      *
-     * @return ids of entities in map
+     * @return entity name
      */
     virtual Info get_info() const;
 
     /**
-     * @brief Return a vector with the ids in a map of entities
+     * @brief Get name of entity
      *
-     * @param map map of entities
-     *
-     * @return ids of entities in map
+     * @return entity name
      */
     std::string name() const
     {
@@ -73,11 +83,9 @@ public:
     }
 
     /**
-     * @brief Return a vector with the ids in a map of entities
+     * @brief Get id of entity
      *
-     * @param map map of entities
-     *
-     * @return ids of entities in map
+     * @return entity id
      */
     EntityId id() const
     {
@@ -85,20 +93,24 @@ public:
     }
 
     /**
-     * @brief Return a vector with the ids in a map of entities
+     * @brief Get kind of entity
      *
-     * @param map map of entities
+     * This method must be implemented by every subclass
      *
-     * @return ids of entities in map
+     * @return entity kind
      */
     virtual EntityKind kind() const;
 
 private:
 
+    //! Id of the entity
     const EntityId id_;
+
+    //! Name of the entity
     const std::string name_;
 };
 
+//! Type name for entity shared pointer
 using EntityPointer = std::shared_ptr<Entity>;
 
 } // namespace statistics_backend

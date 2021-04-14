@@ -222,7 +222,7 @@ ParticipantPointer RandomGenerator::new_participant_(DomainPointer domain, Proce
     EntityId id = EntityId(Database::get_instance()->next_id());
     ParticipantPointer entity_p = std::make_shared<Participant>(id, "Participant_" + entityId_to_string(id));
 
-    entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
+    entity_p->guid("01:0f:" + entityId_to_string(id) + ":" + entityId_to_string(id));
     entity_p->qos(random_qos());
 
     entity_p->domain(domain);
@@ -239,7 +239,7 @@ EndpointPointer RandomGenerator::new_datawriter_(ParticipantPointer participant,
     EntityId id = EntityId(Database::get_instance()->next_id());
     DataWriterPointer entity_p = std::make_shared<DataWriter>(id, "DataWriter_" + entityId_to_string(id));
 
-    entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
+    entity_p->guid("01:0f:" + entityId_to_string(id) + ":" + entityId_to_string(id));
     entity_p->qos(random_qos());
 
     entity_p->participant(participant);

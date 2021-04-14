@@ -1,3 +1,4 @@
+//! DataReader Entity in Database
 // Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,17 +25,22 @@
 namespace eprosima {
 namespace statistics_backend {
 
+//! Locator Entity in Database
 class Locator : public Entity
 {
 public:
 
+    // Using Entity constructors
     using Entity::Entity;
 
+    //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
         const EntityKind entity_type) const override;
 
+    //! Add Entity to Endpoint list
     void add_endpoint(EntityPointer endpoint);
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::LOCATOR;
@@ -44,6 +50,7 @@ private:
     std::map<EntityId, EntityPointer> endpoints_;
 };
 
+//! Type name for entity shared pointer
 using LocatorPointer = std::shared_ptr<Locator>;
 
 } // namespace statistics_backend

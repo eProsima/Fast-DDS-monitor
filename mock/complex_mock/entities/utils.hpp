@@ -17,6 +17,7 @@
  */
 
 #include <fastdds-statistics-backend/types/types.hpp>
+
 #include "headers/Entity.hpp"
 
 #ifndef _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_UTILS_HPP_

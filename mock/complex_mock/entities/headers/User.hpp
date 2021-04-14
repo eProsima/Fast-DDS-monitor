@@ -28,15 +28,20 @@ class User : public Entity
 {
 public:
 
+    // Using Entity constructors
     using Entity::Entity;
 
+    //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
         const EntityKind entity_type) const override;
 
+    //! Add Entity to Process list
     void add_process(EntityPointer process);
 
+    //! Add Host as connected Entity
     void host(EntityPointer host);
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::USER;
@@ -47,6 +52,7 @@ private:
     EntityPointer host_;
 };
 
+//! Type name for entity shared pointer
 using UserPointer = std::shared_ptr<User>;
 
 } // namespace statistics_backend

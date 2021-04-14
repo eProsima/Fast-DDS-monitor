@@ -24,26 +24,34 @@
 namespace eprosima {
 namespace statistics_backend {
 
+//! Process Entity in Database
 class Process : public Entity
 {
 public:
 
+    // Using Entity constructors
     using Entity::Entity;
 
+    //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
         const EntityKind entity_type) const override;
 
+    //! Add Entity to Participant list
     void add_participant(EntityPointer participant);
 
+    //! Add User as connected Entity
     void user(EntityPointer user);
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::PROCESS;
     }
 
+    //! Field \c pid getter
     std::string pid() const;
 
+    //! Override of \c get_info Entity method
     Info get_info() const override;
 
 private:
@@ -51,6 +59,7 @@ private:
     EntityPointer user_;
 };
 
+//! Type name for entity shared pointer
 using ProcessPointer = std::shared_ptr<Process>;
 
 } // namespace statistics_backend
