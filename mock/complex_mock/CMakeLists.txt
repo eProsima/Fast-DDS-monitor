@@ -22,12 +22,12 @@ find_package(fastdds-statistics-backend REQUIRED)
 # Allow to use threads
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-project(complex-mock)
+project(backend-mock)
 
-set(STATIC_MOCK_COMPLEX_SOURCE
+set(COMPLEX_MOCK_SOURCE
 
     StatisticsBackend.cpp
-    # EntityId.cpp
+    EntityId.cpp
 
     database/Database.cpp
     database/RandomGenerator.cpp
@@ -44,12 +44,12 @@ set(STATIC_MOCK_COMPLEX_SOURCE
     entities/source/Locator.cpp
     )
 
-add_library(ComplexMock ${STATIC_MOCK_COMPLEX_SOURCE})
+add_library(BackendMock ${COMPLEX_MOCK_SOURCE})
 
-target_compile_definitions(ComplexMock PRIVATE
+target_compile_definitions(BackendMock PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
 )
 
-target_link_libraries(ComplexMock fastdds-statistics-backend)
-install(TARGETS ComplexMock
-    RUNTIME DESTINATION Mock/ComplexMock/${BIN_INSTALL_DIR})
+target_link_libraries(BackendMock fastdds-statistics-backend)
+install(TARGETS BackendMock
+    RUNTIME DESTINATION Mock/BackendMock/${BIN_INSTALL_DIR})

@@ -76,15 +76,9 @@ DISTFILES += \
     qml/*
 
 # This path remains when the project is build with colcon by downloading fastdds-monitor.repos
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/release/ -lBackendMock
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/debug/ -lBackendMock
+else:unix: LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lBackendMock
+
 INCLUDEPATH += $$PWD/../../install/fastdds-statistics-backend/include
 DEPENDPATH += $$PWD/../../install/fastdds-statistics-backend/include
-
-# Static Mock
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lStaticMock
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lStaticMockd
-#else:unix: LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lStaticMock
-
-# Complex Mock
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/release/ -lComplexMock
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/debug/ -lComplexMock
-else:unix: LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lComplexMock

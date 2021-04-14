@@ -22,19 +22,19 @@ find_package(fastdds-statistics-backend REQUIRED)
 # Allow to use threads
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-project(static-mock)
+project(backend-mock)
 
-set(STATIC_MOCK_COMPLEX_SOURCE
+set(STATIC_MOCK_SOURCE
     StatisticsBackend.cpp
-    # EntityId.cpp
+    EntityId.cpp
     )
 
-add_library(StaticMock ${STATIC_MOCK_COMPLEX_SOURCE})
+add_library(BackendMock ${STATIC_MOCK_SOURCE})
 
-target_compile_definitions(StaticMock PRIVATE
+target_compile_definitions(BackendMock PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
 )
 
-target_link_libraries(StaticMock fastdds-statistics-backend)
-install(TARGETS StaticMock
-    RUNTIME DESTINATION Mock/StaticMock/${BIN_INSTALL_DIR})
+target_link_libraries(BackendMock fastdds-statistics-backend)
+install(TARGETS BackendMock
+    RUNTIME DESTINATION Mock/BackendMock/${BIN_INSTALL_DIR})

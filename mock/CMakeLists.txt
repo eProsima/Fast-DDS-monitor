@@ -39,6 +39,11 @@ find_package(fastdds-statistics-backend REQUIRED)
 ###############################################################################
 # Compile MOCKs
 ###############################################################################
-add_subdirectory(static_mock)
 
-add_subdirectory(complex_mock)
+# Static mock would be built only if Complex mock is not
+if(COMPLEX_MOCK)
+    add_subdirectory(complex_mock)
+elseif(STATIC_MOCK)
+    add_subdirectory(static_mock)
+endif()
+
