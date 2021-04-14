@@ -18,8 +18,8 @@
 
 #include <fastdds-statistics-backend/types/types.hpp>
 
-#ifndef _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_ENTITY_HPP_
-#define _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_ENTITY_HPP_
+#ifndef _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_ENTITY_HPP_
+#define _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_ENTITY_HPP_
 
 namespace eprosima {
 namespace statistics_backend {
@@ -116,4 +116,4 @@ using EntityPointer = std::shared_ptr<Entity>;
 } // namespace statistics_backend
 } // namespace eprosima
 
-#endif //_EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_ENTITY_HPP_
+#endif //_EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_ENTITY_HPP_

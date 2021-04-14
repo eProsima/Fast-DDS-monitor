@@ -20,8 +20,8 @@
 
 #include "headers/Entity.hpp"
 
-#ifndef _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_UTILS_HPP_
-#define _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_UTILS_HPP_
+#ifndef _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_UTILS_HPP_
+#define _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_UTILS_HPP_
 
 namespace eprosima {
 namespace statistics_backend {
@@ -95,4 +95,4 @@ std::string entityId_to_string(EntityId id);
 } // namespace statistics_backend
 } // namespace eprosima
 
-#endif //_EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_UTILS_HPP_
+#endif //_EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_UTILS_HPP_
