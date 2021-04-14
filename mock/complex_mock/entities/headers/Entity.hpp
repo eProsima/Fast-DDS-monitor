@@ -27,27 +27,70 @@ namespace statistics_backend {
 class Entity
 {
 public:
+
+    /**
+     * @brief Return a vector with the ids in a map of entities
+     *
+     * @param map map of entities
+     *
+     * @return ids of entities in map
+     */
     Entity(EntityId& id, std::string name)
         : id_(id)
         , name_(name)
     {
     }
 
+    /**
+     * @brief Return a vector with the ids in a map of entities
+     *
+     * @param map map of entities
+     *
+     * @return ids of entities in map
+     */
     virtual std::vector<EntityId> get_entities(
         const EntityKind entity_type) const;
 
+    /**
+     * @brief Return a vector with the ids in a map of entities
+     *
+     * @param map map of entities
+     *
+     * @return ids of entities in map
+     */
     virtual Info get_info() const;
 
+    /**
+     * @brief Return a vector with the ids in a map of entities
+     *
+     * @param map map of entities
+     *
+     * @return ids of entities in map
+     */
     std::string name() const
     {
         return name_;
     }
 
+    /**
+     * @brief Return a vector with the ids in a map of entities
+     *
+     * @param map map of entities
+     *
+     * @return ids of entities in map
+     */
     EntityId id() const
     {
         return id_;
     }
 
+    /**
+     * @brief Return a vector with the ids in a map of entities
+     *
+     * @param map map of entities
+     *
+     * @return ids of entities in map
+     */
     virtual EntityKind kind() const;
 
 private:

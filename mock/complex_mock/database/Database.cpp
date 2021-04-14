@@ -36,15 +36,11 @@ void Database::start()
     start_.store(true);
     run_.store(true);
 
-    {
-        // std::unique_lock<std::mutex> lock(run_mutex_);
-        cv_run_.notify_all();
-    }
+    // Notify the Data Generation Thread
+    cv_run_.notify_all();
 
-    {
-        // std::unique_lock<std::mutex> lock(callback_mutex_start_);
-        cv_callback_start_.notify_all();
-    }
+    // Notify the Callback Thread
+    cv_callback_start_.notify_all();
 }
 
 void Database::stop()
@@ -53,25 +49,20 @@ void Database::stop()
     start_.store(true);
     run_.store(false);
 
-    {
-        // std::unique_lock<std::mutex> lock(run_mutex_);
-        cv_run_.notify_all();
-    }
+    // Notify the Data Generation Thread to wake up. It will close because run_ is deactivated
+    // In case it has not been started, the Thread will immediately finish as run_ is deactivated
+    cv_run_.notify_all();
 
-    {
-        // In case it is closed before a domain has been set
-        // std::unique_lock<std::mutex> lock(callback_mutex_start_);
-        cv_callback_start_.notify_all();
-    }
+    // In case it is closed before a domain has been set, it notifies to start the thread
+    cv_callback_start_.notify_all();
 
-    {
-        // std::unique_lock<std::mutex> lock(callback_mutex_);
-        cv_callback_.notify_all();
-    }
+    // Notify the Callback Thread
+    cv_callback_.notify_all();
 }
 
 void Database::listener(PhysicalListener* listener)
 {
+    // Stop is called from Application in case the listener is null
     const std::lock_guard<std::recursive_mutex> lock(data_mutex_);
     listener_ = listener;
 }
@@ -82,12 +73,8 @@ Database::Database()
     , start_(false)
     , run_(false)
 {
-    std::cout << "Database constructor" << std::endl;
-
-    generate_entity_thread_ = std::thread(&Database::generate_random_entity_thread, this);
-    listener_thread_ = std::thread(&Database::callback_listener_thread, this);
-
-    std::cout << "Database constructor finish" << std::endl;
+    generate_entity_thread_ = std::thread(&Database::generate_random_entity_thread_, this);
+    listener_thread_ = std::thread(&Database::callback_listener_thread_, this);
 }
 
 Database::~Database()
@@ -96,9 +83,6 @@ Database::~Database()
 
     generate_entity_thread_.join();
     listener_thread_.join();
-
-    // This must be done from where the listener has been created
-    //     delete listener_;
 }
 
 int64_t Database::next_id()
@@ -140,6 +124,7 @@ std::vector<EntityId> Database::get_entities(
         }
         else
         {
+            // Error case, it has been asked an Id that is not in the Database
             return std::vector<EntityId>();
         }
     }
@@ -149,11 +134,12 @@ Info Database::get_info(EntityId entity_id)
 {
     if (entity_id == EntityId::all())
     {
+        // Information asked for id ALL returns a summary of number of domains and entities
         Info summary;
 
         // Add durability
         summary["domains"] = count_domains();
-        summary["entities"] = count_entities();
+        summary["entities"] = count_entities_();
 
         return summary;
     }
@@ -165,23 +151,18 @@ Info Database::get_info(EntityId entity_id)
     }
     else
     {
+        // Error case, it has been asked an Id that is not in the Database
         return Info();
     }
 }
 
 EntityId Database::add_domain()
 {
-    std::cout << "add domain" << std::endl;
-
     // Generates the Domain entity
     DomainPointer domain = RandomGenerator::random_domain();
 
-    std::cout << "domain random generated " << domain->id() << std::endl;
-
     // Add the Entity to the entities map
-    add_entity(domain, domain->id());
-
-    std::cout << "domain added" << std::endl;
+    add_entity_(domain, domain->id());
 
     // Add domain in domains list
     {
@@ -189,36 +170,31 @@ EntityId Database::add_domain()
         domains_.push_back(domain->id());
     }
 
-    std::cout << "domain added into domains" << std::endl;
-
     // Generates random Entities to fill this domain
-    add_entities(RandomGenerator::init_random_domain(domain), domain->id());
+    add_entities_(RandomGenerator::init_random_domain(domain), domain->id());
 
-    std::cout << "domain random generate new entities" << std::endl;
-
+    // Repetead calls to start are idempotent. The first call is the only required.
     start();
 
     return domain->id();
 }
 
-void Database::add_entity(EntityPointer entity, EntityId domain)
+void Database::add_entity_(EntityPointer entity, EntityId domain)
 {
     const std::lock_guard<std::recursive_mutex> lock(data_mutex_);
-    std::cout << "Creating entity: " << entity->name() << std::endl;
+    std::cout << "DATABASE: Creating entity: " << entity->name() << std::endl;
     entities_[entity->id()] = entity;
-    new_entities_.push_back(std::tuple<EntityId, EntityKind, EntityId>(entity->id(), entity->kind(), domain));
 
-    {
-        // std::unique_lock<std::mutex> lock(callback_mutex_);
-        cv_callback_.notify_one();
-    }
+    // Create callback and notify thread
+    new_entities_.push_back(std::tuple<EntityId, EntityKind, EntityId>(entity->id(), entity->kind(), domain));
+    cv_callback_.notify_one();
 }
 
-void Database::add_entities(std::vector<EntityPointer> entities, EntityId domain)
+void Database::add_entities_(std::vector<EntityPointer> entities, EntityId domain)
 {
     for (EntityPointer entity : entities)
     {
-        add_entity(entity, domain);
+        add_entity_(entity, domain);
     }
 }
 
@@ -228,13 +204,13 @@ size_t Database::count_domains()
     return domains_.size();
 }
 
-size_t Database::count_entities()
+size_t Database::count_entities_()
 {
     const std::lock_guard<std::recursive_mutex> lock(data_mutex_);
     return entities_.size();
 }
 
-void Database::generate_random_entity_thread()
+void Database::generate_random_entity_thread_()
 {
     std::cout << "Random Data Generator Thread starting" << std::endl;
 
@@ -252,8 +228,6 @@ void Database::generate_random_entity_thread()
     // Start the loop while it does not stop
     while(run_.load())
     {
-        std::cout << "Random Data Generator Thread init loop" << std::endl;
-
         // Sleep a time depending the number of domains we have
         // It is max(DATA_GENERATION_TIME seconds - # of domains, MIN_DATA_GENERATION_TIME
         uint32_t sleep_seconds = (count_domains() <= 1) ? DATA_GENERATION_TIME : DATA_GENERATION_TIME - count_domains();
@@ -277,13 +251,13 @@ void Database::generate_random_entity_thread()
 
         // Generates a new dds Entity
         DomainPointer domain = std::dynamic_pointer_cast<Domain>(entities_[domains_[domain_index]]);
-        add_entities(RandomGenerator::add_random_entity(domain), domain->id());
+        add_entities_(RandomGenerator::add_random_entity(domain), domain->id());
     }
 
     std::cout << "Random Data Generator Thread stopping" << std::endl;
 }
 
-void Database::callback_listener_thread()
+void Database::callback_listener_thread_()
 {
     std::cout << "Callback Listener Thread starting" << std::endl;
 
@@ -305,8 +279,6 @@ void Database::callback_listener_thread()
         {
             break;
         }
-
-        std::cout << "Callback Listener Thread notifying" << std::endl;
 
         // Non initialize status
         DomainListener::Status status;

@@ -25,6 +25,13 @@
 namespace eprosima {
 namespace statistics_backend {
 
+/**
+ * @brief Return a vector with the keys of a map
+ *
+ * @param map map to get the keys
+ *
+ * @return keys of a map
+ */
 template<class K, class V>
 std::vector<K> keys(const std::map<K, V> map)
 {
@@ -36,16 +43,52 @@ std::vector<K> keys(const std::map<K, V> map)
     return result;
 }
 
+/**
+ * @brief Return a vector with the ids in a map of entities
+ *
+ * @param map map of entities
+ *
+ * @return ids of entities in map
+ */
 std::vector<EntityId> get_ids(const std::map<EntityId, EntityPointer> map);
 
+/**
+ * @brief Return the concatenation of calling \c get_entities for all the entities in a map
+ *
+ * It is used to make the query of get_entities over a subset of entities
+ *
+ * @warning Does not remove duplicity
+ *
+ * @param map map of entitites
+ * @param entity_type kind of entities to query
+ *
+ * @return vector of ids
+ */
 std::vector<EntityId> get_entities_related(
     const std::map<EntityId, EntityPointer> map,
     const EntityKind entity_type);
 
+/**
+ * @brief Return the entity ids of all entities in a map that are of kind \c entity_type
+ *
+ * It is used to separate \c DataWriter and \c DataReaders in \c Endpoint map of a \c Participant
+ *
+ * @param map map of entities
+ * @param entity_type kind of entities to query
+ *
+ * @return vector of ids
+ */
 std::vector<EntityId> get_entities_kind(
     const std::map<EntityId, EntityPointer> map,
     const EntityKind entity_type);
 
+/**
+ * @brief Convert an id to String
+ *
+ * @param id id
+ *
+ * @return string referencing the id
+ */
 std::string entityId_to_string(EntityId id);
 
 } // namespace statistics_backend

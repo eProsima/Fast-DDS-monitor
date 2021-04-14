@@ -65,9 +65,12 @@ std::vector<EntityPointer> RandomGenerator::init_random_domain(DomainPointer dom
 
     EndpointPointer reader = new_datareader_(part, topic);
 
+    // Locator shared for Writer and Reader
     LocatorPointer locator = new_locator_(writer);
     reader->add_locator(locator);
+    locator->add_endpoint(reader);
 
+    // Locator only for Writer
     LocatorPointer locatorw = new_locator_(writer);
 
     return std::vector<EntityPointer>({host, user, process, part, topic, writer, reader, locator, locatorw});
@@ -220,7 +223,7 @@ ParticipantPointer RandomGenerator::new_participant_(DomainPointer domain, Proce
     ParticipantPointer entity_p = std::make_shared<Participant>(id, "Participant_" + entityId_to_string(id));
 
     entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
-    entity_p->qos(random_qos(id));
+    entity_p->qos(random_qos());
 
     entity_p->domain(domain);
     entity_p->process(process);
@@ -237,7 +240,7 @@ EndpointPointer RandomGenerator::new_datawriter_(ParticipantPointer participant,
     DataWriterPointer entity_p = std::make_shared<DataWriter>(id, "DataWriter_" + entityId_to_string(id));
 
     entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
-    entity_p->qos(random_qos(id));
+    entity_p->qos(random_qos());
 
     entity_p->participant(participant);
     entity_p->topic(topic);
@@ -254,7 +257,7 @@ EndpointPointer RandomGenerator::new_datareader_(ParticipantPointer participant,
     DataReaderPointer entity_p = std::make_shared<DataReader>(id, "DataReader_" + entityId_to_string(id));
 
     entity_p->guid(entityId_to_string(id) + ":" + entityId_to_string(id));
-    entity_p->qos(random_qos(id));
+    entity_p->qos(random_qos());
 
     entity_p->participant(participant);
     entity_p->topic(topic);
@@ -299,7 +302,7 @@ EndpointPointer RandomGenerator::new_endpoint_(
 }
 
 
-Info RandomGenerator::random_qos(EntityId /* seed */)
+Info RandomGenerator::random_qos()
 {
     // Seed rand number
     int aux_ran;
@@ -344,6 +347,8 @@ Info RandomGenerator::random_qos(EntityId /* seed */)
     }
 
     return qos;
+
+    // Complete QoS information
 
     // Info json_obj = R"({
     //     "data_sharing":
