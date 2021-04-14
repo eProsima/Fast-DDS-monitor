@@ -42,6 +42,7 @@ Rectangle {
             id: participantItem
             width: participantList.width - participantList.leftMargin
             height: participantListColumn.childrenRect.height
+
             property var item_id: id
 
             Column {
@@ -89,13 +90,14 @@ Rectangle {
                 ListView {
                     id: endpointList
                     model: participantModel.subModelFromEntityId(id)
-                    property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
                     width: participantList.width - participantList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
                     clip: true
                     delegate: endpointListDelegate
+
+                    property int collapseHeightFlag: childrenRect.height
                 }
 
                 Component {
@@ -159,13 +161,14 @@ Rectangle {
                                 id: locatorList
                                 model: participantModel.subModelFromEntityId(
                                            participantItem.item_id).subModelFromEntityId(id)
-                                property int collapseHeightFlag: childrenRect.height
                                 leftMargin: 20
                                 contentHeight: contentItem.childrenRect.height
                                 width: participantList.width - participantList.leftMargin
                                 height: 0
                                 clip: true
                                 delegate: locatorListDelegate
+
+                                property int collapseHeightFlag: childrenRect.height
                             }
 
                             Component {
@@ -177,8 +180,9 @@ Rectangle {
 
                                     ListView.onAdd: {
                                         if(locatorList.height != 0) {
-                                            locatorList.height = locatorList.collapseHeightFlag;
-                                            endpointList.height = endpointList.height + locatorList.height;
+                                            var prevHeight = locatorList.height
+                                            locatorList.height = locatorList.collapseHeightFlag
+                                            endpointList.height = endpointList.height + locatorList.height - prevHeight
                                         }
                                     }
 

@@ -19,6 +19,8 @@ import QtQml.Models 2.12
 
 Rectangle {
     id: physicalView
+    Layout.fillHeight: true
+    Layout.fillWidth: true
 
     ListView {
         id: hostList
@@ -40,6 +42,7 @@ Rectangle {
             id: hostItem
             width: hostList.width - hostList.leftMargin
             height: hostListColumn.childrenRect.height
+
             property var item_id: id
 
             Column {
@@ -77,13 +80,14 @@ Rectangle {
                 ListView {
                     id: userList
                     model: hostModel.subModelFromEntityId(id)
-                    property int collapseHeightFlag: childrenRect.height
                     leftMargin: 20
                     width: hostList.width - hostList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
                     clip: true
                     delegate: userListDelegate
+
+                    property int collapseHeightFlag: childrenRect.height
                 }
 
                 Component {
@@ -140,13 +144,14 @@ Rectangle {
                                 id: processList
                                 model: hostModel.subModelFromEntityId(
                                            hostItem.item_id).subModelFromEntityId(id)
-                                property int collapseHeightFlag: childrenRect.height
                                 leftMargin: 20
                                 width: hostList.width - hostList.leftMargin
                                 height: 0
                                 contentHeight: contentItem.childrenRect.height
                                 clip: true
                                 delegate: processListDelegate
+
+                                property int collapseHeightFlag: childrenRect.height
                             }
 
                             Component {
@@ -157,8 +162,9 @@ Rectangle {
 
                                     ListView.onAdd: {
                                         if(processList.height != 0) {
-                                            processList.height = processList.collapseHeightFlag;
-                                            userList.height = userList.height + processList.height;
+                                            var prevHeight = processList.height
+                                            processList.height = processList.collapseHeightFlag
+                                            userList.height = userList.height + processList.height - prevHeight
                                         }
                                     }
 
