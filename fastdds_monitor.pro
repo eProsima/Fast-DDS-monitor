@@ -11,7 +11,6 @@ SOURCES += \
         src/statistics/StatisticsData.cpp \
         src/model/EntityItem.cpp \
         src/Controller.cpp \
-        src/backend/AsyncBackendConnection.cpp \
         src/backend/SyncBackendConnection.cpp \
         src/backend/backend_utils.cpp \
         src/model/ListItem.cpp \
@@ -42,7 +41,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
         include/Controller.h \
-        include/backend/AsyncBackendConnection_copy.h \
         include/backend/Callback.h \
         include/backend/Listener.h \
         include/backend/SyncBackendConnection.h \

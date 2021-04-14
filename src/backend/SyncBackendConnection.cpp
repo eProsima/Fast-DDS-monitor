@@ -1,88 +1,95 @@
+// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**
+ * @file SyncBackendConnection.cpp
+ */
 
 #include <iostream>
 
-#include <include/backend/SyncBackendConnection.h>
-#include <include/model/ListItem.h>
-#include <include/model/ListModel.h>
-#include <include/model/SubListedListModel.h>
-#include <include/model/dds/ParticipantModelItem.h>
-#include <include/model/dds/EndpointModelItem.h>
-#include <include/model/dds/LocatorModelItem.h>
-#include <include/model/EntityItem.h>
-#include <include/model/logical/TopicModelItem.h>
-#include <include/model/logical/DomainModelItem.h>
-#include <include/model/physical/HostModelItem.h>
-#include <include/model/physical/UserModelItem.h>
-#include <include/model/physical/ProcessModelItem.h>
-#include <include/backend/backend_utils.h>
-#include <include/model/tree/TreeModel.h>
+#include <QDebug>
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
 #include <json.hpp>
 
-#include <QDebug>
+#include <include/backend/SyncBackendConnection.h>
+#include <include/backend/backend_utils.h>
+#include <include/model/EntityItem.h>
+#include <include/model/ListItem.h>
+#include <include/model/ListModel.h>
+#include <include/model/SubListedListModel.h>
+#include <include/model/dds/EndpointModelItem.h>
+#include <include/model/dds/LocatorModelItem.h>
+#include <include/model/dds/ParticipantModelItem.h>
+#include <include/model/logical/DomainModelItem.h>
+#include <include/model/logical/TopicModelItem.h>
+#include <include/model/physical/HostModelItem.h>
+#include <include/model/physical/ProcessModelItem.h>
+#include <include/model/physical/UserModelItem.h>
+#include <include/model/tree/TreeModel.h>
 
 namespace backend {
 
 using namespace eprosima::statistics_backend;
 using namespace models;
 
-/// CREATE PRIVATE FUNCTIONS
 ListItem* SyncBackendConnection::create_process_data_(EntityId id)
 {
-    std::cout << "Creating Process " << id << std::endl;
-//    struct timespec ts = { 10, 0 };
-//    nanosleep(&ts, NULL);
-//    std::cout << "Unlock Creating Process " << id << std::endl;
+    qDebug() << "Creating Process " << id << std::endl;
     return new ProcessModelItem(id);
 }
 
 ListItem* SyncBackendConnection::create_host_data_(EntityId id)
 {
-    std::cout << "Creating Host " << id << std::endl;
+    qDebug() << "Creating Host " << id << std::endl;
     return new HostModelItem(id);
 }
 
 ListItem* SyncBackendConnection::create_user_data_(EntityId id)
 {
-    std::cout << "Creating User " << id << std::endl;
+    qDebug() << "Creating User " << id << std::endl;
     return new UserModelItem(id);
 }
 
 ListItem* SyncBackendConnection::create_domain_data_(EntityId id)
 {
-    std::cout << "Creating Domain " << id << std::endl;
+    qDebug() << "Creating Domain " << id << std::endl;
     return new DomainModelItem(id);
 }
 
 ListItem* SyncBackendConnection::create_topic_data_(EntityId id)
 {
-    std::cout << "Creating Topic " << id << std::endl;
+    qDebug() << "Creating Topic " << id << std::endl;
     return new TopicModelItem(id);
 }
 
 ListItem* SyncBackendConnection::create_participant_data_(backend::EntityId id)
 {
-    std::cout << "Creating Participant " << id << std::endl;
+    qDebug() << "Creating Participant " << id << std::endl;
     return new ParticipantModelItem(id);
 }
 
 ListItem* SyncBackendConnection::create_endpoint_data_(backend::EntityId id)
 {
-    std::cout << "Creating Endpoint " << id << std::endl;
+    qDebug() << "Creating Endpoint " << id << std::endl;
     return new EndpointModelItem(id);
 }
 
 ListItem* SyncBackendConnection::create_locator_data_(backend::EntityId id)
 {
-    std::cout << "Creating Locator " << id << std::endl;
+    qDebug() << "Creating Locator " << id << std::endl;
     return new LocatorModelItem(id);
-}
-
-ListItem* SyncBackendConnection::create_entity_id_data_(backend::EntityId id)
-{
-    std::cout << "Creating EntityId " << id  << std::endl;
-    return new EntityItem(id);
 }
 
 /// UPDATE PRIVATE FUNCTIONS
@@ -90,7 +97,7 @@ bool SyncBackendConnection::update_host_data(ListItem* host_item)
 {
     auto host_item_sublist = static_cast<SubListedListItem*>(host_item);
 
-    return update_entity_data_(
+    return update_item_(
                 host_item_sublist,
                 EntityKind::USER,
                 update_user_data,
@@ -101,7 +108,7 @@ bool SyncBackendConnection::update_user_data(ListItem* user_item)
 {
     auto user_item_sublist = static_cast<SubListedListItem*>(user_item);
 
-    return update_entity_data_(
+    return update_item_(
                 user_item_sublist,
                 EntityKind::PROCESS,
                 update_process_data,
@@ -119,7 +126,7 @@ bool SyncBackendConnection::update_domain_data(ListItem* domain_item)
 {
     auto domain_item_sublist = static_cast<SubListedListItem*>(domain_item);
 
-    return update_entity_data_(
+    return update_item_(
                 domain_item_sublist,
                 EntityKind::TOPIC,
                 update_topic_data,
@@ -138,13 +145,13 @@ bool SyncBackendConnection::update_participant_data(ListItem* participant_item)
 {
     auto participant_item_sublist = static_cast<SubListedListItem*>(participant_item);
 
-    bool res = update_entity_data_(
+    bool res = update_item_(
                 participant_item_sublist,
                 EntityKind::DATAREADER,
                 update_endpoint_data,
                 create_endpoint_data_);
 
-    res = update_entity_data_(
+    res = update_item_(
                 participant_item_sublist,
                 EntityKind::DATAWRITER,
                 update_endpoint_data,
@@ -157,7 +164,7 @@ bool SyncBackendConnection::update_endpoint_data(ListItem* endpoint_item)
 {
     auto endpoint_item_sublist = static_cast<SubListedListItem*>(endpoint_item);
 
-    return update_entity_data_(
+    return update_item_(
                 endpoint_item_sublist,
                 EntityKind::LOCATOR,
                 update_locator_data,
@@ -171,19 +178,12 @@ bool SyncBackendConnection::update_locator_data(ListItem* locator_item)
     return false;
 }
 
-bool SyncBackendConnection::update_entity_id_data(ListItem* entity_item)
-{
-    // Locator does not have update
-    static_cast<void>(entity_item);
-    return false;
-}
-
 /// UPDATE STRUCTURE PRIVATE FUNCTIONS
-bool SyncBackendConnection::update_physical_data(models::ListModel* physical_model)
+bool SyncBackendConnection::update_physical_model(models::ListModel* physical_model)
 {
-    std::cout << "Update Physical Data" << std::endl;
+    qDebug() << "Update Physical Data" << std::endl;
 
-    return update_model_data_(
+    return update_model_(
                 physical_model,
                 EntityKind::HOST,
                 ID_ALL,
@@ -191,11 +191,11 @@ bool SyncBackendConnection::update_physical_data(models::ListModel* physical_mod
                 create_host_data_);
 }
 
-bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model)
+bool SyncBackendConnection::update_logical_model(models::ListModel* logical_model)
 {
-    std::cout << "Update Logical Data" << std::endl;
+    qDebug() << "Update Logical Data" << std::endl;
 
-    return update_model_data_(
+    return update_model_(
                 logical_model,
                 EntityKind::DOMAIN,
                 ID_ALL,
@@ -203,11 +203,11 @@ bool SyncBackendConnection::update_logical_data(models::ListModel* logical_model
                 create_domain_data_);
 }
 
-bool SyncBackendConnection::update_dds_data(models::ListModel* dds_model, EntityId id)
+bool SyncBackendConnection::update_dds_model(models::ListModel* dds_model, EntityId id)
 {
-    std::cout << "Update DDS Data" << std::endl;
+    qDebug() << "Update DDS Data" << std::endl;
 
-    return update_model_data_(
+    return update_model_(
                 dds_model,
                 EntityKind::PARTICIPANT,
                 id,
@@ -231,7 +231,7 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(models::ListModel* 
 
 
 // Template functions to update
-bool SyncBackendConnection::update_entity_data_(
+bool SyncBackendConnection::update_item_(
         SubListedListItem* item,
         EntityKind type,
         bool (*update_function)(ListItem*),
@@ -241,6 +241,9 @@ bool SyncBackendConnection::update_entity_data_(
 
     // Get Item id
     EntityId id = item->get_entity_id();
+
+    // Query for this item info and updte it
+    item->info(StatisticsBacked::get_info(id))
 
     // For each User get all processes
     for (auto subentity_id : StatisticsBackend::get_entities(type, id))
@@ -252,11 +255,11 @@ bool SyncBackendConnection::update_entity_data_(
         // If it exists it updates its info
         if (nullptr == subentity_item)
         {
-            std::cout << "Looking for info " << subentity_id << std::endl;
+            qDebug() << "Looking for info " << subentity_id << std::endl;
 
             auto e = create_function(subentity_id);
 
-            std::cout << "Appending row " << subentity_id << std::endl;
+            qDebug() << "Appending row " << subentity_id << std::endl;
 
             item->submodel()->appendRow(e);
             changed = true;
@@ -271,7 +274,7 @@ bool SyncBackendConnection::update_entity_data_(
     return changed;
 }
 
-bool SyncBackendConnection::update_model_data_(
+bool SyncBackendConnection::update_model_(
         ListModel* model,
         EntityKind type,
         EntityId id,

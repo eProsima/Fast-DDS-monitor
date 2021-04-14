@@ -39,7 +39,12 @@ public :
 
     virtual EntityId entity_id() const;
     virtual QString name() const;
+
     virtual backend::EntityInfo info() const;
+    void info(backend::EntityInfo info)
+    {
+        info_ = info;
+    }
 
     backend::EntityId get_entity_id() const;
 
