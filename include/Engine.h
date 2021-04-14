@@ -20,6 +20,8 @@
 
 class Engine : public QQmlApplicationEngine
 {
+    Q_OBJECT
+
 public:
 
     Engine();
@@ -31,7 +33,6 @@ public:
     void init_monitor(int domain);
     void init_monitor(QString locators);
 
-    // TODO eliminate models in args as they are private values in class
     // PHYSICAL PARTITION
     // Update the model with a new or updated entity
     bool update_host_data(backend::EntityId id);
@@ -82,7 +83,10 @@ public:
     void process_callback_queue();
 
 signals:
-    void callback_added();
+    void new_callback_signal();
+
+public slots:
+    void new_callback_slot();
 
 protected:
 
@@ -173,21 +177,6 @@ protected:
     CallbackListener callback_listener_;
 
     Controller* controller_;
-
-    // Thread to
-//    class CallbackThread : public QThread
-//    {
-//        Q_OBJECT
-//        void run() override {
-//            while(callback_process_run_.load())
-//            {
-//                callback_process_cv_.w
-//            }
-//        }
-//    signals:
-//        void refresh();
-//    } callback_thread_;
-
 };
 
 #endif // ENGINE_H

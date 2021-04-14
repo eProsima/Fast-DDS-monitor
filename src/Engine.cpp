@@ -90,10 +90,10 @@ QObject* Engine::enable()
 
     // Connect Callback Listener
     QObject::connect(
-            &callback_listener_,
-            &CallbackListener::new_callback_signal,
-            &callback_listener_,
-            &CallbackListener::new_callback_slot);
+            this,
+            &Engine::new_callback_signal,
+            this,
+            &Engine::new_callback_slot);
 
     // Set enable as True
     enabled_ = true;
@@ -477,9 +477,15 @@ bool Engine::add_callback(backend::Callback callback)
     add_issue_callback("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
 
     // Emit signal to specify there are new data
-    callback_listener_.new_callback();
+    // callback_listener_.new_callback();
+    emit new_callback_signal();
 
     return true;
+}
+
+void Engine::new_callback_slot()
+{
+    process_callback_queue();
 }
 
 bool Engine::process_callback_()
