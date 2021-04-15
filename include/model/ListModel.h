@@ -34,12 +34,12 @@ namespace models {
 /**
  * @brief Abstract class that encapsulate the behaviour of a Model that contains Entities in the form of Items
  *
- * The \c ListModel contains a serie of \c ListItem , which each of them represents a backend \c Entity
- * It implements the main methods to interact with the view
+ * The \c ListModel contains a serie of \c ListItem , which each of them represents a backend \c Entity .
+ * It implements the main methods to interact with the view.
  *
  * These models are the graphic representation for the backed Entities, storing internally the items that represent
- * each Entity, its information and their subentities in the form of other models
- * They also manage the interaction between the view, the controller and the items
+ * each Entity, its information and their subentities in the form of other models.
+ * They also manage the interaction between the view, the controller and the items.
  */
 class ListModel : public QAbstractListModel
 {

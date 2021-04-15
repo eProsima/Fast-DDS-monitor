@@ -28,8 +28,8 @@ namespace models {
 /**
  * @brief Class that represents a Domain Item in the Logic Model
  *
- * It is not needed to implement any extra method because domain do not have extra fields of info
- * The Topic subitems are already managed by \c EntityContainerModelItem class
+ * It is not needed to implement any extra method because domain do not have extra fields of info.
+ * The Topic subitems are already managed by \c EntityContainerModelItem class.
  */
 class DomainModelItem : public EntityContainerModelItem<TopicModelItem, ListModel>
 {

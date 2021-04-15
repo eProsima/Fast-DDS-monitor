@@ -29,8 +29,8 @@ namespace models {
 /**
  * @brief Class that represents a Host Item in the Physical Model
  *
- * It is not needed to implement any extra method because Host do not have extra fields of info
- * The User subitems are already managed by \c EntityContainerModelItem class
+ * It is not needed to implement any extra method because Host do not have extra fields of info.
+ * The User subitems are already managed by \c EntityContainerModelItem class.
  */
 class HostModelItem : public EntityContainerModelItem<UserModelItem, SubListedListModel>
 {

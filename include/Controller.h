@@ -25,8 +25,8 @@
 class Engine;
 
 /**
- * Class to connect the QML js view with the main Engine class
- * All the methods in the class will be called by the interaction with the view and will call methods in the Engine
+ * Class to connect the QML js view with the main Engine class.
+ * All the methods in the class will be called by the interaction with the view and will call methods in the Engine.
  */
 class Controller : public QObject
 {

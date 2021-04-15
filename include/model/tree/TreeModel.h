@@ -34,18 +34,18 @@ namespace models {
 /**
  * @brief Abstract class that encapsulate the behaviour of entity a Data Model in Tree format
  *
- * A \c TreeModel store and manage a \c TreeItem that is the parent node of a full tree of Items
+ * A \c TreeModel store and manage a \c TreeItem that is the parent node of a full tree of Items.
  *
- * This Model is used by the view to represent values that contain values underneath
+ * This Model is used by the view to represent values that contain values underneath.
  * The representation of these trees by the view will use the name of each entity, and will show all their
  * subentities under this name, each represented by its own name.
  *
  * The construction of these models is made by Data in json format, where each key is going to be
- * used as a name, and the values below will be added in a new item in the tree under it
+ * used as a name, and the values below will be added in a new item in the tree under it.
  * The last node (those without children nodes) is actually encapsulated in the father node in the \c VALUE column
  * inside its data.
  * This saves one node creation, and allows the view to represent in different columns those nodes with children
- * and the nodes that only represents a value
+ * and the nodes that only represents a value.
  */
 class TreeModel : public QAbstractItemModel
 {
@@ -124,7 +124,7 @@ protected:
      * @brief Fill an internal node with data in json format
      *
      * It iterates over a json object, each key is created as a new subnode and the values
-     * are used to fill this subnode with this same function
+     * are used to fill this subnode with this same function.
      *
      * @param json_data data in json format to fill the item
      * @param parent item to fill

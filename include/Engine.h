@@ -47,16 +47,16 @@
  *  - Issue model       : contains info about events: callbacks, issues and number of entities discovered
  *  - source ent model  : TODO
  *  - dest entity model : TODO
- * These models are used to represent data in the view
- * The \c Controller object interact between the user interface and the Engine, translating the user actions
+ * These models are used to represent data in the view.
+ * The \c Controller object interact between the user interface and the Engine, translating the user actions.
  *
- * There are two different interactions between the Engine and the backend: Syncronous and Asyncronous
+ * There are two different interactions between the Engine and the backend: Syncronous and Asyncronous.
  *
- * The Async connection remains in data that arrives from the backend
- * It is hold by the \c Listener that communicates the Engine via signals when any callback arrives
+ * The Async connection remains in data that arrives from the backend.
+ * It is hold by the \c Listener that communicates the Engine via signals when any callback arrives.
  *
- * The Sync connection remains in \c SyncBackendConnection object
- * The Engine uses this object any time it needs to get data from the backend due a user evert or a async event
+ * The Sync connection remains in \c SyncBackendConnection object.
+ * The Engine uses this object any time it needs to get data from the backend due a user evert or a async event.
  */
 class Engine : public QQmlApplicationEngine
 {
@@ -73,9 +73,9 @@ public:
     /**
      * @brief Start the Engine execution
      *
-     * Create and connect backend \c Listener
-     * Create and fill models
-     * Register models in QML
+     * Create and connect backend \c Listener .
+     * Create and fill models.
+     * Register models in QML.
      *
      * @return Engine pointer
      */
@@ -141,7 +141,7 @@ public:
      * @brief Update the internal dds model with a participant notification
      *
      * It is possible that this entity is not being showed because of the entity clicked
-     * an so that this function do not update the model
+     * an so that this function do not update the model.
      *
      * @param id participant id to create or update
      * @return true if any change in model has been done
@@ -152,7 +152,7 @@ public:
      * @brief Update the internal dds model with a endpoint notification
      *
      * It is possible that this entity is not being showed because of the entity clicked
-     * an so that this function do not update the model
+     * an so that this function do not update the model.
      *
      * @param id endpoint id to create or update
      * @return true if any change in model has been done
@@ -173,9 +173,9 @@ public:
     /**
      * @brief Update the internal dds model with entities related with Entity referenced by \c id
      *
-     * The backend allows to ask for all the related entities to an Entity given
+     * The backend allows to ask for all the related entities to an Entity given.
      * In this case, the Engine ask the backend for all participants related with the entity given, and
-     * create a model with those participants and all their subentities
+     * create a model with those participants and all their subentities.
      *
      * If called with \c ID_ALL all participants are used to fill the model
      *
@@ -200,9 +200,9 @@ public:
     /**
      * @brief Call the event chain when an entity is clicked
      *
-     * For every entity it updates the info model and the summary model to reference this entity clicked
+     * For every entity it updates the info model and the summary model to reference this entity clicked.
      * If the entity is of physical or logical kind, it updates the dds model as well with only the participants that
-     * are related with this entity
+     * are related with this entity.
      *
      * @param id Entity id of the entity clicked
      * @param kind Entity kind of the entity clicked
@@ -230,9 +230,9 @@ public:
     /**
      * @brief add a callback arrived from the backend to the callback queue
      *
-     * Add a callback to the callback queue in order to process it afterwards by the main thread
-     * Emit a signal that communicate the main thread that there are info to process in the callback queue
-     * Add a callback issue
+     * Add a callback to the callback queue in order to process it afterwards by the main thread.
+     * Emit a signal that communicate the main thread that there are info to process in the callback queue.
+     * Add a callback issue.
      *
      * @param callback new callback to add
      * @return true
@@ -242,9 +242,9 @@ public:
     /**
      * @brief Refresh the view
      *
-     * Erase the last entity clicked, and set it as \c ID_ALL so the info shown does nor reference any single entity
-     * Refresh all the models with the new configuration
-     * Erase the callback issue list
+     * Erase the last entity clicked, and set it as \c ID_ALL so the info shown does nor reference any single entity.
+     * Refresh all the models with the new configuration.
+     * Erase the callback issue list.
      */
     void refresh_engine();
 
@@ -252,13 +252,13 @@ public:
      * @brief Pop callbacks from the callback queues while non empty and update the models
      *
      * @warning This method must be executed from the main Thread (or at least a QThread) so the models are
-     * updated in the view when modified
+     * updated in the view when modified.
      */
     void process_callback_queue();
 
 signals:
     /**
-     * Internal signal that communicate that there are callbacks to process by the main Thread
+     * Internal signal that communicate that there are callbacks to process by the main Thread.
      * Arise from \c add_callback
      */
     void new_callback_signal();
@@ -276,11 +276,11 @@ protected:
      * @brief Clear and fill the Info Model by the info from the backend of the entity \c id
      *
      * In case \c id is \c ID_ALL (possible at the begininning of an execution or after refresh)
-     * the info shown is a message that no entity is being clicked
+     * the info shown is a message that no entity is being clicked.
      *
      * @todo this method could update the model by the info stored in an item and not calling the backend
-     * to receive data it already has
-     * However, this requires to find the entity in the models and could be less efficient than ask the backend
+     * to receive data it already has.
+     * However, this requires to find the entity in the models and could be less efficient than ask the backend.
      *
      * @param id id of the entity to get the info
      * @return true if any change in any model has been done
@@ -288,8 +288,8 @@ protected:
     bool fill_entity_info_(backend::EntityId id = backend::ID_ALL);
 
     /**
-     * Update the info model with an initial message that says there are no monitors active
-     * This method is called instead of \c fill_entity_info_ at the beginning of the execution
+     * Update the info model with an initial message that says there are no monitors active.
+     * This method is called instead of \c fill_entity_info_ at the beginning of the execution.
      */
     bool fill_first_entity_info_();
 

@@ -39,11 +39,11 @@ using namespace models;
 /**
  * @brief Class that holds all the backend queries in both sides
  *
- * This class represents the main interconnection point between a backend instance and the main Engine object
- * In connection with the \c Listener, both classes represents the whole communication between backend and GUI
+ * This class represents the main interconnection point between a backend instance and the main Engine object.
+ * In connection with the \c Listener, both classes represents the whole communication between backend and GUI.
  *
  * Even when most of the methods could be static thanks to the Backend Singleton, this class is not singleton
- * or static in order to possible future refactoring to make connections more efficient
+ * or static in order to possible future refactoring to make connections more efficient.
  * i.e. store duplicated queries, manage the connection period, etc.
  */
 class SyncBackendConnection
@@ -72,10 +72,10 @@ public:
      *
      * The Physical entities are \c Host \c User and \c Process
      *
-     * Gets an already empty/partially/fully filled model
-     * For every entity it already has, it updates its internl information
-     * For every new entity found between the physic entities in the backend, new entities are added to the model
-     * The orphan entities such as User with unknown Host or Process with unknown User are not added or updated
+     * Gets an already empty/partially/fully filled model.
+     * For every entity it already has, it updates its internl information.
+     * For every new entity found between the physic entities in the backend, new entities are added to the model.
+     * The orphan entities such as User with unknown Host or Process with unknown User are not added or updated.
      *
      * @param physical_model Physical model to update
      * @return true if any change has been made, false otherwise
@@ -87,13 +87,13 @@ public:
      *
      * The Logical entities are \c Domain \c Topic
      *
-     * Gets an already empty/partially/fully filled model
-     * For every entity it already has, it updates its internl information
-     * For every new entity found between the physic entities in the backend, new entities are added to the model
-     * The orphan entities such as Topic with unknown Domain are not added or updated
+     * Gets an already empty/partially/fully filled model.
+     * For every entity it already has, it updates its internl information.
+     * For every new entity found between the physic entities in the backend, new entities are added to the model.
+     * The orphan entities such as Topic with unknown Domain are not added or updated.
      *
-     * As Domains are known by \c init_monitor methods, they should not be discovered by this method
-     * Nevertheless, it is in this method when the Domain enters the model
+     * As Domains are known by \c init_monitor methods, they should not be discovered by this method.
+     * Nevertheless, it is in this method when the Domain enters the model.
      *
      * @param logical_model Logical model to update
      * @return true if any change has been made, false otherwise
@@ -106,10 +106,10 @@ public:
      * The DDS entities are \c Participant \c DataWriter \c DataReader and \c Locator
      *
      * Gets an already empty/partially/fully filled model with only the entities related with the entity  with id \c id
-     * For every entity it already has, it updates its internl information
-     * For every new entity found between the physic entities in the backend, new entities are added to the model
+     * For every entity it already has, it updates its internl information.
+     * For every new entity found between the physic entities in the backend, new entities are added to the model.
      * The orphan entities such as Endpoints with unknown Participant or Locator without Endpoint
-     * are not added or updated
+     * are not added or updated.
      *
      * i.e. there exist two Participants below one User (id <u>), but each under different Processes (id <p1> & <p2>),
      * call this method with id <u> and an empty model will fill the model with both Participants and their subentities
@@ -133,10 +133,10 @@ public:
     /**
      * @brief Update the Host item and their subentities with backend information
      *
-     * Regenerate the info of this item from the info in the backend
-     * Iterate over all the physical subentities of this host in the backend
-     * In case the subentity does not exist it creates it
-     * Update every subentity
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this host in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
      *
      * @param host_item Host item to update
      * @return true if any change has been made, false otherwise
@@ -146,10 +146,10 @@ public:
     /**
      * @brief Update the user item and their subentities with backend information
      *
-     * Regenerate the info of this item from the info in the backend
-     * Iterate over all the physical subentities of this user in the backend
-     * In case the subentity does not exist it creates it
-     * Update every subentity
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this user in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
      *
      * @param user_item user item to update
      * @return true if any change has been made, false otherwise
@@ -169,10 +169,10 @@ public:
     /**
      * @brief Update the domain item and their subentities with backend information
      *
-     * Regenerate the info of this item from the info in the backend
-     * Iterate over all the physical subentities of this domain in the backend
-     * In case the subentity does not exist it creates it
-     * Update every subentity
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this domain in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
      *
      * @param domain_item domain item to update
      * @return true if any change has been made, false otherwise
@@ -192,10 +192,10 @@ public:
     /**
      * @brief Update the participant item and their subentities with backend information
      *
-     * Regenerate the info of this item from the info in the backend
-     * Iterate over all the physical subentities of this participant in the backend
-     * In case the subentity does not exist it creates it
-     * Update every subentity
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this participant in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
      *
      * @param participant_item participant item to update
      * @return true if any change has been made, false otherwise
@@ -205,10 +205,10 @@ public:
     /**
      * @brief Update the datawriter or datareader item and their subentities with backend information
      *
-     * Regenerate the info of this item from the info in the backend
-     * Iterate over all the physical subentities of this endpoint in the backend
-     * In case the subentity does not exist it creates it
-     * Update every subentity
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this endpoint in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
      *
      * @param endpoint_item endpoint item to update
      * @return true if any change has been made, false otherwise
@@ -241,7 +241,7 @@ public:
     /**
      * @brief Init a monitor by setting a string with one or many locators of Discovery Servers
      *
-     * Calls the Backend \c init_monitor method in order to initialize a new monitor in a new Domain
+     * Calls the Backend \c init_monitor method in order to initialize a new monitor in a new Domain.
      *
      * The format of the \c locators string would be "ip1:port1,ip2:port2,...,ipN:portN"
      * i.e. "127.0.0.1:11811,127.0.0.1:11812"

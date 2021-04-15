@@ -29,7 +29,7 @@ namespace models {
  * @brief Class that represents a Participant Item in the DDS Model
  *
  * Each participant has subitems that represent the endpoints associated with it indistinctly if they
- * are datawriters or datareaders
+ * are datawriters or datareaders.
  */
 class ParticipantModelItem : public EntityContainerModelItem<EndpointModelItem, SubListedListModel>
 {

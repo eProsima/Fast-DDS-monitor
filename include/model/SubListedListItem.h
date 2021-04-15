@@ -28,10 +28,10 @@ namespace models {
 /**
  * @brief Abstract class that encapsulate the behaviour of entity Items that contains subentities
  *
- * Each Item represents a different \c Entity in the backend that has subentities
+ * Each Item represents a different \c Entity in the backend that has subentities.
  *
- * Implement the constructors for every Item with a backend \c EntityId
- * Implement the functionality to manage the submodels and subitems
+ * Implement the constructors for every Item with a backend \c EntityId .
+ * Implement the functionality to manage the submodels and subitems.
  */
 class SubListedListItem : public ListItem
 {

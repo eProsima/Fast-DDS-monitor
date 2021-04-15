@@ -24,8 +24,8 @@
 namespace backend {
 
 /*
- * Struct that store the callback information required by the GUI
- * It encapsulates the id and the kind of the new entity discovered
+ * Struct that store the callback information required by the GUI.
+ * It encapsulates the id and the kind of the new entity discovered.
  */
 struct Callback
 {

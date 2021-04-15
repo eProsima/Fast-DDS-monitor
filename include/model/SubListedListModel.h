@@ -27,7 +27,7 @@ namespace models {
 
 /**
  * Abstract class that encapsulate the behaviour of a Model that contains Entities in the form
- * of \c SubListedListModel , that means that items in this model has submodels
+ * of \c SubListedListModel , that means that items in this model has submodels.
  */
 class SubListedListModel : public ListModel
 {

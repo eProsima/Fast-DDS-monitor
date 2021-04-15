@@ -24,7 +24,7 @@
 namespace models {
 
 /**
- * TODO
+ * @brief Class that represents an Entity in the chart dialog
  */
 class EntityItem : public ListItem
 {
@@ -32,7 +32,7 @@ class EntityItem : public ListItem
 
 public:
 
-    // Use EntityContainerModelItem constructors
+    //! Use EntityContainerModelItem constructors
     using ListItem::ListItem;
 
 };

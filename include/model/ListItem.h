@@ -35,11 +35,11 @@ class ListModel;
 /**
  * @brief Abstract class that encapsulate the behaviour of entity Items in a model
  *
- * Each Item represents a different \c Entity in the backend
+ * Each Item represents a different \c Entity in the backend.
  *
- * Implement the constructors for every Item with a backend \c EntityId
+ * Implement the constructors for every Item with a backend \c EntityId .
  * Implement main functions of every entity to retrieve internal data that is available in every entity kind,
- * that is id, name and their roles associated
+ * that is id, name and their roles associated.
  */
 class ListItem : public QObject
 {
@@ -69,7 +69,7 @@ public :
     /**
      * @brief Item id getter
      *
-     * Retrieve the Item id, that is the backend entity id in QString format
+     * Retrieve the Item id, that is the backend entity id in QString format.
      *
      * @return backend entity id
      */
@@ -93,8 +93,8 @@ public :
     /**
      * @brief Item info setter
      *
-     * Set the info to the Item
-     * This is used when constructing a new entity, avoiding to call the backend in Item construction
+     * Set the info to the Item.
+     * This is used when constructing a new entity, avoiding to call the backend in Item construction.
      *
      * @warning This method do not modify the backend information
      *
@@ -108,7 +108,7 @@ public :
     /**
      * @brief Entity id getter
      *
-     * Retrieve the backend id that reference to the entity encapsulated in this item
+     * Retrieve the backend id that reference to the entity encapsulated in this item.
      *
      * @return backend entity id
      */
@@ -117,11 +117,11 @@ public :
     /**
      * @brief General getter to return every internal value
      *
-     * This method allows to retrieve every internal Qt information from the Item
-     * This is needed for the QML method to print the entity information
+     * This method allows to retrieve every internal Qt information from the Item.
+     * This is needed for the QML method to print the entity information.
      *
-     * In Abstract ListItem it allows to get the id and name of the entity
-     * Override this method in subclasses with different values in order to be able to access to all of them
+     * In Abstract ListItem it allows to get the id and name of the entity.
+     * Override this method in subclasses with different values in order to be able to access to all of them.
      *
      * @param role value of \c ModelItemRoles enumeration that references an internal value
      *
@@ -133,8 +133,8 @@ public :
     /**
      * @brief Roles getter
      *
-     * Returns all the possible roles that are implemented for this object
-     * By this values, it is possible to get the internal data by calling \c data method
+     * Returns all the possible roles that are implemented for this object.
+     * By this values, it is possible to get the internal data by calling \c data method.
      *
      * @return role names
      */

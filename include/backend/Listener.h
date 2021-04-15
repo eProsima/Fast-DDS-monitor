@@ -32,7 +32,7 @@ using namespace eprosima::statistics_backend;
 /**
  * @brief Listener class to receieve the callbacks from the backend
  *
- * Only the discovery callbacks are implemented, the data callbacks will be added in future versions
+ * Only the discovery callbacks are implemented, the data callbacks will be added in future versions.
  * Every callback calls an \c Engine method that emits a signal, so the process of the callback is
  * done in the main view thread, allowing the automatic refresh of the data in the view.
  */

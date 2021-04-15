@@ -27,8 +27,8 @@ namespace models {
 /**
  * @brief Class that represents a User Item in the Physical Model
  *
- * It is not needed to implement any extra method because User do not have extra fields of info
- * The Process subitems are already managed by \c EntityContainerModelItem class
+ * It is not needed to implement any extra method because User do not have extra fields of info.
+ * The Process subitems are already managed by \c EntityContainerModelItem class.
  */
 class UserModelItem : public EntityContainerModelItem<ProcessModelItem, ListModel>
 {

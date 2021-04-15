@@ -27,11 +27,11 @@ namespace models {
 /**
  * @brief Abstract class that encapsulate the behaviour of an information Tree
  *
- * Tree Item is an information structure in tree format, where each node is a \c TreeItem
- * Every node has its own information: QString value
- * Every node can have non, one or multiple children that are of \c TreeItem class
+ * Tree Item is an information structure in tree format, where each node is a \c TreeItem .
+ * Every node has its own information: QString value.
+ * Every node can have non, one or multiple children that are of \c TreeItem class.
  *
- * These items are created from \c TreeModel object, that works as a \c TreeItem factory
+ * These items are created from \c TreeModel object, that works as a \c TreeItem factory.
  */
 class TreeItem
 {

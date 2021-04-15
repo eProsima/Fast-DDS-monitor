@@ -28,8 +28,8 @@ namespace models {
 /**
  * @brief Class that represents an Endpoint Item in the DDS Model
  *
- * Endpoint Item represents inditinctly a DataWriter or DataReader
- * Each endpoint has subitems that represent the locators associated with it
+ * Endpoint Item represents inditinctly a DataWriter or DataReader.
+ * Each endpoint has subitems that represent the locators associated with it.
  */
 class EndpointModelItem : public EntityContainerModelItem<LocatorModelItem, ListModel>
 {
