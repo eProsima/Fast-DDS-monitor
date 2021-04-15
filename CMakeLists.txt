@@ -33,6 +33,9 @@ message(STATUS "Version: ${PROJECT_VERSION}")
 ###############################################################################
 # Load external projects
 ###############################################################################
+set(QT_PATH "" CACHE STRING "Path to the Qt installation folder")
+list(APPEND CMAKE_PREFIX_PATH ${QT_PATH})
+
 find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts REQUIRED)
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
@@ -40,7 +43,7 @@ find_package(fastdds-statistics-backend REQUIRED)
 
 foreach(c Core Widgets Gui Quick Qml Charts)
     if(${Qt5${c}_FOUND})
-        message(STATUS "Qt5${c} found! Version ${Qt5${c}_VERSION}")
+        message(STATUS "Found Qt5${c}: ${Qt5${c}_CONFIG} (found version ${Qt5${c}_VERSION})")
     endif()
 endforeach()
 
