@@ -80,24 +80,5 @@ int TreeItem::row() const
     return 0;
 }
 
-TreeItem* TreeItem::find(QString key) const
-{
-    for (auto item : child_items_)
-    {
-        if (item->name() == key)
-        {
-            return item;
-        }
-
-        // Recursive search
-        TreeItem* child_item = item->find(key);
-        if (child_item != nullptr)
-        {
-            return child_item;
-        }
-    }
-    return nullptr;
-}
-
 } // namespace models
 

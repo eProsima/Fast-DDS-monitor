@@ -27,7 +27,6 @@ EntityId models_id_to_backend_id(const models::EntityId id)
 
 QString get_name(const EntityId id)
 {
-    std::cout << "getting name from " << id << std::endl;
     return utils::to_QString(
                 eprosima::statistics_backend::StatisticsBackend::get_info(id)["name"]);
 }

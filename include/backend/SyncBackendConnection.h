@@ -300,20 +300,26 @@ protected:
     //! Create a new \c ListItem of class \c Locator related with the backend entity with id \c id
     ListItem* create_locator_data_(backend::EntityId id);
 
+    /**
+     * General method to encapsulate the common funcionality of updating the info from backend
+     * So far it does always return \c true
+     */
+    bool update_item_info_(ListItem* item);
+
     //! General method to encapsulate the common funcionality of \c update_*_item methods refereing to items update
-    bool update_item_(
+    bool update_subitems_(
         SubListedListItem* item,
         backend::EntityKind type,
-        bool (*update_function)(ListItem*),
-        ListItem* (*create_function)(backend::EntityId));
+        bool (SyncBackendConnection::*update_function)(ListItem*),
+        ListItem* (SyncBackendConnection::*create_function)(backend::EntityId));
 
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
             ListModel* model,
             EntityKind type,
             EntityId id,
-            bool (*update_function)(ListItem*),
-            ListItem* (*create_function)(EntityId));
+            bool (SyncBackendConnection::*update_function)(ListItem*),
+            ListItem* (SyncBackendConnection::*create_function)(EntityId));
 
 };
 

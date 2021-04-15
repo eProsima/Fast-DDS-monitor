@@ -1,5 +1,6 @@
-#include <QQmlApplicationEngine>
 #include <QDateTime>
+#include <QDebug>
+#include <QQmlApplicationEngine>
 #include <QtCore/QRandomGenerator>
 
 #include <qqmlcontext.h>
@@ -29,7 +30,6 @@ Engine::Engine()
     , last_entity_clicked_(backend::ID_ALL)
     , last_entity_clicked_kind_(backend::EntityKind::INVALID)
     , callback_process_run_(true)
-    , callback_listener_(this)
 {
 }
 
@@ -240,7 +240,7 @@ bool Engine::fill_first_entity_info()
 /// Backend API
 bool Engine::fill_physical_data()
 {
-    return backend::SyncBackendConnection::update_physical_data(physical_model_);
+    return backend_connection_.update_physical_model(physical_model_);
 }
 
 // TODO reimplement these functions so it is not needed to call the whole fill
@@ -248,45 +248,45 @@ bool Engine::update_host_data(backend::EntityId id)
 {
     static_cast<void>(id);
     physical_model_->clear();
-    return backend::SyncBackendConnection::update_physical_data(physical_model_);
+    return backend_connection_.update_physical_model(physical_model_);
 }
 bool Engine::update_user_data(backend::EntityId id)
 {
     static_cast<void>(id);
     physical_model_->clear();
-    return backend::SyncBackendConnection::update_physical_data(physical_model_);
+    return backend_connection_.update_physical_model(physical_model_);
 }
 bool Engine::update_process_data(backend::EntityId id)
 {
     static_cast<void>(id);
     physical_model_->clear();
-    return backend::SyncBackendConnection::update_physical_data(physical_model_);
+    return backend_connection_.update_physical_model(physical_model_);
 }
 
 // LOGICAL PARTITION
 bool Engine::fill_logical_data()
 {
-    return backend::SyncBackendConnection::update_logical_data(logical_model_);
+    return backend_connection_.update_logical_model(logical_model_);
 }
 
 bool Engine::update_domain_data(backend::EntityId id)
 {
     static_cast<void>(id);
     logical_model_->clear();
-    return backend::SyncBackendConnection::update_logical_data(logical_model_);
+    return backend_connection_.update_logical_model(logical_model_);
 }
 
 bool Engine::update_topic_data(backend::EntityId id)
 {
     static_cast<void>(id);
     logical_model_->clear();
-    return backend::SyncBackendConnection::update_logical_data(logical_model_);
+    return backend_connection_.update_logical_model(logical_model_);
 }
 
 // DDS PARTITION
 bool Engine::fill_dds_data()
 {
-    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::update_reset_dds_data(
@@ -299,7 +299,7 @@ bool Engine::update_reset_dds_data(
 bool Engine::update_dds_data(
         backend::EntityId id /*ID_ALL*/)
 {
-    return backend::SyncBackendConnection::update_dds_data(participants_model_, id);
+    return backend_connection_.update_dds_model(participants_model_, id);
 }
 
 // Update the model with a new or updated entity
@@ -308,7 +308,7 @@ bool Engine::update_participant_data(backend::EntityId id)
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
-    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::update_endpoint_data(backend::EntityId id)
@@ -316,7 +316,7 @@ bool Engine::update_endpoint_data(backend::EntityId id)
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
-    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::update_locator_data(backend::EntityId id)
@@ -324,7 +324,7 @@ bool Engine::update_locator_data(backend::EntityId id)
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
-    return backend::SyncBackendConnection::update_dds_data(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
 
 bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
@@ -370,12 +370,12 @@ bool Engine::on_selected_entity_kind(backend::EntityKind entity_kind, QString en
     if (entity_model_id == "getDataDialogSourceEntityId")
     {
         source_entity_id_model_->clear();
-        return backend::SyncBackendConnection::update_get_data_dialog_entity_id(source_entity_id_model_, entity_kind);
+        return backend_connection_.update_get_data_dialog_entity_id(source_entity_id_model_, entity_kind);
     }
     else if (entity_model_id == "getDataDialogDestinationEntityId")
     {
         destination_entity_id_model_->clear();
-        return backend::SyncBackendConnection::update_get_data_dialog_entity_id(destination_entity_id_model_, entity_kind);
+        return backend_connection_.update_get_data_dialog_entity_id(destination_entity_id_model_, entity_kind);
     }
     else
     {
@@ -399,7 +399,7 @@ bool Engine::on_add_statistics_data_series(
     backend::Timestamp time_to =
             end_time_default ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(end_time));
 
-    std::vector<backend::StatisticsData> statistic_data = backend::SyncBackendConnection::get_data(
+    std::vector<backend::StatisticsData> statistic_data = backend_connection_.get_data(
                 data_kind,
                 source_entity_id,
                 target_entity_id,
@@ -445,7 +445,7 @@ bool Engine::on_add_statistics_data_series(
 
 void Engine::refresh_engine()
 {
-    std::cout << "REFRESH" << std::endl;
+    qDebug() << "REFRESH";
     // TODO this should be changed from erase all models and re draw them
     clear_callback_issue();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
@@ -477,7 +477,6 @@ bool Engine::add_callback(backend::Callback callback)
     add_issue_callback("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
 
     // Emit signal to specify there are new data
-    // callback_listener_.new_callback();
     emit new_callback_signal();
 
     return true;
@@ -498,7 +497,7 @@ bool Engine::process_callback_()
         callback_queue_.pop_front();
     }
 
-    std::cout << "Callback: " << first_callback.new_entity << std::endl;
+    qDebug() << "Processing callback: " << backend::id_to_QString(first_callback.new_entity);
 
     return read_callback_(first_callback);
 }

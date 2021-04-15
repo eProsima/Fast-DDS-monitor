@@ -245,21 +245,6 @@ void TreeModel::setup_model_data(
     }
 }
 
-void TreeModel::add_child(TreeItem* parent, const json& json_data)
-{
-    // beginRemoveColumns();
-    // TODO Eliminate old child
-    endRemoveColumns();
-
-    // beginInsertColumns();
-    setup_model_data(json_data, parent);
-}
-
-TreeItem* TreeModel::find(const QString key) const
-{
-    return root_item_->find(key);
-}
-
 void TreeModel::clear()
 {
     root_item_->clear();

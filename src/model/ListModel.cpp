@@ -25,12 +25,14 @@
 **
 ****************************************************************************/
 
+#include <QDebug>
+#include <QQmlEngine>
+
 #include <include/model/ListModel.h>
 #include <include/backend/backend_types.h>
 #include <include/utils.h>
 // DEBUG
 #include <iostream>
-#include <QDebug>
 
 namespace models {
 

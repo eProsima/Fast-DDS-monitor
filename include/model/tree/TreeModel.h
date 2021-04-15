@@ -129,7 +129,7 @@ protected:
      * @param json_data data in json format to fill the item
      * @param parent item to fill
      */
-    static oid setup_model_data(
+    static void setup_model_data(
             const json& json_data,
             TreeItem* parent);
 

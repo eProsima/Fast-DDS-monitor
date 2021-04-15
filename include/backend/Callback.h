@@ -29,6 +29,11 @@ namespace backend {
  */
 struct Callback
 {
+    //! Void constructor to use copy constructor afterwards
+    Callback()
+    {
+    }
+
     //! Standard constructor with the two fields required
     Callback(backend::EntityId new_entity, backend::EntityKind new_entity_kind)
         : new_entity(new_entity)

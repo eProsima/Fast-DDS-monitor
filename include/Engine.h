@@ -15,7 +15,6 @@
 #include <include/model/SubListedListModel.h>
 #include <include/model/tree/TreeModel.h>
 #include <include/statistics/StatisticsData.h>
-#include <include/CallbackListener.h>
 #include <include/Controller.h>
 
 class Engine : public QQmlApplicationEngine
@@ -173,8 +172,6 @@ protected:
 
     QWaitCondition callback_process_cv_;
     std::atomic<bool> callback_process_run_;
-
-    CallbackListener callback_listener_;
 
     Controller* controller_;
 };
