@@ -27,8 +27,8 @@ namespace statistics_backend {
 #define DEFAULT_GUID "01:0f:XX:XX"
 
 /**
- * Encapsulates the common functionality for Participant, DataReader and DataWriter
- * It contains a \c guid and \c qos information
+ * Encapsulates the common functionality for Participant, DataReader and DataWriter.
+ * It contains a \c guid and \c qos information.
  */
 class DDSEntity : public Entity
 {

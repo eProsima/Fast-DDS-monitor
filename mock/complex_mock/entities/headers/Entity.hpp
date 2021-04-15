@@ -25,14 +25,14 @@ namespace eprosima {
 namespace statistics_backend {
 
 /**
- * All Entities in the Database are subclasses of \c Entity
- * This class represents the interface for each entity kind
+ * All Entities in the Database are subclasses of \c Entity .
+ * This class represents the interface for each entity kind.
  *
- * The entities along the Database are referenced one to each other when they are directly related
- * These entities hold a shared pointer to those connected entities
+ * The entities along the Database are referenced one to each other when they are directly related.
+ * These entities hold a shared pointer to those connected entities.
  *
- * In order to simplify the logic, all Entities would containe \c EntityPointer instead of more
- * specific pointers for every subentity or superentity they have
+ * In order to simplify the logic, all Entities would containe \c EntityPointer instead of more.
+ * specific pointers for every subentity or superentity they have.
  */
 class Entity
 {
@@ -65,8 +65,8 @@ public:
     /**
      * @brief Get info of entity
      *
-     * This function must be override in subentities that has extra information
-     * It is recommended to call the father method in every subentity implementation
+     * This function must be override in subentities that has extra information.
+     * It is recommended to call the father method in every subentity implementation.
      *
      * @return entity name
      */

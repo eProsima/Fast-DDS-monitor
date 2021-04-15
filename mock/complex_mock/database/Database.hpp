@@ -37,9 +37,9 @@ namespace statistics_backend {
 #define MIN_DATA_GENERATION_TIME 3
 
 /**
- * Singleton Class that store the Entities, and has an API to access the information of each of them
- * Store and manage the Listener and the thread to callback information
- * Manage the thread related with new data generation
+ * Singleton Class that store the Entities, and has an API to access the information of each of them.
+ * Store and manage the Listener and the thread to callback information.
+ * Manage the thread related with new data generation.
  */
 class Database
 {
@@ -73,9 +73,9 @@ public:
     /**
      * @brief Return the ids related with an entity of one kind
      *
-     * It simulates the method \c get_entities in the Statistics Backend
-     * In case the id is ALL, it returns all the entities of one kind
-     * Otherwise, it searchs in a graph and returns all the entities of kind \c entity_type related with this id
+     * It simulates the method \c get_entities in the Statistics Backend.
+     * In case the id is ALL, it returns all the entities of one kind.
+     * Otherwise, it searchs in a graph and returns all the entities of kind \c entity_type related with this id.
      *
      * @param entity_type kind of the entity that is been looking for
      * @param entity_id id of the entity that return entities must be related. ID ALL to get all entities of one kind
@@ -89,7 +89,7 @@ public:
     /**
      * @brief Get the information of an entity
      *
-     * Informtion in json format is retieved for the entity with the id \c entity_id
+     * Informtion in json format is retieved for the entity with the id \c entity_id .
      * This information always retrieves the tag "name" and the tag "id"
      *
      * @param entity_id id of the entity to retrieve the info
@@ -139,29 +139,29 @@ public:
 protected:
 
     /**
-     * Default constructor (only called by singleton)
+     * Default constructor (only called by singleton).
      * It starts the threads
      */
     Database();
 
     /**
-     * Default constructor
+     * Default constructor.
      * It calls \c stop method and join the threads
      */
     ~Database();
 
     /**
-     * Generates random entities over time
-     * It starts by condition variable notification and sleep for a time depending the number of domains
-     * Each time it wakes, it creates new entities in a domain that is rotating (one domain each time)
-     * It keeps running while \c run_ is active and when it is not, it wakes instantly by notification and closes
+     * Generates random entities over time.
+     * It starts by condition variable notification and sleep for a time depending the number of domains.
+     * Each time it wakes, it creates new entities in a domain that is rotating (one domain each time).
+     * It keeps running while \c run_ is active and when it is not, it wakes instantly by notification and closes.
      */
     void generate_random_entity_thread_();
 
     /**
-     * Send callbacks through the listener when new entities are added
-     * It starts to run by condition varible notification, and wakes up every time there are callbacks to send
-     * It keeps running while \c run_ is active, and sleep while there are no new callbacks
+     * Send callbacks through the listener when new entities are added.
+     * It starts to run by condition varible notification, and wakes up every time there are callbacks to send.
+     * It keeps running while \c run_ is active, and sleep while there are no new callbacks.
      */
     void callback_listener_thread_();
 
@@ -182,8 +182,10 @@ private:
     //! Store all the entities by key \c EntityId and value \c EntityPointer to the entity
     std::map<EntityId, EntityPointer> entities_;
 
-    //! Store the callbacks that will be sent by the callback thread
-    // Each tuple is formed by: < New element Id , Kind , Domain Id >
+    /**
+     * Store the callbacks that will be sent by the callback thread.
+     * Each tuple is formed by: < New element Id , Kind , Domain Id >
+     */
     std::vector<std::tuple<EntityId, EntityKind, EntityId>> new_entities_;
 
     //! Last \c id used by the \c Database
@@ -209,8 +211,10 @@ private:
     //! Thread that generates random entities with a period depending on the number of domains
     std::thread generate_entity_thread_;
 
-    //! It notifies to Data Generator thread that must start
-    // It is also used to wake the thread during a sleep to stop it
+    /**
+     * It notifies to Data Generator thread that must start.
+     * It is also used to wake the thread during a sleep to stop it.
+     */
     mutable std::condition_variable cv_run_;
     //! Mutex asociated to \c cv_run_
     mutable std::mutex run_mutex_;
@@ -218,9 +222,9 @@ private:
     /////
     // Callback Thread
 
-    // Condition variable to call callbacks from listener
-    // It starts when a new entity is created and run while there are new entities in the new_entity vector
-    // It stops till next add_entity is called
+    // Condition variable to call callbacks from listener.
+    // It starts when a new entity is created and run while there are new entities in the new_entity vector.
+    // It stops till next add_entity is called.
     std::thread listener_thread_;
 
     //! It notifies the Callback Thread that there are callbacks available

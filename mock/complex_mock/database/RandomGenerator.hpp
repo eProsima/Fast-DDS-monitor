@@ -50,7 +50,7 @@ public:
     /**
      * @brief Return new entities created under a Domain
      *
-     * Create one new entity of each kind (except Domain) and make the connections between them and the domain
+     * Create one new entity of each kind (except Domain) and make the connections between them and the domain.
      * Two Locators are created, one connected to DataWriter and DataReader, and one only connected with DtaWriter.
      *
      * @return Vector with pointers to every new entity created
