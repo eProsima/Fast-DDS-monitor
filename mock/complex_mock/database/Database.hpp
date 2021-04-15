@@ -138,32 +138,40 @@ public:
 
 protected:
 
-    // Default constructor (only called by singleton)
-    // It starts the threads
+    /**
+     * Default constructor (only called by singleton)
+     * It starts the threads
+     */
     Database();
 
-    // Default constructor
-    // It calls \c stop method and join the threads
+    /**
+     * Default constructor
+     * It calls \c stop method and join the threads
+     */
     ~Database();
 
-    // Generates random entities over time
-    // It starts by condition variable notification and sleep for a time depending the number of domains
-    // Each time it wakes, it creates new entities in a domain that is rotating (one domain each time)
-    // It keeps running while \c run_ is active and when it is not, it wakes instantly by notification and closes
+    /**
+     * Generates random entities over time
+     * It starts by condition variable notification and sleep for a time depending the number of domains
+     * Each time it wakes, it creates new entities in a domain that is rotating (one domain each time)
+     * It keeps running while \c run_ is active and when it is not, it wakes instantly by notification and closes
+     */
     void generate_random_entity_thread_();
 
-    // Send callbacks through the listener when new entities are added
-    // It starts to run by condition varible notification, and wakes up every time there are callbacks to send
-    // It keeps running while \c run_ is active, and sleep while there are no new callbacks
+    /**
+     * Send callbacks through the listener when new entities are added
+     * It starts to run by condition varible notification, and wakes up every time there are callbacks to send
+     * It keeps running while \c run_ is active, and sleep while there are no new callbacks
+     */
     void callback_listener_thread_();
 
-    // Add a new entity in the Database, store a callback for the thread to send it and notify the thread
+    //! Add a new entity in the Database, store a callback for the thread to send it and notify the thread
     void add_entity_(EntityPointer entity, EntityId domain);
 
-    // Add new entities by calling add_entity one by one
+    //! Add new entities by calling add_entity one by one
     void add_entities_(std::vector<EntityPointer> entities, EntityId domain);
 
-    // Return the number of entities stored
+    //! Return the number of entities stored
     size_t count_entities_();
 
 private:

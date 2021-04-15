@@ -28,7 +28,7 @@ class Participant : public DDSEntity
 {
 public:
 
-    // Using DDSEntity constructors
+    //! Using DDSEntity constructors
     using DDSEntity::DDSEntity;
 
     //! Override of \c get_entities Entity method
@@ -50,8 +50,14 @@ public:
     }
 
 private:
+
+    //! Collection of endpoints subentities
     std::map<EntityId, EntityPointer> endpoints_;
+
+    //! Process superentity
     EntityPointer process_;
+
+    //! Domain superentity
     EntityPointer domain_;
 };
 

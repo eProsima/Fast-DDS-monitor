@@ -29,7 +29,7 @@ class DataReader : public Endpoint
 {
 public:
 
-    // Using Endpoint constructors
+    //! Using Endpoint constructors
     using Endpoint::Endpoint;
 
     //! Overwrite of \c kind method from Entity

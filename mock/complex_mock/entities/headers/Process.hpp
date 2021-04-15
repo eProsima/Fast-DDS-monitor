@@ -29,7 +29,7 @@ class Process : public Entity
 {
 public:
 
-    // Using Entity constructors
+    //! Using Entity constructors
     using Entity::Entity;
 
     //! Override of \c get_entities Entity method
@@ -55,7 +55,11 @@ public:
     Info get_info() const override;
 
 private:
+
+    //! Collection of participants subentities
     std::map<EntityId, EntityPointer> participants_;
+
+    //! Reference to user superentity
     EntityPointer user_;
 };
 

@@ -29,7 +29,7 @@ class Domain : public Entity
 {
 public:
 
-    // Using Entity constructors
+    //! Using Entity constructors
     using Entity::Entity;
 
     //! Override of \c get_entities Entity method
@@ -53,7 +53,11 @@ public:
     }
 
 private:
+
+    //! Collection of Participants subentities
     std::map<EntityId, EntityPointer> participants_;
+
+    //! Collection of Topics subentities
     std::map<EntityId, EntityPointer> topics_;
 };
 

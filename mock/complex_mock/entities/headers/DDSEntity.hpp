@@ -34,7 +34,7 @@ class DDSEntity : public Entity
 {
 public:
 
-    // Using Entity constructors
+    //! Using Entity constructors
     using Entity::Entity;
 
     /**

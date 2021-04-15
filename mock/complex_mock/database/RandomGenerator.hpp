@@ -94,55 +94,58 @@ protected:
 
     /////
     // New entities factories
+
     // The name generated for each entity is <kind>_<id>
 
-    // Create a new Entity Host
+    //! Create a new Entity Host
     static HostPointer new_host_();
 
-    // Create a new Entity User below a host and connect them
+    //! Create a new Entity User below a host and connect them
     static UserPointer new_user_(HostPointer host);
 
-    // Create a new Entity Process below a user and connect them
+    //! Create a new Entity Process below a user and connect them
     static ProcessPointer new_process_(UserPointer user);
 
-    // Create a new Entity Topic below a Domain and connect them
+    //! Create a new Entity Topic below a Domain and connect them
     static TopicPointer new_topic_(DomainPointer domain);
 
-    // Create a new Entity Participant below a Domain and a Process and connect them
+    //! Create a new Entity Participant below a Domain and a Process and connect them
     static ParticipantPointer new_participant_(DomainPointer domain, ProcessPointer process);
 
-    // Create a new Entity DataWriter below a Topic and a Participant and connect them
+    //! Create a new Entity DataWriter below a Topic and a Participant and connect them
     static EndpointPointer new_datawriter_(ParticipantPointer participant, TopicPointer topic);
 
-    // Create a new Entity DataReader below a Topic and a Participant and connect them
+    //! Create a new Entity DataReader below a Topic and a Participant and connect them
     static EndpointPointer new_datareader_(ParticipantPointer participant, TopicPointer topic);
 
-    // Create a new Endpoint randomly between DataWriter and DataReader below a Topic and a Participant and connect them
+    //! Create a new Endpoint randomly between DataWriter and DataReader below a Topic and a Participant and connect them
     static EndpointPointer new_endpoint_(ParticipantPointer participant, TopicPointer topic, LocatorPointer locator);
 
-    // Create a new Entity Locator below an Endpoint and connect them
+    //! Create a new Entity Locator below an Endpoint and connect them
     static LocatorPointer new_locator_(EndpointPointer endpoint);
 
     /////
     // Multiple random factories
 
-    // Create a new topic in domain, and creates a new endpoint in this topic in a random participant
+    //! Create a new topic in domain, and creates a new endpoint in this topic in a random participant
     static std::vector<EntityPointer> random_topic_(DomainPointer domain);
 
-    // Creates a new Participant in a new Process in a random User and a random endpoint underneath
+    //! Creates a new Participant in a new Process in a random User and a random endpoint underneath
     static std::vector<EntityPointer> random_participant_(DomainPointer domain);
 
-    // Creates a new Random Endpoint under a random Participant and with Random Locator
+    //! Creates a new Random Endpoint under a random Participant and with Random Locator
     static std::vector<EntityPointer> random_endpoint_(DomainPointer domain);
 
     /////
     // Random util methods
 
-    // Return a value in range [0, max) using the seed <seed>
-    // If <seed> = 0 the random seed is not set
+    /**
+     * Return a value in range [0, max) using the seed <seed>
+     * If <seed> = 0 the random seed is not set
+     */
     static int random_range(int max, unsigned int seed = 0);
 
-    // Return a random value inside a vector
+    //! Return a random value inside a vector
     template <class T>
     static T random_choice(std::vector<T> vector)
     {

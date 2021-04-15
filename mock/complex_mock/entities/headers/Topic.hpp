@@ -29,7 +29,7 @@ class Topic : public Entity
 {
 public:
 
-    // Using Entity constructors
+    //! Using Entity constructors
     using Entity::Entity;
 
     //! Override of \c get_entities Entity method
@@ -55,7 +55,11 @@ public:
     Info get_info() const override;
 
 private:
+
+    //! Collection of endpoints subentities
     std::map<EntityId, EntityPointer> endpoints_;
+
+    //! Domain superentity
     EntityPointer domain_;
 };
 

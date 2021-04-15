@@ -29,7 +29,7 @@ class Endpoint : public DDSEntity
 {
 public:
 
-    // Using Entity constructors
+    //! Using Entity constructors
     using DDSEntity::DDSEntity;
 
     //! Override of \c get_entities Entity method
@@ -51,8 +51,14 @@ public:
     Info get_info() const override;
 
 private:
+
+    //! Collection of Locators subentities
     std::map<EntityId, EntityPointer> locators_;
+
+    //! Participant superentity
     EntityPointer participant_;
+
+    //! Topic superentity
     EntityPointer topic_;
 };
 

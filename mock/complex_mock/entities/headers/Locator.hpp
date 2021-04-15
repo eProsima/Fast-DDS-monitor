@@ -30,7 +30,7 @@ class Locator : public Entity
 {
 public:
 
-    // Using Entity constructors
+    //! Using Entity constructors
     using Entity::Entity;
 
     //! Override of \c get_entities Entity method
@@ -47,6 +47,8 @@ public:
     }
 
 private:
+
+    //! Collection of endpoints subentities
     std::map<EntityId, EntityPointer> endpoints_;
 };
 

@@ -28,7 +28,7 @@ class User : public Entity
 {
 public:
 
-    // Using Entity constructors
+    //! Using Entity constructors
     using Entity::Entity;
 
     //! Override of \c get_entities Entity method
@@ -48,7 +48,11 @@ public:
     }
 
 private:
+
+    //! Collection of Processes subentities
     std::map<EntityId, EntityPointer> processes_;
+
+    //! Host superentity
     EntityPointer host_;
 };
 
