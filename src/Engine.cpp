@@ -41,7 +41,6 @@ Engine::Engine()
     : enabled_(false)
     , last_entity_clicked_(backend::ID_ALL)
     , last_entity_clicked_kind_(backend::EntityKind::INVALID)
-    , callback_process_run_(true)
 {
 }
 
@@ -53,30 +52,30 @@ QObject* Engine::enable()
 
     // Initialize models
     participants_model_ = new models::SubListedListModel(new models::ParticipantModelItem());
-    fill_dds_data();
+    fill_dds_data_();
 
     physical_model_ = new models::SubListedListModel(new models::HostModelItem());
-    fill_physical_data();
+    fill_physical_data_();
 
     logical_model_ = new models::SubListedListModel(new models::DomainModelItem());
-    fill_logical_data();
+    fill_logical_data_();
 
     info_model_ = new models::TreeModel();
-    fill_first_entity_info();
+    fill_first_entity_info_();
 
     summary_model_ = new models::TreeModel();
-    fill_summary(backend::ID_ALL);
+    fill_summary_(backend::ID_ALL);
 
     // Creates a default structure for issue json and fills the tree model with it
     issue_model_ = new models::TreeModel();
-    generate_new_issue_info();
-    fill_issue();
+    generate_new_issue_info_();
+    fill_issue_();
 
 
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
-    fill_available_entity_id_list(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
+    fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
-    fill_available_entity_id_list(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
+    fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
     statistics_data_ = new StatisticsData();
     controller_ = new Controller(this);
@@ -97,7 +96,6 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("controller", controller_);
 
     // qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
-
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     // Connect Callback Listener
@@ -161,7 +159,7 @@ void Engine::init_monitor(QString locators)
 
 void Engine::shared_init_monitor_(backend::EntityId domain_id)
 {
-    add_issue_domain(backend_connection_.get_name(domain_id), utils::now());
+    add_issue_domain_(backend_connection_.get_name(domain_id), utils::now());
 
     entity_clicked(domain_id, backend::EntityKind::DOMAIN);
 
@@ -172,7 +170,7 @@ void Engine::shared_init_monitor_(backend::EntityId domain_id)
     }
 }
 
-bool Engine::fill_entity_info(backend::EntityId id /*ID_ALL*/)
+bool Engine::fill_entity_info_(backend::EntityId id /*ID_ALL*/)
 {
     if (id == backend::ID_ALL)
     {
@@ -188,19 +186,19 @@ bool Engine::fill_entity_info(backend::EntityId id /*ID_ALL*/)
 }
 
 
-bool Engine::fill_summary(backend::EntityId id /*ID_ALL*/)
+bool Engine::fill_summary_(backend::EntityId id /*ID_ALL*/)
 {
     summary_model_->update(backend_connection_.get_summary(id));
     return true;
 }
 
-bool Engine::fill_issue()
+bool Engine::fill_issue_()
 {
     issue_model_->update(issue_info_);
     return true;
 }
 
-void Engine::generate_new_issue_info()
+void Engine::generate_new_issue_info_()
 {
     json info;
 
@@ -216,33 +214,33 @@ void Engine::generate_new_issue_info()
 void Engine::sum_entity_number_issue(int n)
 {
     issue_info_["Entities"]["Entities"] = issue_info_["Entities"]["Entities"].get<double>() + n;
-    fill_issue();
+    fill_issue_();
 }
 
-bool Engine::add_issue_domain(std::string name, std::string time)
+bool Engine::add_issue_domain_(std::string name, std::string time)
 {
     issue_info_["Entities"]["Domains"][time] = name;
-    add_issue_callback("Monitor initialized in domain " + name, time);
-    fill_issue();
+    add_issue_callback_("Monitor initialized in domain " + name, time);
+    fill_issue_();
 
     return true;
 }
 
-bool Engine::add_issue_callback(std::string callback, std::string time)
+bool Engine::add_issue_callback_(std::string callback, std::string time)
 {
     issue_info_["Callbacks"][time] = callback;
-    fill_issue();
+    fill_issue_();
 
     return true;
 }
 
-void Engine::clear_callback_issue()
+void Engine::clear_callback_issue_()
 {
     issue_info_["Callbacks"] = json();
-    fill_issue();
+    fill_issue_();
 }
 
-bool Engine::fill_first_entity_info()
+bool Engine::fill_first_entity_info_()
 {
     json info = R"({"No monitors active.":"Start a monitor in a specific domain"})"_json;
     info_model_->update(info);
@@ -250,7 +248,7 @@ bool Engine::fill_first_entity_info()
 }
 
 /// Backend API
-bool Engine::fill_physical_data()
+bool Engine::fill_physical_data_()
 {
     return backend_connection_.update_physical_model(physical_model_);
 }
@@ -276,7 +274,7 @@ bool Engine::update_process_data(backend::EntityId id)
 }
 
 // LOGICAL PARTITION
-bool Engine::fill_logical_data()
+bool Engine::fill_logical_data_()
 {
     return backend_connection_.update_logical_model(logical_model_);
 }
@@ -296,7 +294,7 @@ bool Engine::update_topic_data(backend::EntityId id)
 }
 
 // DDS PARTITION
-bool Engine::fill_dds_data()
+bool Engine::fill_dds_data_()
 {
     return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
@@ -364,15 +362,15 @@ bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
         [[fallthrough]];
     default:
         // DDS Entities
-        res = fill_entity_info(id) or res;
-        res = fill_summary(id) or res;
+        res = fill_entity_info_(id) or res;
+        res = fill_summary_(id) or res;
         break;
     }
 
     return res;
 }
 
-bool Engine::fill_available_entity_id_list(backend::EntityKind entity_kind, QString entity_model_id)
+bool Engine::fill_available_entity_id_list_(backend::EntityKind entity_kind, QString entity_model_id)
 {
     return on_selected_entity_kind(entity_kind, entity_model_id);
 }
@@ -459,7 +457,7 @@ void Engine::refresh_engine()
 {
     qDebug() << "REFRESH";
     // TODO this should be changed from erase all models and re draw them
-    clear_callback_issue();
+    clear_callback_issue_();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
     process_callback_queue();
 }
@@ -467,7 +465,7 @@ void Engine::refresh_engine()
 void Engine::process_callback_queue()
 {
     // It iterates while run_ is activate and the queue has elements
-    while (callback_process_run_.load() && !callback_queue_.empty())
+    while (!callback_queue_.empty())
     {
         process_callback_();
     }
@@ -483,10 +481,9 @@ bool Engine::add_callback(backend::Callback callback)
 {
     QMutexLocker ml(&callback_queue_mutex_);
     callback_queue_.append(callback);
-    // callback_process_cv_.wakeOne();
 
     // Add callback to issue model
-    add_issue_callback("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
+    add_issue_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
 
     // Emit signal to specify there are new data
     emit new_callback_signal();
@@ -526,16 +523,16 @@ bool Engine::read_callback_(backend::Callback callback)
     case backend::EntityKind::HOST:
     case backend::EntityKind::USER:
     case backend::EntityKind::PROCESS:
-        return fill_physical_data();
+        return fill_physical_data_();
 
     case backend::EntityKind::DOMAIN:
     case backend::EntityKind::TOPIC:
-        return fill_logical_data();
+        return fill_logical_data_();
 
     default:
         // DDS Model entities
         // TODO this is only needed when new entity is related with the last_clicked entity
-        return fill_dds_data();
+        return fill_dds_data_();
     }
 
     return res;
