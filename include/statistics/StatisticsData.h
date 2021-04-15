@@ -39,43 +39,73 @@ class StatisticsData : public QObject
 
 public:
 
+    //! Default QObject constructor
     explicit StatisticsData(
             QObject *parent = 0);
 
-
+    //! Set data of the chart
     void setData(const QList<QVector<QPointF>>& data);
+
+    //! Add data serie to the chart
     void appendData(const QVector<QPointF>& dataSeries);
+
+    //! Erase data of the chart
     void clear();
 
+    //! Get Y max axis size
     qreal axisYMax();
+    //! Get Y min axis size
     qreal axisYMin();
+    //! Get X max axis size
     quint64 axisXMax();
+    //! Get X min axis size
     quint64 axisXMin();
 
+    //! Set the new Y max axis size
     void setAxisYMax(qreal axisYMax);
+    //! Set the new Y min axis size
     void setAxisYMin(qreal axisYMin);
+    //! Set the new X max axis size
     void setAxisXMax(quint64 axisXMax);
+    //! Set the new X min axis size
     void setAxisXMin(quint64 axisXMin);
 
 Q_SIGNALS:
 
 public slots:
 
+    //! Receives the signal when data has been updated
     void update(
             QAbstractSeries* series);
 
 signals:
+    //! Signal to communicate that max Y axis has changed
     void axisYMaxChanged();
+    //! Signal to communicate that min Y axis has changed
     void axisYMinChanged();
+    //! Signal to communicate that max X axis has changed
     void axisXMaxChanged();
+    //! Signal to communicate that min X axis has changed
     void axisXMinChanged();
 
 private:
+
+    //! TODO
     QList<QVector<QPointF>> data_;
+
+    //! TODO
     int index_;
+
+    //! Max Y axis size
     qreal axisYMax_;
+
+    //! Min Y axis size
     qreal axisYMin_;
+
+    //! Max X axis size
     quint64 axisXMax_;
+
+    //! Min X axis size
     quint64 axisXMin_;
 };
 
