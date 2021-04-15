@@ -12,10 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * @file EntityId.cpp
+ */
+
 #include <fastdds-statistics-backend/types/EntityId.hpp>
 
 namespace eprosima {
 namespace statistics_backend {
+
+/*
+ * Standar EntityId
+ * No modifications made over the std EntityId implementation
+ */
 
 EntityId::EntityId()
     : value_(ENTITY_ID_INVALID)

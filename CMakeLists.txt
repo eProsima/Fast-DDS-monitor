@@ -159,10 +159,11 @@ set(PROJECT_SOURCES
 ###############################################################################
 # Compile MOCK
 ###############################################################################
-option(BUILD_MOCK "Build Fast DDS Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+# Only one of the mocks could be built. If both set, complex mock would be built
+option(COMPLEX_MOCK "Build Fast DDS Monitor Complex Mock library to simulate Fast DDS Statistics Backend" OFF)
+option(STATIC_MOCK "Build Fast DDS Monitor Static Mock library to simulate Fast DDS Statistics Backend" OFF)
 
-if(BUILD_MOCK)
-    message(STATUS "Compiling MOCKs")
-
+if(STATIC_MOCK OR COMPLEX_MOCK)
+    message(STATUS "Compiling MOCK")
     add_subdirectory(mock)
 endif()

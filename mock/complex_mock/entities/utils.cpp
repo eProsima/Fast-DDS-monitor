@@ -39,17 +39,11 @@ std::vector<EntityId> get_entities_related(
     std::vector<EntityId> result;
     for (auto entity : map)
     {
+        // Call get_entities for each entity in the map
         auto entities = entity.second->get_entities(entity_type);
         result.insert(result.end(), entities.begin(), entities.end());
     }
     return result;
-}
-
-std::string entityId_to_string(EntityId id)
-{
-    std::ostringstream oss;
-    oss << id;
-    return oss.str();
 }
 
 std::vector<EntityId> get_entities_kind(
@@ -61,10 +55,18 @@ std::vector<EntityId> get_entities_kind(
     {
         if (entity.second->kind() == entity_type)
         {
+            // Only add to the vector those that are of entity_type
             result.push_back(entity.first);
         }
     }
     return result;
+}
+
+std::string entityId_to_string(EntityId id)
+{
+    std::ostringstream oss;
+    oss << id;
+    return oss.str();
 }
 
 } // namespace statistics_backend

@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "../utils.hpp"
+/**
+ * @file Locator.cpp
+ */
+
 #include "../headers/Endpoint.hpp"
 #include "../headers/Locator.hpp"
+#include "../utils.hpp"
 
 namespace eprosima {
 namespace statistics_backend {

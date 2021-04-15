@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "../utils.hpp"
+/**
+ * @file Participant.cpp
+ */
+
 #include "../headers/Domain.hpp"
 #include "../headers/Endpoint.hpp"
 #include "../headers/Participant.hpp"
 #include "../headers/Process.hpp"
+#include "../utils.hpp"
 
 namespace eprosima {
 namespace statistics_backend {

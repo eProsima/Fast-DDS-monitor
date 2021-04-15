@@ -18,27 +18,31 @@
 
 #include "Endpoint.hpp"
 
-#ifndef _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_DATAWRITER_HPP_
-#define _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_DATAWRITER_HPP_
+#ifndef _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_DATAWRITER_HPP_
+#define _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_DATAWRITER_HPP_
 
 namespace eprosima {
 namespace statistics_backend {
 
+//! DataWriter Entity in Database
 class DataWriter : public Endpoint
 {
 public:
 
+    //! Using Endpoint constructors
     using Endpoint::Endpoint;
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::DATAWRITER;
     }
 };
 
+//! Type name for entity shared pointer
 using DataWriterPointer = std::shared_ptr<DataWriter>;
 
 } // namespace statistics_backend
 } // namespace eprosima
 
-#endif //_EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_DATAWRITER_HPP_
+#endif //_EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_DATAWRITER_HPP_

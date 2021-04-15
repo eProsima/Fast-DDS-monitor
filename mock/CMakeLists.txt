@@ -1,4 +1,4 @@
-# Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+# Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,13 +14,23 @@
 
 # include_directories(${MyProject_SOURCE_DIR}/LibProject/inc)
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.14)
 
 if(NOT CMAKE_VERSION VERSION_LESS 3.0)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
 project(monitor-mock)
+
+
+###############################################################################
+# Default shared libraries
+###############################################################################
+# Global flag to cause add_library() to create shared libraries if on.
+# If set to true, this will cause all libraries to be built shared
+# unless the library was explicitly added as a static library.
+option(BUILD_SHARED_LIBS "Create shared libraries by default" ON)
+
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
@@ -29,6 +39,11 @@ find_package(fastdds-statistics-backend REQUIRED)
 ###############################################################################
 # Compile MOCKs
 ###############################################################################
-add_subdirectory(static_mock)
 
-add_subdirectory(complex_mock)
+# Static mock would be built only if Complex mock is not
+if(COMPLEX_MOCK)
+    add_subdirectory(complex_mock)
+elseif(STATIC_MOCK)
+    add_subdirectory(static_mock)
+endif()
+

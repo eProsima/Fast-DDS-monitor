@@ -13,40 +13,51 @@
  * limitations under the License.
  */
 
+/**
+ * @file StatisticsBackend.cpp
+ */
+
 #include <random>
 #include <vector>
 #include <iostream>
 
-#include <fastdds-statistics-backend/types/types.hpp>
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
 #include <fastdds-statistics-backend/listener/DomainListener.hpp>
 #include <fastdds-statistics-backend/listener/PhysicalListener.hpp>
+#include <fastdds-statistics-backend/types/types.hpp>
 
 namespace eprosima {
 namespace statistics_backend {
 
-static int ID = 0;
+// Dynamic ID to identify new domains started
+static int ID = 10;
 
 /*
- * Host         : Host_0                                    : 0
+ * This mock works with a static model formed by the following entities:
  *
- * User         : User_0(Host_1)                            : 1
+ * Host         : Host_0                                    : 1
  *
- * Process      : Process_0(User_0)                         : 2
+ * User         : User_0(Host_1)                            : 2
  *
- * Domain       : Domain_0                                  : 3
+ * Process      : Process_0(User_0)                         : 3
  *
- * Topic        : Topic_0(Domain_0)                         : 4
+ * Domain       : Domain_0                                  : 4
  *
- * Participant  : Participant_0(Process_0, Domain_0)        : 5
+ * Topic        : Topic_0(Domain_0)                         : 5
  *
- * DataWriter   : DW_0(Participant_0, topic_0)              : 6
+ * Participant  : Participant_0(Process_0, Domain_0)        : 6
  *
- * DataReader   : DR_0(Participant_0, topic_0)              : 7
+ * DataWriter   : DW_0(Participant_0, topic_0)              : 7
  *
- * Locator      : locator_0(Participant_0, DW_0, DR_0)      : 8
+ * DataReader   : DR_0(Participant_0, topic_0)              : 8
+ *
+ * Locator      : locator_0(Participant_0, DW_0, DR_0)      : 9
+ *
+ * With this simple static schema is possible to imlpement a trivial <get_entities> function
+ * which would be one of the most difficult functions to implement in the backend.
  */
 
+// Prints a success message and do nothing
 void StatisticsBackend::set_physical_listener(
         PhysicalListener* listener,
         CallbackMask callback_mask)
@@ -64,6 +75,7 @@ void StatisticsBackend::set_physical_listener(
     static_cast<void>(callback_mask);
 }
 
+// Prints a success message and returns an ID not used before (which do not represent any existing entity)
 EntityId StatisticsBackend::init_monitor(
         DomainId domain,
         DomainListener* domain_listener,
@@ -78,6 +90,7 @@ EntityId StatisticsBackend::init_monitor(
     return ++ID;
 }
 
+// Prints a success message and returns an ID not used before (which do not represent any existing entity)
 EntityId StatisticsBackend::init_monitor(
         std::string discovery_server_locators,
         DomainListener* domain_listener,
@@ -92,6 +105,7 @@ EntityId StatisticsBackend::init_monitor(
     return ++ID;
 }
 
+// Returns a vector with one id of the unique entity of <entity_type> kind
 std::vector<EntityId> StatisticsBackend::get_entities(
         EntityKind entity_type,
         EntityId entity_id)
@@ -105,39 +119,39 @@ std::vector<EntityId> StatisticsBackend::get_entities(
     switch (entity_type)
     {
         case EntityKind::HOST:
-            result.push_back(0);
-            break;
-
-        case EntityKind::USER:
             result.push_back(1);
             break;
 
-        case EntityKind::PROCESS:
+        case EntityKind::USER:
             result.push_back(2);
             break;
 
-        case EntityKind::DOMAIN:
+        case EntityKind::PROCESS:
             result.push_back(3);
             break;
 
-        case EntityKind::TOPIC:
+        case EntityKind::DOMAIN:
             result.push_back(4);
             break;
 
-        case EntityKind::PARTICIPANT:
+        case EntityKind::TOPIC:
             result.push_back(5);
             break;
 
-        case EntityKind::DATAWRITER:
+        case EntityKind::PARTICIPANT:
             result.push_back(6);
             break;
 
-        case EntityKind::DATAREADER:
+        case EntityKind::DATAWRITER:
             result.push_back(7);
             break;
 
-        case EntityKind::LOCATOR:
+        case EntityKind::DATAREADER:
             result.push_back(8);
+            break;
+
+        case EntityKind::LOCATOR:
+            result.push_back(9);
             break;
 
         default:
@@ -147,6 +161,10 @@ std::vector<EntityId> StatisticsBackend::get_entities(
     return result;
 }
 
+// Returns an info key values:
+//  - qos   : a Fast DDS complete qos (the same for all entities, as an example)
+//  - name  : name of the entity Kind + "_0"
+//  - id    : id of the entity kind (the one given as argument)
 Info StatisticsBackend::get_info(
         EntityId entity_id)
 {
@@ -328,6 +346,7 @@ Info StatisticsBackend::get_info(
     return json_obj;
 }
 
+// Call get_data for one entity data
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id_source,
@@ -341,6 +360,9 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
     return get_data(data_type, entity_id_source, bins, t_from, t_to, statistic);
 }
 
+// Returns a random vector of data generated using the seed: <id(as int) * data_type(as int)>
+// The vector has a <bins> number of elements, sorted for first pair element = time
+// Each element time in each pair is coherent with the query
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id,
@@ -374,6 +396,7 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
     return result;
 }
 
+// Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id_source,
@@ -391,6 +414,7 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
         statistic);
 }
 
+// Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id,

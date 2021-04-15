@@ -12,8 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "../utils.hpp"
+/**
+ * @file Entity.cpp
+ */
+
 #include "../headers/Entity.hpp"
+#include "../utils.hpp"
 
 namespace eprosima {
 namespace statistics_backend {
@@ -22,7 +26,6 @@ Info Entity::get_info() const
 {
     Info json_obj;
 
-    json_obj["QoS"] = "Entity without QoS";
     json_obj["id"] = entityId_to_string(id());
     json_obj["name"] = name();
     json_obj["kind"] = kind();

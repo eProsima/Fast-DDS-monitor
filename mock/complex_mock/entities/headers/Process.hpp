@@ -16,44 +16,57 @@
  * @file Process.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_PROCESS_HPP_
-#define _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_PROCESS_HPP_
+#ifndef _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_PROCESS_HPP_
+#define _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_PROCESS_HPP_
 
 #include "Entity.hpp"
 
 namespace eprosima {
 namespace statistics_backend {
 
+//! Process Entity in Database
 class Process : public Entity
 {
 public:
 
+    //! Using Entity constructors
     using Entity::Entity;
 
+    //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
         const EntityKind entity_type) const override;
 
+    //! Add Entity to Participant list
     void add_participant(EntityPointer participant);
 
+    //! Add User as connected Entity
     void user(EntityPointer user);
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::PROCESS;
     }
 
+    //! Field \c pid getter
     std::string pid() const;
 
+    //! Override of \c get_info Entity method
     Info get_info() const override;
 
 private:
+
+    //! Collection of participants subentities
     std::map<EntityId, EntityPointer> participants_;
+
+    //! Reference to user superentity
     EntityPointer user_;
 };
 
+//! Type name for entity shared pointer
 using ProcessPointer = std::shared_ptr<Process>;
 
 } // namespace statistics_backend
 } // namespace eprosima
 
-#endif //_EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_PROCESS_HPP_
+#endif //_EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_PROCESS_HPP_

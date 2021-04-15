@@ -18,27 +18,31 @@
 
 #include "Endpoint.hpp"
 
-#ifndef _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_DATAREADER_HPP_
-#define _EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_DATAREADER_HPP_
+#ifndef _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_DATAREADER_HPP_
+#define _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_DATAREADER_HPP_
 
 namespace eprosima {
 namespace statistics_backend {
 
+//! DataReader Entity in Database
 class DataReader : public Endpoint
 {
 public:
 
+    //! Using Endpoint constructors
     using Endpoint::Endpoint;
 
+    //! Overwrite of \c kind method from Entity
     EntityKind kind() const
     {
         return EntityKind::DATAREADER;
     }
 };
 
+//! Type name for entity shared pointer
 using DataReaderPointer = std::shared_ptr<DataReader>;
 
 } // namespace statistics_backend
 } // namespace eprosima
 
-#endif //_EPROSIMA_FASTDDS_STATISTICS_BACKEND_COMPLEXMOCK_DATAREADER_HPP_
+#endif //_EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_DATAREADER_HPP_

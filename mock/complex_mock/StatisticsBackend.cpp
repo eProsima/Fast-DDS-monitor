@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+/**
+ * @file StatisticsBackend.cpp
+ */
+
 #include <random>
 #include <vector>
 #include <iostream>
@@ -28,13 +32,21 @@ namespace eprosima {
 namespace statistics_backend {
 
 /*
+ * This mock works with a dynamic model that generates new random entities:
+ * It creates new entities by these rules:
+ *   - Random Seed = First character of the first domain initialized
+ *   - Period (sec) = max(16 - # domains, 3)
+ *   - Each iteration creates (each time in different Domain):
+ *      - New DataWriter / DataReader
+ *      - New Topic + New DW / DR
+ *      - New Process + New Participant + New DW / DR
+ *   - New Domains are created each time <init_monitor> is called, and one entity of each kind under it
  *
+ * The data of each entity is randomly generated without seed.
  */
 
-// Variable to set the seed as first monitor initialized
-static bool first_domain = true;
-
-// Implemented without Mask
+// Stores the listener pointer in database to execute callbacks
+// When Listener is <nullptr> it stops the data generator
 void StatisticsBackend::set_physical_listener(
         PhysicalListener* listener,
         CallbackMask callback_mask)
@@ -49,13 +61,12 @@ void StatisticsBackend::set_physical_listener(
         Database::get_instance()->stop();
     }
 
-
     Database::get_instance()->listener(listener);
 
     static_cast<void>(callback_mask);
 }
 
-// Call DS init_monitor
+// Call Discovery Server init_monitor
 EntityId StatisticsBackend::init_monitor(
         DomainId domain,
         DomainListener* domain_listener,
@@ -65,7 +76,8 @@ EntityId StatisticsBackend::init_monitor(
     return init_monitor(std::to_string(domain), domain_listener, callback_mask, data_mask);
 }
 
-// DS are not implemented. It only allows to change between existint domains / DS
+// Add a new Domain in the Database
+// First Domain added sets the random seed
 EntityId StatisticsBackend::init_monitor(
         std::string discovery_server_locators,
         DomainListener* domain_listener,
@@ -74,9 +86,8 @@ EntityId StatisticsBackend::init_monitor(
 {
     std::cout << "CONGRATULATIONS, you have init a monitor in " << discovery_server_locators << std::endl;
 
-    if (first_domain)
+    if (Database::get_instance()->count_domains() == 0)
     {
-        first_domain = false;
         if (!discovery_server_locators.empty())
         {
             srand(discovery_server_locators[0]);
@@ -96,7 +107,7 @@ EntityId StatisticsBackend::init_monitor(
     return domain_id;
 }
 
-// Uses the values in Database to get the entities
+// Uses the entities in Database to get the entity vectors
 std::vector<EntityId> StatisticsBackend::get_entities(
         EntityKind entity_type,
         EntityId entity_id)
@@ -106,7 +117,7 @@ std::vector<EntityId> StatisticsBackend::get_entities(
     return Database::get_instance()->get_entities(entity_type, entity_id);
 }
 
-// Returns the info from an entity
+// Returns the info from an entity in Database
 Info StatisticsBackend::get_info(
         EntityId entity_id)
 {
@@ -115,6 +126,7 @@ Info StatisticsBackend::get_info(
     return Database::get_instance()->get_info(entity_id);
 }
 
+// Call get_data for one entity data
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id_source,
@@ -128,8 +140,9 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
     return get_data(data_type, entity_id_source, bins, t_from, t_to, statistic);
 }
 
-// Implement as random data, generated with EntityId seed and depending on bins
-// TODO: attach data to Entities and create it dynamically
+// Returns a random vector of data generated
+// The vector has a <bins> number of elements, sorted for first pair element = time
+// Each element time in each pair is coherent with the query
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id,
@@ -163,7 +176,7 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
     return result;
 }
 
-// Overload of get_data with different default values
+// Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id_source,
@@ -181,7 +194,7 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
         statistic);
 }
 
-// Overload of get_data with different default values
+// Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
         EntityId entity_id,
