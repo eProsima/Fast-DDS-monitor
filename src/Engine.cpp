@@ -472,13 +472,13 @@ void Engine::process_callback_queue()
 
 bool Engine::are_callbacks_to_process_()
 {
-    QMutexLocker ml(&callback_queue_mutex_);
+    std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     return callback_queue_.empty();
 }
 
 bool Engine::add_callback(backend::Callback callback)
 {
-    QMutexLocker ml(&callback_queue_mutex_);
+    std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     callback_queue_.append(callback);
 
     // Add callback to issue model
@@ -500,7 +500,7 @@ bool Engine::process_callback_()
     backend::Callback first_callback;
 
     {
-        QMutexLocker ml(&callback_queue_mutex_);
+        std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
         first_callback = callback_queue_.front();
         callback_queue_.pop_front();
     }
@@ -537,4 +537,8 @@ bool Engine::read_callback_(backend::Callback callback)
     return res;
 }
 
+void Engine::new_callback_slot()
+{
+    process_callback_queue();
+}
 

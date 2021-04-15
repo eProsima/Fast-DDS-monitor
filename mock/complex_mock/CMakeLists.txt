@@ -44,12 +44,12 @@ set(COMPLEX_MOCK_SOURCE
     entities/source/Locator.cpp
     )
 
-add_library(BackendMock ${COMPLEX_MOCK_SOURCE})
+add_library(${PROJECT_NAME} ${STATIC_MOCK_COMPLEX_SOURCE})
 
-target_compile_definitions(BackendMock PRIVATE
+target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
 )
 
-target_link_libraries(BackendMock fastdds-statistics-backend)
-install(TARGETS BackendMock
-    RUNTIME DESTINATION Mock/BackendMock/${BIN_INSTALL_DIR})
+target_link_libraries(${PROJECT_NAME} fastdds-statistics-backend)
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION Mock/${PROJECT_NAME}/${BIN_INSTALL_DIR})
