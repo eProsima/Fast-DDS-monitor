@@ -33,9 +33,8 @@
 #include <include/model/physical/HostModelItem.h>
 #include <include/model/tree/TreeModel.h>
 #include <include/statistics/StatisticsData.h>
-#include <json.hpp>
 
-using nlohmann::json;
+using EntityInfo = backend::EntityInfo;
 
 Engine::Engine()
     : enabled_(false)
@@ -174,7 +173,7 @@ bool Engine::fill_entity_info_(backend::EntityId id /*ID_ALL*/)
 {
     if (id == backend::ID_ALL)
     {
-        json default_info;
+        EntityInfo default_info;
         default_info["No entity"] = "Double click over any entity to see its values";
         info_model_->update(default_info);
     }
@@ -200,12 +199,12 @@ bool Engine::fill_issue_()
 
 void Engine::generate_new_issue_info_()
 {
-    json info;
+    EntityInfo info;
 
-    info["Callbacks"] = json();
-    info["Issues"] = json();
-    info["Entities"] = json();
-    info["Entities"]["Domains"] = json();
+    info["Callbacks"] = EntityInfo();
+    info["Issues"] = EntityInfo();
+    info["Entities"] = EntityInfo();
+    info["Entities"]["Domains"] = EntityInfo();
     info["Entities"]["Entities"] = 0;
 
     issue_info_ = info;
@@ -236,13 +235,13 @@ bool Engine::add_issue_callback_(std::string callback, std::string time)
 
 void Engine::clear_callback_issue_()
 {
-    issue_info_["Callbacks"] = json();
+    issue_info_["Callbacks"] = EntityInfo();
     fill_issue_();
 }
 
 bool Engine::fill_first_entity_info_()
 {
-    json info = R"({"No monitors active.":"Start a monitor in a specific domain"})"_json;
+    EntityInfo info = R"({"No monitors active.":"Start a monitor in a specific domain"})"_json;
     info_model_->update(info);
     return true;
 }

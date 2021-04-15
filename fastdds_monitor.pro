@@ -65,8 +65,7 @@ HEADERS += \
         include/Engine.h \
         include/model/tree/TreeModel.h \
         include/model/tree/TreeItem.h \
-        include/statistics/StatisticsData.h \
-        json.hpp
+        include/statistics/StatisticsData.h
 
 DISTFILES += \
     qml/*

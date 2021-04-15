@@ -24,10 +24,10 @@
 #include <QModelIndex>
 #include <QVariant>
 
+#include <include/backend/backend_types.h>
 #include <include/model/tree/TreeItem.h>
-#include <json.hpp>
 
-using json = nlohmann::json;
+using json = backend::EntityInfo;
 
 namespace models {
 

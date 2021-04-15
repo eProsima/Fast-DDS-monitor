@@ -387,7 +387,7 @@ protected:
     models::TreeModel* issue_model_;
 
     //! Data that is represented in the Issue Model when this model is refreshed
-    json issue_info_;
+    backend::Info issue_info_;
 
     //! TODO
     models::ListModel* source_entity_id_model_;

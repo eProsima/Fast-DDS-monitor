@@ -27,7 +27,6 @@
 #include <include/backend/backend_types.h>
 #include <include/model/model_types.h>
 #include <include/utils.h>
-#include <json.hpp>
 
 namespace backend{
 

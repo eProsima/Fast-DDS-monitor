@@ -16,9 +16,6 @@
 
 #include <include/model/tree/TreeItem.h>
 #include <include/model/tree/TreeModel.h>
-#include <json.hpp>
-
-using json = nlohmann::json;
 
 namespace models {
 

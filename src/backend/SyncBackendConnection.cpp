@@ -21,7 +21,6 @@
 #include <QDebug>
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
-#include <json.hpp>
 
 #include <include/backend/SyncBackendConnection.h>
 #include <include/backend/backend_utils.h>
@@ -354,14 +353,14 @@ EntityId SyncBackendConnection::init_monitor(QString locators)
     return true;
 }
 
-json SyncBackendConnection::get_info(EntityId id)
+EntityInfo SyncBackendConnection::get_info(EntityId id)
 {
     return StatisticsBackend::get_info(id);
 }
 
-json SyncBackendConnection::get_summary(backend::EntityId id)
+EntityInfo SyncBackendConnection::get_summary(backend::EntityId id)
 {
-    json summary;
+    EntityInfo summary;
 
     // Throughput
     summary["Throughput"]["mean"] =

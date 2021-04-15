@@ -35,7 +35,6 @@
 namespace backend {
 
 using namespace models;
-using nlohmann::json;
 
 /**
  * @brief Class that holds all the backend queries in both sides
