@@ -32,25 +32,9 @@ class EntityItem : public ListItem
 
 public:
 
-    EntityItem(
-            QObject *parent = 0)
-        : ListItem(parent)
-    {
-    }
+    // Use EntityContainerModelItem constructors
+    using ListItem::ListItem;
 
-    EntityItem(
-            backend::EntityId id,
-            QObject* parent = 0)
-        : ListItem(id, parent)
-    {
-    }
-
-    QVariant data(
-            int role) const override;
-
-    QString type() const;
-
-    QHash<int, QByteArray> roleNames() const override;
 };
 
 } // namespace models

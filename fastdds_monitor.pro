@@ -9,7 +9,6 @@ CONFIG += c++14
 SOURCES += \
         src/backend/Listener.cpp \
         src/statistics/StatisticsData.cpp \
-        src/model/EntityItem.cpp \
         src/Controller.cpp \
         src/backend/SyncBackendConnection.cpp \
         src/backend/backend_utils.cpp \
@@ -46,7 +45,7 @@ HEADERS += \
         include/backend/SyncBackendConnection.h \
         include/backend/backend_types.h \
         include/model/EntityContainerModelItem.h \
-        include/model/EntityItem.h \
+        include/model/statistics/EntityItem.h \
         include/model/dds/LocatorModelItem.h \
         include/model/model_types.h \
         include/utils.h \
