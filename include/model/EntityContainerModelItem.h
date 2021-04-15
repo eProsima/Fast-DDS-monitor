@@ -38,6 +38,11 @@ namespace models
  *
  * This class implements the constructors for every Item that has subentities
  *
+ * This class is needed to create a template for different entities with subentities, as those subentities
+ * could be single entities, or entities with subentities
+ * This template is not done in \c SubListedListItem class because that class may remain non template as
+ * it must interact with QML code
+ *
  * @tparam SubEntityClass class of subentities. i.e. \c UserModelItem or \c LocatorModelItem
  * @tparam SubEntityModelClass kind of model that the subentities has: \c ListModel or \c SubListedListModel
  */
