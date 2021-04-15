@@ -1,9 +1,22 @@
+// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include <QDebug>
 
 #include <fastdds-statistics-backend/listener/PhysicalListener.hpp>
 
 #include <include/Engine.h>
-
-#include <iostream>
 
 namespace backend {
 
@@ -17,7 +30,7 @@ void Listener::on_participant_discovery(
         EntityId participant_id,
         const Status& status)
 {
-    std::cout << "PARTICIPANT " << participant_id << " DISCOVERED" << std::endl;
+    qDebug() << "PARTICIPANT " << backend::id_to_QString(participant_id) << " DISCOVERED";
     engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT));
 
     static_cast<void>(domain_id);
@@ -29,7 +42,7 @@ void Listener::on_datareader_discovery(
         EntityId datareader_id,
         const Status& status)
 {
-    std::cout << "DATAREADER " << datareader_id << " DISCOVERED" << std::endl;
+    qDebug() << "DATAREADER " << backend::id_to_QString(datareader_id) << " DISCOVERED";
     engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER));
 
     static_cast<void>(domain_id);
@@ -41,7 +54,7 @@ void Listener::on_datawriter_discovery(
         EntityId datawriter_id,
         const Status& status)
 {
-    std::cout << "DATAWRITER " << datawriter_id << " DISCOVERED" << std::endl;
+    qDebug() << "DATAWRITER " << backend::id_to_QString(datawriter_id) << " DISCOVERED";
     engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER));
 
     static_cast<void>(domain_id);
@@ -53,7 +66,7 @@ void Listener::on_host_discovery(
         EntityId host_id,
         const Status& status)
 {
-    std::cout << "HOST " << host_id << " DISCOVERED" << std::endl;
+    qDebug() << "HOST " << backend::id_to_QString(host_id) << " DISCOVERED";
     engine_->add_callback(Callback(host_id, EntityKind::HOST));
 
     static_cast<void>(participant_id);
@@ -65,7 +78,7 @@ void Listener::on_user_discovery(
         EntityId user_id,
         const Status& status)
 {
-    std::cout << "USER " << user_id << " DISCOVERED" << std::endl;
+    qDebug() << "USER " << backend::id_to_QString(user_id) << " DISCOVERED";
     engine_->add_callback(Callback(user_id, EntityKind::USER));
 
     static_cast<void>(participant_id);
@@ -77,7 +90,7 @@ void Listener::on_process_discovery(
         EntityId process_id,
         const Status& status)
 {
-    std::cout << "PROCESS " << process_id << " DISCOVERED" << std::endl;
+    qDebug() << "PROCESS " << backend::id_to_QString(process_id) << " DISCOVERED";
     engine_->add_callback(Callback(process_id, EntityKind::PROCESS));
 
     static_cast<void>(participant_id);
@@ -89,7 +102,7 @@ void Listener::on_locator_discovery(
         EntityId locator_id,
         const Status& status)
 {
-    std::cout << "LOCATOR " << locator_id << " DISCOVERED" << std::endl;
+    qDebug() << "LOCATOR " << backend::id_to_QString(locator_id) << " DISCOVERED";
     engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR));
 
     static_cast<void>(participant_id);
@@ -101,7 +114,7 @@ void Listener::on_topic_discovery(
         EntityId topic_id,
         const Status& status)
 {
-    std::cout << "TOPIC " << topic_id << " DISCOVERED" << std::endl;
+    qDebug() << "TOPIC " << backend::id_to_QString(topic_id) << " DISCOVERED";
     engine_->add_callback(Callback(topic_id, EntityKind::TOPIC));
 
     static_cast<void>(domain_id);

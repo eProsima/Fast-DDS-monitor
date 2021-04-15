@@ -12,32 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.1
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.15
+/**
+ * @file EntityItem.hpp
+ */
 
-ApplicationWindow {
-    id: window
-    visible: true
-    width: 1200
-    height: 675
-    title: qsTr("Fast DDS Monitor")
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
 
-    header: MonitorToolBar {
-        id: toolBar
-    }
+#include <include/model/ListItem.h>
 
-    Panels {
-        id: panels
-    }
+namespace models {
 
-    InitMonitorDialog {
-        id: dialogInitMonitor
-    }
+/**
+ * @brief Class that represents an Entity in the chart dialog
+ */
+class EntityItem : public ListItem
+{
+    Q_OBJECT
 
-    DataKindDialog {
-        id: dataKindDialog
-        onCreateChart: panels.createChart(dataKind)
-    }
-}
+public:
+
+    //! Use EntityContainerModelItem constructors
+    using ListItem::ListItem;
+
+};
+
+} // namespace models
+
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H

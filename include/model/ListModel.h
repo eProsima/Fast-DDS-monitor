@@ -1,19 +1,46 @@
-#ifndef LISTMODEL_H
-#define LISTMODEL_H
+// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**
+ * @file ListModel.hpp
+ */
+
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_LISTMODEL_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_LISTMODEL_H
 
 #include <QAbstractListModel>
-#include <QVariant>
-#include <QList>
-#include <QHash>
 #include <QByteArray>
+#include <QHash>
+#include <QList>
+#include <QVariant>
 #include <QtAlgorithms>
-#include <QQmlEngine>
 
-#include <include/model/ListItem.h>
 #include <include/backend/backend_types.h>
+#include <include/model/ListItem.h>
 
 namespace models {
 
+/**
+ * @brief Abstract class that encapsulate the behaviour of a Model that contains Entities in the form of Items
+ *
+ * The \c ListModel contains a serie of \c ListItem , which each of them represents a backend \c Entity .
+ * It implements the main methods to interact with the view.
+ *
+ * These models are the graphic representation for the backed Entities, storing internally the items that represent
+ * each Entity, its information and their subentities in the form of other models.
+ * They also manage the interaction between the view, the controller and the items.
+ */
 class ListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -130,7 +157,10 @@ public:
 
 protected:
 
+    //! Void ListItem that is used to know the role names. This is why a default constructor is needed in \c ListItem
     ListItem* prototype_;
+
+    //! List of Items under this model
     QList<ListItem*> items_;
 
 private slots:
@@ -142,10 +172,11 @@ private slots:
 
 signals:
 
+    //! Signal that communicates to the view that the number of items has changed
     void countChanged(
             int count);
 };
 
 } // namespace models
 
-#endif // LISTMODEL_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_LISTMODEL_H

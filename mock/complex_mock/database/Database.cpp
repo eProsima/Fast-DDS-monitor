@@ -212,7 +212,7 @@ size_t Database::count_entities_()
 
 void Database::generate_random_entity_thread_()
 {
-    std::cout << "Random Data Generator Thread starting" << std::endl;
+    std::cout << "DATABASE Random Data Generator Thread starting" << std::endl;
 
     // Wait till is ready to generate data
     {
@@ -220,7 +220,7 @@ void Database::generate_random_entity_thread_()
         cv_run_.wait(lock, [this]{return start_.load();});
     }
 
-    std::cout << "Random Data Generator Thread running" << std::endl;
+    std::cout << "DATABASE Random Data Generator Thread running" << std::endl;
 
     // Index to round robin over domains
     int domain_rr = 0;
@@ -254,19 +254,19 @@ void Database::generate_random_entity_thread_()
         add_entities_(RandomGenerator::add_random_entity(domain), domain->id());
     }
 
-    std::cout << "Random Data Generator Thread stopping" << std::endl;
+    std::cout << "DATABASE Random Data Generator Thread stopping" << std::endl;
 }
 
 void Database::callback_listener_thread_()
 {
-    std::cout << "Callback Listener Thread starting" << std::endl;
+    std::cout << "DATABASE Callback Listener Thread starting" << std::endl;
 
     // Wait till is ready to create callbacks
     // This is needed because if not it will end before run_ has set to true
     std::unique_lock<std::mutex> lock(callback_mutex_start_);
     cv_callback_start_.wait(lock, [this]{return start_.load();});
 
-    std::cout << "Callback Listener Thread running" << std::endl;
+    std::cout << "DATABASE Callback Listener Thread running" << std::endl;
 
     while(run_.load())
     {
@@ -344,7 +344,7 @@ void Database::callback_listener_thread_()
         }
     }
 
-    std::cout << "Callback Listener Thread stopping" << std::endl;
+    std::cout << "DATABASE Callback Listener Thread stopping" << std::endl;
 }
 
 EntityPointer Database::get_entity(EntityId id)

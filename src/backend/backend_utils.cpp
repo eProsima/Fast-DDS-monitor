@@ -1,12 +1,24 @@
+// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <sstream>      // std::ostringstream
-#include <iostream>
-
-#include <include/utils.h>
-#include <include/backend/backend_types.h>
-#include <include/model/model_types.h>
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
+
+#include <include/backend/backend_types.h>
+#include <include/model/model_types.h>
+#include <include/utils.h>
 
 namespace backend{
 
@@ -27,7 +39,6 @@ EntityId models_id_to_backend_id(const models::EntityId id)
 
 QString get_name(const EntityId id)
 {
-    std::cout << "getting name from " << id << std::endl;
     return utils::to_QString(
                 eprosima::statistics_backend::StatisticsBackend::get_info(id)["name"]);
 }
