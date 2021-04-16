@@ -271,6 +271,7 @@ public:
     void process_callback_queue();
 
 signals:
+
     /**
      * Internal signal that communicate that there are callbacks to process by the main Thread.
      * Arise from \c add_callback
@@ -278,6 +279,7 @@ signals:
     void new_callback_signal();
 
 public slots:
+
     /**
      * Receive the internal signal \c new_callback_signal and start the process of
      * callback queue by \c process_callback_queue
