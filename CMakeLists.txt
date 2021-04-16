@@ -36,12 +36,12 @@ message(STATUS "Version: ${PROJECT_VERSION}")
 set(QT_PATH "" CACHE STRING "Path to the Qt installation folder")
 list(APPEND CMAKE_PREFIX_PATH ${QT_PATH})
 
-find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts REQUIRED)
+find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick REQUIRED)
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 find_package(fastdds-statistics-backend REQUIRED)
 
-foreach(c Core Widgets Gui Quick Qml Charts)
+foreach(c Core Widgets Gui Quick Qml)
     if(${Qt5${c}_FOUND})
         message(STATUS "Found Qt5${c}: ${Qt5${c}_CONFIG} (found version ${Qt5${c}_VERSION})")
     endif()
@@ -199,8 +199,7 @@ set(QT5_LIBRARY_LINKS
     Qt5::Widgets
     Qt5::Gui
     Qt5::Qml
-    Qt5::Quick
-    Qt5::Charts)
+    Qt5::Quick)
 
 # If any mock CMake option has been set, the monitor will use the mock library
 if(COMPLEX_MOCK OR STATIC_MOCK)
