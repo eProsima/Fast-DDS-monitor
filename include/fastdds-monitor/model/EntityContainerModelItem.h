@@ -25,10 +25,10 @@
 
 #include <fastdds-monitor/backend/backend_types.h>
 #include <fastdds-monitor/backend/backend_utils.h>
-#include <fastdds-monitor/model/SubListedListItem.h>
-#include <fastdds-monitor/model/SubListedListModel.h>
 #include <fastdds-monitor/model/ListItem.h>
 #include <fastdds-monitor/model/model_types.h>
+#include <fastdds-monitor/model/SubListedListItem.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
 
 namespace models
 {

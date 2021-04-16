@@ -21,8 +21,8 @@
 #include <QtCharts/QXYSeries>
 #include <QtCore/QDebug>
 #include <QtCore/QRandomGenerator>
-#include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
+#include <QtQuick/QQuickView>
 
 #include <fastdds-monitor/statistics/StatisticsData.h>
 

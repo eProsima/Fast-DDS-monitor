@@ -21,18 +21,18 @@
 
 #include <atomic>
 
-#include <QQueue>
 #include <QQmlApplicationEngine>
 #include <QQueue>
-#include <QWaitCondition>
+#include <QQueue>
 #include <QThread>
 #include <QWaitCondition>
+#include <QWaitCondition>
 
-#include <fastdds-monitor/Controller.h>
-#include <fastdds-monitor/backend/Listener.h>
 #include <fastdds-monitor/backend/Callback.h>
 #include <fastdds-monitor/backend/Listener.h>
+#include <fastdds-monitor/backend/Listener.h>
 #include <fastdds-monitor/backend/SyncBackendConnection.h>
+#include <fastdds-monitor/Controller.h>
 #include <fastdds-monitor/model/tree/TreeModel.h>
 #include <fastdds-monitor/statistics/StatisticsData.h>
 
@@ -257,14 +257,14 @@ public:
      */
     void process_callback_queue();
 
-Q_SIGNALS:
+signals:
     /**
      * Internal signal that communicate that there are callbacks to process by the main Thread.
      * Arise from \c add_callback
      */
     void new_callback_signal();
 
-public Q_SLOTS:
+public slots:
     /**
      * Receive the internal signal \c new_callback_signal and start the process of
      * callback queue by \c process_callback_queue

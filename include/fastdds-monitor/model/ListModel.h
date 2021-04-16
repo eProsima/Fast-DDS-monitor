@@ -23,8 +23,8 @@
 #include <QByteArray>
 #include <QHash>
 #include <QList>
-#include <QVariant>
 #include <QtAlgorithms>
+#include <QVariant>
 
 #include <fastdds-monitor/backend/backend_types.h>
 #include <fastdds-monitor/model/ListItem.h>

@@ -22,20 +22,20 @@
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
 
-#include <fastdds-monitor/backend/SyncBackendConnection.h>
 #include <fastdds-monitor/backend/backend_utils.h>
-#include <fastdds-monitor/model/ListItem.h>
-#include <fastdds-monitor/model/ListModel.h>
-#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/backend/SyncBackendConnection.h>
 #include <fastdds-monitor/model/dds/EndpointModelItem.h>
 #include <fastdds-monitor/model/dds/LocatorModelItem.h>
 #include <fastdds-monitor/model/dds/ParticipantModelItem.h>
+#include <fastdds-monitor/model/ListItem.h>
+#include <fastdds-monitor/model/ListModel.h>
 #include <fastdds-monitor/model/logical/DomainModelItem.h>
 #include <fastdds-monitor/model/logical/TopicModelItem.h>
 #include <fastdds-monitor/model/physical/HostModelItem.h>
 #include <fastdds-monitor/model/physical/ProcessModelItem.h>
 #include <fastdds-monitor/model/physical/UserModelItem.h>
 #include <fastdds-monitor/model/statistics/EntityItem.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
 #include <fastdds-monitor/model/tree/TreeModel.h>
 
 namespace backend {

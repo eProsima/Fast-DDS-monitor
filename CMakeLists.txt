@@ -170,17 +170,12 @@ set(PROJECT_HEADERS
     include/fastdds-monitor/utils.h
 )
 
-# file(GLOB_RECURSE ALL_HEADERS
-#     ${PROJECT_SOURCE_DIR}/include/**/*.h
-#     )
-
 set(PROJECT_SOURCES
-    # ${ALL_HEADERS}
-    src/Engine.cpp
-    src/Controller.cpp
     src/backend/backend_utils.cpp
     src/backend/Listener.cpp
     src/backend/SyncBackendConnection.cpp
+    src/Controller.cpp
+    src/Engine.cpp
     src/main.cpp
     src/model/dds/EndpointModelItem.cpp
     src/model/dds/ParticipantModelItem.cpp

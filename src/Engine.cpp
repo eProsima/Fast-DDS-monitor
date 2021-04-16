@@ -20,17 +20,17 @@
 #include <QtCore/QRandomGenerator>
 #include <qqmlcontext.h>
 
-#include <fastdds-monitor/Controller.h>
-#include <fastdds-monitor/Engine.h>
+#include <fastdds-monitor/backend/backend_types.h>
 #include <fastdds-monitor/backend/Listener.h>
 #include <fastdds-monitor/backend/SyncBackendConnection.h>
-#include <fastdds-monitor/backend/backend_types.h>
-#include <fastdds-monitor/model/SubListedListItem.h>
-#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/Controller.h>
+#include <fastdds-monitor/Engine.h>
 #include <fastdds-monitor/model/dds/ParticipantModelItem.h>
 #include <fastdds-monitor/model/logical/DomainModelItem.h>
 #include <fastdds-monitor/model/physical/HostModelItem.h>
 #include <fastdds-monitor/model/statistics/EntityItem.h>
+#include <fastdds-monitor/model/SubListedListItem.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
 #include <fastdds-monitor/model/tree/TreeModel.h>
 #include <fastdds-monitor/statistics/StatisticsData.h>
 
@@ -485,7 +485,7 @@ bool Engine::add_callback(backend::Callback callback)
     add_issue_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
 
     // Emit signal to specify there are new data
-   emit new_callback_signal();
+    emit new_callback_signal();
 
     return true;
 }
