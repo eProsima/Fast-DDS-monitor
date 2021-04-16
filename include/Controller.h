@@ -34,12 +34,24 @@ class Controller : public QObject
 
 public:
 
+    //! Default QObject constructor
+    Controller(
+            QObject *parent = nullptr)
+        : QObject(parent)
+        , engine_(nullptr)
+    {
+    }
+
     //! Standard QObject constructor with a reference to the Engine object
     Controller(
             Engine* engine,
             QObject *parent = nullptr)
         : QObject(parent)
         , engine_(engine)
+    {
+    }
+
+    ~Controller()
     {
     }
 

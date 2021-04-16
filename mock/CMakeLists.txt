@@ -16,11 +16,7 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-if(NOT CMAKE_VERSION VERSION_LESS 3.0)
-    cmake_policy(SET CMP0048 NEW)
-endif()
-
-project(monitor-mock)
+project(backend-mock)
 
 
 ###############################################################################
@@ -30,7 +26,6 @@ project(monitor-mock)
 # If set to true, this will cause all libraries to be built shared
 # unless the library was explicitly added as a static library.
 option(BUILD_SHARED_LIBS "Create shared libraries by default" ON)
-
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)

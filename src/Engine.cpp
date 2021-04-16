@@ -25,7 +25,7 @@
 #include <include/backend/Listener.h>
 #include <include/backend/SyncBackendConnection.h>
 #include <include/backend/backend_types.h>
-#include <include/model/EntityItem.h>
+#include <include/model/statistics/EntityItem.h>
 #include <include/model/SubListedListItem.h>
 #include <include/model/SubListedListModel.h>
 #include <include/model/dds/ParticipantModelItem.h>
@@ -36,8 +36,9 @@
 
 using EntityInfo = backend::EntityInfo;
 
-Engine::Engine()
-    : enabled_(false)
+Engine::Engine(QObject *parent)
+    : QQmlApplicationEngine(parent)
+    , enabled_(false)
     , last_entity_clicked_(backend::ID_ALL)
     , last_entity_clicked_kind_(backend::EntityKind::INVALID)
 {
@@ -97,7 +98,7 @@ QObject* Engine::enable()
     // qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
-    // Connect Callback Listener
+    // Connect Callback Listener to this object
     QObject::connect(
             this,
             &Engine::new_callback_signal,
@@ -485,7 +486,7 @@ bool Engine::add_callback(backend::Callback callback)
     add_issue_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
 
     // Emit signal to specify there are new data
-    emit new_callback_signal();
+   emit new_callback_signal();
 
     return true;
 }
@@ -536,9 +537,3 @@ bool Engine::read_callback_(backend::Callback callback)
 
     return res;
 }
-
-void Engine::new_callback_slot()
-{
-    process_callback_queue();
-}
-

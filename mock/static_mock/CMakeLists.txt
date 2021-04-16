@@ -22,8 +22,6 @@ find_package(fastdds-statistics-backend REQUIRED)
 # Allow to use threads
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-project(backend-mock)
-
 set(STATIC_MOCK_SOURCE
     StatisticsBackend.cpp
     EntityId.cpp

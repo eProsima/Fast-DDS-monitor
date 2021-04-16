@@ -58,16 +58,6 @@ if(${fastdds-statistics-backend_FOUND})
 endif()
 
 ###############################################################################
-# Compile Fast DDS Statistics Backend Mock for testing purposes
-###############################################################################
-option(BUILD_MOCK "Build Fast DDS Monitor Mock library to simulate Fast DDS Statistics Backend" ON)
-
-if(BUILD_MOCK)
-    message(STATUS "Compiling MOCKs")
-    add_subdirectory(mock)
-endif()
-
-###############################################################################
 # Set C++14 as the C++ standard required to build the project
 ###############################################################################
 set(CMAKE_CXX_STANDARD 14)
@@ -132,49 +122,68 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 ###############################################################################
+# Compile Mock if CMake option set
+###############################################################################
+option(COMPLEX_MOCK "Build Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+option(STATIC_MOCK "Build Fast DDS Static Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+
+# If complex mock is set, static mock does not compile and link
+if(COMPLEX_MOCK)
+    set(STATIC_MOCK OFF)
+endif()
+
+# Compile mock subdirectory
+# Only one of the mocks will be compiled and the edstination library would be <backend-mock>
+if(COMPLEX_MOCK OR STATIC_MOCK)
+    add_subdirectory(mock)
+endif()
+
+###############################################################################
 # Compile program
 ###############################################################################
-set(PROJECT_HEADERS
-    include/backend/backend_types.h
-    include/backend/backend_utils.h
-    include/backend/Callback.h
-    include/backend/Listener.h
-    include/backend/SyncBackendConnection.h
-    include/CallbackListener.h
-    include/Controller.h
-    include/Engine.h
-    include/model/dds/EndpointModelItem.h
-    include/model/dds/LocatorModelItem.h
-    include/model/dds/ParticipantModelItem.h
-    include/model/EntityContainerModelItem.h
-    include/model/EntityItem.h
-    include/model/ListItem.h
-    include/model/ListModel.h
-    include/model/logical/DomainModelItem.h
-    include/model/logical/TopicModelItem.h
-    include/model/model_types.h
-    include/model/physical/HostModelItem.h
-    include/model/physical/ProcessModelItem.h
-    include/model/physical/UserModelItem.h
-    include/model/SubListedListItem.h
-    include/model/SubListedListModel.h
-    include/model/tree/TreeItem.h
-    include/model/tree/TreeModel.h
-    include/statistics/StatisticsData.h
-    include/utils.h
-    json.hpp
-)
+# set(PROJECT_HEADERS
+#     include/backend/backend_types.h
+#     include/backend/backend_utils.h
+#     include/backend/Callback.h
+#     include/backend/Listener.h
+#     include/backend/SyncBackendConnection.h
+#     include/Controller.h
+#     include/Engine.h
+#     include/model/dds/EndpointModelItem.h
+#     include/model/dds/LocatorModelItem.h
+#     include/model/dds/ParticipantModelItem.h
+#     include/model/EntityContainerModelItem.h
+#     include/model/ListItem.h
+#     include/model/ListModel.h
+#     include/model/logical/DomainModelItem.h
+#     include/model/logical/TopicModelItem.h
+#     include/model/model_types.h
+#     include/model/physical/HostModelItem.h
+#     include/model/physical/ProcessModelItem.h
+#     include/model/physical/UserModelItem.h
+#     include/model/statistics/EntityItem.h
+#     include/model/SubListedListItem.h
+#     include/model/SubListedListModel.h
+#     include/model/tree/TreeItem.h
+#     include/model/tree/TreeModel.h
+#     include/statistics/StatisticsData.h
+#     include/utils.h
+# )
+
+file(GLOB_RECURSE ALL_HEADERS
+    ${PROJECT_SOURCE_DIR}/include/**/*.h
+    )
+
 set(PROJECT_SOURCES
+    ${ALL_HEADERS}
+    src/Engine.cpp
+    src/Controller.cpp
     src/backend/backend_utils.cpp
     src/backend/Listener.cpp
     src/backend/SyncBackendConnection.cpp
-    src/CallbackListener.cpp
-    src/Controller.cpp
-    src/Engine.cpp
     src/main.cpp
     src/model/dds/EndpointModelItem.cpp
     src/model/dds/ParticipantModelItem.cpp
-    src/model/EntityItem.cpp
     src/model/ListItem.cpp
     src/model/ListModel.cpp
     src/model/logical/TopicModelItem.cpp
@@ -186,13 +195,35 @@ set(PROJECT_SOURCES
     src/utils.cpp
 )
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${QT_RESOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(${PROJECT_NAME}
+
+# Qt5 required libraries
+set(QT5_LIBRARY_LINKS
     Qt5::Core
     Qt5::Widgets
     Qt5::Gui
     Qt5::Qml
     Qt5::Quick
-    Qt5::Charts
-    complex-mock)
+    Qt5::Charts)
+
+# If any mock CMake option has been set, the monitor will use the mock library
+if(COMPLEX_MOCK OR STATIC_MOCK)
+
+    message(STATUS "Compiling monitor with Mock backend library")
+
+    set(BACKEND_LIBRARIES
+        backend-mock)
+
+else()
+
+    # Link against fast backend and its dependencies
+    set(BACKEND_LIBRARIES
+        fastcdr
+        fastrtps
+        fastdds-statistics-backend)
+
+endif()
+
+target_link_libraries(${PROJECT_NAME} ${QT5_LIBRARY_LINKS} ${BACKEND_LIBRARIES})
+

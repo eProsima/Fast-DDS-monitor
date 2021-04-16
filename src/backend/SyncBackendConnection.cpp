@@ -24,7 +24,6 @@
 
 #include <include/backend/SyncBackendConnection.h>
 #include <include/backend/backend_utils.h>
-#include <include/model/EntityItem.h>
 #include <include/model/ListItem.h>
 #include <include/model/ListModel.h>
 #include <include/model/SubListedListModel.h>
@@ -36,6 +35,7 @@
 #include <include/model/physical/HostModelItem.h>
 #include <include/model/physical/ProcessModelItem.h>
 #include <include/model/physical/UserModelItem.h>
+#include <include/model/statistics/EntityItem.h>
 #include <include/model/tree/TreeModel.h>
 
 namespace backend {

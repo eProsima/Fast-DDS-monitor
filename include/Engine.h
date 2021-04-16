@@ -29,6 +29,7 @@
 #include <QWaitCondition>
 
 #include <atomic>
+#include <include/Controller.h>
 #include <include/backend/Listener.h>
 #include <include/backend/Callback.h>
 #include <include/backend/Listener.h>
@@ -65,8 +66,8 @@ class Engine : public QQmlApplicationEngine
 
 public:
 
-    //! Standard void constructor
-    Engine();
+    //! Standard void constructor for QObject
+    Engine(QObject *parent = nullptr);
 
     //! Release listener and all models
     ~Engine();
@@ -257,14 +258,14 @@ public:
      */
     void process_callback_queue();
 
-signals:
+Q_SIGNALS:
     /**
      * Internal signal that communicate that there are callbacks to process by the main Thread.
      * Arise from \c add_callback
      */
     void new_callback_signal();
 
-public slots:
+public Q_SLOTS:
     /**
      * Receive the internal signal \c new_callback_signal and start the process of
      * callback queue by \c process_callback_queue
