@@ -30,7 +30,7 @@ void Controller::init_monitor(
 }
 
 void Controller::host_click(
-        QString id)
+                QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::HOST);
 }

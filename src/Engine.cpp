@@ -37,10 +37,9 @@
 using EntityInfo = backend::EntityInfo;
 
 Engine::Engine()
-    : enabled_(false)
-    , last_entity_clicked_(backend::ID_ALL)
-    , last_entity_clicked_kind_(backend::EntityKind::INVALID)
+    : enabled_(false), last_entity_clicked_(backend::ID_ALL), last_entity_clicked_kind_(backend::EntityKind::INVALID)
 {
+
 }
 
 QObject* Engine::enable()
