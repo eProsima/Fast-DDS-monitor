@@ -20,19 +20,19 @@
 #include <QtCore/QRandomGenerator>
 #include <qqmlcontext.h>
 
-#include <include/Controller.h>
-#include <include/Engine.h>
-#include <include/backend/Listener.h>
-#include <include/backend/SyncBackendConnection.h>
-#include <include/backend/backend_types.h>
-#include <include/model/SubListedListItem.h>
-#include <include/model/SubListedListModel.h>
-#include <include/model/dds/ParticipantModelItem.h>
-#include <include/model/logical/DomainModelItem.h>
-#include <include/model/physical/HostModelItem.h>
-#include <include/model/statistics/EntityItem.h>
-#include <include/model/tree/TreeModel.h>
-#include <include/statistics/StatisticsData.h>
+#include <fastdds-monitor/Controller.h>
+#include <fastdds-monitor/Engine.h>
+#include <fastdds-monitor/backend/Listener.h>
+#include <fastdds-monitor/backend/SyncBackendConnection.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/SubListedListItem.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/model/dds/ParticipantModelItem.h>
+#include <fastdds-monitor/model/logical/DomainModelItem.h>
+#include <fastdds-monitor/model/physical/HostModelItem.h>
+#include <fastdds-monitor/model/statistics/EntityItem.h>
+#include <fastdds-monitor/model/tree/TreeModel.h>
+#include <fastdds-monitor/statistics/StatisticsData.h>
 
 using EntityInfo = backend::EntityInfo;
 

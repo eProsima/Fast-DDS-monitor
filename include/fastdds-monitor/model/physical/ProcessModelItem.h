@@ -13,49 +13,44 @@
 // limitations under the License.
 
 /**
- * @file ParticipantModelItem.hpp
+ * @file ProcessModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
 
-#include <include/model/EntityContainerModelItem.h>
-#include <include/model/SubListedListItem.h>
-#include <include/model/dds/EndpointModelItem.h>
+#include <fastdds-monitor/model/ListItem.h>
 
 namespace models {
 
+
 /**
- * @brief Class that represents a Participant Item in the DDS Model
- *
- * Each participant has subitems that represent the endpoints associated with it indistinctly if they
- * are datawriters or datareaders.
+ * @brief Class that represents an Process Item in the DDS Model
  */
-class ParticipantModelItem : public EntityContainerModelItem<EndpointModelItem, SubListedListModel>
+class ProcessModelItem : public ListItem
 {
     Q_OBJECT
 
 public:
 
-    //! Add new roles only for Participant items
-    enum ParticipantModelItemRoles
+    //! Add new roles only for Process items
+    enum ProcessModelItemRoles
     {
-        guidRole = ModelItemRoles::nameRole + 1,    //! Role for attribute GUID
-        domainRole                                  //! Role for attribute Domain
+        pidRole = ModelItemRoles::nameRole + 1, //! Role for attribute PID
     };
 
     //! Default QObject constructor. Used for model specification
-    ParticipantModelItem(
+    ProcessModelItem(
             QObject *parent = 0)
-        : EntityContainerModelItem(parent)
+        : ListItem(parent)
     {
     }
 
     //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    ParticipantModelItem(
+    ProcessModelItem(
             backend::EntityId id,
             QObject* parent = 0)
-        : EntityContainerModelItem(id, parent)
+        : ListItem(id, parent)
     {
     }
 
@@ -63,11 +58,8 @@ public:
     QVariant data(
             int role) const override;
 
-    //! Getter for guid attribute
-    QString guid() const;
-
-    //! Getter for domain attribute
-    QString domain() const;
+    //! Getter for pid attribute
+    QString pid() const;
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
@@ -75,4 +67,4 @@ public:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H

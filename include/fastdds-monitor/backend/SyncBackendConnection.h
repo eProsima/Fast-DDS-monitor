@@ -21,15 +21,15 @@
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
 
-#include <include/backend/Listener.h>
-#include <include/backend/backend_types.h>
-#include <include/model/SubListedListModel.h>
-#include <include/model/logical/TopicModelItem.h>
-#include <include/model/logical/DomainModelItem.h>
-#include <include/model/physical/HostModelItem.h>
-#include <include/model/physical/ProcessModelItem.h>
-#include <include/model/physical/UserModelItem.h>
-#include <include/model/tree/TreeModel.h>
+#include <fastdds-monitor/backend/Listener.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/model/logical/TopicModelItem.h>
+#include <fastdds-monitor/model/logical/DomainModelItem.h>
+#include <fastdds-monitor/model/physical/HostModelItem.h>
+#include <fastdds-monitor/model/physical/ProcessModelItem.h>
+#include <fastdds-monitor/model/physical/UserModelItem.h>
+#include <fastdds-monitor/model/tree/TreeModel.h>
 
 
 namespace backend {

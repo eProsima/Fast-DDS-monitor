@@ -26,8 +26,8 @@
 #include <QVariant>
 #include <QtAlgorithms>
 
-#include <include/backend/backend_types.h>
-#include <include/model/ListItem.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/ListItem.h>
 
 namespace models {
 

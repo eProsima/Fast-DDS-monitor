@@ -39,10 +39,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <include/backend/backend_types.h>
-#include <include/model/ListItem.h>
-#include <include/model/SubListedListModel.h>
-#include <include/utils.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/ListItem.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/utils.h>
 
 namespace models {
 

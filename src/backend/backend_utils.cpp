@@ -16,9 +16,9 @@
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
 
-#include <include/backend/backend_types.h>
-#include <include/model/model_types.h>
-#include <include/utils.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/model_types.h>
+#include <fastdds-monitor/utils.h>
 
 namespace backend{
 

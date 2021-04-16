@@ -41,9 +41,9 @@
 
 #include <QQmlEngine>
 
-#include <include/backend/backend_types.h>
-#include <include/model/ListModel.h>
-#include <include/utils.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/ListModel.h>
+#include <fastdds-monitor/utils.h>
 
 namespace models {
 

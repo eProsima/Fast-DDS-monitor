@@ -19,7 +19,7 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
 
-#include <include/model/ListItem.h>
+#include <fastdds-monitor/model/ListItem.h>
 
 namespace models {
 

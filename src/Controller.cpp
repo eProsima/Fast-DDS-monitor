@@ -14,8 +14,8 @@
 
 #include <QDebug>
 
-#include <include/Controller.h>
-#include <include/Engine.h>
+#include <fastdds-monitor/Controller.h>
+#include <fastdds-monitor/Engine.h>
 
 void Controller::init_monitor(int domain)
 {

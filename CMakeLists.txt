@@ -142,32 +142,32 @@ endif()
 # Compile program
 ###############################################################################
 set(PROJECT_HEADERS
-    include/backend/backend_types.h
-    include/backend/backend_utils.h
-    include/backend/Callback.h
-    include/backend/Listener.h
-    include/backend/SyncBackendConnection.h
-    include/Controller.h
-    include/Engine.h
-    include/model/dds/EndpointModelItem.h
-    include/model/dds/LocatorModelItem.h
-    include/model/dds/ParticipantModelItem.h
-    include/model/EntityContainerModelItem.h
-    include/model/ListItem.h
-    include/model/ListModel.h
-    include/model/logical/DomainModelItem.h
-    include/model/logical/TopicModelItem.h
-    include/model/model_types.h
-    include/model/physical/HostModelItem.h
-    include/model/physical/ProcessModelItem.h
-    include/model/physical/UserModelItem.h
-    include/model/statistics/EntityItem.h
-    include/model/SubListedListItem.h
-    include/model/SubListedListModel.h
-    include/model/tree/TreeItem.h
-    include/model/tree/TreeModel.h
-    include/statistics/StatisticsData.h
-    include/utils.h
+    include/fastdds-monitor/backend/backend_types.h
+    include/fastdds-monitor/backend/backend_utils.h
+    include/fastdds-monitor/backend/Callback.h
+    include/fastdds-monitor/backend/Listener.h
+    include/fastdds-monitor/backend/SyncBackendConnection.h
+    include/fastdds-monitor/Controller.h
+    include/fastdds-monitor/Engine.h
+    include/fastdds-monitor/model/dds/EndpointModelItem.h
+    include/fastdds-monitor/model/dds/LocatorModelItem.h
+    include/fastdds-monitor/model/dds/ParticipantModelItem.h
+    include/fastdds-monitor/model/EntityContainerModelItem.h
+    include/fastdds-monitor/model/ListItem.h
+    include/fastdds-monitor/model/ListModel.h
+    include/fastdds-monitor/model/logical/DomainModelItem.h
+    include/fastdds-monitor/model/logical/TopicModelItem.h
+    include/fastdds-monitor/model/model_types.h
+    include/fastdds-monitor/model/physical/HostModelItem.h
+    include/fastdds-monitor/model/physical/ProcessModelItem.h
+    include/fastdds-monitor/model/physical/UserModelItem.h
+    include/fastdds-monitor/model/statistics/EntityItem.h
+    include/fastdds-monitor/model/SubListedListItem.h
+    include/fastdds-monitor/model/SubListedListModel.h
+    include/fastdds-monitor/model/tree/TreeItem.h
+    include/fastdds-monitor/model/tree/TreeModel.h
+    include/fastdds-monitor/statistics/StatisticsData.h
+    include/fastdds-monitor/utils.h
 )
 
 # file(GLOB_RECURSE ALL_HEADERS
@@ -196,7 +196,7 @@ set(PROJECT_SOURCES
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 # Qt5 required libraries
 set(QT5_LIBRARY_LINKS

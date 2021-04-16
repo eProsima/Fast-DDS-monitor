@@ -13,24 +13,25 @@
 // limitations under the License.
 
 /**
- * @file UserModelItem.hpp
+ * @file DomainModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_USERMODELITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_USERMODELITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H
 
-#include <include/model/EntityContainerModelItem.h>
-#include <include/model/physical/ProcessModelItem.h>
+#include <fastdds-monitor/model/EntityContainerModelItem.h>
+#include <fastdds-monitor/model/ListModel.h>
+#include <fastdds-monitor/model/logical/TopicModelItem.h>
 
 namespace models {
 
 /**
- * @brief Class that represents a User Item in the Physical Model
+ * @brief Class that represents a Domain Item in the Logic Model
  *
- * It is not needed to implement any extra method because User do not have extra fields of info.
- * The Process subitems are already managed by \c EntityContainerModelItem class.
+ * It is not needed to implement any extra method because domain do not have extra fields of info.
+ * The Topic subitems are already managed by \c EntityContainerModelItem class.
  */
-class UserModelItem : public EntityContainerModelItem<ProcessModelItem, ListModel>
+class DomainModelItem : public EntityContainerModelItem<TopicModelItem, ListModel>
 {
 
 public:
@@ -42,4 +43,4 @@ public:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_USERMODELITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H

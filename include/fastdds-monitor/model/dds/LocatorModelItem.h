@@ -13,30 +13,30 @@
 // limitations under the License.
 
 /**
- * @file EntityItem.hpp
+ * @file LocatorModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_LOCATORMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_LOCATORMODELITEM_H
 
-#include <include/model/ListItem.h>
+#include <fastdds-monitor/model/ListItem.h>
 
 namespace models {
 
 /**
- * @brief Class that represents an Entity in the chart dialog
+ * @brief Class that represents a Locator Item in the DDS Model
  */
-class EntityItem : public ListItem
+class LocatorModelItem : public ListItem
 {
     Q_OBJECT
 
 public:
 
-    //! Use EntityContainerModelItem constructors
+    // Use ListItem constructors
     using ListItem::ListItem;
 
 };
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_LOCATORMODELITEM_H

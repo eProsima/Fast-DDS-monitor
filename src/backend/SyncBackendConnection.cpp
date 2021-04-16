@@ -22,21 +22,21 @@
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
 
-#include <include/backend/SyncBackendConnection.h>
-#include <include/backend/backend_utils.h>
-#include <include/model/ListItem.h>
-#include <include/model/ListModel.h>
-#include <include/model/SubListedListModel.h>
-#include <include/model/dds/EndpointModelItem.h>
-#include <include/model/dds/LocatorModelItem.h>
-#include <include/model/dds/ParticipantModelItem.h>
-#include <include/model/logical/DomainModelItem.h>
-#include <include/model/logical/TopicModelItem.h>
-#include <include/model/physical/HostModelItem.h>
-#include <include/model/physical/ProcessModelItem.h>
-#include <include/model/physical/UserModelItem.h>
-#include <include/model/statistics/EntityItem.h>
-#include <include/model/tree/TreeModel.h>
+#include <fastdds-monitor/backend/SyncBackendConnection.h>
+#include <fastdds-monitor/backend/backend_utils.h>
+#include <fastdds-monitor/model/ListItem.h>
+#include <fastdds-monitor/model/ListModel.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/model/dds/EndpointModelItem.h>
+#include <fastdds-monitor/model/dds/LocatorModelItem.h>
+#include <fastdds-monitor/model/dds/ParticipantModelItem.h>
+#include <fastdds-monitor/model/logical/DomainModelItem.h>
+#include <fastdds-monitor/model/logical/TopicModelItem.h>
+#include <fastdds-monitor/model/physical/HostModelItem.h>
+#include <fastdds-monitor/model/physical/ProcessModelItem.h>
+#include <fastdds-monitor/model/physical/UserModelItem.h>
+#include <fastdds-monitor/model/statistics/EntityItem.h>
+#include <fastdds-monitor/model/tree/TreeModel.h>
 
 namespace backend {
 
