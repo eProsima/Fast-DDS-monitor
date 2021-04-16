@@ -20,8 +20,8 @@ namespace models {
 QVariant ParticipantModelItem::data(
         int role) const
 {
-   switch (role)
-   {
+    switch (role)
+    {
         case idRole:
             return this->entity_id();
         case nameRole:
@@ -32,7 +32,7 @@ QVariant ParticipantModelItem::data(
             return this->domain();
         default:
             return QVariant();
-   }
+    }
 }
 
 QString ParticipantModelItem::guid() const

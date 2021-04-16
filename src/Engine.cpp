@@ -99,10 +99,10 @@ QObject* Engine::enable()
 
     // Connect Callback Listener to this object
     QObject::connect(
-            this,
-            &Engine::new_callback_signal,
-            this,
-            &Engine::new_callback_slot);
+        this,
+        &Engine::new_callback_signal,
+        this,
+        &Engine::new_callback_slot);
 
     // Set enable as True
     enabled_ = true;
@@ -112,8 +112,10 @@ QObject* Engine::enable()
 
 Engine::~Engine()
 {
-    if  (enabled_){
-        if (listener_){
+    if  (enabled_)
+    {
+        if (listener_)
+        {
             backend_connection_.unset_listener();
             delete listener_;
         }
@@ -145,18 +147,20 @@ Engine::~Engine()
     }
 }
 
-
-void Engine::init_monitor(int domain)
+void Engine::init_monitor(
+        int domain)
 {
     shared_init_monitor_(backend_connection_.init_monitor(domain));
 }
 
-void Engine::init_monitor(QString locators)
+void Engine::init_monitor(
+        QString locators)
 {
     shared_init_monitor_(backend_connection_.init_monitor(locators));
 }
 
-void Engine::shared_init_monitor_(backend::EntityId domain_id)
+void Engine::shared_init_monitor_(
+        backend::EntityId domain_id)
 {
     add_issue_domain_(backend_connection_.get_name(domain_id), utils::now());
 
@@ -169,7 +173,8 @@ void Engine::shared_init_monitor_(backend::EntityId domain_id)
     }
 }
 
-bool Engine::fill_entity_info_(backend::EntityId id /*ID_ALL*/)
+bool Engine::fill_entity_info_(
+        backend::EntityId id /*ID_ALL*/)
 {
     if (id == backend::ID_ALL)
     {
@@ -184,8 +189,8 @@ bool Engine::fill_entity_info_(backend::EntityId id /*ID_ALL*/)
     return true;
 }
 
-
-bool Engine::fill_summary_(backend::EntityId id /*ID_ALL*/)
+bool Engine::fill_summary_(
+        backend::EntityId id /*ID_ALL*/)
 {
     summary_model_->update(backend_connection_.get_summary(id));
     return true;
@@ -210,13 +215,16 @@ void Engine::generate_new_issue_info_()
     issue_info_ = info;
 }
 
-void Engine::sum_entity_number_issue(int n)
+void Engine::sum_entity_number_issue(
+        int n)
 {
     issue_info_["Entities"]["Entities"] = issue_info_["Entities"]["Entities"].get<double>() + n;
     fill_issue_();
 }
 
-bool Engine::add_issue_domain_(std::string name, std::string time)
+bool Engine::add_issue_domain_(
+        std::string name,
+        std::string time)
 {
     issue_info_["Entities"]["Domains"][time] = name;
     add_issue_callback_("Monitor initialized in domain " + name, time);
@@ -225,7 +233,9 @@ bool Engine::add_issue_domain_(std::string name, std::string time)
     return true;
 }
 
-bool Engine::add_issue_callback_(std::string callback, std::string time)
+bool Engine::add_issue_callback_(
+        std::string callback,
+        std::string time)
 {
     issue_info_["Callbacks"][time] = callback;
     fill_issue_();
@@ -253,19 +263,24 @@ bool Engine::fill_physical_data_()
 }
 
 // TODO reimplement these functions so it is not needed to call the whole fill
-bool Engine::update_host_data(backend::EntityId id)
+bool Engine::update_host_data(
+        backend::EntityId id)
 {
     static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
-bool Engine::update_user_data(backend::EntityId id)
+
+bool Engine::update_user_data(
+        backend::EntityId id)
 {
     static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
-bool Engine::update_process_data(backend::EntityId id)
+
+bool Engine::update_process_data(
+        backend::EntityId id)
 {
     static_cast<void>(id);
     physical_model_->clear();
@@ -278,14 +293,16 @@ bool Engine::fill_logical_data_()
     return backend_connection_.update_logical_model(logical_model_);
 }
 
-bool Engine::update_domain_data(backend::EntityId id)
+bool Engine::update_domain_data(
+        backend::EntityId id)
 {
     static_cast<void>(id);
     logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_);
 }
 
-bool Engine::update_topic_data(backend::EntityId id)
+bool Engine::update_topic_data(
+        backend::EntityId id)
 {
     static_cast<void>(id);
     logical_model_->clear();
@@ -312,7 +329,8 @@ bool Engine::update_dds_data(
 }
 
 // Update the model with a new or updated entity
-bool Engine::update_participant_data(backend::EntityId id)
+bool Engine::update_participant_data(
+        backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
@@ -320,7 +338,8 @@ bool Engine::update_participant_data(backend::EntityId id)
     return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
 
-bool Engine::update_endpoint_data(backend::EntityId id)
+bool Engine::update_endpoint_data(
+        backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
@@ -328,7 +347,8 @@ bool Engine::update_endpoint_data(backend::EntityId id)
     return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
 
-bool Engine::update_locator_data(backend::EntityId id)
+bool Engine::update_locator_data(
+        backend::EntityId id)
 {
     // TODO update only the entity that has changed
     static_cast<void>(id);
@@ -336,45 +356,51 @@ bool Engine::update_locator_data(backend::EntityId id)
     return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
 }
 
-bool Engine::entity_clicked(backend::EntityId id, backend::EntityKind kind)
+bool Engine::entity_clicked(
+        backend::EntityId id,
+        backend::EntityKind kind)
 {
     bool res = false;
 
     switch (kind)
     {
-    case backend::EntityKind::HOST:
-    case backend::EntityKind::USER:
-    case backend::EntityKind::PROCESS:
-    case backend::EntityKind::DOMAIN:
-    case backend::EntityKind::TOPIC:
-    case backend::EntityKind::INVALID: // all case
-        // All Entities in Physical and Logical Models
-        // Those entities affect over the participant view
+        case backend::EntityKind::HOST:
+        case backend::EntityKind::USER:
+        case backend::EntityKind::PROCESS:
+        case backend::EntityKind::DOMAIN:
+        case backend::EntityKind::TOPIC:
+        case backend::EntityKind::INVALID: // all case
+            // All Entities in Physical and Logical Models
+            // Those entities affect over the participant view
 
-        // Set as clicked entity to update whit new dds entities
-        last_entity_clicked_ = id;
-        last_entity_clicked_kind_ = kind;
+            // Set as clicked entity to update whit new dds entities
+            last_entity_clicked_ = id;
+            last_entity_clicked_kind_ = kind;
 
-        res = update_reset_dds_data(id) or res;
+            res = update_reset_dds_data(id) or res;
 
-        // Without break as it needs to do as well the info update
-        [[fallthrough]];
-    default:
-        // DDS Entities
-        res = fill_entity_info_(id) or res;
-        res = fill_summary_(id) or res;
-        break;
+            // Without break as it needs to do as well the info update
+            [[fallthrough]];
+        default:
+            // DDS Entities
+            res = fill_entity_info_(id) or res;
+            res = fill_summary_(id) or res;
+            break;
     }
 
     return res;
 }
 
-bool Engine::fill_available_entity_id_list_(backend::EntityKind entity_kind, QString entity_model_id)
+bool Engine::fill_available_entity_id_list_(
+        backend::EntityKind entity_kind,
+        QString entity_model_id)
 {
     return on_selected_entity_kind(entity_kind, entity_model_id);
 }
 
-bool Engine::on_selected_entity_kind(backend::EntityKind entity_kind, QString entity_model_id)
+bool Engine::on_selected_entity_kind(
+        backend::EntityKind entity_kind,
+        QString entity_model_id)
 {
     if (entity_model_id == "getDataDialogSourceEntityId")
     {
@@ -409,13 +435,13 @@ bool Engine::on_add_statistics_data_series(
             end_time_default ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(end_time));
 
     std::vector<backend::StatisticsData> statistic_data = backend_connection_.get_data(
-                data_kind,
-                source_entity_id,
-                target_entity_id,
-                bins,
-                time_from,
-                time_to,
-                statistic_kind);
+        data_kind,
+        source_entity_id,
+        target_entity_id,
+        bins,
+        time_from,
+        time_to,
+        statistic_kind);
 
     QVector<QPointF> points;
     points.reserve(statistic_data.size());
@@ -437,12 +463,12 @@ bool Engine::on_add_statistics_data_series(
 
     QDateTime startDate;
     startDate.setMSecsSinceEpoch(
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    statistic_data.front().first.time_since_epoch()).count());
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            statistic_data.front().first.time_since_epoch()).count());
     QDateTime endDate;
     endDate.setMSecsSinceEpoch(
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    statistic_data.back().first.time_since_epoch()).count());
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            statistic_data.back().first.time_since_epoch()).count());
 
     statistics_data_->setAxisYMax(max_value);
     statistics_data_->setAxisYMin(min_value);
@@ -476,13 +502,15 @@ bool Engine::are_callbacks_to_process_()
     return callback_queue_.empty();
 }
 
-bool Engine::add_callback(backend::Callback callback)
+bool Engine::add_callback(
+        backend::Callback callback)
 {
     std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     callback_queue_.append(callback);
 
     // Add callback to issue model
-    add_issue_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered", utils::now());
+    add_issue_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered",
+            utils::now());
 
     // Emit signal to specify there are new data
     emit new_callback_signal();
@@ -510,7 +538,8 @@ bool Engine::process_callback_()
     return read_callback_(first_callback);
 }
 
-bool Engine::read_callback_(backend::Callback callback)
+bool Engine::read_callback_(
+        backend::Callback callback)
 {
     // Add one to the number of discovered entities
     sum_entity_number_issue(1);
@@ -519,19 +548,19 @@ bool Engine::read_callback_(backend::Callback callback)
 
     switch (callback.new_entity_kind)
     {
-    case backend::EntityKind::HOST:
-    case backend::EntityKind::USER:
-    case backend::EntityKind::PROCESS:
-        return fill_physical_data_();
+        case backend::EntityKind::HOST:
+        case backend::EntityKind::USER:
+        case backend::EntityKind::PROCESS:
+            return fill_physical_data_();
 
-    case backend::EntityKind::DOMAIN:
-    case backend::EntityKind::TOPIC:
-        return fill_logical_data_();
+        case backend::EntityKind::DOMAIN:
+        case backend::EntityKind::TOPIC:
+            return fill_logical_data_();
 
-    default:
-        // DDS Model entities
-        // TODO this is only needed when new entity is related with the last_clicked entity
-        return fill_dds_data_();
+        default:
+            // DDS Model entities
+            // TODO this is only needed when new entity is related with the last_clicked entity
+            return fill_dds_data_();
     }
 
     return res;

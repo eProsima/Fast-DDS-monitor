@@ -21,8 +21,7 @@
 
 #include <QString>
 
-namespace models
-{
+namespace models {
 
 //! The type of EntityId within the models is a QString came by the conversion of backend \c EntityId into string
 using EntityId = QString;

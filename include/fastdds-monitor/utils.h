@@ -28,10 +28,12 @@
 namespace utils {
 
 //! Cast a std string to QString Qt type
-QString to_QString(std::string st);
+QString to_QString(
+        std::string st);
 
 //! Cast a QString to std string
-std::string to_string(QString st);
+std::string to_string(
+        QString st);
 
 /**
  * @brief Returns the actual time in string format
@@ -42,7 +44,8 @@ std::string to_string(QString st);
  * @param miliseconds add miliseconds to the string
  * @return string with actual time
  */
-std::string now(bool miliseconds = true);
+std::string now(
+        bool miliseconds = true);
 
 } //namespace utils
 

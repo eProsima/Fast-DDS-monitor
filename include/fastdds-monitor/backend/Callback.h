@@ -35,10 +35,13 @@ struct Callback
     }
 
     //! Standard constructor with the two fields required
-    Callback(backend::EntityId new_entity, backend::EntityKind new_entity_kind)
+    Callback(
+            backend::EntityId new_entity,
+            backend::EntityKind new_entity_kind)
         : new_entity(new_entity)
         , new_entity_kind(new_entity_kind)
-    {}
+    {
+    }
 
     //! Information of the new \c EntityId found
     backend::EntityId new_entity;
@@ -46,6 +49,6 @@ struct Callback
     backend::EntityKind new_entity_kind;
 };
 
-}
+} // namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_CALLBACK_H

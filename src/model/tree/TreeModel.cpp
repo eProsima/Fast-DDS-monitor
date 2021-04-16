@@ -35,7 +35,6 @@ TreeModel::TreeModel(
     root_item_ = new TreeItem(QList<QString>() << "Name" << "Value");
 }
 
-
 TreeModel::~TreeModel()
 {
     beginResetModel();
@@ -154,11 +153,14 @@ QModelIndex TreeModel::parent(
     return QModelIndex();
 }
 
-int TreeModel::rowCount(const QModelIndex& parent) const
+int TreeModel::rowCount(
+        const QModelIndex& parent) const
 {
     TreeItem* parent_item;
     if (parent.column() > 0)
+    {
         return 0;
+    }
 
     if (!parent.isValid())
     {
@@ -183,7 +185,7 @@ QHash<int, QByteArray> TreeModel::roleNames() const
 }
 
 TreeItem* TreeModel::get_item(
-        const QModelIndex &index) const
+        const QModelIndex& index) const
 {
 
     TreeItem* item = nullptr;
@@ -210,7 +212,8 @@ void TreeModel::setup_model_data(
 
     json value;
 
-    for (json::const_iterator it = json_data.begin(); it != json_data.end(); ++it) {
+    for (json::const_iterator it = json_data.begin(); it != json_data.end(); ++it)
+    {
 
         if (!json_data.is_array() || (json_data.is_array() && !it.value().is_primitive()) || it.value().is_array())
         {
@@ -257,7 +260,8 @@ void TreeModel::clear()
     root_item_->clear();
 }
 
-void TreeModel::update(const json& data)
+void TreeModel::update(
+        const json& data)
 {
     beginResetModel();
     clear();

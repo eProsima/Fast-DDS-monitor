@@ -53,7 +53,8 @@ int TreeItem::column_count() const
     return item_data_.count();
 }
 
-QVariant TreeItem::data(int column) const
+QVariant TreeItem::data(
+        int column) const
 {
     return item_data_.value(column);
 }

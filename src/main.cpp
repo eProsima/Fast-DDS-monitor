@@ -22,24 +22,27 @@
 
 #include <fastdds-monitor/Engine.h>
 
-int main(int argc, char *argv[])
+int main(
+        int argc,
+        char* argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+#endif // if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/resources/images/eprosima_logo.ico"));
 
     /******************************************************************************************************************
-     * Application engine                                                                                             *
-     ******************************************************************************************************************/
+    * Application engine                                                                                             *
+    ******************************************************************************************************************/
 
     Engine engine;
-    QObject *topLevel = engine.enable();
+    QObject* topLevel = engine.enable();
 
-    QQuickWindow *window = qobject_cast<QQuickWindow*>(topLevel); \
-    if ( !window ) {
+    QQuickWindow* window = qobject_cast<QQuickWindow*>(topLevel); \
+    if ( !window )
+    {
         qWarning("Error: Your root item has to be a Window."); \
         return -1;
     }

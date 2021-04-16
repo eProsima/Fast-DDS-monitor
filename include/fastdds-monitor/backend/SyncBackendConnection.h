@@ -59,7 +59,8 @@ public:
     // Listener functions
 
     //! Set the \c PhysicalListener in the backend
-    bool set_listener(Listener* listener);
+    bool set_listener(
+            Listener* listener);
 
     //! Set the \c PhysicalListener in the backend as \c nullptr
     bool unset_listener();
@@ -80,7 +81,8 @@ public:
      * @param physical_model Physical model to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_physical_model(models::ListModel* physical_model);
+    bool update_physical_model(
+            models::ListModel* physical_model);
 
     /**
      * @brief Update the Logical model with every Logical entity in the backend
@@ -98,7 +100,8 @@ public:
      * @param logical_model Logical model to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_logical_model(models::ListModel* logical_model);
+    bool update_logical_model(
+            models::ListModel* logical_model);
 
     /**
      * @brief Update the DDS model with every DDS entity in the backend
@@ -122,10 +125,14 @@ public:
      * @param id entity to show the DDS entities related to ir
      * @return true if any change has been made, false otherwise
      */
-    bool update_dds_model(models::ListModel* dds_model, EntityId id);
+    bool update_dds_model(
+            models::ListModel* dds_model,
+            EntityId id);
 
     // TODO
-    bool update_get_data_dialog_entity_id(models::ListModel* entity_model, EntityKind entity_kind);
+    bool update_get_data_dialog_entity_id(
+            models::ListModel* entity_model,
+            EntityKind entity_kind);
 
     /////
     // Entity update functions
@@ -141,7 +148,8 @@ public:
      * @param host_item Host item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_host_item(ListItem* host_item);
+    bool update_host_item(
+            ListItem* host_item);
 
     /**
      * @brief Update the user item and their subentities with backend information
@@ -154,7 +162,8 @@ public:
      * @param user_item user item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_user_item(ListItem* user_item);
+    bool update_user_item(
+            ListItem* user_item);
 
     /**
      * @brief Update the process item with backend information
@@ -164,7 +173,8 @@ public:
      * @param process_item process item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_process_item(ListItem* process_item);
+    bool update_process_item(
+            ListItem* process_item);
 
     /**
      * @brief Update the domain item and their subentities with backend information
@@ -177,7 +187,8 @@ public:
      * @param domain_item domain item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_domain_item(ListItem* domain_item);
+    bool update_domain_item(
+            ListItem* domain_item);
 
     /**
      * @brief Update the topic item with backend information
@@ -187,7 +198,8 @@ public:
      * @param topic_item topic item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_topic_item(ListItem* topic_item);
+    bool update_topic_item(
+            ListItem* topic_item);
 
     /**
      * @brief Update the participant item and their subentities with backend information
@@ -200,7 +212,8 @@ public:
      * @param participant_item participant item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_participant_item(ListItem* participant_item);
+    bool update_participant_item(
+            ListItem* participant_item);
 
     /**
      * @brief Update the datawriter or datareader item and their subentities with backend information
@@ -213,7 +226,8 @@ public:
      * @param endpoint_item endpoint item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_endpoint_item(ListItem* endpoint_item);
+    bool update_endpoint_item(
+            ListItem* endpoint_item);
 
     /**
      * @brief Update the topic item with backend information
@@ -223,7 +237,8 @@ public:
      * @param topic_item topic item to update
      * @return true if any change has been made, false otherwise
      */
-    bool update_locator_item(ListItem* locator_item);
+    bool update_locator_item(
+            ListItem* locator_item);
 
     /////
     // Monitor manage functions
@@ -236,7 +251,8 @@ public:
      * @param domain new domain number
      * @return EntityId of the new Domain Entity created
      */
-    EntityId init_monitor(int domain);
+    EntityId init_monitor(
+            int domain);
 
     /**
      * @brief Init a monitor by setting a string with one or many locators of Discovery Servers
@@ -249,19 +265,23 @@ public:
      * @param locators string with Discovery Server addresses
      * @return EntityId of the new Domain Entity created
      */
-    EntityId init_monitor(QString locators);
+    EntityId init_monitor(
+            QString locators);
 
     /////
     // Information query functions
 
     //! Get info from an entity from the Backend
-    EntityInfo get_info(EntityId id);
+    EntityInfo get_info(
+            EntityId id);
 
     //! Get a summary of important data collected from the backend related with the entity with id \c id
-    EntityInfo get_summary(backend::EntityId id);
+    EntityInfo get_summary(
+            backend::EntityId id);
 
     //! Get the name of an entity from the Backend by calling \c get_info
-    std::string get_name(backend::EntityId id);
+    std::string get_name(
+            backend::EntityId id);
 
     //! Get data from the backend with specific paramenters calling backend \c get_data
     std::vector<backend::StatisticsData> get_data(
@@ -276,49 +296,58 @@ public:
 protected:
 
     //! Create a new \c ListItem of class \c Host related with the backend entity with id \c id
-    ListItem* create_host_data_(backend::EntityId id);
+    ListItem* create_host_data_(
+            backend::EntityId id);
 
     //! Create a new \c ListItem of class \c User related with the backend entity with id \c id
-    ListItem* create_user_data_(backend::EntityId id);
+    ListItem* create_user_data_(
+            backend::EntityId id);
 
     //! Create a new \c ListItem of class \c Process related with the backend entity with id \c id
-    ListItem* create_process_data_(backend::EntityId id);
+    ListItem* create_process_data_(
+            backend::EntityId id);
 
     //! Create a new \c ListItem of class \c Domain related with the backend entity with id \c id
-    ListItem* create_domain_data_(backend::EntityId id);
+    ListItem* create_domain_data_(
+            backend::EntityId id);
 
     //! Create a new \c ListItem of class \c Topic related with the backend entity with id \c id
-    ListItem* create_topic_data_(backend::EntityId id);
+    ListItem* create_topic_data_(
+            backend::EntityId id);
 
     //! Create a new \c ListItem of class \c Participant related with the backend entity with id \c id
-    ListItem* create_participant_data_(backend::EntityId id);
+    ListItem* create_participant_data_(
+            backend::EntityId id);
 
     //! Create a new \c ListItem of class \c Endpoint related with the backend entity with id \c id
-    ListItem* create_endpoint_data_(backend::EntityId id);
+    ListItem* create_endpoint_data_(
+            backend::EntityId id);
 
     //! Create a new \c ListItem of class \c Locator related with the backend entity with id \c id
-    ListItem* create_locator_data_(backend::EntityId id);
+    ListItem* create_locator_data_(
+            backend::EntityId id);
 
     /**
      * General method to encapsulate the common funcionality of updating the info from backend
      * So far it does always return \c true
      */
-    bool update_item_info_(ListItem* item);
+    bool update_item_info_(
+            ListItem* item);
 
     //! General method to encapsulate the common funcionality of \c update_*_item methods refereing to items update
     bool update_subitems_(
-        SubListedListItem* item,
+        SubListedListItem * item,
         backend::EntityKind type,
-        bool (SyncBackendConnection::*update_function)(ListItem*),
-        ListItem* (SyncBackendConnection::*create_function)(backend::EntityId));
+        bool (SyncBackendConnection::* update_function)(ListItem*),
+        ListItem * (SyncBackendConnection::* create_function)(backend::EntityId));
 
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
-            ListModel* model,
-            EntityKind type,
-            EntityId id,
-            bool (SyncBackendConnection::*update_function)(ListItem*),
-            ListItem* (SyncBackendConnection::*create_function)(EntityId));
+        ListModel * model,
+        EntityKind type,
+        EntityId id,
+        bool (SyncBackendConnection::* update_function)(ListItem*),
+        ListItem * (SyncBackendConnection::* create_function)(EntityId));
 
 };
 

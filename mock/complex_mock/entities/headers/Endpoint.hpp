@@ -34,15 +34,18 @@ public:
 
     //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
-        const EntityKind entity_type) const override;
+            const EntityKind entity_type) const override;
 
     //! Add Entity to Locator list
-    void add_locator(EntityPointer locator);
+    void add_locator(
+            EntityPointer locator);
 
     //! Add Participant as connected Entity
-    void participant(EntityPointer participant);
+    void participant(
+            EntityPointer participant);
     //! Add Topic as connected Entity
-    void topic(EntityPointer topic);
+    void topic(
+            EntityPointer topic);
 
     //! Get the topic name related
     std::string topic_name() const;

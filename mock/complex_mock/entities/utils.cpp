@@ -27,14 +27,14 @@ namespace eprosima {
 namespace statistics_backend {
 
 std::vector<EntityId> get_ids(
-    const std::map<EntityId, EntityPointer> map)
+        const std::map<EntityId, EntityPointer> map)
 {
     return keys<EntityId, EntityPointer>(map);
 }
 
 std::vector<EntityId> get_entities_related(
-    const std::map<EntityId, EntityPointer> map,
-    const EntityKind entity_type)
+        const std::map<EntityId, EntityPointer> map,
+        const EntityKind entity_type)
 {
     std::vector<EntityId> result;
     for (auto entity : map)
@@ -47,8 +47,8 @@ std::vector<EntityId> get_entities_related(
 }
 
 std::vector<EntityId> get_entities_kind(
-    const std::map<EntityId, EntityPointer> map,
-    const EntityKind entity_type)
+        const std::map<EntityId, EntityPointer> map,
+        const EntityKind entity_type)
 {
     std::vector<EntityId> result;
     for (auto entity : map)
@@ -62,7 +62,8 @@ std::vector<EntityId> get_entities_kind(
     return result;
 }
 
-std::string entityId_to_string(EntityId id)
+std::string entityId_to_string(
+        EntityId id)
 {
     std::ostringstream oss;
     oss << id;

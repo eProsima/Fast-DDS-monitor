@@ -44,7 +44,9 @@ public:
      * @param id new entity id (must be unique)
      * @param name new entity name
      */
-    Entity(EntityId& id, std::string name)
+    Entity(
+            EntityId& id,
+            std::string name)
         : id_(id)
         , name_(name)
     {
@@ -60,7 +62,7 @@ public:
      * @return vector of entity ids
      */
     virtual std::vector<EntityId> get_entities(
-        const EntityKind entity_type) const;
+            const EntityKind entity_type) const;
 
     /**
      * @brief Get info of entity

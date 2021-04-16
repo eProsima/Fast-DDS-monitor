@@ -41,7 +41,8 @@ class Listener : public PhysicalListener
 public:
 
     //! Standard constructor with reference to the main Engine
-    Listener(Engine* engine);
+    Listener(
+            Engine* engine);
 
     //! Callback when a new Host is discovered
     void on_host_discovery(

@@ -60,7 +60,8 @@ void Database::stop()
     cv_callback_.notify_all();
 }
 
-void Database::listener(PhysicalListener* listener)
+void Database::listener(
+        PhysicalListener* listener)
 {
     // Stop is called from Application in case the listener is null
     const std::lock_guard<std::recursive_mutex> lock(data_mutex_);
@@ -130,7 +131,8 @@ std::vector<EntityId> Database::get_entities(
     }
 }
 
-Info Database::get_info(EntityId entity_id)
+Info Database::get_info(
+        EntityId entity_id)
 {
     if (entity_id == EntityId::all())
     {
@@ -179,7 +181,9 @@ EntityId Database::add_domain()
     return domain->id();
 }
 
-void Database::add_entity_(EntityPointer entity, EntityId domain)
+void Database::add_entity_(
+        EntityPointer entity,
+        EntityId domain)
 {
     const std::lock_guard<std::recursive_mutex> lock(data_mutex_);
     std::cout << "DATABASE: Creating entity: " << entity->name() << std::endl;
@@ -190,7 +194,9 @@ void Database::add_entity_(EntityPointer entity, EntityId domain)
     cv_callback_.notify_one();
 }
 
-void Database::add_entities_(std::vector<EntityPointer> entities, EntityId domain)
+void Database::add_entities_(
+        std::vector<EntityPointer> entities,
+        EntityId domain)
 {
     for (EntityPointer entity : entities)
     {
@@ -217,7 +223,10 @@ void Database::generate_random_entity_thread_()
     // Wait till is ready to generate data
     {
         std::unique_lock<std::mutex> lock(run_mutex_);
-        cv_run_.wait(lock, [this]{return start_.load();});
+        cv_run_.wait(lock, [this]
+                {
+                    return start_.load();
+                });
     }
 
     std::cout << "DATABASE Random Data Generator Thread running" << std::endl;
@@ -226,7 +235,7 @@ void Database::generate_random_entity_thread_()
     int domain_rr = 0;
 
     // Start the loop while it does not stop
-    while(run_.load())
+    while (run_.load())
     {
         // Sleep a time depending the number of domains we have
         // It is max(DATA_GENERATION_TIME seconds - # of domains, MIN_DATA_GENERATION_TIME
@@ -264,15 +273,21 @@ void Database::callback_listener_thread_()
     // Wait till is ready to create callbacks
     // This is needed because if not it will end before run_ has set to true
     std::unique_lock<std::mutex> lock(callback_mutex_start_);
-    cv_callback_start_.wait(lock, [this]{return start_.load();});
+    cv_callback_start_.wait(lock, [this]
+            {
+                return start_.load();
+            });
 
     std::cout << "DATABASE Callback Listener Thread running" << std::endl;
 
-    while(run_.load())
+    while (run_.load())
     {
         // Wait till is ready to generate data
         std::unique_lock<std::mutex> lock(callback_mutex_);
-        cv_callback_.wait(lock, [this]{return (!run_.load() || !new_entities_.empty());});
+        cv_callback_.wait(lock, [this]
+                {
+                    return (!run_.load() || !new_entities_.empty());
+                });
 
         // Exit with stop if it has activated while sleeping
         if (!run_.load())
@@ -305,40 +320,40 @@ void Database::callback_listener_thread_()
             {
                 switch (std::get<1>(entity))
                 {
-                case EntityKind::HOST:
-                    listener_->on_host_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::HOST:
+                        listener_->on_host_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                case EntityKind::USER:
-                    listener_->on_user_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::USER:
+                        listener_->on_user_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                case EntityKind::PROCESS:
-                    listener_->on_process_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::PROCESS:
+                        listener_->on_process_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                case EntityKind::TOPIC:
-                    listener_->on_topic_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::TOPIC:
+                        listener_->on_topic_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                case EntityKind::PARTICIPANT:
-                    listener_->on_participant_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::PARTICIPANT:
+                        listener_->on_participant_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                case EntityKind::DATAREADER :
-                    listener_->on_datareader_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::DATAREADER:
+                        listener_->on_datareader_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                case EntityKind::DATAWRITER:
-                    listener_->on_datawriter_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::DATAWRITER:
+                        listener_->on_datawriter_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                case EntityKind::LOCATOR:
-                    listener_->on_locator_discovery(std::get<2>(entity), std::get<0>(entity), status);
-                    break;
+                    case EntityKind::LOCATOR:
+                        listener_->on_locator_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
             }
         }
@@ -347,7 +362,8 @@ void Database::callback_listener_thread_()
     std::cout << "DATABASE Callback Listener Thread stopping" << std::endl;
 }
 
-EntityPointer Database::get_entity(EntityId id)
+EntityPointer Database::get_entity(
+        EntityId id)
 {
     auto it = entities_.find(id);
 
@@ -361,7 +377,6 @@ EntityPointer Database::get_entity(EntityId id)
         return it->second;
     }
 }
-
 
 } // namespace statistics_backend
 } // namespace eprosima

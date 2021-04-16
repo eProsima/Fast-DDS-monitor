@@ -23,33 +23,34 @@ namespace eprosima {
 namespace statistics_backend {
 
 std::vector<EntityId> Host::get_entities(
-    const EntityKind entity_type) const
+        const EntityKind entity_type) const
 {
     std::vector<EntityId> ids;
 
     switch (entity_type)
     {
-    case EntityKind::HOST:
-        return ids;
+        case EntityKind::HOST:
+            return ids;
 
-    case EntityKind::USER:
-        return get_ids(users_);
+        case EntityKind::USER:
+            return get_ids(users_);
 
-    case EntityKind::PROCESS:
-    case EntityKind::DOMAIN :
-    case EntityKind::TOPIC :
-    case EntityKind::PARTICIPANT:
-    case EntityKind::DATAWRITER :
-    case EntityKind::DATAREADER :
-    case EntityKind::LOCATOR :
-        return get_entities_related(users_, entity_type);
+        case EntityKind::PROCESS:
+        case EntityKind::DOMAIN:
+        case EntityKind::TOPIC:
+        case EntityKind::PARTICIPANT:
+        case EntityKind::DATAWRITER:
+        case EntityKind::DATAREADER:
+        case EntityKind::LOCATOR:
+            return get_entities_related(users_, entity_type);
 
-    default:
-        return ids;
+        default:
+            return ids;
     }
 }
 
-void Host::add_user(const EntityPointer user)
+void Host::add_user(
+        const EntityPointer user)
 {
     users_[user->id()] = user;
 }

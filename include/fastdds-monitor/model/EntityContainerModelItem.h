@@ -30,8 +30,7 @@
 #include <fastdds-monitor/model/SubListedListItem.h>
 #include <fastdds-monitor/model/SubListedListModel.h>
 
-namespace models
-{
+namespace models {
 
 /**
  * @brief Abstract class that encapsulate the behaviour of model items that have subentities
@@ -49,11 +48,11 @@ namespace models
 template<class SubEntityClass, class SubEntityModelClass>
 class EntityContainerModelItem : public SubListedListItem
 {
-public :
+public:
 
     //! QObject defult constructor that creates the submodule by the template classes
     EntityContainerModelItem(
-            QObject *parent = 0)
+            QObject* parent = 0)
         : SubListedListItem(parent)
     {
         subentities_list_model_ = new SubEntityModelClass(new SubEntityClass());

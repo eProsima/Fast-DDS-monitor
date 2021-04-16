@@ -28,31 +28,35 @@
 #include <fastdds-monitor/model/model_types.h>
 #include <fastdds-monitor/utils.h>
 
-namespace backend{
+namespace backend {
 
 //! Convert an \c EntityId into a QString
-QString id_to_QString(const EntityId id);
+QString id_to_QString(
+        const EntityId id);
 
 /**
  * @brief Convert a QML model \c EntityID (Qstring) into a backend \c EntityId
  * @param id model \c EntityId
  * @return backend \c EntityId
  */
-EntityId models_id_to_backend_id(const models::EntityId id);
+EntityId models_id_to_backend_id(
+        const models::EntityId id);
 
 /**
  * @brief Query to find the name of the entity in the backend with id \c id
  * @param id backend \c EntityId
  * @return name of the entity
  */
-QString get_name(const EntityId id);
+QString get_name(
+        const EntityId id);
 
 /**
  * @brief Query to the backend to get the information structure of an entity with id \c id
  * @param id backend \c EntityId
  * @return info in json \c EntityInfo format
  */
-EntityInfo get_info(backend::EntityId id);
+EntityInfo get_info(
+        backend::EntityId id);
 
 /**
  * @brief Get the value related with a specific tag inside a \c EntityInfo structure (json format)
@@ -60,7 +64,9 @@ EntityInfo get_info(backend::EntityId id);
  * @param key tag to find the value
  * @return value in QString format
  */
-std::string get_info_value(EntityInfo info, std::string key);
+std::string get_info_value(
+        EntityInfo info,
+        std::string key);
 
 //! Retrieves the \c EntityKind related with its name in QString
 backend::EntityKind string_to_entity_kind(
@@ -68,11 +74,11 @@ backend::EntityKind string_to_entity_kind(
 
 //! Retrieves the \c DataKind related with its name in QString
 backend::DataKind string_to_data_kind(
-       const QString& data_kind);
+        const QString& data_kind);
 
 //! Retrieves the \c StatisticKind related with its name in QString
 backend::StatisticKind string_to_statistic_kind(
-       const QString& statistic_kind);
+        const QString& statistic_kind);
 
 } //namespace backend
 

@@ -48,8 +48,8 @@
 namespace models {
 
 ListModel::ListModel(
-        ListItem *prototype,
-        QObject *parent)
+        ListItem* prototype,
+        QObject* parent)
     : QAbstractListModel(parent)
 {
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
@@ -63,23 +63,25 @@ ListModel::~ListModel()
 }
 
 int ListModel::rowCount(
-        const QModelIndex &) const
+        const QModelIndex&) const
 {
     return items_.size();
 }
 
 QVariant ListModel::data(
-        const QModelIndex &index,
+        const QModelIndex& index,
         int role) const
 {
     if (index.row() >= 0 && index.row() < items_.size())
+    {
         return items_.at(index.row())->data(role);
+    }
     return QVariant();
 }
 
 QHash<int, QByteArray> ListModel::roleNames() const
 {
-        return prototype_->roleNames();
+    return prototype_->roleNames();
 }
 
 void ListModel::appendRow(
@@ -92,13 +94,16 @@ void ListModel::appendRow(
     }
 }
 
-void ListModel::appendRows(QList<ListItem*> &items)
+void ListModel::appendRows(
+        QList<ListItem*>& items)
 {
     if (items.size() == 0)
-        return ;
+    {
+        return;
+    }
 
     beginInsertRows(QModelIndex(), rowCount(), rowCount() + items.size() - 1);
-    foreach(ListItem* item, items)
+    foreach(ListItem * item, items)
     {
         QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
         items_.append(item);
@@ -113,7 +118,9 @@ void ListModel::insertRow(
         ListItem* item)
 {
     if (item == nullptr)
+    {
         return;
+    }
 
     beginInsertRows(QModelIndex(), row, row);
     QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
@@ -124,7 +131,7 @@ void ListModel::insertRow(
 
 bool ListModel::removeRow(
         int row,
-        const QModelIndex &index)
+        const QModelIndex& index)
 {
     if (row >= 0 && row < items_.size())
     {
@@ -141,7 +148,7 @@ bool ListModel::removeRow(
 bool ListModel::removeRows(
         int row,
         int count,
-        const QModelIndex &index)
+        const QModelIndex& index)
 {
     if (row >= 0 && count > 0 && (row + count) <= items_.size())
     {
@@ -162,19 +169,25 @@ bool ListModel::removeRows(
 void ListModel::clear()
 {
     if (items_.size() == 0)
+    {
         return;
+    }
     removeRows(0, items_.size());
     emit countChanged(rowCount());
 }
 
 QModelIndex ListModel::indexFromItem(
-        ListItem *item) const
+        ListItem* item) const
 {
     if (item != nullptr)
     {
         for (int i = 0; i < items_.size(); i++)
+        {
             if (items_.at(i) == item)
+            {
                 return index(i);
+            }
+        }
     }
     return QModelIndex();
 }
@@ -182,23 +195,29 @@ QModelIndex ListModel::indexFromItem(
 ListItem* ListModel::find(
         EntityId itemId) const
 {
-    foreach(ListItem *item, items_)
-        if (item->entity_id() == itemId)
-        {
-            // std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
-            return item;
-        }
+    foreach(ListItem * item, items_)
+    if (item->entity_id() == itemId)
+    {
+        // std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
+        return item;
+    }
     // std::cout << "Not found item with id: " << utils::to_string(itemId) << std::endl;
     return nullptr;
 }
 
 int ListModel::getRowFromItem(
-        ListItem *item) const
+        ListItem* item) const
 {
     if (item != nullptr)
+    {
         for (int i = 0; i < items_.size(); i++)
+        {
             if (items_.at(i) == item)
+            {
                 return i;
+            }
+        }
+    }
     return -1;
 }
 
@@ -212,22 +231,26 @@ void ListModel::updateItem()
     ListItem* item = static_cast<ListItem*>(sender());
     QModelIndex index = indexFromItem(item);
     if (index.isValid())
+    {
         emit dataChanged(index, index);
+    }
 }
 
 QVariant ListModel::get(
         int index)
 {
     if (index >= items_.size() || index < 0)
+    {
         return QVariant();
+    }
     ListItem* item = items_.at(index);
     QMap<QString, QVariant> itemData;
     QHashIterator<int, QByteArray> hashItr(item->roleNames());
 
-    while(hashItr.hasNext())
+    while (hashItr.hasNext())
     {
         hashItr.next();
-        itemData.insert(hashItr.value(),QVariant(item->data(hashItr.key())));
+        itemData.insert(hashItr.value(), QVariant(item->data(hashItr.key())));
     }
     return QVariant(itemData);
 }
@@ -238,7 +261,9 @@ int ListModel::rowIndexFromId(
     ListItem* item = find(id);
 
     if (item)
+    {
         return indexFromItem(item).row();
+    }
     return -1;
 }
 

@@ -84,13 +84,15 @@ public:
      * @brief Initialize a monitor in a domain by number
      * @param domain number of the domain
      */
-    void init_monitor(int domain);
+    void init_monitor(
+            int domain);
 
     /**
      * @brief Initialize a monitor in a domain by discovery server locators
      * @param domain number of the domain
      */
-    void init_monitor(QString locators);
+    void init_monitor(
+            QString locators);
 
     /////
     // PHYSICAL PARTITION
@@ -100,21 +102,24 @@ public:
      * @param id host id to create or update
      * @return true if any change in model has been done
      */
-    bool update_host_data(backend::EntityId id);
+    bool update_host_data(
+            backend::EntityId id);
 
     /**
      * @brief Update the internal physical model with a user notification
      * @param id user id to create or update
      * @return true if any change in model has been done
      */
-    bool update_user_data(backend::EntityId id);
+    bool update_user_data(
+            backend::EntityId id);
 
     /**
      * @brief Update the internal physical model with a process notification
      * @param id process id to create or update
      * @return true if any change in model has been done
      */
-    bool update_process_data(backend::EntityId id);
+    bool update_process_data(
+            backend::EntityId id);
 
     /////
     // LOGICAL PARTITION
@@ -124,14 +129,16 @@ public:
      * @param id domain id to create or update
      * @return true if any change in model has been done
      */
-    bool update_domain_data(backend::EntityId id);
+    bool update_domain_data(
+            backend::EntityId id);
 
     /**
      * @brief Update the internal logical model with a topic notification
      * @param id topic id to create or update
      * @return true if any change in model has been done
      */
-    bool update_topic_data(backend::EntityId id);
+    bool update_topic_data(
+            backend::EntityId id);
 
     /////
     // DDS PARTITION
@@ -145,7 +152,8 @@ public:
      * @param id participant id to create or update
      * @return true if any change in model has been done
      */
-    bool update_participant_data(backend::EntityId id);
+    bool update_participant_data(
+            backend::EntityId id);
 
     /**
      * @brief Update the internal dds model with a endpoint notification
@@ -156,7 +164,8 @@ public:
      * @param id endpoint id to create or update
      * @return true if any change in model has been done
      */
-    bool update_endpoint_data(backend::EntityId id);
+    bool update_endpoint_data(
+            backend::EntityId id);
 
     /**
      * @brief Update the internal dds model with a locator notification
@@ -167,7 +176,8 @@ public:
      * @param id locator id to create or update
      * @return true if any change in model has been done
      */
-    bool update_locator_data(backend::EntityId id);
+    bool update_locator_data(
+            backend::EntityId id);
 
     /**
      * @brief Update the internal dds model with entities related with Entity referenced by \c id
@@ -181,7 +191,8 @@ public:
      * @param id Entity id of the entity the model must reference
      * @return true if any change in model has been done
      */
-    bool update_dds_data(backend::EntityId id);
+    bool update_dds_data(
+            backend::EntityId id);
 
     /**
      * @brief Clear the internal dds model and fill it with entities related with Entity referenced by \c id
@@ -191,7 +202,8 @@ public:
      * @param id Entity id of the entity the model must reference
      * @return true if any change in model has been done
      */
-    bool update_reset_dds_data(backend::EntityId id);
+    bool update_reset_dds_data(
+            backend::EntityId id);
 
     /////
     // ON CLICKED
@@ -207,7 +219,9 @@ public:
      * @param kind Entity kind of the entity clicked
      * @return true if any change in any model has been done
      */
-    bool entity_clicked(backend::EntityId id, backend::EntityKind kind);
+    bool entity_clicked(
+            backend::EntityId id,
+            backend::EntityKind kind);
 
     //! TODO
     bool on_selected_entity_kind(
@@ -236,7 +250,8 @@ public:
      * @param callback new callback to add
      * @return true
      */
-    bool add_callback(backend::Callback callback);
+    bool add_callback(
+            backend::Callback callback);
 
     /**
      * @brief Refresh the view
@@ -284,7 +299,8 @@ protected:
      * @param id id of the entity to get the info
      * @return true if any change in any model has been done
      */
-    bool fill_entity_info_(backend::EntityId id = backend::ID_ALL);
+    bool fill_entity_info_(
+            backend::EntityId id = backend::ID_ALL);
 
     /**
      * Update the info model with an initial message that says there are no monitors active.
@@ -299,7 +315,8 @@ protected:
      * @param id id of the entity to get the info
      * @return true if any change in any model has been done
      */
-    bool fill_summary_(backend::EntityId id = backend::ID_ALL);
+    bool fill_summary_(
+            backend::EntityId id = backend::ID_ALL);
 
     /**
      * @brief Clear and fill the Issue Model
@@ -309,13 +326,19 @@ protected:
     bool fill_issue_();
 
     //! Add a new callback message to the Issue model
-    bool add_issue_callback_(std::string callback, std::string time);
+    bool add_issue_callback_(
+            std::string callback,
+            std::string time);
 
     //! Add a new issue message to the Issue model
-    bool add_issue_issue_(std::string issue, std::string time);
+    bool add_issue_issue_(
+            std::string issue,
+            std::string time);
 
     //! Add a new callback message to the Issue model
-    bool add_issue_domain_(std::string name, std::string time);
+    bool add_issue_domain_(
+            std::string name,
+            std::string time);
 
     /**
      * Generates a new issue info model from the main schema
@@ -329,7 +352,8 @@ protected:
     void generate_new_issue_info_();
 
     //! Update the issue model "Entities" count adding \c n
-    void sum_entity_number_issue(int n);
+    void sum_entity_number_issue(
+            int n);
 
     //! Update the whole physical model
     bool fill_physical_data_();
@@ -341,10 +365,13 @@ protected:
     bool fill_dds_data_();
 
     //! TODO
-    bool fill_available_entity_id_list_(backend::EntityKind entity_kind, QString entity_model_id);
+    bool fill_available_entity_id_list_(
+            backend::EntityKind entity_kind,
+            QString entity_model_id);
 
     //! Common behaviour for both \c init_monitor functions
-    void shared_init_monitor_(backend::EntityId domain_id);
+    void shared_init_monitor_(
+            backend::EntityId domain_id);
 
     //! True if there are callbacks in the callback queue
     bool are_callbacks_to_process_();
@@ -353,7 +380,8 @@ protected:
     bool process_callback_();
 
     //! Update the model concerned by the entity in the callback
-    bool read_callback_(backend::Callback callback);
+    bool read_callback_(
+            backend::Callback callback);
 
     //! Remove all the callbacks from issue model (called in \c refresh )
     void clear_callback_issue_();

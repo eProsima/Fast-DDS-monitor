@@ -25,33 +25,33 @@ namespace eprosima {
 namespace statistics_backend {
 
 std::vector<EntityId> Domain::get_entities(
-    const EntityKind entity_type) const
+        const EntityKind entity_type) const
 {
     std::vector<EntityId> ids;
 
     switch (entity_type)
     {
-    case EntityKind::HOST:
-    case EntityKind::USER:
-    case EntityKind::PROCESS:
-        return get_entities_related(participants_, entity_type);
+        case EntityKind::HOST:
+        case EntityKind::USER:
+        case EntityKind::PROCESS:
+            return get_entities_related(participants_, entity_type);
 
-    case EntityKind::PARTICIPANT:
-        return get_ids(participants_);
+        case EntityKind::PARTICIPANT:
+            return get_ids(participants_);
 
-    case EntityKind::DOMAIN :
-        return ids;
+        case EntityKind::DOMAIN:
+            return ids;
 
-    case EntityKind::TOPIC :
-        return get_ids(topics_);
+        case EntityKind::TOPIC:
+            return get_ids(topics_);
 
-    case EntityKind::DATAWRITER :
-    case EntityKind::DATAREADER :
-    case EntityKind::LOCATOR :
-        return get_entities_related(topics_, entity_type);
+        case EntityKind::DATAWRITER:
+        case EntityKind::DATAREADER:
+        case EntityKind::LOCATOR:
+            return get_entities_related(topics_, entity_type);
 
-    default:
-        return ids;
+        default:
+            return ids;
     }
 }
 
@@ -77,12 +77,14 @@ std::vector<EntityPointer> Domain::topics()
     return pointers;
 }
 
-void Domain::add_participant(const EntityPointer participant)
+void Domain::add_participant(
+        const EntityPointer participant)
 {
     participants_[participant->id()] = participant;
 }
 
-void Domain::add_topic(const EntityPointer topic)
+void Domain::add_topic(
+        const EntityPointer topic)
 {
     topics_[topic->id()] = topic;
 }

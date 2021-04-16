@@ -50,7 +50,7 @@ namespace models {
 
 SubListedListModel::SubListedListModel(
         SubListedListItem* prototype,
-        QObject *parent)
+        QObject* parent)
     : ListModel(prototype, parent)
 {
 }

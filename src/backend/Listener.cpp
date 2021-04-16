@@ -20,7 +20,8 @@
 
 namespace backend {
 
-Listener::Listener(Engine* engine)
+Listener::Listener(
+        Engine* engine)
     : engine_(engine)
 {
 }
