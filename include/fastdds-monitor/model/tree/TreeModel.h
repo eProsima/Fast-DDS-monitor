@@ -24,8 +24,8 @@
 #include <QModelIndex>
 #include <QVariant>
 
-#include <include/backend/backend_types.h>
-#include <include/model/tree/TreeItem.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/tree/TreeItem.h>
 
 using json = backend::EntityInfo;
 

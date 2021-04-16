@@ -16,9 +16,9 @@
 
 #include <fastdds-statistics-backend/StatisticsBackend.hpp>
 
-#include <include/backend/backend_types.h>
-#include <include/model/model_types.h>
-#include <include/utils.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/model_types.h>
+#include <fastdds-monitor/utils.h>
 
 namespace backend{
 
@@ -72,7 +72,7 @@ EntityInfo get_info(backend::EntityId id)
 EntityKind string_to_entity_kind(
         const QString& entity_kind)
 {
-    static std::unordered_map<QString, EntityKind> const conversionTable = {
+    static std::unordered_map<std::string, EntityKind> const conversionTable = {
         {"Host", EntityKind::HOST},
         {"User", EntityKind::USER},
         {"Process", EntityKind::PROCESS},
@@ -85,7 +85,7 @@ EntityKind string_to_entity_kind(
         {"Locator", EntityKind::LOCATOR}
     };
 
-    auto it = conversionTable.find(entity_kind);
+    auto it = conversionTable.find(utils::to_string(entity_kind));
     if (it != conversionTable.end())
     {
       return it->second;
@@ -99,7 +99,7 @@ EntityKind string_to_entity_kind(
 DataKind string_to_data_kind(
        const QString& data_kind)
 {
-    static std::unordered_map<QString, DataKind> const conversionTable = {
+    static std::unordered_map<std::string, DataKind> const conversionTable = {
         {"FASTDDS_LATENCY", DataKind::FASTDDS_LATENCY},
         {"NETWORK_LATENCY", DataKind::NETWORK_LATENCY},
         {"PUBLICATION_THROUGHPUT", DataKind::PUBLICATION_THROUGHPUT},
@@ -120,7 +120,7 @@ DataKind string_to_data_kind(
         {"SAMPLE_DATAS", DataKind::SAMPLE_DATAS}
    };
 
-   auto it = conversionTable.find(data_kind);
+   auto it = conversionTable.find(utils::to_string(data_kind));
    if (it != conversionTable.end())
    {
      return it->second;
@@ -135,7 +135,7 @@ DataKind string_to_data_kind(
 StatisticKind string_to_statistic_kind(
        const QString& statistic_kind)
 {
-    static std::unordered_map<QString, StatisticKind> const conversionTable = {
+    static std::unordered_map<std::string, StatisticKind> const conversionTable = {
         {"NONE", StatisticKind::NONE},
         {"MEAN", StatisticKind::MEAN},
         {"STANDARD_DEVIATION", StatisticKind::STANDARD_DEVIATION},
@@ -146,7 +146,7 @@ StatisticKind string_to_statistic_kind(
         {"SUM", StatisticKind::SUM}
    };
 
-   auto it = conversionTable.find(statistic_kind);
+   auto it = conversionTable.find(utils::to_string(statistic_kind));
    if (it != conversionTable.end())
    {
      return it->second;
@@ -157,16 +157,16 @@ StatisticKind string_to_statistic_kind(
    }
 }
 
-QString get_info_value(EntityInfo info, std::string key)
+std::string get_info_value(EntityInfo info, std::string key)
 {
     if (info.contains(key))
     {
-        return utils::to_QString(info[key]);
+        return info[key];
     }
     else
     {
-        return utils::to_QString("No key " + key);
+        return ("No key " + key);
     }
 }
 
-} //namespace backend
+} // namespace backend

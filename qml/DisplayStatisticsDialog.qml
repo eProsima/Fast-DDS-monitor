@@ -62,10 +62,16 @@ Dialog {
                     startTimeDate,
                     "dd.MM.yyyy HH:mm:ss")
 
-        var endTime = Date.fromLocaleString(
+        var endTime
+        if (endTimeDefault.checked) {
+            endTime = new Date()
+        } else {
+            endTime = Date.fromLocaleString(
                     Qt.locale(),
                     endTimeDate,
                     "dd.MM.yyyy HH:mm:ss")
+        }
+
         if (startTime <= endTime) {
             controlPanel.addSeries(
                         chartTitle,
@@ -229,6 +235,9 @@ Dialog {
         title: "Choose a date"
         standardButtons: StandardButton.Save | StandardButton.Cancel
 
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+
         onAccepted: {
             var tmpDate = new Date(startTimeCalendar.selectedDate)
             tmpDate.setHours(parseInt(startTimeHour.currentItem.text),
@@ -294,6 +303,9 @@ Dialog {
         id: endTimeCalendarDialog
         title: "Choose a date"
         standardButtons: StandardButton.Save | StandardButton.Cancel
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
 
         onAccepted: {
             var tmpDate = new Date(endTimeCalendar.selectedDate)

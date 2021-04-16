@@ -13,46 +13,46 @@
 // limitations under the License.
 
 /**
- * @file EndpointModelItem.hpp
+ * @file ParticipantModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H
 
-#include <include/model/EntityContainerModelItem.h>
-#include <include/model/ListItem.h>
-#include <include/model/dds/LocatorModelItem.h>
+#include <fastdds-monitor/model/dds/EndpointModelItem.h>
+#include <fastdds-monitor/model/EntityContainerModelItem.h>
+#include <fastdds-monitor/model/SubListedListItem.h>
 
 namespace models {
 
 /**
- * @brief Class that represents an Endpoint Item in the DDS Model
+ * @brief Class that represents a Participant Item in the DDS Model
  *
- * Endpoint Item represents inditinctly a DataWriter or DataReader.
- * Each endpoint has subitems that represent the locators associated with it.
+ * Each participant has subitems that represent the endpoints associated with it indistinctly if they
+ * are datawriters or datareaders.
  */
-class EndpointModelItem : public EntityContainerModelItem<LocatorModelItem, ListModel>
+class ParticipantModelItem : public EntityContainerModelItem<EndpointModelItem, SubListedListModel>
 {
     Q_OBJECT
 
 public:
 
-    //! Add new roles only for Endpoint items
-    enum EndpointModelItemRoles
+    //! Add new roles only for Participant items
+    enum ParticipantModelItemRoles
     {
         guidRole = ModelItemRoles::nameRole + 1,    //! Role for attribute GUID
-        topicRole                                   //! Role for attribute Topic
+        domainRole                                  //! Role for attribute Domain
     };
 
     //! Default QObject constructor. Used for model specification
-    EndpointModelItem(
+    ParticipantModelItem(
             QObject *parent = 0)
         : EntityContainerModelItem(parent)
     {
     }
 
     //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    EndpointModelItem(
+    ParticipantModelItem(
             backend::EntityId id,
             QObject* parent = 0)
         : EntityContainerModelItem(id, parent)
@@ -66,8 +66,8 @@ public:
     //! Getter for guid attribute
     QString guid() const;
 
-    //! Getter for topic attribute
-    QString topic() const;
+    //! Getter for domain attribute
+    QString domain() const;
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
@@ -75,4 +75,4 @@ public:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H

@@ -87,7 +87,7 @@ EntityId StatisticsBackend::init_monitor(
     static_cast<void>(domain_listener);
     static_cast<void>(callback_mask);
     static_cast<void>(data_mask);
-    return ++ID;
+    return EntityId(++ID);
 }
 
 // Prints a success message and returns an ID not used before (which do not represent any existing entity)
@@ -102,7 +102,7 @@ EntityId StatisticsBackend::init_monitor(
     static_cast<void>(domain_listener);
     static_cast<void>(callback_mask);
     static_cast<void>(data_mask);
-    return ++ID;
+    return EntityId(++ID);
 }
 
 // Returns a vector with one id of the unique entity of <entity_type> kind
@@ -303,43 +303,44 @@ Info StatisticsBackend::get_info(
 
     switch (entity_id.value())
     {
-        case 0:
+        case 1:
             json_obj["name"] = "Host_0";
             break;
 
-        case 1:
+        case 2:
             json_obj["name"] = "User_0";
             break;
 
-        case 2:
+        case 3:
             json_obj["name"] = "Process_0";
             break;
 
-        case 3:
+        case 4:
             json_obj["name"] = "Domain_0";
             break;
 
-        case 4:
+        case 5:
             json_obj["name"] = "Topic_0";
             break;
 
-        case 5:
+        case 6:
             json_obj["name"] = "Participant_0";
             break;
 
-        case 6:
+        case 7:
             json_obj["name"] = "Writer_0";
             break;
 
-        case 7:
+        case 8:
             json_obj["name"] = "Reader_0";
             break;
 
-        case 8:
+        case 9:
             json_obj["name"] = "Locator_0";
             break;
 
         default:
+            json_obj["name"] = "a domain has no name";
             break;
     }
 

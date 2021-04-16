@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <include/backend/backend_utils.h>
-#include <include/model/dds/ParticipantModelItem.h>
+#include <fastdds-monitor/backend/backend_utils.h>
+#include <fastdds-monitor/model/dds/ParticipantModelItem.h>
 
 namespace models {
 
@@ -37,12 +37,12 @@ QVariant ParticipantModelItem::data(
 
 QString ParticipantModelItem::guid() const
 {
-    return backend::get_info_value(info_, "guid");
+    return utils::to_QString(backend::get_info_value(info_, "guid"));
 }
 
 QString ParticipantModelItem::domain() const
 {
-    return backend::get_info_value(info_, "domain");
+    return utils::to_QString(backend::get_info_value(info_, "domain"));
 }
 
 QHash<int, QByteArray> ParticipantModelItem::roleNames() const

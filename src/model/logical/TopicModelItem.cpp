@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <include/backend/backend_utils.h>
-#include <include/model/logical/TopicModelItem.h>
+#include <fastdds-monitor/backend/backend_utils.h>
+#include <fastdds-monitor/model/logical/TopicModelItem.h>
 
 namespace models {
 
@@ -35,7 +35,7 @@ QVariant TopicModelItem::data(
 
 QString TopicModelItem::type() const
 {
-    return backend::get_info_value(info_, "topic");
+    return utils::to_QString(backend::get_info_value(info_, "topic"));
 }
 
 

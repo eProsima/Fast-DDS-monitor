@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <include/backend/backend_utils.h>
-#include <include/model/dds/EndpointModelItem.h>
+#include <fastdds-monitor/backend/backend_utils.h>
+#include <fastdds-monitor/model/dds/EndpointModelItem.h>
 
 namespace models {
 
@@ -37,12 +37,12 @@ QVariant EndpointModelItem::data(
 
 QString EndpointModelItem::guid() const
 {
-    return backend::get_info_value(info_, "guid");
+    return utils::to_QString(backend::get_info_value(info_, "guid"));
 }
 
 QString EndpointModelItem::topic() const
 {
-    return backend::get_info_value(info_, "topic");
+    return utils::to_QString(backend::get_info_value(info_, "topic"));
 }
 
 QHash<int, QByteArray> EndpointModelItem::roleNames() const

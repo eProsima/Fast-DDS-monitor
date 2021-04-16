@@ -187,7 +187,17 @@ HostPointer RandomGenerator::new_host_()
 UserPointer RandomGenerator::new_user_(HostPointer host)
 {
     EntityId id = EntityId(Database::get_instance()->next_id());
-    UserPointer entity_p = std::make_shared<User>(id, "User_" + entityId_to_string(id));
+
+    UserPointer entity_p;
+    // Easter egg
+    if (random_range(10) != 0)
+    {
+        entity_p = std::make_shared<User>(id, "User_" + entityId_to_string(id));
+    }
+    else
+    {
+        entity_p = std::make_shared<User>(id, "A USER HAS NO NAME");
+    }
 
     entity_p->host(host);
     host->add_user(entity_p);

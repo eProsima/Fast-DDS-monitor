@@ -21,10 +21,10 @@
 #include <QtCharts/QXYSeries>
 #include <QtCore/QDebug>
 #include <QtCore/QRandomGenerator>
-#include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
+#include <QtQuick/QQuickView>
 
-#include <include/statistics/StatisticsData.h>
+#include <fastdds-monitor/statistics/StatisticsData.h>
 
 QT_CHARTS_USE_NAMESPACE
 

@@ -23,9 +23,9 @@
 #include <QVariant>
 #include <QHash>
 
-#include <include/backend/backend_types.h>
-#include <include/backend/backend_utils.h>
-#include <include/model/model_types.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/backend/backend_utils.h>
+#include <fastdds-monitor/model/model_types.h>
 
 namespace models
 {

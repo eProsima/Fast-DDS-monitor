@@ -19,9 +19,9 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_SUBLISTEDLISTITEM_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_SUBLISTEDLISTITEM_H
 
-#include <include/backend/backend_types.h>
-#include <include/model/ListItem.h>
-#include <include/model/ListModel.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/ListItem.h>
+#include <fastdds-monitor/model/ListModel.h>
 
 namespace models {
 

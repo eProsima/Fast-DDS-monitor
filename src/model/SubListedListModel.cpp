@@ -41,9 +41,9 @@
 
 #include <iostream>
 
-#include <include/backend/backend_types.h>
-#include <include/model/SubListedListModel.h>
-#include <include/utils.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/utils.h>
 
 
 namespace models {

@@ -13,44 +13,49 @@
 // limitations under the License.
 
 /**
- * @file ProcessModelItem.hpp
+ * @file EndpointModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H
 
-#include <include/model/ListItem.h>
+#include <fastdds-monitor/model/dds/LocatorModelItem.h>
+#include <fastdds-monitor/model/EntityContainerModelItem.h>
+#include <fastdds-monitor/model/ListItem.h>
 
 namespace models {
 
-
 /**
- * @brief Class that represents an Process Item in the DDS Model
+ * @brief Class that represents an Endpoint Item in the DDS Model
+ *
+ * Endpoint Item represents inditinctly a DataWriter or DataReader.
+ * Each endpoint has subitems that represent the locators associated with it.
  */
-class ProcessModelItem : public ListItem
+class EndpointModelItem : public EntityContainerModelItem<LocatorModelItem, ListModel>
 {
     Q_OBJECT
 
 public:
 
-    //! Add new roles only for Process items
-    enum ProcessModelItemRoles
+    //! Add new roles only for Endpoint items
+    enum EndpointModelItemRoles
     {
-        pidRole = ModelItemRoles::nameRole + 1, //! Role for attribute PID
+        guidRole = ModelItemRoles::nameRole + 1,    //! Role for attribute GUID
+        topicRole                                   //! Role for attribute Topic
     };
 
     //! Default QObject constructor. Used for model specification
-    ProcessModelItem(
+    EndpointModelItem(
             QObject *parent = 0)
-        : ListItem(parent)
+        : EntityContainerModelItem(parent)
     {
     }
 
     //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    ProcessModelItem(
+    EndpointModelItem(
             backend::EntityId id,
             QObject* parent = 0)
-        : ListItem(id, parent)
+        : EntityContainerModelItem(id, parent)
     {
     }
 
@@ -58,8 +63,11 @@ public:
     QVariant data(
             int role) const override;
 
-    //! Getter for pid attribute
-    QString pid() const;
+    //! Getter for guid attribute
+    QString guid() const;
+
+    //! Getter for topic attribute
+    QString topic() const;
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
@@ -67,4 +75,4 @@ public:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H

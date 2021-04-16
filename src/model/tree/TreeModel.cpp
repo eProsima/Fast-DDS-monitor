@@ -14,8 +14,8 @@
 
 #include <QStringList>
 
-#include <include/model/tree/TreeItem.h>
-#include <include/model/tree/TreeModel.h>
+#include <fastdds-monitor/model/tree/TreeItem.h>
+#include <fastdds-monitor/model/tree/TreeModel.h>
 
 namespace models {
 

@@ -21,19 +21,18 @@
 
 #include <atomic>
 
-#include <QQueue>
 #include <QQmlApplicationEngine>
-#include <QRecursiveMutex>
+#include <QQueue>
 #include <QThread>
 #include <QWaitCondition>
 
-#include <include/Controller.h>
-#include <include/backend/Callback.h>
-#include <include/backend/Listener.h>
-#include <include/backend/SyncBackendConnection.h>
-#include <include/model/SubListedListModel.h>
-#include <include/model/tree/TreeModel.h>
-#include <include/statistics/StatisticsData.h>
+#include <fastdds-monitor/backend/Callback.h>
+#include <fastdds-monitor/backend/Listener.h>
+#include <fastdds-monitor/backend/Listener.h>
+#include <fastdds-monitor/backend/SyncBackendConnection.h>
+#include <fastdds-monitor/Controller.h>
+#include <fastdds-monitor/model/tree/TreeModel.h>
+#include <fastdds-monitor/statistics/StatisticsData.h>
 
 /**
  * Main class that connects the View (QML), the models (Controller) and the backend (Listener + SyncBackendConnection)
@@ -408,7 +407,7 @@ protected:
     backend::SyncBackendConnection backend_connection_;
 
     //! Mutex to protect \c callback_queue_
-    QRecursiveMutex callback_queue_mutex_;
+    std::recursive_mutex callback_queue_mutex_;
 
     //! Queue of Callbacks that have arrived by the \c Listener and have not been processed
     QQueue<backend::Callback> callback_queue_;

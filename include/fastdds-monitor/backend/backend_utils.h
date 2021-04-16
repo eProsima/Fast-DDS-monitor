@@ -24,9 +24,9 @@
 
 #include <QString>
 
-#include <include/backend/backend_types.h>
-#include <include/model/model_types.h>
-#include <include/utils.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/model/model_types.h>
+#include <fastdds-monitor/utils.h>
 
 namespace backend{
 
@@ -60,7 +60,7 @@ EntityInfo get_info(backend::EntityId id);
  * @param key tag to find the value
  * @return value in QString format
  */
-QString get_info_value(EntityInfo info, std::string key);
+std::string get_info_value(EntityInfo info, std::string key);
 
 //! Retrieves the \c EntityKind related with its name in QString
 backend::EntityKind string_to_entity_kind(

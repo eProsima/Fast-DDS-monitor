@@ -20,19 +20,19 @@
 #include <QtCore/QRandomGenerator>
 #include <qqmlcontext.h>
 
-#include <include/Controller.h>
-#include <include/Engine.h>
-#include <include/backend/Listener.h>
-#include <include/backend/SyncBackendConnection.h>
-#include <include/backend/backend_types.h>
-#include <include/model/EntityItem.h>
-#include <include/model/SubListedListItem.h>
-#include <include/model/SubListedListModel.h>
-#include <include/model/dds/ParticipantModelItem.h>
-#include <include/model/logical/DomainModelItem.h>
-#include <include/model/physical/HostModelItem.h>
-#include <include/model/tree/TreeModel.h>
-#include <include/statistics/StatisticsData.h>
+#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/backend/Listener.h>
+#include <fastdds-monitor/backend/SyncBackendConnection.h>
+#include <fastdds-monitor/Controller.h>
+#include <fastdds-monitor/Engine.h>
+#include <fastdds-monitor/model/dds/ParticipantModelItem.h>
+#include <fastdds-monitor/model/logical/DomainModelItem.h>
+#include <fastdds-monitor/model/physical/HostModelItem.h>
+#include <fastdds-monitor/model/statistics/EntityItem.h>
+#include <fastdds-monitor/model/SubListedListItem.h>
+#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds-monitor/model/tree/TreeModel.h>
+#include <fastdds-monitor/statistics/StatisticsData.h>
 
 using EntityInfo = backend::EntityInfo;
 
@@ -97,7 +97,7 @@ QObject* Engine::enable()
     // qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
-    // Connect Callback Listener
+    // Connect Callback Listener to this object
     QObject::connect(
             this,
             &Engine::new_callback_signal,
@@ -472,13 +472,13 @@ void Engine::process_callback_queue()
 
 bool Engine::are_callbacks_to_process_()
 {
-    QMutexLocker ml(&callback_queue_mutex_);
+    std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     return callback_queue_.empty();
 }
 
 bool Engine::add_callback(backend::Callback callback)
 {
-    QMutexLocker ml(&callback_queue_mutex_);
+    std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     callback_queue_.append(callback);
 
     // Add callback to issue model
@@ -500,7 +500,7 @@ bool Engine::process_callback_()
     backend::Callback first_callback;
 
     {
-        QMutexLocker ml(&callback_queue_mutex_);
+        std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
         first_callback = callback_queue_.front();
         callback_queue_.pop_front();
     }
@@ -536,5 +536,3 @@ bool Engine::read_callback_(backend::Callback callback)
 
     return res;
 }
-
-
