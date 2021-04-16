@@ -19,9 +19,9 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_ENDPOINTMODELITEM_H
 
+#include <fastdds-monitor/model/dds/LocatorModelItem.h>
 #include <fastdds-monitor/model/EntityContainerModelItem.h>
 #include <fastdds-monitor/model/ListItem.h>
-#include <fastdds-monitor/model/dds/LocatorModelItem.h>
 
 namespace models {
 

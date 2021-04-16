@@ -23,9 +23,7 @@
 
 #include <QQmlApplicationEngine>
 #include <QQueue>
-#include <QQueue>
 #include <QThread>
-#include <QWaitCondition>
 #include <QWaitCondition>
 
 #include <fastdds-monitor/backend/Callback.h>
