@@ -74,6 +74,11 @@ jobs:
             --xunit-file ../../uncrustify_results.xml \
             ${MODIFIED_FILES}
 
+      - name: Uncrustify Error Files
+        run: |
+          echo "Files with errors: "
+          cat uncrustify_results.xml
+
       - name: Upload uncrustify results
         uses: actions/upload-artifact@v1
         with:
