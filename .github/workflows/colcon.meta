@@ -1,0 +1,32 @@
+{
+    "names":
+    {
+        "fastrtps":
+        {
+            "cmake-args":
+            [
+                "-DFASTDDS_STATISTICS=ON",
+            ]
+        },
+        "fastdds-statistics-backend":
+        {
+            "cmake-args":
+            [
+                "-DBUILD_DOCUMENTATION=ON",
+                "-DBUILD_TESTS=ON",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+            ]
+        }
+        "fastdds-monitor":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "-DCOMPLEX_MOCK=ON",
+                "-DSTATIC_MOCK=ON",
+                "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/5.15.2",
+            ]
+        }
+    }
+}

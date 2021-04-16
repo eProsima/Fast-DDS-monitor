@@ -10,6 +10,139 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
+  # ubuntu-build-test:
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: codecov
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         path: src/Fast-DDS-statistics-backend
+
+  #     - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-apt-packages
+  #     - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-gtest
+  #     - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-python-packages
+  #     - uses: ./src/Fast-DDS-statistics-backend/.github/actions/fetch-fastdds-repos
+
+  #     - name: Update colcon mixin
+  #       run: |
+  #         colcon mixin add default \
+  #           https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+  #         colcon mixin update default
+  #       continue-on-error: true
+
+  #     - name: Build workspace
+  #       run: |
+  #         cat src/Fast-DDS-statistics-backend/.github/workflows/colcon.meta
+  #         colcon build \
+  #           --event-handlers=console_direct+ \
+  #           --metas src/Fast-DDS-statistics-backend/.github/workflows/colcon.meta \
+  #           --mixin coverage-gcc asan-gcc
+
+  #     - name: Run tests
+  #       run: |
+  #         source install/setup.bash && \
+  #         colcon test \
+  #           --packages-select fastdds-statistics-backend \
+  #           --event-handlers=console_direct+ \
+  #           --return-code-on-test-failure
+
+  #     - name: Generate coverage report
+  #       run: |
+  #         cp src/Fast-DDS-statistics-backend/codecov.yml .
+  #         mkdir coverage-report
+  #         gcovr \
+  #         --root src/Fast-DDS-statistics-backend/ \
+  #         --object-directory build/fastdds-statistics-backend \
+  #         --output coverage-report/coverage.xml \
+  #         --xml-pretty \
+  #         --exclude='.*nlohmann-json/.*' \
+  #         --exclude='.*docs/.*' \
+  #         --exclude='.*test/.*' \
+  #         --exclude='.*github/.*' \
+  #         --exclude='.*topic_types/.*' \
+  #         --exclude-unreachable-branches
+
+  #     - name: Upload coverage
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: coverage-report
+  #         path: coverage-report/
+  #       if: always()
+
+  #     - name: Upload coverage to Codecov
+  #       uses: codecov/codecov-action@v1
+  #       with:
+  #         token: ${{ secrets.CODECOV_TOKEN }}
+  #         file: coverage-report/coverage.xml
+  #         root_dir: src/Fast-DDS-statistics-backend
+  #         fail_ci_if_error: true
+
+  #     - name: Upload Logs
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: colcon-logs-ubuntu
+  #         path: log/
+  #       if: always()
+
+  #     - name: Upload documentation
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: Documentation HTML
+  #         path: install/fastdds-statistics-backend/docs/fastdds-statistics-backend/sphinx/html/
+  #       if: always()
+
+  clang-tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/Fast-DDS-statistics-backend
+
+      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-gtest
+      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-python-packages
+      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/fetch-fastdds-repos
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.0
+        with:
+          version: '5.15.2'
+          dir: '${{ github.workspace }}/qt_installation/'
+
+      - name: Build workspace
+        run: |
+          cat src/Fast-DDS-statistics-backend/.github/workflows/colcon.meta
+          colcon build \
+            --event-handlers=console_direct+ \
+            --metas src/Fast-DDS-statistics-backend/.github/workflows/colcon.meta
+
+      - name: Run clang-tidy
+        run: |
+          cd build/fastdds-statistics-backend
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus'
+
+  uncrustify_test:
+    runs-on: ubuntu-latest
+    name: Check C++ Style
+    steps:
+
+      - name: Fetch uncrustify config file
+        run: |
+          curl \
+            -l https://raw.githubusercontent.com/eProsima/cpp-style/master/uncrustify.cfg \
+            -o uncrustify.cfg
+
+      - name: Checkout this commit
+        uses: actions/checkout@v2
+
+      - name: Run style checks
+        uses: coleaeason/actions-uncrustify@v1
+        with:
+          configPath: 'uncrustify.cfg'
+
+
   uncrustify:
     runs-on: ubuntu-latest
     steps:
@@ -74,10 +207,10 @@ jobs:
             --xunit-file ../../uncrustify_results.xml \
             ${MODIFIED_FILES}
 
-      - name: Uncrustify Error Files
-        run: |
-          echo "Files with errors: "
-          cat uncrustify_results.xml
+      # - name: Uncrustify Error Files
+      #   run: |
+      #     echo "Files with errors: "
+      #     cat uncrustify_results.xml
 
       - name: Upload uncrustify results
         uses: actions/upload-artifact@v1
