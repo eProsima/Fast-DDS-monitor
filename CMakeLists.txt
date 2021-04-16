@@ -225,8 +225,8 @@ endif()
 ###############################################################################
 # Test
 ###############################################################################
-option(BUILD_TESTS "Build Fast DDS Statistics Backend library and documentation tests" OFF)
-option(BUILD_DOCUMENTATION_TESTS "Build Fast DDS Statistics Backend documentation tests" OFF)
+option(BUILD_TESTS "Build Fast DDS Monitor application and documentation tests" OFF)
+option(BUILD_DOCUMENTATION_TESTS "Build Fast DDS Monitor documentation tests" OFF)
 
 if (BUILD_TESTS)
     set(BUILD_DOCUMENTATION_TESTS ON)
