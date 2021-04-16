@@ -141,41 +141,41 @@ endif()
 ###############################################################################
 # Compile program
 ###############################################################################
-# set(PROJECT_HEADERS
-#     include/backend/backend_types.h
-#     include/backend/backend_utils.h
-#     include/backend/Callback.h
-#     include/backend/Listener.h
-#     include/backend/SyncBackendConnection.h
-#     include/Controller.h
-#     include/Engine.h
-#     include/model/dds/EndpointModelItem.h
-#     include/model/dds/LocatorModelItem.h
-#     include/model/dds/ParticipantModelItem.h
-#     include/model/EntityContainerModelItem.h
-#     include/model/ListItem.h
-#     include/model/ListModel.h
-#     include/model/logical/DomainModelItem.h
-#     include/model/logical/TopicModelItem.h
-#     include/model/model_types.h
-#     include/model/physical/HostModelItem.h
-#     include/model/physical/ProcessModelItem.h
-#     include/model/physical/UserModelItem.h
-#     include/model/statistics/EntityItem.h
-#     include/model/SubListedListItem.h
-#     include/model/SubListedListModel.h
-#     include/model/tree/TreeItem.h
-#     include/model/tree/TreeModel.h
-#     include/statistics/StatisticsData.h
-#     include/utils.h
-# )
+set(PROJECT_HEADERS
+    include/backend/backend_types.h
+    include/backend/backend_utils.h
+    include/backend/Callback.h
+    include/backend/Listener.h
+    include/backend/SyncBackendConnection.h
+    include/Controller.h
+    include/Engine.h
+    include/model/dds/EndpointModelItem.h
+    include/model/dds/LocatorModelItem.h
+    include/model/dds/ParticipantModelItem.h
+    include/model/EntityContainerModelItem.h
+    include/model/ListItem.h
+    include/model/ListModel.h
+    include/model/logical/DomainModelItem.h
+    include/model/logical/TopicModelItem.h
+    include/model/model_types.h
+    include/model/physical/HostModelItem.h
+    include/model/physical/ProcessModelItem.h
+    include/model/physical/UserModelItem.h
+    include/model/statistics/EntityItem.h
+    include/model/SubListedListItem.h
+    include/model/SubListedListModel.h
+    include/model/tree/TreeItem.h
+    include/model/tree/TreeModel.h
+    include/statistics/StatisticsData.h
+    include/utils.h
+)
 
-file(GLOB_RECURSE ALL_HEADERS
-    ${PROJECT_SOURCE_DIR}/include/**/*.h
-    )
+# file(GLOB_RECURSE ALL_HEADERS
+#     ${PROJECT_SOURCE_DIR}/include/**/*.h
+#     )
 
 set(PROJECT_SOURCES
-    ${ALL_HEADERS}
+    # ${ALL_HEADERS}
     src/Engine.cpp
     src/Controller.cpp
     src/backend/backend_utils.cpp
@@ -195,7 +195,7 @@ set(PROJECT_SOURCES
     src/utils.cpp
 )
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${QT_RESOURCES})
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Qt5 required libraries
@@ -212,18 +212,17 @@ if(COMPLEX_MOCK OR STATIC_MOCK)
 
     message(STATUS "Compiling monitor with Mock backend library")
 
-    set(BACKEND_LIBRARIES
+    target_link_libraries(${PROJECT_NAME}
+        ${QT5_LIBRARY_LINKS}
         backend-mock)
 
 else()
 
     # Link against fast backend and its dependencies
-    set(BACKEND_LIBRARIES
+    target_link_libraries(${PROJECT_NAME}
+        ${QT5_LIBRARY_LINKS}
         fastcdr
         fastrtps
         fastdds-statistics-backend)
 
 endif()
-
-target_link_libraries(${PROJECT_NAME} ${QT5_LIBRARY_LINKS} ${BACKEND_LIBRARIES})
-

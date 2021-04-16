@@ -70,7 +70,7 @@ QString ListItem::entity_id() const
 
 QString ListItem::name() const
 {
-    return backend::get_info_value(info_, "name");
+    return utils::to_QString(backend::get_info_value(info_, "name"));
 }
 
 backend::EntityInfo ListItem::info() const

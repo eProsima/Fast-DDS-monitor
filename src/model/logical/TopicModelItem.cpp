@@ -35,7 +35,7 @@ QVariant TopicModelItem::data(
 
 QString TopicModelItem::type() const
 {
-    return backend::get_info_value(info_, "topic");
+    return utils::to_QString(backend::get_info_value(info_, "topic"));
 }
 
 

@@ -157,16 +157,16 @@ StatisticKind string_to_statistic_kind(
    }
 }
 
-QString get_info_value(EntityInfo info, std::string key)
+std::string get_info_value(EntityInfo info, std::string key)
 {
     if (info.contains(key))
     {
-        return utils::to_QString(info[key]);
+        return info[key];
     }
     else
     {
-        return utils::to_QString("No key " + key);
+        return ("No key " + key);
     }
 }
 
-} //namespace backend
+} // namespace backend

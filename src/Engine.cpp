@@ -25,20 +25,19 @@
 #include <include/backend/Listener.h>
 #include <include/backend/SyncBackendConnection.h>
 #include <include/backend/backend_types.h>
-#include <include/model/statistics/EntityItem.h>
 #include <include/model/SubListedListItem.h>
 #include <include/model/SubListedListModel.h>
 #include <include/model/dds/ParticipantModelItem.h>
 #include <include/model/logical/DomainModelItem.h>
 #include <include/model/physical/HostModelItem.h>
+#include <include/model/statistics/EntityItem.h>
 #include <include/model/tree/TreeModel.h>
 #include <include/statistics/StatisticsData.h>
 
 using EntityInfo = backend::EntityInfo;
 
-Engine::Engine(QObject *parent)
-    : QQmlApplicationEngine(parent)
-    , enabled_(false)
+Engine::Engine()
+    : enabled_(false)
     , last_entity_clicked_(backend::ID_ALL)
     , last_entity_clicked_kind_(backend::EntityKind::INVALID)
 {

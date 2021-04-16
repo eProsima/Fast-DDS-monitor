@@ -66,8 +66,8 @@ class Engine : public QQmlApplicationEngine
 
 public:
 
-    //! Standard void constructor for QObject
-    Engine(QObject *parent = nullptr);
+    //! Standard void constructor
+    Engine();
 
     //! Release listener and all models
     ~Engine();

@@ -42,7 +42,7 @@ set(COMPLEX_MOCK_SOURCE
     entities/source/Locator.cpp
     )
 
-add_library(${PROJECT_NAME} ${STATIC_MOCK_COMPLEX_SOURCE})
+add_library(${PROJECT_NAME} ${COMPLEX_MOCK_SOURCE})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>

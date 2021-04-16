@@ -349,8 +349,7 @@ EntityId SyncBackendConnection::init_monitor(int domain)
 
 EntityId SyncBackendConnection::init_monitor(QString locators)
 {
-    StatisticsBackend::init_monitor(locators.toStdString());
-    return true;
+    return StatisticsBackend::init_monitor(locators.toStdString());
 }
 
 EntityInfo SyncBackendConnection::get_info(EntityId id)
@@ -362,6 +361,9 @@ EntityInfo SyncBackendConnection::get_summary(backend::EntityId id)
 {
     EntityInfo summary;
 
+    // Latency
+    summary["Latency"]["mean"] = "-0";
+
     // Throughput
     summary["Throughput"]["mean"] =
             std::to_string(StatisticsBackend::get_data(
@@ -370,15 +372,12 @@ EntityInfo SyncBackendConnection::get_summary(backend::EntityId id)
                 1,
                 StatisticKind::MEAN)[0].second);
 
-    // Latency
-    summary["Latency"]["mean"] = "-0";
-
     return summary;
 }
 
 std::string SyncBackendConnection::get_name(EntityId id)
 {
-    return StatisticsBackend::get_info(id)["name"];
+    return backend::get_info_value(StatisticsBackend::get_info(id), "name");
 }
 
 std::vector<StatisticsData> SyncBackendConnection::get_data(
