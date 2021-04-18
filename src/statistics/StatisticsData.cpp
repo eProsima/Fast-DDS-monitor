@@ -41,8 +41,8 @@ StatisticsData::StatisticsData(
     , axisXMax_(10)
     , axisXMin_(0)
 {
-    qRegisterMetaType<QAbstractSeries*>();
-    qRegisterMetaType<QAbstractAxis*>();
+    // qRegisterMetaType<QtCharts::QAbstractSeries*>();
+    // qRegisterMetaType<QtCharts::QAbstractAxis*>();
 }
 
 void StatisticsData::setData(
@@ -112,7 +112,6 @@ void StatisticsData::update(
 {
     if (series)
     {
-        QXYSeries* xySeries = static_cast<QXYSeries*>(series);
         index_++;
         if (index_ > data_.count() - 1)
         {
@@ -120,6 +119,6 @@ void StatisticsData::update(
         }
 
         QVector<QPointF> points = data_.at(index_);
-        xySeries->replace(points);
+        static_cast<QXYSeries*>(series)->replace(points);
     }
 }

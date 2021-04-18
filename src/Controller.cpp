@@ -101,18 +101,6 @@ void Controller::add_statistics_data(
         bool end_time_default,
         QString statistic_kind)
 {
-
-    qDebug() << "Data Kind: " << data_kind << "\n" <<
-        "Source Entity Id: " << source_entity_id << "\n" <<
-        "Target Entity Id: " << target_entity_id << "\n" <<
-        "Bins: " << bins << "\n" <<
-        "Time Start: " << start_time << "\n" <<
-        "Time Start Default: " << start_time_default << "\n" <<
-        "End Start: " << end_time << "\n" <<
-        "End Start Default: " << end_time_default << "\n" <<
-        "Statistics Kind: " << statistic_kind;
-
-
     engine_->on_add_statistics_data_series(
         backend::string_to_data_kind(data_kind),
         backend::models_id_to_backend_id(source_entity_id),

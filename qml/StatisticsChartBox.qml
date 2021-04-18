@@ -13,8 +13,9 @@
 // limitations under the License.
 
 import QtQuick 2.0
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import Qt.labs.platform 1.1 as QLP
 
 Rectangle {
     id: statisticsChartBox
@@ -37,7 +38,7 @@ Rectangle {
         Rectangle {
             id: chartBoxTitle
             width: statisticsChartBox.width
-            height: 3 * statisticsChartBox.height/20
+            height: statisticsChartBox.height/20 + controlPanel.contentHeight
             color: "#09487e"
 
             ColumnLayout {
@@ -59,59 +60,74 @@ Rectangle {
                     }
                 }
 
-                Rectangle {
-                    Layout.alignment: Qt.AlignCenter
-                    color: "#697d91"
-                    width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-                    height: statisticsChartBox.height/10
+                MenuBar {
+                    id: controlPanel
+                    Layout.alignment: Qt.AlignCenter | Qt.AlignBottom
+                    implicitWidth: statisticsChartBox.width - (statisticsChartBox.border.width*2)
 
-                    RowLayout {
-                        id: controlPanel
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 8
+                    signal addSeries(
+                        string dataKind,
+                        string seriesLabel,
+                        string sourceEntityId,
+                        string targetEntityId,
+                        int bins,
+                        date startTime,
+                        bool startTimeDefault,
+                        date endTime,
+                        bool endTimeDefault,
+                        string statisticKind)
+                    signal clearChart()
 
-                        signal addSeries(
-                            string dataKind,
-                            string sourceEntityId,
-                            string targetEntityId,
-                            int bins,
-                            date startTime,
-                            bool startTimeDefault,
-                            date endTime,
-                            bool endTimeDefault,
-                            string statisticKind)
-                        signal clearChart()
+                    onAddSeries: statisticsChartView.addSeries(
+                                     dataKind,
+                                     seriesLabel,
+                                     sourceEntityId,
+                                     targetEntityId,
+                                     bins,
+                                     startTime,
+                                     startTimeDefault,
+                                     endTime,
+                                     endTimeDefault,
+                                     statisticKind);
+                    onClearChart: statisticsChartView.clearChart();
 
-                        onAddSeries: statisticsChartView.addSeries(
-                                         dataKind,
-                                         sourceEntityId,
-                                         targetEntityId,
-                                         bins,
-                                         startTime,
-                                         startTimeDefault,
-                                         endTime,
-                                         endTimeDefault,
-                                         statisticKind);
-                        onClearChart: statisticsChartView.clearChart();
-
-                        Button {
-                            text: "Add series"
-                            onClicked: {
-                                displayStatisticsDialog.open();
+                    Menu {
+                        title: "Chart"
+                        Action {
+                            text: "Reset zoom"
+                            Component.onCompleted: {
+                                triggered.connect(statisticsChartView.resetChartViewZoom)
                             }
                         }
-
-                        Button {
+                        Action {
                             text: "Clear chart"
-                            onClicked: controlPanel.clearChart();
+                            onTriggered: controlPanel.clearChart();
                         }
-
-                        Button {
+                        Action {
                             text: "Remove chart"
-                            onClicked: {
+                            onTriggered: {
                                 statisticsChartBoxModel.remove(index)
                                 statisticsChartBox.destroy()
+                            }
+                        }
+                    }
+
+                    Menu {
+                        title: "Series"
+                        Action {
+                            text: "Add series"
+                            onTriggered: displayStatisticsDialog.open();
+                        }
+
+                        Action {
+                            text: "Enter inspection mode"
+                            onTriggered: {
+                                statisticsChartView.inspect = !statisticsChartView.inspect
+                                if (!statisticsChartView.inspect){
+                                    text = "Enter inspection mode"
+                                } else {
+                                    text = "Exit inspection mode"
+                                }
                             }
                         }
                     }
@@ -119,13 +135,11 @@ Rectangle {
             }
         }
 
-
-
         StatisticsChartView {
             id: statisticsChartView
-            Layout.fillWidth: true
-            Layout.preferredHeight: statisticsChartBox.height - (3*statisticsChartBox.height/20)
-            Layout.alignment: Qt.AlignTop | Qt.AlignCenter
+            Layout.alignment: Qt.AlignCenter
+            height: statisticsChartBox.height - (3*statisticsChartBox.height/20)
+            width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
         }
 
         DisplayStatisticsDialog {

@@ -20,10 +20,12 @@ RowLayout {
     id: additionalEntityId
 
     property string targetEntityId
+    property string targetEntityType
 
     Component.onCompleted: {
         controller.update_available_entity_ids("Host", "getDataDialogDestinationEntityId")
         targetEntityId = targetEntityIdComboBox.currentText
+        displayStatisticsDialog.regenerateSeriesLabel()
     }
 
     Label {
@@ -45,6 +47,8 @@ RowLayout {
         onActivated:  {
             controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
             targetEntityId = targetEntityIdComboBox.currentText
+            targetEntityType = currentText
+            displayStatisticsDialog.regenerateSeriesLabel()
         }
     }
 
@@ -59,6 +63,7 @@ RowLayout {
 
         onActivated:  {
             targetEntityId = currentText
+            displayStatisticsDialog.regenerateSeriesLabel()
         }
     }
 }

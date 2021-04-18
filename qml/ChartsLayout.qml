@@ -22,13 +22,22 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
+    property int chartBoxWidth: 600
+    property int chartBoxHeight: 600
+
+    onWidthChanged: {
+        calculateGridViewWidth()
+    }
+
     ListModel {
         id: statisticsChartBoxModel
     }
 
     MouseArea {
-        id: coords
-        anchors.fill: parent
+        id: mouseArea
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
         enabled: true
         onPressAndHold: {
             gridView.firstIndexDrag = gridView.indexAt(mouseX, mouseY + gridView.contentY)
@@ -49,9 +58,11 @@ Rectangle {
 
         GridView {
             id: gridView
-            anchors.fill: parent
-            cellWidth: 500
-            cellHeight: 500
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            cellWidth: chartBoxWidth
+            cellHeight: chartBoxHeight
             interactive: false
             model: statisticsChartBoxModel
             delegate: widgetdelegate
@@ -68,8 +79,6 @@ Rectangle {
                 visible: true
                 hoverEnabled: true
             }
-
-
         }
 
         Component {
@@ -78,6 +87,11 @@ Rectangle {
             Item {
                 property int indexOfThisDelegate: index
                 width: gridView.cellWidth; height: gridView.cellHeight
+
+                GridView.onAdd: {
+                    calculateGridViewWidth()
+                }
+
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: dataKind
@@ -127,11 +141,11 @@ Rectangle {
                         }
                         PropertyChanges {
                             target: statisticsChartBox
-                            x: coords.mouseX - statisticsChartBox.width/2
+                            x: mouseArea.mouseX - statisticsChartBox.width/2
                         }
                         PropertyChanges {
                             target: statisticsChartBox
-                            y: coords.mouseY - statisticsChartBox.height/10
+                            y: mouseArea.mouseY - statisticsChartBox.height/10
                         }
                     }
                 ]
@@ -141,6 +155,16 @@ Rectangle {
 
     function createChart(dataKind){
         statisticsChartBoxModel.append({"dataKind": dataKind})
+    }
+
+    function calculateGridViewWidth(){
+        if (chartsLayout.width < chartBoxWidth) {
+            mouseArea.width = chartsLayout.width
+        } else if (chartsLayout.width >= chartBoxWidth) {
+            mouseArea.width = chartBoxWidth * Math.min(
+                        Math.floor(chartsLayout.width/gridView.cellWidth), gridView.count)
+        }
+        gridView.width = mouseArea.width
     }
 }
 
