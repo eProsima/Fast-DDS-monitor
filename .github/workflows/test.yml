@@ -110,6 +110,7 @@ jobs:
         with:
           version: '5.15.2'
           dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
 
       - name: Build workspace
         run: |
