@@ -38,14 +38,3 @@ Titles:
     Examples: /../code/CodeTester.cpp, /../code/XMLTester.xml, /01-figures/logo.png
 
 ------------------------------------------------------------------------------------------------------------
-
-
-Requirements:
-
-
-    sudo apt install python-breathe
-
-    sudo apt-get install doxygen
-
-
-
