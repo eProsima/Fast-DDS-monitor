@@ -122,27 +122,8 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus'
-
-  uncrustify_test:
-    runs-on: ubuntu-latest
-    name: Check C++ Style
-    steps:
-
-      - name: Fetch uncrustify config file
-        run: |
-          curl \
-            -l https://raw.githubusercontent.com/eProsima/cpp-style/master/uncrustify.cfg \
-            -o uncrustify.cfg
-
-      - name: Checkout this commit
-        uses: actions/checkout@v2
-
-      - name: Run style checks
-        uses: coleaeason/actions-uncrustify@v1
-        with:
-          configPath: 'uncrustify.cfg'
-
+          ls -al
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -p .
 
   uncrustify:
     runs-on: ubuntu-latest
