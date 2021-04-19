@@ -130,7 +130,7 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -warnings-as-errors='*'
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -extra-arg="--warnings-as-errors='*'"
 
   uncrustify:
     runs-on: ubuntu-latest
