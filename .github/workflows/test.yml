@@ -10,6 +10,128 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
+
+  ubuntu-build-test:
+    runs-on: ubuntu-latest
+    environment:
+      name: codecov
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/Fast-DDS-monitor
+
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
+
+      - name: Update colcon mixin
+        run: |
+          colcon mixin add default \
+            https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+          colcon mixin update default
+        continue-on-error: true
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.0
+        with:
+          version: '5.15.2'
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+
+      - name: Build workspace
+        run: |
+          cat src/Fast-DDS-monitor/.github/workflows/colcon.meta
+          colcon build \
+            --event-handlers=console_direct+ \
+            --metas src/Fast-DDS-monitor/.github/workflows/colcon.meta \
+            --mixin coverage-gcc asan-gcc
+
+      - name: Run tests
+        run: |
+          source install/setup.bash && \
+          colcon test \
+            --packages-select fastdds-monitor \
+            --event-handlers=console_direct+ \
+            --return-code-on-test-failure
+
+      - name: Generate coverage report
+        run: |
+          cp src/Fast-DDS-monitor/codecov.yml .
+          mkdir coverage-report
+          gcovr \
+          --root src/Fast-DDS-monitor/ \
+          --object-directory build/fastdds-monitor \
+          --output coverage-report/coverage.xml \
+          --xml-pretty \
+          --exclude='.*nlohmann-json/.*' \
+          --exclude='.*docs/.*' \
+          --exclude='.*test/.*' \
+          --exclude='.*github/.*' \
+          --exclude='.*topic_types/.*' \
+          --exclude-unreachable-branches
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: coverage-report
+          path: coverage-report/
+        if: always()
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage-report/coverage.xml
+          root_dir: src/Fast-DDS-monitor
+          fail_ci_if_error: true
+
+      - name: Upload Logs
+        uses: actions/upload-artifact@v1
+        with:
+          name: colcon-logs-ubuntu
+          path: log/
+        if: always()
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v1
+        with:
+          name: Documentation HTML
+          path: install/fastdds-monitor/docs/fastdds-monitor/sphinx/html/
+        if: always()
+
+  clang-tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/Fast-DDS-monitor
+
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.0
+        with:
+          version: '5.15.2'
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+
+      - name: Build workspace
+        run: |
+          cat src/Fast-DDS-monitor/.github/workflows/colcon.meta
+          colcon build \
+            --event-handlers=console_direct+ \
+            --metas src/Fast-DDS-monitor/.github/workflows/colcon.meta
+
+      - name: Run clang-tidy
+        run: |
+          cd build/fastdds-monitor
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -warnings-as-errors='*'
+
   uncrustify:
     runs-on: ubuntu-latest
     steps:

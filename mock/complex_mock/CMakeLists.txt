@@ -14,6 +14,8 @@
 
 cmake_minimum_required(VERSION 3.14)
 
+project(complex-backend-mock)
+
 # Find FastDDS Statistics Backend library
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)

@@ -138,17 +138,19 @@ set(CMAKE_AUTORCC ON)
 ###############################################################################
 # Compile Mock if CMake option set
 ###############################################################################
-option(COMPLEX_MOCK "Build Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
-option(STATIC_MOCK "Build Fast DDS Static Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+option(COMPLEX_MOCK "Use Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+option(STATIC_MOCK "Use Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+
+option(BUILD_MOCK "Build Fast DDS Complex and Static Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
 
 # If complex mock is set, static mock does not compile and link
-if(COMPLEX_MOCK)
-    set(STATIC_MOCK OFF)
+if(COMPLEX_MOCK OR STATIC_MOCK)
+    set(BUILD_MOCK ON)
 endif()
 
 # Compile mock subdirectory
 # Only one of the mocks will be compiled and the edstination library would be <backend-mock>
-if(COMPLEX_MOCK OR STATIC_MOCK)
+if(BUILD_MOCK)
     add_subdirectory(mock)
 endif()
 
@@ -217,13 +219,21 @@ set(QT5_LIBRARY_LINKS
     Qt5::Charts)
 
 # If any mock CMake option has been set, the monitor will use the mock library
-if(COMPLEX_MOCK OR STATIC_MOCK)
+if(COMPLEX_MOCK)
 
-    message(STATUS "Compiling monitor with Mock backend library")
+    message(STATUS "Compiling monitor with Complex Mock backend library")
 
     target_link_libraries(${PROJECT_NAME}
         ${QT5_LIBRARY_LINKS}
-        backend-mock)
+        complex-backend-mock)
+
+elseif(STATIC_MOCK)
+
+    message(STATUS "Compiling monitor with Static Mock backend library")
+
+    target_link_libraries(${PROJECT_NAME}
+        ${QT5_LIBRARY_LINKS}
+        static-backend-mock)
 
 else()
 
