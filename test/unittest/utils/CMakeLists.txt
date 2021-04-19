@@ -31,12 +31,14 @@ target_include_directories(UtilsTest PRIVATE
 target_link_libraries(UtilsTest PUBLIC ${QT5_LIBRARY_LINKS} gtest)
 
 set(UTILS_TEST_LIST
-    void_)
+    to_QString
+    to_string
+    now_format)
 
 foreach(test_name ${UTILS_TEST_LIST})
-    add_test(NAME Utils.${test_name}
+    add_test(NAME utilsTest.${test_name}
             COMMAND UtilsTest
-            --gtest_filter=Utils.${test_name}:*/Utils.${test_name}/*)
+            --gtest_filter=utilsTest.${test_name}:*/utilsTest.${test_name}/*)
 endforeach()
 
 

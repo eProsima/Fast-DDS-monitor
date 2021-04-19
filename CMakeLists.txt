@@ -260,7 +260,7 @@ if (BUILD_TESTS)
     set(BUILD_DOCUMENTATION_TESTS ON)
 endif()
 
-if (BUILD_DOCUMENTATION_TESTS)
+if (BUILD_TESTS OR BUILD_DOCUMENTATION_TESTS)
     # CTest needs to be included here, otherwise it is not possible to run the tests from the root
     # of the build directory
     enable_testing()

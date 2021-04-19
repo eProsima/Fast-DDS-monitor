@@ -26,6 +26,7 @@ public:
     void TearDown()
     {
     }
+
 };
 
 TEST(BlackboxStaticMockTest, void_)
