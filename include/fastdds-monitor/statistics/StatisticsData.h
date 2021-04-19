@@ -22,9 +22,6 @@
 #include <QtCharts/QAbstractSeries>
 #include <QtCore/QObject>
 
-// QT_BEGIN_NAMESPACE
-// class QQuickView;
-// QT_END_NAMESPACE
 
         QT_CHARTS_USE_NAMESPACE
 

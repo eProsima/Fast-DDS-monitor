@@ -41,8 +41,6 @@ StatisticsData::StatisticsData(
     , axisXMax_(10)
     , axisXMin_(0)
 {
-    // qRegisterMetaType<QtCharts::QAbstractSeries*>();
-    // qRegisterMetaType<QtCharts::QAbstractAxis*>();
 }
 
 void StatisticsData::setData(
