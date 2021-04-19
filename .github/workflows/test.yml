@@ -98,12 +98,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: src/Fast-DDS-statistics-backend
+          path: src/Fast-DDS-monitor
 
-      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-apt-packages
-      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-gtest
-      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/install-python-packages
-      - uses: ./src/Fast-DDS-statistics-backend/.github/actions/fetch-fastdds-repos
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-repos
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.13.0
@@ -114,14 +114,14 @@ jobs:
 
       - name: Build workspace
         run: |
-          cat src/Fast-DDS-statistics-backend/.github/workflows/colcon.meta
+          cat src/Fast-DDS-monitor/.github/workflows/colcon.meta
           colcon build \
             --event-handlers=console_direct+ \
-            --metas src/Fast-DDS-statistics-backend/.github/workflows/colcon.meta
+            --metas src/Fast-DDS-monitor/.github/workflows/colcon.meta
 
       - name: Run clang-tidy
         run: |
-          cd build/fastdds-statistics-backend
+          cd build/fastdds-monitor
           run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus'
 
   uncrustify_test:
