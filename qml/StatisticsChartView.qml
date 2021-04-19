@@ -21,13 +21,7 @@ ChartView {
     animationOptions: ChartView.NoAnimation
     theme: ChartView.ChartThemeLight
     antialiasing: true
-
-    legend {
-        visible: true
-        alignment: Qt.AlignRight
-        markerShape: Legend.MarkerShapeFromSeries
-        font.pointSize: 7
-    }
+    legend.visible: false
 
     property int axisYMin: 0
     property int axisYMax: 10

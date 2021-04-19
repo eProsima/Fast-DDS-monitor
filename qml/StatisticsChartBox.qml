@@ -138,12 +138,18 @@ Rectangle {
         StatisticsChartView {
             id: statisticsChartView
             Layout.alignment: Qt.AlignCenter
-            height: statisticsChartBox.height - (3*statisticsChartBox.height/20)
+            height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+            onSeriesAdded: customLegend.addLeyend(series.name, series.color);
         }
 
-        DisplayStatisticsDialog {
-            id: displayStatisticsDialog
+        CustomLegend {
+            id: customLegend
+            Layout.alignment: Qt.AlignCenter
+            Layout.fillHeight: true
+            height: statisticsChartBox.height - chartBoxTitle.height -
+                    statisticsChartView.height - statisticsChartBox.border.width
+            width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
         }
     }
 
@@ -153,5 +159,9 @@ Rectangle {
         visible: !visibility
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
+    }
+
+    DisplayStatisticsDialog {
+        id: displayStatisticsDialog
     }
 }
