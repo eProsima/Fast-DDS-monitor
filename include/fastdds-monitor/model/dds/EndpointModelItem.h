@@ -46,7 +46,7 @@ public:
 
     //! Default QObject constructor. Used for model specification
     EndpointModelItem(
-            QObject *parent = 0)
+            QObject* parent = 0)
         : EntityContainerModelItem(parent)
     {
     }

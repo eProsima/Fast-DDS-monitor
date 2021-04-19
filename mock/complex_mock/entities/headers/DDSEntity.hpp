@@ -66,7 +66,8 @@ public:
      *
      * @param guid new guid
      */
-    void guid(const std::string guid)
+    void guid(
+            const std::string guid)
     {
         guid_ = guid;
     }
@@ -86,7 +87,8 @@ public:
      *
      * @param qos new qos
      */
-    void qos(Info qos)
+    void qos(
+            Info qos)
     {
         qos_ = qos;
     }

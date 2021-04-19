@@ -28,10 +28,12 @@
 
 QT_CHARTS_USE_NAMESPACE
 
-Q_DECLARE_METATYPE(QAbstractSeries*)
+Q_DECLARE_METATYPE(
+        QAbstractSeries*)
 Q_DECLARE_METATYPE(QAbstractAxis*)
 
-StatisticsData::StatisticsData(QObject *parent)
+StatisticsData::StatisticsData(
+        QObject* parent)
     : QObject(parent)
     , index_(-1)
     , axisYMax_(10)
@@ -43,17 +45,18 @@ StatisticsData::StatisticsData(QObject *parent)
     qRegisterMetaType<QAbstractAxis*>();
 }
 
-void StatisticsData::setData(const QList<QVector<QPointF>> &data)
+void StatisticsData::setData(
+        const QList<QVector<QPointF>>& data)
 {
     data_.clear();
     data_.append(data);
 }
 
-void StatisticsData::appendData(const QVector<QPointF>& dataSeries)
+void StatisticsData::appendData(
+        const QVector<QPointF>& dataSeries)
 {
     data_.append(dataSeries);
 }
-
 
 void StatisticsData::clear()
 {
@@ -80,27 +83,32 @@ quint64 StatisticsData::axisXMin()
     return axisXMin_;
 }
 
-void StatisticsData::setAxisYMax(qreal axisYMax)
+void StatisticsData::setAxisYMax(
+        qreal axisYMax)
 {
     axisYMax_ = axisYMax;
 }
 
-void StatisticsData::setAxisYMin(qreal axisYMin)
+void StatisticsData::setAxisYMin(
+        qreal axisYMin)
 {
     axisYMin_ = axisYMin;
 }
 
-void StatisticsData::setAxisXMax(quint64 axisXMax)
+void StatisticsData::setAxisXMax(
+        quint64 axisXMax)
 {
     axisXMax_ = axisXMax;
 }
 
-void StatisticsData::setAxisXMin(quint64 axisXMin)
+void StatisticsData::setAxisXMin(
+        quint64 axisXMin)
 {
     axisXMin_ = axisXMin;
 }
 
-void StatisticsData::update(QAbstractSeries* series)
+void StatisticsData::update(
+        QAbstractSeries* series)
 {
     if (series)
     {

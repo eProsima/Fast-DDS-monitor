@@ -37,6 +37,7 @@ public:
     {
         return EntityKind::DATAREADER;
     }
+
 };
 
 //! Type name for entity shared pointer

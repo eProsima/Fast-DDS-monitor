@@ -61,7 +61,8 @@ public:
      *
      * @param listener new listener
      */
-    void listener(PhysicalListener* listener);
+    void listener(
+            PhysicalListener* listener);
 
     /**
      * @brief Add a new random domain and random entities underneath
@@ -83,8 +84,8 @@ public:
      * @return Vector of ids of entities that match the query
      */
     std::vector<EntityId> get_entities(
-        EntityKind entity_type,
-        EntityId entity_id);
+            EntityKind entity_type,
+            EntityId entity_id);
 
     /**
      * @brief Get the information of an entity
@@ -96,7 +97,8 @@ public:
      *
      * @return Indo in json format
      */
-    Info get_info(EntityId entity_id);
+    Info get_info(
+            EntityId entity_id);
 
     /**
      * @brief Return a map of all entities
@@ -129,7 +131,8 @@ public:
      *
      * @return pointer to the entity if exists
      */
-    EntityPointer get_entity(EntityId id);
+    EntityPointer get_entity(
+            EntityId id);
 
     /**
      * @brief Retrieve the number of domains initialized till this moment
@@ -166,10 +169,14 @@ protected:
     void callback_listener_thread_();
 
     //! Add a new entity in the Database, store a callback for the thread to send it and notify the thread
-    void add_entity_(EntityPointer entity, EntityId domain);
+    void add_entity_(
+            EntityPointer entity,
+            EntityId domain);
 
     //! Add new entities by calling add_entity one by one
-    void add_entities_(std::vector<EntityPointer> entities, EntityId domain);
+    void add_entities_(
+            std::vector<EntityPointer> entities,
+            EntityId domain);
 
     //! Return the number of entities stored
     size_t count_entities_();

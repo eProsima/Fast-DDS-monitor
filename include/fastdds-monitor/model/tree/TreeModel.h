@@ -104,14 +104,15 @@ public:
     void clear();
 
     //! Clear the model and create a new tree with new data
-    void update(const json& data);
+    void update(
+            const json& data);
 
     //! Return the role names of the values in nodes to acces them via \c data
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
     //! Retrieve the item in the position \c index
     TreeItem* get_item(
-            const QModelIndex &index) const;
+            const QModelIndex& index) const;
 
 signals:
 

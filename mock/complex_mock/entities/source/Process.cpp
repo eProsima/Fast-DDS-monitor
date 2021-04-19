@@ -23,43 +23,45 @@ namespace eprosima {
 namespace statistics_backend {
 
 std::vector<EntityId> Process::get_entities(
-    const EntityKind entity_type) const
+        const EntityKind entity_type) const
 {
     std::vector<EntityId> ids;
 
     switch (entity_type)
     {
-    case EntityKind::HOST:
-        return user_->get_entities(entity_type);
+        case EntityKind::HOST:
+            return user_->get_entities(entity_type);
 
-    case EntityKind::USER:
-        ids.push_back(user_->id());
-        return ids;
+        case EntityKind::USER:
+            ids.push_back(user_->id());
+            return ids;
 
-    case EntityKind::PROCESS:
-        return ids;
+        case EntityKind::PROCESS:
+            return ids;
 
-    case EntityKind::PARTICIPANT:
-        return get_ids(participants_);
+        case EntityKind::PARTICIPANT:
+            return get_ids(participants_);
 
-    case EntityKind::DOMAIN :
-    case EntityKind::TOPIC :
-    case EntityKind::DATAWRITER :
-    case EntityKind::DATAREADER :
-    case EntityKind::LOCATOR :
-        return get_entities_related(participants_, entity_type);
+        case EntityKind::DOMAIN:
+        case EntityKind::TOPIC:
+        case EntityKind::DATAWRITER:
+        case EntityKind::DATAREADER:
+        case EntityKind::LOCATOR:
+            return get_entities_related(participants_, entity_type);
 
-    default:
-        return ids;
+        default:
+            return ids;
     }
 }
 
-void Process::add_participant(const EntityPointer participant)
+void Process::add_participant(
+        const EntityPointer participant)
 {
     participants_[participant->id()] = participant;
 }
 
-void Process::user(const EntityPointer user)
+void Process::user(
+        const EntityPointer user)
 {
     user_ = user;
 }

@@ -33,15 +33,18 @@ public:
 
     //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
-        const EntityKind entity_type) const override;
+            const EntityKind entity_type) const override;
 
     //! Add Entity to Endpoint list
-    void add_endpoint(EntityPointer endpoint);
+    void add_endpoint(
+            EntityPointer endpoint);
 
     //! Add Process as connected Entity
-    void process(EntityPointer process);
+    void process(
+            EntityPointer process);
     //! Add Domain as connected Entity
-    void domain(EntityPointer domain);
+    void domain(
+            EntityPointer domain);
 
     //! Overwrite of \c kind method from Entity
     EntityKind kind() const

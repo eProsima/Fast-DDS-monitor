@@ -37,39 +37,50 @@ public:
     //! Standard QObject constructor with a reference to the Engine object
     Controller(
             Engine* engine,
-            QObject *parent = nullptr)
+            QObject* parent = nullptr)
         : QObject(parent)
         , engine_(engine)
     {
     }
 
-// Methods to be called from QML
+    // Methods to be called from QML
+
 public slots:
 
     //! Slot called by init a monitor with a domain number
-    void init_monitor(int domain);
+    void init_monitor(
+            int domain);
 
     //! Slot called by init a monitor with a list of locators
-    void init_monitor(QString locators);
+    void init_monitor(
+            QString locators);
 
     //! Slot called when a Host entity is pressed
-    void host_click(QString id);
+    void host_click(
+            QString id);
     //! Slot called when a User entity is pressed
-    void user_click(QString id);
+    void user_click(
+            QString id);
     //! Slot called when a Process entity is pressed
-    void process_click(QString id);
+    void process_click(
+            QString id);
 
     //! Slot called when a Domain entity is pressed
-    void domain_click(QString id);
+    void domain_click(
+            QString id);
     //! Slot called when a Topic entity is pressed
-    void topic_click(QString id);
+    void topic_click(
+            QString id);
 
     //! Slot called when a Participant entity is pressed
-    void participant_click(QString id);
+    void participant_click(
+            QString id);
     //! Slot called when a Endpoint entity is pressed
-    void endpoint_click(QString id);
+    void endpoint_click(
+            QString id);
     //! Slot called when a Locator entity is pressed
-    void locator_click(QString id);
+    void locator_click(
+            QString id);
 
     //! Slot called when refresh button is pressed
     void refresh_click();

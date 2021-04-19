@@ -23,50 +23,53 @@ namespace eprosima {
 namespace statistics_backend {
 
 std::vector<EntityId> Endpoint::get_entities(
-    const EntityKind entity_type) const
+        const EntityKind entity_type) const
 {
     std::vector<EntityId> ids;
 
     switch (entity_type)
     {
-    case EntityKind::HOST:
-    case EntityKind::USER:
-    case EntityKind::PROCESS:
-        return participant_->get_entities(entity_type);
+        case EntityKind::HOST:
+        case EntityKind::USER:
+        case EntityKind::PROCESS:
+            return participant_->get_entities(entity_type);
 
-    case EntityKind::PARTICIPANT:
-        ids.push_back(participant_->id());
-        return ids;
+        case EntityKind::PARTICIPANT:
+            ids.push_back(participant_->id());
+            return ids;
 
-    case EntityKind::DOMAIN :
+        case EntityKind::DOMAIN:
 
-    case EntityKind::DATAWRITER :
-    case EntityKind::DATAREADER :
-        return ids;
+        case EntityKind::DATAWRITER:
+        case EntityKind::DATAREADER:
+            return ids;
 
-    case EntityKind::TOPIC :
-        ids.push_back(topic_->id());
-        return ids;
+        case EntityKind::TOPIC:
+            ids.push_back(topic_->id());
+            return ids;
 
-    case EntityKind::LOCATOR :
-        return get_ids(locators_);
+        case EntityKind::LOCATOR:
+            return get_ids(locators_);
 
-    default:
-        return ids;
+        default:
+            return ids;
     }
 }
 
-void Endpoint::add_locator(const EntityPointer locator)
+void Endpoint::add_locator(
+        const EntityPointer locator)
 {
     locators_[locator->id()] = locator;
 }
 
-void Endpoint::participant(const EntityPointer participant)
+void Endpoint::participant(
+        const EntityPointer participant)
 {
     participant_ = participant;
 }
 
-void Endpoint::topic(const EntityPointer topic)
+void Endpoint::topic(
+        const EntityPointer topic)
 {
     topic_ = topic;
 }

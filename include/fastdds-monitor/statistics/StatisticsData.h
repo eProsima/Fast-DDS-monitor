@@ -26,7 +26,7 @@ QT_BEGIN_NAMESPACE
 class QQuickView;
 QT_END_NAMESPACE
 
-QT_CHARTS_USE_NAMESPACE
+        QT_CHARTS_USE_NAMESPACE
 
 //! TODO
 class StatisticsData : public QObject
@@ -41,13 +41,15 @@ public:
 
     //! Default QObject constructor
     explicit StatisticsData(
-            QObject *parent = 0);
+            QObject* parent = 0);
 
     //! Set data of the chart
-    void setData(const QList<QVector<QPointF>>& data);
+    void setData(
+            const QList<QVector<QPointF>>& data);
 
     //! Add data serie to the chart
-    void appendData(const QVector<QPointF>& dataSeries);
+    void appendData(
+            const QVector<QPointF>& dataSeries);
 
     //! Erase data of the chart
     void clear();
@@ -62,13 +64,17 @@ public:
     quint64 axisXMin();
 
     //! Set the new Y max axis size
-    void setAxisYMax(qreal axisYMax);
+    void setAxisYMax(
+            qreal axisYMax);
     //! Set the new Y min axis size
-    void setAxisYMin(qreal axisYMin);
+    void setAxisYMin(
+            qreal axisYMin);
     //! Set the new X max axis size
-    void setAxisXMax(quint64 axisXMax);
+    void setAxisXMax(
+            quint64 axisXMax);
     //! Set the new X min axis size
-    void setAxisXMin(quint64 axisXMin);
+    void setAxisXMin(
+            quint64 axisXMin);
 
 Q_SIGNALS:
 
@@ -79,6 +85,7 @@ public slots:
             QAbstractSeries* series);
 
 signals:
+
     //! Signal to communicate that max Y axis has changed
     void axisYMaxChanged();
     //! Signal to communicate that min Y axis has changed

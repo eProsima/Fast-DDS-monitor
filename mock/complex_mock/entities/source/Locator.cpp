@@ -24,33 +24,34 @@ namespace eprosima {
 namespace statistics_backend {
 
 std::vector<EntityId> Locator::get_entities(
-    const EntityKind entity_type) const
+        const EntityKind entity_type) const
 {
     std::vector<EntityId> ids;
 
     switch (entity_type)
     {
-    case EntityKind::HOST:
-    case EntityKind::USER:
-    case EntityKind::PROCESS:
-    case EntityKind::PARTICIPANT:
-    case EntityKind::DOMAIN :
-    case EntityKind::TOPIC :
-        return get_entities_related(endpoints_, entity_type);
+        case EntityKind::HOST:
+        case EntityKind::USER:
+        case EntityKind::PROCESS:
+        case EntityKind::PARTICIPANT:
+        case EntityKind::DOMAIN:
+        case EntityKind::TOPIC:
+            return get_entities_related(endpoints_, entity_type);
 
-    case EntityKind::DATAWRITER :
-    case EntityKind::DATAREADER :
-        return get_entities_kind(endpoints_, entity_type);
+        case EntityKind::DATAWRITER:
+        case EntityKind::DATAREADER:
+            return get_entities_kind(endpoints_, entity_type);
 
-    case EntityKind::LOCATOR :
-        return ids;
+        case EntityKind::LOCATOR:
+            return ids;
 
-    default:
-        return ids;
+        default:
+            return ids;
     }
 }
 
-void Locator::add_endpoint(const EntityPointer endpoint)
+void Locator::add_endpoint(
+        const EntityPointer endpoint)
 {
     endpoints_[endpoint->id()] = endpoint;
 }

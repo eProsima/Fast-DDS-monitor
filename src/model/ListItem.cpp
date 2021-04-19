@@ -47,9 +47,10 @@
 namespace models {
 
 ListItem::ListItem(
-        QObject *parent)
+        QObject* parent)
     : QObject(parent)
-{}
+{
+}
 
 ListItem::ListItem(
         backend::EntityId id,
@@ -61,7 +62,8 @@ ListItem::ListItem(
 }
 
 ListItem::~ListItem()
-{}
+{
+}
 
 QString ListItem::entity_id() const
 {

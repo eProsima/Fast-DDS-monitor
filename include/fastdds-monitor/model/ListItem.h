@@ -27,8 +27,7 @@
 #include <fastdds-monitor/backend/backend_utils.h>
 #include <fastdds-monitor/model/model_types.h>
 
-namespace models
-{
+namespace models {
 
 class ListModel;
 
@@ -45,7 +44,7 @@ class ListItem : public QObject
 {
     Q_OBJECT
 
-public :
+public:
 
     //! Role names to allow queries to get some specific information from the Item
     enum ModelItemRoles
@@ -56,7 +55,7 @@ public :
 
     //! Default QObject constructor. Used for model specification
     ListItem(
-            QObject *parent = 0);
+            QObject* parent = 0);
 
     //! Specific DDS Item constructor, with a backend \c EntityId associateds
     ListItem(
@@ -100,7 +99,8 @@ public :
      *
      * @param info new info
      */
-    void info(backend::EntityInfo info)
+    void info(
+            backend::EntityInfo info)
     {
         info_ = info;
     }

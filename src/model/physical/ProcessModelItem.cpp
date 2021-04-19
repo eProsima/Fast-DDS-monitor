@@ -20,24 +20,23 @@ namespace models {
 QVariant ProcessModelItem::data(
         int role) const
 {
-   switch (role)
-   {
+    switch (role)
+    {
         case idRole:
-           return this->entity_id();
+            return this->entity_id();
         case nameRole:
             return this->name();
         case pidRole:
-           return this->pid();
+            return this->pid();
         default:
-           return QVariant();
-   }
+            return QVariant();
+    }
 }
 
 QString ProcessModelItem::pid() const
 {
     return utils::to_QString(backend::get_info_value(info_, "pid"));
 }
-
 
 QHash<int, QByteArray> ProcessModelItem::roleNames() const
 {

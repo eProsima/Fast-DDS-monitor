@@ -20,19 +20,19 @@ namespace models {
 QVariant EndpointModelItem::data(
         int role) const
 {
-   switch (role)
-   {
-       case idRole:
-           return this->entity_id();
-       case nameRole:
-           return this->name();
-       case guidRole:
-           return this->guid();
-       case topicRole:
-           return this->topic();
-       default:
-           return QVariant();
-   }
+    switch (role)
+    {
+        case idRole:
+            return this->entity_id();
+        case nameRole:
+            return this->name();
+        case guidRole:
+            return this->guid();
+        case topicRole:
+            return this->topic();
+        default:
+            return QVariant();
+    }
 }
 
 QString EndpointModelItem::guid() const

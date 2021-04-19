@@ -34,7 +34,7 @@ public:
 
     //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
-        const EntityKind entity_type) const override;
+            const EntityKind entity_type) const override;
 
     //! Get Participants under Entity
     std::vector<EntityPointer> participants();
@@ -42,9 +42,11 @@ public:
     std::vector<EntityPointer> topics();
 
     //! Add Entity to Participant list
-    void add_participant(EntityPointer participant);
+    void add_participant(
+            EntityPointer participant);
     //! Add Entity to Topic list
-    void add_topic(EntityPointer topic);
+    void add_topic(
+            EntityPointer topic);
 
     //! Overwrite of \c kind method from Entity
     EntityKind kind() const

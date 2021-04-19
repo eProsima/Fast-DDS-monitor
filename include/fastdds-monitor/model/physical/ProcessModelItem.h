@@ -41,7 +41,7 @@ public:
 
     //! Default QObject constructor. Used for model specification
     ProcessModelItem(
-            QObject *parent = 0)
+            QObject* parent = 0)
         : ListItem(parent)
     {
     }

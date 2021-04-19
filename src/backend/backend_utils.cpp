@@ -20,51 +20,58 @@
 #include <fastdds-monitor/model/model_types.h>
 #include <fastdds-monitor/utils.h>
 
-namespace backend{
+namespace backend {
 
 const EntityId ID_ALL = EntityId::all();
 const EntityId ID_NONE = EntityId::invalid();
 
-QString id_to_QString(const EntityId id)
+QString id_to_QString(
+        const EntityId id)
 {
     std::ostringstream stream;
     stream << id;
     return utils::to_QString(stream.str());
 }
 
-EntityId models_id_to_backend_id(const models::EntityId id)
+EntityId models_id_to_backend_id(
+        const models::EntityId id)
 {
     return EntityId(id.toInt());
 }
 
-QString get_name(const EntityId id)
+QString get_name(
+        const EntityId id)
 {
     return utils::to_QString(
-                eprosima::statistics_backend::StatisticsBackend::get_info(id)["name"]);
+        eprosima::statistics_backend::StatisticsBackend::get_info(id)["name"]);
 }
 
 // PROCESS
-QString process_pid(backend::EntityId process_id)
+QString process_pid(
+        backend::EntityId process_id)
 {
     // TODO
     return id_to_QString(process_id);
 }
 
 // DDS GUID
-QString entity_guid(backend::EntityId id)
-{
-    // TODO
-   return id_to_QString(id);
-}
-
-// TOPIC
-QString topic_type(backend::EntityId id)
+QString entity_guid(
+        backend::EntityId id)
 {
     // TODO
     return id_to_QString(id);
 }
 
-EntityInfo get_info(backend::EntityId id)
+// TOPIC
+QString topic_type(
+        backend::EntityId id)
+{
+    // TODO
+    return id_to_QString(id);
+}
+
+EntityInfo get_info(
+        backend::EntityId id)
 {
     return eprosima::statistics_backend::StatisticsBackend::get_info(id);
 }
@@ -88,7 +95,7 @@ EntityKind string_to_entity_kind(
     auto it = conversionTable.find(utils::to_string(entity_kind));
     if (it != conversionTable.end())
     {
-      return it->second;
+        return it->second;
     }
     else
     {
@@ -97,7 +104,7 @@ EntityKind string_to_entity_kind(
 }
 
 DataKind string_to_data_kind(
-       const QString& data_kind)
+        const QString& data_kind)
 {
     static std::unordered_map<std::string, DataKind> const conversionTable = {
         {"FASTDDS_LATENCY", DataKind::FASTDDS_LATENCY},
@@ -118,22 +125,22 @@ DataKind string_to_data_kind(
         {"EDP_PACKETS", DataKind::EDP_PACKETS},
         {"DISCOVERY_TIME", DataKind::DISCOVERY_TIME},
         {"SAMPLE_DATAS", DataKind::SAMPLE_DATAS}
-   };
+    };
 
-   auto it = conversionTable.find(utils::to_string(data_kind));
-   if (it != conversionTable.end())
-   {
-     return it->second;
-   }
-   else
-   {
-       // TODO: Change to a non valid DataKind
-       return DataKind::NONE;
-   }
+    auto it = conversionTable.find(utils::to_string(data_kind));
+    if (it != conversionTable.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        // TODO: Change to a non valid DataKind
+        return DataKind::NONE;
+    }
 }
 
 StatisticKind string_to_statistic_kind(
-       const QString& statistic_kind)
+        const QString& statistic_kind)
 {
     static std::unordered_map<std::string, StatisticKind> const conversionTable = {
         {"NONE", StatisticKind::NONE},
@@ -144,20 +151,22 @@ StatisticKind string_to_statistic_kind(
         {"MEDIAN", StatisticKind::MEDIAN},
         {"COUNT", StatisticKind::COUNT},
         {"SUM", StatisticKind::SUM}
-   };
+    };
 
-   auto it = conversionTable.find(utils::to_string(statistic_kind));
-   if (it != conversionTable.end())
-   {
-     return it->second;
-   }
-   else
-   {
-       return StatisticKind::NONE;
-   }
+    auto it = conversionTable.find(utils::to_string(statistic_kind));
+    if (it != conversionTable.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return StatisticKind::NONE;
+    }
 }
 
-std::string get_info_value(EntityInfo info, std::string key)
+std::string get_info_value(
+        EntityInfo info,
+        std::string key)
 {
     if (info.contains(key))
     {

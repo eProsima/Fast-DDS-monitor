@@ -20,24 +20,23 @@ namespace models {
 QVariant TopicModelItem::data(
         int role) const
 {
-   switch (role)
-   {
+    switch (role)
+    {
         case idRole:
-           return this->entity_id();
+            return this->entity_id();
         case nameRole:
             return this->name();
         case typeRole:
-           return this->type();
+            return this->type();
         default:
-           return QVariant();
-   }
+            return QVariant();
+    }
 }
 
 QString TopicModelItem::type() const
 {
     return utils::to_QString(backend::get_info_value(info_, "topic"));
 }
-
 
 QHash<int, QByteArray> TopicModelItem::roleNames() const
 {

@@ -169,7 +169,8 @@ Info StatisticsBackend::get_info(
         EntityId entity_id)
 {
     std::cout << "CONGRATULATIONS, you have asked for info from " << entity_id << std::endl;
-    Info json_obj = R"({
+    Info json_obj =
+            R"({
         "qos":{
             "data_sharing":
             {

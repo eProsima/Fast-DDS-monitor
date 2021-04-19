@@ -45,6 +45,5 @@ EntityKind Entity::kind() const
     return EntityKind::INVALID;
 }
 
-
 } // namespace statistics_backend
 } // namespace eprosima

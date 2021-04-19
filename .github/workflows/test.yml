@@ -1,0 +1,82 @@
+name: test
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  uncrustify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/Fast-DDS-monitor
+
+      - name: Fetch all branches and tags
+        run: |
+          cd src/Fast-DDS-monitor
+          git fetch --prune --unshallow
+
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+
+      - name: Install uncrustify
+        run: |
+          git clone https://github.com/uncrustify/uncrustify.git \
+            --branch uncrustify-0.71.0 \
+            --single-branch uncrustify
+          mkdir -p uncrustify/build
+          cd uncrustify/build
+          cmake ..
+          sudo cmake --build . --target install
+          cd ../..
+          sudo rm -rf uncrustify
+
+      - name: Clone ament_lint
+        run: |
+          git clone https://github.com/ament/ament_lint.git src/ament_lint
+
+      - name: Build ament_uncrustify
+        run: colcon build --packages-up-to ament_uncrustify
+
+      - name: Fetch uncrustify config file
+        run: |
+          curl \
+            -l https://raw.githubusercontent.com/eProsima/cpp-style/master/uncrustify.cfg \
+            -o uncrustify.cfg
+
+      - name: Get difference
+        run: |
+          cd src/Fast-DDS-monitor
+          echo "MODIFIED_FILES=$(git diff --name-only origin/${GITHUB_BASE_REF} origin/${GITHUB_HEAD_REF} | grep -e '\.h' -e '\.hpp' -e '\.cpp' | tr '\n' ' ')" >> $GITHUB_ENV
+
+      - name: Check difference
+        run: |
+          cd src/Fast-DDS-monitor
+          if [[ -z "${MODIFIED_FILES}" ]]
+          then
+            touch empty.hpp
+            echo "MODIFIED_FILES=empty.hpp" >> $GITHUB_ENV
+          fi
+
+      - name: Check style
+        run: |
+          source install/local_setup.bash
+          cd src/Fast-DDS-monitor
+          ament_uncrustify \
+            -c ../../uncrustify.cfg \
+            --language CPP \
+            --xunit-file ../../uncrustify_results.xml \
+            ${MODIFIED_FILES}
+
+      - name: Upload uncrustify results
+        uses: actions/upload-artifact@v1
+        with:
+          name: uncrustify_results
+          path: uncrustify_results.xml
+        if: always()

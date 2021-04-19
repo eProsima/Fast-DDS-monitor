@@ -34,7 +34,8 @@ namespace statistics_backend {
  * @return keys of a map
  */
 template<class K, class V>
-std::vector<K> keys(const std::map<K, V> map)
+std::vector<K> keys(
+        const std::map<K, V> map)
 {
     std::vector<K> result;
     for (auto element : map)
@@ -51,7 +52,8 @@ std::vector<K> keys(const std::map<K, V> map)
  *
  * @return ids of entities in map
  */
-std::vector<EntityId> get_ids(const std::map<EntityId, EntityPointer> map);
+std::vector<EntityId> get_ids(
+        const std::map<EntityId, EntityPointer> map);
 
 /**
  * @brief Return the concatenation of calling \c get_entities for all the entities in a map
@@ -66,8 +68,8 @@ std::vector<EntityId> get_ids(const std::map<EntityId, EntityPointer> map);
  * @return vector of ids
  */
 std::vector<EntityId> get_entities_related(
-    const std::map<EntityId, EntityPointer> map,
-    const EntityKind entity_type);
+        const std::map<EntityId, EntityPointer> map,
+        const EntityKind entity_type);
 
 /**
  * @brief Return the entity ids of all entities in a map that are of kind \c entity_type
@@ -80,8 +82,8 @@ std::vector<EntityId> get_entities_related(
  * @return vector of ids
  */
 std::vector<EntityId> get_entities_kind(
-    const std::map<EntityId, EntityPointer> map,
-    const EntityKind entity_type);
+        const std::map<EntityId, EntityPointer> map,
+        const EntityKind entity_type);
 
 /**
  * @brief Convert an id to String
@@ -90,7 +92,8 @@ std::vector<EntityId> get_entities_kind(
  *
  * @return string referencing the id
  */
-std::string entityId_to_string(EntityId id);
+std::string entityId_to_string(
+        EntityId id);
 
 } // namespace statistics_backend
 } // namespace eprosima

@@ -37,6 +37,7 @@ public:
     {
         return EntityKind::DATAWRITER;
     }
+
 };
 
 //! Type name for entity shared pointer

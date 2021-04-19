@@ -17,53 +17,63 @@
 #include <fastdds-monitor/Controller.h>
 #include <fastdds-monitor/Engine.h>
 
-void Controller::init_monitor(int domain)
+void Controller::init_monitor(
+        int domain)
 {
     engine_->init_monitor(domain);
 }
 
-void Controller::init_monitor(QString locators)
+void Controller::init_monitor(
+        QString locators)
 {
     engine_->init_monitor(locators);
 }
 
-void Controller::host_click(QString id)
+void Controller::host_click(
+        QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::HOST);
 }
 
-void Controller::user_click(QString id)
+void Controller::user_click(
+        QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::USER);
 }
 
-void Controller::process_click(QString id)
+void Controller::process_click(
+        QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::PROCESS);
 }
 
-void Controller::domain_click(QString id)
+void Controller::domain_click(
+        QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::DOMAIN);
 }
 
-void Controller::topic_click(QString id)
+void Controller::topic_click(
+        QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::TOPIC);
 }
 
-void Controller::participant_click(QString id)
+void Controller::participant_click(
+        QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::PARTICIPANT);
 }
 
-void Controller::endpoint_click(QString id)
+void Controller::endpoint_click(
+        QString id)
 {
     // WARNING: we do not know if it is DataWriter or DataReader
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::DATAWRITER);
 }
 
-void Controller::locator_click(QString id)
+void Controller::locator_click(
+        QString id)
 {
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::LOCATOR);
 }
@@ -93,24 +103,24 @@ void Controller::add_statistics_data(
 {
 
     qDebug() << "Data Kind: " << data_kind << "\n" <<
-                "Source Entity Id: " << source_entity_id << "\n" <<
-                "Target Entity Id: " << target_entity_id << "\n" <<
-                "Bins: " << bins << "\n" <<
-                "Time Start: " << start_time << "\n" <<
-                "Time Start Default: " << start_time_default << "\n" <<
-                "End Start: " << end_time << "\n" <<
-                "End Start Default: " << end_time_default << "\n" <<
-                "Statistics Kind: " << statistic_kind;
+        "Source Entity Id: " << source_entity_id << "\n" <<
+        "Target Entity Id: " << target_entity_id << "\n" <<
+        "Bins: " << bins << "\n" <<
+        "Time Start: " << start_time << "\n" <<
+        "Time Start Default: " << start_time_default << "\n" <<
+        "End Start: " << end_time << "\n" <<
+        "End Start Default: " << end_time_default << "\n" <<
+        "Statistics Kind: " << statistic_kind;
 
 
     engine_->on_add_statistics_data_series(
-                backend::string_to_data_kind(data_kind),
-                backend::models_id_to_backend_id(source_entity_id),
-                backend::models_id_to_backend_id(target_entity_id),
-                bins,
-                start_time,
-                start_time_default,
-                end_time,
-                end_time_default,
-                backend::string_to_statistic_kind(statistic_kind));
+        backend::string_to_data_kind(data_kind),
+        backend::models_id_to_backend_id(source_entity_id),
+        backend::models_id_to_backend_id(target_entity_id),
+        bins,
+        start_time,
+        start_time_default,
+        end_time,
+        end_time_default,
+        backend::string_to_statistic_kind(statistic_kind));
 }

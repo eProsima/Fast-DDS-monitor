@@ -22,17 +22,20 @@
 
 namespace utils {
 
-QString to_QString(std::string st)
+QString to_QString(
+        std::string st)
 {
     return QString::fromUtf8(st.c_str());
 }
 
-std::string to_string(QString st)
+std::string to_string(
+        QString st)
 {
     return st.toUtf8().constData();
 }
 
-std::string now(bool miliseconds /* = true */)
+std::string now(
+        bool miliseconds /* = true */)
 {
     char buffer[24]; // YYYY:MM:DD HH:MM:SS + '\0' <= 24
     char ms_buffer[32]; // YYYY:MM:DD HH:MM:SS.mmm + '\0' <= 32
@@ -48,10 +51,11 @@ std::string now(bool miliseconds /* = true */)
 
     if (miliseconds)
     {
-        millisec = lrint(tv.tv_usec/1000.0); // Round to nearest millisec
-        if (millisec>=1000) { // Allow for rounding up to nearest second
-          millisec -=1000;
-          tv.tv_sec++;
+        millisec = lrint(tv.tv_usec / 1000.0); // Round to nearest millisec
+        if (millisec >= 1000) // Allow for rounding up to nearest second
+        {
+            millisec -= 1000;
+            tv.tv_sec++;
         }
 
         snprintf(ms_buffer, sizeof(ms_buffer), "%s.%03d", buffer, millisec);

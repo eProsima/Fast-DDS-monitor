@@ -34,10 +34,11 @@ public:
 
     //! Override of \c get_entities Entity method
     std::vector<EntityId> get_entities(
-        const EntityKind entity_type) const override;
+            const EntityKind entity_type) const override;
 
     //! Add Entity to User list
-    void add_user(EntityPointer user);
+    void add_user(
+            EntityPointer user);
 
     //! Overwrite of \c kind method from Entity
     EntityKind kind() const
