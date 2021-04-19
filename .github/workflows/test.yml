@@ -122,8 +122,7 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-          ls -al
-          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -p .
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus'
 
   uncrustify:
     runs-on: ubuntu-latest
