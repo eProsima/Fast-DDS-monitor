@@ -14,8 +14,6 @@
 
 #include <sstream>      // std::ostringstream
 
-#include <fastdds-statistics-backend/StatisticsBackend.hpp>
-
 #include <fastdds-monitor/backend/backend_types.h>
 #include <fastdds-monitor/model/model_types.h>
 #include <fastdds-monitor/utils.h>
@@ -37,13 +35,6 @@ EntityId models_id_to_backend_id(
         const models::EntityId id)
 {
     return EntityId(id.toInt());
-}
-
-QString get_name(
-        const EntityId id)
-{
-    return utils::to_QString(
-        eprosima::statistics_backend::StatisticsBackend::get_info(id)["name"]);
 }
 
 // PROCESS
@@ -68,12 +59,6 @@ QString topic_type(
 {
     // TODO
     return id_to_QString(id);
-}
-
-EntityInfo get_info(
-        backend::EntityId id)
-{
-    return eprosima::statistics_backend::StatisticsBackend::get_info(id);
 }
 
 EntityKind string_to_entity_kind(

@@ -293,6 +293,10 @@ public:
             Timestamp end_time,
             StatisticKind statistic_kind);
 
+    //! Get info from an entity from the Backend
+    static EntityInfo get_entity_info(
+            EntityId id);
+
 protected:
 
     //! Create a new \c ListItem of class \c Host related with the backend entity with id \c id

@@ -382,6 +382,13 @@ EntityInfo SyncBackendConnection::get_info(
     return StatisticsBackend::get_info(id);
 }
 
+EntityInfo SyncBackendConnection::get_entity_info(
+        EntityId id)
+{
+    return StatisticsBackend::get_info(id);
+}
+
+
 EntityInfo SyncBackendConnection::get_summary(
         backend::EntityId id)
 {

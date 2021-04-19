@@ -43,22 +43,6 @@ EntityId models_id_to_backend_id(
         const models::EntityId id);
 
 /**
- * @brief Query to find the name of the entity in the backend with id \c id
- * @param id backend \c EntityId
- * @return name of the entity
- */
-QString get_name(
-        const EntityId id);
-
-/**
- * @brief Query to the backend to get the information structure of an entity with id \c id
- * @param id backend \c EntityId
- * @return info in json \c EntityInfo format
- */
-EntityInfo get_info(
-        backend::EntityId id);
-
-/**
  * @brief Get the value related with a specific tag inside a \c EntityInfo structure (json format)
  * @param info \c EntityInfo structure
  * @param key tag to find the value

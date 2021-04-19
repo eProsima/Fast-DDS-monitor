@@ -40,6 +40,7 @@
 // limitations under the License.
 
 #include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds-monitor/backend/SyncBackendConnection.h>
 #include <fastdds-monitor/model/ListItem.h>
 #include <fastdds-monitor/model/SubListedListModel.h>
 #include <fastdds-monitor/utils.h>
@@ -58,7 +59,7 @@ ListItem::ListItem(
     : QObject(parent)
     , id_(id)
 {
-    info_ = backend::get_info(id_);
+    info_ = backend::SyncBackendConnection::get_entity_info(id_);
 }
 
 ListItem::~ListItem()
