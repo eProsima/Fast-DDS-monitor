@@ -12,9 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-add_executable(BlackboxStaticMockTest BlackboxStaticMockTest.cpp)
+# set(BSM_TEST_SOURCE
+#     BlackboxStaticMockTest.cpp
+#     ${PROJECT_SOURCE_DIR}/src/Engine.cpp)
 
-target_link_libraries(BlackboxStaticMockTest PUBLIC static-backend-mock ${PROJECT_NAME} gtest)
+add_executable(BlackboxStaticMockTest
+    BlackboxStaticMockTest.cpp ${PROJECT_SOURCES_NO_MAIN} ${PROJECT_HEADERS} ${QT_RESOURCES})
+
+target_include_directories(BlackboxStaticMockTest PRIVATE
+    ${PROJECT_SOURCE_DIR}/include)
+
+target_link_libraries(BlackboxStaticMockTest PUBLIC
+    fastdds-statistics-backend
+    static-backend-mock
+    ${QT5_LIBRARY_LINKS}
+    gtest)
 
 set(BSM_TEST_LIST
     void_)

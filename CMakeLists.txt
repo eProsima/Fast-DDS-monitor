@@ -98,7 +98,7 @@ else()
     endif()
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -pthread")
 
 ###############################################################################
 # Installation paths
@@ -125,7 +125,7 @@ include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${${Qt5Quick_DEFINITIONS}})
 
 # Set the qml.qrc file containing the QML and other resources of the application
-qt5_add_resources(QT_RESOURCES qml.qrc)
+qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
 
 # Additional compilation steps required by a Qt program
 # User Interface Compiler (UIC)
@@ -158,53 +158,57 @@ endif()
 # Compile program
 ###############################################################################
 set(PROJECT_HEADERS
-    include/fastdds-monitor/backend/backend_types.h
-    include/fastdds-monitor/backend/backend_utils.h
-    include/fastdds-monitor/backend/Callback.h
-    include/fastdds-monitor/backend/Listener.h
-    include/fastdds-monitor/backend/SyncBackendConnection.h
-    include/fastdds-monitor/Controller.h
-    include/fastdds-monitor/Engine.h
-    include/fastdds-monitor/model/dds/EndpointModelItem.h
-    include/fastdds-monitor/model/dds/LocatorModelItem.h
-    include/fastdds-monitor/model/dds/ParticipantModelItem.h
-    include/fastdds-monitor/model/EntityContainerModelItem.h
-    include/fastdds-monitor/model/ListItem.h
-    include/fastdds-monitor/model/ListModel.h
-    include/fastdds-monitor/model/logical/DomainModelItem.h
-    include/fastdds-monitor/model/logical/TopicModelItem.h
-    include/fastdds-monitor/model/model_types.h
-    include/fastdds-monitor/model/physical/HostModelItem.h
-    include/fastdds-monitor/model/physical/ProcessModelItem.h
-    include/fastdds-monitor/model/physical/UserModelItem.h
-    include/fastdds-monitor/model/statistics/EntityItem.h
-    include/fastdds-monitor/model/SubListedListItem.h
-    include/fastdds-monitor/model/SubListedListModel.h
-    include/fastdds-monitor/model/tree/TreeItem.h
-    include/fastdds-monitor/model/tree/TreeModel.h
-    include/fastdds-monitor/statistics/StatisticsData.h
-    include/fastdds-monitor/utils.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_types.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_utils.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/Callback.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/Listener.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/SyncBackendConnection.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/Controller.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/Engine.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/EndpointModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/LocatorModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/ParticipantModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/EntityContainerModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/ListItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/ListModel.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/logical/DomainModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/logical/TopicModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/model_types.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/HostModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/ProcessModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/UserModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/statistics/EntityItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/SubListedListItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/SubListedListModel.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/tree/TreeItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/tree/TreeModel.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/statistics/StatisticsData.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/utils.h
 )
 
-set(PROJECT_SOURCES
-    src/backend/backend_utils.cpp
-    src/backend/Listener.cpp
-    src/backend/SyncBackendConnection.cpp
-    src/Controller.cpp
-    src/Engine.cpp
-    src/main.cpp
-    src/model/dds/EndpointModelItem.cpp
-    src/model/dds/ParticipantModelItem.cpp
-    src/model/ListItem.cpp
-    src/model/ListModel.cpp
-    src/model/logical/TopicModelItem.cpp
-    src/model/physical/ProcessModelItem.cpp
-    src/model/SubListedListModel.cpp
-    src/model/tree/TreeItem.cpp
-    src/model/tree/TreeModel.cpp
-    src/statistics/StatisticsData.cpp
-    src/utils.cpp
+set(PROJECT_SOURCES_NO_MAIN
+    ${PROJECT_SOURCE_DIR}/src/backend/backend_utils.cpp
+    ${PROJECT_SOURCE_DIR}/src/backend/Listener.cpp
+    ${PROJECT_SOURCE_DIR}/src/backend/SyncBackendConnection.cpp
+    ${PROJECT_SOURCE_DIR}/src/Controller.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/dds/EndpointModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/dds/ParticipantModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/ListItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/ListModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/logical/TopicModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/physical/ProcessModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/SubListedListModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/tree/TreeItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/tree/TreeModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/statistics/StatisticsData.cpp
+    ${PROJECT_SOURCE_DIR}/src/utils.cpp
 )
+
+# Concatenate main with the rest of the sources
+set(PROJECT_SOURCES
+    ${PROJECT_SOURCES_NO_MAIN}
+    ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
@@ -249,17 +253,22 @@ endif()
 ###############################################################################
 # Test
 ###############################################################################
-option(BUILD_TESTS "Build Fast DDS Monitor application and documentation tests" OFF)
+option(BUILD_TESTS "Build Fast DDS Monitor library and documentation tests" OFF)
 option(BUILD_DOCUMENTATION_TESTS "Build Fast DDS Monitor documentation tests" OFF)
 
 if (BUILD_TESTS)
     set(BUILD_DOCUMENTATION_TESTS ON)
 endif()
 
-if(BUILD_DOCUMENTATION_TESTS)
+if (BUILD_DOCUMENTATION_TESTS)
     # CTest needs to be included here, otherwise it is not possible to run the tests from the root
     # of the build directory
+    enable_testing()
     include(CTest)
+endif()
+
+if (BUILD_TESTS)
+    add_subdirectory(test)
 endif()
 
 ###############################################################################

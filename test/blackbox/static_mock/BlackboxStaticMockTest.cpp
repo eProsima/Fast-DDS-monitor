@@ -14,8 +14,6 @@
 
 #include "gtest/gtest.h"
 
-#include <fastdds-monitor/Engine.h>
-
 class BlackboxStaticMockTest : public ::testing::Test
 {
 
@@ -23,7 +21,6 @@ public:
 
     void SetUp ()
     {
-        Engine engine;
     }
 
     void TearDown()
