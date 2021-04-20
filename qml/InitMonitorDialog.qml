@@ -14,7 +14,7 @@
 
 import QtQuick 2.6
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
 
 Dialog {
     id: dialogInitMonitor
@@ -66,7 +66,10 @@ Dialog {
                 }
                 SpinBox {
                     id: simpleDiscoveryAnswer
+                    editable: true
                     value: 0
+                    from: 0
+                    to: 999
                     Layout.alignment: Qt.AlignTop
                     Keys.onReturnPressed: dialogInitMonitor.accept()
                 }

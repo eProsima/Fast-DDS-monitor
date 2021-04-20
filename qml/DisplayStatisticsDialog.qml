@@ -54,6 +54,7 @@ Dialog {
         }
 
         controller.update_available_entity_ids("Host", "getDataDialogSourceEntityId")
+        regenerateSeriesLabel()
     }
 
     onAccepted: {
@@ -75,6 +76,7 @@ Dialog {
         if (startTime <= endTime) {
             controlPanel.addSeries(
                         chartTitle,
+                        (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
                         sourceEntityId.currentText,
                         (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
                         bins.value,
@@ -88,13 +90,24 @@ Dialog {
                 wrongDatesDialog.open()
             }
         }
-
     }
 
     GridLayout{
 
         columns: 2
         rowSpacing: 20
+
+        Label {
+            id: seriesLabel
+            text: "Series label: "
+        }
+        TextField {
+            id: seriesLabelTextField
+            placeholderText: ""
+            selectByMouse: true
+            maximumLength: 20
+        }
+
 
         Label {
             id: sourceEntityIdLabel
@@ -115,12 +128,17 @@ Dialog {
                     "Locator"]
                 onActivated:  {
                     controller.update_available_entity_ids(currentText, "getDataDialogSourceEntityId")
+                    regenerateSeriesLabel()
                 }
             }
             ComboBox {
                 id: sourceEntityId
                 textRole: "id"
                 model: entityModelFirst
+
+                onActivated: {
+                    regenerateSeriesLabel()
+                }
             }
         }
 
@@ -135,7 +153,9 @@ Dialog {
         }
         SpinBox {
             id: bins
+            editable: true
             from: 0
+            to: 9999
             value: 0
         }
 
@@ -227,6 +247,11 @@ Dialog {
                 "MEDIAN",
                 "COUNT",
                 "SUM"]
+            implicitWidth: 225
+
+            onActivated: {
+                regenerateSeriesLabel()
+            }
         }
     }
 
@@ -382,6 +407,39 @@ Dialog {
     function formatText(count, modelData) {
         var data = count === 24 ? modelData + 1 : modelData;
         return data.toString().length < 2 ? "0" + data : data;
+    }
+
+    function regenerateSeriesLabel(){
+        var text = ((statisticKind.currentText === "STANDARD_DEVIATION") ? "SD" : statisticKind.currentText) +
+                   "_" +
+                   abbreviateEntityName(getDataDialogSourceEntityId.currentText) +
+                   "-" +
+                   sourceEntityId.currentText;
+        if (targetEntityIdObject !== null) {
+            text += "_" +
+                    abbreviateEntityName(targetEntityIdObject.targetEntityType) +
+                    "-" +
+                    targetEntityIdObject.targetEntityId
+        }
+        seriesLabelTextField.placeholderText = text;
+    }
+
+    function abbreviateEntityName(entityName){
+        var srcEntityId;
+        switch(entityName) {
+            case "DomainParticipant":
+                srcEntityId = "Part";
+                break;
+            case "DataWriter":
+                srcEntityId = "DW";
+                break;
+            case "DataReader":
+                srcEntityId = "DR";
+                break;
+            default:
+                srcEntityId = entityName;
+        }
+        return srcEntityId;
     }
 }
 
