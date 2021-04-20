@@ -134,7 +134,6 @@ DataKind string_to_data_kind(
     }
     else
     {
-        // TODO: Change to a non valid DataKind
         return DataKind::INVALID;
     }
 }
