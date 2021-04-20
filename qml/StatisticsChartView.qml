@@ -225,4 +225,8 @@ ChartView {
     function fromMsecsSinceEpoch(milliseconds) {
         return new Date(milliseconds);
     }
+
+    function updateSeriesName(oldSeriesName, newSeriesName) {
+        series(oldSeriesName).name = newSeriesName
+    }
 }

@@ -11,6 +11,7 @@
         <file>qml/LeftPanel.qml</file>
         <file>qml/LogicalView.qml</file>
         <file>qml/main.qml</file>
+        <file>qml/MonitorMenuBar.qml</file>
         <file>qml/MonitorToolBar.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>

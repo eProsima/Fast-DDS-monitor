@@ -140,7 +140,7 @@ Rectangle {
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-            onSeriesAdded: customLegend.addLeyend(series.name, series.color);
+            onSeriesAdded: customLegend.addLeyend(series.name, series.color)
         }
 
         CustomLegend {
@@ -150,6 +150,7 @@ Rectangle {
             height: statisticsChartBox.height - chartBoxTitle.height -
                     statisticsChartView.height - statisticsChartBox.border.width
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+            onSeriesNameUpdated: statisticsChartView.updateSeriesName(oldSeriesName, newSeriesName)
         }
     }
 

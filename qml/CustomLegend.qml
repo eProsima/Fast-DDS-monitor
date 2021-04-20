@@ -27,6 +27,8 @@ Rectangle {
     property variant seriesNames: []
     property variant seriesColors: []
 
+    signal seriesNameUpdated(string oldSeriesName, string newSeriesName)
+
     GridView {
         id: gridView
         anchors.fill: parent
@@ -62,7 +64,65 @@ Rectangle {
                     text: name
                 }
             }
+
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.RightButton // default is Qt.LeftButton only
+                onClicked: {
+                    if (mouse.button === Qt.RightButton) {
+                        contextMenu.x = mouse.x;
+                        contextMenu.y = mouse.y - contextMenu.contentHeight;
+                        contextMenu.open()
+                    }
+                }
+            }
+
+            Menu {
+                id: contextMenu
+                MenuItem {
+                    text: 'Rename series'
+                    onTriggered: renameSeriesDialog.open()
+                }
+            }
+
+            Dialog {
+                id: renameSeriesDialog
+                modal: false
+                title: "Rename series"
+                standardButtons: Dialog.Ok | Dialog.Cancel
+                anchors.centerIn: Overlay.overlay
+
+                GridLayout {
+                    columns: 2
+                    rowSpacing: 20
+                    Label {
+                        text: "Current series name: "
+                    }
+                    Label {
+                        text: name
+                    }
+                    Label {
+                        text: "New series name: "
+                    }
+                    TextField {
+                        id: newSeriesNameTextField
+                        selectByMouse: true
+                        maximumLength: 20
+                    }
+                }
+
+                onAccepted: {
+                    if (newSeriesNameTextField.text !== ""){
+                        var oldSeriesName = seriesNames[index]
+                        var names = seriesNames
+                        names[index] = newSeriesNameTextField.text
+                        seriesNames = names
+                        seriesNameUpdated(oldSeriesName, newSeriesNameTextField.text)
+                    }
+                }
+            }
         }
+
     }
 
     function addLeyend(name, color) {
