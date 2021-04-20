@@ -58,7 +58,7 @@ TEST(utilsTest, now_format)
         // Get the date 5 times
         for (int i=0; i<5; ++i)
         {
-            std::string date = now();
+            std::string date = now(false);
             ASSERT_EQ(date.size(), 19);
             for (int j=0; j<19; ++j)
             {

@@ -12,20 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# set(BSM_TEST_SOURCE
-#     BlackboxStaticMockTest.cpp
-#     ${PROJECT_SOURCE_DIR}/src/Engine.cpp)
+###############################################################################
+# Configure Qt project
+###############################################################################
+# Set the qml.qrc file containing the QML and other resources of the application
+# qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
 
+# # Additional compilation steps required by a Qt program
+# # User Interface Compiler (UIC)
+# set(CMAKE_AUTOUIC ON)
+# # Meta-Object Compiler (MOC)
+# set(CMAKE_AUTOMOC ON)
+# # Resource Compiler (RCC)
+# set(CMAKE_AUTORCC ON)
+
+###############################################################################
+# Create Test Executable
+###############################################################################
 add_executable(BlackboxStaticMockTest
-    BlackboxStaticMockTest.cpp ${PROJECT_SOURCES_NO_MAIN} ${PROJECT_HEADERS} ${QT_RESOURCES})
+    BlackboxStaticMockTest.cpp ${PROJECT_SOURCES_NO_MAIN} ${PROJECT_HEADERS})
 
 target_include_directories(BlackboxStaticMockTest PRIVATE
     ${PROJECT_SOURCE_DIR}/include)
 
-target_link_libraries(BlackboxStaticMockTest PUBLIC
+target_link_libraries(BlackboxStaticMockTest
+    ${QT5_LIBRARY_LINKS}
     fastdds-statistics-backend
     static-backend-mock
-    ${QT5_LIBRARY_LINKS}
     gtest)
 
 set(BSM_TEST_LIST

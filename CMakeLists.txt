@@ -115,33 +115,15 @@ endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-
-###############################################################################
-# Configure Qt project
-###############################################################################
-# Include the Qt5Widgets and QtQml header files for the Qt Framework and QML functions.
-include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS})
-# Specify the needed Qt definitions
-add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${${Qt5Quick_DEFINITIONS}})
-
-# Set the qml.qrc file containing the QML and other resources of the application
-qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
-
-# Additional compilation steps required by a Qt program
-# User Interface Compiler (UIC)
-set(CMAKE_AUTOUIC ON)
-# Meta-Object Compiler (MOC)
-set(CMAKE_AUTOMOC ON)
-# Resource Compiler (RCC)
-set(CMAKE_AUTORCC ON)
-
 ###############################################################################
 # Compile Mock if CMake option set
 ###############################################################################
 option(COMPLEX_MOCK "Use Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
-option(STATIC_MOCK "Use Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+option(STATIC_MOCK "Use Fast DDS Static Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
 
-option(BUILD_MOCK "Build Fast DDS Complex and Static Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+# Option used to build both mocks independently if they are going to be used or not
+# Used with tests proposes
+option(BUILD_MOCK "Build Fast DDS Complex and Static Monitor Mock library" OFF)
 
 # If complex mock is set, static mock does not compile and link
 if(COMPLEX_MOCK OR STATIC_MOCK)
@@ -153,6 +135,31 @@ endif()
 if(BUILD_MOCK)
     add_subdirectory(mock)
 endif()
+
+###############################################################################
+# Configure Qt project
+###############################################################################
+# Include the Qt5Widgets and QtQml header files for the Qt Framework and QML functions.
+include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS})
+# Specify the needed Qt definitions
+add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${Qt5Quick_DEFINITIONS})
+
+# WARNING
+# The creation of the qml_qrc.cpp file is managed by the rcc
+# If this functionality is called from the main cmake dir (this) the file will be generated in building time
+# Thus, if this file is required in subdirectories, this 4 instructions below must be added in the same
+# CMakeList of the executable (Use different name for QT_RESOURCES variable)
+
+# Set the qml.qrc file containing the QML and other resources of the application
+qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
+
+# Additional compilation steps required by a Qt program
+# User Interface Compiler (UIC)
+set(CMAKE_AUTOUIC ON)
+# Meta-Object Compiler (MOC)
+set(CMAKE_AUTOMOC ON)
+# Resource Compiler (RCC)
+set(CMAKE_AUTORCC ON)
 
 ###############################################################################
 # Compile program
@@ -249,6 +256,8 @@ else()
         fastdds-statistics-backend)
 
 endif()
+
+# add_subdirectory(subdir)
 
 ###############################################################################
 # Test

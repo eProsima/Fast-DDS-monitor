@@ -23,7 +23,7 @@ set(UTILS_TEST_SOURCE
 add_executable(UtilsTest
     ${UTILS_TEST_SOURCE}
     ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/utils.h # if all includes are linked, statistics-backend is required
-    ${QT_RESOURCES})
+    )
 
 target_include_directories(UtilsTest PRIVATE
     ${PROJECT_SOURCE_DIR}/include)
@@ -51,6 +51,7 @@ set(BACKENDUTILS_TEST_SOURCE
     ${PROJECT_SOURCE_DIR}/src/backend/backend_utils.cpp
     ${PROJECT_SOURCE_DIR}/src/utils.cpp)
 
+# Needed headers from backend
 set(BACKENDUTILS_TEST_HEADERS
     ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/utils.h
     ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_utils.h
@@ -60,7 +61,7 @@ set(BACKENDUTILS_TEST_HEADERS
 add_executable(BackendUtilsTest
     ${BACKENDUTILS_TEST_SOURCE}
     ${BACKENDUTILS_TEST_HEADERS}
-    ${QT_RESOURCES})
+    )
 
 target_include_directories(BackendUtilsTest PRIVATE
     ${PROJECT_SOURCE_DIR}/include)
