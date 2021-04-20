@@ -79,13 +79,14 @@ jobs:
           path: coverage-report/
         if: always()
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: coverage-report/coverage.xml
-          root_dir: src/Fast-DDS-monitor
-          fail_ci_if_error: true
+      # Not allowed for private repositories without token
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     file: coverage-report/coverage.xml
+      #     root_dir: src/Fast-DDS-monitor
+      #     fail_ci_if_error: true
 
       - name: Upload Logs
         uses: actions/upload-artifact@v1
@@ -130,7 +131,7 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -extra-arg="--warnings-as-errors='*'"
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus'
 
   uncrustify:
     runs-on: ubuntu-latest
