@@ -65,11 +65,10 @@ jobs:
           --object-directory build/fastdds-monitor \
           --output coverage-report/coverage.xml \
           --xml-pretty \
-          --exclude='.*nlohmann-json/.*' \
           --exclude='.*docs/.*' \
           --exclude='.*test/.*' \
+          --exclude='.*mock/.*' \
           --exclude='.*github/.*' \
-          --exclude='.*topic_types/.*' \
           --exclude-unreachable-branches
 
       - name: Upload coverage
@@ -99,7 +98,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Documentation HTML
-          path: install/fastdds-monitor/docs/fastdds-monitor/sphinx/html/
+          path: install/fastdds-monitor/docs/fastdds-monitor-docs/sphinx/html/
         if: always()
 
   clang-tidy:
