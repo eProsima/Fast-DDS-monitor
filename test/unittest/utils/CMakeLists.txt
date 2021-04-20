@@ -72,10 +72,15 @@ target_link_libraries(BackendUtilsTest PUBLIC
     gtest)
 
 set(BACKENDUTILS_TEST_LIST
-    void_)
+    id_to_QString
+    models_id_to_backend_id
+    get_info_value
+    string_to_entity_kind
+    string_to_data_kind
+    string_to_statistic_kind)
 
 foreach(test_name ${BACKENDUTILS_TEST_LIST})
-    add_test(NAME BackendUtils.${test_name}
+    add_test(NAME utilsBackendTest.${test_name}
             COMMAND BackendUtilsTest
-            --gtest_filter=BackendUtils.${test_name}:*/BackendUtils.${test_name}/*)
+            --gtest_filter=utilsBackendTest.${test_name}:*/utilsBackendTest.${test_name}/*)
 endforeach()
