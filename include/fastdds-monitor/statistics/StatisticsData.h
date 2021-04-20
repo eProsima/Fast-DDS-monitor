@@ -23,7 +23,7 @@
 #include <QtCore/QObject>
 
 
-        QT_CHARTS_USE_NAMESPACE
+QT_CHARTS_USE_NAMESPACE
 
 //! TODO
 class StatisticsData : public QObject

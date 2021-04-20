@@ -30,7 +30,9 @@ QT_CHARTS_USE_NAMESPACE
 
 Q_DECLARE_METATYPE(
         QAbstractSeries*)
-Q_DECLARE_METATYPE(QAbstractAxis*)
+
+Q_DECLARE_METATYPE(
+    QAbstractAxis*)
 
 StatisticsData::StatisticsData(
         QObject* parent)
