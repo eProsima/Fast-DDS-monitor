@@ -16,21 +16,21 @@
 # Configure Qt project
 ###############################################################################
 # Set the qml.qrc file containing the QML and other resources of the application
-# qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
+qt5_add_resources(QT_RESOURCES_SUBDIR ${PROJECT_SOURCE_DIR}/qml.qrc)
 
-# # Additional compilation steps required by a Qt program
-# # User Interface Compiler (UIC)
-# set(CMAKE_AUTOUIC ON)
-# # Meta-Object Compiler (MOC)
-# set(CMAKE_AUTOMOC ON)
-# # Resource Compiler (RCC)
-# set(CMAKE_AUTORCC ON)
+# Additional compilation steps required by a Qt program
+# User Interface Compiler (UIC)
+set(CMAKE_AUTOUIC ON)
+# Meta-Object Compiler (MOC)
+set(CMAKE_AUTOMOC ON)
+# Resource Compiler (RCC)
+set(CMAKE_AUTORCC ON)
 
 ###############################################################################
 # Create Test Executable
 ###############################################################################
 add_executable(BlackboxStaticMockTest
-    BlackboxStaticMockTest.cpp ${PROJECT_SOURCES_NO_MAIN} ${PROJECT_HEADERS})
+    BlackboxStaticMockTest.cpp ${PROJECT_SOURCES_NO_MAIN} ${PROJECT_HEADERS} ${QT_RESOURCES_SUBDIR})
 
 target_include_directories(BlackboxStaticMockTest PRIVATE
     ${PROJECT_SOURCE_DIR}/include)
@@ -42,10 +42,10 @@ target_link_libraries(BlackboxStaticMockTest
     gtest)
 
 set(BSM_TEST_LIST
-    void_)
+    enable_engine)
 
 foreach(test_name ${BSM_TEST_LIST})
-    add_test(NAME BlackboxStaticMock.${test_name}
+    add_test(NAME BlackboxStaticMockTest.${test_name}
             COMMAND BlackboxStaticMockTest
-            --gtest_filter=BlackboxStaticMock.${test_name}:*/BlackboxStaticMock.${test_name}/*)
+            --gtest_filter=BlackboxStaticMockTest.${test_name}:*/BlackboxStaticMockTest.${test_name}/*)
 endforeach()

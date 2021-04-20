@@ -14,6 +14,31 @@
 
 #include "gtest/gtest.h"
 
+#include <QApplication>
+
+#include <fastdds-monitor/Engine.h>
+
+/**
+ * This test TODO
+ */
+
+class BlackboxStaticMockTest;
+
+//! Mock to use getter methods of protected variables of Engine
+class MockEngine : public Engine
+{
+public:
+    // using Engine::Engine;
+    MockEngine ()
+        : Engine()
+    {}
+
+    bool enabled()
+    {
+        return enabled_;
+    }
+};
+
 class BlackboxStaticMockTest : public ::testing::Test
 {
 
@@ -21,6 +46,10 @@ public:
 
     void SetUp ()
     {
+        //! Add this initialization in every test
+        // int argc = 1;
+        // char* argv[1] = {static_cast<char*>("test")};
+        // QApplication app(argc, argv);
     }
 
     void TearDown()
@@ -29,9 +58,16 @@ public:
 
 };
 
-TEST(BlackboxStaticMockTest, void_)
+TEST_F(BlackboxStaticMockTest, enable_engine)
 {
-    EXPECT_EQ(0, 0);
+    int argc = 1;
+    char* argv[1] = {static_cast<char*>("test")};
+    QApplication app(argc, argv);
+    MockEngine engine;
+
+    EXPECT_FALSE(engine.enabled());
+    engine.enable();
+    EXPECT_TRUE(engine.enabled());
 }
 
 
