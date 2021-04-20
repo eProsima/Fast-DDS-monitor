@@ -195,12 +195,16 @@ ChartView {
                         tooltip.visible = true
                     })
         statisticsData.update(series);
+        resetChartViewZoom();
     }
 
     function clearChart() {
         chartView.removeAllSeries();
-        dateTimeAxisX.max = new Date()
-        dateTimeAxisX.min = new Date()
+        axisYMin = 0
+        axisYMax = 10
+        dateTimeAxisXMax = new Date()
+        dateTimeAxisXMin = new Date()
+        resetChartViewZoom();
     }
 
     function resetChartViewZoom(){
@@ -226,7 +230,19 @@ ChartView {
         return new Date(milliseconds);
     }
 
-    function updateSeriesName(oldSeriesName, newSeriesName) {
-        series(oldSeriesName).name = newSeriesName
+    function updateSeriesName(seriesIndex, newSeriesName) {
+        series(seriesIndex).name = newSeriesName
+    }
+
+    function updateSeriesColor(seriesIndex, newSeriesColor) {
+        series(seriesIndex).color = newSeriesColor
+    }
+
+    function hideSeries(seriesIndex) {
+        series(seriesIndex).opacity = 0.0
+    }
+
+    function displaySeries(seriesIndex) {
+        series(seriesIndex).opacity = 1.0
     }
 }

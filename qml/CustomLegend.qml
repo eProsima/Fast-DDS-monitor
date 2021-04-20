@@ -16,6 +16,8 @@ import QtQuick 2.0
 import QtCharts 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQuick.Dialogs 1.3 as QtDialogs
+import QtQml.Models 2.15
 
 Rectangle {
     id: legend
@@ -23,18 +25,22 @@ Rectangle {
     property int itemWidth: legend.width/2
     property int itemHeight: 20
 
-    property int seriesCount: 0
-    property variant seriesNames: []
-    property variant seriesColors: []
+    signal seriesNameUpdated(int seriesIndex, string newSeriesName)
+    signal seriesColorUpdated(int seriesIndex, color newSeriesColor)
+    signal seriesHidden(int seriesIndex)
+    signal seriesDisplayed(int seriesIndex)
+    signal seriesRemoved(int seriesIndex)
 
-    signal seriesNameUpdated(string oldSeriesName, string newSeriesName)
+    ListModel {
+        id: seriesModel
+    }
 
     GridView {
         id: gridView
         anchors.fill: parent
         cellWidth: itemWidth
         cellHeight: itemHeight
-        model: seriesCount
+        model: seriesModel
         delegate: legendDelegate
         clip: true
     }
@@ -46,28 +52,26 @@ Rectangle {
             implicitWidth: gridView.cellWidth
             implicitHeight: gridView.cellHeight
 
-            property string name: seriesNames[index]
-            property color markerColor: seriesColors[index]
-
             RowLayout {
                 spacing: 5
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 5
                 Rectangle {
-                    id: marker
+                    id: seriesMarker
                     width: 10; height: 10; radius: 10
-                    color: markerColor
+                    color: seriesColor.toString()
                 }
                 Label {
-                    id: label
-                    text: name
+                    id: seriesLabel
+                    text: seriesName
+                    color: hidden ? "grey" : "black"
                 }
             }
 
             MouseArea {
                 anchors.fill: parent
-                acceptedButtons: Qt.RightButton // default is Qt.LeftButton only
+                acceptedButtons: Qt.RightButton
                 onClicked: {
                     if (mouse.button === Qt.RightButton) {
                         contextMenu.x = mouse.x;
@@ -80,8 +84,20 @@ Rectangle {
             Menu {
                 id: contextMenu
                 MenuItem {
-                    text: 'Rename series'
+                    text: "Remove series"
+                    onTriggered: removeSeries(index)
+                }
+                MenuItem {
+                    text: "Rename series"
                     onTriggered: renameSeriesDialog.open()
+                }
+                MenuItem {
+                    text: "Change color"
+                    onTriggered: colorDialog.open()
+                }
+                MenuItem {
+                    text: hidden ? "Display series" : "Hide series"
+                    onTriggered: hidden ? displaySeriesLegend(index) : hideSeriesLegend(index)
                 }
             }
 
@@ -99,7 +115,7 @@ Rectangle {
                         text: "Current series name: "
                     }
                     Label {
-                        text: name
+                        text: seriesName
                     }
                     Label {
                         text: "New series name: "
@@ -112,13 +128,20 @@ Rectangle {
                 }
 
                 onAccepted: {
-                    if (newSeriesNameTextField.text !== ""){
-                        var oldSeriesName = seriesNames[index]
-                        var names = seriesNames
-                        names[index] = newSeriesNameTextField.text
-                        seriesNames = names
-                        seriesNameUpdated(oldSeriesName, newSeriesNameTextField.text)
+                    if (newSeriesNameTextField.text !== "") {
+                        seriesModel.setProperty(index, "seriesName", newSeriesNameTextField.text)
+                        seriesNameUpdated(index, newSeriesNameTextField.text);
                     }
+                }
+            }
+
+            QtDialogs.ColorDialog {
+                id: colorDialog
+                title: "Please choose a color for the series " + seriesName
+                onAccepted: {
+                    seriesModel.setProperty(index, "seriesColor", colorDialog.color.toString())
+                    seriesModel.setProperty(index, "originalSeriesColor", colorDialog.color.toString())
+                    seriesColorUpdated(index, colorDialog.color);
                 }
             }
         }
@@ -126,14 +149,43 @@ Rectangle {
     }
 
     function addLeyend(name, color) {
-        var names = seriesNames;
-        names[seriesCount] = name;
-        seriesNames = names;
+        seriesModel.append({
+                           "seriesName": name,
+                           "seriesColor": color.toString(),
+                           "originalSeriesColor": color.toString(),
+                           "hidden": false
+                           })
+    }
 
-        var colors = seriesColors;
-        colors[seriesCount] = color;
-        seriesColors = colors;
+    function removeLeyend(seriesIndex) {
+        seriesModel.remove(seriesIndex)
+    }
 
-        seriesCount++;
+    function hideSeriesLegend(seriesIndex) {
+        seriesModel.setProperty(seriesIndex, "seriesColor", "grey")
+        seriesModel.setProperty(seriesIndex, "hidden", true)
+        seriesHidden(seriesIndex);
+    }
+
+    function hideAllSeries() {
+        for (var idx = 0; idx < seriesModel.count; idx++) {
+            hideSeriesLegend(idx);
+        }
+    }
+
+    function displaySeriesLegend(seriesIndex) {
+        seriesModel.setProperty(seriesIndex, "seriesColor", seriesModel.get(seriesIndex).originalSeriesColor)
+        seriesModel.setProperty(seriesIndex, "hidden", false)
+        seriesDisplayed(seriesIndex);
+    }
+
+    function displayAllSeries() {
+        for (var idx = 0; idx < seriesModel.count; idx++) {
+            displaySeriesLegend(idx);
+        }
+    }
+
+    function removeSeries(seriesIndex) {
+        seriesRemoved(seriesIndex);
     }
 }
