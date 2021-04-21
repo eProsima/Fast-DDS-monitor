@@ -76,6 +76,11 @@ QString ListItem::name() const
     return utils::to_QString(backend::get_info_value(info_, "name"));
 }
 
+QString ListItem::entity_kind() const
+{
+    return backend::entity_kind_to_QString(backend::get_type(id_));
+}
+
 backend::EntityInfo ListItem::info() const
 {
     return info_;

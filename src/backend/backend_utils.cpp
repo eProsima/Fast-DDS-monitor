@@ -18,6 +18,8 @@
 #include <fastdds-monitor/model/model_types.h>
 #include <fastdds-monitor/utils.h>
 
+#include <QDebug>
+
 namespace backend {
 
 const EntityId ID_ALL = EntityId::all();
@@ -59,6 +61,27 @@ QString topic_type(
 {
     // TODO
     return id_to_QString(id);
+}
+
+EntityInfo get_info(
+        backend::EntityId id)
+{
+    return eprosima::statistics_backend::StatisticsBackend::get_info(id);
+}
+
+EntityKind get_type(
+        backend::EntityId id)
+{
+    return eprosima::statistics_backend::StatisticsBackend::get_type(id);
+}
+
+QString entity_kind_to_QString(
+        const EntityKind& entity_kind)
+{
+    QString entity_kind_str[] =
+        {"INVALID", "HOST", "USER", "PROCESS", "DOMAIN", "TOPIC", "PARTICIPANT", "DATAWRITER", "DATAREADER", "LOCATOR"};
+
+    return entity_kind_str[static_cast<int>(entity_kind)];
 }
 
 EntityKind string_to_entity_kind(

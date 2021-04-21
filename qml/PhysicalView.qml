@@ -48,9 +48,10 @@ Rectangle {
             Column {
                 id: hostListColumn
                 RowLayout {
-                    Rectangle {
-                        color: "grey"
-                        width: 5; height: 5; radius: 5
+                    IconSVG {
+                        source: "/resources/images/host.svg"
+                        color: "#000000"
+                        scalingFactor: 1
                     }
                     Label {
                         text: name
@@ -107,9 +108,10 @@ Rectangle {
                             id: userListColumn
 
                             RowLayout {
-                                Rectangle {
-                                    color: "grey"
-                                    width: 5; height: 5; radius: 5
+                                IconSVG {
+                                    source: "/resources/images/user.svg"
+                                    color: "#000000"
+                                    scalingFactor: 1
                                 }
                                 Label {
                                     text: name
@@ -173,9 +175,10 @@ Rectangle {
                                         anchors.left: parent.left
                                         anchors.right: parent.right
                                         RowLayout {
-                                            Rectangle {
-                                                color: "blue"
-                                                width: 5; height: 5; radius: 5
+                                            IconSVG {
+                                                source: "/resources/images/process.svg"
+                                                color: "#000000"
+                                                scalingFactor: 1
                                             }
                                             Label {
                                                 text: name

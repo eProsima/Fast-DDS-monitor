@@ -6,6 +6,7 @@
         <file>qml/DataKindDialog.qml</file>
         <file>qml/DisplayStatisticsDialog.qml</file>
         <file>qml/EntityList.qml</file>
+        <file>qml/IconSVG.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
         <file>qml/IssueView.qml</file>
         <file>qml/LeftPanel.qml</file>
@@ -23,5 +24,14 @@
     </qresource>
     <qresource prefix="/resources/images">
         <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
+        <file alias="participant.svg">resources/images/participant.svg</file>
+        <file alias="datareader.svg">resources/images/datareader.svg</file>
+        <file alias="datawriter.svg">resources/images/datawriter.svg</file>
+        <file alias="locator.svg">resources/images/locator.svg</file>
+        <file alias="domain.svg">resources/images/domain.svg</file>
+        <file alias="topic.svg">resources/images/topic.svg</file>
+        <file alias="host.svg">resources/images/host.svg</file>
+        <file alias="process.svg">resources/images/process.svg</file>
+        <file alias="user.svg">resources/images/user.svg</file>
     </qresource>
 </RCC>

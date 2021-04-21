@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
@@ -46,9 +46,10 @@ Rectangle {
                 id: domainListColumn
 
                 RowLayout {
-                    Rectangle {
-                        color: "grey"
-                        width: 5; height: 5; radius: 5
+                    IconSVG {
+                        source: "/resources/images/domain.svg"
+                        color: "#000000"
+                        scalingFactor: 1
                     }
                     Label {
                         text: name
@@ -103,9 +104,10 @@ Rectangle {
                             id: topicListColumn
 
                             RowLayout {
-                                Rectangle {
-                                    color: "grey"
-                                    width: 5; height: 5; radius: 5
+                                IconSVG {
+                                    source: "/resources/images/topic.svg"
+                                    color: "#000000"
+                                    scalingFactor: 1
                                 }
                                 Label {
                                     text: name

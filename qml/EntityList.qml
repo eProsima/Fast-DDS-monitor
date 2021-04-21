@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
@@ -49,10 +49,11 @@ Rectangle {
                 id: participantListColumn
 
                 RowLayout {
-                    Rectangle {
-                        color: "grey"
-                        width: 5; height: 5; radius: 5
+                    IconSVG {
+                        source: "/resources/images/participant.svg"
+                        scalingFactor: 1
                     }
+
                     Label {
                         text: name
                         leftPadding: 5
@@ -116,9 +117,9 @@ Rectangle {
                             id: endpointListColumn
 
                             RowLayout {
-                                Rectangle {
-                                    color: "grey"
-                                    width: 5; height: 5; radius: 5
+                                IconSVG {
+                                    source: (entityKind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
+                                    scalingFactor: 1
                                 }
                                 Label {
                                     text: name
@@ -127,6 +128,7 @@ Rectangle {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
+                                            console.log(entityKind)
                                             if(locatorList.height === locatorList.collapseHeightFlag) {
                                                 locatorList.height = 0;
                                                 endpointList.height =
@@ -191,9 +193,9 @@ Rectangle {
                                         anchors.left: parent.left
                                         anchors.right: parent.right
                                         RowLayout {
-                                            Rectangle {
-                                                color: "blue"
-                                                width: 5; height: 5; radius: 5
+                                            IconSVG {
+                                                source: "/resources/images/locator.svg"
+                                                scalingFactor: 1
                                             }
                                             Label {
                                                 text: name
