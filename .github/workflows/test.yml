@@ -76,7 +76,12 @@ jobs:
         with:
           name: coverage-report
           path: coverage-report/
-        if: always()
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v1
+        with:
+          name: Documentation HTML
+          path: install/fastdds-monitor/docs/fastdds-monitor-docs/sphinx/html/
 
       # Not allowed for private repositories without token
       # - name: Upload coverage to Codecov
@@ -92,13 +97,6 @@ jobs:
         with:
           name: colcon-logs-ubuntu
           path: log/
-        if: always()
-
-      - name: Upload documentation
-        uses: actions/upload-artifact@v1
-        with:
-          name: Documentation HTML
-          path: install/fastdds-monitor/docs/fastdds-monitor-docs/sphinx/html/
         if: always()
 
   clang-tidy:
@@ -130,7 +128,13 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus'
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet -export-fixes='clang_results.yml'
+
+      - name: Upload clang results
+        uses: actions/upload-artifact@v1
+        with:
+          name: clang_results
+          path: clang-fixes.yml
 
   uncrustify:
     runs-on: ubuntu-latest
@@ -201,4 +205,3 @@ jobs:
         with:
           name: uncrustify_results
           path: uncrustify_results.xml
-        if: always()
