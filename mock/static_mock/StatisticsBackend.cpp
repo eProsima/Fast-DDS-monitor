@@ -161,6 +161,44 @@ std::vector<EntityId> StatisticsBackend::get_entities(
     return result;
 }
 
+// Returns the EntityKind of the entity with id entity_id
+EntityKind StatisticsBackend::get_type(
+        EntityId entity_id)
+{
+    switch (entity_id.value())
+    {
+        case 1:
+            return EntityKind::HOST;
+
+        case 2:
+            return EntityKind::USER;
+
+        case 3:
+            return EntityKind::PROCESS;
+
+        case 4:
+            return EntityKind::DOMAIN;
+
+        case 5:
+            return EntityKind::TOPIC;
+
+        case 6:
+            return EntityKind::PARTICIPANT;
+
+        case 7:
+            return EntityKind::DATAWRITER;
+
+        case 8:
+            return EntityKind::DATAREADER;
+
+        case 9:
+            return EntityKind::LOCATOR;
+
+        default:
+            return EntityKind::INVALID;
+    }
+}
+
 // Returns an info key values:
 //  - qos   : a Fast DDS complete qos (the same for all entities, as an example)
 //  - name  : name of the entity Kind + "_0"
