@@ -17,7 +17,7 @@ runs:
           wget \
           libasio-dev \
           libtinyxml2-dev \
-          clang-tidy-10 \
+          clang-tidy \
           curl \
           grep
       shell: bash
