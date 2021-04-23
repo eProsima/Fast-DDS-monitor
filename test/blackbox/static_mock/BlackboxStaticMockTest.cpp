@@ -19,7 +19,7 @@
 #include <fastdds-monitor/Engine.h>
 
 /**
- * This test TODO
+ * This test checks the functions of Engine works by checking the model updates
  */
 
 class BlackboxStaticMockTest;
@@ -42,25 +42,7 @@ public:
 
 };
 
-class BlackboxStaticMockTest : public ::testing::Test
-{
-
-public:
-
-    void SetUp ()
-    {
-        //! Add this initialization in every test
-        // int argc = 1;
-        // char* argv[1] = {static_cast<char*>("test")};
-        // QApplication app(argc, argv);
-    }
-
-    void TearDown()
-    {
-    }
-
-};
-
+//! Check that enables function works and the Engine set enable variable to True
 TEST_F(BlackboxStaticMockTest, enable_engine)
 {
     int argc = 1;
@@ -72,7 +54,6 @@ TEST_F(BlackboxStaticMockTest, enable_engine)
     engine.enable();
     EXPECT_TRUE(engine.enabled());
 }
-
 
 int main(
         int argc,
