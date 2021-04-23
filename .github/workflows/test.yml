@@ -50,7 +50,7 @@ jobs:
 
       - name: Run tests
         run: |
-          export QT_DEBUG_PLUGINS=1 \
+          export QT_DEBUG_PLUGINS=1
           source install/setup.bash && \
           colcon test \
             --packages-select fastdds-monitor \
@@ -131,11 +131,11 @@ jobs:
           cd build/fastdds-monitor
           run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet
 
-      - name: Upload clang results
-        uses: actions/upload-artifact@v1
-        with:
-          name: clang_results
-          path: clang-fixes.yml
+      # - name: Upload clang results
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: clang_results
+      #     path: clang-fixes.yml
 
   uncrustify:
     runs-on: ubuntu-latest
