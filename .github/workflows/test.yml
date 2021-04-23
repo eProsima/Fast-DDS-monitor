@@ -129,13 +129,13 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet 2> clang_results.yml
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet 2> ${{ github.workspace }}/clang_results.yml
 
       - name: Upload clang results
         uses: actions/upload-artifact@v1
         with:
           name: clang_results
-          path: clang_results.yml
+          path: ${{ github.workspace }}/clang_results.yml
 
   uncrustify:
     runs-on: ubuntu-latest
