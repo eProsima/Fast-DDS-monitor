@@ -42,7 +42,7 @@ public:
             EntityPointer endpoint);
 
     //! Overwrite of \c kind method from Entity
-    EntityKind kind() const
+    EntityKind kind() const override
     {
         return EntityKind::LOCATOR;
     }

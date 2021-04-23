@@ -45,7 +45,7 @@ public:
             EntityPointer domain);
 
     //! Overwrite of \c kind method from Entity
-    EntityKind kind() const
+    EntityKind kind() const override
     {
         return EntityKind::TOPIC;
     }

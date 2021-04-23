@@ -52,6 +52,10 @@ public:
     {
     }
 
+    virtual ~Entity()
+    {
+    }
+
     /**
      * @brief Get all entity ids of a kind related with this one
      *

@@ -98,7 +98,7 @@ else()
     endif()
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -pthread")
 
 ###############################################################################
 # Installation paths
@@ -115,6 +115,26 @@ endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+###############################################################################
+# Compile Mock if CMake option set
+###############################################################################
+option(COMPLEX_MOCK "Use Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+option(STATIC_MOCK "Use Fast DDS Static Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
+
+# Option used to build both mocks independently if they are going to be used or not
+# Used with tests proposes
+option(BUILD_MOCK "Build Fast DDS Complex and Static Monitor Mock library" OFF)
+
+# If complex mock is set, static mock does not compile and link
+if(COMPLEX_MOCK OR STATIC_MOCK)
+    set(BUILD_MOCK ON)
+endif()
+
+# Compile mock subdirectory
+# Only one of the mocks will be compiled and the edstination library would be <backend-mock>
+if(BUILD_MOCK)
+    add_subdirectory(mock)
+endif()
 
 ###############################################################################
 # Configure Qt project
@@ -122,10 +142,16 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Include the Qt5Widgets and QtQml header files for the Qt Framework and QML functions.
 include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS})
 # Specify the needed Qt definitions
-add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${${Qt5Quick_DEFINITIONS}})
+add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${Qt5Quick_DEFINITIONS})
+
+# WARNING
+# The creation of the qml_qrc.cpp file is managed by the rcc
+# If this functionality is called from the main cmake dir (this) the file will be generated in building time
+# Thus, if this file is required in subdirectories, this 4 instructions below must be added in the same
+# CMakeList of the executable (Use different name for QT_RESOURCES variable)
 
 # Set the qml.qrc file containing the QML and other resources of the application
-qt5_add_resources(QT_RESOURCES qml.qrc)
+qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
 
 # Additional compilation steps required by a Qt program
 # User Interface Compiler (UIC)
@@ -136,73 +162,60 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 ###############################################################################
-# Compile Mock if CMake option set
-###############################################################################
-option(COMPLEX_MOCK "Build Fast DDS Complex Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
-option(STATIC_MOCK "Build Fast DDS Static Monitor Mock library to simulate Fast DDS Statistics Backend" OFF)
-
-# If complex mock is set, static mock does not compile and link
-if(COMPLEX_MOCK)
-    set(STATIC_MOCK OFF)
-endif()
-
-# Compile mock subdirectory
-# Only one of the mocks will be compiled and the edstination library would be <backend-mock>
-if(COMPLEX_MOCK OR STATIC_MOCK)
-    add_subdirectory(mock)
-endif()
-
-###############################################################################
 # Compile program
 ###############################################################################
 set(PROJECT_HEADERS
-    include/fastdds-monitor/backend/backend_types.h
-    include/fastdds-monitor/backend/backend_utils.h
-    include/fastdds-monitor/backend/Callback.h
-    include/fastdds-monitor/backend/Listener.h
-    include/fastdds-monitor/backend/SyncBackendConnection.h
-    include/fastdds-monitor/Controller.h
-    include/fastdds-monitor/Engine.h
-    include/fastdds-monitor/model/dds/EndpointModelItem.h
-    include/fastdds-monitor/model/dds/LocatorModelItem.h
-    include/fastdds-monitor/model/dds/ParticipantModelItem.h
-    include/fastdds-monitor/model/EntityContainerModelItem.h
-    include/fastdds-monitor/model/ListItem.h
-    include/fastdds-monitor/model/ListModel.h
-    include/fastdds-monitor/model/logical/DomainModelItem.h
-    include/fastdds-monitor/model/logical/TopicModelItem.h
-    include/fastdds-monitor/model/model_types.h
-    include/fastdds-monitor/model/physical/HostModelItem.h
-    include/fastdds-monitor/model/physical/ProcessModelItem.h
-    include/fastdds-monitor/model/physical/UserModelItem.h
-    include/fastdds-monitor/model/statistics/EntityItem.h
-    include/fastdds-monitor/model/SubListedListItem.h
-    include/fastdds-monitor/model/SubListedListModel.h
-    include/fastdds-monitor/model/tree/TreeItem.h
-    include/fastdds-monitor/model/tree/TreeModel.h
-    include/fastdds-monitor/statistics/StatisticsData.h
-    include/fastdds-monitor/utils.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_types.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_utils.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/Callback.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/Listener.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/SyncBackendConnection.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/Controller.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/Engine.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/EndpointModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/LocatorModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/ParticipantModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/EntityContainerModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/ListItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/ListModel.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/logical/DomainModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/logical/TopicModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/model_types.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/HostModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/ProcessModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/UserModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/statistics/EntityItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/SubListedListItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/SubListedListModel.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/tree/TreeItem.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/tree/TreeModel.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/statistics/StatisticsData.h
+    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/utils.h
 )
 
-set(PROJECT_SOURCES
-    src/backend/backend_utils.cpp
-    src/backend/Listener.cpp
-    src/backend/SyncBackendConnection.cpp
-    src/Controller.cpp
-    src/Engine.cpp
-    src/main.cpp
-    src/model/dds/EndpointModelItem.cpp
-    src/model/dds/ParticipantModelItem.cpp
-    src/model/ListItem.cpp
-    src/model/ListModel.cpp
-    src/model/logical/TopicModelItem.cpp
-    src/model/physical/ProcessModelItem.cpp
-    src/model/SubListedListModel.cpp
-    src/model/tree/TreeItem.cpp
-    src/model/tree/TreeModel.cpp
-    src/statistics/StatisticsData.cpp
-    src/utils.cpp
+set(PROJECT_SOURCES_NO_MAIN
+    ${PROJECT_SOURCE_DIR}/src/backend/backend_utils.cpp
+    ${PROJECT_SOURCE_DIR}/src/backend/Listener.cpp
+    ${PROJECT_SOURCE_DIR}/src/backend/SyncBackendConnection.cpp
+    ${PROJECT_SOURCE_DIR}/src/Controller.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/dds/EndpointModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/dds/ParticipantModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/ListItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/ListModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/logical/TopicModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/physical/ProcessModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/SubListedListModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/tree/TreeItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/tree/TreeModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/statistics/StatisticsData.cpp
+    ${PROJECT_SOURCE_DIR}/src/utils.cpp
 )
+
+# Concatenate main with the rest of the sources
+set(PROJECT_SOURCES
+    ${PROJECT_SOURCES_NO_MAIN}
+    ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
@@ -217,13 +230,21 @@ set(QT5_LIBRARY_LINKS
     Qt5::Charts)
 
 # If any mock CMake option has been set, the monitor will use the mock library
-if(COMPLEX_MOCK OR STATIC_MOCK)
+if(COMPLEX_MOCK)
 
-    message(STATUS "Compiling monitor with Mock backend library")
+    message(STATUS "Compiling monitor with Complex Mock backend library")
 
     target_link_libraries(${PROJECT_NAME}
         ${QT5_LIBRARY_LINKS}
-        backend-mock)
+        complex-backend-mock)
+
+elseif(STATIC_MOCK)
+
+    message(STATUS "Compiling monitor with Static Mock backend library")
+
+    target_link_libraries(${PROJECT_NAME}
+        ${QT5_LIBRARY_LINKS}
+        static-backend-mock)
 
 else()
 
@@ -236,20 +257,27 @@ else()
 
 endif()
 
+# add_subdirectory(subdir)
+
 ###############################################################################
 # Test
 ###############################################################################
-option(BUILD_TESTS "Build Fast DDS Monitor application and documentation tests" OFF)
+option(BUILD_TESTS "Build Fast DDS Monitor library and documentation tests" OFF)
 option(BUILD_DOCUMENTATION_TESTS "Build Fast DDS Monitor documentation tests" OFF)
 
 if (BUILD_TESTS)
     set(BUILD_DOCUMENTATION_TESTS ON)
 endif()
 
-if(BUILD_DOCUMENTATION_TESTS)
+if (BUILD_TESTS OR BUILD_DOCUMENTATION_TESTS)
     # CTest needs to be included here, otherwise it is not possible to run the tests from the root
     # of the build directory
+    enable_testing()
     include(CTest)
+endif()
+
+if (BUILD_TESTS)
+    add_subdirectory(test)
 endif()
 
 ###############################################################################

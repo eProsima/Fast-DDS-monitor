@@ -16,9 +16,6 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-project(backend-mock)
-
-
 ###############################################################################
 # Default shared libraries
 ###############################################################################
@@ -34,11 +31,11 @@ find_package(fastdds-statistics-backend REQUIRED)
 ###############################################################################
 # Compile MOCKs
 ###############################################################################
-
-# Static mock would be built only if Complex mock is not
-if(COMPLEX_MOCK)
+if(COMPLEX_MOCK OR BUILD_MOCK)
     add_subdirectory(complex_mock)
-elseif(STATIC_MOCK)
+endif()
+
+if(STATIC_MOCK OR BUILD_MOCK)
     add_subdirectory(static_mock)
 endif()
 
