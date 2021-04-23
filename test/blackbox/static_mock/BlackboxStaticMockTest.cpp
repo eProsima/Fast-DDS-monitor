@@ -43,10 +43,11 @@ public:
 };
 
 //! Check that enables function works and the Engine set enable variable to True
-TEST_F(BlackboxStaticMockTest, enable_engine)
+TEST(BlackboxStaticMockTest, enable_engine)
 {
     int argc = 1;
-    char* argv[1] = {static_cast<char*>("test")};
+    char argv1[5] = "test";
+    char* argv[1] = {argv1};
     QApplication app(argc, argv);
     MockEngine engine;
 
