@@ -48,15 +48,18 @@ Rectangle {
             Column {
                 id: participantListColumn
 
-                RowLayout {
+                GridLayout {
+                    columns: 2
+                    rowSpacing: 0
+                    columnSpacing: 10
+
                     IconSVG {
                         source: "/resources/images/participant.svg"
-                        scalingFactor: 1
+                        scalingFactor: 1.5
                     }
 
                     Label {
                         text: name
-                        leftPadding: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -72,26 +75,31 @@ Rectangle {
                             }
                         }
                     }
-                }
-                Label {
-                    text: id
-                    font.pixelSize: 9
-                    leftPadding: 20
-                }
-                Label {
-                    text: guid
-                    font.pixelSize: 9
-                    leftPadding: 20
-                }
-                Label {
-                    text: domain
-                    font.pixelSize: 9
-                    leftPadding: 20
+
+                    ColumnLayout {
+                        Layout.column: 1
+                        Layout.row: 1
+                        spacing: 0
+                        Layout.bottomMargin: 5
+
+                        Label {
+                            text: id
+                            font.pixelSize: 9
+                        }
+                        Label {
+                            text: guid
+                            font.pixelSize: 9
+                        }
+                        Label {
+                            text: domain
+                            font.pixelSize: 9
+                        }
+                    }
                 }
                 ListView {
                     id: endpointList
                     model: participantModel.subModelFromEntityId(id)
-                    leftMargin: 20
+                    leftMargin: 25
                     width: participantList.width - participantList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
@@ -116,14 +124,17 @@ Rectangle {
                         Column {
                             id: endpointListColumn
 
-                            RowLayout {
+                            GridLayout {
+                                columns: 2
+                                rowSpacing: 0
+                                columnSpacing: 10
+
                                 IconSVG {
                                     source: (entityKind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
-                                    scalingFactor: 1
+                                    scalingFactor: 1.5
                                 }
                                 Label {
                                     text: name
-                                    leftPadding: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -143,27 +154,32 @@ Rectangle {
                                         }
                                     }
                                 }
-                            }
-                            Label {
-                                text: id
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
-                            Label {
-                                text: guid
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
-                            Label {
-                                text: topic
-                                font.pixelSize: 9
-                                leftPadding: 20
+
+                                ColumnLayout {
+                                    Layout.column: 1
+                                    Layout.row: 1
+                                    spacing: 0
+                                    Layout.bottomMargin: 5
+
+                                    Label {
+                                        text: id
+                                        font.pixelSize: 9
+                                    }
+                                    Label {
+                                        text: guid
+                                        font.pixelSize: 9
+                                    }
+                                    Label {
+                                        text: topic
+                                        font.pixelSize: 9
+                                    }
+                                }
                             }
                             ListView {
                                 id: locatorList
                                 model: participantModel.subModelFromEntityId(
                                            participantItem.item_id).subModelFromEntityId(id)
-                                leftMargin: 20
+                                leftMargin: 25
                                 contentHeight: contentItem.childrenRect.height
                                 width: participantList.width - participantList.leftMargin
                                 height: 0
@@ -192,14 +208,18 @@ Rectangle {
                                         id: locatorListColumn
                                         anchors.left: parent.left
                                         anchors.right: parent.right
-                                        RowLayout {
+
+                                        GridLayout {
+                                            columns: 2
+                                            rowSpacing: 0
+                                            columnSpacing: 10
+
                                             IconSVG {
                                                 source: "/resources/images/locator.svg"
-                                                scalingFactor: 1
+                                                scalingFactor: 1.5
                                             }
                                             Label {
                                                 text: name
-                                                leftPadding: 5
 
                                                 MouseArea {
                                                     anchors.fill: parent
@@ -208,11 +228,18 @@ Rectangle {
                                                     }
                                                 }
                                             }
-                                        }
-                                        Label {
-                                            text: id
-                                            font.pixelSize: 9
-                                            leftPadding: 20
+
+                                            ColumnLayout {
+                                                Layout.column: 1
+                                                Layout.row: 1
+                                                spacing: 0
+                                                Layout.bottomMargin: 5
+
+                                                Label {
+                                                    text: id
+                                                    font.pixelSize: 9
+                                                }
+                                            }
                                         }
                                     }
                                 }

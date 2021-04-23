@@ -19,34 +19,38 @@ import QtQuick.Layouts 1.1
 ToolBar {
     id: toolBar
 
+    property bool isVisible: false
+    property bool isVisibleInitMonitor: false
+    property bool isVisibleDispData: false
+    property bool isVisibleRefresh: false
+
+    visible: isVisible
+
     RowLayout {
         anchors.fill: parent
         ToolButton {
             text: "Init new monitor"
+            visible: isVisibleInitMonitor
             onClicked: {
                 dialogInitMonitor.open()
             }
         }
 
-        ToolSeparator {}
-
         ToolButton {
             text: "Display new data"
+            visible: isVisibleDispData
             onClicked: {
                 dataKindDialog.open()
             }
         }
 
-        ToolSeparator {}
-
         ToolButton {
             text: "Refresh"
+            visible: isVisibleRefresh
             onClicked: {
                 controller.refresh_click()
             }
         }
-
-        ToolSeparator {}
 
         Item {
             Layout.fillWidth: true

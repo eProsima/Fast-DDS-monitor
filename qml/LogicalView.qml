@@ -40,20 +40,23 @@ Rectangle {
             id: domainItem
             width: domainList.width - domainList.leftMargin
             height: domainListColumn.childrenRect.height
+
             property var item_id: id
 
             Column {
                 id: domainListColumn
 
-                RowLayout {
+                GridLayout {
+                    columns: 2
+                    rowSpacing: 0
+                    columnSpacing: 10
+
                     IconSVG {
                         source: "/resources/images/domain.svg"
-                        color: "#000000"
-                        scalingFactor: 1
+                        scalingFactor: 1.5
                     }
                     Label {
                         text: name
-                        leftPadding: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -70,17 +73,24 @@ Rectangle {
                             }
                         }
                     }
-                }
-                Label {
-                    text: id
-                    font.pixelSize: 9
-                    leftPadding: 20
+
+                    ColumnLayout {
+                        Layout.column: 1
+                        Layout.row: 1
+                        spacing: 0
+                        Layout.bottomMargin: 5
+
+                        Label {
+                            text: id
+                            font.pixelSize: 9
+                        }
+                    }
                 }
                 ListView {
                     id: topicList
                     model: domainModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
-                    leftMargin: 20
+                    leftMargin: 25
                     width: domainList.width - domainList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
@@ -103,15 +113,17 @@ Rectangle {
                         Column {
                             id: topicListColumn
 
-                            RowLayout {
+                            GridLayout {
+                                columns: 2
+                                rowSpacing: 0
+                                columnSpacing: 10
+
                                 IconSVG {
                                     source: "/resources/images/topic.svg"
-                                    color: "#000000"
-                                    scalingFactor: 1
+                                    scalingFactor: 1.5
                                 }
                                 Label {
                                     text: name
-                                    leftPadding: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -120,16 +132,22 @@ Rectangle {
                                         }
                                     }
                                 }
-                            }
-                            Label {
-                                text: id
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
-                            Label {
-                                text: type
-                                font.pixelSize: 9
-                                leftPadding: 20
+
+                                ColumnLayout {
+                                    Layout.column: 1
+                                    Layout.row: 1
+                                    spacing: 0
+                                    Layout.bottomMargin: 5
+
+                                    Label {
+                                        text: id
+                                        font.pixelSize: 9
+                                    }
+                                    Label {
+                                        text: type
+                                        font.pixelSize: 9
+                                    }
+                                }
                             }
                         }
                     }

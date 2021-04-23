@@ -21,10 +21,18 @@ SplitView {
     id: panels
     anchors.fill: parent
 
+    property bool showLeftSidebar: true
+    property bool showRightSidebar: true
+
+    onShowLeftSidebarChanged: {
+        console.log("Left sidebar view changed!")
+    }
+
     LeftPanel {
         id: leftPanel
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
+        visible: showLeftSidebar
     }
 
     ChartsLayout {
@@ -36,6 +44,7 @@ SplitView {
         id: rightPanel
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
+        visible: showRightSidebar
     }
 
     function createChart(dataKind){

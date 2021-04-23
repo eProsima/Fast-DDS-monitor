@@ -47,15 +47,18 @@ Rectangle {
 
             Column {
                 id: hostListColumn
-                RowLayout {
+
+                GridLayout {
+                    columns: 2
+                    rowSpacing: 0
+                    columnSpacing: 10
+
                     IconSVG {
                         source: "/resources/images/host.svg"
-                        color: "#000000"
-                        scalingFactor: 1
+                        scalingFactor: 1.5
                     }
                     Label {
                         text: name
-                        leftPadding: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -72,16 +75,23 @@ Rectangle {
                             }
                         }
                     }
-                }
-                Label {
-                    text: id
-                    font.pixelSize: 9
-                    leftPadding: 20
+
+                    ColumnLayout {
+                        Layout.column: 1
+                        Layout.row: 1
+                        spacing: 0
+                        Layout.bottomMargin: 5
+
+                        Label {
+                            text: id
+                            font.pixelSize: 9
+                        }
+                    }
                 }
                 ListView {
                     id: userList
                     model: hostModel.subModelFromEntityId(id)
-                    leftMargin: 20
+                    leftMargin: 25
                     width: hostList.width - hostList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
@@ -107,15 +117,17 @@ Rectangle {
                         Column {
                             id: userListColumn
 
-                            RowLayout {
+                            GridLayout {
+                                columns: 2
+                                rowSpacing: 0
+                                columnSpacing: 10
+
                                 IconSVG {
                                     source: "/resources/images/user.svg"
-                                    color: "#000000"
-                                    scalingFactor: 1
+                                    scalingFactor: 1.5
                                 }
                                 Label {
                                     text: name
-                                    leftPadding: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -136,17 +148,24 @@ Rectangle {
                                         }
                                     }
                                 }
-                            }
-                            Label {
-                                text: id
-                                font.pixelSize: 9
-                                leftPadding: 20
+
+                                ColumnLayout {
+                                    Layout.column: 1
+                                    Layout.row: 1
+                                    spacing: 0
+                                    Layout.bottomMargin: 5
+
+                                    Label {
+                                        text: id
+                                        font.pixelSize: 9
+                                    }
+                                }
                             }
                             ListView {
                                 id: processList
                                 model: hostModel.subModelFromEntityId(
                                            hostItem.item_id).subModelFromEntityId(id)
-                                leftMargin: 20
+                                leftMargin: 25
                                 width: hostList.width - hostList.leftMargin
                                 height: 0
                                 contentHeight: contentItem.childrenRect.height
@@ -174,15 +193,17 @@ Rectangle {
                                         id: processListColumn
                                         anchors.left: parent.left
                                         anchors.right: parent.right
-                                        RowLayout {
-                                            IconSVG {
+
+                                        GridLayout {
+                                            columns: 2
+                                            rowSpacing: 0
+                                            columnSpacing: 10
+
+                                            Image {
                                                 source: "/resources/images/process.svg"
-                                                color: "#000000"
-                                                scalingFactor: 1
                                             }
                                             Label {
                                                 text: name
-                                                leftPadding: 5
 
                                                 MouseArea {
                                                     anchors.fill: parent
@@ -191,16 +212,22 @@ Rectangle {
                                                     }
                                                 }
                                             }
-                                        }
-                                        Label {
-                                            text: id
-                                            font.pixelSize: 9
-                                            leftPadding: 20
-                                        }
-                                        Label {
-                                            text: processPID
-                                            font.pixelSize: 9
-                                            leftPadding: 20
+
+                                            ColumnLayout {
+                                                Layout.column: 1
+                                                Layout.row: 1
+                                                spacing: 0
+                                                Layout.bottomMargin: 5
+
+                                                Label {
+                                                    text: id
+                                                    font.pixelSize: 9
+                                                }
+                                                Label {
+                                                    text: processPID
+                                                    font.pixelSize: 9
+                                                }
+                                            }
                                         }
                                     }
                                 }

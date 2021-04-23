@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file>qml/AboutDialog.qml</file>
         <file>qml/AdditionalEntityId.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
@@ -21,9 +23,20 @@
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
         <file>qml/SummaryView.qml</file>
+        <file>imports/Theme/Theme.qml</file>
+        <file>imports/Theme/qmldir</file>
+        <file>controls/MenuBar.qml</file>
+        <file>controls/MenuBarItem.qml</file>
+        <file>controls/TabButton.qml</file>
+        <file>controls/ScrollBar.qml</file>
+        <file>controls/SplitView.qml</file>
+        <file>controls/ToolBar.qml</file>
+        <file>controls/ToolButton.qml</file>
+        <file>controls/ComboBox.qml</file>
     </qresource>
     <qresource prefix="/resources/images">
         <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
+        <file alias="fastdds-monitor-logo.png">resources/images/fastdds-monitor-logo.png</file>
         <file alias="participant.svg">resources/images/participant.svg</file>
         <file alias="datareader.svg">resources/images/datareader.svg</file>
         <file alias="datawriter.svg">resources/images/datawriter.svg</file>
@@ -31,7 +44,7 @@
         <file alias="domain.svg">resources/images/domain.svg</file>
         <file alias="topic.svg">resources/images/topic.svg</file>
         <file alias="host.svg">resources/images/host.svg</file>
-        <file alias="process.svg">resources/images/process.svg</file>
         <file alias="user.svg">resources/images/user.svg</file>
+        <file alias="process.svg">resources/images/process.svg</file>
     </qresource>
 </RCC>

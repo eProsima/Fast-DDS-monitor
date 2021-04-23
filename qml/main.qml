@@ -16,6 +16,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
+import Theme 1.0
 
 ApplicationWindow {
     id: window
@@ -26,6 +27,15 @@ ApplicationWindow {
 
     menuBar: MonitorMenuBar {
         id: monitorMenuBar
+        onToolBarHidden: toolBar.isVisible = !toolBar.isVisible
+        onInitMonitorButtonHidden: toolBar.isVisibleInitMonitor = !toolBar.isVisibleInitMonitor
+        onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
+        onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
+        onLeftSidebarHidden: {
+            console.log("Pressed change view left sidebar!")
+            panels.showLeftSidebar = !panels.showLeftSidebar
+        }
+        onRightSidebarHidden: panels.showRightSidebar = !panels.showRightSidebar
     }
 
     header: MonitorToolBar {
@@ -43,5 +53,9 @@ ApplicationWindow {
     DataKindDialog {
         id: dataKindDialog
         onCreateChart: panels.createChart(dataKind)
+    }
+
+    AboutDialog {
+        id: aboutDialog
     }
 }

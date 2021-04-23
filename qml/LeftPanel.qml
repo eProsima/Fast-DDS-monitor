@@ -61,11 +61,11 @@ SplitView {
             z: phisicalViewStackLayout.z + 1
 
             TabButton {
-                text: "Physical List"
+                text: "Physical"
             }
 
             TabButton {
-                text: "Logical List"
+                text: "Logical"
             }
         }
 

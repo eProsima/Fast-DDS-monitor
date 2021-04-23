@@ -1,18 +1,28 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.1
+import Theme 1.0
 
 MenuBar {
     id: monitorMenuBar
 
+    signal toolBarHidden
+    signal initMonitorButtonHidden
+    signal dispDataButtonHidden
+    signal refreshButtonHidden
+
+    signal leftSidebarHidden
+    signal rightSidebarHidden
+
     Menu {
-        title: qsTr("File")
+        title: qsTr("&File")
         Action {
-            text: qsTr("Quit")
+            text: qsTr("&Quit")
             onTriggered: Qt.quit()
         }
     }
     Menu {
-        title: qsTr("Edit")
+        title: qsTr("&Edit")
         Action {
             text: qsTr("Init New Monitor")
             onTriggered: dialogInitMonitor.open()
@@ -21,9 +31,35 @@ MenuBar {
             text: qsTr("Display New Data")
             onTriggered: dataKindDialog.open()
         }
+        Action {
+            text: qsTr("&Refresh")
+            onTriggered: controller.refresh_click()
+        }
     }
     Menu {
-        title: qsTr("Help")
+        title: qsTr("&View")
+        implicitWidth: 250
+        Action {
+            text: (toolBar.isVisible) ? "Hide Shorcuts Toolbar" : "Show Shorcuts Toolbar"
+            onTriggered: toolBarHidden()
+        }
+        Action {
+            text: qsTr("Customize Shorcuts Toolbar")
+            onTriggered: customizeShorcutsToolbarDialog.open()
+        }
+        MenuSeparator { }
+        Action {
+            text: (panels.showLeftSidebar) ? "Hide Left sidebar" : "Show Left Sidebar"
+            onTriggered: leftSidebarHidden()
+        }
+        Action {
+            text: (panels.showRightSidebar) ? "Hide Right sidebar" : "Show Right Sidebar"
+            onTriggered: rightSidebarHidden()
+        }
+    }
+
+    Menu {
+        title: qsTr("&Help")
         Action {
             text: qsTr("Documentation")
         }
@@ -46,40 +82,49 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: qsTr("About")
+            onTriggered: aboutDialog.open()
         }
     }
 
-    delegate: MenuBarItem {
-        id: menuBarItem
+    Dialog {
+        id: customizeShorcutsToolbarDialog
+        title: "Customize Shortcuts Toolbar"
+        anchors.centerIn: Overlay.overlay
+        standardButtons: DialogButtonBox.Close
 
-        contentItem: Text {
-            text: menuBarItem.text
-            font: menuBarItem.font
-            opacity: enabled ? 1.0 : 0.3
-            color: menuBarItem.highlighted ? "#ffffff" : "black"
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-        }
+        GridLayout {
+            columns: 2
 
-        background: Rectangle {
-            implicitWidth: 20
-            implicitHeight: 20
-            opacity: enabled ? 1 : 0.3
-            color: menuBarItem.highlighted ? "grey" : "transparent"
-        }
-    }
-
-    background: Rectangle {
-        implicitWidth: 20
-        implicitHeight: 20
-        color: "#ffffff"
-
-        Rectangle {
-            color: "grey"
-            width: parent.width
-            height: 3
-            anchors.bottom: parent.bottom
+            CheckBox {
+                id: initMonitorCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: initMonitorButtonHidden()
+            }
+            Label {
+                text: "Init New Monitor"
+            }
+            CheckBox {
+                id: displayNewDataCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: dispDataButtonHidden()
+            }
+            Label {
+                text: "Display New Data"
+            }
+            CheckBox {
+                id: refreshCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: refreshButtonHidden()
+            }
+            Label {
+                text: "Refresh"
+            }
         }
     }
 }
