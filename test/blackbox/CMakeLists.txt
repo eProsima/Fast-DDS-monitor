@@ -12,5 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-add_subdirectory(blackbox)
-add_subdirectory(unittest)
+if(BUILD_MOCK)
+    add_subdirectory(static_mock)
+endif()

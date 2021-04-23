@@ -50,8 +50,8 @@ jobs:
 
       - name: Run tests
         run: |
-          export QT_DEBUG_PLUGINS=1
           source install/setup.bash && \
+          QT_QPA_PLATFORM=offscreen \
           colcon test \
             --packages-select fastdds-monitor \
             --event-handlers=console_direct+ \
@@ -129,13 +129,14 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet
 
-      # - name: Upload clang results
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: clang_results
-      #     path: clang-fixes.yml
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet -export-fixes=clang_results.yml
+
+      - name: Upload clang results
+        uses: actions/upload-artifact@v1
+        with:
+          name: clang_results
+          path: clang-fixes.yml
 
   uncrustify:
     runs-on: ubuntu-latest

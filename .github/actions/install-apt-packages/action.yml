@@ -19,6 +19,5 @@ runs:
           libtinyxml2-dev \
           clang-tidy \
           curl \
-          grep \
-          libxcb-*
+          grep
       shell: bash
