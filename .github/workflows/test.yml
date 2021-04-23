@@ -129,7 +129,7 @@ jobs:
       - name: Run clang-tidy
         run: |
           cd build/fastdds-monitor
-
+          clang-tidy --version
           run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet -export-fixes=clang_results.yml
 
       - name: Upload clang results
