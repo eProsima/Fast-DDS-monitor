@@ -28,15 +28,18 @@ class BlackboxStaticMockTest;
 class MockEngine : public Engine
 {
 public:
+
     // using Engine::Engine;
     MockEngine ()
         : Engine()
-    {}
+    {
+    }
 
     bool enabled()
     {
         return enabled_;
     }
+
 };
 
 class BlackboxStaticMockTest : public ::testing::Test

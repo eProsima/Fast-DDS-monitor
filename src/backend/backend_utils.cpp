@@ -154,19 +154,19 @@ std::string get_info_value(
 {
     if (info.contains(key))
     {
-        if(info[key].is_string())
+        if (info[key].is_string())
         {
             return info[key].get<std::string>();
         }
-        else if(info[key].is_number_integer())
+        else if (info[key].is_number_integer())
         {
             return std::to_string(info[key].get<int>());
         }
-        else if(info[key].is_number_float())
+        else if (info[key].is_number_float())
         {
             return std::to_string(info[key].get<double>());
         }
-        else if(info[key].is_boolean())
+        else if (info[key].is_boolean())
         {
             return std::to_string(info[key].get<bool>());
         }

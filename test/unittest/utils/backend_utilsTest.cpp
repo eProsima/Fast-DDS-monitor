@@ -84,7 +84,7 @@ TEST(utilsBackendTest, string_to_entity_kind)
         {"Locator", EntityKind::LOCATOR}
     };
 
-    for (const auto &it : conversionTable)
+    for (const auto& it : conversionTable)
     {
         ASSERT_EQ(string_to_entity_kind(QString::fromStdString(it.first)), it.second);
     }
@@ -114,7 +114,7 @@ TEST(utilsBackendTest, string_to_data_kind)
         {"SAMPLE_DATAS", DataKind::SAMPLE_DATAS}
     };
 
-    for (const auto &it : conversionTable)
+    for (const auto& it : conversionTable)
     {
         ASSERT_EQ(string_to_data_kind(QString::fromStdString(it.first)), it.second);
     }
@@ -134,7 +134,7 @@ TEST(utilsBackendTest, string_to_statistic_kind)
         {"SUM", StatisticKind::SUM}
     };
 
-    for (const auto &it : conversionTable)
+    for (const auto& it : conversionTable)
     {
         ASSERT_EQ(string_to_statistic_kind(QString::fromStdString(it.first)), it.second);
     }
