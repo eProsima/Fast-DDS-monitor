@@ -27,7 +27,6 @@ ChartView {
     property int axisYMax: 10
     property date dateTimeAxisXMin: new Date()
     property date dateTimeAxisXMax: new Date()
-    property bool inspect: false
 
     ValueAxis {
         id: axisY
@@ -81,54 +80,54 @@ ChartView {
         acceptedButtons: Qt.AllButtons
 
         property bool pressedZoom: false
+        property bool pressedDrag: false
 
         onPressed: {
-            if (inspect){
+            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
                 mouse.accepted = false
             } else {
-                if ((pressedButtons & Qt.LeftButton) && (mouse.modifiers & Qt.ControlModifier)){
+                if (mouse.modifiers & Qt.ShiftModifier){
                     zoomRect.x = mouseX
                     zoomRect.y = mouseY
                     zoomRect.visible = true
                     pressedZoom = true
-                } else if (pressedButtons & Qt.LeftButton) {
+                } else if (mouse.modifiers & Qt.ControlModifier) {
                     verticalScrollMask.y = mouseY;
                     horizontalScrollMask.x = mouseX;
+                    pressedDrag = true;
                 }
             }
         }
         onMouseXChanged: {
-            if (!inspect){
+            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                 if (pressedZoom){
                     zoomRect.width = mouseX - zoomRect.x
-                } else {
-                    if ((mouse.buttons & Qt.LeftButton) == Qt.LeftButton) {
-                        chartView.scrollLeft(mouseX - horizontalScrollMask.x);
-                        horizontalScrollMask.x = mouseX;
-                    }
+                } else if (pressedDrag){
+                    chartView.scrollLeft(mouseX - horizontalScrollMask.x);
+                    horizontalScrollMask.x = mouseX;
                 }
             }
         }
         onMouseYChanged: {
-            if (!inspect){
+            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                 if (pressedZoom){
                     zoomRect.height = mouseY - zoomRect.y
-                } else {
-                    if ((mouse.buttons & Qt.LeftButton) == Qt.LeftButton) {
-                        chartView.scrollUp(mouseY - verticalScrollMask.y);
-                        verticalScrollMask.y = mouseY;
-                    }
+                } else if (pressedDrag){
+                    chartView.scrollUp(mouseY - verticalScrollMask.y);
+                    verticalScrollMask.y = mouseY;
                 }
             }
         }
         onReleased: {
-            if (inspect){
+            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
                 mouse.accepted = false
             } else {
-                if (pressedZoom){
+                if (pressedZoom) {
                     chartView.zoomIn(Qt.rect(zoomRect.x, zoomRect.y, zoomRect.width, zoomRect.height))
                     zoomRect.visible = false
                     pressedZoom = false
+                } else if (pressedDrag) {
+                    pressedDrag = false
                 }
             }
         }
@@ -137,7 +136,7 @@ ChartView {
                 wheel.accepted = false
             }
 
-            if ((!inspect) && (wheel.modifiers & Qt.ControlModifier)){
+            if ((!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) && (wheel.modifiers & Qt.ControlModifier)){
                 if (wheel.angleDelta.y > 0) {
                     chartView.zoomIn()
                 } else {

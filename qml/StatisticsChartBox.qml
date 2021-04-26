@@ -120,18 +120,6 @@ Rectangle {
                         }
 
                         Action {
-                            text: "Enter inspection mode"
-                            onTriggered: {
-                                statisticsChartView.inspect = !statisticsChartView.inspect
-                                if (!statisticsChartView.inspect){
-                                    text = "Enter inspection mode"
-                                } else {
-                                    text = "Exit inspection mode"
-                                }
-                            }
-                        }
-
-                        Action {
                             text: "Hide all series"
                             onTriggered: customLegend.hideAllSeries()
                         }
