@@ -67,7 +67,7 @@ QString entity_kind_to_QString(
         const EntityKind& entity_kind)
 {
     QString entity_kind_str[] =
-        {"INVALID", "HOST", "USER", "PROCESS", "DOMAIN", "TOPIC", "PARTICIPANT", "DATAWRITER", "DATAREADER", "LOCATOR"};
+    {"INVALID", "HOST", "USER", "PROCESS", "DOMAIN", "TOPIC", "PARTICIPANT", "DATAWRITER", "DATAREADER", "LOCATOR"};
 
     return entity_kind_str[static_cast<int>(entity_kind)];
 }
