@@ -28,6 +28,8 @@ Rectangle {
     property int index
     property bool visibility: true
 
+    Component.onCompleted: displayStatisticsDialog.open();
+
     ColumnLayout {
 
         Layout.fillWidth: true

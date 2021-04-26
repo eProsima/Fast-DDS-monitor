@@ -26,7 +26,7 @@ Dialog {
     id: displayStatisticsDialog
     modal: false
     title: "Display new statistics data"
-    standardButtons: Dialog.Ok | Dialog.Cancel
+    standardButtons: Dialog.Apply | Dialog.Ok | Dialog.Cancel
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
@@ -57,40 +57,8 @@ Dialog {
         regenerateSeriesLabel()
     }
 
-    onAccepted: {
-        var startTime = Date.fromLocaleString(
-                    Qt.locale(),
-                    startTimeDate,
-                    "dd.MM.yyyy HH:mm:ss")
-
-        var endTime
-        if (endTimeDefault.checked) {
-            endTime = new Date()
-        } else {
-            endTime = Date.fromLocaleString(
-                    Qt.locale(),
-                    endTimeDate,
-                    "dd.MM.yyyy HH:mm:ss")
-        }
-
-        if (startTime <= endTime) {
-            controlPanel.addSeries(
-                        chartTitle,
-                        (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
-                        sourceEntityId.currentText,
-                        (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
-                        bins.value,
-                        startTime,
-                        startTimeDefault.checked,
-                        endTime,
-                        endTimeDefault.checked,
-                        statisticKind.currentText)
-        } else {
-            if (!startTimeDefault.checked) {
-                wrongDatesDialog.open()
-            }
-        }
-    }
+    onAccepted: createSeries()
+    onApplied: createSeries()
 
     GridLayout{
 
@@ -401,6 +369,42 @@ Dialog {
         text: "The start timestamp entered is posterior to the end timestamp."
         onAccepted: {
             displayStatisticsDialog.open()
+        }
+    }
+
+
+    function createSeries() {
+        var startTime = Date.fromLocaleString(
+                    Qt.locale(),
+                    startTimeDate,
+                    "dd.MM.yyyy HH:mm:ss")
+
+        var endTime
+        if (endTimeDefault.checked) {
+            endTime = new Date()
+        } else {
+            endTime = Date.fromLocaleString(
+                    Qt.locale(),
+                    endTimeDate,
+                    "dd.MM.yyyy HH:mm:ss")
+        }
+
+        if (startTime <= endTime) {
+            controlPanel.addSeries(
+                        chartTitle,
+                        (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
+                        sourceEntityId.currentText,
+                        (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
+                        bins.value,
+                        startTime,
+                        startTimeDefault.checked,
+                        endTime,
+                        endTimeDefault.checked,
+                        statisticKind.currentText)
+        } else {
+            if (!startTimeDefault.checked) {
+                wrongDatesDialog.open()
+            }
         }
     }
 
