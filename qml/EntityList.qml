@@ -48,18 +48,18 @@ Rectangle {
             Column {
                 id: participantListColumn
 
-                GridLayout {
-                    columns: 2
-                    rowSpacing: 0
-                    columnSpacing: 10
+                RowLayout {
+                    spacing: 8
 
                     IconSVG {
                         source: "/resources/images/participant.svg"
                         scalingFactor: 1.5
+                        Layout.bottomMargin: 5
                     }
 
                     Label {
                         text: name
+                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -73,26 +73,6 @@ Rectangle {
                             onDoubleClicked: {
                                 controller.participant_click(id)
                             }
-                        }
-                    }
-
-                    ColumnLayout {
-                        Layout.column: 1
-                        Layout.row: 1
-                        spacing: 0
-                        Layout.bottomMargin: 5
-
-                        Label {
-                            text: id
-                            font.pixelSize: 9
-                        }
-                        Label {
-                            text: guid
-                            font.pixelSize: 9
-                        }
-                        Label {
-                            text: domain
-                            font.pixelSize: 9
                         }
                     }
                 }
@@ -124,17 +104,17 @@ Rectangle {
                         Column {
                             id: endpointListColumn
 
-                            GridLayout {
-                                columns: 2
-                                rowSpacing: 0
-                                columnSpacing: 10
+                            RowLayout {
+                                spacing: 8
 
                                 IconSVG {
                                     source: (entityKind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
                                     scalingFactor: 1.5
+                                    Layout.bottomMargin: 5
                                 }
                                 Label {
                                     text: name
+                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -152,26 +132,6 @@ Rectangle {
                                         onDoubleClicked: {
                                             controller.endpoint_click(id)
                                         }
-                                    }
-                                }
-
-                                ColumnLayout {
-                                    Layout.column: 1
-                                    Layout.row: 1
-                                    spacing: 0
-                                    Layout.bottomMargin: 5
-
-                                    Label {
-                                        text: id
-                                        font.pixelSize: 9
-                                    }
-                                    Label {
-                                        text: guid
-                                        font.pixelSize: 9
-                                    }
-                                    Label {
-                                        text: topic
-                                        font.pixelSize: 9
                                     }
                                 }
                             }
@@ -209,35 +169,23 @@ Rectangle {
                                         anchors.left: parent.left
                                         anchors.right: parent.right
 
-                                        GridLayout {
-                                            columns: 2
-                                            rowSpacing: 0
-                                            columnSpacing: 10
+                                        RowLayout {
+                                            spacing: 8
 
                                             IconSVG {
                                                 source: "/resources/images/locator.svg"
                                                 scalingFactor: 1.5
+                                                Layout.bottomMargin: 5
                                             }
                                             Label {
                                                 text: name
+                                                Layout.bottomMargin: 5
 
                                                 MouseArea {
                                                     anchors.fill: parent
                                                     onDoubleClicked: {
                                                         controller.locator_click(id)
                                                     }
-                                                }
-                                            }
-
-                                            ColumnLayout {
-                                                Layout.column: 1
-                                                Layout.row: 1
-                                                spacing: 0
-                                                Layout.bottomMargin: 5
-
-                                                Label {
-                                                    text: id
-                                                    font.pixelSize: 9
                                                 }
                                             }
                                         }

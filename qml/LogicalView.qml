@@ -46,17 +46,17 @@ Rectangle {
             Column {
                 id: domainListColumn
 
-                GridLayout {
-                    columns: 2
-                    rowSpacing: 0
-                    columnSpacing: 10
+                RowLayout {
+                    spacing: 8
 
                     IconSVG {
                         source: "/resources/images/domain.svg"
                         scalingFactor: 1.5
+                        Layout.bottomMargin: 5
                     }
                     Label {
                         text: name
+                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -71,18 +71,6 @@ Rectangle {
                             onDoubleClicked: {
                                 controller.domain_click(id)
                             }
-                        }
-                    }
-
-                    ColumnLayout {
-                        Layout.column: 1
-                        Layout.row: 1
-                        spacing: 0
-                        Layout.bottomMargin: 5
-
-                        Label {
-                            text: id
-                            font.pixelSize: 9
                         }
                     }
                 }
@@ -113,39 +101,23 @@ Rectangle {
                         Column {
                             id: topicListColumn
 
-                            GridLayout {
-                                columns: 2
-                                rowSpacing: 0
-                                columnSpacing: 10
+                            RowLayout {
+                                spacing: 8
 
                                 IconSVG {
                                     source: "/resources/images/topic.svg"
                                     scalingFactor: 1.5
+                                    Layout.bottomMargin: 5
                                 }
                                 Label {
                                     text: name
+                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onDoubleClicked: {
                                             controller.topic_click(id)
                                         }
-                                    }
-                                }
-
-                                ColumnLayout {
-                                    Layout.column: 1
-                                    Layout.row: 1
-                                    spacing: 0
-                                    Layout.bottomMargin: 5
-
-                                    Label {
-                                        text: id
-                                        font.pixelSize: 9
-                                    }
-                                    Label {
-                                        text: type
-                                        font.pixelSize: 9
                                     }
                                 }
                             }

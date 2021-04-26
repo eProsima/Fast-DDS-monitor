@@ -48,17 +48,17 @@ Rectangle {
             Column {
                 id: hostListColumn
 
-                GridLayout {
-                    columns: 2
-                    rowSpacing: 0
-                    columnSpacing: 10
+                RowLayout {
+                    spacing: 8
 
                     IconSVG {
                         source: "/resources/images/host.svg"
                         scalingFactor: 1.5
+                        Layout.bottomMargin: 5
                     }
                     Label {
                         text: name
+                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -73,18 +73,6 @@ Rectangle {
                             onDoubleClicked: {
                                 controller.host_click(id)
                             }
-                        }
-                    }
-
-                    ColumnLayout {
-                        Layout.column: 1
-                        Layout.row: 1
-                        spacing: 0
-                        Layout.bottomMargin: 5
-
-                        Label {
-                            text: id
-                            font.pixelSize: 9
                         }
                     }
                 }
@@ -117,17 +105,17 @@ Rectangle {
                         Column {
                             id: userListColumn
 
-                            GridLayout {
-                                columns: 2
-                                rowSpacing: 0
-                                columnSpacing: 10
+                            RowLayout {
+                                spacing: 8
 
                                 IconSVG {
                                     source: "/resources/images/user.svg"
                                     scalingFactor: 1.5
+                                    Layout.bottomMargin: 5
                                 }
                                 Label {
                                     text: name
+                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -146,18 +134,6 @@ Rectangle {
                                         onDoubleClicked: {
                                             controller.host_click(id)
                                         }
-                                    }
-                                }
-
-                                ColumnLayout {
-                                    Layout.column: 1
-                                    Layout.row: 1
-                                    spacing: 0
-                                    Layout.bottomMargin: 5
-
-                                    Label {
-                                        text: id
-                                        font.pixelSize: 9
                                     }
                                 }
                             }
@@ -194,38 +170,23 @@ Rectangle {
                                         anchors.left: parent.left
                                         anchors.right: parent.right
 
-                                        GridLayout {
-                                            columns: 2
-                                            rowSpacing: 0
-                                            columnSpacing: 10
+                                        RowLayout {
+                                            spacing: 8
 
-                                            Image {
+                                            IconSVG {
                                                 source: "/resources/images/process.svg"
+                                                scalingFactor: 1.5
+                                                Layout.bottomMargin: 5
                                             }
                                             Label {
                                                 text: name
+                                                Layout.bottomMargin: 5
 
                                                 MouseArea {
                                                     anchors.fill: parent
                                                     onDoubleClicked: {
                                                         controller.host_click(id)
                                                     }
-                                                }
-                                            }
-
-                                            ColumnLayout {
-                                                Layout.column: 1
-                                                Layout.row: 1
-                                                spacing: 0
-                                                Layout.bottomMargin: 5
-
-                                                Label {
-                                                    text: id
-                                                    font.pixelSize: 9
-                                                }
-                                                Label {
-                                                    text: processPID
-                                                    font.pixelSize: 9
                                                 }
                                             }
                                         }
