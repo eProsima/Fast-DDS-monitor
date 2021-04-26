@@ -97,7 +97,7 @@ MenuBar {
 
             CheckBox {
                 id: initMonitorCheckBox
-                checked: false
+                checked: true
                 indicator.width: 20
                 indicator.height: 20
                 onCheckStateChanged: initMonitorButtonHidden()
@@ -107,7 +107,7 @@ MenuBar {
             }
             CheckBox {
                 id: displayNewDataCheckBox
-                checked: false
+                checked: true
                 indicator.width: 20
                 indicator.height: 20
                 onCheckStateChanged: dispDataButtonHidden()
@@ -117,7 +117,7 @@ MenuBar {
             }
             CheckBox {
                 id: refreshCheckBox
-                checked: false
+                checked: true
                 indicator.width: 20
                 indicator.height: 20
                 onCheckStateChanged: refreshButtonHidden()

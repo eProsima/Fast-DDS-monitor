@@ -19,10 +19,10 @@ import QtQuick.Layouts 1.1
 ToolBar {
     id: toolBar
 
-    property bool isVisible: false
-    property bool isVisibleInitMonitor: false
-    property bool isVisibleDispData: false
-    property bool isVisibleRefresh: false
+    property bool isVisible: true
+    property bool isVisibleInitMonitor: true
+    property bool isVisibleDispData: true
+    property bool isVisibleRefresh: true
 
     visible: isVisible
 
