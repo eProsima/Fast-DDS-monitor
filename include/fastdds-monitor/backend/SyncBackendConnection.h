@@ -275,6 +275,10 @@ public:
     EntityInfo get_info(
             EntityId id);
 
+    //! Get the \c EntityKind of a given \c EntityId
+    static EntityKind get_type(
+            backend::EntityId id);
+
     //! Get a summary of important data collected from the backend related with the entity with id \c id
     EntityInfo get_summary(
             backend::EntityId id);

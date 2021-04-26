@@ -63,18 +63,6 @@ QString topic_type(
     return id_to_QString(id);
 }
 
-EntityInfo get_info(
-        backend::EntityId id)
-{
-    return eprosima::statistics_backend::StatisticsBackend::get_info(id);
-}
-
-EntityKind get_type(
-        backend::EntityId id)
-{
-    return eprosima::statistics_backend::StatisticsBackend::get_type(id);
-}
-
 QString entity_kind_to_QString(
         const EntityKind& entity_kind)
 {
