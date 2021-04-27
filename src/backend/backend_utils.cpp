@@ -66,10 +66,31 @@ QString topic_type(
 QString entity_kind_to_QString(
         const EntityKind& entity_kind)
 {
-    QString entity_kind_str[] =
-    {"INVALID", "HOST", "USER", "PROCESS", "DOMAIN", "TOPIC", "PARTICIPANT", "DATAWRITER", "DATAREADER", "LOCATOR"};
-
-    return entity_kind_str[static_cast<int>(entity_kind)];
+    switch (entity_kind)
+    {
+        case EntityKind::INVALID:
+            return static_cast<QString>("INVALID");
+        case EntityKind::HOST:
+            return static_cast<QString>("HOST");
+        case EntityKind::USER:
+            return static_cast<QString>("USER");
+        case EntityKind::PROCESS:
+            return static_cast<QString>("PROCESS");
+        case EntityKind::DOMAIN:
+            return static_cast<QString>("DOMAIN");
+        case EntityKind::TOPIC:
+            return static_cast<QString>("TOPIC");
+        case EntityKind::PARTICIPANT:
+            return static_cast<QString>("PARTICIPANT");
+        case EntityKind::DATAWRITER:
+            return static_cast<QString>("DATAWRITER");
+        case EntityKind::DATAREADER:
+            return static_cast<QString>("DATAREADER");
+        case EntityKind::LOCATOR:
+            return static_cast<QString>("LOCATOR");
+        default:
+            return static_cast<QString>("INVALID");
+    }
 }
 
 EntityKind string_to_entity_kind(
