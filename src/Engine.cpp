@@ -94,7 +94,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("statisticsData", statistics_data_);
     rootContext()->setContextProperty("controller", controller_);
 
-    // qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
+    addImportPath(":/imports");
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     // Connect Callback Listener to this object

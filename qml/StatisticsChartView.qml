@@ -27,7 +27,6 @@ ChartView {
     property int axisYMax: 10
     property date dateTimeAxisXMin: new Date()
     property date dateTimeAxisXMax: new Date()
-    property bool inspect: false
 
     ValueAxis {
         id: axisY
@@ -39,7 +38,7 @@ ChartView {
         id: dateTimeAxisX
         min: dateTimeAxisXMin
         max: dateTimeAxisXMax
-        format: "hh:mm:ss \n(dd.MM)"
+        format: "hh:mm:ss (dd.MM)"
         labelsAngle: -45
         labelsFont: Qt.font({pointSize: 8})
     }
@@ -81,63 +80,61 @@ ChartView {
         acceptedButtons: Qt.AllButtons
 
         property bool pressedZoom: false
+        property bool pressedDrag: false
 
         onPressed: {
-            if (inspect){
+            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
                 mouse.accepted = false
             } else {
-                if ((pressedButtons & Qt.LeftButton) && (mouse.modifiers & Qt.ControlModifier)){
+                if (mouse.modifiers & Qt.ShiftModifier){
                     zoomRect.x = mouseX
                     zoomRect.y = mouseY
                     zoomRect.visible = true
                     pressedZoom = true
-                } else if (pressedButtons & Qt.LeftButton) {
+                } else if (mouse.modifiers & Qt.ControlModifier) {
                     verticalScrollMask.y = mouseY;
                     horizontalScrollMask.x = mouseX;
+                    pressedDrag = true;
                 }
             }
         }
         onMouseXChanged: {
-            if (!inspect){
+            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                 if (pressedZoom){
                     zoomRect.width = mouseX - zoomRect.x
-                } else {
-                    if ((mouse.buttons & Qt.LeftButton) == Qt.LeftButton) {
-                        chartView.scrollLeft(mouseX - horizontalScrollMask.x);
-                        horizontalScrollMask.x = mouseX;
-                    }
+                } else if (pressedDrag){
+                    chartView.scrollLeft(mouseX - horizontalScrollMask.x);
+                    horizontalScrollMask.x = mouseX;
                 }
             }
         }
         onMouseYChanged: {
-            if (!inspect){
+            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                 if (pressedZoom){
                     zoomRect.height = mouseY - zoomRect.y
-                } else {
-                    if ((mouse.buttons & Qt.LeftButton) == Qt.LeftButton) {
-                        chartView.scrollUp(mouseY - verticalScrollMask.y);
-                        verticalScrollMask.y = mouseY;
-                    }
+                } else if (pressedDrag){
+                    chartView.scrollUp(mouseY - verticalScrollMask.y);
+                    verticalScrollMask.y = mouseY;
                 }
             }
         }
         onReleased: {
-            if (inspect){
+            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
                 mouse.accepted = false
             } else {
-                if (pressedZoom){
+                if (pressedZoom) {
                     chartView.zoomIn(Qt.rect(zoomRect.x, zoomRect.y, zoomRect.width, zoomRect.height))
                     zoomRect.visible = false
                     pressedZoom = false
+                } else if (pressedDrag) {
+                    pressedDrag = false
                 }
             }
         }
         onWheel: {
-            if(!(wheel.modifiers & Qt.ControlModifier)){
+            if(!(wheel.modifiers & Qt.ControlModifier)) {
                 wheel.accepted = false
-            }
-
-            if ((!inspect) && (wheel.modifiers & Qt.ControlModifier)){
+            } else {
                 if (wheel.angleDelta.y > 0) {
                     chartView.zoomIn()
                 } else {
@@ -195,12 +192,16 @@ ChartView {
                         tooltip.visible = true
                     })
         statisticsData.update(series);
+        resetChartViewZoom();
     }
 
     function clearChart() {
         chartView.removeAllSeries();
-        dateTimeAxisX.max = new Date()
-        dateTimeAxisX.min = new Date()
+        axisYMin = 0
+        axisYMax = 10
+        dateTimeAxisXMax = new Date()
+        dateTimeAxisXMin = new Date()
+        resetChartViewZoom();
     }
 
     function resetChartViewZoom(){
@@ -224,5 +225,21 @@ ChartView {
 
     function fromMsecsSinceEpoch(milliseconds) {
         return new Date(milliseconds);
+    }
+
+    function updateSeriesName(seriesIndex, newSeriesName) {
+        series(seriesIndex).name = newSeriesName
+    }
+
+    function updateSeriesColor(seriesIndex, newSeriesColor) {
+        series(seriesIndex).color = newSeriesColor
+    }
+
+    function hideSeries(seriesIndex) {
+        series(seriesIndex).opacity = 0.0
+    }
+
+    function displaySeries(seriesIndex) {
+        series(seriesIndex).opacity = 1.0
     }
 }

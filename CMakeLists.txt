@@ -50,7 +50,7 @@ message(STATUS "Version: ${PROJECT_VERSION}")
 set(QT_PATH "" CACHE STRING "Path to the Qt installation folder")
 list(APPEND CMAKE_PREFIX_PATH ${QT_PATH})
 
-find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts REQUIRED)
+find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts QuickControls2 REQUIRED)
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 find_package(fastdds-statistics-backend REQUIRED)
@@ -227,7 +227,8 @@ set(QT5_LIBRARY_LINKS
     Qt5::Gui
     Qt5::Qml
     Qt5::Quick
-    Qt5::Charts)
+    Qt5::Charts
+    Qt5::QuickControls2)
 
 # If any mock CMake option has been set, the monitor will use the mock library
 if(COMPLEX_MOCK)

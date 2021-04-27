@@ -18,6 +18,8 @@
 #include <fastdds-monitor/model/model_types.h>
 #include <fastdds-monitor/utils.h>
 
+#include <QDebug>
+
 namespace backend {
 
 const EntityId ID_ALL = EntityId::all();
@@ -59,6 +61,34 @@ QString topic_type(
 {
     // TODO
     return id_to_QString(id);
+}
+
+QString entity_kind_to_QString(
+        const EntityKind& entity_kind)
+{
+    switch (entity_kind)
+    {
+        case EntityKind::HOST:
+            return "HOST";
+        case EntityKind::USER:
+            return "USER";
+        case EntityKind::PROCESS:
+            return "PROCESS";
+        case EntityKind::DOMAIN:
+            return "DOMAIN";
+        case EntityKind::TOPIC:
+            return "TOPIC";
+        case EntityKind::PARTICIPANT:
+            return "PARTICIPANT";
+        case EntityKind::DATAWRITER:
+            return "DATAWRITER";
+        case EntityKind::DATAREADER:
+            return "DATAREADER";
+        case EntityKind::LOCATOR:
+            return "LOCATOR";
+        default:
+            return "INVALID";
+    }
 }
 
 EntityKind string_to_entity_kind(

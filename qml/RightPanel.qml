@@ -21,19 +21,10 @@ ColumnLayout {
     id: rightPanel
     spacing: 0
 
-    TabBar {
+    ComboBox {
         id: settingsViewTabBar
+        model: ["Info", "Statistics", "Issues"]
         Layout.fillWidth: true
-
-        TabButton {
-            text: "QoS"
-        }
-        TabButton {
-            text: "Statistics"
-        }
-        TabButton {
-            text: "Issues"
-        }
     }
 
     StackLayout {

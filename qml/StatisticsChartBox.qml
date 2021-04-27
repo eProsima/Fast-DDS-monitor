@@ -28,6 +28,8 @@ Rectangle {
     property int index
     property bool visibility: true
 
+    Component.onCompleted: displayStatisticsDialog.open();
+
     ColumnLayout {
 
         Layout.fillWidth: true
@@ -120,15 +122,12 @@ Rectangle {
                         }
 
                         Action {
-                            text: "Enter inspection mode"
-                            onTriggered: {
-                                statisticsChartView.inspect = !statisticsChartView.inspect
-                                if (!statisticsChartView.inspect){
-                                    text = "Enter inspection mode"
-                                } else {
-                                    text = "Exit inspection mode"
-                                }
-                            }
+                            text: "Hide all series"
+                            onTriggered: customLegend.hideAllSeries()
+                        }
+                        Action {
+                            text: "Display all series"
+                            onTriggered: customLegend.displayAllSeries()
                         }
                     }
                 }
@@ -140,7 +139,8 @@ Rectangle {
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-            onSeriesAdded: customLegend.addLeyend(series.name, series.color);
+            onSeriesAdded: customLegend.addLeyend(series.name, series.color)
+            onSeriesRemoved: customLegend.removeLeyend(series.index)
         }
 
         CustomLegend {
@@ -150,6 +150,11 @@ Rectangle {
             height: statisticsChartBox.height - chartBoxTitle.height -
                     statisticsChartView.height - statisticsChartBox.border.width
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+            onSeriesNameUpdated: statisticsChartView.updateSeriesName(seriesIndex, newSeriesName)
+            onSeriesColorUpdated: statisticsChartView.updateSeriesColor(seriesIndex, newSeriesColor)
+            onSeriesHidden: statisticsChartView.hideSeries(seriesIndex)
+            onSeriesDisplayed: statisticsChartView.displaySeries(seriesIndex)
+            onSeriesRemoved: statisticsChartView.removeSeries(statisticsChartView.series(seriesIndex))
         }
     }
 

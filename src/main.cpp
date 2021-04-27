@@ -26,10 +26,7 @@ int main(
         int argc,
         char* argv[])
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif // if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/resources/images/eprosima_logo.ico"));
 

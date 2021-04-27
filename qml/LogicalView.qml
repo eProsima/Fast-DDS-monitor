@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
@@ -40,19 +40,19 @@ Rectangle {
             id: domainItem
             width: domainList.width - domainList.leftMargin
             height: domainListColumn.childrenRect.height
+
             property var item_id: id
 
             Column {
                 id: domainListColumn
 
                 RowLayout {
-                    Rectangle {
-                        color: "grey"
-                        width: 5; height: 5; radius: 5
-                    }
-                    Label {
-                        text: name
-                        leftPadding: 5
+                    spacing: 8
+
+                    IconSVG {
+                        source: "/resources/images/domain.svg"
+                        scalingFactor: 1.5
+                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -64,22 +64,33 @@ Rectangle {
                                     topicList.height = topicList.collapseHeightFlag;
                                 }
                             }
-                            onDoubleClicked: {
+                        }
+                    }
+                    Label {
+                        text: name
+                        Layout.bottomMargin: 5
+
+                        DifferClickMouseArea {
+                            anchors.fill: parent
+                            onSingleClick: {
+                                if(topicList.height === topicList.collapseHeightFlag) {
+                                    topicList.height = 0;
+                                }
+                                else {
+                                    topicList.height = topicList.collapseHeightFlag;
+                                }
+                            }
+                            onDoubleClick: {
                                 controller.domain_click(id)
                             }
                         }
                     }
                 }
-                Label {
-                    text: id
-                    font.pixelSize: 9
-                    leftPadding: 20
-                }
                 ListView {
                     id: topicList
                     model: domainModel.subModelFromEntityId(id)
                     property int collapseHeightFlag: childrenRect.height
-                    leftMargin: 20
+                    leftMargin: 25
                     width: domainList.width - domainList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
@@ -103,13 +114,16 @@ Rectangle {
                             id: topicListColumn
 
                             RowLayout {
-                                Rectangle {
-                                    color: "grey"
-                                    width: 5; height: 5; radius: 5
+                                spacing: 8
+
+                                IconSVG {
+                                    source: "/resources/images/topic.svg"
+                                    scalingFactor: 1.5
+                                    Layout.bottomMargin: 5
                                 }
                                 Label {
                                     text: name
-                                    leftPadding: 5
+                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -118,16 +132,6 @@ Rectangle {
                                         }
                                     }
                                 }
-                            }
-                            Label {
-                                text: id
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
-                            Label {
-                                text: type
-                                font.pixelSize: 9
-                                leftPadding: 20
                             }
                         }
                     }

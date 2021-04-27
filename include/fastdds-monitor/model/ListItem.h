@@ -89,6 +89,13 @@ public:
      */
     virtual backend::EntityInfo info() const;
 
+
+    /**
+     * @brief Entity kind getter
+     * @return entity kind in QString format
+     */
+    virtual QString entity_kind() const;
+
     /**
      * @brief Item info setter
      *

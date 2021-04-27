@@ -47,14 +47,14 @@ Rectangle {
 
             Column {
                 id: hostListColumn
+
                 RowLayout {
-                    Rectangle {
-                        color: "grey"
-                        width: 5; height: 5; radius: 5
-                    }
-                    Label {
-                        text: name
-                        leftPadding: 5
+                    spacing: 8
+
+                    IconSVG {
+                        source: "/resources/images/host.svg"
+                        scalingFactor: 1.5
+                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -66,21 +66,32 @@ Rectangle {
                                     userList.height = userList.collapseHeightFlag;
                                 }
                             }
-                            onDoubleClicked: {
+                        }
+                    }
+                    Label {
+                        text: name
+                        Layout.bottomMargin: 5
+
+                        DifferClickMouseArea {
+                            anchors.fill: parent
+                            onSingleClick: {
+                                if(userList.height === userList.collapseHeightFlag) {
+                                    userList.height = 0;
+                                }
+                                else{
+                                    userList.height = userList.collapseHeightFlag;
+                                }
+                            }
+                            onDoubleClick: {
                                 controller.host_click(id)
                             }
                         }
                     }
                 }
-                Label {
-                    text: id
-                    font.pixelSize: 9
-                    leftPadding: 20
-                }
                 ListView {
                     id: userList
                     model: hostModel.subModelFromEntityId(id)
-                    leftMargin: 20
+                    leftMargin: 25
                     width: hostList.width - hostList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
@@ -107,13 +118,12 @@ Rectangle {
                             id: userListColumn
 
                             RowLayout {
-                                Rectangle {
-                                    color: "grey"
-                                    width: 5; height: 5; radius: 5
-                                }
-                                Label {
-                                    text: name
-                                    leftPadding: 5
+                                spacing: 8
+
+                                IconSVG {
+                                    source: "/resources/images/user.svg"
+                                    scalingFactor: 1.5
+                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -129,22 +139,37 @@ Rectangle {
                                                 userList.height = userList.height + processList.height;
                                             }
                                         }
-                                        onDoubleClicked: {
+                                    }
+                                }
+                                Label {
+                                    text: name
+                                    Layout.bottomMargin: 5
+
+                                    DifferClickMouseArea {
+                                        anchors.fill: parent
+                                        onSingleClick: {
+                                            if(processList.height === processList.collapseHeightFlag) {
+                                                processList.height = 0;
+                                                userList.height =
+                                                        userList.height - processList.collapseHeightFlag;
+                                            }
+                                            else
+                                            {
+                                                processList.height = processList.collapseHeightFlag;
+                                                userList.height = userList.height + processList.height;
+                                            }
+                                        }
+                                        onDoubleClick: {
                                             controller.host_click(id)
                                         }
                                     }
                                 }
                             }
-                            Label {
-                                text: id
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
                             ListView {
                                 id: processList
                                 model: hostModel.subModelFromEntityId(
                                            hostItem.item_id).subModelFromEntityId(id)
-                                leftMargin: 20
+                                leftMargin: 25
                                 width: hostList.width - hostList.leftMargin
                                 height: 0
                                 contentHeight: contentItem.childrenRect.height
@@ -172,14 +197,18 @@ Rectangle {
                                         id: processListColumn
                                         anchors.left: parent.left
                                         anchors.right: parent.right
+
                                         RowLayout {
-                                            Rectangle {
-                                                color: "blue"
-                                                width: 5; height: 5; radius: 5
+                                            spacing: 8
+
+                                            IconSVG {
+                                                source: "/resources/images/process.svg"
+                                                scalingFactor: 1.5
+                                                Layout.bottomMargin: 5
                                             }
                                             Label {
                                                 text: name
-                                                leftPadding: 5
+                                                Layout.bottomMargin: 5
 
                                                 MouseArea {
                                                     anchors.fill: parent
@@ -188,16 +217,6 @@ Rectangle {
                                                     }
                                                 }
                                             }
-                                        }
-                                        Label {
-                                            text: id
-                                            font.pixelSize: 9
-                                            leftPadding: 20
-                                        }
-                                        Label {
-                                            text: processPID
-                                            font.pixelSize: 9
-                                            leftPadding: 20
                                         }
                                     }
                                 }

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import QtQuick 2.6
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 
@@ -49,13 +49,12 @@ Rectangle {
                 id: participantListColumn
 
                 RowLayout {
-                    Rectangle {
-                        color: "grey"
-                        width: 5; height: 5; radius: 5
-                    }
-                    Label {
-                        text: name
-                        leftPadding: 5
+                    spacing: 8
+
+                    IconSVG {
+                        source: "/resources/images/participant.svg"
+                        scalingFactor: 1.5
+                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -66,31 +65,32 @@ Rectangle {
                                     endpointList.height = endpointList.collapseHeightFlag;
                                 }
                             }
-                            onDoubleClicked: {
+                        }
+                    }
+
+                    Label {
+                        text: name
+                        Layout.bottomMargin: 5
+
+                        DifferClickMouseArea {
+                            anchors.fill: parent
+                            onSingleClick: {
+                                if(endpointList.height === endpointList.collapseHeightFlag) {
+                                    endpointList.height = 0;
+                                } else {
+                                    endpointList.height = endpointList.collapseHeightFlag;
+                                }
+                            }
+                            onDoubleClick: {
                                 controller.participant_click(id)
                             }
                         }
                     }
                 }
-                Label {
-                    text: id
-                    font.pixelSize: 9
-                    leftPadding: 20
-                }
-                Label {
-                    text: guid
-                    font.pixelSize: 9
-                    leftPadding: 20
-                }
-                Label {
-                    text: domain
-                    font.pixelSize: 9
-                    leftPadding: 20
-                }
                 ListView {
                     id: endpointList
                     model: participantModel.subModelFromEntityId(id)
-                    leftMargin: 20
+                    leftMargin: 25
                     width: participantList.width - participantList.leftMargin
                     height: 0
                     contentHeight: contentItem.childrenRect.height
@@ -116,13 +116,12 @@ Rectangle {
                             id: endpointListColumn
 
                             RowLayout {
-                                Rectangle {
-                                    color: "grey"
-                                    width: 5; height: 5; radius: 5
-                                }
-                                Label {
-                                    text: name
-                                    leftPadding: 5
+                                spacing: 8
+
+                                IconSVG {
+                                    source: (entityKind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
+                                    scalingFactor: 1.5
+                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -136,32 +135,35 @@ Rectangle {
                                                 endpointList.height = endpointList.height + locatorList.height;
                                             }
                                         }
-                                        onDoubleClicked: {
+                                    }
+                                }
+                                Label {
+                                    text: name
+                                    Layout.bottomMargin: 5
+
+                                    DifferClickMouseArea {
+                                        anchors.fill: parent
+                                        onSingleClick: {
+                                            if(locatorList.height === locatorList.collapseHeightFlag) {
+                                                locatorList.height = 0;
+                                                endpointList.height =
+                                                        endpointList.height - locatorList.collapseHeightFlag;
+                                            } else {
+                                                locatorList.height = locatorList.collapseHeightFlag;
+                                                endpointList.height = endpointList.height + locatorList.height;
+                                            }
+                                        }
+                                        onDoubleClick: {
                                             controller.endpoint_click(id)
                                         }
                                     }
                                 }
                             }
-                            Label {
-                                text: id
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
-                            Label {
-                                text: guid
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
-                            Label {
-                                text: topic
-                                font.pixelSize: 9
-                                leftPadding: 20
-                            }
                             ListView {
                                 id: locatorList
                                 model: participantModel.subModelFromEntityId(
                                            participantItem.item_id).subModelFromEntityId(id)
-                                leftMargin: 20
+                                leftMargin: 25
                                 contentHeight: contentItem.childrenRect.height
                                 width: participantList.width - participantList.leftMargin
                                 height: 0
@@ -190,14 +192,18 @@ Rectangle {
                                         id: locatorListColumn
                                         anchors.left: parent.left
                                         anchors.right: parent.right
+
                                         RowLayout {
-                                            Rectangle {
-                                                color: "blue"
-                                                width: 5; height: 5; radius: 5
+                                            spacing: 8
+
+                                            IconSVG {
+                                                source: "/resources/images/locator.svg"
+                                                scalingFactor: 1.5
+                                                Layout.bottomMargin: 5
                                             }
                                             Label {
                                                 text: name
-                                                leftPadding: 5
+                                                Layout.bottomMargin: 5
 
                                                 MouseArea {
                                                     anchors.fill: parent
@@ -206,11 +212,6 @@ Rectangle {
                                                     }
                                                 }
                                             }
-                                        }
-                                        Label {
-                                            text: id
-                                            font.pixelSize: 9
-                                            leftPadding: 20
                                         }
                                     }
                                 }

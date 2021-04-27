@@ -52,6 +52,10 @@ std::string get_info_value(
         EntityInfo info,
         std::string key);
 
+//! Converts the \c EntityKind to QString
+QString entity_kind_to_QString(
+        const EntityKind& entity_kind);
+
 //! Retrieves the \c EntityKind related with its name in QString
 backend::EntityKind string_to_entity_kind(
         const QString& entity_kind);

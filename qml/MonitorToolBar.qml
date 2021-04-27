@@ -12,44 +12,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.1
 
 ToolBar {
     id: toolBar
 
+    property bool isVisible: true
+    property bool isVisibleInitMonitor: true
+    property bool isVisibleDispData: true
+    property bool isVisibleRefresh: true
+
+    visible: isVisible
+
     RowLayout {
         anchors.fill: parent
         ToolButton {
             text: "Init new monitor"
+            visible: isVisibleInitMonitor
             onClicked: {
                 dialogInitMonitor.open()
             }
         }
 
-        ToolSeparator {}
-
         ToolButton {
             text: "Display new data"
+            visible: isVisibleDispData
             onClicked: {
                 dataKindDialog.open()
             }
         }
 
-        ToolSeparator {}
-
         ToolButton {
             text: "Refresh"
+            visible: isVisibleRefresh
             onClicked: {
                 controller.refresh_click()
             }
         }
 
-        ToolSeparator {}
-
         Item {
             Layout.fillWidth: true
         }
+    }
+
+    Shortcut {
+        sequence: "Ctrl+R"
+        context: Qt.ApplicationShortcut
+        onActivated: controller.refresh_click()
     }
 }
