@@ -30,14 +30,14 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
           ``/opt/Qt/5.15.2/gcc_64``.
         - -
         - -
-    *   - :class:`BUILD_TEST`
+    *   - :class:`BUILD_TESTS`
         - Build the *Fast DDS Monitor* and documentation tests. |br|
-          Setting :class:`BUILD_TEST` to ``ON`` sets :class:`BUILD_DOCUMENTATION_TESTS` |br|
+          Setting :class:`BUILD_TESTS` to ``ON`` sets :class:`BUILD_DOCUMENTATION_TESTS` |br|
           to ``ON``.
         - ``OFF`` |br|
           ``ON``
         - ``OFF``
-    *   - :class:`BUILD_TEST_DOCUMENTATION`
+    *   - :class:`BUILD_DOCUMENTATION_TESTS`
         - Build the *Fast DDS Monitor* documentation tests. It is |br|
           set to ``ON`` if :class:`BUILD_TESTS` is set to ``ON``. |br|
         - ``OFF`` |br|
@@ -55,7 +55,7 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
           simulator of a *Fast DDS* application that generates random |br|
           statistics data for testing the *Fast DDS Monitor*. It is |br|
           set to ``ON`` if :class:`BUILD_TESTS` is set |br|
-          to ``ON``, :class:`BUILD_MOCK` is set to ``ON``, or |br|
+          to ``ON``, :class:`STATIC_MOCK` is set to ``ON``, or |br|
           :class:`COMPLEX_MOCK` is set to ``ON``.
         - ``OFF`` |br|
           ``ON``
@@ -65,8 +65,7 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
           the *Fast DDS Monitor* application against it. The static |br|
           mock is a simulator of a *Fast DDS* application that generates |br|
           deterministic statistics data for testing the *Fast DDS* |br|
-          *Monitor*. It is set to ``ON`` if :class:`BUILD_TESTS` is set |br|
-          to ``ON``.
+          *Monitor*.
         - ``OFF`` |br|
           ``ON``
         - ``OFF``
@@ -75,8 +74,6 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
           the *Fast DDS Monitor* application against it. The complex |br|
           mock is a simulator of a *Fast DDS* application that random |br|
           statistics data for testing the *Fast DDS Monior* |br|
-          It is set to ``ON`` if :class:`BUILD_TESTS` is set |br|
-          to ``ON``.
         - ``OFF`` |br|
           ``ON``
         - ``OFF``
