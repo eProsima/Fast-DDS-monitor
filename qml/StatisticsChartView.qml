@@ -132,11 +132,9 @@ ChartView {
             }
         }
         onWheel: {
-            if(!(wheel.modifiers & Qt.ControlModifier)){
+            if(!(wheel.modifiers & Qt.ControlModifier)) {
                 wheel.accepted = false
-            }
-
-            if ((!((wheel.modifiers & Qt.ShiftModifier) || (wheel.modifiers & Qt.ControlModifier))) && (wheel.modifiers & Qt.ControlModifier)){
+            } else {
                 if (wheel.angleDelta.y > 0) {
                     chartView.zoomIn()
                 } else {

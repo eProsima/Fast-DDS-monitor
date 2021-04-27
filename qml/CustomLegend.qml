@@ -61,22 +61,42 @@ Rectangle {
                     id: seriesMarker
                     width: 10; height: 10; radius: 10
                     color: seriesColor.toString()
+
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        onClicked: {
+                            colorDialog.open()
+                        }
+                    }
                 }
                 Label {
                     id: seriesLabel
                     text: seriesName
                     color: hidden ? "grey" : "black"
+
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        onClicked: {
+                            hidden ? displaySeriesLegend(index) : hideSeriesLegend(index)
+                        }
+                    }
                 }
             }
 
             MouseArea {
                 anchors.fill: parent
-                acceptedButtons: Qt.RightButton
+                acceptedButtons: Qt.RightButton | Qt.LeftButton
+                propagateComposedEvents: true
+
                 onClicked: {
                     if (mouse.button === Qt.RightButton) {
                         contextMenu.x = mouse.x;
                         contextMenu.y = mouse.y - contextMenu.contentHeight;
                         contextMenu.open()
+                    } else {
+                        mouse.accepted = false;
                     }
                 }
             }
