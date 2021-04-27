@@ -26,8 +26,8 @@ are running.
 
 *eProsima Fast DDS Monitor* is designed to meet the following criteria:
 
-#. **Monitoring**: real-time monitoring of network status and DDS communication.
-#. **Intuitive**: easy and intuitive navigation through the panels of the desktop application.
+#. **Monitoring**: real-time tracking of network status and DDS communication.
+#. **Intuitive**: graphical user interface developed following a user experience design approach.
 #. **Introspection**: easily navigate through the deployed and active DDS entities being able to inspect their
    configuration and physical deployment.
 #. **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.

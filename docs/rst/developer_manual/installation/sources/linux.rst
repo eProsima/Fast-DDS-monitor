@@ -1,6 +1,6 @@
-.. include:: ../exports/alias.include
+.. include:: ../../../exports/alias.include
 
-.. _installation_manual_linux_sources:
+.. _developer_manual_installation_sources_linux:
 
 ###############################
 Linux installation from sources
