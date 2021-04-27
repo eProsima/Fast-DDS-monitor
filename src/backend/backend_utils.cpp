@@ -68,28 +68,26 @@ QString entity_kind_to_QString(
 {
     switch (entity_kind)
     {
-        case EntityKind::INVALID:
-            return static_cast<QString>("INVALID");
         case EntityKind::HOST:
-            return static_cast<QString>("HOST");
+            return "HOST";
         case EntityKind::USER:
-            return static_cast<QString>("USER");
+            return "USER";
         case EntityKind::PROCESS:
-            return static_cast<QString>("PROCESS");
+            return "PROCESS";
         case EntityKind::DOMAIN:
-            return static_cast<QString>("DOMAIN");
+            return "DOMAIN";
         case EntityKind::TOPIC:
-            return static_cast<QString>("TOPIC");
+            return "TOPIC";
         case EntityKind::PARTICIPANT:
-            return static_cast<QString>("PARTICIPANT");
+            return "PARTICIPANT";
         case EntityKind::DATAWRITER:
-            return static_cast<QString>("DATAWRITER");
+            return "DATAWRITER";
         case EntityKind::DATAREADER:
-            return static_cast<QString>("DATAREADER");
+            return "DATAREADER";
         case EntityKind::LOCATOR:
-            return static_cast<QString>("LOCATOR");
+            return "LOCATOR";
         default:
-            return static_cast<QString>("INVALID");
+            return "INVALID";
     }
 }
 
