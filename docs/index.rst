@@ -21,10 +21,8 @@
    :numbered: 5
    :hidden:
 
-   /rst/installation/windows.rst
-   /rst/installation/linux.rst
-   /rst/installation/linux_sources.rst
-
+   Windows </rst/installation/windows.rst>
+   Linux </rst/installation/linux.rst>
 
 .. _index_getting_started:
 
@@ -46,6 +44,22 @@
    :hidden:
 
    /rst/user_manual/user_manual.rst
+
+
+.. _index_developer_manual:
+
+.. toctree::
+   :caption: Developer Manual
+   :maxdepth: 2
+   :numbered: 5
+   :hidden:
+
+   /rst/developer_manual/installation/sources/linux.rst
+   /rst/developer_manual/installation/configuration/cmake_options.rst
+
+
+
+
 
 
 .. _index_notes:
