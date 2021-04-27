@@ -39,20 +39,41 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         enabled: true
-        onPressAndHold: {
+
+        property int pressAndHoldDuration: 200
+        signal customPressAndHold()
+
+        onPressed: {
+            pressAndHoldTimer.start();
+        }
+
+        onCustomPressAndHold: {
             gridView.firstIndexDrag = gridView.indexAt(mouseX, mouseY + gridView.contentY)
         }
+
         onReleased: {
+            pressAndHoldTimer.stop();
             if (gridView.firstIndexDrag != -1)
                 statisticsChartBoxModel.move(
                             gridView.firstIndexDrag, gridView.indexAt(mouseX, mouseY + gridView.contentY), 1)
             gridView.firstIndexDrag = -1
         }
+
         onWheel: {
             if (wheel.angleDelta.y > 0) {
                 scrollBar.decrease()
             } else {
                 scrollBar.increase()
+            }
+        }
+
+        Timer {
+            id:  pressAndHoldTimer
+            interval: parent.pressAndHoldDuration
+            running: false
+            repeat: false
+            onTriggered: {
+                parent.customPressAndHold();
             }
         }
 

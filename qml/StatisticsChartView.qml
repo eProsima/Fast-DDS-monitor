@@ -38,7 +38,7 @@ ChartView {
         id: dateTimeAxisX
         min: dateTimeAxisXMin
         max: dateTimeAxisXMax
-        format: "hh:mm:ss \n(dd.MM)"
+        format: "hh:mm:ss (dd.MM)"
         labelsAngle: -45
         labelsFont: Qt.font({pointSize: 8})
     }
@@ -136,7 +136,7 @@ ChartView {
                 wheel.accepted = false
             }
 
-            if ((!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) && (wheel.modifiers & Qt.ControlModifier)){
+            if ((!((wheel.modifiers & Qt.ShiftModifier) || (wheel.modifiers & Qt.ControlModifier))) && (wheel.modifiers & Qt.ControlModifier)){
                 if (wheel.angleDelta.y > 0) {
                     chartView.zoomIn()
                 } else {
