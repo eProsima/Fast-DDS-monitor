@@ -51,13 +51,8 @@ void StatisticsBackend::set_physical_listener(
         PhysicalListener* listener,
         CallbackMask callback_mask)
 {
-    if (listener)
+    if (!listener)
     {
-        std::cout << "CONGRATULATIONS, you have set the physical listener" << std::endl;
-    }
-    else
-    {
-        std::cout << "CONGRATULATIONS, you have unset the physical listener" << std::endl;
         Database::get_instance()->stop();
     }
 
@@ -84,8 +79,6 @@ EntityId StatisticsBackend::init_monitor(
         CallbackMask callback_mask,
         DataKindMask data_mask)
 {
-    std::cout << "CONGRATULATIONS, you have init a monitor in " << discovery_server_locators << std::endl;
-
     if (Database::get_instance()->count_domains() == 0)
     {
         if (!discovery_server_locators.empty())
@@ -112,8 +105,6 @@ std::vector<EntityId> StatisticsBackend::get_entities(
         EntityKind entity_type,
         EntityId entity_id)
 {
-    std::cout << "CONGRATULATIONS, you have asked for entity " << entity_id << std::endl;
-
     return Database::get_instance()->get_entities(entity_type, entity_id);
 }
 
@@ -128,8 +119,6 @@ EntityKind StatisticsBackend::get_type(
 Info StatisticsBackend::get_info(
         EntityId entity_id)
 {
-    std::cout << "CONGRATULATIONS, you have asked for info from " << entity_id << std::endl;
-
     return Database::get_instance()->get_info(entity_id);
 }
 
@@ -158,9 +147,8 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
         Timestamp t_to,
         StatisticKind statistic)
 {
-    std::cout << "CONGRATULATIONS, you have asked for the data of " << entity_id << std::endl;
-
     static_cast<void> (data_type);
+    static_cast<void> (entity_id);
     static_cast<void> (statistic);
 
     if (0 == bins)
