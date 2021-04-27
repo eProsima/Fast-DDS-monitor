@@ -55,10 +55,6 @@ Rectangle {
                         source: "/resources/images/host.svg"
                         scalingFactor: 1.5
                         Layout.bottomMargin: 5
-                    }
-                    Label {
-                        text: name
-                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -70,7 +66,23 @@ Rectangle {
                                     userList.height = userList.collapseHeightFlag;
                                 }
                             }
-                            onDoubleClicked: {
+                        }
+                    }
+                    Label {
+                        text: name
+                        Layout.bottomMargin: 5
+
+                        DifferClickMouseArea {
+                            anchors.fill: parent
+                            onSingleClick: {
+                                if(userList.height === userList.collapseHeightFlag) {
+                                    userList.height = 0;
+                                }
+                                else{
+                                    userList.height = userList.collapseHeightFlag;
+                                }
+                            }
+                            onDoubleClick: {
                                 controller.host_click(id)
                             }
                         }
@@ -112,10 +124,6 @@ Rectangle {
                                     source: "/resources/images/user.svg"
                                     scalingFactor: 1.5
                                     Layout.bottomMargin: 5
-                                }
-                                Label {
-                                    text: name
-                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -131,7 +139,27 @@ Rectangle {
                                                 userList.height = userList.height + processList.height;
                                             }
                                         }
-                                        onDoubleClicked: {
+                                    }
+                                }
+                                Label {
+                                    text: name
+                                    Layout.bottomMargin: 5
+
+                                    DifferClickMouseArea {
+                                        anchors.fill: parent
+                                        onSingleClick: {
+                                            if(processList.height === processList.collapseHeightFlag) {
+                                                processList.height = 0;
+                                                userList.height =
+                                                        userList.height - processList.collapseHeightFlag;
+                                            }
+                                            else
+                                            {
+                                                processList.height = processList.collapseHeightFlag;
+                                                userList.height = userList.height + processList.height;
+                                            }
+                                        }
+                                        onDoubleClick: {
                                             controller.host_click(id)
                                         }
                                     }

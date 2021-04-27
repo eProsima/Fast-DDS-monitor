@@ -53,10 +53,6 @@ Rectangle {
                         source: "/resources/images/domain.svg"
                         scalingFactor: 1.5
                         Layout.bottomMargin: 5
-                    }
-                    Label {
-                        text: name
-                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -68,7 +64,23 @@ Rectangle {
                                     topicList.height = topicList.collapseHeightFlag;
                                 }
                             }
-                            onDoubleClicked: {
+                        }
+                    }
+                    Label {
+                        text: name
+                        Layout.bottomMargin: 5
+
+                        DifferClickMouseArea {
+                            anchors.fill: parent
+                            onSingleClick: {
+                                if(topicList.height === topicList.collapseHeightFlag) {
+                                    topicList.height = 0;
+                                }
+                                else {
+                                    topicList.height = topicList.collapseHeightFlag;
+                                }
+                            }
+                            onDoubleClick: {
                                 controller.domain_click(id)
                             }
                         }

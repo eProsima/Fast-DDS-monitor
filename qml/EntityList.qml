@@ -55,11 +55,6 @@ Rectangle {
                         source: "/resources/images/participant.svg"
                         scalingFactor: 1.5
                         Layout.bottomMargin: 5
-                    }
-
-                    Label {
-                        text: name
-                        Layout.bottomMargin: 5
 
                         MouseArea {
                             anchors.fill: parent
@@ -70,7 +65,23 @@ Rectangle {
                                     endpointList.height = endpointList.collapseHeightFlag;
                                 }
                             }
-                            onDoubleClicked: {
+                        }
+                    }
+
+                    Label {
+                        text: name
+                        Layout.bottomMargin: 5
+
+                        DifferClickMouseArea {
+                            anchors.fill: parent
+                            onSingleClick: {
+                                if(endpointList.height === endpointList.collapseHeightFlag) {
+                                    endpointList.height = 0;
+                                } else {
+                                    endpointList.height = endpointList.collapseHeightFlag;
+                                }
+                            }
+                            onDoubleClick: {
                                 controller.participant_click(id)
                             }
                         }
@@ -111,15 +122,10 @@ Rectangle {
                                     source: (entityKind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
                                     scalingFactor: 1.5
                                     Layout.bottomMargin: 5
-                                }
-                                Label {
-                                    text: name
-                                    Layout.bottomMargin: 5
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(entityKind)
                                             if(locatorList.height === locatorList.collapseHeightFlag) {
                                                 locatorList.height = 0;
                                                 endpointList.height =
@@ -129,7 +135,25 @@ Rectangle {
                                                 endpointList.height = endpointList.height + locatorList.height;
                                             }
                                         }
-                                        onDoubleClicked: {
+                                    }
+                                }
+                                Label {
+                                    text: name
+                                    Layout.bottomMargin: 5
+
+                                    DifferClickMouseArea {
+                                        anchors.fill: parent
+                                        onSingleClick: {
+                                            if(locatorList.height === locatorList.collapseHeightFlag) {
+                                                locatorList.height = 0;
+                                                endpointList.height =
+                                                        endpointList.height - locatorList.collapseHeightFlag;
+                                            } else {
+                                                locatorList.height = locatorList.collapseHeightFlag;
+                                                endpointList.height = endpointList.height + locatorList.height;
+                                            }
+                                        }
+                                        onDoubleClick: {
                                             controller.endpoint_click(id)
                                         }
                                     }
