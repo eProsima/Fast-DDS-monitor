@@ -30,8 +30,6 @@ QVariant EndpointModelItem::data(
             return this->guid();
         case topicRole:
             return this->topic();
-        case entityKindRole:
-            return this->entity_kind();
         default:
             return QVariant();
     }

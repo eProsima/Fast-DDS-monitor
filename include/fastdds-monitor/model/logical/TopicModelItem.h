@@ -39,20 +39,8 @@ public:
         typeRole = ModelItemRoles::nameRole + 1,    //! Role for attribute Type
     };
 
-    //! Default QObject constructor. Used for model specification
-    TopicModelItem(
-            QObject* parent = 0)
-        : ListItem(parent)
-    {
-    }
-
-    //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    TopicModelItem(
-            backend::EntityId id,
-            QObject* parent = 0)
-        : ListItem(id, parent)
-    {
-    }
+    //! Default ListItem constructor
+    using ListItem::ListItem;
 
     //! Override the ListItem \c data method to add new roles
     QVariant data(

@@ -39,20 +39,8 @@ class SubListedListItem : public ListItem
 
 public:
 
-    //! Default QObject constructor. Used for model specification
-    SubListedListItem(
-            QObject* parent = 0)
-        : ListItem(parent)
-    {
-    }
-
-    //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    SubListedListItem(
-            backend::EntityId id,
-            QObject* parent = 0)
-        : ListItem(id, parent)
-    {
-    }
+    //! Default ListItem constructor
+    using ListItem::ListItem;
 
     //! Clear and delete the subentities
     ~SubListedListItem()

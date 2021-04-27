@@ -39,20 +39,9 @@ public:
         pidRole = ModelItemRoles::nameRole + 1, //! Role for attribute PID
     };
 
-    //! Default QObject constructor. Used for model specification
-    ProcessModelItem(
-            QObject* parent = 0)
-        : ListItem(parent)
-    {
-    }
 
-    //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    ProcessModelItem(
-            backend::EntityId id,
-            QObject* parent = 0)
-        : ListItem(id, parent)
-    {
-    }
+    //! Default ListItem constructor
+    using ListItem::ListItem;
 
     //! Override the ListItem \c data method to add new roles
     QVariant data(

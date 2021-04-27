@@ -50,6 +50,8 @@ namespace models {
 ListItem::ListItem(
         QObject* parent)
     : QObject(parent)
+    , id_(backend::EntityId::invalid())
+    , kind_(backend::EntityKind::INVALID)
 {
 }
 
@@ -58,8 +60,20 @@ ListItem::ListItem(
         QObject* parent)
     : QObject(parent)
     , id_(id)
+    , kind_(backend::EntityKind::INVALID)
 {
-    info_ = backend::SyncBackendConnection::get_entity_info(id_);
+}
+
+ListItem::ListItem(
+        backend::EntityId id,
+        backend::EntityKind kind,
+        backend::EntityInfo info,
+        QObject* parent)
+    : QObject(parent)
+    , id_(id)
+    , kind_(kind)
+    , info_(info)
+{
 }
 
 ListItem::~ListItem()
@@ -76,9 +90,9 @@ QString ListItem::name() const
     return utils::to_QString(backend::get_info_value(info_, "name"));
 }
 
-QString ListItem::entity_kind() const
+QString ListItem::kind() const
 {
-    return backend::entity_kind_to_QString(backend::SyncBackendConnection::get_type(id_));
+    return backend::entity_kind_to_QString(kind_);
 }
 
 backend::EntityInfo ListItem::info() const
@@ -100,6 +114,8 @@ QVariant ListItem::data(
             return this->entity_id();
         case nameRole:
             return this->name();
+        case kindRole:
+            return this->kind();
         default:
             return QVariant();
     }
@@ -111,6 +127,7 @@ QHash<int, QByteArray> ListItem::roleNames() const
 
     roles[idRole] = "id";
     roles[nameRole] = "name";
+    roles[kindRole] = "kind";
 
     return roles;
 }
