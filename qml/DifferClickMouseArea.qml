@@ -23,7 +23,7 @@ MouseArea {
 
     Timer{
         id: timer
-        interval: 150
+        interval: 200
         onTriggered: parent.singleClick()
     }
 
