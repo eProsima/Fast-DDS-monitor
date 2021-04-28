@@ -26,12 +26,12 @@ QVariant EndpointModelItem::data(
             return this->entity_id();
         case nameRole:
             return this->name();
+        case kindRole:
+            return this->kind();
         case guidRole:
             return this->guid();
         case topicRole:
             return this->topic();
-        case entityKindRole:
-            return this->entity_kind();
         default:
             return QVariant();
     }
@@ -53,7 +53,6 @@ QHash<int, QByteArray> EndpointModelItem::roleNames() const
 
     roles[guidRole] = "guid";
     roles[topicRole] = "topic";
-    roles[entityKindRole] = "entityKind";
 
     return roles;
 }

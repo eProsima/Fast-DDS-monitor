@@ -61,8 +61,10 @@ public:
     //! Item constructor that creates the submodule by the template classes and get an \c EntityId reference to entity
     EntityContainerModelItem(
             backend::EntityId id,
+            backend::EntityKind kind,
+            backend::EntityInfo info,
             QObject* parent = 0)
-        : SubListedListItem(id, parent)
+        : SubListedListItem(id, kind, info, parent)
     {
         subentities_list_model_ = new SubEntityModelClass(new SubEntityClass());
     }

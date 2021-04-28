@@ -26,6 +26,8 @@ QVariant ParticipantModelItem::data(
             return this->entity_id();
         case nameRole:
             return this->name();
+        case kindRole:
+            return this->kind();
         case guidRole:
             return this->guid();
         case domainRole:

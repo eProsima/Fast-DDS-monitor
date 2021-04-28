@@ -41,24 +41,11 @@ public:
     enum EndpointModelItemRoles
     {
         guidRole = ModelItemRoles::nameRole + 1,    //! Role for attribute GUID
-        topicRole,                                  //! Role for attribute Topic
-        entityKindRole,                             //! Role to differenciate between DataReader and DataWriter
+        topicRole                                   //! Role for attribute Topic
     };
 
-    //! Default QObject constructor. Used for model specification
-    EndpointModelItem(
-            QObject* parent = 0)
-        : EntityContainerModelItem(parent)
-    {
-    }
-
-    //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    EndpointModelItem(
-            backend::EntityId id,
-            QObject* parent = 0)
-        : EntityContainerModelItem(id, parent)
-    {
-    }
+    // Use EntityContainerModelItem constructors
+    using EntityContainerModelItem::EntityContainerModelItem;
 
     //! Override the ListItem \c data method to add new roles
     QVariant data(

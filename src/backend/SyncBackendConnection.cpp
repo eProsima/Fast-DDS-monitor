@@ -47,56 +47,63 @@ ListItem* SyncBackendConnection::create_process_data_(
         EntityId id)
 {
     qDebug() << "Creating Process " << backend::id_to_QString(id);
-    return new ProcessModelItem(id);
+    return new ProcessModelItem(id, EntityKind::HOST, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_host_data_(
         EntityId id)
 {
     qDebug() << "Creating Host " << backend::id_to_QString(id);
-    return new HostModelItem(id);
+    return new HostModelItem(id, EntityKind::USER, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_user_data_(
         EntityId id)
 {
     qDebug() << "Creating User " << backend::id_to_QString(id);
-    return new UserModelItem(id);
+    return new UserModelItem(id, EntityKind::PROCESS, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_domain_data_(
         EntityId id)
 {
     qDebug() << "Creating Domain " << backend::id_to_QString(id);
-    return new DomainModelItem(id);
+    return new DomainModelItem(id, EntityKind::DOMAIN, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_topic_data_(
         EntityId id)
 {
     qDebug() << "Creating Topic " << backend::id_to_QString(id);
-    return new TopicModelItem(id);
+    return new TopicModelItem(id, EntityKind::TOPIC, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_participant_data_(
         backend::EntityId id)
 {
     qDebug() << "Creating Participant " << backend::id_to_QString(id);
-    return new ParticipantModelItem(id);
+    return new ParticipantModelItem(id, EntityKind::PARTICIPANT, get_entity_info(id));
 }
 
-ListItem* SyncBackendConnection::create_endpoint_data_(
+ListItem* SyncBackendConnection::create_datawriter_data_(
         backend::EntityId id)
 {
-    qDebug() << "Creating Endpoint " << backend::id_to_QString(id);
-    return new EndpointModelItem(id);
+    qDebug() << "Creating DataWriter " << backend::id_to_QString(id);
+    return new EndpointModelItem(id, EntityKind::DATAWRITER, get_entity_info(id));
+}
+
+ListItem* SyncBackendConnection::create_datareader_data_(
+        backend::EntityId id)
+{
+    qDebug() << "Creating DataReader " << backend::id_to_QString(id);
+    return new EndpointModelItem(id, EntityKind::DATAREADER, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_locator_data_(
         backend::EntityId id)
 {
     qDebug() << "Creating Locator " << backend::id_to_QString(id);
-    return new LocatorModelItem(id);
+    return new LocatorModelItem(id, EntityKind::LOCATOR, get_entity_info(id));
 }
 
 /// UPDATE PRIVATE FUNCTIONS
@@ -179,13 +186,13 @@ bool SyncBackendConnection::update_participant_item(
         participant_item_sublist,
         EntityKind::DATAREADER,
         &SyncBackendConnection::update_endpoint_item,
-        &SyncBackendConnection::create_endpoint_data_) || res;
+        &SyncBackendConnection::create_datareader_data_) || res;
 
     res = update_subitems_(
         participant_item_sublist,
         EntityKind::DATAWRITER,
         &SyncBackendConnection::update_endpoint_item,
-        &SyncBackendConnection::create_endpoint_data_) || res;
+        &SyncBackendConnection::create_datawriter_data_) || res;
 
     return res;
 }

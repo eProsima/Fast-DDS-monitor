@@ -44,20 +44,8 @@ public:
         domainRole                                  //! Role for attribute Domain
     };
 
-    //! Default QObject constructor. Used for model specification
-    ParticipantModelItem(
-            QObject* parent = 0)
-        : EntityContainerModelItem(parent)
-    {
-    }
-
-    //! Specific DDS Item constructor, with a backend \c EntityId associateds
-    ParticipantModelItem(
-            backend::EntityId id,
-            QObject* parent = 0)
-        : EntityContainerModelItem(id, parent)
-    {
-    }
+    //! Default ListItem constructor
+    using EntityContainerModelItem::EntityContainerModelItem;
 
     //! Override the ListItem \c data method to add new roles
     QVariant data(

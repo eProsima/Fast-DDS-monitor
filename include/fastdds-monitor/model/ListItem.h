@@ -50,6 +50,7 @@ public:
     enum ModelItemRoles
     {
         idRole = Qt::UserRole + 1,      //! Role for attribute Id
+        kindRole,                       //! Role for attribute Kind
         nameRole                        //! Role for attribute Name
     };
 
@@ -57,9 +58,16 @@ public:
     ListItem(
             QObject* parent = 0);
 
+    //! Default QObject constructor. Used for model specification
+    ListItem(
+            backend::EntityId id,
+            QObject* parent = 0);
+
     //! Specific DDS Item constructor, with a backend \c EntityId associateds
     ListItem(
             backend::EntityId id,
+            backend::EntityKind kind,
+            backend::EntityInfo info,
             QObject* parent = 0);
 
     //! ListItem destructor
@@ -94,7 +102,7 @@ public:
      * @brief Entity kind getter
      * @return entity kind in QString format
      */
-    virtual QString entity_kind() const;
+    virtual QString kind() const;
 
     /**
      * @brief Item info setter
@@ -164,6 +172,9 @@ protected:
 
     //! Backend Id that references the \c Entity that this Item represents
     backend::EntityId id_;
+
+    //! Backend Kind of the entity
+    backend::EntityInfo kind_;
 
     //! Backend info that contains all the needed information for this item
     backend::EntityInfo info_;
