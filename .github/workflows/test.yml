@@ -1,0 +1,208 @@
+name: test
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+
+  ubuntu-build-test:
+    runs-on: ubuntu-latest
+    environment:
+      name: codecov
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/Fast-DDS-monitor
+
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
+
+      - name: Update colcon mixin
+        run: |
+          colcon mixin add default \
+            https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+          colcon mixin update default
+        continue-on-error: true
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.0
+        with:
+          version: '5.15.2'
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+
+      - name: Build workspace
+        run: |
+          cat src/Fast-DDS-monitor/.github/workflows/colcon.meta
+          colcon build \
+            --event-handlers=console_direct+ \
+            --metas src/Fast-DDS-monitor/.github/workflows/colcon.meta \
+            --mixin coverage-gcc asan-gcc
+
+      - name: Run tests
+        run: |
+          source install/setup.bash && \
+          QT_QPA_PLATFORM=offscreen \
+          colcon test \
+            --packages-select fastdds-monitor \
+            --event-handlers=console_direct+ \
+            --return-code-on-test-failure
+
+      - name: Generate coverage report
+        run: |
+          cp src/Fast-DDS-monitor/codecov.yml .
+          mkdir coverage-report
+          gcovr \
+          --root src/Fast-DDS-monitor/ \
+          --object-directory build/fastdds-monitor \
+          --output coverage-report/coverage.xml \
+          --xml-pretty \
+          --exclude='.*docs/.*' \
+          --exclude='.*test/.*' \
+          --exclude='.*mock/.*' \
+          --exclude='.*github/.*' \
+          --exclude-unreachable-branches
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: coverage-report
+          path: coverage-report/
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v1
+        with:
+          name: Documentation HTML
+          path: install/fastdds-monitor/docs/fastdds-monitor-docs/sphinx/html/
+
+      # Not allowed for private repositories without token
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     file: coverage-report/coverage.xml
+      #     root_dir: src/Fast-DDS-monitor
+      #     fail_ci_if_error: true
+
+      - name: Upload Logs
+        uses: actions/upload-artifact@v1
+        with:
+          name: colcon-logs-ubuntu
+          path: log/
+        if: always()
+
+  clang-tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/Fast-DDS-monitor
+
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.0
+        with:
+          version: '5.15.2'
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+
+      - name: Build workspace
+        run: |
+          cat src/Fast-DDS-monitor/.github/workflows/colcon.meta
+          colcon build \
+            --event-handlers=console_direct+ \
+            --metas src/Fast-DDS-monitor/.github/workflows/colcon.meta
+
+      - name: Run clang-tidy
+        run: |
+          cd build/fastdds-monitor
+          run-clang-tidy -header-filter='.*' -checks='clang-analyzer-cplusplus' -quiet 2> ${{ github.workspace }}/clang_results.yml
+
+      - name: Upload clang results
+        uses: actions/upload-artifact@v1
+        with:
+          name: clang_results
+          path: ${{ github.workspace }}/clang_results.yml
+
+  uncrustify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/Fast-DDS-monitor
+
+      - name: Fetch all branches and tags
+        run: |
+          cd src/Fast-DDS-monitor
+          git fetch --prune --unshallow
+
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+
+      - name: Install uncrustify
+        run: |
+          git clone https://github.com/uncrustify/uncrustify.git \
+            --branch uncrustify-0.71.0 \
+            --single-branch uncrustify
+          mkdir -p uncrustify/build
+          cd uncrustify/build
+          cmake ..
+          sudo cmake --build . --target install
+          cd ../..
+          sudo rm -rf uncrustify
+
+      - name: Clone ament_lint
+        run: |
+          git clone https://github.com/ament/ament_lint.git src/ament_lint
+
+      - name: Build ament_uncrustify
+        run: colcon build --packages-up-to ament_uncrustify
+
+      - name: Fetch uncrustify config file
+        run: |
+          curl \
+            -l https://raw.githubusercontent.com/eProsima/cpp-style/master/uncrustify.cfg \
+            -o uncrustify.cfg
+
+      - name: Get difference
+        run: |
+          cd src/Fast-DDS-monitor
+          echo "MODIFIED_FILES=$(git diff --name-only origin/${GITHUB_BASE_REF} origin/${GITHUB_HEAD_REF} | grep -e '\.h' -e '\.hpp' -e '\.cpp' | tr '\n' ' ')" >> $GITHUB_ENV
+
+      - name: Check difference
+        run: |
+          cd src/Fast-DDS-monitor
+          if [[ -z "${MODIFIED_FILES}" ]]
+          then
+            touch empty.hpp
+            echo "MODIFIED_FILES=empty.hpp" >> $GITHUB_ENV
+          fi
+
+      - name: Check style
+        run: |
+          source install/local_setup.bash
+          cd src/Fast-DDS-monitor
+          ament_uncrustify \
+            -c ../../uncrustify.cfg \
+            --language CPP \
+            --xunit-file ../../uncrustify_results.xml \
+            ${MODIFIED_FILES}
+
+      - name: Upload uncrustify results
+        uses: actions/upload-artifact@v1
+        with:
+          name: uncrustify_results
+          path: uncrustify_results.xml

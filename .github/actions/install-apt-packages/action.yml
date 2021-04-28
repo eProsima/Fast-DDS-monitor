@@ -1,0 +1,23 @@
+name: 'install-apt-packages'
+description: 'Install necessary apt packages'
+runs:
+  using: "composite"
+  steps:
+    - id: install-apt-packages
+      run: |
+        sudo apt -y install \
+          doxygen \
+          graphviz \
+          imagemagick \
+          python3 \
+          python3-pip \
+          python3-sphinxcontrib.spelling \
+          python3-venv \
+          software-properties-common \
+          wget \
+          libasio-dev \
+          libtinyxml2-dev \
+          clang-tidy \
+          curl \
+          grep
+      shell: bash
