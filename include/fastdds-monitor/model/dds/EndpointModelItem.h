@@ -41,8 +41,7 @@ public:
     enum EndpointModelItemRoles
     {
         guidRole = ModelItemRoles::nameRole + 1,    //! Role for attribute GUID
-        topicRole,                                  //! Role for attribute Topic
-        entityKindRole,                             //! Role to differenciate between DataReader and DataWriter
+        topicRole                                   //! Role for attribute Topic
     };
 
     // Use EntityContainerModelItem constructors

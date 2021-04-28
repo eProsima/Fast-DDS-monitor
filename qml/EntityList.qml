@@ -119,7 +119,7 @@ Rectangle {
                                 spacing: 8
 
                                 IconSVG {
-                                    source: (entityKind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
+                                    source: (kind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
                                     scalingFactor: 1.5
                                     Layout.bottomMargin: 5
 

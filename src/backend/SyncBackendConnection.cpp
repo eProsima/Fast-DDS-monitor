@@ -186,13 +186,13 @@ bool SyncBackendConnection::update_participant_item(
         participant_item_sublist,
         EntityKind::DATAREADER,
         &SyncBackendConnection::update_endpoint_item,
-        &SyncBackendConnection::create_datawriter_data_) || res;
+        &SyncBackendConnection::create_datareader_data_) || res;
 
     res = update_subitems_(
         participant_item_sublist,
         EntityKind::DATAWRITER,
         &SyncBackendConnection::update_endpoint_item,
-        &SyncBackendConnection::create_datareader_data_) || res;
+        &SyncBackendConnection::create_datawriter_data_) || res;
 
     return res;
 }

@@ -26,6 +26,8 @@ QVariant ProcessModelItem::data(
             return this->entity_id();
         case nameRole:
             return this->name();
+        case kindRole:
+            return this->kind();
         case pidRole:
             return this->pid();
         default:

@@ -26,6 +26,8 @@ QVariant TopicModelItem::data(
             return this->entity_id();
         case nameRole:
             return this->name();
+        case kindRole:
+            return this->kind();
         case typeRole:
             return this->type();
         default:
