@@ -49,7 +49,8 @@ namespace statistics_backend {
 // When Listener is <nullptr> it stops the data generator
 void StatisticsBackend::set_physical_listener(
         PhysicalListener* listener,
-        CallbackMask callback_mask)
+        CallbackMask callback_mask,
+        DataKindMask data_mask)
 {
     if (!listener)
     {
@@ -59,6 +60,7 @@ void StatisticsBackend::set_physical_listener(
     Database::get_instance()->listener(listener);
 
     static_cast<void>(callback_mask);
+    static_cast<void>(data_mask);
 }
 
 // Call Discovery Server init_monitor
@@ -125,15 +127,15 @@ Info StatisticsBackend::get_info(
 // Call get_data for one entity data
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        EntityId entity_id_source,
-        EntityId entity_id_target,
+        const std::vector<EntityId> entity_ids_source,
+        const std::vector<EntityId> entity_ids_target,
         uint16_t bins,
         Timestamp t_from,
         Timestamp t_to,
         StatisticKind statistic)
 {
-    static_cast<void>(entity_id_target);
-    return get_data(data_type, entity_id_source, bins, t_from, t_to, statistic);
+    static_cast<void>(entity_ids_target);
+    return get_data(data_type, entity_ids_source, bins, t_from, t_to, statistic);
 }
 
 // Returns a random vector of data generated
@@ -141,14 +143,14 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
 // Each element time in each pair is coherent with the query
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        EntityId entity_id,
+        const std::vector<EntityId> entity_ids,
         uint16_t bins,
         Timestamp t_from,
         Timestamp t_to,
         StatisticKind statistic)
 {
     static_cast<void> (data_type);
-    static_cast<void> (entity_id);
+    static_cast<void> (entity_ids);
     static_cast<void> (statistic);
 
     if (0 == bins)
@@ -174,15 +176,15 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
 // Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        EntityId entity_id_source,
-        EntityId entity_id_target,
+        const std::vector<EntityId> entity_ids_source,
+        const std::vector<EntityId> entity_ids_target,
         uint16_t bins,
         StatisticKind statistic)
 {
     return get_data(
         data_type,
-        entity_id_source,
-        entity_id_target,
+        entity_ids_source,
+        entity_ids_target,
         bins,
         Timestamp(),
         std::chrono::system_clock::now(),
@@ -192,17 +194,45 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
 // Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        EntityId entity_id,
+        const std::vector<EntityId> entity_ids,
         uint16_t bins,
         StatisticKind statistic)
 {
     return get_data(
         data_type,
-        entity_id,
+        entity_ids,
         bins,
         Timestamp(),
         std::chrono::system_clock::now(),
         statistic);
+}
+
+std::pair<EntityKind, EntityKind> StatisticsBackend::data_entityKind(DataKind data_kind)
+{
+    static std::map<DataKind, std::pair<EntityKind, EntityKind>> data_to_entity_map =
+    {
+        {DataKind::INVALID, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::FASTDDS_LATENCY, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::NETWORK_LATENCY, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::PUBLICATION_THROUGHPUT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::SUBSCRIPTION_THROUGHPUT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::RTPS_PACKETS_SENT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::RTPS_BYTES_SENT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::RTPS_PACKETS_LOST, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::RTPS_BYTES_LOST, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::RESENT_DATA, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::HEARTBEAT_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::ACKNACK_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::NACKFRAG_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::GAP_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::DATA_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::PDP_PACKETS, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::EDP_PACKETS, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::DISCOVERY_TIME, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
+        {DataKind::SAMPLE_DATAS, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)}
+    };
+
+    return data_to_entity_map[data_kind];
 }
 
 } //namespace statistics_backend
