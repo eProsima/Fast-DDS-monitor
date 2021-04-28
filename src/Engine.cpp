@@ -362,31 +362,24 @@ bool Engine::entity_clicked(
 {
     bool res = false;
 
-    switch (kind)
+    // All Entities in Physical and Logical Models affect over the participant view
+    if ((kind == backend::EntityKind::HOST) ||
+            (kind == backend::EntityKind::USER) ||
+            (kind == backend::EntityKind::PROCESS) ||
+            (kind == backend::EntityKind::DOMAIN) ||
+            (kind == backend::EntityKind::TOPIC) ||
+            (kind == backend::EntityKind::INVALID))
     {
-        case backend::EntityKind::HOST:
-        case backend::EntityKind::USER:
-        case backend::EntityKind::PROCESS:
-        case backend::EntityKind::DOMAIN:
-        case backend::EntityKind::TOPIC:
-        case backend::EntityKind::INVALID: // all case
-            // All Entities in Physical and Logical Models
-            // Those entities affect over the participant view
+        // Set as clicked entity to update whit new dds entities
+        last_entity_clicked_ = id;
+        last_entity_clicked_kind_ = kind;
 
-            // Set as clicked entity to update whit new dds entities
-            last_entity_clicked_ = id;
-            last_entity_clicked_kind_ = kind;
-
-            res = update_reset_dds_data(id) or res;
-
-            // Without break as it needs to do as well the info update
-            [[fallthrough]];
-        default:
-            // DDS Entities
-            res = fill_entity_info_(id) or res;
-            res = fill_summary_(id) or res;
-            break;
+        res = update_reset_dds_data(id) or res;
     }
+
+    // All entities including DDS
+    res = fill_entity_info_(id) or res;
+    res = fill_summary_(id) or res;
 
     return res;
 }
