@@ -418,11 +418,11 @@ EntityInfo SyncBackendConnection::get_summary(
 
     // Throughput
     summary["Throughput"]["mean"] = get_data(
-            DataKind::PUBLICATION_THROUGHPUT,
-            id,
-            EntityId::invalid(),
-            1, // only one value
-            StatisticKind::MEAN)[0].second;
+        DataKind::PUBLICATION_THROUGHPUT,
+        id,
+        EntityId::invalid(),
+        1,     // only one value
+        StatisticKind::MEAN)[0].second;
 
     return summary;
 }
@@ -442,7 +442,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         Timestamp start_time,
         Timestamp end_time)
 {
-    auto entity_kinds = StatisticsBackend::data_entityKind(data_kind);
+    auto entity_kinds = StatisticsBackend::get_data_supported_entity_kinds(data_kind);
     if (entity_kinds.second != EntityKind::INVALID)
     {
         assert(!target_entity_id.is_valid());

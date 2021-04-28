@@ -207,29 +207,67 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
         statistic);
 }
 
-std::pair<EntityKind, EntityKind> StatisticsBackend::data_entityKind(DataKind data_kind)
+std::pair<EntityKind, EntityKind> StatisticsBackend::get_data_supported_entity_kinds(
+        DataKind data_kind)
 {
     static std::map<DataKind, std::pair<EntityKind, EntityKind>> data_to_entity_map =
     {
-        {DataKind::INVALID, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::FASTDDS_LATENCY, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::NETWORK_LATENCY, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::PUBLICATION_THROUGHPUT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::SUBSCRIPTION_THROUGHPUT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::RTPS_PACKETS_SENT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::RTPS_BYTES_SENT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::RTPS_PACKETS_LOST, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::RTPS_BYTES_LOST, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::RESENT_DATA, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::HEARTBEAT_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::ACKNACK_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::NACKFRAG_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::GAP_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::DATA_COUNT, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::PDP_PACKETS, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::EDP_PACKETS, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::DISCOVERY_TIME, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)},
-        {DataKind::SAMPLE_DATAS, std::pair<EntityKind, EntityKind>(EntityKind::INVALID, EntityKind::INVALID)}
+        {DataKind::INVALID, std::pair<EntityKind, EntityKind>(
+             EntityKind::INVALID, EntityKind::INVALID)},
+
+        {DataKind::FASTDDS_LATENCY, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::DATAREADER)},
+
+        {DataKind::NETWORK_LATENCY, std::pair<EntityKind, EntityKind>(
+             EntityKind::LOCATOR, EntityKind::LOCATOR)},
+
+        {DataKind::PUBLICATION_THROUGHPUT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::INVALID)},
+
+        {DataKind::SUBSCRIPTION_THROUGHPUT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAREADER, EntityKind::INVALID)},
+
+        {DataKind::RTPS_PACKETS_SENT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::LOCATOR)},
+
+        {DataKind::RTPS_BYTES_SENT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::LOCATOR)},
+
+        {DataKind::RTPS_PACKETS_LOST, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::LOCATOR)},
+
+        {DataKind::RTPS_BYTES_LOST, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::LOCATOR)},
+
+        {DataKind::RESENT_DATA, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::INVALID)},
+
+        {DataKind::HEARTBEAT_COUNT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::INVALID)},
+
+        {DataKind::ACKNACK_COUNT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAREADER, EntityKind::INVALID)},
+
+        {DataKind::NACKFRAG_COUNT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAREADER, EntityKind::INVALID)},
+
+        {DataKind::GAP_COUNT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::INVALID)},
+
+        {DataKind::DATA_COUNT, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::INVALID)},
+
+        {DataKind::PDP_PACKETS, std::pair<EntityKind, EntityKind>(
+             EntityKind::PARTICIPANT, EntityKind::INVALID)},
+
+        {DataKind::EDP_PACKETS, std::pair<EntityKind, EntityKind>(
+             EntityKind::PARTICIPANT, EntityKind::INVALID)},
+
+        {DataKind::DISCOVERY_TIME, std::pair<EntityKind, EntityKind>(
+             EntityKind::PARTICIPANT, EntityKind::PARTICIPANT)},
+
+        {DataKind::SAMPLE_DATAS, std::pair<EntityKind, EntityKind>(
+             EntityKind::DATAWRITER, EntityKind::INVALID)}
     };
 
     return data_to_entity_map[data_kind];
