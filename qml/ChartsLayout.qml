@@ -113,6 +113,10 @@ Rectangle {
                     calculateGridViewWidth()
                 }
 
+                GridView.onRemove: {
+                    calculateGridViewWidth()
+                }
+
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: dataKind
