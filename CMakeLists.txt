@@ -51,22 +51,14 @@ set(QT_PATH "" CACHE STRING "Path to the Qt installation folder")
 list(APPEND CMAKE_PREFIX_PATH ${QT_PATH})
 
 find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts QuickControls2 REQUIRED)
-find_package(fastcdr REQUIRED)
-find_package(fastrtps REQUIRED)
 find_package(fastdds-statistics-backend REQUIRED)
 
-foreach(c Core Widgets Gui Quick Qml Charts)
+foreach(c Core Widgets Gui Quick Qml Charts QuickControls2)
     if(${Qt5${c}_FOUND})
         message(STATUS "Found Qt5${c}: ${Qt5${c}_CONFIG} (found version ${Qt5${c}_VERSION})")
     endif()
 endforeach()
 
-if(${fastcdr_FOUND})
-    message(STATUS "Fast CDR found!")
-endif()
-if(${fastrtps_FOUND})
-    message(STATUS "Fast DDS found!")
-endif()
 if(${fastdds-statistics-backend_FOUND})
     message(STATUS "Fast DDS Statistics Backend found!")
 endif()
@@ -252,8 +244,6 @@ else()
     # Link against fast backend and its dependencies
     target_link_libraries(${PROJECT_NAME}
         ${QT5_LIBRARY_LINKS}
-        fastcdr
-        fastrtps
         fastdds-statistics-backend)
 
 endif()
