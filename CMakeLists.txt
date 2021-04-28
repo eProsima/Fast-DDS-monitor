@@ -258,7 +258,11 @@ else()
 
 endif()
 
-# add_subdirectory(subdir)
+###############################################################################
+# Disable QDebug traces in Release
+###############################################################################
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<NOT:$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:QT_NO_DEBUG_OUTPUT>)
 
 ###############################################################################
 # Test
