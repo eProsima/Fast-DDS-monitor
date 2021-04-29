@@ -442,14 +442,32 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         Timestamp start_time,
         Timestamp end_time)
 {
-    auto entity_kinds = StatisticsBackend::get_data_supported_entity_kinds(data_kind);
-    if (entity_kinds.second != EntityKind::INVALID)
+    bool two_entities_data = false;
+    std::vector<EntityId> source_ids;
+    std::vector<EntityId> target_ids;
+
+    for (auto kinds_supported : StatisticsBackend::get_data_supported_entity_kinds(data_kind))
+    {
+        // Get the entities of the kind required for the data type that are related with the entity source
+        auto source_ids_tmp = get_entities(kinds_supported.first, source_entity_id);
+        source_ids.insert(source_ids.end(), source_ids_tmp.begin(), source_ids_tmp.end());
+
+        // Get the entities of the kind required for the data type that are related with the entity target
+        if (kinds_supported.second != EntityKind::INVALID)
+        {
+            two_entities_data = true;
+            auto target_ids_tmp = get_entities(kinds_supported.second, target_entity_id);
+            target_ids.insert(target_ids.end(), target_ids_tmp.begin(), target_ids_tmp.end());
+        }
+    }
+
+    if (two_entities_data)
     {
         assert(!target_entity_id.is_valid());
         return StatisticsBackend::get_data(
             data_kind,
-            get_entities(entity_kinds.first, source_entity_id), // TODO
-            get_entities(entity_kinds.second, target_entity_id), // TODO
+            source_ids, // TODO
+            target_ids, // TODO
             bins,
             start_time,
             end_time,
@@ -459,7 +477,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     {
         return StatisticsBackend::get_data(
             data_kind,
-            get_entities(entity_kinds.first, source_entity_id), // TODO
+            source_ids, // TODO
             bins,
             start_time,
             end_time,
