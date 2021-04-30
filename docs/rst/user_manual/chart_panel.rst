@@ -6,6 +6,8 @@
 Chart Panel
 ###########
 
+Functionality related with :ref:`main_panel_layout`.
+
 Data Types
 ==========
 

@@ -38,7 +38,7 @@ endif()
 # Check docs spelling
 add_test(NAME documentation.spell_check
     COMMAND
-    ${SPHINX_EXECUTABLE} -Q -W --keep-going
+    ${SPHINX_EXECUTABLE} -W --keep-going
     -b spelling
     -d "${PROJECT_BINARY_DOCS_DIR}/doctrees"
     ${PROJECT_SOURCE_DOCS_DIR}

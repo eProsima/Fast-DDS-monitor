@@ -10,6 +10,8 @@ This section explains the User Interface and the Layout of the application.
 It will briefly explain the main menus and windows that could be seen, in order to familiarize the user
 with where to find the buttons and information.
 
+.. _application_menu_layout:
+
 Application Menu
 ================
 
@@ -23,10 +25,12 @@ This general menu contains all the buttons available for this application divide
 .. todo::
     Include a screenshot.
 
-For the explanation of the funcionality of this buttons refer to the section :ref:`application_menu`.
+For the explanation of the functionality of this buttons refer to the section :ref:`application_menu`.
 
-Shortcouts Bar
-===============
+.. _shortcuts_bar_layout:
+
+Shortcuts Bar
+=============
 
 This horizontal bar contains the buttons in *ApplicationMenu->Edit*
 so the user has a faster access to the main functionalities.
@@ -37,13 +41,16 @@ This bar could be configured in *ApplicationMenu->View*.
 
 For the explanation of how to configure this bar refer to the section :ref:`shortcuts_bar`.
 
+.. _left_sidebar_layout:
+
 Left Sidebar
 ============
 
-In this side bar the it will be shown the different entities that has been discovered by the monitor.
-They will be shown in interactive lists that the user could press in order to select a specific entity.
+In this side bar it will be shown the different entities that has been discovered by the monitor.
+They will be displayed in interactive lists that the user could press in order to select a specific entity.
 
 For more information about what is an entity and how are they divided refer to :ref:`entities`.
+For more information about what means to select an entity refer to :ref:`selected_entity`.
 
 DDS Panel
 ---------
@@ -76,8 +83,12 @@ is being executed.
 This information is divided in *Host*, *User* and *Process*.
 For the explanation of this entities and the interaction with them refer to the section :ref:`physical_panel`.
 
+.. _right_sidebar_layout:
+
 Right Sidebar
 =============
+
+.. _info_panel_layout:
 
 Info Panel
 ----------
@@ -90,6 +101,8 @@ i.e. For a *DDS entity*, the *QoS* information would be shown, while for a *Proc
     Include a screenshot.
 
 For the explanation of this entities and the interaction with them refer to the section :ref:`info_panel`.
+
+.. _statistics_panel_layout:
 
 Statistics Panel
 ----------------
@@ -108,17 +121,17 @@ This panel shows a collection of news and issues that the monitor has received.
 The information stored is divided in three groups:
 
 - Callbacks that are received related with new entities discovered in the network.
-    - This callbacks are erased every time *Refresh* is pressed.
-- Domains that are being monitorizing at the moment.
-- Issues and problems automatically detected in the actual execution.
+  This callbacks are erased every time *Refresh* is pressed.
 
-.. note::
-    *Issues* feature is a work in progress.
+- Domains that are being monitoring at the moment.
+- Issues and problems automatically detected in the actual execution.
 
 .. todo::
     Include a screenshot.
 
 For the explanation of this entities and the interaction with them refer to the section :ref:`statistics_panel`.
+
+.. _main_panel_layout:
 
 Main Panel
 ==========
@@ -130,9 +143,9 @@ To create a new chart use the button *ApplicationMenu->Edit->DisplayNewData*. Th
 These panels could be moved along the main window.
 In order to move one of this charts, press in the Chart title and grab the object to the new location inside the
 main panel.
-The rest of the panels will automatically rearrenge when one panel is being moved.
+The rest of the panels will automatically rearrange when one panel is being moved.
 
-For further informtion about how to create a chart refer to the section :ref:`chart_panel`.
+For further information about how to create a chart refer to the section :ref:`chart_panel`.
 
 .. todo::
     Include a screenshot.
