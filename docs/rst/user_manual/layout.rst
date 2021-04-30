@@ -136,16 +136,36 @@ For the explanation of this entities and the interaction with them refer to the 
 Main Panel
 ==========
 
-In the central window it will be displayed the data charts that the user has configured.
+In the central window it will be displayed the data charts or *Chartbox* that the user has configured.
 To create a new chart use the button *ApplicationMenu->Edit->DisplayNewData*. This button will create a new
-*ChartPanel* where new series could be added, removed or modified.
+*Chartbox* where new series could be added, removed or modified.
 
-These panels could be moved along the main window.
+For further information about how to create a chart refer to the section :ref:`chart_panel`.
+
+.. todo::
+    Include a screenshot.
+
+.. _chartbox_layout:
+
+Chartbox
+--------
+This windows in the central panel store some *series* or *data configurations* to show a specific data type for
+one or several entities in a time interval and with different accumulative processes.
+
+These Chartbox could be moved along the main window.
 In order to move one of this charts, press in the Chart title and grab the object to the new location inside the
 main panel.
 The rest of the panels will automatically rearrange when one panel is being moved.
 
-For further information about how to create a chart refer to the section :ref:`chart_panel`.
+.. todo::
+    Include a screenshot.
+
+.. _create_new_series_layout:
+
+Create new Serie Dialog
+-----------------------
+This Dialog will appear every time a new Chartbox is created, or adding a new series by the button in the Chartbox
+*Series->AddSeries*.
 
 .. todo::
     Include a screenshot.

@@ -57,6 +57,8 @@ This string must contain addresses in a format ``ip:port`` separated by ``;``.
 This will connect to the Discovery Servers listening in the addresses set, and will get all the discovery information
 of the entities connecting through them.
 
+.. _display_data_button:
+
 Display New Data
 ----------------
 Create a new *Chart* window in central panel.

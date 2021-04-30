@@ -10,5 +10,5 @@ eProsima
 multicast
 Qos
 QoS
-Serie
+serie
 Todo
