@@ -401,6 +401,13 @@ EntityInfo SyncBackendConnection::get_entity_info(
     return StatisticsBackend::get_info(id);
 }
 
+std::vector<EntityId> SyncBackendConnection::get_entities(
+        EntityKind entity_type,
+        EntityId entity_id)
+{
+    return StatisticsBackend::get_entities(entity_type, entity_id);
+}
+
 EntityInfo SyncBackendConnection::get_summary(
         backend::EntityId id)
 {
@@ -410,12 +417,12 @@ EntityInfo SyncBackendConnection::get_summary(
     summary["Latency"]["mean"] = "-0";
 
     // Throughput
-    summary["Throughput"]["mean"] =
-            std::to_string(StatisticsBackend::get_data(
-                        DataKind::PUBLICATION_THROUGHPUT,
-                        id,
-                        1,
-                        StatisticKind::MEAN)[0].second);
+    summary["Throughput"]["mean"] = get_data(
+        DataKind::PUBLICATION_THROUGHPUT,
+        id,
+        EntityId::invalid(),
+        1,     // only one value
+        StatisticKind::MEAN)[0].second;
 
     return summary;
 }
@@ -431,15 +438,36 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         EntityId source_entity_id,
         EntityId target_entity_id,
         uint16_t bins,
+        StatisticKind statistic_kind,
         Timestamp start_time,
-        Timestamp end_time,
-        StatisticKind statistic_kind)
+        Timestamp end_time)
 {
-    if (target_entity_id.is_valid())
+    bool two_entities_data = false;
+    std::vector<EntityId> source_ids;
+    std::vector<EntityId> target_ids;
+
+    for (auto kinds_supported : StatisticsBackend::get_data_supported_entity_kinds(data_kind))
     {
+        // Get the entities of the kind required for the data type that are related with the entity source
+        auto source_ids_tmp = get_entities(kinds_supported.first, source_entity_id);
+        source_ids.insert(source_ids.end(), source_ids_tmp.begin(), source_ids_tmp.end());
+
+        // Get the entities of the kind required for the data type that are related with the entity target
+        if (kinds_supported.second != EntityKind::INVALID)
+        {
+            two_entities_data = true;
+            auto target_ids_tmp = get_entities(kinds_supported.second, target_entity_id);
+            target_ids.insert(target_ids.end(), target_ids_tmp.begin(), target_ids_tmp.end());
+        }
+    }
+
+    if (two_entities_data)
+    {
+        assert(!target_entity_id.is_valid());
         return StatisticsBackend::get_data(
             data_kind,
-            source_entity_id,
+            source_ids, // TODO
+            target_ids, // TODO
             bins,
             start_time,
             end_time,
@@ -449,8 +477,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     {
         return StatisticsBackend::get_data(
             data_kind,
-            source_entity_id,
-            target_entity_id,
+            source_ids, // TODO
             bins,
             start_time,
             end_time,

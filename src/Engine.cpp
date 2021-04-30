@@ -432,9 +432,9 @@ bool Engine::on_add_statistics_data_series(
         source_entity_id,
         target_entity_id,
         bins,
+        statistic_kind,
         time_from,
-        time_to,
-        statistic_kind);
+        time_to);
 
     QVector<QPointF> points;
     points.reserve(statistic_data.size());
