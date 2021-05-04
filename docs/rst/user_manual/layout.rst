@@ -6,7 +6,7 @@
 Layout
 ######
 
-This section explains the User Interface and the Layout of the application.
+This section explains the Graphical Interface of the application.
 It will briefly explain the main menus and windows that could be seen, in order to familiarize the user
 with where to find the buttons and information.
 
@@ -47,19 +47,21 @@ Left Sidebar
 ============
 
 In this side bar it will be shown the different entities that has been discovered by the monitor.
-They will be displayed in interactive lists that the user could press in order to select a specific entity.
+They will be displayed in interactive lists that the user could expand or collapse.
+These entities are clickable as well, in order to select it.
 
-For more information about what is an entity and how are they divided refer to :ref:`entities`.
+For more information about what is an entity and how are they organized refer to :ref:`entities`.
 For more information about what means to select an entity refer to :ref:`selected_entity`.
 
 DDS Panel
 ---------
 
-In this panel it will appear the DDS Entities of the monitor.
-This entities are the DDS *DomainParticipant*, the DDS *DataReader* and *DataWriters* and the transport *Locators* that
+This panel shows the :ref:`dds_entities` of the monitor.
+This entities are the DDS *DomainParticipant*, the DDS *DataReader* and *DataWriter* and the transport *Locators* that
 each entity is using.
 This panel will be filled with the entities that are related with the entity currently selected,
-so could happen that not all the DDS entities discovered appears in this panel at a certain point.
+so could happen that not all the DDS entities discovered appears in this panel at a certain point
+(see :ref:`selected_entity` for further details).
 
 .. todo::
     Include a screenshot.
@@ -95,12 +97,12 @@ Info Panel
 
 This panel shows the main information of the last entity clicked.
 This information differs depending on the kind of the entity.
-i.e. For a *DDS entity*, the *QoS* information would be shown, while for a *Process* it will be displayed the *pid*.
+i.e. For a *DDS Entity*, the *QoS* information would be shown, while for a *Process* it will be displayed the *pid*.
 
 .. todo::
     Include a screenshot.
 
-For the explanation of this entities and the interaction with them refer to the section :ref:`info_panel`.
+For the explanation of this information refer to the section :ref:`info_panel`.
 
 .. _statistics_panel_layout:
 
@@ -112,7 +114,7 @@ This panel shows a summary of the main statistic data related with the entity cl
 .. todo::
     Include a screenshot.
 
-For the explanation of this entities and the interaction with them refer to the section :ref:`statistics_panel`.
+For the explanation of this information refer to the section :ref:`statistics_panel`.
 
 Issues Panel
 ------------
@@ -129,7 +131,7 @@ The information stored is divided in three groups:
 .. todo::
     Include a screenshot.
 
-For the explanation of this entities and the interaction with them refer to the section :ref:`statistics_panel`.
+For the explanation of this information refer to the section :ref:`statistics_panel`.
 
 .. _main_panel_layout:
 
@@ -140,16 +142,16 @@ In the central window it will be displayed the data charts or *Chartbox* that th
 To create a new chart use the button *ApplicationMenu->Edit->DisplayNewData*. This button will create a new
 *Chartbox* where new series could be added, removed or modified.
 
-For further information about how to create a chart refer to the section :ref:`chart_panel`.
-
 .. todo::
     Include a screenshot.
+
+For further information about how to create a chart refer to the section :ref:`chart_panel`.
 
 .. _chartbox_layout:
 
 Chartbox
 --------
-This windows in the central panel store some *series* or *data configurations* to show a specific data type for
+These windows in the central panel store some *series* or *data configurations* to show a specific data type for
 one or several entities in a time interval and with different accumulative processes.
 
 These Chartbox could be moved along the main window.
@@ -169,3 +171,5 @@ This Dialog will appear every time a new Chartbox is created, or adding a new se
 
 .. todo::
     Include a screenshot.
+
+For further details on how to configure a new serie refer to :ref:`create_serie`.

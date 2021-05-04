@@ -1,4 +1,5 @@
 .. include:: ../exports/alias.include
+.. include:: ../exports/roles.include
 
 .. _entities:
 
@@ -6,12 +7,11 @@
 Entities
 ########
 
-The monitoring functions of this application relays on the tracking the activity of certain *Entities* that the monitor
-will store, as their data and connections.
+The monitoring functions of this application relays on tracking the activity of certain *Entities* that the monitor
+will store, as well as it stores their data and the connections between them.
 These entities represents DDS communication entities, or different physical elements related with DDS entities.
 
-In the following diagram could be seen the different kind of entities that are tracking by the monitor,
-and the connection between them.
+In the following diagram could be seen the different kind of entities that are being tracking by the monitor.
 The arrows in this schema represents a direct connection (not a 1 to n in every case) between both kind of entities,
 but the entity kinds that are not connected directly are related to each other by the connections of the entities
 directly connected, creating a connected graph where every kind of entity has a relation with each other.
@@ -23,7 +23,7 @@ directly connected, creating a connected graph where every kind of entity has a 
 DDS Entities
 ============
 
-This entities represents the DDS entities that manage the communication. That is, the *DomainParticipants*
+This entities represent the DDS entities that manage the communication. That is, the *DomainParticipants*
 (*Participants* from now on) and the writers and readers it manages.
 The word *Endpoint* will be use to refer to *DataWriters* and *DataReaders* indifferently.
 
@@ -34,14 +34,14 @@ For further information about each entity, please refer to the |DDSSpecification
 Participant
 -----------
 *Participant* (*DomainParticipant* in DDS) is the main entity in the DDS protocol.
-It represents a collection of writers and readers, and manage the whole DDS Discovery between external *Participants*,
-their writers and readers, and the that belongs to itself.
+It represents a collection of writers and readers, and manage the whole DDS Discovery between external *Participants*
+and *Endpoints* with their own writers and readers.
 
-Each *Participant* can only communicate under one *Domain* (visit :ref:logical_entities) and so it exist a direct
-connection between each *participant* and the *Domain* it works in. \
+Each *Participant* can only communicate under one *Domain* (visit :ref:`logical_entities`) and so it exist a direct
+connection between each *Participant* and the *Domain* it works in. |br|
 It also exist a direct connection between a *Pocess* and where the *Participant* is being executed.
 Be aware that one *Participant* and its *DataReaders* and *DataWriters* are always under one and the same *Process*,
-but in one *Process* more than one *Participant* could be running. \
+but in one *Process* more than one *Participant* could be running. |br|
 Each *Participant* is a collection of *DataWriters* and *DataReaders*, and so it has a direct connection with each of
 them.
 
@@ -53,7 +53,7 @@ DataWriter
 Each *DataWriter* is associated with one *Topic*, and it publish data under this topic, so each *DataReader* under
 the same topic will receive this data.
 
-Each *DataWriter* is connected directly with the *Participant* it belongs, and with the *Topic* it publish under. \
+Each *DataWriter* is connected directly with the *Participant* it belongs, and with the *Topic* it publish under. |br|
 Also a *DataWriter* is associated with one or multiple *Locators*, that would represent the physical communication
 channel this *DataWriter* is using to send data.
 
@@ -65,7 +65,8 @@ DataReader
 Each *DataReader* is associated with one *Topic* where it is subscribed, and it reads every data that any *DataWriter*
 publish under this *Topic*.
 
-Each *DataReader* is connected directly with the *Participant* it belongs, and with the *Topic* it subscribes under. \
+Each *DataReader* is connected directly with the *Participant* it belongs, and with the *Topic* it subscribes
+under. |br|
 Also a *DataReader* is associated with one or multiple *Locators*, that would represent the physical communication
 channel this *DataReader* is using to receive data.
 
@@ -74,11 +75,12 @@ channel this *DataReader* is using to receive data.
 Locator
 -----------
 This entity represents the physical address and port that an *Endpoint* uses to send or/and receive data.
-This entity is related with the physical division of the entities, as a *Locator* belongs to a unique *Host*.
+This entity is related with the physical division of the entities, as a *Locator* belongs to a unique *Host*
+(see section :ref:`physical_entities`).
 However, the monitor treats this entity as a *DDS Entity* in order to simplify the entities connection and make
 the entities display more comprehensible.
 
-*Locator* is connected with one or multiple *Endpoints*, and so it is related with a *Host* by relating each of
+A *Locator* is connected with one or multiple *Endpoints*, and so it is related with a *Host* by relating each of
 these *Endpoints* with a *Participant* and each *Participant* with its *Host*.
 
 .. _logical_entities:
@@ -92,14 +94,15 @@ Domain
 ------
 *Domain* represents a logical abstraction in DDS protocol that divide the DDS network by partitions, making
 each *domain* completely independent and unaware of others.
-This logical partition could depends on the discovery protocol chosen. \
+This logical partition depends on the discovery protocol chosen. |br|
 In case *Simple Discovery* (discovery protocol by default) is in use, the *Domain* is represented by a number,
-and every entity in that *Domain* is going to be aware of the rest. \
+and every entity in that *Domain* is going to discover the rest. |br|
 In case of using *Discovery Server* as discovery protocol (please, refer to
-`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/fastdds/discovery/discovery_server.html>` for
-more information about this feature) the partition will be made by the Discovery Server or Discovery Servers Net that
-the monitor connects. Every entity connected to one of this Discovery Servers in the same network, will know and
-communicate with each other.
+`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/fastdds/discovery/discovery_server.html>`_ for
+more information about this feature) the partition will be made by the *Discovery Server* or *Discovery Servers Net*
+that the monitor connects.
+Every entity connected to one of this Discovery Servers in the same network will know every other entity that
+it needs to communicate with.
 
 This entity inside the monitor is related with the *Participants* that communicate under this same *Domain*,
 and the *Topics* created in this *Domain*.
@@ -141,7 +144,7 @@ within this *User*.
 Process
 -------
 *Process* represents each process where one or several *Participants* are running. Be aware that it is possible to
-run more than one *Participant* in the same *Process*, and those *Participants* do not require to be related with
+run more than one *Participant* in the same *Process*, and they do not require to be related with
 each other, not even under the same *Domain*.
 
-This entity is connected directly with the *User* it belongs, and the *Participants* running under it.
+This entity is connected directly with the *User* it belongs, and the *Participants* running within it.

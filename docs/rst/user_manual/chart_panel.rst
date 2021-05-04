@@ -1,4 +1,5 @@
 .. include:: ../exports/alias.include
+.. include:: ../exports/roles.include
 
 .. _chart_panel:
 
@@ -17,18 +18,17 @@ The value refers to the value of this *DataKind* in the particular moment that r
 
 i.e. each data point of the *DataKind* ``DATA_COUNT`` has a time and an integer value, and it is stored in a
 *DataWriter*.
-This data point value refers to the number of *Data* this *DataWriter* sent since the last time this data was reported
-to the time this data has.
+This data point value refers to the number of ``Data packages`` this *DataWriter* sent since the last time this data
+was reported to the time this data has.
 
-Hence, the representation of all the *DataKinds* will be similar. \
-The Y axis is the time value of the data. \
-The X axis is the value that is store in the data.
-This could be integers, doubles or times, but for the same *DataKind* will be always the same value type.
-
-For a complete description of each *DataKind*, please refer to.
+Hence, the representation of all the *DataKinds* will be similar. |br|
+The X axis is the time value of the data. |br|
+The Y axis is the value that is store in the data.
+This could be integers, doubles or times, but for the same *DataKind* will always be the same value type.
 
 .. todo::
 
+    For a complete description of each *DataKind*, please refer to ...
     Add link to backend documentation once there is a first version.
 
 .. _create_serie:
@@ -40,14 +40,14 @@ The fields in the dialog configure the data that will be displayed
 
 Series label
 ------------
-Name that this new serie will have in the Chartbox. \
+Name that this new serie will have in the Chartbox. |br|
 If not set, the default name of a serie is ``<cumulative_function>_<entity_kind>-<number_of_binds>``.
 
 .. _source_entity_id:
 
 Source Entity Id
 ----------------
-This is the entity Id of the entity that the data will be collected from.
+This is the *entity Id* of the entity that the data will be collected from.
 This field has an entity kind to encapsulate the ids of the entities with the same kind, and make it easier to
 search for the id required.
 
@@ -73,7 +73,7 @@ Target Entity Id
     Not every *DataKind* has a target, so the dialog will only show this field when the *DataKind* selected
     requires it.
 
-This is the entity Id of the entity that the data refers to. \
+This is the entity Id of the entity that the data refers to. |br|
 This field works similar to the :ref:`source_entity_id`.
 Some *DataKind* has a target entity that the data refers to, and this target must be of an specific entity kind.
 Choosing an entity of a different kind than the one this data requires, will be solved by using the same
@@ -109,31 +109,31 @@ inside a fraction of the time interval.
 The *Number of bins* determines how many fractions this time interval will be split on, and thus, how many points
 will be displayed in the chart.
 
-To see all the individual without accumulate them and divide them in regular time frames, set the *Number of bins* to 0.
+To see all the individual data points without accumulate them, set the *Number of bins* to 0.
 
 .. _start_time:
 
 Start time
 ----------
 The time that represents the minimum limit for the data points that will be displayed.
-That is, every data that refers to a time before this value will not be displayed. \
-*Default initial timestamp* means the lower time that the data stored with this data configuration has.
+That is, every data that refers to a time before this value will not be displayed. |br|
+*Default initial timestamp* means the lower time that this data configuration has.
 
 .. _end_time:
 
 End time
 --------
 The time that represents the maximum limit for the data points that will be displayed.
-That is, every data that refers to a time after this value will not be displayed. \
+That is, every data that refers to a time after this value will not be displayed. |br|
 *Now* means the current time.
 Be aware that the current time is not the maximum time that could be set up to see the data, but setting
-a time biggest than *Now* will (obviously) not have data points.
+a time bigger than *Now* could (obviously) not have data points in the higher time frames.
 
 .. _statistics_kind:
 
 Statistics kind
 ---------------
-The cumulative function use to accumulate the data points that fulfilled the conditions set in this configuration. \
+The cumulative function use to accumulate the data points that fulfilled the conditions set in this configuration. |br|
 When in a single time frame there are several data points to show, these data points are transformed into one by
 a *cumulative function*.
 This function is the one that *Statistics kind* is set to.
@@ -149,7 +149,7 @@ The available methods to accumulate some data points into one are:
 - *COUNT*: returns the number of data point in this time frame.
 - *SUM*: calculate the sum of all the data points.
 
-In case the *Number of bins* is ``0`` the *Statistics kind* is not used as the data are not going to be accumulated.
+In case the *Number of bins* is ``0`` the *Statistics kind* is not used as the data is not going to be accumulated.
 
 Quick explanation of the data displayed
 ---------------------------------------
@@ -158,11 +158,12 @@ makes reference to (visit example in :ref:`source_entity_id`).
 
 The actual chart that will be represented consists in a number of frames, set by variable :ref:`number_of_bins`,
 each of them with same time lengths from the value :ref:`start_time` to the value :ref:`end_time`.
-Inside one of this fractions of time, that we will call time frames, there could be none, one or several data points. \
-If there are no data points in this frame, the value will be ``0`` or will not be displayed in the chart. \
+Inside one of this fractions of time, that we will call time frames, there could be none, one or several data
+points. |br|
+If there are no data points in this frame, the value will be ``0`` or will not be displayed in the chart. |br|
 If there are data points in the frame, only one point will be displayed in the chart for this time frame.
 This point will be calculated by accumulating all these points inside the frame by a *cumulative funcion*,
-specified by the value :ref:`statistics_kind`. \
+specified by the value :ref:`statistics_kind`. |br|
 
 In case the *Number of bins* is set to 0, there is no accumulation or time frame, and so the data displayed will be
 all the data points for this configuration, each in its time value.
@@ -178,7 +179,7 @@ an inside window in :ref:`main_panel_layout` that displays entities data with di
 To start a new Chartbox, press :ref:`display_data_button` in :ref:`edit_menu` or in :ref:`shortcuts_bar`.
 
 Clicking :ref:`display_data_button`, a new Dialog will appear asking to choose one of the data types that are
-being collected in the application. \
+being collected in the application. |br|
 Once a chart has been set with a data type (aka *DataKind*) it could not be changed.
 Nevertheless, new charts could be started with the same or different *DataKind* without limits.
 
@@ -231,11 +232,11 @@ Left click in any point in a data displayed will show an info box with the x and
 Moving the view
 ^^^^^^^^^^^^^^^
 Press and hold ``Ctrl`` key and left click in one point of the Chartbox.
-Move the mouse to move the all data and the labels at once.
+Move the mouse to scroll over the data.
 
 Zoom in/out
 ^^^^^^^^^^^
-Press and hold ``Ctrl`` key and scroll up to zoom in to the center of the Chartbox.
+Press and hold ``Ctrl`` key and scroll up to zoom in to the center of the Chartbox. |br|
 Press and hold ``Ctrl`` key and scroll down to zoom out from the center of the Chartbox.
 
 Series Configuration
@@ -252,10 +253,10 @@ Change the name of this serie.
 
 Change color
 ^^^^^^^^^^^^
-A Dialog will open to choose a new color for the e and the points displayed.
+A Dialog will open to choose a new color for the e and the points displayed. |br|
 Also available with left click on the color of the serie in the *Legend*.
 
 Hide/Show serie
 ^^^^^^^^^^^^^^^
-Hide a serie if it is displayed, or it reveal it if it is hide.
+Hide a serie if it is displayed, or it reveal it if it is hide. |br|
 Also available with left click on the name of the serie in the *Legend*.

@@ -14,31 +14,31 @@ Info Panel
 ==========
 In this panel it is displayed the specific information of the entity that is currently **selected**
 (visit :ref:`selected_entity`).
-This information has some fields that are general for all the entity types, and some others that are dependent
-of one specific entity:
+This information has some fields that are general for all the entity types, and some others that depends on
+the specific entity kind:
 
-- General fields
-    - **name**: internal name of the entity
-    - **id**: internal unique id for each entity
-- Process
-    - **pid**: Process Id in its host
-- Topic
-    - **type_name**: name of the data type of the topic
-- Participant
-    - **GUID**: DDS GUID
-    - **QoS**: DDS QoS information
-- DataWriter
-    - **GUID**: DDS GUID
-    - **QoS**: DDS QoS information
-- DataReader
-    - **GUID**: DDS GUID
-    - **QoS**: DDS QoS information
+* General fields
+    * **name**: internal name of the entity
+    * **id**: internal unique id for each entity
+* Process
+    * **pid**: Process Id in its host
+* Topic
+    * **type_name**: name of the data type of the topic
+* Participant
+    * **GUID**: DDS GUID
+    * **QoS**: DDS QoS information
+* DataWriter
+    * **GUID**: DDS GUID
+    * **QoS**: DDS QoS information
+* DataReader
+    * **GUID**: DDS GUID
+    * **QoS**: DDS QoS information
 
 .. _statistics_panel:
 
 Statistics Panel
 ================
-In this panel it is displayed the a summary of some data types of the entity that is currently **selected**
+In this panel it is displayed a summary of some data types of the entity that is currently **selected**
 (visit :ref:`selected_entity`).
 
 .. todo::
@@ -54,15 +54,15 @@ Issues Panel
 In this panel it is displayed a brief information of the actual state of the Monitor, as different notifications from
 events in the application.
 
-- Entities
-    - *Domains*: A list of the Domains that has been initialized in the Monitor so far.
-    - *Entities*: Total number of entities that are being tracked.
-- Callbacks
-    - Each of the entities discovered by the Monitor and the time it has happened.
-    - This list could be erased using :ref:`refresh_button`.
-- Issues
-    - Notifications about odd behavior of the application or the DDS networks monitoring.
-    - This list could be erased using :ref:`refresh_button`.
+* Entities
+    * *Domains*: A list of the Domains that has been initialized in the Monitor so far.
+    * *Entities*: Total number of entities that are being tracked.
+* Callbacks
+    * Each of the entities discovered by the Monitor and the time it has happened.
+    * This list could be erased using :ref:`refresh_button`.
+* Issues
+    * Notifications about odd behavior of the application or the DDS networks monitoring.
+    * This list could be erased using :ref:`refresh_button`.
 
 .. note::
-    *Issues* feature is a work in progress, and do not report many information yet.
+    *Issues* feature is a work in progress, and may not report many information yet.

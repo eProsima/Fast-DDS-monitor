@@ -35,23 +35,23 @@ simultaneous.
 
 .. warning::
     Starting a monitor in a domain or *Discovery Server* already initialize will duplicate the entities in them
-    and may lead to an **undefined behaviour**.
+    and may lead to an undefined behavior.
+
+For further information about monitoring a Domain refer to :ref:`monitor_domain`.
 
 Pressing this button, a new Dialog will be displayed with two tabs.
-Each of them allows to start a monitoring with different discovery protocols.
+Each of them allows to start a monitor with different discovery protocols.
 
 Simple Discovery
 ^^^^^^^^^^^^^^^^
 Ask to introduce a number between 0 and 200.
 
-This will allow to monitor a specific domain and all the DDS entities that are communicating in this domain
-in the *Fast-DDS* statistics topics.
-The entities in this domain will be discovered automatically, and their connections and data will be built and
-display in the monitor for further queries from the user.
+This will start a monitor in a specific domain and all the DDS entities that are communicating in this domain.
+The entities in this domain will be discovered automatically.
 
 Discovery Server
 ^^^^^^^^^^^^^^^^
-Ask to introduce a string with addresses to connect with a *Discovery Server*.
+Ask to introduce a string with addresses to connect with *Discovery Servers*.
 This string must contain addresses in a format ``ip:port`` separated by ``;``.
 
 This will connect to the Discovery Servers listening in the addresses set, and will get all the discovery information
@@ -72,7 +72,8 @@ Refresh
 This button reset several points in the monitor:
 
 - It erases the callback information in *Issues* right panel.
-- It reset the entity clicked, setting as clicked an abstract *All* entity that represents all the discovered ones.
+- It resets the entity clicked.
+  An abstract *All* entity is set as new *entity clicked*, representing all the discovered entities.
 
 View
 ====
@@ -109,7 +110,7 @@ Release Notes
 
 Join Us on Twitter
 ------------------
-Link to `eProsima Twitter account <https://twitter.com/EProsima>`.
+Link to `eProsima Twitter account <https://twitter.com/EProsima>`_.
 
 Search Feature Requests
 -----------------------
@@ -118,6 +119,9 @@ Link to this project *issues* github page.
 Report Issue
 ------------
 Link to this project *issues* github page.
+
+.. todo::
+    Explain the form to add an issue.
 
 About
 -----

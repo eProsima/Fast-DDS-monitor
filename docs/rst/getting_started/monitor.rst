@@ -1,4 +1,5 @@
 .. include:: ../exports/alias.include
+.. include:: ../exports/roles.include
 
 .. _monitor_domain:
 
@@ -7,8 +8,8 @@ Monitor Domain
 ##############
 
 This application is able to track different :ref:`entities` that belongs to the DDS communication protocol or
-are in some sense related to these entities.
-The DDS communication protocol (see |DDSSpecification|) in its higher abstraction divide a DDS network in independent
+are, in some sense, related to these entities.
+The DDS communication protocol (see |DDSSpecification|) divide a DDS network in independent
 partitions that are called :ref:`domain_entity`.
 This Domains must fulfilled that only the entities in the same Domain can discover and communicate with each other,
 and so this depends on the *Discovery Protocol* that is being use.
@@ -20,7 +21,7 @@ This is not the case with the :ref:`physical_entities` that could be shared betw
 the same :ref:`host_entity`, or even the same :ref:`locator_entity` could be related with entities in several Domains.
 
 For the propose of monitoring a Domain, the application gives the button :ref:`init_monitor_button` where a user can
-manually specify the configuration of a Discovery type. \
+manually specify the configuration of a Discovery type. |br|
 Once a Monitor is initialized in a specific Domain, the entities in this Domain will start to be discovered and its
 data collected.
 Every new entity or data discovered will be notified as a callback in :ref:`issues_panel`.
@@ -31,7 +32,7 @@ Simple Discovery Monitor
 ========================
 The DDS Simple Discovery remains on the discovery of individual entities by multicast communication.
 No previous information about the network and its architecture is needed in order to create a new
-:ref:`participant_entity` that connects with the already running in the same net. \
+monitor that connects with the *Participants* already running in the same net. |br|
 In order to configure this kind of Domain monitoring, it is only needed to specify the number of the Domain that is
 going to be tracking.
 
@@ -43,18 +44,19 @@ The `Discovery Server <https://www.eprosima.com/index.php/products-all/tools/epr
 discovery protocol is a Fast DDS feature that allows to centralize the discovery phase in a single or a network of
 *Discovery Servers*.
 This has been demonstrated to be very useful in order to reduce the discovery traffic and to avoid certain problems
-that could appear with the use of the Single Discovery and the use of multicast. \
+that could appear with the use of the Single Discovery and multicast.
+
 In order to configure this kind of Domain monitoring, it is required to insert a string with different addresses.
 This string consist in one or several addresses in the format of ``ip_address:port``, each of these are IP addresses
 where a Discovery Server is listening.
-Each address is separated with ``;``. \
+Each address is separated with ``;``. |br|
 It is only needed to successfully connect to one of the addresses set in the parameter, as a network of Discovery
 Servers interconnected creates a redundancy that makes the network more robust, but it is not required to connect
 with all of the Servers in it.
 
-In the following snippet it is shown an example of how to connect with one Discovery Server in your own local host
-listening in port 11811, one in the same local network in address ``192.168.1.2:12000`` and a third
-one in an external network in address `8.8.8.8:12345`.
+In the following snippet it is shown an example on how to connect with one Discovery Server in your own local host
+listening in port ``11811``, one in the same local network in address ``192.168.1.2:12000`` and a third
+one in an external network in address ``8.8.8.8:12345``.
 
 .. code-block:: console
 

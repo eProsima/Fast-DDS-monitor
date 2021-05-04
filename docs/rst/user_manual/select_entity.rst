@@ -6,11 +6,9 @@
 Selected Entity
 ###############
 
-Functionality related with the entities displayed in :ref:`left_sidebar_layout`.
-
-The application will store one entity as  **last entity clicked** in order to manage what information is displayed.
+The application stores one entity as  **last entity clicked** in order to manage what information is displayed.
 An entity is every element that is being tracked by the monitor (visit :ref:`entities` section).
-To set one entity as *clicked* double click in any entity in any of the :ref:`left_sidebar_layout`,
+To set one entity as *clicked* double click in any entity in any of the :ref:`left_sidebar_layout` panels,
 and this entity will be set as *Selected Entity* for the whole application from now on.
 
 The following information depends on the entity selected:
@@ -29,4 +27,4 @@ To change the actual *Selected Entity* just click in a another entity in the :re
 To deselect any entity use the *Refresh* button (:ref:`refresh_button`).
 This will cause the application to define as *Selected Entity* and abstract entity that represents all the entities
 monitoring.
-Thus, the information shown is a brief summary of the application actual state, and the
+Thus, the information shown is a brief summary of the application actual state.
