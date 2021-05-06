@@ -363,7 +363,7 @@ Dialog {
 
     MessageDialog {
         id: wrongDatesDialog
-        title: "Wrong timestamps"
+        title: "Wrong Timestamps"
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The start timestamp entered is posterior to the end timestamp."
@@ -372,8 +372,38 @@ Dialog {
         }
     }
 
+    MessageDialog {
+        id: emptySourceEntityIdDialog
+        title: "Empty Source Entity Id"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+    }
+
+    MessageDialog {
+        id: emptyTargetEntityIdDialog
+        title: "Empty Target Entity Id"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+    }
+
 
     function createSeries() {
+        if (sourceEntityId.currentText == "") {
+            emptySourceEntityIdDialog.open()
+            return
+        } else if (targetEntityIdObject.targetEntityId === "") {
+            emptyTargetEntityIdDialog.open()
+            return
+        }
+
         var startTime = Date.fromLocaleString(
                     Qt.locale(),
                     startTimeDate,

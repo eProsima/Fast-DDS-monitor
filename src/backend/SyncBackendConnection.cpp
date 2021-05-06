@@ -463,7 +463,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
 
     if (two_entities_data)
     {
-        assert(!target_entity_id.is_valid());
+        assert(target_entity_id.is_valid());
         return StatisticsBackend::get_data(
             data_kind,
             source_ids, // TODO
