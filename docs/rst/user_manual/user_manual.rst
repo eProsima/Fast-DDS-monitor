@@ -7,8 +7,8 @@ User Manual
 ###########
 
 This section explains every window element and every button functionality of the application.
-To see a fast tutorial on how to start using this application to monitor a real network, please
-refer to :ref:`start_tutorial`.
+To see a tutorial on how to start using this application to monitor a deployed DDS network, please
+refer to this :ref:`start_tutorial`.
 
 .. toctree::
 

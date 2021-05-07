@@ -6,7 +6,7 @@
 Application Menu
 ################
 
-Functionality related with :ref:`application_menu_layout`.
+This section describes the operations that can be performed in *Fast DDS Monitor* through the application menu.
 
 File
 ====
@@ -28,8 +28,9 @@ Edit
 Initialize New Monitor
 ----------------------
 Button to start monitoring a new DDS network.
-The entities in this network will be discovered automatically, and their connections and data will be built and
-display in the monitor for further queries from the user.
+The entities of this network will be automatically discovered.
+Moreover, their connections, their configuration and statistical data reported by them will be built and
+displayed on the monitor for further user queries.
 Be aware that the discovery of this entities is made by DDS protocols, and so they will not be instantaneous or
 simultaneous.
 
@@ -39,31 +40,32 @@ simultaneous.
 
 For further information about monitoring a Domain refer to :ref:`monitor_domain`.
 
-Pressing this button, a new Dialog will be displayed with two tabs.
-Each of them allows to start a monitor with different discovery protocols.
+Pressing this button, a new Dialog with two tabs will be displayed.
+Each tab allows to start a monitor in a DDS network deployed using the Simple Discovery Protocol (SDP)
+or the Fast DDS Discovery Server (DS).
 
 Simple Discovery
 ^^^^^^^^^^^^^^^^
-Ask to introduce a number between 0 and 200.
-
-This will start a monitor in a specific domain and all the DDS entities that are communicating in this domain.
-The entities in this domain will be discovered automatically.
+Request the user to introduce a number between 0 and 200 which will be the DDS Domain number.
+This will start a monitor in a specific DDS domain.
+The entities in this domain will be automatically discovered.
 
 Discovery Server
 ^^^^^^^^^^^^^^^^
-Ask to introduce a string with addresses to connect with *Discovery Servers*.
-This string must contain addresses in a format ``ip:port`` separated by ``;``.
+Requests the user to introduce a list of network addresses in a specific string format to connect with one or more
+*Fast DDS Discovery Servers*.
+This string must contain the IP-port pair where the Discovery Server is listening in the format ``ip:port``
+separated by ``;``.
 
-This will connect to the Discovery Servers listening in the addresses set, and will get all the discovery information
-of the entities connecting through them.
+This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
+and it will get all the discovery information of the entities connecting through them.
 
 .. _display_data_button:
 
 Display New Data
 ----------------
-Create a new *Chart* window in central panel.
-
-To know how to configure a *Chart* refer to the section :ref:`chart_panel`.
+Create a new *Chartbox* in the central panel.
+To know how to configure a *Chartbox* refer to the section :ref:`chart_panel`.
 
 .. _refresh_button:
 
@@ -71,16 +73,17 @@ Refresh
 -------
 This button reset several points in the monitor:
 
-- It erases the callback information in *Issues* right panel.
+- It clears the callback list in the *Issues* right panel.
 - It resets the entity clicked.
-  An abstract *All* entity is set as new *entity clicked*, representing all the discovered entities.
+  All DDS entities discovered will be shown regardless of the DDS Domain they belong
+  and the information displayed refer to a summary of all the entities in the monitor.
 
 View
 ====
 
 Hide/Show Shortcuts Toolbar
 ---------------------------
-Hide the shortcuts superior toolbar if visible, or reveal it otherwise.
+Hides the shortcuts superior toolbar if visible, or reveal it otherwise.
 
 Customize Shortcuts Toolbar
 ---------------------------
@@ -114,15 +117,17 @@ Link to `eProsima Twitter account <https://twitter.com/EProsima>`_.
 
 Search Feature Requests
 -----------------------
-Link to this project *issues* github page.
+Link to the *issues* section of the Fast DDS Monitor repository in
+`GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
 
 Report Issue
 ------------
-Link to this project *issues* github page.
+Link to the *issues* section of the Fast DDS Monitor repository in
+`GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
 
 .. todo::
     Explain the form to add an issue.
 
 About
 -----
-General information of the application.
+General information of the currently running *Fast DDS Monitor* application.
