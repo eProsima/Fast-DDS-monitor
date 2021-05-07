@@ -10,7 +10,7 @@ Monitor Domain
 This application is able to track different :ref:`entities` that belongs to the DDS communication protocol or
 are, in some sense, related to these entities.
 The DDS communication protocol (see |DDSSpecification|) divide a DDS network in independent
-partitions that are called :ref:`domain_entity`.
+partitions referred to as :ref:`domain_entity`.
 This Domains must fulfilled that only the entities in the same Domain can discover and communicate with each other,
 and so this depends on the *Discovery Protocol* that is being use.
 This application implements two different *Discovery Protocols* that could be use to monitor entities.
@@ -37,9 +37,9 @@ Simple Discovery Monitor
 ========================
 The DDS Simple Discovery remains on the discovery of individual entities by multicast communication.
 No previous information about the network and its architecture is needed in order to create a new
-monitor that connects with the *Participants* already running in the same net. |br|
+monitor that connects with the *Participants* already running in the same network.
 In order to configure this kind of Domain monitoring, it is only needed to specify the number of the Domain that is
-going to be tracking.
+going to be tracked
 
 .. _discovery_server_monitor:
 
@@ -49,17 +49,18 @@ The `Discovery Server <https://www.eprosima.com/index.php/products-all/tools/epr
 discovery protocol is a Fast DDS feature that allows to centralize the discovery phase in a single or a network of
 *Discovery Servers*.
 This has been demonstrated to be very useful in order to reduce the discovery traffic and to avoid certain problems
-that could appear with the use of the Single Discovery and multicast.
+that could appear with the Simple Discovery Protocol and multicast.
 
-In order to configure this kind of Domain monitoring, it is required to insert a string with different addresses.
-This string consist in one or several addresses in the format of ``ip_address:port``, each of these are IP addresses
-where a Discovery Server is listening.
-Each address is separated with ``;``. |br|
+In order to configure this kind of Domain monitoring, it is required to insert a string with different
+network addresses.
+This string consist in one or several addresses in the format of ``ip_address:port``.
+Each of these are IP-port pair where a Discovery Server is listening.
+Each network address is separated with ``;``. |br|
 It is only needed to successfully connect to one of the addresses set in the parameter, as a network of Discovery
 Servers interconnected creates a redundancy that makes the network more robust, but it is not required to connect
 with all of the Servers in it.
 
-In the following snippet it is shown an example on how to connect with one Discovery Server in your own local host
+The following command shows an example on how to connect with one Discovery Server in your own localhost
 listening in port ``11811``, one in the same local network in address ``192.168.1.2:12000`` and a third
 one in an external network in address ``8.8.8.8:12345``.
 
@@ -69,14 +70,14 @@ one in an external network in address ``8.8.8.8:12345``.
 
 In order to clarify how to set this parameter, please visit the
 `Discovery Server CLI tutorial <https://fast-dds.docs.eprosima.com/en/v2.3.0/fastddscli/cli/cli.html#discovery>`_.
-The parameter of the Discovery Server *InitNewMonitor* in this app will be used equally as the input to the CLI command.
+The parameter of the Discovery Server *Init New Monitor* button in this application will be used equally as the input to the CLI command.
 
 .. warning::
     Due to the designed architecture for the communication of the Monitor application and the DDS entities,
-    it is highly recommended not to initialize a *Discovery Server Monitor* with Servers in different
-    *Discovery Server Networks* (do not connect a monitor to servers that are not interconnected).
+    it is highly recommended not to initialize a *Discovery Server Monitor* with servers in different
+    *Discovery Server Networks* (do not connect a monitor to servers that are not connected).
 
 .. warning::
-    Do not initialize a Discovery Server connection to a *Discovery Server Network* where you have already initialize
-    a Monitor.
-    This will lead to undefined behavior.
+    Do not initialize a *Discovery Server* monitoring in a *Discovery Server* Network* where another *Discovery Server*
+    is already been monitored.
+    This will lead to an undefined behavior.

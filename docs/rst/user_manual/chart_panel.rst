@@ -3,97 +3,104 @@
 
 .. _chart_panel:
 
-###########
-Chart Panel
-###########
+############
+Charts Panel
+############
 
-In the central panel or chart panel, is where the data of the entities discovered will be displayed.
+In the central panel or *chart panel*, is where the data of the entities will be displayed.
 The main feature of the *Fast DDS Monitor* application is to graphically display the data that is being monitored.
 DDS entities have associated different types of data (aka *DataKind*) that could be visualize by configuring a chart.
-For example, it can be displayed the mean, median and standard deviation latency between two machines running
+For example, it can be displayed the mean, median and standard deviation latency between two machines (*Hosts*) running
 *Fast DDS* applications for the period of two hours in intervals of ten minutes.
 
-Data Types
-==========
+Chart series
+============
 A *DataPoint* in a chart series in the *Fast DDS Monitor* refers to a specific data type of the DDS network monitoring.
-Each data point consists in a time and a value.
-The time is the moment the data has been created, reported, received, etc. depending on the *DataKind*.
-The value refers to the value of this *DataKind* in the particular moment that represents the time of the data.
+Each *DataPoint* consists in a timestamp and a real value.
+The *timestamp* is the moment the data has been created, reported, received, etc. depending on the *DataKind*.
+The *value* refers to the real value of this *DataPoint* for this *DataKind* at the moment of the *timestamp* value.
 
-i.e. each data point of the *DataKind* ``DATA_COUNT`` has a time and an integer value, and it is stored in a
-*DataWriter*.
-This data point value refers to the number of ``Data packages`` this *DataWriter* sent since the last time this data
-was reported to the time this data has.
-
-Hence, the representation of all the *DataKinds* will be similar. |br|
-The X axis is the time value of the data. |br|
-The Y axis is the value that is store in the data.
-This could be integers, doubles or times, but for the same *DataKind* will always be the same value type.
+For example, each *DataPoint* of the *DataKind* ``DATA_COUNT`` has a timestamp and an integer value.
+This value is the number of ``Data packets`` a *DataWriter* sent since the last time that same data was reported.
 
 .. todo::
 
     For a complete description of each *DataKind*, please refer to ...
     Add link to backend documentation once there is a first version.
 
+Chart view
+==========
+Every *DataKind* is represented similarly inside a *Chartbox*.
+None, one or multiple lines of different colors will represent the different data series that are being displayed
+in the chart with the following format: |br|
+The X axis is the time value of the data. |br|
+The Y axis is the value that is store in the data.
+This could be integers, doubles or times, but for the same *DataKind* will always be the same value type. |br|
+Every point represents a *DataPoint* of data in a particular time.
+
 .. _create_serie:
 
-Create Serie Dialog
-===================
-This Dialog (:ref:`create_new_series_layout`) allows to create a new *Serie* or data representation in a Chartbox.
+Create Series Dialog
+====================
+This Dialog (:ref:`create_new_series_layout`) allows to create a new data series in a Chartbox.
 The fields in the dialog configure the data that will be displayed
 
 Series label
 ------------
-Name that this new serie will have in the Chartbox. |br|
-If not set, the default name of a serie is ``<cumulative_function>_<entity_kind>-<number_of_binds>``.
+Name the new series in the Chartbox.
+If not set, the default name of a series is
+``<cumulative_function>_<source_entity_kind>_<target_entity_kind>-<target_entity_id>``.
 
 .. _source_entity_id:
 
 Source Entity Id
 ----------------
-This is the *entity Id* of the entity that the data will be collected from.
-This field has an entity kind to encapsulate the ids of the entities with the same kind, and make it easier to
-search for the id required.
+This is the *entity Id* of the entity from which the data will be collected.
+This field has an entity kind to encapsulate the ids of the entities with the same kind,
+and make it easier for the user to search for the id required.
 
-Each *DataKind* is related with one entity kind, normally a *DataWriter* or a *DataReader*, where this data is stored.
+Each *DataKind* is related with one entity kind, normally a *DataWriter* or a *DataReader*,
+which are the producers of that *DataKind*.
 However, every entity kind is available to choose the data to represent.
-This is because choosing an entity that has not this data associated, it is possible to find all the connected entities
-to this one by the entity connections (visit section :ref:`entities` for more information).
+When an entity without this type of data is selected, the monitor will look for the entities contained
+in the specified entity that do report this specific *DataKind*.
+For example, in case the user wants to represent the number of packets (``DATA_COUNT``) transmitted by a *Host*,
+the monitor will look for all the *DataWriters* contained in that *Host* and report the total number of packets.
 
-i.e. To show the *DataKind* ``HEARTBEAT_COUNT``, that is stored in a *DataWriter*, for an entity of kind *Host*, the
-application will find every *DataWriter* in this *Host* by finding every *User* in this *Host*, then finding every
-*Process* in these *Users*, finding every *Participant* in these *Processes* and finding every *DataWriter* in these
-*Participants*.
+Continuing with the ``DATA_COUNT`` *DataKind* example, the monitor will find every *DataWriter* in this *Host*
+by finding every *User* in this *Host*, then finding every *Process* in these *Users*, finding every
+*DomainParticipant* in these *Processes* and finding every *DataWriter* in these *DomainParticipants*.
 Hence, the data displayed will be all the data that all those *DataWriters* have stored, accumulated by the
 cumulative function.
+Please refer to :ref:`entities` section for more information on the monitor entities connections.
 
-It is recommended to check some examples (:ref:`start_tutorial`) in order to better understand this functionality.
+It is recommended to check some examples (see :ref:`start_tutorial`) in order to better understand this functionality.
 
 Target Entity Id
 ----------------
 
 .. note::
 
-    Not every *DataKind* has a target, so the dialog will only show this field when the *DataKind* selected
+    Not every *DataKind* has a target entity, so the dialog will only show this field when the *DataKind* selected
     requires it.
 
-This is the entity Id of the entity that the data refers to. |br|
+This is the entity Id of the entity to which the data refers.
 This field works similar to the :ref:`source_entity_id`.
-Some *DataKind* has a target entity that the data refers to, and this target must be of an specific entity kind.
-Choosing an entity of a different kind than the one this data requires, will be solved by using the same
+Some *DataKind* has a target entity to which the data refers, and this target must be of an specific entity kind.
+Choosing an entity of a different kind than the one this data requires will be solved by using the same
 mechanism explained in :ref:`source_entity_id`.
 That is, searching for the correct entity kind by following the connections between entities.
 
-i.e. To show the *DataKind* ``FASTDDS_LATENCY``, that is stored in a *DataWriter*, and targeted to a *DataReader*,
+i.e. To show the *DataKind* ``FASTDDS_LATENCY``, that is reported by a *DataWriter*, and targeted to a *DataReader*,
 from an entity ``Host_1`` to an entity ``Host_2``, both of kind *Host*, the data displayed would be collected
-like this:
+following the steps described below:
 
-- Get all the *DataWriters* of ``Host_1`` by searching for its *Users*, their *Process*, their *Participants* and
-  their respective *DataWriters*.
-- Get all the *DataReaders* of ``Host_2`` by searching for its *Users*, their *Process*, their *Participants* and
-  their respective *DataReaders*.
+- Get all the *DataWriters* of ``Host_1`` by searching for its *Users*, their *Processes*, their
+  *DomainParticipants* and their respective *DataWriters*.
+- Get all the *DataReaders* of ``Host_2`` by searching for its *Users*, their *Processes*, their
+  *DomainParticipants* and their respective *DataReaders*.
 - Get all the data from the *DataWriters* found that refer to the *DataReaders* found inside the interval set.
-- Accumulate the data by the *cumulative function*.
+- Accumulate the data using the *cumulative function*.
 
 It is recommended to check some examples (:ref:`start_tutorial`) in order to better understand this functionality.
 
@@ -189,7 +196,7 @@ Nevertheless, new charts could be started with the same or different *DataKind* 
 
 These charts will be displayed in the central panel with the title of the *DataKind* they refer to.
 In these charts it will be displayed the Series of data that the user initialize.
-For how to set a new serie please refer to :ref:`create_serie`.
+For how to set a new series please refer to :ref:`create_serie`.
 
 Chart Menu
 ----------
@@ -214,7 +221,7 @@ In the top bar of each Chartbox there is a Menu tab *Series* with these buttons.
 
 Add series
 ^^^^^^^^^^
-Add a new serie in this Chartbox.
+Add a new series in this Chartbox.
 This will open a new :ref:`create_serie`.
 
 Hide all series
@@ -245,22 +252,22 @@ Press and hold ``Ctrl`` key and scroll down to zoom out from the center of the C
 
 Series Configuration
 --------------------
-Right click in the name of the serie in the *Legend* will open a dialog with the available configurations for a serie.
+Right click in the name of the series in the *Legend* will open a dialog with the available configurations for a series.
 
-Remove serie
+Remove series
 ^^^^^^^^^^^^
-Remove this serie.
+Remove this series.
 
-Rename serie
+Rename series
 ^^^^^^^^^^^^
-Change the name of this serie.
+Change the name of this series.
 
 Change color
 ^^^^^^^^^^^^
 A Dialog will open to choose a new color for the e and the points displayed. |br|
-Also available with left click on the color of the serie in the *Legend*.
+Also available with left click on the color of the series in the *Legend*.
 
-Hide/Show serie
+Hide/Show series
 ^^^^^^^^^^^^^^^
-Hide a serie if it is displayed, or it reveal it if it is hide. |br|
-Also available with left click on the name of the serie in the *Legend*.
+Hide a series if it is displayed, or it reveal it if it is hide. |br|
+Also available with left click on the name of the series in the *Legend*.
