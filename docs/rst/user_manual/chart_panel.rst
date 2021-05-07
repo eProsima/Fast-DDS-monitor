@@ -9,7 +9,8 @@ Charts Panel
 
 In the central panel or *chart panel*, is where the data of the entities will be displayed.
 The main feature of the *Fast DDS Monitor* application is to graphically display the data that is being monitored.
-DDS entities have associated different types of data (aka *DataKind*) that could be visualize by configuring a chart.
+DDS entities have associated different types of data (so-called *DataKind*) that could be visualize by configuring
+a chart.
 For example, it can be displayed the mean, median and standard deviation latency between two machines (*Hosts*) running
 *Fast DDS* applications for the period of two hours in intervals of ten minutes.
 
@@ -112,14 +113,12 @@ It is recommended to check some examples (:ref:`start_tutorial`) in order to bet
 
 Number of bins
 --------------
-Number of points that will be displayed for this data.
-
+Number of *DataPoints* that will be displayed for this chart series.
 The data is collected in individual points in every entity, without a regular time interval or pattern.
 Therefore, to show the data in a better understandable manner, each of these points will be merged in a single point
 inside a fraction of the time interval.
-The *Number of bins* determines how many fractions this time interval will be split on, and thus, how many points
-will be displayed in the chart.
-
+The *Number of bins* determines how many fractions on which this time interval will be split, and thus, how many points
+will be displayed in the chart. |br|
 To see all the individual data points without accumulate them, set the *Number of bins* to 0.
 
 .. _start_time:
@@ -127,15 +126,15 @@ To see all the individual data points without accumulate them, set the *Number o
 Start time
 ----------
 The time that represents the minimum limit for the data points that will be displayed.
-That is, every data that refers to a time before this value will not be displayed. |br|
-*Default initial timestamp* means the lower time that this data configuration has.
+That is, every data that refers to a time before this value will not be displayed.
+*Default initial timestamp* means the lower timestamp that this data configuration has.
 
 .. _end_time:
 
 End time
 --------
 The time that represents the maximum limit for the data points that will be displayed.
-That is, every data that refers to a time after this value will not be displayed. |br|
+That is, every data that refers to a time after this value will not be displayed.
 *Now* means the current time.
 Be aware that the current time is not the maximum time that could be set up to see the data, but setting
 a time bigger than *Now* could (obviously) not have data points in the higher time frames.
@@ -144,37 +143,37 @@ a time bigger than *Now* could (obviously) not have data points in the higher ti
 
 Statistics kind
 ---------------
-The cumulative function use to accumulate the data points that fulfilled the conditions set in this configuration. |br|
-When in a single time frame there are several data points to show, these data points are transformed into one by
+The cumulative function is used to accumulate the data points that fulfilled the conditions set in this configuration.
+When there are several data points to show in a single time frame these data points are transformed into one by
 a *cumulative function*.
-This function is the one that *Statistics kind* is set to.
+This function is the one set in *Statistics kind*.
 
 The available methods to accumulate some data points into one are:
 
-- *NONE*: returns the data point with the lower time.
+- *NONE*: returns the *DataPoint* with the lower time.
 - *MEAN*: calculate the mean value of all the data points.
 - *STANDARD_DEVIATION*: calculate the standard deviation of all the data points.
-- *MAX*: returns the data point with the maximum value.
-- *MIN*: returns the data point with the minimum value.
+- *MAX*: returns the *DataPoint* with the maximum value.
+- *MIN*: returns the *DataPoint* with the minimum value.
 - *MEDIAN*: calculate the median of all the data points.
-- *COUNT*: returns the number of data point in this time frame.
+- *COUNT*: returns the number of *DataPoint* in this time frame.
 - *SUM*: calculate the sum of all the data points.
 
 In case the *Number of bins* is ``0`` the *Statistics kind* is not used as the data is not going to be accumulated.
 
 Quick explanation of the data displayed
 ---------------------------------------
-First, the application will create a whole list of data points by merging the data from all the entities this query
-makes reference to (visit example in :ref:`source_entity_id`).
+First, the application will create a complete list of data points by merging the data of all entities referred
+to in this query.
+(see the example in :ref:`source_entity_id`).
 
-The actual chart that will be represented consists in a number of frames, set by variable :ref:`number_of_bins`,
-each of them with same time lengths from the value :ref:`start_time` to the value :ref:`end_time`.
-Inside one of this fractions of time, that we will call time frames, there could be none, one or several data
-points. |br|
-If there are no data points in this frame, the value will be ``0`` or will not be displayed in the chart. |br|
+The current represented chart consists in a number of frames or bins, set by the :ref:`number_of_bins` variable
+from the value :ref:`start_time` to the value :ref:`end_time`.
+Inside one of this fractions of time, referred to as frames, there could be none, one or several data points.
+If there are no data points in this frame, the value will be ``0`` or will not be displayed in the chart.
 If there are data points in the frame, only one point will be displayed in the chart for this time frame.
 This point will be calculated by accumulating all these points inside the frame by a *cumulative funcion*,
-specified by the value :ref:`statistics_kind`. |br|
+specified by the value :ref:`statistics_kind`.
 
 In case the *Number of bins* is set to 0, there is no accumulation or time frame, and so the data displayed will be
 all the data points for this configuration, each in its time value.
@@ -184,15 +183,15 @@ all the data points for this configuration, each in its time value.
 Chartbox
 ========
 
-In this section it is explained the main functionalities and interactions available with a :ref:`chartbox_layout`,
-an inside window in :ref:`main_panel_layout` that displays entities data with different configurations.
+In this section it is explained the main functionalities and interactions available within a :ref:`chartbox_layout`,
+a window contained in the :ref:`main_panel_layout` that displays entities data with different configurations.
 
 To start a new Chartbox, press :ref:`display_data_button` in :ref:`edit_menu` or in :ref:`shortcuts_bar`.
 
-Clicking :ref:`display_data_button`, a new Dialog will appear asking to choose one of the data types that are
-being collected in the application. |br|
-Once a chart has been set with a data type (aka *DataKind*) it could not be changed.
-Nevertheless, new charts could be started with the same or different *DataKind* without limits.
+Clicking :ref:`display_data_button`, a new Dialog will appear requesting to choose one of the data types that are
+being collected in the application.
+Once a chart has been set with a *DataKind* it could not be changed.
+Nevertheless, new charts could be started with the same or different *DataKind*.
 
 These charts will be displayed in the central panel with the title of the *DataKind* they refer to.
 In these charts it will be displayed the Series of data that the user initialize.
@@ -200,7 +199,7 @@ For how to set a new series please refer to :ref:`create_serie`.
 
 Chart Menu
 ----------
-In the top bar of each Chartbox there is a Menu tab *Chart* with these buttons.
+In the top bar of each Chartbox there is a Menu tab *Chart* with the following buttons.
 
 Reset zoom
 ^^^^^^^^^^
@@ -238,7 +237,8 @@ The user could interact with the Chartbox and the data in it by resizing and mov
 
 Point description
 ^^^^^^^^^^^^^^^^^
-Left click in any point in a data displayed will show an info box with the x and y label values of the point.
+Clicking in any point of a displayed series, an info box will be prompt with the ``x`` and ``y``
+label values of the data point.
 
 Moving the view
 ^^^^^^^^^^^^^^^
@@ -252,7 +252,7 @@ Press and hold ``Ctrl`` key and scroll down to zoom out from the center of the C
 
 Series Configuration
 --------------------
-Right click in the name of the series in the *Legend* will open a dialog with the available configurations for a series.
+Right clicking in the name of a series in the *Legend* will open a dialog with the available configurations for a serie.
 
 Remove series
 ^^^^^^^^^^^^
@@ -264,7 +264,7 @@ Change the name of this series.
 
 Change color
 ^^^^^^^^^^^^
-A Dialog will open to choose a new color for the e and the points displayed. |br|
+A Dialog will open to choose a new color for the series and the points displayed. |br|
 Also available with left click on the color of the series in the *Legend*.
 
 Hide/Show series

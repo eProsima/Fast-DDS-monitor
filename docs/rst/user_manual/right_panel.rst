@@ -2,17 +2,20 @@
 
 .. _right_panel:
 
-###########
-Right Panel
-###########
+#############
+Right Sidebar
+#############
+
+The right sidebar shows settings about the entities monitored by the application and some general information
+about the state and the events of the monitor.
 
 .. _info_panel:
 
 Info Panel
 ==========
 In this panel it is displayed the specific information of the entity that is currently **selected**
-(visit :ref:`selected_entity`).
-This information has some fields that are general for all the entity types, and some others that depends on
+(see :ref:`selected_entity`).
+This information has some fields that are general for all the entity kinds, and some others that depends on
 the specific entity kind:
 
 * General fields
@@ -37,7 +40,7 @@ the specific entity kind:
 Statistics Panel
 ================
 In this panel it is displayed a summary of some data types of the entity that is currently **selected**
-(visit :ref:`selected_entity`).
+(see :ref:`selected_entity`).
 
 .. todo::
     Design the information it must display
@@ -49,8 +52,8 @@ application.
 
 Issues Panel
 ============
-In this panel it is displayed a brief information of the actual state of the Monitor, as different notifications from
-events in the application.
+In this panel it is displayed a brief information of the actual state of the *Fast DDS Monitor*,
+as different notifications from events in the application.
 
 * Entities
     * *Domains*: A list of the Domains that has been initialized in the Monitor so far.

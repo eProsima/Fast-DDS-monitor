@@ -16,7 +16,8 @@ that are displayed and the connection between them.
 
 DDS Panel
 =========
-In this panel are displayed all the :ref:`dds_entities` that has been discovered so far under every domain monitored.
+In this panel are displayed all the :ref:`dds_entities` that has been discovered by the monitor so far under every
+DDS domain or Discovery Server monitored.
 This panel displays specific DDS entities related with the Fast DDS Monitor entity currently selected
 (see :ref:`selected_entity`). |br|
 For example, it is possible to track the DDS entities created from an application running on a specific *Host*,
