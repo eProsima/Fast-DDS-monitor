@@ -8,7 +8,7 @@ Entities
 ########
 
 The monitoring functions of this application relays on tracking the activity of certain *Entities* that the
-*Fast DDS Monitor* will retireve, as well as it stores their data and the connections between them
+*Fast DDS Monitor* will retrieve, as well as it stores their data and the connections between them
 for their presentation to the user.
 These entities represents DDS communication entities, or different physical elements related with DDS entities.
 
@@ -18,7 +18,7 @@ Those entities, or types of entities, that do not have a direct relationship are
 intermediate entities make it possible to relate any entity in the graph to another indirectly,
 i.e. one *DomainParticipant* is related with its *User* by the relation with its *Process*.
 
-.. _fig-entities-diagram:
+.. _fig_entities_diagram:
 
 .. figure:: /rst/figures/entities_diagram.svg
 
@@ -41,14 +41,14 @@ DomainParticipant
 The *DomainParticipant* is the main entity in the DDS protocol.
 It represents a collection of DataReaders/DataWriters, and manage the whole DDS Discovery of others *DomainParticipants*
 and *DataReaders/DataWriters* within the DDS Domain to which it belongs.
-Refer to `Fast DDS Documentation
+Refer to `DomainParticipant Fast DDS Documentation
 <https://fast-dds.docs.eprosima.com/en/latest/fastdds/dds_layer/domain/domainParticipant/domainParticipant.html>`_
 for a more detailed explanation of the *DomainParticipant* entity in DDS.
 
 Each *DomainParticipant* can only communicate under one *Domain* (see :ref:`logical_entities`)
 and so it exist a direct connection between each *DomainParticipant* and the *Domain* in which it works. |br|
-From image :ref:`fig-entities-diagram` it can be seen that a the DomainParticipant entities are contained in a Process,
-this is because a system process (so-called *Process* entity) executes an application using Fast DDS
+From image :numref:`fig_entities_diagram` it can be seen that a the DomainParticipant entities are contained in a
+Process, this is because a system process (so-called *Process* entity) executes an application using Fast DDS
 that instantiates *DomainParticipants*.
 The same applies to *DataReaders/DataWriters* instantiated by a *DomainParticipant* belonging to a specific *Process*.
 Therefore, a *Process* can contain as many DDS entities as the Fast DDS application running in that *Process*
@@ -57,13 +57,12 @@ has instantiated.
 .. _datawriter_entity:
 
 DataWriter
------------
+----------
 *DataWriter* is the DDS entity in charge of publishing the data.
-
-Each *DataWriter* is directly contained in a single DomainParticipant.
+Each *DataWriter* is directly contained in a single *DomainParticipant*.
 In addition, since a *DataWriter* is associated to the *Topic* under which it publishes,
 it is possible to define a direct containment relationship of a *DataWriter* in a *Topic*.
-Thus, the *Topic* will contain all the *DataWriter*s that are publishing under it.
+Thus, the *Topic* will contain all the *DataWriters* that are publishing under it.
 
 Therefore, each *DataWriter* is directly connected with the *DomainParticipant* it belongs,
 and with the *Topic* under which it publish.

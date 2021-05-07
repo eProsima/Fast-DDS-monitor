@@ -8,6 +8,7 @@ datawriter
 DataWriter
 eProsima
 github
+localhost
 multicast
 Qos
 QoS

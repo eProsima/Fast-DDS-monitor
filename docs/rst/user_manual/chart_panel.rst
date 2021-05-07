@@ -252,14 +252,15 @@ Press and hold ``Ctrl`` key and scroll down to zoom out from the center of the C
 
 Series Configuration
 --------------------
-Right clicking in the name of a series in the *Legend* will open a dialog with the available configurations for a serie.
+Right clicking in the name of a series in the *Legend* will open a dialog with the available configurations for
+a series.
 
 Remove series
-^^^^^^^^^^^^
+^^^^^^^^^^^^^
 Remove this series.
 
 Rename series
-^^^^^^^^^^^^
+^^^^^^^^^^^^^
 Change the name of this series.
 
 Change color
@@ -268,6 +269,6 @@ A Dialog will open to choose a new color for the series and the points displayed
 Also available with left click on the color of the series in the *Legend*.
 
 Hide/Show series
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 Hide a series if it is displayed, or it reveal it if it is hide. |br|
 Also available with left click on the name of the series in the *Legend*.

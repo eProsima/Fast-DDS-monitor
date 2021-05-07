@@ -165,12 +165,12 @@ The rest of the *Chartboxes* will automatically rearrange when one of them is mo
 
 .. _create_new_series_layout:
 
-Create new Serie Dialog
------------------------
+Create new Series Dialog
+------------------------
 This Dialog will appear every time a new Chartbox is created, or adding a new series by the button in the Chartbox
 *Series->AddSeries*.
 
 .. todo::
     Include a screenshot.
 
-For further details on how to configure a new serie refer to :ref:`create_serie`.
+For further details on how to configure a new series refer to :ref:`create_serie`.
