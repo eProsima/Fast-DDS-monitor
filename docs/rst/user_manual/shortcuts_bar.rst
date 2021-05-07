@@ -6,10 +6,9 @@
 Shortcuts Bar
 #############
 
-Functionality related with :ref:`shortcuts_bar_layout`.
+This toolbar expose shortcuts to the buttons with the main functionality to interact with the
+*Fast DDS Monitor* application.
+This buttons functionality could be seen in :ref:`edit_menu`.
 
-In this bar are displayed shortcuts to the buttons with the main functionality to interact with the application.
-This buttons explanations could be seen in :ref:`edit_menu`.
-
-This bar can be hide (or reveal in case it is hidden) in *View->Hide/Show Shortcuts Toolbar* and the buttons displayed
-could be added or removed in *View->Customize Shortcuts Toolbar*.
+This bar can be hidden (or revealed in case it is already hidden) from the menu *View->Hide/Show Shortcuts Toolbar*.
+It is also possible to configure the shortcuts displayed from *View->Customize Shortcuts Toolbar*.

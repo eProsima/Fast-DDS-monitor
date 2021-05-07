@@ -11,5 +11,4 @@ github
 multicast
 Qos
 QoS
-serie
 Todo

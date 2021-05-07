@@ -7,11 +7,15 @@
 Chart Panel
 ###########
 
-Functionality related with :ref:`main_panel_layout`.
+In the central panel or chart panel, is where the data of the entities discovered will be displayed.
+The main feature of the *Fast DDS Monitor* application is to graphically display the data that is being monitored.
+DDS entities have associated different types of data (aka *DataKind*) that could be visualize by configuring a chart.
+For example, it can be displayed the mean, median and standard deviation latency between two machines running
+*Fast DDS* applications for the period of two hours in intervals of ten minutes.
 
 Data Types
 ==========
-A Data or *Data Point* in the Monitor refers to a specific data type of the DDS network monitoring.
+A *DataPoint* in a chart series in the *Fast DDS Monitor* refers to a specific data type of the DDS network monitoring.
 Each data point consists in a time and a value.
 The time is the moment the data has been created, reported, received, etc. depending on the *DataKind*.
 The value refers to the value of this *DataKind* in the particular moment that represents the time of the data.

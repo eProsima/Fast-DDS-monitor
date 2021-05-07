@@ -6,8 +6,6 @@
 Right Panel
 ###########
 
-Functionality related with :ref:`right_sidebar_layout`.
-
 .. _info_panel:
 
 Info Panel

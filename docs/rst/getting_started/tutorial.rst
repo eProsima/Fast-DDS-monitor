@@ -2,6 +2,6 @@
 
 .. _start_tutorial:
 
-########
-Tutorial
-########
+################
+Example of usage
+################

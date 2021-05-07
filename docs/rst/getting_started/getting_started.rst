@@ -6,6 +6,8 @@
 Getting Started
 ###############
 
+
+
 .. toctree::
 
     /rst/getting_started/entities

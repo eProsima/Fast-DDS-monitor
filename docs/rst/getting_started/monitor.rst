@@ -26,6 +26,11 @@ Once a Monitor is initialized in a specific Domain, the entities in this Domain 
 data collected.
 Every new entity or data discovered will be notified as a callback in :ref:`issues_panel`.
 
+.. note::
+
+    Be aware that the discovery of the *Fast DDS Monitor* entities is made by DDS protocols,
+    and so they will not be instantaneous or simultaneous.
+
 .. _simple_discovery_monitor:
 
 Simple Discovery Monitor

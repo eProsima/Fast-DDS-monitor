@@ -31,18 +31,17 @@ Button to start monitoring a new DDS network.
 The entities of this network will be automatically discovered.
 Moreover, their connections, their configuration and statistical data reported by them will be built and
 displayed on the monitor for further user queries.
-Be aware that the discovery of this entities is made by DDS protocols, and so they will not be instantaneous or
-simultaneous.
 
-.. warning::
-    Starting a monitor in a domain or *Discovery Server* already initialize will duplicate the entities in them
-    and may lead to an undefined behavior.
-
-For further information about monitoring a Domain refer to :ref:`monitor_domain`.
+Section :ref:`monitor_domain` contains all the definitions and explanation about what monitor a domain means in the
+context of the application.
 
 Pressing this button, a new Dialog with two tabs will be displayed.
 Each tab allows to start a monitor in a DDS network deployed using the Simple Discovery Protocol (SDP)
 or the Fast DDS Discovery Server (DS).
+
+.. warning::
+    Starting a monitor in a domain or *Discovery Server* already initialize will duplicate the entities in them
+    and may lead to an undefined behavior.
 
 Simple Discovery
 ^^^^^^^^^^^^^^^^
