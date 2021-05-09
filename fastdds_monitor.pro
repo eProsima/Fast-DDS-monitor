@@ -72,10 +72,18 @@ HEADERS += \
 DISTFILES += \
     qml/*
 
-# This path remains when the project is build with colcon by downloading fastdds-monitor.repos
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/release/ -lBackendMock
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/debug/ -lBackendMock
-else:unix: LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lBackendMock
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/release/ -lcomplex-backend-mock
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/debug/ -lcomplex-backend-mock
+else:unix: LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lcomplex-backend-mock
+
+INCLUDEPATH += $$PWD/../../install/fastdds-monitor
+DEPENDPATH += $$PWD/../../install/fastdds-monitor
+
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/release/ -lfastdds-statistics-backend
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/debug/ -lfastdds-statistics-backend
+else:unix: LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/ -lfastdds-statistics-backend
 
 INCLUDEPATH += $$PWD/../../install/fastdds-statistics-backend/include
 DEPENDPATH += $$PWD/../../install/fastdds-statistics-backend/include
