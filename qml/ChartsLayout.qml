@@ -167,7 +167,6 @@ Rectangle {
                         PropertyChanges {
                             target: statisticsChartBox
                             x: {
-                                console.log("Main pane width: " + mouseArea.width)
                                 var x = mouseArea.mouseX - statisticsChartBox.width/2
                                 if (x < 0) {
                                     return 0

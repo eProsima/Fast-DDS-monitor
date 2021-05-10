@@ -24,10 +24,6 @@ SplitView {
     property bool showLeftSidebar: true
     property bool showRightSidebar: true
 
-    onShowLeftSidebarChanged: {
-        console.log("Left sidebar view changed!")
-    }
-
     LeftPanel {
         id: leftPanel
         SplitView.preferredWidth: parent.width / 6

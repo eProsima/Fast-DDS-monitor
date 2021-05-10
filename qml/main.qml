@@ -32,7 +32,6 @@ ApplicationWindow {
         onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
         onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
         onLeftSidebarHidden: {
-            console.log("Pressed change view left sidebar!")
             panels.showLeftSidebar = !panels.showLeftSidebar
         }
         onRightSidebarHidden: panels.showRightSidebar = !panels.showRightSidebar
