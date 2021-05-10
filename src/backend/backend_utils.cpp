@@ -25,18 +25,41 @@ namespace backend {
 const EntityId ID_ALL = EntityId::all();
 const EntityId ID_NONE = EntityId::invalid();
 
-QString id_to_QString(
+models::EntityId backend_id_to_models_id(
         const EntityId id)
 {
     std::ostringstream stream;
-    stream << id;
+    if (id == ID_ALL)
+    {
+        stream << models::ID_ALL;
+    }
+    else if (id == ID_NONE)
+    {
+        stream << models::ID_INVALID;
+    }
+    else
+    {
+        stream << id;
+    }
     return utils::to_QString(stream.str());
 }
 
 EntityId models_id_to_backend_id(
         const models::EntityId id)
 {
-    return EntityId(id.toInt());
+    std::ostringstream stream;
+    if (id == models::ID_ALL)
+    {
+        return EntityId::all();
+    }
+    else if (id == models::ID_INVALID)
+    {
+        return EntityId::invalid();
+    }
+    else
+    {
+        return EntityId(id.toInt());
+    }
 }
 
 // PROCESS
@@ -44,7 +67,7 @@ QString process_pid(
         backend::EntityId process_id)
 {
     // TODO
-    return id_to_QString(process_id);
+    return backend_id_to_models_id(process_id);
 }
 
 // DDS GUID
@@ -52,7 +75,7 @@ QString entity_guid(
         backend::EntityId id)
 {
     // TODO
-    return id_to_QString(id);
+    return backend_id_to_models_id(id);
 }
 
 // TOPIC
@@ -60,7 +83,7 @@ QString topic_type(
         backend::EntityId id)
 {
     // TODO
-    return id_to_QString(id);
+    return backend_id_to_models_id(id);
 }
 
 QString entity_kind_to_QString(

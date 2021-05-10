@@ -19,13 +19,13 @@
 using namespace backend;
 
 //! Check that the conversion from EntityId to QString makes the same value as QString constructor
-TEST(utilsBackendTest, id_to_QString)
+TEST(utilsBackendTest, backend_id_to_models_id)
 {
-    ASSERT_EQ(id_to_QString(EntityId(0)), QString("0"));
-    ASSERT_EQ(id_to_QString(EntityId(111)), QString("111"));
-    ASSERT_EQ(id_to_QString(EntityId(987654321)), QString("987654321"));
-    ASSERT_EQ(id_to_QString(EntityId::invalid()), QString("-1"));
-    ASSERT_EQ(id_to_QString(EntityId::all()), QString("0"));
+    ASSERT_EQ(backend_id_to_models_id(EntityId(0)), QString("0"));
+    ASSERT_EQ(backend_id_to_models_id(EntityId(111)), QString("111"));
+    ASSERT_EQ(backend_id_to_models_id(EntityId(987654321)), QString("987654321"));
+    ASSERT_EQ(backend_id_to_models_id(EntityId::invalid()), models::ID_ALL);
+    ASSERT_EQ(backend_id_to_models_id(EntityId::all()), models::ID_INVALID);
 }
 
 //! Check that the conversion from models::EntityId to backend::EntityId produces a correct EntityId
@@ -34,6 +34,12 @@ TEST(utilsBackendTest, models_id_to_backend_id)
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("0")), EntityId(0));
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("111")), EntityId(111));
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("987654321")), EntityId(987654321));
+    ASSERT_EQ(models_id_to_backend_id(models::EntityId(
+                models::ID_ALL)),
+            EntityId::all());
+    ASSERT_EQ(models_id_to_backend_id(models::EntityId(
+                models::ID_INVALID)),
+            EntityId::invalid());
 }
 
 /**

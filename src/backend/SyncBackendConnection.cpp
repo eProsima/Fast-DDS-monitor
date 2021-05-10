@@ -46,63 +46,63 @@ using namespace models;
 ListItem* SyncBackendConnection::create_process_data_(
         EntityId id)
 {
-    qDebug() << "Creating Process " << backend::id_to_QString(id);
+    qDebug() << "Creating Process " << backend::backend_id_to_models_id(id);
     return new ProcessModelItem(id, EntityKind::HOST, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_host_data_(
         EntityId id)
 {
-    qDebug() << "Creating Host " << backend::id_to_QString(id);
+    qDebug() << "Creating Host " << backend::backend_id_to_models_id(id);
     return new HostModelItem(id, EntityKind::USER, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_user_data_(
         EntityId id)
 {
-    qDebug() << "Creating User " << backend::id_to_QString(id);
+    qDebug() << "Creating User " << backend::backend_id_to_models_id(id);
     return new UserModelItem(id, EntityKind::PROCESS, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_domain_data_(
         EntityId id)
 {
-    qDebug() << "Creating Domain " << backend::id_to_QString(id);
+    qDebug() << "Creating Domain " << backend::backend_id_to_models_id(id);
     return new DomainModelItem(id, EntityKind::DOMAIN, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_topic_data_(
         EntityId id)
 {
-    qDebug() << "Creating Topic " << backend::id_to_QString(id);
+    qDebug() << "Creating Topic " << backend::backend_id_to_models_id(id);
     return new TopicModelItem(id, EntityKind::TOPIC, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_participant_data_(
         backend::EntityId id)
 {
-    qDebug() << "Creating Participant " << backend::id_to_QString(id);
+    qDebug() << "Creating Participant " << backend::backend_id_to_models_id(id);
     return new ParticipantModelItem(id, EntityKind::PARTICIPANT, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_datawriter_data_(
         backend::EntityId id)
 {
-    qDebug() << "Creating DataWriter " << backend::id_to_QString(id);
+    qDebug() << "Creating DataWriter " << backend::backend_id_to_models_id(id);
     return new EndpointModelItem(id, EntityKind::DATAWRITER, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_datareader_data_(
         backend::EntityId id)
 {
-    qDebug() << "Creating DataReader " << backend::id_to_QString(id);
+    qDebug() << "Creating DataReader " << backend::backend_id_to_models_id(id);
     return new EndpointModelItem(id, EntityKind::DATAREADER, get_entity_info(id));
 }
 
 ListItem* SyncBackendConnection::create_locator_data_(
         backend::EntityId id)
 {
-    qDebug() << "Creating Locator " << backend::id_to_QString(id);
+    qDebug() << "Creating Locator " << backend::backend_id_to_models_id(id);
     return new LocatorModelItem(id, EntityKind::LOCATOR, get_entity_info(id));
 }
 
@@ -305,7 +305,7 @@ bool SyncBackendConnection::update_subitems_(
     for (auto subentity_id : StatisticsBackend::get_entities(type, id))
     {
         // Check if it exists already
-        models::ListItem* subentity_item = item->submodel()->find(backend::id_to_QString(subentity_id));
+        models::ListItem* subentity_item = item->submodel()->find(backend::backend_id_to_models_id(subentity_id));
 
         // If it does not exist, it creates it and add a Row with it
         // If it exists it updates its info
@@ -315,7 +315,7 @@ bool SyncBackendConnection::update_subitems_(
 
             item->submodel()->appendRow(e);
             changed = true;
-            subentity_item = item->submodel()->find(backend::id_to_QString(subentity_id));
+            subentity_item = item->submodel()->find(backend::backend_id_to_models_id(subentity_id));
 
             // It shold not fail after including it in row
             assert(subentity_item);
@@ -339,7 +339,7 @@ bool SyncBackendConnection::update_model_(
     for (auto subentity_id : StatisticsBackend::get_entities(type, id))
     {
         // Check if it exists already
-        models::ListItem* subentity_item = model->find(backend::id_to_QString(subentity_id));
+        models::ListItem* subentity_item = model->find(backend::backend_id_to_models_id(subentity_id));
 
         // If it does not exist, it creates it and add a Row with it
         // If it exists it updates its info
@@ -347,7 +347,7 @@ bool SyncBackendConnection::update_model_(
         {
             model->appendRow((this->*create_function)(subentity_id));
             changed = true;
-            subentity_item = model->find(backend::id_to_QString(subentity_id));
+            subentity_item = model->find(backend::backend_id_to_models_id(subentity_id));
 
             // It shold not fail after including it in row
             assert(subentity_item);
@@ -455,7 +455,14 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         // Get the entities of the kind required for the data type that are related with the entity target
         if (kinds_supported.second != EntityKind::INVALID)
         {
+            // If the target entity is required but not given, the source is used
+            // This is usefule for two entities DataKinds when want to ask for all the targets for a source entity
+            // Useful for summary
             two_entities_data = true;
+            if (!target_entity_id.is_valid())
+            {
+                target_entity_id = source_entity_id;
+            }
             auto target_ids_tmp = get_entities(kinds_supported.second, target_entity_id);
             target_ids.insert(target_ids.end(), target_ids_tmp.begin(), target_ids_tmp.end());
         }
@@ -463,11 +470,10 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
 
     if (two_entities_data)
     {
-        assert(target_entity_id.is_valid());
         return StatisticsBackend::get_data(
             data_kind,
-            source_ids, // TODO
-            target_ids, // TODO
+            source_ids,
+            target_ids,
             bins,
             start_time,
             end_time,
@@ -477,7 +483,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     {
         return StatisticsBackend::get_data(
             data_kind,
-            source_ids, // TODO
+            source_ids,
             bins,
             start_time,
             end_time,

@@ -526,7 +526,7 @@ bool Engine::process_callback_()
         callback_queue_.pop_front();
     }
 
-    qDebug() << "Processing callback: " << backend::id_to_QString(first_callback.new_entity);
+    qDebug() << "Processing callback: " << backend::backend_id_to_models_id(first_callback.new_entity);
 
     return read_callback_(first_callback);
 }

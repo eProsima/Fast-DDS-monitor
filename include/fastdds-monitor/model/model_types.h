@@ -26,6 +26,11 @@ namespace models {
 //! The type of EntityId within the models is a QString came by the conversion of backend \c EntityId into string
 using EntityId = QString;
 
+//! Reference the EntityId::all() in models
+constexpr const char* ID_ALL = "all";
+//! Reference the EntityId::invalid() in models
+constexpr const char* ID_INVALID = "invalid";
+
 } // namespace models
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_MODELTYPES_H

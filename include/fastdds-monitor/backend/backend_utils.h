@@ -31,7 +31,7 @@
 namespace backend {
 
 //! Convert an \c EntityId into a QString
-QString id_to_QString(
+models::EntityId backend_id_to_models_id(
         const EntityId id);
 
 /**
