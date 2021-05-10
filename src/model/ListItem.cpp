@@ -82,7 +82,7 @@ ListItem::~ListItem()
 
 QString ListItem::entity_id() const
 {
-    return backend::id_to_QString(id_); //backend::id_to_QString(id_);
+    return backend::backend_id_to_models_id(id_); //backend::backend_id_to_models_id(id_);
 }
 
 QString ListItem::name() const
