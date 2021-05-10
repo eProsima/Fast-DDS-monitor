@@ -114,6 +114,76 @@ QString entity_kind_to_QString(
     }
 }
 
+std::string statistic_kind_to_string(
+        const StatisticKind& statistic_kind)
+{
+    switch (statistic_kind)
+    {
+        case StatisticKind::COUNT:
+            return "COUNT";
+        case StatisticKind::MAX:
+            return "MAX";
+        case StatisticKind::MEAN:
+            return "MEAN";
+        case StatisticKind::MEDIAN:
+            return "MEDIAN";
+        case StatisticKind::MIN:
+            return "MIN";
+        case StatisticKind::STANDARD_DEVIATION:
+            return "STANDARD_DEVIATION";
+        case StatisticKind::SUM:
+            return "SUM";
+        default:
+            return "NONE";
+    }
+}
+
+std::string data_kind_to_string(
+        const DataKind& data_kind)
+{
+    switch (data_kind)
+    {
+        case DataKind::FASTDDS_LATENCY:
+            return "FASTDDS_LATENCY";
+        case DataKind::NETWORK_LATENCY:
+            return "NETWORK_LATENCY";
+        case DataKind::PUBLICATION_THROUGHPUT:
+            return "PUBLICATION_THROUGHPUT";
+        case DataKind::SUBSCRIPTION_THROUGHPUT:
+            return "SUBSCRIPTION_THROUGHPUT";
+        case DataKind::RTPS_PACKETS_SENT:
+            return "RTPS_PACKETS_SENT";
+        case DataKind::RTPS_BYTES_SENT:
+            return "RTPS_BYTES_SENT";
+        case DataKind::RTPS_PACKETS_LOST:
+            return "RTPS_PACKETS_LOST";
+        case DataKind::RTPS_BYTES_LOST:
+            return "RTPS_BYTES_LOST";
+        case DataKind::RESENT_DATA:
+            return "RESENT_DATA";
+        case DataKind::HEARTBEAT_COUNT:
+            return "HEARTBEAT_COUNT";
+        case DataKind::ACKNACK_COUNT:
+            return "ACKNACK_COUNT";
+        case DataKind::NACKFRAG_COUNT:
+            return "NACKFRAG_COUNT";
+        case DataKind::GAP_COUNT:
+            return "GAP_COUNT";
+        case DataKind::DATA_COUNT:
+            return "DATA_COUNT";
+        case DataKind::PDP_PACKETS:
+            return "PDP_PACKETS";
+        case DataKind::EDP_PACKETS:
+            return "EDP_PACKETS";
+        case DataKind::DISCOVERY_TIME:
+            return "DISCOVERY_TIME";
+        case DataKind::SAMPLE_DATAS:
+            return "SAMPLE_DATAS";
+        default:
+            return "INVALID";
+    }
+}
+
 EntityKind string_to_entity_kind(
         const QString& entity_kind)
 {
