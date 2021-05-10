@@ -24,8 +24,8 @@ TEST(utilsBackendTest, id_to_QString)
     ASSERT_EQ(id_to_QString(EntityId(0)), QString("0"));
     ASSERT_EQ(id_to_QString(EntityId(111)), QString("111"));
     ASSERT_EQ(id_to_QString(EntityId(987654321)), QString("987654321"));
-    ASSERT_EQ(id_to_QString(EntityId::invalid()), QString("-1"));
-    ASSERT_EQ(id_to_QString(EntityId::all()), QString("0"));
+    ASSERT_EQ(id_to_QString(EntityId::invalid()), QString(std::to_string(EntityId::invalid().value()).c_str()));
+    ASSERT_EQ(id_to_QString(EntityId::all()), QString(std::to_string(EntityId::all().value()).c_str()));
 }
 
 //! Check that the conversion from models::EntityId to backend::EntityId produces a correct EntityId
@@ -34,6 +34,12 @@ TEST(utilsBackendTest, models_id_to_backend_id)
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("0")), EntityId(0));
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("111")), EntityId(111));
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("987654321")), EntityId(987654321));
+    ASSERT_EQ(models_id_to_backend_id(models::EntityId(
+        QString(std::to_string(EntityId::all().value()).c_str()))),
+        EntityId::all());
+    ASSERT_EQ(models_id_to_backend_id(models::EntityId(
+        QString(std::to_string(EntityId::invalid().value()).c_str()))),
+        EntityId::invalid());
 }
 
 /**
