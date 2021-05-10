@@ -35,11 +35,11 @@ TEST(utilsBackendTest, models_id_to_backend_id)
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("111")), EntityId(111));
     ASSERT_EQ(models_id_to_backend_id(models::EntityId("987654321")), EntityId(987654321));
     ASSERT_EQ(models_id_to_backend_id(models::EntityId(
-        models::ID_ALL)),
-        EntityId::all());
+                models::ID_ALL)),
+            EntityId::all());
     ASSERT_EQ(models_id_to_backend_id(models::EntityId(
-        models::ID_INVALID)),
-        EntityId::invalid());
+                models::ID_INVALID)),
+            EntityId::invalid());
 }
 
 /**

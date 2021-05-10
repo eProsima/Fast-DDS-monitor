@@ -27,9 +27,9 @@ namespace models {
 using EntityId = QString;
 
 //! Reference the EntityId::all() in models
-constexpr const char * ID_ALL = "all";
+constexpr const char* ID_ALL = "all";
 //! Reference the EntityId::invalid() in models
-constexpr const char * ID_INVALID = "invalid";
+constexpr const char* ID_INVALID = "invalid";
 
 } // namespace models
 
