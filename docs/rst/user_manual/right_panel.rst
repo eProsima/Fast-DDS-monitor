@@ -1,4 +1,5 @@
 .. include:: ../exports/alias.include
+.. include:: ../exports/roles.include
 
 .. _right_panel:
 
@@ -41,10 +42,6 @@ Statistics Panel
 ================
 In this panel it is displayed a summary of some data types of the entity that is currently **selected**
 (see :ref:`selected_entity`).
-
-.. todo::
-    Design the information it must display
-
 In case there is no selected entity, the information displayed is the group of all the entities that exist in the
 application.
 

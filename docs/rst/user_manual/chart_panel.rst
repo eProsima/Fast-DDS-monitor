@@ -33,11 +33,13 @@ Chart view
 ==========
 Every *DataKind* is represented similarly inside a *Chartbox*.
 None, one or multiple lines of different colors will represent the different data series that are being displayed
-in the chart with the following format: |br|
-The X axis is the time value of the data. |br|
-The Y axis is the value that is store in the data.
-This could be integers, doubles or times, but for the same *DataKind* will always be the same value type. |br|
-Every point represents a *DataPoint* of data in a particular time.
+in the chart with the following format:
+
+- The X axis is the time value of the data.
+- The Y axis is the value that is store in the data.
+
+This could be integers, doubles or times, but for the same *DataKind* will always be the same value type.
+Every point represents an accumulated value of *DataPoints* of a data kind in a time range.
 
 .. _create_serie:
 
@@ -49,7 +51,8 @@ The fields in the dialog configure the data that will be displayed
 Series label
 ------------
 Name the new series in the Chartbox.
-If not set, the default name of a series is
+If not set, the default series name is formed according to the following rule:
+
 ``<cumulative_function>_<source_entity_kind>_<target_entity_kind>-<target_entity_id>``.
 
 .. _source_entity_id:
@@ -118,7 +121,7 @@ The data is collected in individual points in every entity, without a regular ti
 Therefore, to show the data in a better understandable manner, each of these points will be merged in a single point
 inside a fraction of the time interval.
 The *Number of bins* determines how many fractions on which this time interval will be split, and thus, how many points
-will be displayed in the chart. |br|
+will be displayed in the chart.
 To see all the individual data points without accumulate them, set the *Number of bins* to 0.
 
 .. _start_time:
@@ -247,7 +250,7 @@ Move the mouse to scroll over the data.
 
 Zoom in/out
 ^^^^^^^^^^^
-Press and hold ``Ctrl`` key and scroll up to zoom in to the center of the Chartbox. |br|
+Press and hold ``Ctrl`` key and scroll up to zoom in to the center of the Chartbox.
 Press and hold ``Ctrl`` key and scroll down to zoom out from the center of the Chartbox.
 
 Series Configuration
@@ -265,10 +268,10 @@ Change the name of this series.
 
 Change color
 ^^^^^^^^^^^^
-A Dialog will open to choose a new color for the series and the points displayed. |br|
+A Dialog will open to choose a new color for the series and the points displayed.
 Also available with left click on the color of the series in the *Legend*.
 
 Hide/Show series
 ^^^^^^^^^^^^^^^^
-Hide a series if it is displayed, or it reveal it if it is hide. |br|
+Hide a series if it is displayed, or it reveal it if it is hide.
 Also available with left click on the name of the series in the *Legend*.

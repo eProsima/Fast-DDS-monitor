@@ -21,7 +21,7 @@ This is not the case with the :ref:`physical_entities` that could be shared betw
 the same :ref:`host_entity`, or even the same :ref:`locator_entity` could be related with entities in several Domains.
 
 For the propose of monitoring a Domain, the application gives the button :ref:`init_monitor_button` where a user can
-manually specify the configuration of a Discovery type. |br|
+manually specify the configuration of a Discovery type.
 Once a Monitor is initialized in a specific Domain, the entities in this Domain will start to be discovered and its
 data collected.
 Every new entity or data discovered will be notified as a callback in :ref:`issues_panel`.
@@ -35,7 +35,7 @@ Every new entity or data discovered will be notified as a callback in :ref:`issu
 
 Simple Discovery Monitor
 ========================
-The DDS Simple Discovery remains on the discovery of individual entities by multicast communication.
+The DDS Simple Discovery Protocol (SDP) remains on the discovery of individual entities by multicast communication.
 No previous information about the network and its architecture is needed in order to create a new
 monitor that connects with the *Participants* already running in the same network.
 In order to configure this kind of Domain monitoring, it is only needed to specify the number of the Domain that is
@@ -46,7 +46,7 @@ going to be tracked
 Discovery Server Monitor
 ========================
 The `Discovery Server <https://www.eprosima.com/index.php/products-all/tools/eprosima-discovery-server>`_
-discovery protocol is a Fast DDS feature that allows to centralize the discovery phase in a single or a network of
+discovery protocol is a *Fast DDS* feature that allows to centralize the discovery phase in a single or a network of
 *Discovery Servers*.
 This has been demonstrated to be very useful in order to reduce the discovery traffic and to avoid certain problems
 that could appear with the Simple Discovery Protocol and multicast.
@@ -55,7 +55,7 @@ In order to configure this kind of Domain monitoring, it is required to insert a
 network addresses.
 This string consist in one or several addresses in the format of ``ip_address:port``.
 Each of these are IP-port pair where a Discovery Server is listening.
-Each network address is separated with ``;``. |br|
+Each network address is separated with ``;``.
 It is only needed to successfully connect to one of the addresses set in the parameter, as a network of Discovery
 Servers interconnected creates a redundancy that makes the network more robust, but it is not required to connect
 with all of the Servers in it.
@@ -79,6 +79,6 @@ to the CLI command.
     *Discovery Server Networks* (do not connect a monitor to servers that are not connected).
 
 .. warning::
-    Do not initialize a *Discovery Server* monitoring in a *Discovery Server* Network* where another *Discovery Server*
+    Do not initialize a *Discovery Server* monitoring in a *Discovery Server Network* where another *Discovery Server*
     is already been monitored.
     This will lead to an undefined behavior.

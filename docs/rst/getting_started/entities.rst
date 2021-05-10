@@ -1,5 +1,4 @@
 .. include:: ../exports/alias.include
-.. include:: ../exports/roles.include
 
 .. _entities:
 
@@ -13,7 +12,7 @@ for their presentation to the user.
 These entities represents DDS communication entities, or different physical elements related with DDS entities.
 
 In the following diagram could be seen the different kind of entities being tracked by the monitor.
-The arrows in this schema represents a direct connection (not a 1:n in every case) between both kind of entities,
+The arrows in this schema represents a direct connection (not a 1:n in every case) between both kind of entities.
 Those entities, or types of entities, that do not have a direct relationship are also related as
 intermediate entities make it possible to relate any entity in the graph to another indirectly,
 i.e. one *DomainParticipant* is related with its *User* by the relation with its *Process*.
@@ -28,7 +27,7 @@ DDS Entities
 ============
 
 This entities represent the DDS entities that manage the communication. That is, the *DomainParticipants*
-and the DataWriters and DataReaders it manages. |br|
+and the DataWriters and DataReaders it manages.
 Each DataReader/DataWriter has one or more associated Locator entities.
 Locators are the network addresses through which DataReaders/DataWriters communicate in a DDS network.
 
@@ -46,7 +45,7 @@ Refer to `DomainParticipant Fast DDS Documentation
 for a more detailed explanation of the *DomainParticipant* entity in DDS.
 
 Each *DomainParticipant* can only communicate under one *Domain* (see :ref:`logical_entities`)
-and so it exist a direct connection between each *DomainParticipant* and the *Domain* in which it works. |br|
+and so it exist a direct connection between each *DomainParticipant* and the *Domain* in which it works.
 From image :numref:`fig_entities_diagram` it can be seen that a the DomainParticipant entities are contained in a
 Process, this is because a system process (so-called *Process* entity) executes an application using Fast DDS
 that instantiates *DomainParticipants*.
@@ -110,7 +109,7 @@ This logical partition depends on the chosen discovery protocol.
 
 In case of using the *Simple Discovery Protocol* (discovery protocol by default in Fast DDS) as the default discovery
 mechanism, the *Domain* will be represented by a number, and every DDS entity in that *Domain* is going to discover
-the rest entities deployed on the same *Domain*. |br|
+the rest entities deployed on the same *Domain*.
 In case of using *Discovery Server* as discovery protocol the partition will be made by the *Discovery Server*
 or *Discovery Servers Net* to which the monitor connects. Please refer to
 `Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/fastdds/discovery/discovery_server.html>`_ for
@@ -142,7 +141,7 @@ Physical Entities
 Host
 ----
 *Host* make reference to the physical (or logical i.e. Docker) machine where one or some DDS *Processes*
-are running. |br|
+are running.
 This entity is connected directly with the *Users* running in this *Host*.
 
 .. _user_entity:

@@ -19,10 +19,10 @@ DDS Panel
 In this panel are displayed all the :ref:`dds_entities` that has been discovered by the monitor so far under every
 DDS domain or Discovery Server monitored.
 This panel displays specific DDS entities related with the Fast DDS Monitor entity currently selected
-(see :ref:`selected_entity`). |br|
+(see :ref:`selected_entity`).
 For example, it is possible to track the DDS entities created from an application running on a specific *Host*,
 *User*, or *Process*, as well as the DDS entities that are working on a specific DDS domain or are publishing or
-subscribed to a given topic. |br|
+subscribed to a given topic.
 Every entity in this panel is interactive:
 
 - Clicking in the Participant name or the Participant icon will expand or collapse the list of DataWriters/DataReaders
@@ -52,7 +52,7 @@ This panel displays all the :ref:`logical_entities` that are being monitored.
 he DDS domains that Fast DDS Monitor is monitoring are the ones set by the user (see :ref:`monitor_domain`)
 and no new domains will or could be discovered apart from them since the Domains could not be discovered,
 but known beforehand.
-Therefore, this panel will only update the information. |br|
+Therefore, this panel will only update the information.
 For example, having enabled the monitoring of Domain X,
 if an application using Fast DDS creates a new DomainParticipant in that domain with a DataWriter publishing in
 Topic Y, the information of that topic will appear in this view listed under Domain X to which
