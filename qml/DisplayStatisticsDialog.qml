@@ -399,9 +399,11 @@ Dialog {
         if (sourceEntityId.currentText == "") {
             emptySourceEntityIdDialog.open()
             return
-        } else if (targetEntityIdObject.targetEntityId === "") {
-            emptyTargetEntityIdDialog.open()
-            return
+        } else if (targetEntityIdObject !== null) {
+            if (targetEntityIdObject.targetEntityId === "") {
+                emptyTargetEntityIdDialog.open()
+                return
+            }
         }
 
         var startTime = Date.fromLocaleString(
