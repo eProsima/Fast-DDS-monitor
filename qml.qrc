@@ -34,6 +34,7 @@
         <file>controls/ToolBar.qml</file>
         <file>controls/ToolButton.qml</file>
         <file>controls/ComboBox.qml</file>
+        <file>controls/ItemDelegate.qml</file>
     </qresource>
     <qresource prefix="/resources/images">
         <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
