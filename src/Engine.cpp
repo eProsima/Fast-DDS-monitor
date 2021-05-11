@@ -70,6 +70,15 @@ QObject* Engine::enable()
     generate_new_issue_info_();
     fill_issue_();
 
+    // Creates a default json structure for logging messages and fills the tree model with it
+    log_model_ = new models::TreeModel();
+    generate_new_log_info_();
+    fill_log_();
+
+    // Creates a default json structure for status messages and fills the tree model with it
+    status_model_ = new models::TreeModel();
+    generate_new_status_info_();
+    fill_status_();
 
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
@@ -87,6 +96,8 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("qosModel", info_model_);
     rootContext()->setContextProperty("summaryModel", summary_model_);
     rootContext()->setContextProperty("issueModel", issue_model_);
+    rootContext()->setContextProperty("logModel", log_model_);
+    rootContext()->setContextProperty("statusModel", status_model_);
 
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
@@ -162,7 +173,7 @@ void Engine::init_monitor(
 void Engine::shared_init_monitor_(
         backend::EntityId domain_id)
 {
-    add_issue_domain_(backend_connection_.get_name(domain_id), utils::now());
+    add_status_domain_(backend_connection_.get_name(domain_id), utils::now());
 
     entity_clicked(domain_id, backend::EntityKind::DOMAIN);
 
@@ -202,51 +213,79 @@ bool Engine::fill_issue_()
     return true;
 }
 
+bool Engine::fill_log_()
+{
+    log_model_->update(log_info_);
+    return true;
+}
+
+bool Engine::fill_status_()
+{
+    status_model_->update(status_info_);
+    return true;
+}
+
 void Engine::generate_new_issue_info_()
 {
     EntityInfo info;
 
-    info["Callbacks"] = EntityInfo();
     info["Issues"] = EntityInfo();
+
+    issue_info_ = info;
+}
+
+void Engine::generate_new_log_info_()
+{
+    EntityInfo info;
+
+    info["Callbacks"] = EntityInfo();
+
+    log_info_ = info;
+}
+
+void Engine::generate_new_status_info_()
+{
+    EntityInfo info;
+
     info["Entities"] = EntityInfo();
     info["Entities"]["Domains"] = EntityInfo();
     info["Entities"]["Entities"] = 0;
 
-    issue_info_ = info;
+    status_info_ = info;
 }
 
 void Engine::sum_entity_number_issue(
         int n)
 {
-    issue_info_["Entities"]["Entities"] = issue_info_["Entities"]["Entities"].get<double>() + n;
-    fill_issue_();
+    status_info_["Entities"]["Entities"] = status_info_["Entities"]["Entities"].get<double>() + n;
+    fill_status_();
 }
 
-bool Engine::add_issue_domain_(
+bool Engine::add_status_domain_(
         std::string name,
         std::string time)
 {
-    issue_info_["Entities"]["Domains"][time] = name;
-    add_issue_callback_("Monitor initialized in domain " + name, time);
-    fill_issue_();
+    status_info_["Entities"]["Domains"][time] = name;
+    fill_status_();
+    add_log_callback_("Monitor initialized in domain " + name, time);
 
     return true;
 }
 
-bool Engine::add_issue_callback_(
+bool Engine::add_log_callback_(
         std::string callback,
         std::string time)
 {
-    issue_info_["Callbacks"][time] = callback;
-    fill_issue_();
+    log_info_["Callbacks"][time] = callback;
+    fill_log_();
 
     return true;
 }
 
-void Engine::clear_callback_issue_()
+void Engine::clear_callback_log_()
 {
-    issue_info_["Callbacks"] = EntityInfo();
-    fill_issue_();
+    log_info_["Callbacks"] = EntityInfo();
+    fill_log_();
 }
 
 bool Engine::fill_first_entity_info_()
@@ -475,7 +514,7 @@ void Engine::refresh_engine()
 {
     qDebug() << "REFRESH";
     // TODO this should be changed from erase all models and re draw them
-    clear_callback_issue_();
+    clear_callback_log_();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
     process_callback_queue();
 }
@@ -501,8 +540,8 @@ bool Engine::add_callback(
     std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     callback_queue_.append(callback);
 
-    // Add callback to issue model
-    add_issue_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered",
+    // Add callback to log model
+    add_log_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered",
             utils::now());
 
     // Emit signal to specify there are new data

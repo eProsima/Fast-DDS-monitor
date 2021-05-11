@@ -327,8 +327,22 @@ protected:
      */
     bool fill_issue_();
 
-    //! Add a new callback message to the Issue model
-    bool add_issue_callback_(
+    /**
+     * @brief Clear and fill the Log Model
+     *
+     * @return true if any change in any model has been done
+     */
+    bool fill_log_();
+
+    /**
+     * @brief Clear and fill the Status Model
+     *
+     * @return true if any change in any model has been done
+     */
+    bool fill_status_();
+
+    //! Add a new callback message to the Log model
+    bool add_log_callback_(
             std::string callback,
             std::string time);
 
@@ -337,21 +351,33 @@ protected:
             std::string issue,
             std::string time);
 
-    //! Add a new callback message to the Issue model
-    bool add_issue_domain_(
+    //! Add a new callback message to the Status model
+    bool add_status_domain_(
             std::string name,
             std::string time);
 
     /**
      * Generates a new issue info model from the main schema
      * The Issue model schema has:
-     * - "Callbacks" tag - to collect callbacks messages
      * - "Issues" tag - to collect issues messages
+     */
+    void generate_new_issue_info_();
+
+    /**
+     * Generates a new log info model from the main schema
+     * The Issue model schema has:
+     * - "Callbacks" tag - to collect callbacks messages
+     */
+    void generate_new_log_info_();
+
+    /**
+     * Generates a new status info model from the main schema
+     * The Issue model schema has:
      * - "Entities" tag that has:
      *   - "Domains" tag - to collect domains initialized
      *   - "Entities" tag - to show the number of entities discovered
      */
-    void generate_new_issue_info_();
+    void generate_new_status_info_();
 
     //! Update the issue model "Entities" count adding \c n
     void sum_entity_number_issue(
@@ -386,7 +412,7 @@ protected:
             backend::Callback callback);
 
     //! Remove all the callbacks from issue model (called in \c refresh )
-    void clear_callback_issue_();
+    void clear_callback_log_();
 
     /////
     // Variables
@@ -417,6 +443,18 @@ protected:
 
     //! Data that is represented in the Issue Model when this model is refreshed
     backend::Info issue_info_;
+
+    //! Data Model for Log. Collects logging messages from application execution
+    models::TreeModel* log_model_;
+
+    //! Data that is represented in the Log Model when this model is refreshed
+    backend::Info log_info_;
+
+    //! Data Model for Fast DDS Monitor status. Collects the total amount of entities discovered by the monitor
+    models::TreeModel* status_model_;
+
+    //! Data that is represented in the Status Model when this model is refreshed
+    backend::Info status_info_;
 
     //! TODO
     models::ListModel* source_entity_id_model_;

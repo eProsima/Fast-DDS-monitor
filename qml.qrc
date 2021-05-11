@@ -11,6 +11,8 @@
         <file>qml/IconSVG.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
         <file>qml/IssueView.qml</file>
+        <file>qml/LogView.qml</file>
+        <file>qml/StatusView.qml</file>
         <file>qml/LeftPanel.qml</file>
         <file>qml/LogicalView.qml</file>
         <file>qml/main.qml</file>
