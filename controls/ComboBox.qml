@@ -107,7 +107,7 @@ T.ComboBox {
 
     background: Rectangle {
         implicitWidth: 120
-        implicitHeight: 32
+        implicitHeight: 20
 
         border.width: control.flat ? 0 : 2 // ComboBoxBorderThemeThickness
         border.color: !control.enabled ? control.Universal.baseLowColor :

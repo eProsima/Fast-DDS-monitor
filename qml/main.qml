@@ -21,8 +21,8 @@ import Theme 1.0
 ApplicationWindow {
     id: window
     visible: true
-    width: 1200
-    height: 675
+    width: 1600
+    height: 900
     title: qsTr("Fast DDS Monitor")
 
     menuBar: MonitorMenuBar {

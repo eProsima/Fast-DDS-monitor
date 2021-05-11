@@ -29,6 +29,8 @@ SplitView {
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
         visible: showLeftSidebar
+
+        onLeftSidebarHidden: panels.showLeftSidebar = false
     }
 
     ChartsLayout {

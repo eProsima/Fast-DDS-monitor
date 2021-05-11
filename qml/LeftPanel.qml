@@ -16,71 +16,132 @@ import QtQuick 2.6
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
+import Theme 1.0
 
 SplitView {
     id: leftPanels
     orientation: Qt.Vertical
 
-    ColumnLayout {
-        SplitView.preferredHeight: parent.height / 2
-        SplitView.minimumHeight: parent.height / 4
-        spacing: 0
+    signal leftSidebarHidden
 
-        Rectangle {
-            id: entityLabel
+    property int viewsCount: 0
+    property variant views: []
+    property variant comboBoxIdx: []
+
+    Component.onCompleted: addView("ddsEntities")
+
+
+    Repeater {
+        id: repeater
+        model: viewsCount
+
+        delegate: ColumnLayout {
+            SplitView.preferredHeight: parent.height / 4
+            SplitView.minimumHeight: settingsViewTabBar.height
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignTop
-            height: 25
-            color: "grey"
-            z: entityList.z + 1
 
-            Label {
-                text: qsTr("DDS Entities")
-                color: "white"
-                font.pixelSize: 15
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+            visible: true
+
+            property int comboBoxIndex: comboBoxIdx[index]
+
+
+            RowLayout {
+                spacing: 0
+
+                ComboBox {
+                    id: settingsViewTabBar
+                    model: ["DDS Entities", "Physical", "Logical"]
+                    Layout.fillWidth: true
+                    currentIndex: comboBoxIndex
+                    property int modelIdx: index
+                    onActivated: {
+                        comboBoxIdx[modelIdx] = currentIndex
+                    }
+                }
+
+                Button {
+                    id: addSplitView
+                    text: qsTr("+")
+                    width: parent.width/10
+
+                    onClicked: {
+                        contextMenu.x = x
+                        contextMenu.y = y + addSplitView.height
+                        contextMenu.open()
+                    }
+                }
+
+                Button {
+                    id: closeSplitView
+                    text: qsTr("<")
+                    width: parent.width/10
+
+                    onClicked: {
+                        if (index == 0) {
+                            leftSidebarHidden()
+                        } else {
+                            removeView(index)
+                        }
+
+                    }
+                }
+
             }
+
+            Menu {
+                id: contextMenu
+                MenuItem {
+                    text: "Physical"
+                    onTriggered: {
+                        addView("physical")
+                    }
+                }
+                MenuItem {
+                    text: "Logical"
+                    onTriggered: {
+                        addView("logical")
+                    }
+                }
+            }
+
+
+            StackLayout {
+                currentIndex: settingsViewTabBar.currentIndex
+                Layout.alignment: Qt.AlignTop
+                Layout.fillWidth: true
+
+                EntityList {
+                    id: entityList
+                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                }
+
+                PhysicalView {
+                    id: physicalView
+                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                }
+
+                LogicalView {
+                    id: logicalView
+                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                }
+
+            }
+
         }
 
-        EntityList {
-            id: entityList
-            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-        }
     }
 
-    ColumnLayout {
-        SplitView.fillHeight: true
-        SplitView.minimumHeight: parent.height / 4
-        spacing: 0
+    function addView(viewKind) {
+        views[viewsCount] = viewKind
+        comboBoxIdx[viewsCount] = (viewKind === "ddsEntities") ? 0 :
+                          (viewKind === "physical") ? 1 :
+                          (viewKind === "logical") ? 2 : 0
+        viewsCount++
+    }
 
-        TabBar {
-            id: physicalViewTabBar
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignTop
-            z: phisicalViewStackLayout.z + 1
-
-            TabButton {
-                text: "Physical"
-            }
-
-            TabButton {
-                text: "Logical"
-            }
-        }
-
-        StackLayout {
-            id: phisicalViewStackLayout
-            currentIndex: physicalViewTabBar.currentIndex
-            Layout.alignment: Qt.AlignTop
-
-            PhysicalView {
-                id: physicalView
-            }
-
-            LogicalView {
-                id: logicalView
-            }
-        }
+    function removeView(idx) {
+        views.splice(idx, 1)
+        comboBoxIdx.splice(idx, 1)
+        viewsCount--
     }
 }

@@ -107,7 +107,8 @@ Rectangle {
 
             Item {
                 property int indexOfThisDelegate: index
-                width: gridView.cellWidth; height: gridView.cellHeight
+                width: gridView.cellWidth
+                height: gridView.cellHeight
 
                 GridView.onAdd: {
                     calculateGridViewWidth()
