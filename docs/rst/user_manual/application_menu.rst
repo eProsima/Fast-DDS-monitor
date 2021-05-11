@@ -64,13 +64,13 @@ and it will get all the discovery information of the entities connecting through
 Display New Data
 ----------------
 Create a new *Chartbox* in the central panel.
-To know how to configure a *Chartbox* refer to the section :ref:`chart_panel`.
+To know how to configure a *Chartbox*, please refer to the section :ref:`chart_panel`.
 
 .. _refresh_button:
 
 Refresh
 -------
-This button reset several points in the monitor:
+This button resets several points in the monitor:
 
 - It clears the callback list in the *Issues* right panel.
 - It resets the entity clicked.
