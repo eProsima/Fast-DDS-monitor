@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 import QtQuick.Layouts 1.3
 import Qt.labs.platform 1.1 as QLP
 import QtGraphicalEffects 1.15
@@ -174,6 +175,11 @@ Rectangle {
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+            chartTitle: {
+                console.log(statisticsChartBox.chartTitle)
+                return statisticsChartBox.chartTitle
+            }
+
             onSeriesAdded: customLegend.addLeyend(series.name, series.color)
             onSeriesRemoved: customLegend.removeLeyend(series.index)
         }
@@ -203,5 +209,7 @@ Rectangle {
 
     DisplayStatisticsDialog {
         id: displayStatisticsDialog
+
+        anchors.centerIn: Overlay.overlay
     }
 }

@@ -28,10 +28,33 @@ ChartView {
     property date dateTimeAxisXMin: new Date()
     property date dateTimeAxisXMax: new Date()
 
+    property string chartTitle: ""
+
     ValueAxis {
         id: axisY
         min: axisYMin
         max: axisYMax
+        titleText: {
+            console.log(chartTitle)
+            chartTitle == "FASTDDS_LATENCY" ? qsTr(chartTitle + " [ns]") :
+                                 "NETWORK_LATENCY" ? qsTr(chartTitle + " [ns]") :
+                                 "PUBLICATION_THROUGHPUT" ? qsTr(chartTitle + " [B/s]") :
+                                 "SUBSCRIPTION_THROUGHPUT" ? qsTr(chartTitle + " [B/s]") :
+                                 "RTPS_PACKETS_SENT" ? qsTr(chartTitle + " [count]") :
+                                 "RTPS_BYTES_SENT" ? qsTr(chartTitle + " [B]") :
+                                 "RTPS_PACKETS_LOST" ? qsTr(chartTitle + " [count]") :
+                                 "RTPS_BYTES_LOST" ? qsTr(chartTitle + " [B]") :
+                                 "RESENT_DATA" ? qsTr(chartTitle + " [count]") :
+                                 "HEARTBEAT_COUNT" ? qsTr(chartTitle + " [count]") :
+                                 "ACKNACK_COUNT" ? qsTr(chartTitle + " [count]") :
+                                 "NACKFRAG_COUNT" ? qsTr(chartTitle + " [count]") :
+                                 "GAP_COUNT" ? qsTr(chartTitle + " [count]") :
+                                 "DATA_COUNT" ? qsTr(chartTitle + " [count]") :
+                                 "PDP_PACKETS" ? qsTr(chartTitle + " [count]") :
+                                 "EDP_PACKETS" ? qsTr(chartTitle + " [count]") :
+                                 "DISCOVERED_ENTITY" ? qsTr(chartTitle + " [ns]") :
+                                 "SAMPLE_DATAS" ? qsTr(chartTitle + " [count]") : qsTr("")
+        }
     }
 
     DateTimeAxis {
@@ -41,6 +64,7 @@ ChartView {
         format: "hh:mm:ss (dd.MM)"
         labelsAngle: -45
         labelsFont: Qt.font({pointSize: 8})
+        titleText: qsTr("Time [hh:mm:ss (dd.MM)]")
     }
 
     ToolTip {
