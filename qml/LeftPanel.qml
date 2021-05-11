@@ -61,7 +61,7 @@ SplitView {
 
                 Button {
                     id: addSplitView
-                    text: qsTr("+")
+                    icon.source: "/resources/images/plus.svg"
                     width: parent.width/10
 
                     onClicked: {
@@ -73,7 +73,7 @@ SplitView {
 
                 Button {
                     id: closeSplitView
-                    text: qsTr("<")
+                    icon.source: index === 0 ? "/resources/images/lessthan.svg" : "/resources/images/cross.svg"
                     width: parent.width/10
 
                     onClicked: {
@@ -82,14 +82,18 @@ SplitView {
                         } else {
                             removeView(index)
                         }
-
                     }
                 }
-
             }
 
             Menu {
                 id: contextMenu
+                MenuItem {
+                    text: "DDS Entities"
+                    onTriggered: {
+                        addView("ddsEntities")
+                    }
+                }
                 MenuItem {
                     text: "Physical"
                     onTriggered: {
@@ -124,11 +128,8 @@ SplitView {
                     id: logicalView
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                 }
-
             }
-
         }
-
     }
 
     function addView(viewKind) {

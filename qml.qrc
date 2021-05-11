@@ -50,5 +50,8 @@
         <file alias="host.svg">resources/images/host.svg</file>
         <file alias="user.svg">resources/images/user.svg</file>
         <file alias="process.svg">resources/images/process.svg</file>
+        <file alias="cross.svg">resources/images/cross.svg</file>
+        <file alias="plus.svg">resources/images/plus.svg</file>
+        <file alias="lessthan.svg">resources/images/lessthan.svg</file>
     </qresource>
 </RCC>

@@ -55,7 +55,7 @@ SplitView {
 
         ComboBox {
             id: logViewTabBar
-            model: ["Log", "Status", "Issues"]
+            model: ["Status", "Log", "Issues"]
             Layout.fillWidth: true
         }
 
