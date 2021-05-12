@@ -68,6 +68,7 @@ Dialog {
             placeholderText: ""
             selectByMouse: true
             maximumLength: 20
+            Layout.fillWidth: true
         }
 
 
