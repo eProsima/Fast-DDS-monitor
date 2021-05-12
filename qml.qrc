@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/AboutDialog.qml</file>
-        <file>qml/AdditionalEntityId.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
         <file>qml/DataKindDialog.qml</file>

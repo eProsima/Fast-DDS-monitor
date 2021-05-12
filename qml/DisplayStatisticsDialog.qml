@@ -34,8 +34,7 @@ Dialog {
     property string startTimeDate: "" + new Date().toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
     property string endTimeDate: "" + new Date().toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
 
-    property var targetEntityIdComponent: Qt.createComponent("AdditionalEntityId.qml")
-    property var targetEntityIdObject: null
+    property bool targetExists: false
 
     Component.onCompleted: {
         if (chartTitle == "FASTDDS_LATENCY" |
@@ -44,16 +43,11 @@ Dialog {
                 chartTitle == "RTPS_BYTES_SENT" |
                 chartTitle == "RTPS_PACKETS_LOST" |
                 chartTitle == "RTPS_BYTES_LOST") {
-            if (targetEntityIdObject === null) {
-                targetEntityIdObject = targetEntityIdComponent.createObject(entityIdModelSecondRow);
-            }
-        } else {
-            if (targetEntityIdObject !== null) {
-                targetEntityIdObject.destroy();
-            }
+            targetExists = true
         }
 
         controller.update_available_entity_ids("Host", "getDataDialogSourceEntityId")
+        controller.update_available_entity_ids("Host", "getDataDialogTargetEntityId")
         regenerateSeriesLabel()
     }
 
@@ -110,9 +104,40 @@ Dialog {
             }
         }
 
+        Label {
+            id: targetEntityIdLabel
+            text: "Target Entity Id: "
+            visible: targetExists
+        }
         RowLayout {
-            id: entityIdModelSecondRow
-            Layout.columnSpan: 2
+            id: targetEntityIdLayout
+            visible: targetExists
+            ComboBox {
+                id: getDataDialogTargetEntityId
+                model: [
+                    "Host",
+                    "User",
+                    "Process",
+                    "Domain",
+                    "Topic",
+                    "DomainParticipant",
+                    "DataWriter",
+                    "DataReader",
+                    "Locator"]
+                onActivated:  {
+                    controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
+                    regenerateSeriesLabel()
+                }
+            }
+            ComboBox {
+                id: targetEntityId
+                textRole: "id"
+                model: entityModelSecond
+
+                onActivated: {
+                    regenerateSeriesLabel()
+                }
+            }
         }
 
         Label {
@@ -399,11 +424,9 @@ Dialog {
         if (sourceEntityId.currentText == "") {
             emptySourceEntityIdDialog.open()
             return
-        } else if (targetEntityIdObject !== null) {
-            if (targetEntityIdObject.targetEntityId === "") {
-                emptyTargetEntityIdDialog.open()
-                return
-            }
+        } else if ((targetEntityId.currentText == "") && targetExists) {
+            emptyTargetEntityIdDialog.open()
+            return
         }
 
         var startTime = Date.fromLocaleString(
@@ -426,7 +449,7 @@ Dialog {
                         chartTitle,
                         (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
                         sourceEntityId.currentText,
-                        (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
+                        (targetEntityIdLayout.visible == true) ? sourceEntityId.currentText : '',
                         bins.value,
                         startTime,
                         startTimeDefault.checked,
@@ -450,12 +473,12 @@ Dialog {
                    "_" +
                    abbreviateEntityName(getDataDialogSourceEntityId.currentText) +
                    "-" +
-                   sourceEntityId.currentText;
-        if (targetEntityIdObject !== null) {
+                   sourceEntityId.currentText
+        if (targetExists) {
             text += "_" +
-                    abbreviateEntityName(targetEntityIdObject.targetEntityType) +
+                    abbreviateEntityName(getDataDialogTargetEntityId.currentText) +
                     "-" +
-                    targetEntityIdObject.targetEntityId
+                    targetEntityId.currentText
         }
         seriesLabelTextField.placeholderText = text;
     }
