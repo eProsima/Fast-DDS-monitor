@@ -176,7 +176,6 @@ Rectangle {
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
             chartTitle: {
-                console.log(statisticsChartBox.chartTitle)
                 return statisticsChartBox.chartTitle
             }
 

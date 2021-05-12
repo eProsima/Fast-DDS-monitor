@@ -12,25 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.6
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQml.Models 2.15
+import Theme 1.0
 
 Rectangle {
     id: physicalView
     Layout.fillHeight: true
     Layout.fillWidth: true
 
+    enum PhysicalEntity {
+        Host,
+        User,
+        Process
+    }
+
+    property variant lastClickedIdx: [-1, -1, -1]
+
+    property int verticalSpacing: 5
+    property int spacingIconLabel: 8
+    property int iconSize: 18
+    property int firstIndentation: 5
+    property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
+    property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
+
+    signal lastClickedPhysical(int hostIdx, int userIdx, int processIdx)
+
     ListView {
         id: hostList
         model: hostModel
         delegate: hostListDelegate
         clip: true
-        leftMargin: 5
-        bottomMargin: 5
         width: parent.width
         height: parent.height
+        spacing: verticalSpacing
 
         ScrollBar.vertical: ScrollBar { }
     }
@@ -40,73 +57,93 @@ Rectangle {
 
         Item {
             id: hostItem
-            width: hostList.width - hostList.leftMargin
+            width: hostList.width
             height: hostListColumn.childrenRect.height
 
-            property var item_id: id
+            property var hostId: id
+            property int hostIdx: index
+            property bool highlight: false
+            property var userList: userList
+
 
             Column {
                 id: hostListColumn
 
-                RowLayout {
-                    spacing: 8
+                Rectangle {
+                    id: hostHighlightRect
+                    width: physicalView.width
+                    height: hostIcon.height
+                    color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
-                    IconSVG {
-                        source: "/resources/images/host.svg"
-                        scalingFactor: 1.5
-                        Layout.bottomMargin: 5
+                    RowLayout {
+                        spacing: spacingIconLabel
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                if(userList.height === userList.collapseHeightFlag) {
-                                    userList.height = 0;
-                                }
-                                else{
-                                    userList.height = userList.collapseHeightFlag;
+                        IconSVG {
+                            id: hostIcon
+                            source: "/resources/images/host.svg"
+                            size: iconSize
+                            Layout.leftMargin: firstIndentation
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    if(userList.height === userList.collapseHeightFlag) {
+                                        userList.height = 0;
+                                    }
+                                    else {
+                                        userList.height = userList.collapseHeightFlag;
+                                    }
                                 }
                             }
                         }
-                    }
-                    Label {
-                        text: name
-                        Layout.bottomMargin: 5
+                        Label {
+                            text: name
 
-                        DifferClickMouseArea {
-                            anchors.fill: parent
-                            onSingleClick: {
-                                if(userList.height === userList.collapseHeightFlag) {
-                                    userList.height = 0;
+                            DifferClickMouseArea {
+                                anchors.fill: parent
+                                onSingleClick: {
+                                    if(userList.height === userList.collapseHeightFlag) {
+                                        userList.height = 0;
+                                    }
+                                    else{
+                                        userList.height = userList.collapseHeightFlag;
+                                    }
                                 }
-                                else{
-                                    userList.height = userList.collapseHeightFlag;
+                                onDoubleClick: {
+                                    controller.host_click(id)
+                                    lastClickedPhysical(hostIdx, -1, -1)
                                 }
-                            }
-                            onDoubleClick: {
-                                controller.host_click(id)
                             }
                         }
                     }
                 }
+
                 ListView {
                     id: userList
-                    model: hostModel.subModelFromEntityId(id)
-                    leftMargin: 25
-                    width: hostList.width - hostList.leftMargin
+                    model: hostModel.subModelFromEntityId(hostId)
+                    width: hostList.width
                     height: 0
                     contentHeight: contentItem.childrenRect.height
                     clip: true
+                    spacing: verticalSpacing
+                    topMargin: verticalSpacing
                     delegate: userListDelegate
 
-                    property int collapseHeightFlag: childrenRect.height
+                    property int collapseHeightFlag: childrenRect.height + userList.topMargin
                 }
 
                 Component {
                     id: userListDelegate
 
                     Item {
+                        id: userItem
                         width: parent.width
                         height: userListColumn.childrenRect.height
+
+                        property var userId: id
+                        property int userIdx: index
+                        property bool highlight: false
+                        property var processList: processList
 
                         ListView.onAdd: {
                             if(userList.height != 0) {
@@ -117,73 +154,86 @@ Rectangle {
                         Column {
                             id: userListColumn
 
-                            RowLayout {
-                                spacing: 8
+                            Rectangle {
+                                id: userHighlightRect
+                                width: physicalView.width
+                                height: userIcon.height
+                                color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
-                                IconSVG {
-                                    source: "/resources/images/user.svg"
-                                    scalingFactor: 1.5
-                                    Layout.bottomMargin: 5
+                                RowLayout {
+                                    spacing: spacingIconLabel
 
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: {
-                                            if(processList.height === processList.collapseHeightFlag) {
-                                                processList.height = 0;
-                                                userList.height =
-                                                        userList.height - processList.collapseHeightFlag;
+                                    IconSVG {
+                                        id: userIcon
+                                        source: "/resources/images/user.svg"
+                                        size: iconSize
+                                        Layout.leftMargin: secondIndentation
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {
+                                                if(processList.height === processList.collapseHeightFlag) {
+                                                    processList.height = 0;
+                                                    userList.height =
+                                                            userList.height - processList.collapseHeightFlag;
+                                                } else {
+                                                    processList.height = processList.collapseHeightFlag;
+                                                    userList.height = userList.height + processList.height;
+                                                }
                                             }
-                                            else
-                                            {
-                                                processList.height = processList.collapseHeightFlag;
-                                                userList.height = userList.height + processList.height;
+                                        }
+                                    }
+                                    Label {
+                                        text: name
+
+                                        DifferClickMouseArea {
+                                            anchors.fill: parent
+                                            onSingleClick: {
+                                                if(processList.height === processList.collapseHeightFlag) {
+                                                    processList.height = 0;
+                                                    userList.height =
+                                                            userList.height - processList.collapseHeightFlag;
+                                                }
+                                                else
+                                                {
+                                                    processList.height = processList.collapseHeightFlag;
+                                                    userList.height = userList.height + processList.height;
+                                                }
+                                            }
+                                            onDoubleClick: {
+                                                controller.host_click(id)
+                                                lastClickedPhysical(hostIdx, userIdx, -1)
                                             }
                                         }
                                     }
                                 }
-                                Label {
-                                    text: name
-                                    Layout.bottomMargin: 5
 
-                                    DifferClickMouseArea {
-                                        anchors.fill: parent
-                                        onSingleClick: {
-                                            if(processList.height === processList.collapseHeightFlag) {
-                                                processList.height = 0;
-                                                userList.height =
-                                                        userList.height - processList.collapseHeightFlag;
-                                            }
-                                            else
-                                            {
-                                                processList.height = processList.collapseHeightFlag;
-                                                userList.height = userList.height + processList.height;
-                                            }
-                                        }
-                                        onDoubleClick: {
-                                            controller.host_click(id)
-                                        }
-                                    }
-                                }
                             }
+
                             ListView {
                                 id: processList
-                                model: hostModel.subModelFromEntityId(
-                                           hostItem.item_id).subModelFromEntityId(id)
-                                leftMargin: 25
-                                width: hostList.width - hostList.leftMargin
+                                model: userList.model.subModelFromEntityId(userId)
+                                width: hostList.width
                                 height: 0
                                 contentHeight: contentItem.childrenRect.height
                                 clip: true
                                 delegate: processListDelegate
+                                spacing: verticalSpacing
+                                topMargin: verticalSpacing
 
-                                property int collapseHeightFlag: childrenRect.height
+                                property int collapseHeightFlag: childrenRect.height + processList.topMargin
                             }
 
                             Component {
                                 id: processListDelegate
+
                                 Item {
+                                    id: processItem
                                     width: parent.width
                                     height: processListColumn.childrenRect.height
+
+                                    property int processIdx: index
+                                    property bool highlight: false
 
                                     ListView.onAdd: {
                                         if(processList.height != 0) {
@@ -195,25 +245,31 @@ Rectangle {
 
                                     Column {
                                         id: processListColumn
-                                        anchors.left: parent.left
-                                        anchors.right: parent.right
 
-                                        RowLayout {
-                                            spacing: 8
+                                        Rectangle {
+                                            id: processHighlightRect
+                                            width: physicalView.width
+                                            height: processIcon.height
+                                            color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
-                                            IconSVG {
-                                                source: "/resources/images/process.svg"
-                                                scalingFactor: 1.5
-                                                Layout.bottomMargin: 5
-                                            }
-                                            Label {
-                                                text: name
-                                                Layout.bottomMargin: 5
+                                            RowLayout {
+                                                spacing: spacingIconLabel
 
-                                                MouseArea {
-                                                    anchors.fill: parent
-                                                    onDoubleClicked: {
-                                                        controller.host_click(id)
+                                                IconSVG {
+                                                    id: processIcon
+                                                    source: "/resources/images/process.svg"
+                                                    size: iconSize
+                                                    Layout.leftMargin: thirdIndentation
+                                                }
+                                                Label {
+                                                    text: name
+
+                                                    MouseArea {
+                                                        anchors.fill: parent
+                                                        onDoubleClicked: {
+                                                            controller.host_click(id)
+                                                            lastClickedPhysical(hostIdx, userIdx, processIdx)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -226,5 +282,34 @@ Rectangle {
                 }
             }
         }
+    }
+
+    function updateLastEntityClicked(hostIdx, userIdx, processIdx, update = true) {
+        if (lastClickedIdx[PhysicalView.PhysicalEntity.Host] !== -1) {
+            if (lastClickedIdx[PhysicalView.PhysicalEntity.User] !== -1) {
+                if (lastClickedIdx[PhysicalView.PhysicalEntity.Process] !== -1) {
+                    hostList.itemAtIndex(lastClickedIdx[PhysicalView.PhysicalEntity.Host])
+                        .userList.itemAtIndex(lastClickedIdx[PhysicalView.PhysicalEntity.User])
+                            .processList.itemAtIndex(lastClickedIdx[PhysicalView.PhysicalEntity.Process])
+                                .highlight = !update
+                } else {
+                    hostList.itemAtIndex(lastClickedIdx[PhysicalView.PhysicalEntity.Host])
+                        .userList.itemAtIndex(lastClickedIdx[PhysicalView.PhysicalEntity.User])
+                            .highlight = !update
+                }
+            } else {
+                hostList.itemAtIndex(lastClickedIdx[PhysicalView.PhysicalEntity.Host]).highlight = !update
+
+            }
+        }
+
+        if (update) {
+            lastClickedIdx = [hostIdx, userIdx, processIdx]
+            updateLastEntityClicked(hostIdx, userIdx, processIdx, false)
+        }
+    }
+
+    function resetLastEntityClicked() {
+        updateLastEntityClicked(-1, -1, -1, true)
     }
 }

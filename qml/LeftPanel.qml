@@ -28,12 +28,16 @@ SplitView {
     property variant views: []
     property variant comboBoxIdx: []
 
-    Component.onCompleted: addView("ddsEntities")
-
+    Component.onCompleted: {
+        addView("ddsEntities")
+        addView("physical")
+        addView("logical")
+    }
 
     Repeater {
-        id: repeater
+        id: viewsRepeater
         model: viewsCount
+
 
         delegate: ColumnLayout {
             SplitView.preferredHeight: parent.height / 4
@@ -43,44 +47,104 @@ SplitView {
             visible: true
 
             property int comboBoxIndex: comboBoxIdx[index]
+            property var listStackItem: listStack
 
+            Rectangle {
+                Layout.fillWidth: true
+                height: settingsViewTabBar.height
+                color: settingsViewTabBar.background.color
 
-            RowLayout {
-                spacing: 0
+                RowLayout {
+                    spacing: 0
+                    anchors.left: parent.left
+                    anchors.right: parent.right
 
-                ComboBox {
-                    id: settingsViewTabBar
-                    model: ["DDS Entities", "Physical", "Logical"]
-                    Layout.fillWidth: true
-                    currentIndex: comboBoxIndex
-                    property int modelIdx: index
-                    onActivated: {
-                        comboBoxIdx[modelIdx] = currentIndex
+                    ComboBox {
+                        id: settingsViewTabBar
+                        model: ["DDS Entities", "Physical", "Logical"]
+                        Layout.fillWidth: true
+                        currentIndex: comboBoxIndex
+                        property int modelIdx: index
+                        onActivated: {
+                            comboBoxIdx[modelIdx] = currentIndex
+                        }
                     }
-                }
 
-                Button {
-                    id: addSplitView
-                    icon.source: "/resources/images/plus.svg"
-                    width: parent.width/10
-
-                    onClicked: {
-                        contextMenu.x = x
-                        contextMenu.y = y + addSplitView.height
-                        contextMenu.open()
+                    Rectangle {
+                        id: separator
+                        height: settingsViewTabBar.height
+                        width: 2
+                        color: Theme.grey
                     }
-                }
 
-                Button {
-                    id: closeSplitView
-                    icon.source: index === 0 ? "/resources/images/lessthan.svg" : "/resources/images/cross.svg"
-                    width: parent.width/10
+                    Rectangle {
+                        id: addSplitView
+                        width: settingsViewTabBar.height/2
+                        height: settingsViewTabBar.height/2
+                        radius: settingsViewTabBar.height/2
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.leftMargin: settingsViewTabBar.height/5
+                        Layout.rightMargin: settingsViewTabBar.height/5
+                        color: Theme.lightGrey
 
-                    onClicked: {
-                        if (index == 0) {
-                            leftSidebarHidden()
-                        } else {
-                            removeView(index)
+                        IconSVG {
+                            size: settingsViewTabBar.height/3
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: "/resources/images/plus.svg"
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: {
+                                contextMenu.x = parent.x - settingsViewTabBar.height/5
+                                contextMenu.y = parent.y + addSplitView.height/2 + settingsViewTabBar.height/2
+                                contextMenu.open()
+                            }
+                            onEntered: {
+                                parent.color = Theme.whiteSmoke
+                            }
+                            onExited: {
+                                parent.color = Theme.lightGrey
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        id: closeSplitView
+                        width: settingsViewTabBar.height/2
+                        height: settingsViewTabBar.height/2
+                        radius: settingsViewTabBar.height/2
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.leftMargin: settingsViewTabBar.height/5
+                        Layout.rightMargin: settingsViewTabBar.height/5
+                        color: Theme.lightGrey
+
+
+                        IconSVG {
+                            size: settingsViewTabBar.height/3
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: index === 0 ? "/resources/images/lessthan.svg" : "/resources/images/cross.svg"
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: {
+                                if (index == 0) {
+                                    leftSidebarHidden()
+                                } else {
+                                    removeView(index)
+                                }
+                            }
+                            onEntered: {
+                                parent.color = Theme.whiteSmoke
+                            }
+                            onExited: {
+                                parent.color = Theme.lightGrey
+                            }
                         }
                     }
                 }
@@ -108,11 +172,15 @@ SplitView {
                 }
             }
 
-
             StackLayout {
+                id: listStack
                 currentIndex: settingsViewTabBar.currentIndex
                 Layout.alignment: Qt.AlignTop
                 Layout.fillWidth: true
+
+                property var entityListItem: entityList
+                property var physicalViewItem: physicalView
+                property var logicalViewItem: logicalView
 
                 EntityList {
                     id: entityList
@@ -122,13 +190,38 @@ SplitView {
                 PhysicalView {
                     id: physicalView
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                    onLastClickedPhysical: updateLastClickedPhysical(hostIdx, userIdx, processIdx)
                 }
 
                 LogicalView {
                     id: logicalView
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                    onLastClickedLogical: updateLastClickedLogical(domainIdx, topicIdx)
                 }
             }
+        }
+    }
+
+    function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
+        for(var i=0; i<viewsRepeater.count; i++){
+            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
+            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
+            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.updateLastEntityClicked(hostIdx, userIdx, processIdx)
+        }
+    }
+
+    function updateLastClickedLogical(domainIdx, topicIdx) {
+        for(var i=0; i<viewsRepeater.count; i++){
+            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
+            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.resetLastEntityClicked()
+            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.updateLastEntityClicked(domainIdx, topicIdx)
+        }
+    }
+
+    function resetLastClicked() {
+        for(var i=0; i<viewsRepeater.count; i++){
+            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.resetLastEntityClicked()
+            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
         }
     }
 

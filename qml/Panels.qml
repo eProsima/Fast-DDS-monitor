@@ -24,12 +24,15 @@ SplitView {
     property bool showLeftSidebar: true
     property bool showRightSidebar: true
 
+    signal lastClickedReset
+
+    onLastClickedReset: leftPanel.resetLastClicked()
+
     LeftPanel {
         id: leftPanel
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
         visible: showLeftSidebar
-
         onLeftSidebarHidden: panels.showLeftSidebar = false
     }
 

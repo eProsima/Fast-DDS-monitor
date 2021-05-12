@@ -35,7 +35,6 @@ ChartView {
         min: axisYMin
         max: axisYMax
         titleText: {
-            console.log(chartTitle)
             chartTitle == "FASTDDS_LATENCY" ? qsTr(chartTitle + " [ns]") :
                                  "NETWORK_LATENCY" ? qsTr(chartTitle + " [ns]") :
                                  "PUBLICATION_THROUGHPUT" ? qsTr(chartTitle + " [B/s]") :

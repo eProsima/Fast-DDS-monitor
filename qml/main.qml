@@ -35,10 +35,12 @@ ApplicationWindow {
             panels.showLeftSidebar = !panels.showLeftSidebar
         }
         onRightSidebarHidden: panels.showRightSidebar = !panels.showRightSidebar
+        onLastClickedReset: panels.lastClickedReset()
     }
 
     header: MonitorToolBar {
         id: toolBar
+        onLastClickedReset: panels.lastClickedReset()
     }
 
     Panels {
