@@ -414,41 +414,6 @@ EntityInfo SyncBackendConnection::get_summary(
     EntityInfo summary;
 
     // Values to represent in summary
-    /*
-     * NETWORK_LATENCY
-     *    MEDIAN
-     *    STANDARD_DEVIATION
-     * FASTDDS_LATENCY
-     *    MEDIAN
-     *    STANDARD_DEVIATION
-     * PUBLICATION_THROUGHPUT
-     *    MEDIAN
-     *    STANDARD_DEVIATION
-     * SUBSCRIPTION_THROUGHPUT
-     *    MEDIAN
-     *    STANDARD_DEVIATION
-     * RTPS_BYTES_SENT
-     *    MEDIAN
-     * RTPS_BYTES_LOST
-     *    MEDIAN
-     * RESENT_DATA
-     *    MEAN
-     * HEARTBEAT_COUNT
-     *    SUM
-     * ACKNACK_COUNT
-     *    SUM
-     * NACKFRAG_COUNT
-     *    SUM
-     * GAP_COUNT
-     *    SUM
-     * DATA_COUNT
-     *    SUM
-     * PDP_PACKETS
-     *    SUM
-     * EDP_PACKETS
-     *    SUM
-     */
-
     std::vector<std::pair<DataKind, StatisticKind>> configurations = {
         std::make_pair(DataKind::NETWORK_LATENCY, StatisticKind::MEDIAN),
         std::make_pair(DataKind::NETWORK_LATENCY, StatisticKind::STANDARD_DEVIATION),
@@ -474,13 +439,13 @@ EntityInfo SyncBackendConnection::get_summary(
     {
         // For every configuration, call get data and get the value (time is not used) of the only element received.
         // For DataKinds without targets, setting the id value does not affect, for those with targets,
-        //  get the target as every entity related with this one.
+        // get the target as every entity related with this one.
         summary[backend::data_kind_to_string(configuration.first)]
         [backend::statistic_kind_to_string(configuration.second)] = get_data(
-            configuration.first,                        // DataKind of the series
-            id,                                             // Id of source
-            id,                                             // Id of everything connected to source
-            1,                                              // Just one bin to get all data available
+            configuration.first,                    // DataKind of the series
+            id,                                     // Id of source
+            id,                                     // Id of everything connected to source
+            1,                                      // Just one bin to get all data available
             configuration.second)[0].second;        // StatisticKind / get the value of the first (only) element
     }
 
