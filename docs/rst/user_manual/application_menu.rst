@@ -45,14 +45,14 @@ or the Fast DDS Discovery Server (DS).
 
 Simple Discovery
 ^^^^^^^^^^^^^^^^
-Request the user to introduce a number between 0 and 200 which will be the DDS Domain number.
+This dialog requests the user to introduce a number between 0 and 200 which will be the DDS Domain number.
 This will start a monitor in a specific DDS domain.
 The entities in this domain will be automatically discovered.
 
 Discovery Server
 ^^^^^^^^^^^^^^^^
-Requests the user to introduce a list of network addresses in a specific string format to connect with one or more
-*Fast DDS Discovery Servers*.
+This dialog requests the user to introduce a list of network addresses in a specific string format to connect with one
+or more *Fast DDS Discovery Servers*.
 This string must contain the IP-port pair where the Discovery Server is listening in the format ``ip:port``
 separated by ``;``.
 
@@ -82,11 +82,11 @@ View
 
 Hide/Show Shortcuts Toolbar
 ---------------------------
-Hides the shortcuts superior toolbar if visible, or reveal it otherwise.
+Hide the shortcuts superior toolbar if visible, or reveal it otherwise.
 
 Customize Shortcuts Toolbar
 ---------------------------
-Allows to show or hide independently the shortcut buttons in the shortcut toolbar.
+Allow to show or hide independently the shortcut buttons in the shortcut toolbar.
 
 Hide/Show Left sidebar
 ----------------------
