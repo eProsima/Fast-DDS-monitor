@@ -80,6 +80,8 @@ Rectangle {
                             source: "/resources/images/domain.svg"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
+                            dye: highlight ? true : false
+                            color: highlight ? Theme.whiteSmoke : "black"
 
                             MouseArea {
                                 anchors.fill: parent
@@ -95,6 +97,7 @@ Rectangle {
                         }
                         Label {
                             text: name
+                            color: highlight ? Theme.whiteSmoke : "black"
 
                             DifferClickMouseArea {
                                 anchors.fill: parent
@@ -123,9 +126,10 @@ Rectangle {
                     contentHeight: contentItem.childrenRect.height
                     clip: true
                     spacing: verticalSpacing
+                    topMargin: verticalSpacing
                     delegate: topicListDelegate
 
-                    property int collapseHeightFlag: childrenRect.height
+                    property int collapseHeightFlag: childrenRect.height + topicList.topMargin
                 }
 
                 Component {
@@ -164,9 +168,12 @@ Rectangle {
                                         source: "/resources/images/topic.svg"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
+                                        dye: highlight ? true : false
+                                        color: highlight ? Theme.whiteSmoke : "black"
                                     }
                                     Label {
                                         text: name
+                                        color: highlight ? Theme.whiteSmoke : "black"
 
                                         MouseArea {
                                             anchors.fill: parent

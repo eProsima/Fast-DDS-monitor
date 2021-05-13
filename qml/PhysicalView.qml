@@ -83,6 +83,8 @@ Rectangle {
                             source: "/resources/images/host.svg"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
+                            dye: highlight ? true : false
+                            color: highlight ? Theme.whiteSmoke : "black"
 
                             MouseArea {
                                 anchors.fill: parent
@@ -98,6 +100,7 @@ Rectangle {
                         }
                         Label {
                             text: name
+                            color: highlight ? Theme.whiteSmoke : "black"
 
                             DifferClickMouseArea {
                                 anchors.fill: parent
@@ -168,6 +171,8 @@ Rectangle {
                                         source: "/resources/images/user.svg"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
+                                        dye: highlight ? true : false
+                                        color: highlight ? Theme.whiteSmoke : "black"
 
                                         MouseArea {
                                             anchors.fill: parent
@@ -185,6 +190,7 @@ Rectangle {
                                     }
                                     Label {
                                         text: name
+                                        color: highlight ? Theme.whiteSmoke : "black"
 
                                         DifferClickMouseArea {
                                             anchors.fill: parent
@@ -260,9 +266,12 @@ Rectangle {
                                                     source: "/resources/images/process.svg"
                                                     size: iconSize
                                                     Layout.leftMargin: thirdIndentation
+                                                    dye: highlight ? true : false
+                                                    color: highlight ? Theme.whiteSmoke : "black"
                                                 }
                                                 Label {
                                                     text: name
+                                                    color: highlight ? Theme.whiteSmoke : "black"
 
                                                     MouseArea {
                                                         anchors.fill: parent
