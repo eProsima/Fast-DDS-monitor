@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import QtQml 2.15
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import Qt.labs.calendar 1.0
@@ -273,7 +273,7 @@ Dialog {
 
     Dialog {
         id: startTimeCalendarDialog
-        title: "Choose a date"
+        title: "Choose the start timestamp"
         standardButtons: StandardButton.Save | StandardButton.Cancel
 
         x: (parent.width - width) / 2
@@ -282,68 +282,50 @@ Dialog {
         onAccepted: {
             activeOk = true
             var tmpDate = new Date(startTimeCalendar.selectedDate)
-            tmpDate.setHours(parseInt(startTimeHour.currentItem.text),
-                             parseInt(startTimeMinute.currentItem.text),
-                             parseInt(startTimeSecond.currentItem.text),
+            var timeDate = Date.fromLocaleTimeString(Qt.locale(), startTime.text, "HH:mm:ss")
+            tmpDate.setHours(timeDate.getHours(),
+                             timeDate.getMinutes(),
+                             timeDate.getSeconds(),
                              0)
             startTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
-        RowLayout {
+        ColumnLayout {
+
+            Label {
+                text: "Date: "
+            }
             QCC1.Calendar {
                 id: startTimeCalendar
             }
 
             Rectangle {
-                width: startTimeFrame.implicitWidth + 10
-                height: startTimeFrame.implicitHeight + 10
+                id: startTimeseparator
+                Layout.fillWidth: true
+                height: 10
+                color: "transparent"
+            }
 
-                Component {
-                    id: startTimeDelegate
-
-                    Label {
-                        text: formatText(Tumbler.tumbler.count, modelData)
-                        opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
+            Label {
+                text: "Time: "
+            }
+            TextField {
+                id: startTime
+                text : "00:00:00"
+                inputMask: "99:99:99"
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: RegExpValidator {
+                    regExp: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$ /
                 }
 
-                Frame {
-                    id: startTimeFrame
-                    padding: 0
-                    anchors.centerIn: parent
-
-                    RowLayout {
-                        Tumbler {
-                            id: startTimeHour
-                            model: 24
-                            wrap: false
-                            delegate: startTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: startTimeMinute
-                            model: 60
-                            wrap: false
-                            delegate: startTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: startTimeSecond
-                            model: 60
-                            wrap: false
-                            delegate: startTimeDelegate
-                        }
-                    }
-                }
+                Layout.fillWidth: true
             }
         }
     }
 
     Dialog {
         id: endTimeCalendarDialog
-        title: "Choose a date"
+        title: "Choose the end timestamp"
         standardButtons: StandardButton.Save | StandardButton.Cancel
 
         x: (parent.width - width) / 2
@@ -352,61 +334,43 @@ Dialog {
         onAccepted: {
             activeOk = true
             var tmpDate = new Date(endTimeCalendar.selectedDate)
-            tmpDate.setHours(parseInt(endTimeHour.currentItem.text),
-                             parseInt(endTimeMinute.currentItem.text),
-                             parseInt(endTimeSecond.currentItem.text),
+            var timeDate = Date.fromLocaleTimeString(Qt.locale(), endTime.text, "HH:mm:ss")
+            tmpDate.setHours(timeDate.getHours(),
+                             timeDate.getMinutes(),
+                             timeDate.getSeconds(),
                              0)
             endTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
-        RowLayout {
+        ColumnLayout {
+
+            Label {
+                text: "Date: "
+            }
             QCC1.Calendar {
                 id: endTimeCalendar
             }
 
             Rectangle {
-                width: endTimeFrame.implicitWidth + 10
-                height: endTimeFrame.implicitHeight + 10
+                id: endTimeseparator
+                Layout.fillWidth: true
+                height: 10
+                color: "transparent"
+            }
 
-                Component {
-                    id: endTimeDelegate
-
-                    Label {
-                        text: formatText(Tumbler.tumbler.count, modelData)
-                        opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
+            Label {
+                text: "Time: "
+            }
+            TextField {
+                id: endTime
+                text : "00:00:00"
+                inputMask: "99:99:99"
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: RegExpValidator {
+                    regExp: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$ /
                 }
 
-                Frame {
-                    id: endTimeFrame
-                    padding: 0
-                    anchors.centerIn: parent
-
-                    RowLayout {
-                        Tumbler {
-                            id: endTimeHour
-                            model: 24
-                            wrap: false
-                            delegate: endTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: endTimeMinute
-                            model: 60
-                            wrap: false
-                            delegate: endTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: endTimeSecond
-                            model: 60
-                            wrap: false
-                            delegate: endTimeDelegate
-                        }
-                    }
-                }
+                Layout.fillWidth: true
             }
         }
     }
