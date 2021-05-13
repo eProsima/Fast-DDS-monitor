@@ -99,6 +99,13 @@ jobs:
           path: log/
         if: always()
 
+      - name: Upload spelling errors
+        uses: actions/upload-artifact@v1
+        with:
+          name: spelling_errors.txt
+          path: build/fastdds-monitor/docs/test/spelling/output.txt
+        continue-on-error: true
+
   clang-tidy:
     runs-on: ubuntu-latest
     steps:

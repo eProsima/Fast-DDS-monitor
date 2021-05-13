@@ -91,7 +91,8 @@ add_custom_target(Sphinx ALL
     ${PROJECT_SOURCE_DOCS_DIR}
     ${DOCS_OUTPUT_HTML_DIR}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating documentation with Sphinx")
+    COMMENT "Generating documentation with Sphinx"
+    $<$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">:-Dtodo_include_todos=1>)
 
 # Install the generated docs
 install(DIRECTORY ${DOCS_OUTPUT_HTML_DIR}
