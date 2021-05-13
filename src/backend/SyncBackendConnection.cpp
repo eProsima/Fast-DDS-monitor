@@ -413,16 +413,41 @@ EntityInfo SyncBackendConnection::get_summary(
 {
     EntityInfo summary;
 
-    // Latency
-    summary["Latency"]["mean"] = "-0";
+    // Values to represent in summary
+    std::vector<std::pair<DataKind, StatisticKind>> configurations = {
+        std::make_pair(DataKind::NETWORK_LATENCY, StatisticKind::MEDIAN),
+        std::make_pair(DataKind::NETWORK_LATENCY, StatisticKind::STANDARD_DEVIATION),
+        std::make_pair(DataKind::FASTDDS_LATENCY, StatisticKind::MEDIAN),
+        std::make_pair(DataKind::FASTDDS_LATENCY, StatisticKind::STANDARD_DEVIATION),
+        std::make_pair(DataKind::PUBLICATION_THROUGHPUT, StatisticKind::MEDIAN),
+        std::make_pair(DataKind::PUBLICATION_THROUGHPUT, StatisticKind::STANDARD_DEVIATION),
+        std::make_pair(DataKind::SUBSCRIPTION_THROUGHPUT, StatisticKind::MEDIAN),
+        std::make_pair(DataKind::SUBSCRIPTION_THROUGHPUT, StatisticKind::STANDARD_DEVIATION),
+        std::make_pair(DataKind::RTPS_BYTES_SENT, StatisticKind::MEDIAN),
+        std::make_pair(DataKind::RTPS_BYTES_LOST, StatisticKind::MEDIAN),
+        std::make_pair(DataKind::RESENT_DATA, StatisticKind::MEAN),
+        std::make_pair(DataKind::HEARTBEAT_COUNT, StatisticKind::SUM),
+        std::make_pair(DataKind::ACKNACK_COUNT, StatisticKind::SUM),
+        std::make_pair(DataKind::NACKFRAG_COUNT, StatisticKind::SUM),
+        std::make_pair(DataKind::GAP_COUNT, StatisticKind::SUM),
+        std::make_pair(DataKind::DATA_COUNT, StatisticKind::SUM),
+        std::make_pair(DataKind::PDP_PACKETS, StatisticKind::SUM),
+        std::make_pair(DataKind::EDP_PACKETS, StatisticKind::SUM)
+    };
 
-    // Throughput
-    summary["Throughput"]["mean"] = get_data(
-        DataKind::PUBLICATION_THROUGHPUT,
-        id,
-        EntityId::invalid(),
-        1,     // only one value
-        StatisticKind::MEAN)[0].second;
+    for (auto configuration : configurations)
+    {
+        // For every configuration, call get data and get the value (time is not used) of the only element received.
+        // For DataKinds without targets, setting the id value does not affect, for those with targets,
+        // get the target as every entity related with this one.
+        summary[backend::data_kind_to_string(configuration.first)]
+        [backend::statistic_kind_to_string(configuration.second)] = get_data(
+            configuration.first,                    // DataKind of the series
+            id,                                     // Id of source
+            id,                                     // Id of everything connected to source
+            1,                                      // Just one bin to get all data available
+            configuration.second)[0].second;        // StatisticKind / get the value of the first (only) element
+    }
 
     return summary;
 }

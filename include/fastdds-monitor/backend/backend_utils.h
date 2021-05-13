@@ -56,6 +56,14 @@ std::string get_info_value(
 QString entity_kind_to_QString(
         const EntityKind& entity_kind);
 
+//! Converts the \c DataKind to string
+std::string data_kind_to_string(
+        const DataKind& data_kind);
+
+//! Converts the \c StatisticKind to string
+std::string statistic_kind_to_string(
+        const StatisticKind& statistic_kind);
+
 //! Retrieves the \c EntityKind related with its name in QString
 backend::EntityKind string_to_entity_kind(
         const QString& entity_kind);
