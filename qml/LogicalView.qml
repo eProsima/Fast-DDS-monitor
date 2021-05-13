@@ -65,7 +65,6 @@ Rectangle {
 
             Column {
                 id: domainListColumn
-                spacing: verticalSpacing
 
                 Rectangle {
                     id: domainHighlightRect
@@ -150,8 +149,6 @@ Rectangle {
 
                         Column {
                             id: topicListColumn
-                            anchors.left: parent.left
-                            anchors.right: parent.right
 
                             Rectangle {
                                 id: topicHighlightRect

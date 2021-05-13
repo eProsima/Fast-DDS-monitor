@@ -36,6 +36,8 @@ Dialog {
 
     property bool targetExists: false
 
+    property bool activeOk: true
+
     Component.onCompleted: {
         if (chartTitle == "FASTDDS_LATENCY" |
                 chartTitle == "NETWORK_LATENCY" |
@@ -47,12 +49,21 @@ Dialog {
         }
 
         controller.update_available_entity_ids("Host", "getDataDialogSourceEntityId")
-        controller.update_available_entity_ids("Host", "getDataDialogTargetEntityId")
+        controller.update_available_entity_ids("Host", "getDataDialogDestinationEntityId")
         regenerateSeriesLabel()
     }
 
-    onAccepted: createSeries()
-    onApplied: createSeries()
+    onAccepted: {
+        if (activeOk) {
+            createSeries()
+        }
+        activeOk = true
+    }
+
+    onApplied: {
+        activeOk = false
+        createSeries()
+    }
 
     GridLayout{
 
@@ -69,6 +80,8 @@ Dialog {
             selectByMouse: true
             maximumLength: 20
             Layout.fillWidth: true
+
+            onTextEdited: activeOk = true
         }
 
 
@@ -89,7 +102,8 @@ Dialog {
                     "DataWriter",
                     "DataReader",
                     "Locator"]
-                onActivated:  {
+                onActivated: {
+                    activeOk = true
                     controller.update_available_entity_ids(currentText, "getDataDialogSourceEntityId")
                     regenerateSeriesLabel()
                 }
@@ -100,6 +114,7 @@ Dialog {
                 model: entityModelFirst
 
                 onActivated: {
+                    activeOk = true
                     regenerateSeriesLabel()
                 }
             }
@@ -126,6 +141,7 @@ Dialog {
                     "DataReader",
                     "Locator"]
                 onActivated:  {
+                    activeOk = true
                     controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
                     regenerateSeriesLabel()
                 }
@@ -136,6 +152,7 @@ Dialog {
                 model: entityModelSecond
 
                 onActivated: {
+                    activeOk = true
                     regenerateSeriesLabel()
                 }
             }
@@ -151,6 +168,8 @@ Dialog {
             from: 0
             to: 9999
             value: 0
+
+            onValueModified: activeOk = true
         }
 
         Label {
@@ -170,6 +189,7 @@ Dialog {
                     indicator.width: 20
                     indicator.height: 20
                     onCheckedChanged: {
+                        activeOk = true
                         if (checked) {
                             startTimeCalendarButton.enabled = false
 
@@ -208,6 +228,7 @@ Dialog {
                     indicator.width: 20
                     indicator.height: 20
                     onCheckedChanged: {
+                        activeOk = true
                         if (checked) {
                             endTimeCalendarButton.enabled = false
 
@@ -244,6 +265,7 @@ Dialog {
             implicitWidth: 225
 
             onActivated: {
+                activeOk = true
                 regenerateSeriesLabel()
             }
         }
@@ -258,6 +280,7 @@ Dialog {
         y: (parent.height - height) / 2
 
         onAccepted: {
+            activeOk = true
             var tmpDate = new Date(startTimeCalendar.selectedDate)
             tmpDate.setHours(parseInt(startTimeHour.currentItem.text),
                              parseInt(startTimeMinute.currentItem.text),
@@ -327,6 +350,7 @@ Dialog {
         y: (parent.height - height) / 2
 
         onAccepted: {
+            activeOk = true
             var tmpDate = new Date(endTimeCalendar.selectedDate)
             tmpDate.setHours(parseInt(endTimeHour.currentItem.text),
                              parseInt(endTimeMinute.currentItem.text),
