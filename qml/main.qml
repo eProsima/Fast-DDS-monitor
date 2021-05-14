@@ -19,44 +19,32 @@ import QtQuick.Controls 2.15
 import Theme 1.0
 
 ApplicationWindow {
-    id: window
+    id: mainStartView
     visible: true
     width: 1600
     height: 900
     title: qsTr("Fast DDS Monitor")
 
-    menuBar: MonitorMenuBar {
-        id: monitorMenuBar
-        onToolBarHidden: toolBar.isVisible = !toolBar.isVisible
-        onInitMonitorButtonHidden: toolBar.isVisibleInitMonitor = !toolBar.isVisibleInitMonitor
-        onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
-        onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
-        onLeftSidebarHidden: {
-            panels.showLeftSidebar = !panels.showLeftSidebar
+    property var editorView
+
+    Rectangle {
+        anchors.fill: parent
+        color: Theme.eProsimaLightBlue
+
+        Button {
+            text: qsTr("Init Monitor")
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            onClicked: {
+                mainApplicationView.visible = true
+                mainStartView.visible = false
+            }
         }
-        onRightSidebarHidden: panels.showRightSidebar = !panels.showRightSidebar
-        onLastClickedReset: panels.lastClickedReset()
     }
 
-    header: MonitorToolBar {
-        id: toolBar
-        onLastClickedReset: panels.lastClickedReset()
-    }
-
-    Panels {
-        id: panels
-    }
-
-    InitMonitorDialog {
-        id: dialogInitMonitor
-    }
-
-    DataKindDialog {
-        id: dataKindDialog
-        onCreateChart: panels.createChart(dataKind)
-    }
-
-    AboutDialog {
-        id: aboutDialog
+    MainApplicationView {
+        id: mainApplicationView
+        visible: false
     }
 }
