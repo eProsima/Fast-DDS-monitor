@@ -36,9 +36,8 @@ Dialog {
             id: dataKindLabel
             text: "Data kind: "
         }
-        ComboBox {
+        AdaptiveComboBox {
             id: dataKindComboBox
-            implicitWidth: 300
             model: [
                 "FASTDDS_LATENCY",
                 "NETWORK_LATENCY",
