@@ -16,33 +16,67 @@ import QtQuick 2.6
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
+import Theme 1.0
 
-ColumnLayout {
-    id: rightPanel
-    spacing: 0
+SplitView {
+    id: rightPanels
+    orientation: Qt.Vertical
 
-    ComboBox {
-        id: settingsViewTabBar
-        model: ["Info", "Statistics", "Issues"]
-        Layout.fillWidth: true
+    ColumnLayout {
+        SplitView.preferredHeight: parent.height / 2
+        SplitView.minimumHeight: parent.height / 4
+        spacing: 0
+
+        ComboBox {
+            id: settingsViewTabBar
+            model: ["Info", "Statistics"]
+            Layout.fillWidth: true
+        }
+
+        StackLayout {
+            currentIndex: settingsViewTabBar.currentIndex
+            Layout.alignment: Qt.AlignTop
+            Layout.fillHeight: true
+
+            QosView {
+                id: qosView
+            }
+
+            SummaryView {
+                id: summaryView
+            }
+        }
     }
 
-    StackLayout {
-        currentIndex: settingsViewTabBar.currentIndex
-        Layout.alignment: Qt.AlignTop
-        Layout.fillHeight: true
+    ColumnLayout {
+        SplitView.fillHeight: true
+        SplitView.minimumHeight: parent.height / 4
+        spacing: 0
 
-        QosView {
-            id: qosView
+        ComboBox {
+            id: logViewTabBar
+            model: ["Status", "Log", "Issues"]
+            Layout.fillWidth: true
         }
 
-        SummaryView {
-            id: summaryView
+        StackLayout {
+            currentIndex: logViewTabBar.currentIndex
+            Layout.alignment: Qt.AlignTop
+            Layout.fillHeight: true
+
+            StatusView {
+                id: statusView
+            }
+
+            LogView {
+                id: logView
+            }
+
+            IssueView {
+                id: issueView
+            }
         }
 
-        IssueView {
-            id: issueView
-        }
     }
 
     function expandAll(view, model) {

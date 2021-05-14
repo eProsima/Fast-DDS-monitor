@@ -14,6 +14,8 @@ MenuBar {
     signal leftSidebarHidden
     signal rightSidebarHidden
 
+    signal lastClickedReset
+
     Menu {
         title: qsTr("&File")
         Action {
@@ -33,7 +35,10 @@ MenuBar {
         }
         Action {
             text: qsTr("&Refresh")
-            onTriggered: controller.refresh_click()
+            onTriggered: {
+                controller.refresh_click()
+                lastClickedReset()
+            }
         }
     }
     Menu {

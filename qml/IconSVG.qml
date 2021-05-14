@@ -14,15 +14,38 @@
 
 import QtQuick 2.0
 import QtQuick.Window 2.2
-import QtGraphicalEffects 1.0
+import QtGraphicalEffects 1.15
 
 Image {
     id: root
-    smooth: true
+
+    property color color: "transparent"
+    property bool dye: false
 
     property int size: 12
     property real scalingFactor: 1
 
+    property var overlayObject: null
+
     sourceSize.width: size * scalingFactor
     sourceSize.height: size * scalingFactor
+
+    Component.onCompleted: {
+        if (dye) {
+            overlayObject = createOverlay(root)
+        }
+    }
+
+    onDyeChanged: {
+        if (dye == false) {
+            overlayObject.destroy()
+        } else {
+            overlayObject = createOverlay(root)
+        }
+    }
+
+    function createOverlay(parent) {
+        return Qt.createQmlObject('import QtQuick 2.0; import QtGraphicalEffects 1.15; ColorOverlay {id: overlay; anchors.fill: parent; source: parent; color: parent.color}',
+                                  parent)
+    }
 }

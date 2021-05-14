@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import QtQml 2.15
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import Qt.labs.calendar 1.0
@@ -34,8 +34,9 @@ Dialog {
     property string startTimeDate: "" + new Date().toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
     property string endTimeDate: "" + new Date().toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
 
-    property var targetEntityIdComponent: Qt.createComponent("AdditionalEntityId.qml")
-    property var targetEntityIdObject: null
+    property bool targetExists: false
+
+    property bool activeOk: true
 
     Component.onCompleted: {
         if (chartTitle == "FASTDDS_LATENCY" |
@@ -44,21 +45,25 @@ Dialog {
                 chartTitle == "RTPS_BYTES_SENT" |
                 chartTitle == "RTPS_PACKETS_LOST" |
                 chartTitle == "RTPS_BYTES_LOST") {
-            if (targetEntityIdObject === null) {
-                targetEntityIdObject = targetEntityIdComponent.createObject(entityIdModelSecondRow);
-            }
-        } else {
-            if (targetEntityIdObject !== null) {
-                targetEntityIdObject.destroy();
-            }
+            targetExists = true
         }
 
         controller.update_available_entity_ids("Host", "getDataDialogSourceEntityId")
+        controller.update_available_entity_ids("Host", "getDataDialogDestinationEntityId")
         regenerateSeriesLabel()
     }
 
-    onAccepted: createSeries()
-    onApplied: createSeries()
+    onAccepted: {
+        if (activeOk) {
+            createSeries()
+        }
+        activeOk = true
+    }
+
+    onApplied: {
+        activeOk = false
+        createSeries()
+    }
 
     GridLayout{
 
@@ -74,6 +79,9 @@ Dialog {
             placeholderText: ""
             selectByMouse: true
             maximumLength: 20
+            Layout.fillWidth: true
+
+            onTextEdited: activeOk = true
         }
 
 
@@ -94,7 +102,8 @@ Dialog {
                     "DataWriter",
                     "DataReader",
                     "Locator"]
-                onActivated:  {
+                onActivated: {
+                    activeOk = true
                     controller.update_available_entity_ids(currentText, "getDataDialogSourceEntityId")
                     regenerateSeriesLabel()
                 }
@@ -105,14 +114,48 @@ Dialog {
                 model: entityModelFirst
 
                 onActivated: {
+                    activeOk = true
                     regenerateSeriesLabel()
                 }
             }
         }
 
+        Label {
+            id: targetEntityIdLabel
+            text: "Target Entity Id: "
+            visible: targetExists
+        }
         RowLayout {
-            id: entityIdModelSecondRow
-            Layout.columnSpan: 2
+            id: targetEntityIdLayout
+            visible: targetExists
+            ComboBox {
+                id: getDataDialogTargetEntityId
+                model: [
+                    "Host",
+                    "User",
+                    "Process",
+                    "Domain",
+                    "Topic",
+                    "DomainParticipant",
+                    "DataWriter",
+                    "DataReader",
+                    "Locator"]
+                onActivated:  {
+                    activeOk = true
+                    controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
+                    regenerateSeriesLabel()
+                }
+            }
+            ComboBox {
+                id: targetEntityId
+                textRole: "id"
+                model: entityModelSecond
+
+                onActivated: {
+                    activeOk = true
+                    regenerateSeriesLabel()
+                }
+            }
         }
 
         Label {
@@ -125,6 +168,8 @@ Dialog {
             from: 0
             to: 9999
             value: 0
+
+            onValueModified: activeOk = true
         }
 
         Label {
@@ -144,6 +189,7 @@ Dialog {
                     indicator.width: 20
                     indicator.height: 20
                     onCheckedChanged: {
+                        activeOk = true
                         if (checked) {
                             startTimeCalendarButton.enabled = false
 
@@ -182,6 +228,7 @@ Dialog {
                     indicator.width: 20
                     indicator.height: 20
                     onCheckedChanged: {
+                        activeOk = true
                         if (checked) {
                             endTimeCalendarButton.enabled = false
 
@@ -218,6 +265,7 @@ Dialog {
             implicitWidth: 225
 
             onActivated: {
+                activeOk = true
                 regenerateSeriesLabel()
             }
         }
@@ -225,138 +273,104 @@ Dialog {
 
     Dialog {
         id: startTimeCalendarDialog
-        title: "Choose a date"
+        title: "Choose the start timestamp"
         standardButtons: StandardButton.Save | StandardButton.Cancel
 
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
         onAccepted: {
+            activeOk = true
             var tmpDate = new Date(startTimeCalendar.selectedDate)
-            tmpDate.setHours(parseInt(startTimeHour.currentItem.text),
-                             parseInt(startTimeMinute.currentItem.text),
-                             parseInt(startTimeSecond.currentItem.text),
+            var timeDate = Date.fromLocaleTimeString(Qt.locale(), startTime.text, "HH:mm:ss")
+            tmpDate.setHours(timeDate.getHours(),
+                             timeDate.getMinutes(),
+                             timeDate.getSeconds(),
                              0)
             startTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
-        RowLayout {
+        ColumnLayout {
+
+            Label {
+                text: "Date: "
+            }
             QCC1.Calendar {
                 id: startTimeCalendar
             }
 
             Rectangle {
-                width: startTimeFrame.implicitWidth + 10
-                height: startTimeFrame.implicitHeight + 10
+                id: startTimeseparator
+                Layout.fillWidth: true
+                height: 10
+                color: "transparent"
+            }
 
-                Component {
-                    id: startTimeDelegate
-
-                    Label {
-                        text: formatText(Tumbler.tumbler.count, modelData)
-                        opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
+            Label {
+                text: "Time: "
+            }
+            TextField {
+                id: startTime
+                text : "00:00:00"
+                inputMask: "99:99:99"
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: RegExpValidator {
+                    regExp: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$ /
                 }
 
-                Frame {
-                    id: startTimeFrame
-                    padding: 0
-                    anchors.centerIn: parent
-
-                    RowLayout {
-                        Tumbler {
-                            id: startTimeHour
-                            model: 24
-                            wrap: false
-                            delegate: startTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: startTimeMinute
-                            model: 60
-                            wrap: false
-                            delegate: startTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: startTimeSecond
-                            model: 60
-                            wrap: false
-                            delegate: startTimeDelegate
-                        }
-                    }
-                }
+                Layout.fillWidth: true
             }
         }
     }
 
     Dialog {
         id: endTimeCalendarDialog
-        title: "Choose a date"
+        title: "Choose the end timestamp"
         standardButtons: StandardButton.Save | StandardButton.Cancel
 
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
         onAccepted: {
+            activeOk = true
             var tmpDate = new Date(endTimeCalendar.selectedDate)
-            tmpDate.setHours(parseInt(endTimeHour.currentItem.text),
-                             parseInt(endTimeMinute.currentItem.text),
-                             parseInt(endTimeSecond.currentItem.text),
+            var timeDate = Date.fromLocaleTimeString(Qt.locale(), endTime.text, "HH:mm:ss")
+            tmpDate.setHours(timeDate.getHours(),
+                             timeDate.getMinutes(),
+                             timeDate.getSeconds(),
                              0)
             endTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
-        RowLayout {
+        ColumnLayout {
+
+            Label {
+                text: "Date: "
+            }
             QCC1.Calendar {
                 id: endTimeCalendar
             }
 
             Rectangle {
-                width: endTimeFrame.implicitWidth + 10
-                height: endTimeFrame.implicitHeight + 10
+                id: endTimeseparator
+                Layout.fillWidth: true
+                height: 10
+                color: "transparent"
+            }
 
-                Component {
-                    id: endTimeDelegate
-
-                    Label {
-                        text: formatText(Tumbler.tumbler.count, modelData)
-                        opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
+            Label {
+                text: "Time: "
+            }
+            TextField {
+                id: endTime
+                text : "00:00:00"
+                inputMask: "99:99:99"
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: RegExpValidator {
+                    regExp: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$ /
                 }
 
-                Frame {
-                    id: endTimeFrame
-                    padding: 0
-                    anchors.centerIn: parent
-
-                    RowLayout {
-                        Tumbler {
-                            id: endTimeHour
-                            model: 24
-                            wrap: false
-                            delegate: endTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: endTimeMinute
-                            model: 60
-                            wrap: false
-                            delegate: endTimeDelegate
-                        }
-
-                        Tumbler {
-                            id: endTimeSecond
-                            model: 60
-                            wrap: false
-                            delegate: endTimeDelegate
-                        }
-                    }
-                }
+                Layout.fillWidth: true
             }
         }
     }
@@ -399,11 +413,9 @@ Dialog {
         if (sourceEntityId.currentText == "") {
             emptySourceEntityIdDialog.open()
             return
-        } else if (targetEntityIdObject !== null) {
-            if (targetEntityIdObject.targetEntityId === "") {
-                emptyTargetEntityIdDialog.open()
-                return
-            }
+        } else if ((targetEntityId.currentText == "") && targetExists) {
+            emptyTargetEntityIdDialog.open()
+            return
         }
 
         var startTime = Date.fromLocaleString(
@@ -426,7 +438,7 @@ Dialog {
                         chartTitle,
                         (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
                         sourceEntityId.currentText,
-                        (targetEntityIdObject === null) ? '' : targetEntityIdObject.targetEntityId,
+                        (targetEntityIdLayout.visible == true) ? sourceEntityId.currentText : '',
                         bins.value,
                         startTime,
                         startTimeDefault.checked,
@@ -450,12 +462,12 @@ Dialog {
                    "_" +
                    abbreviateEntityName(getDataDialogSourceEntityId.currentText) +
                    "-" +
-                   sourceEntityId.currentText;
-        if (targetEntityIdObject !== null) {
+                   sourceEntityId.currentText
+        if (targetExists) {
             text += "_" +
-                    abbreviateEntityName(targetEntityIdObject.targetEntityType) +
+                    abbreviateEntityName(getDataDialogTargetEntityId.currentText) +
                     "-" +
-                    targetEntityIdObject.targetEntityId
+                    targetEntityId.currentText
         }
         seriesLabelTextField.placeholderText = text;
     }

@@ -37,6 +37,7 @@
 import QtQuick 2.12
 import QtQuick.Templates 2.12 as T
 import QtQuick.Controls.Universal 2.12
+import Theme 1.0
 
 T.ToolBar {
     id: control
@@ -49,5 +50,12 @@ T.ToolBar {
     background: Rectangle {
         implicitHeight: 28 // AppBarThemeCompactHeight
         color: control.Universal.chromeMediumColor
+
+        Rectangle {
+            color: Theme.grey
+            width: parent.width
+            height: 2
+            anchors.bottom: parent.bottom
+        }
     }
 }

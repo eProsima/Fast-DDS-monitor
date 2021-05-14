@@ -18,13 +18,14 @@ import QtQuick.Layouts 1.1
 
 ToolBar {
     id: toolBar
+    visible: isVisible
 
     property bool isVisible: true
     property bool isVisibleInitMonitor: true
     property bool isVisibleDispData: true
     property bool isVisibleRefresh: true
 
-    visible: isVisible
+    signal lastClickedReset
 
     RowLayout {
         anchors.fill: parent
@@ -49,6 +50,7 @@ ToolBar {
             visible: isVisibleRefresh
             onClicked: {
                 controller.refresh_click()
+                lastClickedReset()
             }
         }
 

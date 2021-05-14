@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 import QtQuick.Layouts 1.3
 import Qt.labs.platform 1.1 as QLP
+import QtGraphicalEffects 1.15
+import Theme 1.0
 
 Rectangle {
     id: statisticsChartBox
@@ -59,6 +62,39 @@ Rectangle {
                         color: "white"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    Rectangle {
+                        height: parent.height - parent.height/3
+                        width: parent.height - parent.height/3
+                        radius: parent.height - parent.height/3
+                        anchors.right: parent.right
+                        anchors.rightMargin: parent.height/3
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: "transparent"
+
+                        IconSVG {
+                            source: "/resources/images/cross.svg"
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            dye: true
+                            color: "white"
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: {
+                                statisticsChartBoxModel.remove(index)
+                                statisticsChartBox.destroy()
+                            }
+                            onEntered: {
+                                parent.color = Theme.eProsimaLightBlue
+                            }
+                            onExited: {
+                                parent.color = "transparent"
+                            }
+                        }
                     }
                 }
 
@@ -106,7 +142,7 @@ Rectangle {
                             onTriggered: controlPanel.clearChart();
                         }
                         Action {
-                            text: "Remove chart"
+                            text: "Close chart box"
                             onTriggered: {
                                 statisticsChartBoxModel.remove(index)
                                 statisticsChartBox.destroy()
@@ -139,6 +175,10 @@ Rectangle {
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+            chartTitle: {
+                return statisticsChartBox.chartTitle
+            }
+
             onSeriesAdded: customLegend.addLeyend(series.name, series.color)
             onSeriesRemoved: customLegend.removeLeyend(series.index)
         }
@@ -168,5 +208,7 @@ Rectangle {
 
     DisplayStatisticsDialog {
         id: displayStatisticsDialog
+
+        anchors.centerIn: Overlay.overlay
     }
 }

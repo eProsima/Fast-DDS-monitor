@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/AboutDialog.qml</file>
-        <file>qml/AdditionalEntityId.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
         <file>qml/DataKindDialog.qml</file>
@@ -11,6 +10,8 @@
         <file>qml/IconSVG.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
         <file>qml/IssueView.qml</file>
+        <file>qml/LogView.qml</file>
+        <file>qml/StatusView.qml</file>
         <file>qml/LeftPanel.qml</file>
         <file>qml/LogicalView.qml</file>
         <file>qml/main.qml</file>
@@ -35,6 +36,7 @@
         <file>controls/ToolButton.qml</file>
         <file>controls/ComboBox.qml</file>
         <file>controls/ItemDelegate.qml</file>
+        <file>controls/Button.qml</file>
     </qresource>
     <qresource prefix="/resources/images">
         <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
@@ -48,5 +50,8 @@
         <file alias="host.svg">resources/images/host.svg</file>
         <file alias="user.svg">resources/images/user.svg</file>
         <file alias="process.svg">resources/images/process.svg</file>
+        <file alias="cross.svg">resources/images/cross.svg</file>
+        <file alias="plus.svg">resources/images/plus.svg</file>
+        <file alias="lessthan.svg">resources/images/lessthan.svg</file>
     </qresource>
 </RCC>

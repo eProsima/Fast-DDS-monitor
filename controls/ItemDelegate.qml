@@ -49,9 +49,9 @@ T.ItemDelegate {
                              implicitContentHeight + topPadding + bottomPadding,
                              implicitIndicatorHeight + topPadding + bottomPadding)
 
-    spacing: 12
+    spacing: 0
 
-    padding: 12
+    padding: 7.5
     topPadding: padding - 1
     bottomPadding: padding + 1
 

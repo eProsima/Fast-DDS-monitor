@@ -21,8 +21,8 @@ import Theme 1.0
 ApplicationWindow {
     id: window
     visible: true
-    width: 1200
-    height: 675
+    width: 1600
+    height: 900
     title: qsTr("Fast DDS Monitor")
 
     menuBar: MonitorMenuBar {
@@ -32,14 +32,15 @@ ApplicationWindow {
         onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
         onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
         onLeftSidebarHidden: {
-            console.log("Pressed change view left sidebar!")
             panels.showLeftSidebar = !panels.showLeftSidebar
         }
         onRightSidebarHidden: panels.showRightSidebar = !panels.showRightSidebar
+        onLastClickedReset: panels.lastClickedReset()
     }
 
     header: MonitorToolBar {
         id: toolBar
+        onLastClickedReset: panels.lastClickedReset()
     }
 
     Panels {

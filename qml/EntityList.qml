@@ -12,25 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.6
+import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
+import QtQuick.Layouts 1.15
+import QtQml.Models 2.15
+import Theme 1.0
 
 Rectangle {
     id: entityList
     Layout.fillHeight: true
     Layout.fillWidth: true
 
+    enum DDSEntity {
+        Participant,
+        User,
+        Process
+    }
+
+    property variant lastClickedIdx: [-1, -1, -1]
+
+    property int verticalSpacing: 5
+    property int spacingIconLabel: 8
+    property int iconSize: 18
+    property int firstIndentation: 5
+    property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
+    property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
+
+    signal lastClickedPhysical
+
     ListView {
         id: participantList
         model: participantModel
+        delegate: participantListDelegate
         clip: true
-        leftMargin: 5
-        bottomMargin: 5
         width: parent.width
         height: parent.height
-        delegate: participantListDelegate
+        spacing: verticalSpacing
 
         ScrollBar.vertical: ScrollBar { }
     }
@@ -40,71 +57,96 @@ Rectangle {
 
         Item {
             id: participantItem
-            width: participantList.width - participantList.leftMargin
+            width: participantList.width
             height: participantListColumn.childrenRect.height
 
-            property var item_id: id
+            property var participantId: id
+            property int participantIdx: index
+            property bool highlight: false
+            property var endpointList: endpointList
 
             Column {
                 id: participantListColumn
 
-                RowLayout {
-                    spacing: 8
+                Rectangle {
+                    id: participantHighlightRect
+                    width: entityList.width
+                    height: participantIcon.height
+                    color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
-                    IconSVG {
-                        source: "/resources/images/participant.svg"
-                        scalingFactor: 1.5
-                        Layout.bottomMargin: 5
+                    RowLayout {
+                        spacing: spacingIconLabel
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                if(endpointList.height === endpointList.collapseHeightFlag) {
-                                    endpointList.height = 0;
-                                } else {
-                                    endpointList.height = endpointList.collapseHeightFlag;
+                        IconSVG {
+                            id: participantIcon
+                            source: "/resources/images/participant.svg"
+                            size: iconSize
+                            Layout.leftMargin: firstIndentation
+                            dye: highlight ? true : false
+                            color: highlight ? Theme.whiteSmoke : "black"
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    if(endpointList.height === endpointList.collapseHeightFlag) {
+                                        endpointList.height = 0;
+                                    }
+                                    else {
+                                        endpointList.height = endpointList.collapseHeightFlag;
+                                    }
                                 }
                             }
                         }
-                    }
+                        Label {
+                            text: name
+                            color: highlight ? Theme.whiteSmoke : "black"
 
-                    Label {
-                        text: name
-                        Layout.bottomMargin: 5
-
-                        DifferClickMouseArea {
-                            anchors.fill: parent
-                            onSingleClick: {
-                                if(endpointList.height === endpointList.collapseHeightFlag) {
-                                    endpointList.height = 0;
-                                } else {
-                                    endpointList.height = endpointList.collapseHeightFlag;
+                            DifferClickMouseArea {
+                                anchors.fill: parent
+                                onSingleClick: {
+                                    if(endpointList.height === endpointList.collapseHeightFlag) {
+                                        endpointList.height = 0;
+                                    }
+                                    else{
+                                        endpointList.height = endpointList.collapseHeightFlag;
+                                    }
                                 }
-                            }
-                            onDoubleClick: {
-                                controller.participant_click(id)
+                                onDoubleClick: {
+                                    controller.participant_click(id)
+                                    updateLastEntityClicked(participantIdx, -1, -1)
+                                    lastClickedPhysical()
+                                }
                             }
                         }
                     }
                 }
+
                 ListView {
                     id: endpointList
-                    model: participantModel.subModelFromEntityId(id)
-                    leftMargin: 25
-                    width: participantList.width - participantList.leftMargin
+                    model: participantModel.subModelFromEntityId(participantId)
+                    width: participantList.width
                     height: 0
                     contentHeight: contentItem.childrenRect.height
                     clip: true
+                    spacing: verticalSpacing
+                    topMargin: verticalSpacing
                     delegate: endpointListDelegate
 
-                    property int collapseHeightFlag: childrenRect.height
+                    property int collapseHeightFlag: childrenRect.height + endpointList.topMargin
                 }
 
                 Component {
                     id: endpointListDelegate
 
                     Item {
+                        id: endpointItem
+                        width: parent.width
                         height: endpointListColumn.childrenRect.height
+
+                        property var endpointId: id
+                        property int endpointIdx: index
+                        property bool highlight: false
+                        property var locatorList: locatorList
 
                         ListView.onAdd: {
                             if(endpointList.height != 0) {
@@ -115,70 +157,90 @@ Rectangle {
                         Column {
                             id: endpointListColumn
 
-                            RowLayout {
-                                spacing: 8
+                            Rectangle {
+                                id: endpointHighlightRect
+                                width: entityList.width
+                                height: endpointIcon.height
+                                color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
-                                IconSVG {
-                                    source: (kind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
-                                    scalingFactor: 1.5
-                                    Layout.bottomMargin: 5
+                                RowLayout {
+                                    spacing: spacingIconLabel
 
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: {
-                                            if(locatorList.height === locatorList.collapseHeightFlag) {
-                                                locatorList.height = 0;
-                                                endpointList.height =
-                                                        endpointList.height - locatorList.collapseHeightFlag;
-                                            } else {
-                                                locatorList.height = locatorList.collapseHeightFlag;
-                                                endpointList.height = endpointList.height + locatorList.height;
+                                    IconSVG {
+                                        id: endpointIcon
+                                        source: (kind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
+                                        size: iconSize
+                                        Layout.leftMargin: secondIndentation
+                                        dye: highlight ? true : false
+                                        color: highlight ? Theme.whiteSmoke : "black"
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {
+                                                if(locatorList.height === locatorList.collapseHeightFlag) {
+                                                    locatorList.height = 0;
+                                                    endpointList.height =
+                                                            endpointList.height - locatorList.collapseHeightFlag;
+                                                } else {
+                                                    locatorList.height = locatorList.collapseHeightFlag;
+                                                    endpointList.height = endpointList.height + locatorList.height;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    Label {
+                                        text: name
+                                        color: highlight ? Theme.whiteSmoke : "black"
+
+                                        DifferClickMouseArea {
+                                            anchors.fill: parent
+                                            onSingleClick: {
+                                                if(locatorList.height === locatorList.collapseHeightFlag) {
+                                                    locatorList.height = 0;
+                                                    endpointList.height =
+                                                            endpointList.height - locatorList.collapseHeightFlag;
+                                                }
+                                                else
+                                                {
+                                                    locatorList.height = locatorList.collapseHeightFlag;
+                                                    endpointList.height = endpointList.height + locatorList.height;
+                                                }
+                                            }
+                                            onDoubleClick: {
+                                                controller.participant_click(id)
+                                                updateLastEntityClicked(participantIdx, endpointIdx, -1)
+                                                lastClickedPhysical()
                                             }
                                         }
                                     }
                                 }
-                                Label {
-                                    text: name
-                                    Layout.bottomMargin: 5
 
-                                    DifferClickMouseArea {
-                                        anchors.fill: parent
-                                        onSingleClick: {
-                                            if(locatorList.height === locatorList.collapseHeightFlag) {
-                                                locatorList.height = 0;
-                                                endpointList.height =
-                                                        endpointList.height - locatorList.collapseHeightFlag;
-                                            } else {
-                                                locatorList.height = locatorList.collapseHeightFlag;
-                                                endpointList.height = endpointList.height + locatorList.height;
-                                            }
-                                        }
-                                        onDoubleClick: {
-                                            controller.endpoint_click(id)
-                                        }
-                                    }
-                                }
                             }
+
                             ListView {
                                 id: locatorList
-                                model: participantModel.subModelFromEntityId(
-                                           participantItem.item_id).subModelFromEntityId(id)
-                                leftMargin: 25
-                                contentHeight: contentItem.childrenRect.height
-                                width: participantList.width - participantList.leftMargin
+                                model: endpointList.model.subModelFromEntityId(endpointId)
+                                width: participantList.width
                                 height: 0
+                                contentHeight: contentItem.childrenRect.height
                                 clip: true
                                 delegate: locatorListDelegate
+                                spacing: verticalSpacing
+                                topMargin: verticalSpacing
 
-                                property int collapseHeightFlag: childrenRect.height
+                                property int collapseHeightFlag: childrenRect.height + locatorList.topMargin
                             }
 
                             Component {
                                 id: locatorListDelegate
 
                                 Item {
+                                    id: locatorItem
                                     width: parent.width
                                     height: locatorListColumn.childrenRect.height
+
+                                    property int locatorIdx: index
+                                    property bool highlight: false
 
                                     ListView.onAdd: {
                                         if(locatorList.height != 0) {
@@ -190,25 +252,35 @@ Rectangle {
 
                                     Column {
                                         id: locatorListColumn
-                                        anchors.left: parent.left
-                                        anchors.right: parent.right
 
-                                        RowLayout {
-                                            spacing: 8
+                                        Rectangle {
+                                            id: locatorHighlightRect
+                                            width: entityList.width
+                                            height: locatorIcon.height
+                                            color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
-                                            IconSVG {
-                                                source: "/resources/images/locator.svg"
-                                                scalingFactor: 1.5
-                                                Layout.bottomMargin: 5
-                                            }
-                                            Label {
-                                                text: name
-                                                Layout.bottomMargin: 5
+                                            RowLayout {
+                                                spacing: spacingIconLabel
 
-                                                MouseArea {
-                                                    anchors.fill: parent
-                                                    onDoubleClicked: {
-                                                        controller.locator_click(id)
+                                                IconSVG {
+                                                    id: locatorIcon
+                                                    source: "/resources/images/locator.svg"
+                                                    size: iconSize
+                                                    Layout.leftMargin: thirdIndentation
+                                                    dye: highlight ? true : false
+                                                    color: highlight ? Theme.whiteSmoke : "black"
+                                                }
+                                                Label {
+                                                    text: name
+                                                    color: highlight ? Theme.whiteSmoke : "black"
+
+                                                    MouseArea {
+                                                        anchors.fill: parent
+                                                        onDoubleClicked: {
+                                                            controller.participant_click(id)
+                                                            updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx)
+                                                            lastClickedPhysical()
+                                                        }
                                                     }
                                                 }
                                             }
@@ -221,5 +293,34 @@ Rectangle {
                 }
             }
         }
+    }
+
+    function updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx, update = true) {
+        if (lastClickedIdx[EntityList.DDSEntity.Participant] !== -1) {
+            if (lastClickedIdx[EntityList.DDSEntity.User] !== -1) {
+                if (lastClickedIdx[EntityList.DDSEntity.Process] !== -1) {
+                    participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant])
+                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.User])
+                            .locatorList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Process])
+                                .highlight = !update
+                } else {
+                    participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant])
+                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.User])
+                            .highlight = !update
+                }
+            } else {
+                participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant]).highlight = !update
+
+            }
+        }
+
+        if (update) {
+            lastClickedIdx = [participantIdx, endpointIdx, locatorIdx]
+            updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx, false)
+        }
+    }
+
+    function resetLastEntityClicked() {
+        updateLastEntityClicked(-1, -1, -1, true)
     }
 }

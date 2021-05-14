@@ -41,32 +41,51 @@ import QtQuick.Controls.impl 2.12
 import QtQuick.Controls.Universal 2.12
 import Theme 1.0
 
-T.MenuBar {
+T.Button {
     id: control
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            contentWidth + leftPadding + rightPadding)
+                            implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             contentHeight + topPadding + bottomPadding)
+                             implicitContentHeight + topPadding + bottomPadding)
 
-    delegate: MenuBarItem { }
+    padding: 8
+    verticalPadding: padding - 4
+    spacing: 8
 
-    contentItem: Row {
+    icon.width: 20
+    icon.height: 20
+    icon.color: Color.transparent(Universal.foreground, enabled ? 1.0 : 0.2)
+
+    property bool useSystemFocusVisuals: true
+
+    contentItem: IconLabel {
         spacing: control.spacing
-        Repeater {
-            model: control.contentModel
-        }
+        mirrored: control.mirrored
+        display: control.display
+
+        icon: control.icon
+        text: control.text
+        font: control.font
+        color: Color.transparent(control.Universal.foreground, enabled ? 1.0 : 0.2)
     }
 
     background: Rectangle {
-        implicitHeight: 20
-        color: control.Universal.chromeMediumColor
+        implicitWidth: 32
+        implicitHeight: 32
+        radius: 5
+
+        color: control.pressed ? Theme.whiteSmoke :
+               Theme.lightGrey
 
         Rectangle {
-            color: control.Universal.baseMediumColor
             width: parent.width
-            height: 2
-            anchors.bottom: parent.bottom
+            height: parent.height
+            radius: parent.radius
+            color: "transparent"
+            visible: control.hovered
+            border.width: 2 // ButtonBorderThemeThickness
+            border.color: Theme.grey
         }
     }
 }
