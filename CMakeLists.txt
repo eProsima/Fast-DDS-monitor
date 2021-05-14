@@ -214,6 +214,7 @@ set(PROJECT_SOURCES_NO_MAIN
     ${PROJECT_SOURCE_DIR}/src/model/ListModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/logical/TopicModelItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/physical/ProcessModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/statistics/EntityItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/SubListedListModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeModel.cpp

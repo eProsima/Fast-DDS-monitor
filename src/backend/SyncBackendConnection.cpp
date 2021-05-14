@@ -273,7 +273,7 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(
 
     for (auto entity_id : StatisticsBackend::get_entities(entity_kind, ID_ALL))
     {
-        entity_model->appendRow(new EntityItem(entity_id));
+        entity_model->appendRow(new EntityItem(entity_id, entity_kind, StatisticsBackend::get_info(entity_id)));
         changed = true;
     }
 
