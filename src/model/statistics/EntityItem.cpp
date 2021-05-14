@@ -40,8 +40,9 @@ QVariant EntityItem::data(
 QString EntityItem::nameId() const
 {
     QString nameId = name();
-    nameId.append("-");
+    nameId.append(":<");
     nameId.append(entity_id());
+    nameId.append(">");
     return nameId;
 }
 
