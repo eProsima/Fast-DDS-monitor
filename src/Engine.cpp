@@ -512,7 +512,6 @@ bool Engine::on_add_statistics_data_series(
 
 void Engine::refresh_engine()
 {
-    qDebug() << "REFRESH";
     // TODO this should be changed from erase all models and re draw them
     clear_callback_log_();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
