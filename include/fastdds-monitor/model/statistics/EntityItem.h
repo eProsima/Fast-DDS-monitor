@@ -32,9 +32,24 @@ class EntityItem : public ListItem
 
 public:
 
-    //! Use EntityContainerModelItem constructors
+    //! Add new roles only for Topic items
+    enum EntityItemRoles
+    {
+        nameIdRole = ModelItemRoles::nameRole + 1,    //! Role for attribute Type
+    };
+
+    //! Default ListItem constructor
     using ListItem::ListItem;
 
+    //! Override the ListItem \c data method to add new roles
+    QVariant data(
+            int role) const override;
+
+    //! Getter for nameId attribute
+    QString nameId() const;
+
+    //! Override the ListItem \c roleNames method to add new roles
+    QHash<int, QByteArray> roleNames() const override;
 };
 
 } // namespace models

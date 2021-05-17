@@ -18,6 +18,7 @@ SOURCES += \
         src/model/dds/EndpointModelItem.cpp \
         src/model/logical/TopicModelItem.cpp \
         src/model/physical/ProcessModelItem.cpp \
+        src/model/statistics/EntityItem.cpp \
         src/model/ListModel.cpp \
         src/model/SubListedListModel.cpp \
         src/main.cpp \

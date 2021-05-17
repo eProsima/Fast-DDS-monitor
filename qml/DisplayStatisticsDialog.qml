@@ -90,7 +90,7 @@ Dialog {
             text: "Source Entity Id: "
         }
         RowLayout {
-            ComboBox {
+            AdaptiveComboBox {
                 id: getDataDialogSourceEntityId
                 model: [
                     "Host",
@@ -102,15 +102,17 @@ Dialog {
                     "DataWriter",
                     "DataReader",
                     "Locator"]
+
                 onActivated: {
                     activeOk = true
                     controller.update_available_entity_ids(currentText, "getDataDialogSourceEntityId")
+                    sourceEntityId.recalculateWidth()
                     regenerateSeriesLabel()
                 }
             }
-            ComboBox {
+            AdaptiveComboBox {
                 id: sourceEntityId
-                textRole: "id"
+                textRole: "nameId"
                 model: entityModelFirst
 
                 onActivated: {
@@ -128,7 +130,7 @@ Dialog {
         RowLayout {
             id: targetEntityIdLayout
             visible: targetExists
-            ComboBox {
+            AdaptiveComboBox {
                 id: getDataDialogTargetEntityId
                 model: [
                     "Host",
@@ -143,12 +145,13 @@ Dialog {
                 onActivated:  {
                     activeOk = true
                     controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
+                    targetEntityId.recalculateWidth()
                     regenerateSeriesLabel()
                 }
             }
-            ComboBox {
+            AdaptiveComboBox {
                 id: targetEntityId
-                textRole: "id"
+                textRole: "nameId"
                 model: entityModelSecond
 
                 onActivated: {
@@ -251,7 +254,7 @@ Dialog {
         Label {
             text: "Statistic kind: "
         }
-        ComboBox {
+        AdaptiveComboBox {
             id: statisticKind
             model: [
                 "NONE",
@@ -262,7 +265,6 @@ Dialog {
                 "MEDIAN",
                 "COUNT",
                 "SUM"]
-            implicitWidth: 225
 
             onActivated: {
                 activeOk = true
@@ -460,13 +462,9 @@ Dialog {
     function regenerateSeriesLabel(){
         var text = ((statisticKind.currentText === "STANDARD_DEVIATION") ? "SD" : statisticKind.currentText) +
                    "_" +
-                   abbreviateEntityName(getDataDialogSourceEntityId.currentText) +
-                   "-" +
                    sourceEntityId.currentText
         if (targetExists) {
             text += "_" +
-                    abbreviateEntityName(getDataDialogTargetEntityId.currentText) +
-                    "-" +
                     targetEntityId.currentText
         }
         seriesLabelTextField.placeholderText = text;
