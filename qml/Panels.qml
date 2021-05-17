@@ -34,11 +34,13 @@ SplitView {
         SplitView.minimumWidth: parent.width / 6
         visible: showLeftSidebar
         onLeftSidebarHidden: panels.showLeftSidebar = false
+        clip: true
     }
 
     ChartsLayout {
         id: chartsLayout
         SplitView.fillWidth: true
+        clip: true
     }
 
     RightPanel {
@@ -46,6 +48,7 @@ SplitView {
         SplitView.preferredWidth: parent.width / 6
         SplitView.minimumWidth: parent.width / 6
         visible: showRightSidebar
+        clip: true
     }
 
     function createChart(dataKind){
