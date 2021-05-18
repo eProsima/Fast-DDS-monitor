@@ -14,6 +14,8 @@ To set one entity as *clicked* double click in any entity in any of the :ref:`le
 and this entity will be set as *Selected Entity* for the whole application from now on.
 Selecting an entity has the following effects in the application view:
 
+- The entity clicked will remain marked with blue background while no other entity is clicked or the Selected
+  Entity is restore.
 - In the :ref:`info_panel_layout`, the information related to this entity is displayed, such as *QoS* or specific
   entity settings.
 - In the :ref:`statistics_panel_layout`, a general summary of the data stored for this entity is listed.

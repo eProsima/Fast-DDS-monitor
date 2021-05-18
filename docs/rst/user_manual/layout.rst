@@ -51,8 +51,25 @@ In this side bar it will be shown the different entities that has been discovere
 They will be displayed in interactive lists that the user could expand or collapse.
 These entities are clickable as well, in order to inspect them.
 
+This sidebar contains a mutable number of panels where one of the possible entity panels will be displayed.
+The different panels that could be shown are the :ref:`dds_panel_layout`, the :ref:`physical_panel_layout` and
+the :ref:`logical_panel_layout`.
+In this panels, the entities discovered are going to be displayed depending on their kind.
+In order to know which kind of entities the application has and how are they divided in categories, please refer to
+:ref:`entities`.
+
+To add a new panel with a new panel, use the ``+`` button in the upper bar of any panel.
+To delete any panel click in the ``x```button.
+Once one new panel is created could be changed to the desired kind by clicking in the name of the panel and choosing
+one of them.
+To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
+In order to hide the whole left sidebar, click in the ``<`` button in the upper panel or click
+*Hide Left sidebar* in the *View* menu..
+
 For more information about what is an entity and how they are organized refer to :ref:`entities`.
 For more information about what means to select an entity refer to :ref:`selected_entity`.
+
+.. _dds_panel_layout:
 
 DDS Panel
 ---------
@@ -69,27 +86,52 @@ so it could happen that not all the DDS entities discovered by the monitor appea
 
 For the explanation of this entities and the interaction with them refer to the section :ref:`dds_panel`.
 
-Physical/Logical Panel
-----------------------
+.. _physical_panel_layout:
 
-In this panel it will appear the Entities discovered by the monitor that are not DDS Entities.
-These entities are divided in two groups, the *Logical* entities and the *Physical* entities.
+Physical Panel
+--------------
+
+In this panel it will appear the Entities discovered by the monitor that refers to physical entities.
+There are three different kind of physical entities, *Host*, *User* and *Process*.
+These entities refer to the main information of the machine and the context where an application using
+*Fast DDS* is running.
+For further explanation of this entities and the interaction with them refer to the section :ref:`physical_panel`.
 
 .. todo::
     Include a screenshot.
 
-**Logical** entities refer to the DDS *Domain* and *Topic* entities.
-For the explanation of this entities and the interaction with them refer to the section :ref:`logical_panel`.
+.. _logical_panel_layout:
 
-**Physical** entities refer to the main information of the machine and the context where an application using
-*Fast DDS* is running.
-These *Fast DDS Monitor* entities are *Host*, *User* and *Process*.
-For the explanation of this entities and the interaction with them refer to the section :ref:`physical_panel`.
+Logical Panel
+-------------
+
+In this panel it will appear the Entities discovered by the monitor that refers to abstract entities in a
+DDS communication network.
+These entities are *Domain* and *Topic*.
+These entities refer to abstract partitions in a DDS network. Only entities in the same *Domain* could communicate
+to each other by publishing or subscribing in the same *Topic*.
+For further explanation of this entities and the interaction with them refer to the section :ref:`logical_panel`.
+
+.. todo::
+    Include a screenshot.
 
 .. _right_sidebar_layout:
 
 Right Sidebar
 =============
+
+In this side bar it will be shown different data related with the entities that are being monitored or related
+with the actual state of the application.
+This side bar is divided in two different side bars.
+The upper one contains :ref:`info_panel_layout` and :ref:`statistics_panel_layout`.
+To change from one another press on the name of the tab an choose the panel desired to be displayed.
+The lower side bar contains :ref:`status_panel_layout`, :ref:`log_panel_layout` and
+:ref:`issues_panel_layout`.
+To change from one another press on the name of the tab an choose the panel desired to be displayed.
+
+To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
+In order to hide the whole left sidebar, click in the ``<`` button in the upper panel or click
+*Hide Left sidebar* in the *View* menu..
 
 .. _info_panel_layout:
 
@@ -117,22 +159,47 @@ This panel shows a summary of the main statistic data related with the last enti
 
 For the explanation of this information refer to the section :ref:`statistics_panel`.
 
-Issues Panel
+.. _status_panel_layout:
+
+Status Panel
 ------------
 
-This panel shows a collection of news and issues that the monitor has received.
-The information stored is divided in three groups:
+This panel shows a collection of data related with the actual state of the application:
 
-- Callbacks that are received related with new entities discovered in the network.
-  The callbacks list is cleaned every time the *Refresh* button available in *Edit* in the application menu is pressed.
+- Entities refer to the number of entities that are being monitoring in the actual application.
 
-- Domains that are currently being monitored.
-- Issues and problems automatically detected in the actual execution.
+- Domains is a collection of the *Domains* that has been initialized in the Monitor.
 
 .. todo::
     Include a screenshot.
 
-For the explanation of this information refer to the section :ref:`statistics_panel`.
+For the explanation of this information refer to the section :ref:`status_panel`.
+
+.. _log_panel_layout:
+
+Log Panel
+---------
+
+This panel shows the callbacks that the application has obtained.
+These callbacks refer to different events in the DDS network that is being monitored.
+These callbacks could be cleared by using the :ref:`refresh_button`.
+A callback may refer to:
+
+- The discovery of a new Entity in the DDS network.
+
+- The reception of new data related to any of the entities that are being monitored.
+
+.. todo::
+    Include a screenshot.
+
+For the explanation of this information refer to the section :ref:`log_panel`.
+
+.. _issues_panel_layout:
+
+Issues Panel
+------------
+
+This panel is not available in this version of the Fast DDS Monitor.
 
 .. _main_panel_layout:
 
