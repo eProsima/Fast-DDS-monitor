@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/AboutDialog.qml</file>
+        <file>qml/MainApplicationView.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
@@ -41,6 +42,7 @@
     </qresource>
     <qresource prefix="/resources/images">
         <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
+        <file alias="eprosima_logo_horizontal.png">resources/images/eprosima_logo_horizontal.png</file>
         <file alias="fastdds-monitor-logo.png">resources/images/fastdds-monitor-logo.png</file>
         <file alias="participant.svg">resources/images/participant.svg</file>
         <file alias="datareader.svg">resources/images/datareader.svg</file>
