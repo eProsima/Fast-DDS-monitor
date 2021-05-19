@@ -167,6 +167,7 @@ ApplicationWindow {
                     onClicked: {
                         mainApplicationView.visible = true
                         mainStartView.visible = false
+                        mainApplicationView.startMonitoring()
                     }
                 }
             }

@@ -25,6 +25,12 @@ ApplicationWindow {
     height: 900
     title: qsTr("Fast DDS Monitor")
 
+    signal startMonitoring
+
+    onStartMonitoring: {
+        dialogInitMonitor.open()
+    }
+
     menuBar: MonitorMenuBar {
         id: monitorMenuBar
         onToolBarHidden: toolBar.isVisible = !toolBar.isVisible
