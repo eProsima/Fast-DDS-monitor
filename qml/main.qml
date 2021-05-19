@@ -26,87 +26,91 @@ ApplicationWindow {
     height: 900
     title: qsTr("Fast DDS Monitor")
 
-    Rectangle {
+    ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
-        LinearGradient {
-            anchors.fill: parent
-            start: Qt.point(0, 0)
-            end: Qt.point(parent.width, parent.height)
-            source: parent
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.eProsimaLightBlue }
-                GradientStop { position: 1.0; color: Theme.eProsimaDarkBlue }
+        Rectangle {
+            id: upperRect
+            Layout.minimumWidth: parent.width
+            Layout.preferredWidth: parent.width
+            Layout.maximumWidth: parent.width
+            Layout.minimumHeight: parent.height/2
+            Layout.preferredHeight: parent.height/2
+            Layout.maximumHeight: parent.height/2
+            color: "white"
+
+            Image {
+                width: parent.width/1.2
+                height: parent.height/1.2
+                fillMode: Image.PreserveAspectFit
+                source: "/resources/images/fastdds-monitor-logo.png"
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+            }
+
+            Image {
+                width: parent.width/4.5
+                height: parent.height/4.5
+                fillMode: Image.PreserveAspectFit
+                source: "/resources/images/eprosima_logo_horizontal.png"
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.margins: 20
             }
         }
 
-        RowLayout {
-            width: parent.width * 2/3
-            height: parent.height * 2/3
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 50
-
-            ColumnLayout {
-
-                Layout.fillHeight: true
-                Layout.preferredWidth: parent.width/2
-
-                Image {
-                    Layout.minimumWidth: parent.width
-                    Layout.preferredWidth: parent.width
-                    Layout.maximumWidth: parent.width
-                    Layout.minimumHeight: parent.width/2
-                    Layout.preferredHeight: parent.width/2
-                    Layout.maximumHeight: parent.width/2
-                    fillMode: Image.PreserveAspectFit
-                    source: "/resources/images/fastdds-monitor-logo.png"
-                    Layout.alignment: Qt.AlignVCenter
-                }
-
-                Image {
-                    Layout.minimumWidth: parent.width
-                    Layout.preferredWidth: parent.width
-                    Layout.maximumWidth: parent.width
-                    Layout.minimumHeight: parent.width/2
-                    Layout.preferredHeight: parent.width/2
-                    Layout.maximumHeight: parent.width/2
-                    fillMode: Image.PreserveAspectFit
-                    source: "/resources/images/eprosima_logo_vertical_original.png"
-                    Layout.alignment: Qt.AlignVCenter
-                }
-            }
+        Rectangle {
+            id: bottomRect
+            Layout.minimumWidth: parent.width
+            Layout.preferredWidth: parent.width
+            Layout.maximumWidth: parent.width
+            Layout.fillHeight: true
+            color: Theme.eProsimaDarkBlue
 
             Rectangle {
-                Layout.minimumWidth: parent.width/2
-                Layout.preferredWidth: parent.width/2
-                Layout.maximumWidth: parent.width/2
-                Layout.minimumHeight: parent.width/10
-                Layout.preferredHeight: parent.width/10
-                Layout.maximumHeight: parent.width/10
-                radius: height * 0.65
-                color: Theme.whiteSmoke
+                width: parent.width/2.5
+                height: parent.height/4
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: parent.height/5
+                radius: height * 0.2
 
-                Text {
-                    id: initMonitorLabel
-                    text: "Init Monitor"
-                    width: parent.width
-                    height: parent.height
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 10
-                    font.pointSize: 60
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0.0
+                        color: "white"
+                    }
+                    GradientStop {
+                        position: 0.5
+                        color: Theme.lightGrey
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: Theme.grey
+                    }
                 }
 
-                MouseArea {
-                    anchors.fill: parent
+                Rectangle {
+                    width: parent.width/1.2
+                    height: parent.height/1.5
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "transparent"
 
-                    onClicked: {
-                        mainApplicationView.visible = true
-                        mainStartView.visible = false
+                    Text {
+                        id: initMonitorLabel
+                        text: "Start monitoring!"
+                        width: parent.width
+                        height: parent.height
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        fontSizeMode: Text.Fit
+                        minimumPixelSize: 10
+                        font.pointSize: 60
+                        color: Theme.eProsimaDarkBlue
                     }
                 }
 
@@ -116,9 +120,9 @@ ApplicationWindow {
                     Rectangle {
                         id: btnShadow
                         antialiasing: true
-                        anchors.margins: -3
+                        anchors.margins: -2
                         anchors.fill: parent
-                        radius: (width / 2)
+                        radius: parent.parent.radius
                         gradient: Gradient {
                             GradientStop {
                                 position: 0.0
@@ -137,7 +141,7 @@ ApplicationWindow {
                     Rectangle {
                         id: mask
                         color: "transparent"
-                        radius: (width / 2)
+                        radius: parent.parent.radius
                         antialiasing: true
                         border.width: 3
                         border.color: "black"
@@ -155,6 +159,38 @@ ApplicationWindow {
                             hideSource: true
                         }
                     }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        mainApplicationView.visible = true
+                        mainStartView.visible = false
+                    }
+                }
+            }
+
+            Rectangle {
+                width: parent.width/1.2
+                height: parent.height/2.5
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                color: "transparent"
+
+                Text {
+                    id: descriptionLabel
+                    text: "Monitor and view data charts on a vast range of different metrics in order to\noptimize and control data communications with Fast DDS."
+                    width: parent.width
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    fontSizeMode: Text.Fit
+                    minimumPixelSize: 2
+                    font.pointSize: 30
+                    color: "white"
                 }
             }
         }
