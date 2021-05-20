@@ -59,7 +59,7 @@ In order to know which kind of entities the application has and how are they div
 :ref:`entities`.
 
 To add a new panel with a new panel, use the ``+`` button in the upper bar of any panel.
-To delete any panel click in the ``x```button.
+To delete any panel click in the ``x`` button.
 Once one new panel is created could be changed to the desired kind by clicking in the name of the panel and choosing
 one of them.
 To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
