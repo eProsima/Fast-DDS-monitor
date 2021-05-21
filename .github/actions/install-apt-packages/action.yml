@@ -5,7 +5,7 @@ runs:
   steps:
     - id: install-apt-packages
       run: |
-        sudo apt -y install \
+        sudo apt update && sudo apt -y install \
           doxygen \
           graphviz \
           imagemagick \
