@@ -41,12 +41,13 @@ ApplicationWindow {
             color: "white"
 
             Image {
-                width: parent.width/1.2
-                height: parent.height/1.2
+                width: parent.width
+                height: parent.height/0.9
                 fillMode: Image.PreserveAspectFit
                 source: "/resources/images/fastdds-monitor-logo.png"
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
+                anchors.bottomMargin: -parent.height/4
             }
 
             Image {
