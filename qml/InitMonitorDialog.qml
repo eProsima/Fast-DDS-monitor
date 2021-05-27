@@ -41,13 +41,29 @@ Dialog {
         TabBar {
             id: monitorTab
             width: parent.width
+
             TabButton {
                 id: simpleDiscoveryTab
                 text: "Simple Discovery"
+                width: implicitWidth
+
+                Component.onCompleted: {
+                    width = implicitWidth > discoveryServerTab.implicitWidth
+                                ? implicitWidth : discoveryServerTab.implicitWidth
+                    discoveryServerTab.width = width
+                }
             }
+
             TabButton {
                 id: discoveryServerTab
                 text: "Discovery Server"
+                width: implicitWidth
+
+                Component.onCompleted: {
+                    width = implicitWidth > simpleDiscoveryTab.implicitWidth
+                                ? implicitWidth : simpleDiscoveryTab.implicitWidth
+                    simpleDiscoveryTab.width = width
+                }
             }
         }
 

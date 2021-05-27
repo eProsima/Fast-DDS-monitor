@@ -31,6 +31,7 @@
         <file>imports/Theme/qmldir</file>
         <file>controls/MenuBar.qml</file>
         <file>controls/MenuBarItem.qml</file>
+        <file>controls/TabBar.qml</file>
         <file>controls/TabButton.qml</file>
         <file>controls/ScrollBar.qml</file>
         <file>controls/SplitView.qml</file>
