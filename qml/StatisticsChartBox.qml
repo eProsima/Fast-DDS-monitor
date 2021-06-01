@@ -208,7 +208,6 @@ Rectangle {
 
     DisplayStatisticsDialog {
         id: displayStatisticsDialog
-
         anchors.centerIn: Overlay.overlay
     }
 }

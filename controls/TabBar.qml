@@ -36,46 +36,44 @@
 
 import QtQuick 2.12
 import QtQuick.Templates 2.12 as T
-import QtQuick.Controls 2.12
-import QtQuick.Controls.impl 2.12
 import QtQuick.Controls.Universal 2.12
+
 import Theme 1.0
 
-T.TabButton {
+T.TabBar {
     id: control
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            implicitContentWidth + leftPadding + rightPadding)
+                            contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding)
+                             contentHeight)
 
-    padding: 12 // PivotItemMargin
-    spacing: 8
+    contentItem: ListView {
+        model: control.contentModel
+        currentIndex: control.currentIndex
 
-    icon.width: 20
-    icon.height: 20
-    icon.color: Color.transparent(control.hovered ? control.Universal.baseMediumHighColor : control.Universal.foreground,
-                                                    control.checked || control.down || control.hovered ? 1.0 : 0.2)
+        spacing: control.spacing
+        orientation: ListView.Horizontal
+        boundsBehavior: Flickable.StopAtBounds
+        flickableDirection: Flickable.AutoFlickIfNeeded
+        snapMode: ListView.SnapToItem
+
+        highlightMoveDuration: 100
+        highlightRangeMode: ListView.ApplyRange
+        preferredHighlightBegin: 48
+        preferredHighlightEnd: width - 48
+    }
 
     background: Rectangle {
+        anchors.fill: parent
+        color: control.Universal.background
+
         Rectangle {
-            visible: control.checked || control.down
+            visible: true
             color: Theme.eProsimaLightBlue
             width: parent.width
             height: 2
             anchors.bottom: parent.bottom
         }
-    }
-
-    contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
-
-        icon: control.icon
-        text: control.text
-        font: Theme.font
-        color: Color.transparent(control.hovered ? control.Universal.baseMediumHighColor : control.Universal.foreground,
-                                 control.checked || control.down || control.hovered ? 1.0 : 0.2)
     }
 }
