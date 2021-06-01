@@ -143,7 +143,7 @@ In this panel it is displayed a brief information of the actual state of the *Fa
 Log Panel
 =========
 
-In this panel it is displayed the events that the application has received.
+This panel displays the events that the application has received.
 These events arise as *callbacks* that are generated because of new entities has arrived to
 the network or has been discovered, or because it has been any change in the DDS network state.
 Each callback contains the entities discovered by the Monitor and the time it has happened.
