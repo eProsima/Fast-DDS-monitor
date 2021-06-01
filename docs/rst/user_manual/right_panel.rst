@@ -127,22 +127,33 @@ The data displayed is the following:
 
     Fill descriptions
 
-.. _issues_panel:
+.. _status_panel:
 
-Issues Panel
+Status Panel
 ============
+
 In this panel it is displayed a brief information of the actual state of the *Fast DDS Monitor*,
-as different notifications from events in the application.
 
 * Entities
     * *Domains*: A list of the Domains that has been initialized in the Monitor so far.
     * *Entities*: Total number of entities that are being tracked.
-* Callbacks
-    * Each of the entities discovered by the Monitor and the time it has happened.
-    * This list could be erased using :ref:`refresh_button`.
-* Issues
-    * Notifications about odd behavior of the application or the DDS networks monitoring.
-    * This list could be erased using :ref:`refresh_button`.
+
+.. _log_panel:
+
+Log Panel
+=========
+
+This panel displays the events that the application has received.
+These events arise as *callbacks* that are generated because of new entities has arrived to
+the network or has been discovered, or because it has been any change in the DDS network state.
+Each callback contains the entities discovered by the Monitor and the time it has happened.
+This list could be erased using :ref:`refresh_button`.
+
+.. _issues_panel:
+
+Issues Panel
+============
 
 .. note::
-    *Issues* feature is a work in progress, and may not report many information yet.
+    Work in progress.
+    It does not report any information yet.

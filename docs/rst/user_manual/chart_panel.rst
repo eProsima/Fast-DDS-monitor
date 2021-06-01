@@ -47,19 +47,23 @@ Create Series Dialog
 ====================
 This Dialog (:ref:`create_new_series_layout`) allows to create a new data series in a Chartbox.
 The fields in the dialog configure the data that will be displayed
+When all the data has been set in the :ref:`create_serie`, press *Apply* to create the series and continue with
+the same parameters set in order to create a new series.
+Pressing *OK* the actual parameters are used to create a new *series* unless it has not been any changed since
+*Apply* has been pressed.
+Press *Cancel* close the window without creating any series.
 
 Series label
 ------------
 Name the new series in the Chartbox.
 If not set, the default series name is formed according to the following rule:
-
 ``<cumulative_function>_<source_entity_kind>_<target_entity_kind>-<target_entity_id>``.
 
 .. _source_entity_id:
 
 Source Entity Id
 ----------------
-This is the *entity Id* of the entity from which the data will be collected.
+This is the name and *entity Id* of the entity from which the data will be collected in the format ``<name>:\<<id>\>``.
 This field has an entity kind to encapsulate the ids of the entities with the same kind,
 and make it easier for the user to search for the id required.
 
@@ -213,9 +217,10 @@ Clear chart
 ^^^^^^^^^^^
 Eliminate every data configuration displayed in the Chartbox
 
-Remove chart
-^^^^^^^^^^^^
+Close chart box
+^^^^^^^^^^^^^^^
 Eliminate the Chartbox and every configuration in it.
+It could be removed as well pressing the ``x`` button in the top of the chart.
 
 Series Menu
 -----------
