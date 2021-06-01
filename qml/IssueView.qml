@@ -25,6 +25,7 @@ Item {
         id: issue_tree_view
         anchors.fill: parent
         model: issueModel
+        selectionMode: SelectionMode.NoSelection
         itemDelegate: Item {
             Text {
                 anchors.fill: parent
