@@ -144,7 +144,7 @@ Log Panel
 =========
 
 In this panel it is displayed the events that the application has received.
-These events arrive in the way of *callbacks* that are generated because of new entities has arrived to
+These events arise as *callbacks* that are generated because of new entities has arrived to
 the network or has been discovered, or because it has been any change in the DDS network state.
 Each callback contains the entities discovered by the Monitor and the time it has happened.
 This list could be erased using :ref:`refresh_button`.
@@ -156,4 +156,4 @@ Issues Panel
 
 .. note::
     Work in progress.
-    It do not report many information yet.
+    It does not report any information yet.

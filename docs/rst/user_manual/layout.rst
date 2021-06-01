@@ -58,7 +58,7 @@ In this panels, the entities discovered are going to be displayed depending on t
 In order to know which kind of entities the application has and how are they divided in categories, please refer to
 :ref:`entities`.
 
-To add a new panel with a new panel, use the ``+`` button in the upper bar of any panel.
+To add a new panel to display other relevant information, use the ``+`` button in the upper bar of any panel.
 To delete any panel click in the ``x`` button.
 Once one new panel is created could be changed to the desired kind by clicking in the name of the panel and choosing
 one of them.
@@ -127,11 +127,11 @@ The upper one contains :ref:`info_panel_layout` and :ref:`statistics_panel_layou
 To change from one another press on the name of the tab an choose the panel desired to be displayed.
 The lower side bar contains :ref:`status_panel_layout`, :ref:`log_panel_layout` and
 :ref:`issues_panel_layout`.
-To change from one another press on the name of the tab an choose the panel desired to be displayed.
+To change from one to another press on the name of the tab an choose the panel desired to be displayed.
 
 To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
 In order to hide the whole left sidebar, click in the ``<`` button in the upper panel or click
-*Hide Left sidebar* in the *View* menu..
+*Hide Left sidebar* in the *View* menu.
 
 .. _info_panel_layout:
 
@@ -166,7 +166,7 @@ Status Panel
 
 This panel shows a collection of data related with the actual state of the application:
 
-- Entities refer to the number of entities that are being monitoring in the actual application.
+- Entities refer to the number of entities being monitored in the user application.
 
 - Domains is a collection of the *Domains* that has been initialized in the Monitor.
 
