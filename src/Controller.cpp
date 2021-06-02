@@ -14,6 +14,10 @@
 
 #include <QDebug>
 
+#include <fastrtps/config.h>
+#include <fastdds-statistics-backend/config.h>
+
+#include <fastdds-monitor/utils.h>
 #include <fastdds-monitor/Controller.h>
 #include <fastdds-monitor/Engine.h>
 
@@ -111,4 +115,14 @@ void Controller::add_statistics_data(
         end_time,
         end_time_default,
         backend::string_to_statistic_kind(statistic_kind));
+}
+
+QString Controller::fastdds_version()
+{
+    return utils::to_QString(FASTRTPS_VERSION_STR);
+}
+
+QString Controller::fastdds_statistics_backend_version()
+{
+    return utils::to_QString(FASTDDS_STATISTICS_BACKEND_VERSION_STR);
 }

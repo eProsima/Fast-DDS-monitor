@@ -102,6 +102,12 @@ public slots:
             bool endTimeDefault,
             QString statisticKind);
 
+    //! Returns the eProsima Fast DDS version used to compile de Monitor
+    QString fastdds_version();
+
+    //! Returns the eProsima Fast DDS Statistics Backend version used to compile de Monitor
+    QString fastdds_statistics_backend_version();
+
 protected:
 
     //! Reference to \c Engine object

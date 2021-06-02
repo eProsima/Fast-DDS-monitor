@@ -88,3 +88,11 @@ else:unix: LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/ -lfastd
 
 INCLUDEPATH += $$PWD/../../install/fastdds-statistics-backend/include
 DEPENDPATH += $$PWD/../../install/fastdds-statistics-backend/include
+
+# Link to the Fast DDS library
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastrtps/lib/release/ -lfastrtps
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastrtps/lib/debug/ -lfastrtps
+else:unix: LIBS += -L$$PWD/../../install/fastrtps/lib/ -lfastrtps
+
+INCLUDEPATH += $$PWD/../../install/fastrtps/include
+DEPENDPATH += $$PWD/../../install/fastrtps/include

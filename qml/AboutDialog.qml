@@ -51,6 +51,8 @@ Dialog {
                     Label { text:"Version: " + "0.0.0" }
                     Label { text:"Commit: " + ""}
                     Label { text:"Date: " + "" }
+                    Label { text:"eProsima Fast DDS: " + controller.fastdds_version() }
+                    Label { text:"eProsima Fast DDS Statistics Backend: " + controller.fastdds_statistics_backend_version() }
                     Label { text:"Qt: " + "5.15.2" }
                     Label { text:"OS: " + "" }
                 }
