@@ -26,11 +26,11 @@ MenuBar {
     Menu {
         title: qsTr("&Edit")
         Action {
-            text: qsTr("Init New Monitor")
+            text: qsTr("&Init New Monitor")
             onTriggered: dialogInitMonitor.open()
         }
         Action {
-            text: qsTr("Display New Data")
+            text: qsTr("&Display New Data")
             onTriggered: dataKindDialog.open()
         }
         Action {
@@ -66,27 +66,29 @@ MenuBar {
     Menu {
         title: qsTr("&Help")
         Action {
-            text: qsTr("Documentation")
+            text: qsTr("&Documentation")
+            onTriggered: Qt.openUrlExternally("https://fast-dds-monitor.readthedocs.io/en/latest/")
         }
         Action {
-            text: qsTr("Release Notes")
+            text: qsTr("&Release Notes")
+            onTriggered: Qt.openUrlExternally("https://github.com/eProsima/Fast-DDS-monitor/releases")
         }
         MenuSeparator { }
         Action {
-            text: qsTr("Join Us on Twitter")
+            text: qsTr("Join Us on &Twitter")
             onTriggered: Qt.openUrlExternally("https://twitter.com/EProsima")
         }
         Action {
-            text: qsTr("Search Feature Requests")
+            text: qsTr("Search &Feature Requests")
             onTriggered: Qt.openUrlExternally("https://github.com/eProsima/Fast-DDS-monitor/issues")
         }
         Action {
-            text: qsTr("Report Issue")
+            text: qsTr("Report &Issue")
             onTriggered: Qt.openUrlExternally("https://github.com/eProsima/Fast-DDS-monitor/issues/new")
         }
         MenuSeparator { }
         Action {
-            text: qsTr("About")
+            text: qsTr("&About")
             onTriggered: aboutDialog.open()
         }
     }
