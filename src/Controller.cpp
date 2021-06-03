@@ -141,7 +141,9 @@ QString Controller::fastdds_monitor_version()
 
 QString Controller::system_info()
 {
-    return utils::to_QString(SYSTEM_NAME) % " " % utils::to_QString(SYSTEM_PROCESSOR) % " " % utils::to_QString(SYSTEM_VERSION);
+    return utils::to_QString(SYSTEM_NAME) % " "
+        % utils::to_QString(SYSTEM_PROCESSOR) % " "
+        % utils::to_QString(SYSTEM_VERSION);
 }
 
 QString Controller::build_date()
