@@ -96,3 +96,7 @@ else:unix: LIBS += -L$$PWD/../../install/fastrtps/lib/ -lfastrtps
 
 INCLUDEPATH += $$PWD/../../install/fastrtps/include
 DEPENDPATH += $$PWD/../../install/fastrtps/include
+
+# Link to the Fast DDS Monitor includes
+INCLUDEPATH += $$PWD/../../install/fastdds-monitor/include
+DEPENDPATH += $$PWD/../../install/fastdds-monitor/include
