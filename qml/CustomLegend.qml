@@ -22,7 +22,7 @@ import QtQml.Models 2.15
 Rectangle {
     id: legend
 
-    property int itemWidth: legend.width/2
+    property int itemWidth: legend.width
     property int itemHeight: 20
 
     signal seriesNameUpdated(int seriesIndex, string newSeriesName)

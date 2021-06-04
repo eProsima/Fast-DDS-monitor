@@ -26,7 +26,9 @@ add_executable(UtilsTest
     )
 
 target_include_directories(UtilsTest PRIVATE
-    ${PROJECT_SOURCE_DIR}/include)
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 target_link_libraries(UtilsTest PUBLIC ${QT5_LIBRARY_LINKS} gtest)
 

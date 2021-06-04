@@ -102,6 +102,27 @@ public slots:
             bool endTimeDefault,
             QString statisticKind);
 
+    //! Returns the eProsima Fast DDS version used to compile de Monitor
+    QString fastdds_version();
+
+    //! Returns the eProsima Fast DDS Statistics Backend version used to compile de Monitor
+    QString fastdds_statistics_backend_version();
+
+    //! Returns the Qt version used to compile de Monitor
+    QString qt_version();
+
+    //! Returns the eProsima Fast DDS Monitor version used to compile de Monitor
+    QString fastdds_monitor_version();
+
+    //! Returns the system information for which Fast DDS is built
+    QString system_info();
+
+    //! Returns the date on which Fast DDS Monitor was built
+    QString build_date();
+
+    //! Returns the Fast DDS Monitor GitHub commit built
+    QString git_commit();
+
 protected:
 
     //! Reference to \c Engine object

@@ -48,11 +48,13 @@ Dialog {
                 spacing: 20
 
                 ColumnLayout {
-                    Label { text:"Version: " + "0.0.0" }
-                    Label { text:"Commit: " + ""}
-                    Label { text:"Date: " + "" }
-                    Label { text:"Qt: " + "5.15.2" }
-                    Label { text:"OS: " + "" }
+                    Label { text:"Version: " + controller.fastdds_monitor_version() }
+                    Label { text:"Commit: " + controller.git_commit() }
+                    Label { text:"Date: " + controller.build_date() }
+                    Label { text:"eProsima Fast DDS: " + controller.fastdds_version() }
+                    Label { text:"eProsima Fast DDS Statistics Backend: " + controller.fastdds_statistics_backend_version() }
+                    Label { text:"Qt: " + controller.qt_version() }
+                    Label { text:"OS: " + controller.system_info() }
                 }
 
                 Label {
@@ -62,7 +64,6 @@ Dialog {
                           "Licensed under the Apache License, Version 2.0."
                     wrapMode: Text.WordWrap
                 }
-
             }
         }
 

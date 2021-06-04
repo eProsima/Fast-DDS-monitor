@@ -13,9 +13,16 @@
 // limitations under the License.
 
 #include <QDebug>
+#include <QStringBuilder>
+#include <QtGlobal>
+
+#include <fastdds-monitor/config.h>
+#include <fastdds-statistics-backend/config.h>
+#include <fastrtps/config.h>
 
 #include <fastdds-monitor/Controller.h>
 #include <fastdds-monitor/Engine.h>
+#include <fastdds-monitor/utils.h>
 
 void Controller::init_monitor(
         int domain)
@@ -111,4 +118,41 @@ void Controller::add_statistics_data(
         end_time,
         end_time_default,
         backend::string_to_statistic_kind(statistic_kind));
+}
+
+QString Controller::fastdds_version()
+{
+    return utils::to_QString(FASTRTPS_VERSION_STR);
+}
+
+QString Controller::fastdds_statistics_backend_version()
+{
+    return utils::to_QString(FASTDDS_STATISTICS_BACKEND_VERSION_STR);
+}
+
+QString Controller::qt_version()
+{
+    return utils::to_QString(qVersion());
+}
+
+QString Controller::fastdds_monitor_version()
+{
+    return utils::to_QString(FASTDDS_MONITOR_VERSION_STR);
+}
+
+QString Controller::system_info()
+{
+    return utils::to_QString(SYSTEM_NAME) % " "
+           % utils::to_QString(SYSTEM_PROCESSOR) % " "
+           % utils::to_QString(SYSTEM_VERSION);
+}
+
+QString Controller::build_date()
+{
+    return utils::to_QString(BUILD_DATE);
+}
+
+QString Controller::git_commit()
+{
+    return utils::to_QString(GIT_COMMIT_HASH);
 }

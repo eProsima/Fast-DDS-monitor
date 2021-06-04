@@ -25,6 +25,7 @@ Item {
         id: logTreeView
         anchors.fill: parent
         model: logModel
+        selectionMode: SelectionMode.NoSelection
         itemDelegate: Item {
             Text {
                 anchors.fill: parent

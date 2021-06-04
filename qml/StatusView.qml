@@ -25,6 +25,7 @@ Item {
         id: statusTreeView
         anchors.fill: parent
         model: statusModel
+        selectionMode: SelectionMode.NoSelection
         itemDelegate: Item {
             Text {
                 anchors.fill: parent

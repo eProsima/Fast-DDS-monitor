@@ -54,6 +54,28 @@ message(STATUS "Configuring ${PROJECT_NAME_LARGE}")
 message(STATUS "Version: ${PROJECT_VERSION}")
 
 ###############################################################################
+# System configuration
+###############################################################################
+set(SYSTEM_NAME "${CMAKE_SYSTEM_NAME}")
+set(SYSTEM_VERSION "${CMAKE_SYSTEM_VERSION}")
+set(SYSTEM_PROCESSOR "${CMAKE_SYSTEM_PROCESSOR}")
+
+###############################################################################
+# Build timestamp
+###############################################################################
+string(TIMESTAMP BUILD_DATE "%Y-%m-%d %H:%M:%S")
+
+###############################################################################
+# Git commit hash
+###############################################################################
+execute_process(
+    COMMAND git log -1 --format=%H
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET)
+
+###############################################################################
 # Load external projects
 ###############################################################################
 set(QT_PATH "" CACHE STRING "Path to the Qt installation folder")
@@ -64,7 +86,7 @@ find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 find_package(fastdds-statistics-backend REQUIRED)
 
-foreach(c Core Widgets Gui Quick Qml Charts)
+foreach(c Core Widgets Gui Quick Qml Charts QuickControls2)
     if(${Qt5${c}_FOUND})
         message(STATUS "Found Qt5${c}: ${Qt5${c}_CONFIG} (found version ${Qt5${c}_VERSION})")
     endif()
@@ -227,8 +249,15 @@ set(PROJECT_SOURCES
     ${PROJECT_SOURCES_NO_MAIN}
     ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
+# Configure config file
+configure_file(${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/config.h.in
+${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/config.h)
+
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_include_directories(${PROJECT_NAME} PRIVATE
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 # Qt5 required libraries
 set(QT5_LIBRARY_LINKS
@@ -267,6 +296,12 @@ else()
         fastdds-statistics-backend)
 
 endif()
+
+# Install config.h header
+install(FILES ${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/config.h
+DESTINATION ${INCLUDE_INSTALL_DIR}/${PROJECT_NAME}
+COMPONENT headers
+)
 
 ###############################################################################
 # Disable QDebug traces in Release

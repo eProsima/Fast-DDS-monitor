@@ -30,7 +30,9 @@ add_executable(SyncBackendConnectionTest
     )
 
 target_include_directories(SyncBackendConnectionTest PRIVATE
-    ${PROJECT_SOURCE_DIR}/include)
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 target_link_libraries(SyncBackendConnectionTest PUBLIC
     fastdds-statistics-backend

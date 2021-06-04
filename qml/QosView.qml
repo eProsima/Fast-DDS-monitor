@@ -26,7 +26,7 @@ Item {
         id: qos_tree_view
         anchors.fill: parent
         model: qosModel
-        selectionMode: SelectionMode.SingleSelection
+        selectionMode: SelectionMode.NoSelection
         selection: ItemSelectionModel {
             id: item_selection_model
             model: qosModel

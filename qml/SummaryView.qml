@@ -27,7 +27,7 @@ Item {
         id: summary_tree_view
         anchors.fill: parent
         model: summaryModel
-        selectionMode: SelectionMode.SingleSelection
+        selectionMode: SelectionMode.NoSelection
         selection: ItemSelectionModel {
             id: item_selection_model
             model: summaryModel
