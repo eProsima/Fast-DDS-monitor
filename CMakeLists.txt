@@ -255,9 +255,9 @@ ${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/config.h)
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
-        include
-        ${PROJECT_BINARY_DIR}/include
-        ${PROJECT_BINARY_DIR}/include/${PROJECT_NAME})
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 # Qt5 required libraries
 set(QT5_LIBRARY_LINKS

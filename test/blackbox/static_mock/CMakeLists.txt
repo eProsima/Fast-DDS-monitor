@@ -33,7 +33,9 @@ add_executable(BlackboxStaticMockTest
     BlackboxStaticMockTest.cpp ${PROJECT_SOURCES_NO_MAIN} ${PROJECT_HEADERS} ${QT_RESOURCES_SUBDIR})
 
 target_include_directories(BlackboxStaticMockTest PRIVATE
-    ${PROJECT_SOURCE_DIR}/include)
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 target_link_libraries(BlackboxStaticMockTest
     ${QT5_LIBRARY_LINKS}

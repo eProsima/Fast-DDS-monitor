@@ -14,14 +14,15 @@
 
 #include <QDebug>
 #include <QStringBuilder>
+#include <QtGlobal>
 
-#include <fastrtps/config.h>
-#include <fastdds-statistics-backend/config.h>
 #include <fastdds-monitor/config.h>
+#include <fastdds-statistics-backend/config.h>
+#include <fastrtps/config.h>
 
-#include <fastdds-monitor/utils.h>
 #include <fastdds-monitor/Controller.h>
 #include <fastdds-monitor/Engine.h>
+#include <fastdds-monitor/utils.h>
 
 void Controller::init_monitor(
         int domain)
@@ -131,7 +132,7 @@ QString Controller::fastdds_statistics_backend_version()
 
 QString Controller::qt_version()
 {
-    return QT_VERSION_STR;
+    return utils::to_QString(qVersion());
 }
 
 QString Controller::fastdds_monitor_version()
