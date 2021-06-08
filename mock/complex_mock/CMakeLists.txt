@@ -52,4 +52,5 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} fastdds-statistics-backend)
 install(TARGETS ${PROJECT_NAME}
-    RUNTIME DESTINATION Mock/${PROJECT_NAME}/${BIN_INSTALL_DIR})
+    RUNTIME DESTINATION Mock/${PROJECT_NAME}/${BIN_INSTALL_DIR}
+    LIBRARY DESTINATION Mock/${PROJECT_NAME}/${LIB_INSTALL_DIR})
