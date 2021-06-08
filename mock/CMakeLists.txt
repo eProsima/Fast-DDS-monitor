@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# include_directories(${MyProject_SOURCE_DIR}/LibProject/inc)
-
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.5)
 
 ###############################################################################
 # Default shared libraries

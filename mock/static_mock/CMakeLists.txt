@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.5)
 
 project(static-backend-mock)
 
@@ -37,4 +37,5 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} fastdds-statistics-backend)
 install(TARGETS ${PROJECT_NAME}
-    RUNTIME DESTINATION Mock/${PROJECT_NAME}/${BIN_INSTALL_DIR})
+    RUNTIME DESTINATION Mock/${PROJECT_NAME}/${BIN_INSTALL_DIR}
+    LIBRARY DESTINATION Mock/${PROJECT_NAME}/${LIB_INSTALL_DIR})
