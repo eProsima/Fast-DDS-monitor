@@ -14,9 +14,10 @@
 
 #include <chrono>
 #include <ctime>
-#include <math.h>
-#include <sys/time.h>
 #include <time.h>
+#include <sstream>
+#include <iomanip>
+#include <string>
 
 #include <fastdds_monitor/utils.h>
 
@@ -37,35 +38,21 @@ std::string to_string(
 std::string now(
         bool miliseconds /* = true */)
 {
-    char buffer[24]; // YYYY:MM:DD HH:MM:SS + '\0' <= 24
-    char ms_buffer[32]; // YYYY:MM:DD HH:MM:SS.mmm + '\0' <= 32
-    unsigned short millisec;
-    struct tm* tm_info;
-    struct timeval tv;
 
-    gettimeofday(&tv, NULL);
+    auto now = std::chrono::system_clock::now();
+    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+    msec %= 1000;
 
-    tm_info = localtime(&tv.tv_sec);
-
-    strftime(buffer, sizeof (buffer), "%Y:%m:%d %H:%M:%S", tm_info);
+    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+    std::stringstream ss;
+    ss << std::put_time(std::gmtime(&now_time_t), "%Y-%m-%d %X");
 
     if (miliseconds)
     {
-        millisec = lrint(tv.tv_usec / 1000.0); // Round to nearest millisec
-        if (millisec >= 1000) // Allow for rounding up to nearest second
-        {
-            millisec -= 1000;
-            tv.tv_sec++;
-        }
-
-        snprintf(ms_buffer, sizeof(ms_buffer), "%s.%03d", buffer, millisec);
-    }
-    else
-    {
-        return buffer;
+        ss << "." << msec;
     }
 
-    return ms_buffer;
+    return ss.str();
 }
 
 } //namespace utils

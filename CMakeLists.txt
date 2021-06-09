@@ -289,7 +289,7 @@ elseif(STATIC_MOCK)
 else()
 
     # Link against fast backend and its dependencies
-    target_link_libraries(${PROJECT_NAME}
+    target_link_libraries(${PROJECT_NAME} PUBLIC
         ${QT5_LIBRARY_LINKS}
         fastcdr
         fastrtps

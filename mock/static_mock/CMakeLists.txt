@@ -35,7 +35,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
 )
 
-target_link_libraries(${PROJECT_NAME} fastdds_statistics_backend)
+target_link_libraries(${PROJECT_NAME} PUBLIC fastdds_statistics_backend)
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION Mock/${PROJECT_NAME}/${BIN_INSTALL_DIR}
     LIBRARY DESTINATION Mock/${PROJECT_NAME}/${LIB_INSTALL_DIR})

@@ -320,7 +320,7 @@ bool SyncBackendConnection::update_subitems_(
             // It shold not fail after including it in row
             assert(subentity_item);
         }
-        changed = (this->*update_function)(subentity_item) or changed;
+        changed = (this->*update_function)(subentity_item) || changed;
     }
 
     return changed;
@@ -352,7 +352,7 @@ bool SyncBackendConnection::update_model_(
             // It shold not fail after including it in row
             assert(subentity_item);
         }
-        changed = (this->*update_function)(subentity_item) or changed;
+        changed = (this->*update_function)(subentity_item) || changed;
     }
 
     return changed;

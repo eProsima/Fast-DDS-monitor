@@ -413,12 +413,12 @@ bool Engine::entity_clicked(
         last_entity_clicked_ = id;
         last_entity_clicked_kind_ = kind;
 
-        res = update_reset_dds_data(id) or res;
+        res = update_reset_dds_data(id) || res;
     }
 
     // All entities including DDS
-    res = fill_entity_info_(id) or res;
-    res = fill_summary_(id) or res;
+    res = fill_entity_info_(id) || res;
+    res = fill_summary_(id) || res;
 
     return res;
 }
