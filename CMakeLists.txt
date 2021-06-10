@@ -338,3 +338,17 @@ if(BUILD_DOCUMENTATION OR BUILD_DOCUMENTATION_TESTS)
     set(BUILD_DOCUMENTATION ON)
     add_subdirectory(docs)
 endif()
+
+###############################################################################
+# Packaging
+###############################################################################
+# Install license
+install(FILES ${PROJECT_SOURCE_DIR}/LICENSE
+    DESTINATION ${LICENSE_INSTALL_DIR}
+    COMPONENT licenses
+    )
+set(CPACK_COMPONENT_LICENSES_HIDDEN 1)
+
+#Install executable
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR})
