@@ -24,7 +24,7 @@ jobs:
       - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
       - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
       - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
-      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds_statistics_backend-repos
+      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
 
       - name: Update colcon mixin
         run: |
@@ -116,7 +116,7 @@ jobs:
       - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
       - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
       - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
-      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds_statistics_backend-repos
+      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.13.0
