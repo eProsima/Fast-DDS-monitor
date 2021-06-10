@@ -19,7 +19,7 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
 
-#include <fastdds-monitor/model/ListItem.h>
+#include <fastdds_monitor/model/ListItem.h>
 
 namespace models {
 

@@ -23,12 +23,12 @@
 #include <QObject>
 #include <QVariant>
 
-#include <fastdds-monitor/backend/backend_types.h>
-#include <fastdds-monitor/backend/backend_utils.h>
-#include <fastdds-monitor/model/ListItem.h>
-#include <fastdds-monitor/model/model_types.h>
-#include <fastdds-monitor/model/SubListedListItem.h>
-#include <fastdds-monitor/model/SubListedListModel.h>
+#include <fastdds_monitor/backend/backend_types.h>
+#include <fastdds_monitor/backend/backend_utils.h>
+#include <fastdds_monitor/model/ListItem.h>
+#include <fastdds_monitor/model/model_types.h>
+#include <fastdds_monitor/model/SubListedListItem.h>
+#include <fastdds_monitor/model/SubListedListModel.h>
 
 namespace models {
 

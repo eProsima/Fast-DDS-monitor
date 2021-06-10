@@ -14,8 +14,8 @@
 
 #include <QDebug>
 
-#include <fastdds-monitor/backend/backend_utils.h>
-#include <fastdds-monitor/model/statistics/EntityItem.h>
+#include <fastdds_monitor/backend/backend_utils.h>
+#include <fastdds_monitor/model/statistics/EntityItem.h>
 
 namespace models {
 

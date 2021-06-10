@@ -14,7 +14,7 @@
 
 #include "gtest/gtest.h"
 
-#include <fastdds-monitor/backend/backend_utils.h>
+#include <fastdds_monitor/backend/backend_utils.h>
 
 using namespace backend;
 

@@ -26,13 +26,13 @@
 #include <QThread>
 #include <QWaitCondition>
 
-#include <fastdds-monitor/backend/Callback.h>
-#include <fastdds-monitor/backend/Listener.h>
-#include <fastdds-monitor/backend/Listener.h>
-#include <fastdds-monitor/backend/SyncBackendConnection.h>
-#include <fastdds-monitor/Controller.h>
-#include <fastdds-monitor/model/tree/TreeModel.h>
-#include <fastdds-monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/backend/Callback.h>
+#include <fastdds_monitor/backend/Listener.h>
+#include <fastdds_monitor/backend/Listener.h>
+#include <fastdds_monitor/backend/SyncBackendConnection.h>
+#include <fastdds_monitor/Controller.h>
+#include <fastdds_monitor/model/tree/TreeModel.h>
+#include <fastdds_monitor/statistics/StatisticsData.h>
 
 /**
  * Main class that connects the View (QML), the models (Controller) and the backend (Listener + SyncBackendConnection)

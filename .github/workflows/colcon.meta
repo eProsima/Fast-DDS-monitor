@@ -8,7 +8,7 @@
                 "-DFASTDDS_STATISTICS=ON",
             ]
         },
-        "fastdds-monitor":
+        "fastdds_monitor":
         {
             "cmake-args":
             [

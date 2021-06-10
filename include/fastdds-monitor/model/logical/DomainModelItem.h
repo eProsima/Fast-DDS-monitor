@@ -19,9 +19,9 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H
 
-#include <fastdds-monitor/model/EntityContainerModelItem.h>
-#include <fastdds-monitor/model/ListModel.h>
-#include <fastdds-monitor/model/logical/TopicModelItem.h>
+#include <fastdds_monitor/model/EntityContainerModelItem.h>
+#include <fastdds_monitor/model/ListModel.h>
+#include <fastdds_monitor/model/logical/TopicModelItem.h>
 
 namespace models {
 

@@ -18,7 +18,7 @@
 
 #include <QString>
 
-#include <fastdds-monitor/backend/SyncBackendConnection.h>
+#include <fastdds_monitor/backend/SyncBackendConnection.h>
 
 using namespace utils;
 

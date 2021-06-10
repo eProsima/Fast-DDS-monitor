@@ -24,7 +24,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-#include <fastdds-monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/statistics/StatisticsData.h>
 
 QT_CHARTS_USE_NAMESPACE
 

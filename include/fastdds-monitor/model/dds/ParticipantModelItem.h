@@ -19,9 +19,9 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_DDS_PARTICIPANTMODELITEM_H
 
-#include <fastdds-monitor/model/dds/EndpointModelItem.h>
-#include <fastdds-monitor/model/EntityContainerModelItem.h>
-#include <fastdds-monitor/model/SubListedListItem.h>
+#include <fastdds_monitor/model/dds/EndpointModelItem.h>
+#include <fastdds_monitor/model/EntityContainerModelItem.h>
+#include <fastdds_monitor/model/SubListedListItem.h>
 
 namespace models {
 

@@ -16,13 +16,13 @@
 #include <QStringBuilder>
 #include <QtGlobal>
 
-#include <fastdds-monitor/config.h>
+#include <fastdds_monitor/config.h>
 #include <fastdds_statistics_backend/config.h>
 #include <fastrtps/config.h>
 
-#include <fastdds-monitor/Controller.h>
-#include <fastdds-monitor/Engine.h>
-#include <fastdds-monitor/utils.h>
+#include <fastdds_monitor/Controller.h>
+#include <fastdds_monitor/Engine.h>
+#include <fastdds_monitor/utils.h>
 
 void Controller::init_monitor(
         int domain)

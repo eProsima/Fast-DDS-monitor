@@ -38,7 +38,7 @@ set(PRODUCT_VERSION_STR ${PRODUCT_MAJOR_VERSION}.${PRODUCT_MINOR_VERSION}.${PROD
 ###############################################################################
 # Project
 ###############################################################################
-project(fastdds-monitor)
+project(fastdds_monitor)
 set(PROJECT_VERSION_MAJOR "${PRODUCT_MAJOR_VERSION}")
 set(PROJECT_VERSION_MINOR "${PRODUCT_MINOR_VERSION}")
 set(PROJECT_VERSION_PATCH "${PRODUCT_PATCH_VERSION}")
@@ -196,32 +196,32 @@ set(CMAKE_AUTORCC ON)
 # Compile program
 ###############################################################################
 set(PROJECT_HEADERS
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_types.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_utils.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/Callback.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/Listener.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/SyncBackendConnection.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/Controller.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/Engine.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/EndpointModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/LocatorModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/dds/ParticipantModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/EntityContainerModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/ListItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/ListModel.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/logical/DomainModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/logical/TopicModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/model_types.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/HostModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/ProcessModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/physical/UserModelItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/statistics/EntityItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/SubListedListItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/SubListedListModel.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/tree/TreeItem.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/tree/TreeModel.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/statistics/StatisticsData.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/utils.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/backend_types.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/backend_utils.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/Callback.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/Listener.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/SyncBackendConnection.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/Controller.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/Engine.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/EndpointModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/LocatorModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/ParticipantModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/EntityContainerModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/ListItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/ListModel.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/logical/DomainModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/logical/TopicModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/model_types.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/physical/HostModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/physical/ProcessModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/physical/UserModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/statistics/EntityItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/SubListedListItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/SubListedListModel.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/TreeItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/TreeModel.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/StatisticsData.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/utils.h
 )
 
 set(PROJECT_SOURCES_NO_MAIN

@@ -19,8 +19,8 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_USERMODELITEM_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_USERMODELITEM_H
 
-#include <fastdds-monitor/model/EntityContainerModelItem.h>
-#include <fastdds-monitor/model/physical/ProcessModelItem.h>
+#include <fastdds_monitor/model/EntityContainerModelItem.h>
+#include <fastdds_monitor/model/physical/ProcessModelItem.h>
 
 namespace models {
 
