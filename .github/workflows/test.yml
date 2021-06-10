@@ -82,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Documentation HTML
-          path: install/fastdds_monitor/docs/fastdds_monitor-docs/sphinx/html/
+          path: install/fastdds_monitor/docs/fastdds_monitor_docs/sphinx/html/
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
