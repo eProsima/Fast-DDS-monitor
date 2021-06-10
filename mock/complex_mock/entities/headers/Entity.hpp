@@ -16,7 +16,7 @@
  * @file Entity.hpp
  */
 
-#include <fastdds-statistics-backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 #ifndef _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_ENTITY_HPP_
 #define _EPROSIMA_FASTDDS_MONITOR_COMPLEXMOCK_ENTITY_HPP_

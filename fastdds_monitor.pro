@@ -82,12 +82,12 @@ INCLUDEPATH += $$PWD/../../install/fastdds-monitor
 DEPENDPATH += $$PWD/../../install/fastdds-monitor
 
 # Link to the Fast DDS Statistics Backend library
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/release/ -lfastdds-statistics-backend
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/debug/ -lfastdds-statistics-backend
-else:unix: LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/ -lfastdds-statistics-backend
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/release/ -lfastdds_statistics_backend
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/debug/ -lfastdds_statistics_backend
+else:unix: LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/ -lfastdds_statistics_backend
 
-INCLUDEPATH += $$PWD/../../install/fastdds-statistics-backend/include
-DEPENDPATH += $$PWD/../../install/fastdds-statistics-backend/include
+INCLUDEPATH += $$PWD/../../install/fastdds_statistics_backend/include
+DEPENDPATH += $$PWD/../../install/fastdds_statistics_backend/include
 
 # Link to the Fast DDS library
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastrtps/lib/release/ -lfastrtps

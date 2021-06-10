@@ -20,7 +20,7 @@
 
 #include <QDebug>
 
-#include <fastdds-statistics-backend/StatisticsBackend.hpp>
+#include <fastdds_statistics_backend/StatisticsBackend.hpp>
 
 #include <fastdds-monitor/backend/backend_utils.h>
 #include <fastdds-monitor/backend/SyncBackendConnection.h>

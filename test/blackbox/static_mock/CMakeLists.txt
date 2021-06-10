@@ -39,7 +39,7 @@ target_include_directories(BlackboxStaticMockTest PRIVATE
 
 target_link_libraries(BlackboxStaticMockTest
     ${QT5_LIBRARY_LINKS}
-    fastdds-statistics-backend
+    fastdds_statistics_backend
     static-backend-mock
     gtest)
 

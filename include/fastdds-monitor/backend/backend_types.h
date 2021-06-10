@@ -22,7 +22,7 @@
 
 #include <QString>
 
-#include <fastdds-statistics-backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 namespace backend {
 

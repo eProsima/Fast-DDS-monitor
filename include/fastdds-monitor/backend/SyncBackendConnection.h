@@ -19,7 +19,7 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 
-#include <fastdds-statistics-backend/StatisticsBackend.hpp>
+#include <fastdds_statistics_backend/StatisticsBackend.hpp>
 
 #include <fastdds-monitor/backend/backend_types.h>
 #include <fastdds-monitor/backend/Listener.h>

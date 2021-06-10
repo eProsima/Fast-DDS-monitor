@@ -17,7 +17,7 @@
 #include <QtGlobal>
 
 #include <fastdds-monitor/config.h>
-#include <fastdds-statistics-backend/config.h>
+#include <fastdds_statistics_backend/config.h>
 #include <fastrtps/config.h>
 
 #include <fastdds-monitor/Controller.h>
