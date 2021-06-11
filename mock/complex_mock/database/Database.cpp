@@ -283,8 +283,8 @@ void Database::callback_listener_thread_()
     while (run_.load())
     {
         // Wait till is ready to generate data
-        std::unique_lock<std::mutex> lock(callback_mutex_);
-        cv_callback_.wait(lock, [this]
+        std::unique_lock<std::mutex> lock_callbacks(callback_mutex_);
+        cv_callback_.wait(lock_callbacks, [this]
                 {
                     return (!run_.load() || !new_entities_.empty());
                 });
@@ -308,7 +308,7 @@ void Database::callback_listener_thread_()
 
             // It locks the mutes to pop elements from new entities array
             {
-                const std::lock_guard<std::recursive_mutex> lock(data_mutex_);
+                const std::lock_guard<std::recursive_mutex> lock_entities(data_mutex_);
 
                 // Gets the element and erase it
                 entity = new_entities_.back();
