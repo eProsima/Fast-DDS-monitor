@@ -22,7 +22,9 @@ find_package(fastrtps REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
 
 # Allow to use threads
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+if(NOT (MSVC OR MSVC_IDE))
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+endif()
 
 set(COMPLEX_MOCK_SOURCE
 

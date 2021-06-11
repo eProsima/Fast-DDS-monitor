@@ -129,7 +129,14 @@ else()
     endif()
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -pthread -no-pie")
+###############################################################################
+# Qt compiler flags, pthreads, and position independent code (PIE)
+###############################################################################
+if(MSVC OR MSVC_IDE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -pthread -no-pie")
+endif()
 
 ###############################################################################
 # Installation paths
