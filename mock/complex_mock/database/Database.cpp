@@ -239,7 +239,7 @@ void Database::generate_random_entity_thread_()
     {
         // Sleep a time depending the number of domains we have
         // It is max(DATA_GENERATION_TIME seconds - # of domains, MIN_DATA_GENERATION_TIME
-        uint32_t sleep_seconds = (count_domains() <= 1) ? DATA_GENERATION_TIME : DATA_GENERATION_TIME - count_domains();
+        size_t sleep_seconds = (count_domains() <= 1) ? DATA_GENERATION_TIME : DATA_GENERATION_TIME - count_domains();
         sleep_seconds = (sleep_seconds < MIN_DATA_GENERATION_TIME) ? MIN_DATA_GENERATION_TIME : sleep_seconds;
 
         // Wait to represent data receiving and unlock if stop has been clicked
@@ -256,7 +256,7 @@ void Database::generate_random_entity_thread_()
 
         // Each time a new domain will create an entity
         // Beware that when new domains are created, this would not be equitative in first n (# domains) iterations
-        uint32_t domain_index = domain_rr++ % count_domains();
+        size_t domain_index = domain_rr++ % count_domains();
 
         // Generates a new dds Entity
         DomainPointer domain = std::dynamic_pointer_cast<Domain>(entities_[domains_[domain_index]]);

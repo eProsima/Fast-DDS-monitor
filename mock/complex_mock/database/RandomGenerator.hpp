@@ -171,7 +171,7 @@ protected:
     static T random_choice(
             std::vector<T> vector)
     {
-        return vector[random_range(vector.size())];
+        return vector[random_range(static_cast<unsigned int>(vector.size()))];
     }
 
 };

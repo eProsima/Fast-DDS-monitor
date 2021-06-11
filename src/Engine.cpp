@@ -476,7 +476,7 @@ bool Engine::on_add_statistics_data_series(
         time_to);
 
     QVector<QPointF> points;
-    points.reserve(statistic_data.size());
+    points.reserve(static_cast<int>(statistic_data.size()));
     qreal max_value = 0;
     qreal min_value = 0;
 
