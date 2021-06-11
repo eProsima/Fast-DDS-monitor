@@ -16,7 +16,7 @@
  * @file Entity.hpp
  */
 
-#include <fastdds-statistics-backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 #include "headers/Entity.hpp"
 

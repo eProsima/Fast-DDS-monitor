@@ -20,7 +20,7 @@
 #include <QtQml>
 #include <QtQuick/QQuickView>
 
-#include <fastdds-monitor/Engine.h>
+#include <fastdds_monitor/Engine.h>
 
 int main(
         int argc,

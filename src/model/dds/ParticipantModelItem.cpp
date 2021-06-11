@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <fastdds-monitor/backend/backend_utils.h>
-#include <fastdds-monitor/model/dds/ParticipantModelItem.h>
+#include <fastdds_monitor/backend/backend_utils.h>
+#include <fastdds_monitor/model/dds/ParticipantModelItem.h>
 
 namespace models {
 

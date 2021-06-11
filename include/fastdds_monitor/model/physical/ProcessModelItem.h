@@ -13,31 +13,32 @@
 // limitations under the License.
 
 /**
- * @file TopicModelItem.hpp
+ * @file ProcessModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H
 
-#include <fastdds-monitor/model/ListItem.h>
+#include <fastdds_monitor/model/ListItem.h>
 
 namespace models {
 
 
 /**
- * @brief Class that represents an Topic Item in the Logical Model
+ * @brief Class that represents an Process Item in the DDS Model
  */
-class TopicModelItem : public ListItem
+class ProcessModelItem : public ListItem
 {
     Q_OBJECT
 
 public:
 
-    //! Add new roles only for Topic items
-    enum TopicModelItemRoles
+    //! Add new roles only for Process items
+    enum ProcessModelItemRoles
     {
-        typeRole = ModelItemRoles::nameRole + 1,    //! Role for attribute Type
+        pidRole = ModelItemRoles::nameRole + 1, //! Role for attribute PID
     };
+
 
     //! Default ListItem constructor
     using ListItem::ListItem;
@@ -46,8 +47,8 @@ public:
     QVariant data(
             int role) const override;
 
-    //! Getter for type attribute
-    QString type() const;
+    //! Getter for pid attribute
+    QString pid() const;
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
@@ -55,4 +56,4 @@ public:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_PROCESSMODELITEM_H

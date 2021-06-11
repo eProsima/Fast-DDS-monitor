@@ -20,19 +20,19 @@
 #include <QtCore/QRandomGenerator>
 #include <qqmlcontext.h>
 
-#include <fastdds-monitor/backend/backend_types.h>
-#include <fastdds-monitor/backend/Listener.h>
-#include <fastdds-monitor/backend/SyncBackendConnection.h>
-#include <fastdds-monitor/Controller.h>
-#include <fastdds-monitor/Engine.h>
-#include <fastdds-monitor/model/dds/ParticipantModelItem.h>
-#include <fastdds-monitor/model/logical/DomainModelItem.h>
-#include <fastdds-monitor/model/physical/HostModelItem.h>
-#include <fastdds-monitor/model/statistics/EntityItem.h>
-#include <fastdds-monitor/model/SubListedListItem.h>
-#include <fastdds-monitor/model/SubListedListModel.h>
-#include <fastdds-monitor/model/tree/TreeModel.h>
-#include <fastdds-monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/backend/backend_types.h>
+#include <fastdds_monitor/backend/Listener.h>
+#include <fastdds_monitor/backend/SyncBackendConnection.h>
+#include <fastdds_monitor/Controller.h>
+#include <fastdds_monitor/Engine.h>
+#include <fastdds_monitor/model/dds/ParticipantModelItem.h>
+#include <fastdds_monitor/model/logical/DomainModelItem.h>
+#include <fastdds_monitor/model/physical/HostModelItem.h>
+#include <fastdds_monitor/model/statistics/EntityItem.h>
+#include <fastdds_monitor/model/SubListedListItem.h>
+#include <fastdds_monitor/model/SubListedListModel.h>
+#include <fastdds_monitor/model/tree/TreeModel.h>
+#include <fastdds_monitor/statistics/StatisticsData.h>
 
 using EntityInfo = backend::EntityInfo;
 

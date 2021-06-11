@@ -22,7 +22,7 @@ set(UTILS_TEST_SOURCE
 
 add_executable(UtilsTest
     ${UTILS_TEST_SOURCE}
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/utils.h # if all includes are linked, statistics-backend is required
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/utils.h # if all includes are linked, statistics-backend is required
     )
 
 target_include_directories(UtilsTest PRIVATE
@@ -55,10 +55,10 @@ set(BACKENDUTILS_TEST_SOURCE
 
 # Needed headers from backend
 set(BACKENDUTILS_TEST_HEADERS
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/utils.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_utils.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/backend/backend_types.h
-    ${PROJECT_SOURCE_DIR}/include/fastdds-monitor/model/model_types.h)
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/utils.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/backend_utils.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/backend_types.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/model_types.h)
 
 add_executable(BackendUtilsTest
     ${BACKENDUTILS_TEST_SOURCE}
@@ -69,7 +69,7 @@ target_include_directories(BackendUtilsTest PRIVATE
     ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(BackendUtilsTest PUBLIC
-    fastdds-statistics-backend
+    fastdds_statistics_backend
     ${QT5_LIBRARY_LINKS}
     gtest)
 

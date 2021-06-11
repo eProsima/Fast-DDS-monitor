@@ -13,26 +13,25 @@
 // limitations under the License.
 
 /**
- * @file HostModelItem.hpp
+ * @file DomainModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_HOSTMODELITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_HOSTMODELITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H
 
-#include <fastdds-monitor/model/EntityContainerModelItem.h>
-#include <fastdds-monitor/model/physical/UserModelItem.h>
-#include <fastdds-monitor/model/SubListedListItem.h>
+#include <fastdds_monitor/model/EntityContainerModelItem.h>
+#include <fastdds_monitor/model/ListModel.h>
+#include <fastdds_monitor/model/logical/TopicModelItem.h>
 
 namespace models {
 
-
 /**
- * @brief Class that represents a Host Item in the Physical Model
+ * @brief Class that represents a Domain Item in the Logic Model
  *
- * It is not needed to implement any extra method because Host do not have extra fields of info.
- * The User subitems are already managed by \c EntityContainerModelItem class.
+ * It is not needed to implement any extra method because domain do not have extra fields of info.
+ * The Topic subitems are already managed by \c EntityContainerModelItem class.
  */
-class HostModelItem : public EntityContainerModelItem<UserModelItem, SubListedListModel>
+class DomainModelItem : public EntityContainerModelItem<TopicModelItem, ListModel>
 {
 
 public:
@@ -44,4 +43,4 @@ public:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_PHYSICAL_HOSTMODELITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_DOMAINMODELITEM_H

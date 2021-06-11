@@ -24,7 +24,7 @@
 
 #include <QString>
 
-#include <fastdds-monitor/utils.h>
+#include <fastdds_monitor/utils.h>
 
 using namespace utils;
 

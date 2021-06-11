@@ -24,7 +24,7 @@ option(BUILD_SHARED_LIBS "Create shared libraries by default" ON)
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
-find_package(fastdds-statistics-backend REQUIRED)
+find_package(fastdds_statistics_backend REQUIRED)
 
 ###############################################################################
 # Compile MOCKs

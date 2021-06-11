@@ -16,7 +16,7 @@
 
 #include <QApplication>
 
-#include <fastdds-monitor/Engine.h>
+#include <fastdds_monitor/Engine.h>
 
 /**
  * This test checks the functions of Engine works by checking the model updates

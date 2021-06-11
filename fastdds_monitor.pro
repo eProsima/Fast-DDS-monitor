@@ -43,51 +43,51 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 INCLUDEPATH += include
 
 HEADERS += \
-        include/fastdds-monitor/Controller.h \
-        include/fastdds-monitor/backend/Callback.h \
-        include/fastdds-monitor/backend/Listener.h \
-        include/fastdds-monitor/backend/SyncBackendConnection.h \
-        include/fastdds-monitor/backend/backend_types.h \
-        include/fastdds-monitor/model/EntityContainerModelItem.h \
-        include/fastdds-monitor/model/statistics/EntityItem.h \
-        include/fastdds-monitor/model/dds/LocatorModelItem.h \
-        include/fastdds-monitor/model/model_types.h \
-        include/fastdds-monitor/utils.h \
-        include/fastdds-monitor/backend/backend_utils.h \
-        include/fastdds-monitor/model/dds/ParticipantModelItem.h \
-        include/fastdds-monitor/model/dds/EndpointModelItem.h \
-        include/fastdds-monitor/model/logical/DomainModelItem.h \
-        include/fastdds-monitor/model/logical/TopicModelItem.h \
-        include/fastdds-monitor/model/physical/HostModelItem.h \
-        include/fastdds-monitor/model/physical/UserModelItem.h \
-        include/fastdds-monitor/model/physical/ProcessModelItem.h \
-        include/fastdds-monitor/model/ListModel.h \
-        include/fastdds-monitor/model/ListItem.h \
-        include/fastdds-monitor/model/SubListedListModel.h \
-        include/fastdds-monitor/model/SubListedListItem.h \
-        include/fastdds-monitor/Engine.h \
-        include/fastdds-monitor/model/tree/TreeModel.h \
-        include/fastdds-monitor/model/tree/TreeItem.h \
-        include/fastdds-monitor/statistics/StatisticsData.h
+        include/fastdds_monitor/Controller.h \
+        include/fastdds_monitor/backend/Callback.h \
+        include/fastdds_monitor/backend/Listener.h \
+        include/fastdds_monitor/backend/SyncBackendConnection.h \
+        include/fastdds_monitor/backend/backend_types.h \
+        include/fastdds_monitor/model/EntityContainerModelItem.h \
+        include/fastdds_monitor/model/statistics/EntityItem.h \
+        include/fastdds_monitor/model/dds/LocatorModelItem.h \
+        include/fastdds_monitor/model/model_types.h \
+        include/fastdds_monitor/utils.h \
+        include/fastdds_monitor/backend/backend_utils.h \
+        include/fastdds_monitor/model/dds/ParticipantModelItem.h \
+        include/fastdds_monitor/model/dds/EndpointModelItem.h \
+        include/fastdds_monitor/model/logical/DomainModelItem.h \
+        include/fastdds_monitor/model/logical/TopicModelItem.h \
+        include/fastdds_monitor/model/physical/HostModelItem.h \
+        include/fastdds_monitor/model/physical/UserModelItem.h \
+        include/fastdds_monitor/model/physical/ProcessModelItem.h \
+        include/fastdds_monitor/model/ListModel.h \
+        include/fastdds_monitor/model/ListItem.h \
+        include/fastdds_monitor/model/SubListedListModel.h \
+        include/fastdds_monitor/model/SubListedListItem.h \
+        include/fastdds_monitor/Engine.h \
+        include/fastdds_monitor/model/tree/TreeModel.h \
+        include/fastdds_monitor/model/tree/TreeItem.h \
+        include/fastdds_monitor/statistics/StatisticsData.h
 
 DISTFILES += \
     qml/*
 
 # Link to the Fast DDS Statistics Backend Complex Mock library
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/release/ -lcomplex-backend-mock
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-monitor/lib/debug/ -lcomplex-backend-mock
-else:unix: LIBS += -L$$PWD/../../install/fastdds-monitor/lib/ -lcomplex-backend-mock
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/release/ -lcomplex-backend-mock
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/debug/ -lcomplex-backend-mock
+else:unix: LIBS += -L$$PWD/../../install/fastdds_monitor/lib/ -lcomplex-backend-mock
 
-INCLUDEPATH += $$PWD/../../install/fastdds-monitor
-DEPENDPATH += $$PWD/../../install/fastdds-monitor
+INCLUDEPATH += $$PWD/../../install/fastdds_monitor
+DEPENDPATH += $$PWD/../../install/fastdds_monitor
 
 # Link to the Fast DDS Statistics Backend library
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/release/ -lfastdds-statistics-backend
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/debug/ -lfastdds-statistics-backend
-else:unix: LIBS += -L$$PWD/../../install/fastdds-statistics-backend/lib/ -lfastdds-statistics-backend
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/release/ -lfastdds_statistics_backend
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/debug/ -lfastdds_statistics_backend
+else:unix: LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/ -lfastdds_statistics_backend
 
-INCLUDEPATH += $$PWD/../../install/fastdds-statistics-backend/include
-DEPENDPATH += $$PWD/../../install/fastdds-statistics-backend/include
+INCLUDEPATH += $$PWD/../../install/fastdds_statistics_backend/include
+DEPENDPATH += $$PWD/../../install/fastdds_statistics_backend/include
 
 # Link to the Fast DDS library
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastrtps/lib/release/ -lfastrtps
@@ -98,5 +98,5 @@ INCLUDEPATH += $$PWD/../../install/fastrtps/include
 DEPENDPATH += $$PWD/../../install/fastrtps/include
 
 # Link to the Fast DDS Monitor includes
-INCLUDEPATH += $$PWD/../../install/fastdds-monitor/include
-DEPENDPATH += $$PWD/../../install/fastdds-monitor/include
+INCLUDEPATH += $$PWD/../../install/fastdds_monitor/include
+DEPENDPATH += $$PWD/../../install/fastdds_monitor/include

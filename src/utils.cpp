@@ -18,7 +18,7 @@
 #include <sys/time.h>
 #include <time.h>
 
-#include <fastdds-monitor/utils.h>
+#include <fastdds_monitor/utils.h>
 
 namespace utils {
 

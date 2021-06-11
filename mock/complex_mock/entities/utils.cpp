@@ -19,7 +19,7 @@
 #include <random>
 #include <sstream>
 
-#include <fastdds-statistics-backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 #include "utils.hpp"
 

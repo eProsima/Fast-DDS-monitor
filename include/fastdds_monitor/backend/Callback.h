@@ -19,7 +19,7 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_BACKEND_CALLBACK_H
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_CALLBACK_H
 
-#include <fastdds-monitor/backend/backend_types.h>
+#include <fastdds_monitor/backend/backend_types.h>
 
 namespace backend {
 

@@ -22,8 +22,8 @@
 #include <condition_variable>
 #include <tuple>
 
-#include <fastdds-statistics-backend/listener/PhysicalListener.hpp>
-#include <fastdds-statistics-backend/types/types.hpp>
+#include <fastdds_statistics_backend/listener/PhysicalListener.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 #include "../entities/headers/Entity.hpp"
 

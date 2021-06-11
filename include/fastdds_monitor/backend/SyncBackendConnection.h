@@ -19,17 +19,17 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 
-#include <fastdds-statistics-backend/StatisticsBackend.hpp>
+#include <fastdds_statistics_backend/StatisticsBackend.hpp>
 
-#include <fastdds-monitor/backend/backend_types.h>
-#include <fastdds-monitor/backend/Listener.h>
-#include <fastdds-monitor/model/logical/DomainModelItem.h>
-#include <fastdds-monitor/model/logical/TopicModelItem.h>
-#include <fastdds-monitor/model/physical/HostModelItem.h>
-#include <fastdds-monitor/model/physical/ProcessModelItem.h>
-#include <fastdds-monitor/model/physical/UserModelItem.h>
-#include <fastdds-monitor/model/SubListedListModel.h>
-#include <fastdds-monitor/model/tree/TreeModel.h>
+#include <fastdds_monitor/backend/backend_types.h>
+#include <fastdds_monitor/backend/Listener.h>
+#include <fastdds_monitor/model/logical/DomainModelItem.h>
+#include <fastdds_monitor/model/logical/TopicModelItem.h>
+#include <fastdds_monitor/model/physical/HostModelItem.h>
+#include <fastdds_monitor/model/physical/ProcessModelItem.h>
+#include <fastdds_monitor/model/physical/UserModelItem.h>
+#include <fastdds_monitor/model/SubListedListModel.h>
+#include <fastdds_monitor/model/tree/TreeModel.h>
 
 
 namespace backend {

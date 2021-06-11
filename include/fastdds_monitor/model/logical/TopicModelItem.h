@@ -13,29 +13,30 @@
 // limitations under the License.
 
 /**
- * @file EntityItem.hpp
+ * @file TopicModelItem.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
 
-#include <fastdds-monitor/model/ListItem.h>
+#include <fastdds_monitor/model/ListItem.h>
 
 namespace models {
 
+
 /**
- * @brief Class that represents an Entity in the chart dialog
+ * @brief Class that represents an Topic Item in the Logical Model
  */
-class EntityItem : public ListItem
+class TopicModelItem : public ListItem
 {
     Q_OBJECT
 
 public:
 
     //! Add new roles only for Topic items
-    enum EntityItemRoles
+    enum TopicModelItemRoles
     {
-        nameIdRole = ModelItemRoles::nameRole + 1,    //! Role for attribute Type
+        typeRole = ModelItemRoles::nameRole + 1,    //! Role for attribute Type
     };
 
     //! Default ListItem constructor
@@ -45,8 +46,8 @@ public:
     QVariant data(
             int role) const override;
 
-    //! Getter for nameId attribute
-    QString nameId() const;
+    //! Getter for type attribute
+    QString type() const;
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
@@ -54,4 +55,4 @@ public:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_ENTITYITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_LOGICAL_TOPICMODELITEM_H
