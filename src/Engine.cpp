@@ -575,8 +575,6 @@ bool Engine::read_callback_(
     // Add one to the number of discovered entities
     sum_entity_number_issue(1);
 
-    bool res = false;
-
     switch (callback.new_entity_kind)
     {
         case backend::EntityKind::HOST:
@@ -593,6 +591,4 @@ bool Engine::read_callback_(
             // TODO this is only needed when new entity is related with the last_clicked entity
             return fill_dds_data_();
     }
-
-    return res;
 }
