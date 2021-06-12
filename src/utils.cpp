@@ -18,6 +18,7 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
+#include <iostream>
 
 #include <fastdds_monitor/utils.h>
 
@@ -45,7 +46,14 @@ std::string now(
 
     auto now_time_t = std::chrono::system_clock::to_time_t(now);
     std::stringstream ss;
-    ss << std::put_time(std::gmtime(&now_time_t), "%Y-%m-%d %X");
+
+#ifdef _WIN32
+    struct tm now_tm;
+    _gmtime64_s(&now_tm, &now_time_t);
+    ss << std::put_time(&now_tm, "%Y-%m-%d %X");
+#else
+    ss << std::put_time(gmtime(&now_time_t), "%Y-%m-%d %X");
+#endif // ifdef _WIN32
 
     if (miliseconds)
     {
