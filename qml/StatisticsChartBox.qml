@@ -16,7 +16,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import QtQuick.Layouts 1.3
-import Qt.labs.platform 1.1 as QLP
 import QtGraphicalEffects 1.15
 import Theme 1.0
 
