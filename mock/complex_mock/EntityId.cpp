@@ -47,7 +47,7 @@ EntityId EntityId::invalid() noexcept
     return EntityId(ENTITY_ID_INVALID);
 }
 
-bool EntityId::is_valid() noexcept
+bool EntityId::is_valid() const noexcept
 {
     return (value_ >= 0);
 }
