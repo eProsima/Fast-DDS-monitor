@@ -4,7 +4,7 @@
 Version 0.1.0
 #############
 
-This is the first release of FastDDS Monitor.
+This is the first release of *eProsima Fast DDS Monitor*.
 
 This release includes several **features** regarding the monitoring of DDS network and the visualization
 of a real time working network, as instrumentation data related with this network:
@@ -23,15 +23,15 @@ This release includes the following **visual features**
   * Metadata sent
   * Discovery time
 
-* Represent instrumentation data regarding different cummulative functions:
+* Represent instrumentation data regarding different cumulative functions:
 
-  * mean
-  * median
-  * standard deviation
-  * maximum
-  * minimum
-  * count
-  * sum
+  * Mean
+  * Median
+  * Standard deviation
+  * Maximum
+  * Minimum
+  * Count
+  * Sum
 
 * Real time events:
 
@@ -45,9 +45,9 @@ This release includes the following **interactive features**
   * Monitoring a DDS domain.
   * Monitoring a Discovery Server network.
 
-* Represent any data kind with any cummulative function regarding any one or two entities in the network.
+* Represent any data kind with any cumulative function regarding any one or two entities in the network.
 * Select an Entity in order to retrieve information about the entity configuration and its data summary.
-* User friendly modificable layout:
+* User friendly modifiable layout:
 
   * Resize windows and panels.
   * Create, delete and move charts and panels.
