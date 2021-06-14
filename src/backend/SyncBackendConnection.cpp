@@ -440,13 +440,20 @@ EntityInfo SyncBackendConnection::get_summary(
         // For every configuration, call get data and get the value (time is not used) of the only element received.
         // For DataKinds without targets, setting the id value does not affect, for those with targets,
         // get the target as every entity related with this one.
-        summary[backend::data_kind_to_string(configuration.first)]
-        [backend::statistic_kind_to_string(configuration.second)] = get_data(
+
+        auto data = get_data(
             configuration.first,                    // DataKind of the series
             id,                                     // Id of source
             id,                                     // Id of everything connected to source
             1,                                      // Just one bin to get all data available
-            configuration.second)[0].second;        // StatisticKind / get the value of the first (only) element
+            configuration.second);                  // StatisticKind
+
+        // Check that there is data to report, if not set value 0
+        summary[backend::data_kind_to_string(configuration.first)]
+            [backend::statistic_kind_to_string(configuration.second)]
+                = data.empty() ?
+                    0 :
+                    data[0].second; // get the value of the first (only) element
     }
 
     return summary;

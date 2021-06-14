@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include<iostream>
+
 #include <QStringList>
 
 #include <fastdds_monitor/model/tree/TreeItem.h>
@@ -263,6 +265,7 @@ void TreeModel::clear()
 void TreeModel::update(
         const json& data)
 {
+    std::cout << "update " << data << std::endl;
     beginResetModel();
     clear();
     setup_model_data(data, root_item_);
