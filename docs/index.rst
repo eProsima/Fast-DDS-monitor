@@ -32,7 +32,9 @@
    :numbered: 5
    :hidden:
 
-   /rst/getting_started/getting_started.rst
+   /rst/getting_started/entities
+   /rst/getting_started/monitor
+   /rst/getting_started/tutorial
 
 
 .. _index_user_manual:
@@ -43,7 +45,14 @@
    :numbered: 5
    :hidden:
 
-   /rst/user_manual/user_manual.rst
+   /rst/user_manual/initialize_monitoring.rst
+   /rst/user_manual/layout
+   /rst/user_manual/application_menu
+   /rst/user_manual/shortcuts_bar
+   /rst/user_manual/left_panel
+   /rst/user_manual/right_panel
+   /rst/user_manual/chart_panel
+   /rst/user_manual/select_entity
 
 
 .. _index_developer_manual:

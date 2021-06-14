@@ -9,6 +9,10 @@ Layout
 This section explains the Graphical User Interface (GUI) of the *Fast DDS Monitor* application.
 It will briefly explain the main menus and windows that could be seen, in order to familiarize the user
 with where to find the buttons and information.
+Below is a screenshot of the *Fast DDS Monitor* application in operation.
+
+.. figure:: /rst/figures/screenshots/app-run.png
+    :align: center
 
 .. _application_menu_layout:
 
@@ -23,8 +27,8 @@ their area of operation:
 - **View**: Window layout configuration.
 - **Help**: Useful links for getting application information or support.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/application_menu.png
+    :align: center
 
 For the explanation of the functionality of this buttons refer to the section :ref:`application_menu`.
 
@@ -37,8 +41,8 @@ This horizontal bar contains shortcuts to the main operations supported by the a
 so the user has a faster access to the main functionalities.
 This bar could be configured in the *View* tab of the application menu.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/shortcuts_bar.png
+    :align: center
 
 For the explanation of how to configure this bar refer to the section :ref:`shortcuts_bar`.
 
@@ -81,8 +85,8 @@ This panel will be filled with the DDS entities that are related with the entity
 so it could happen that not all the DDS entities discovered by the monitor appears in this panel at a certain point
 (see :ref:`selected_entity` for further details).
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/dds_panel.png
+    :align: center
 
 For the explanation of this entities and the interaction with them refer to the section :ref:`dds_panel`.
 
@@ -97,8 +101,8 @@ These entities refer to the main information of the machine and the context wher
 *Fast DDS* is running.
 For further explanation of this entities and the interaction with them refer to the section :ref:`physical_panel`.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/physical_panel.png
+    :align: center
 
 .. _logical_panel_layout:
 
@@ -112,8 +116,8 @@ These entities refer to abstract partitions in a DDS network. Only entities in t
 to each other by publishing or subscribing in the same *Topic*.
 For further explanation of this entities and the interaction with them refer to the section :ref:`logical_panel`.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/logical_panel.png
+    :align: center
 
 .. _right_sidebar_layout:
 
@@ -142,8 +146,8 @@ This panel shows the main information of the last entity clicked.
 This information differs depending on the kind of the entity, i.e. for a *DDS Entity*,
 the *QoS* information would be shown, while for a *Process*, its *process id* will be displayed.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/info_panel.png
+    :align: center
 
 For the explanation of this information refer to the section :ref:`info_panel`.
 
@@ -154,8 +158,8 @@ Statistics Panel
 
 This panel shows a summary of the main statistic data related with the last entity clicked.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/statistics_panel.png
+    :align: center
 
 For the explanation of this information refer to the section :ref:`statistics_panel`.
 
@@ -170,8 +174,8 @@ This panel shows a collection of data related with the actual state of the appli
 
 - Domains is a collection of the *Domains* that has been initialized in the Monitor.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/status_panel.png
+    :align: center
 
 For the explanation of this information refer to the section :ref:`status_panel`.
 
@@ -189,8 +193,8 @@ A callback may refer to:
 
 - The reception of new data related to any of the entities that are being monitored.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/log_panel.png
+    :align: center
 
 For the explanation of this information refer to the section :ref:`log_panel`.
 
@@ -210,8 +214,8 @@ The central window it will display the data charts, so-called *Chartbox*, that t
 To create a new *Chartbox* go to *Edit->DisplayNewData* in the application menu.
 This button will create a new *Chartbox* where new series could be added, removed or modified.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/main_panel.png
+    :align: center
 
 For further information about how to create a chart refer to the section :ref:`chart_panel`.
 
@@ -227,8 +231,8 @@ In order to move one of this charts, press in the *Chartbox* title and grab the 
 main panel.
 The rest of the *Chartboxes* will automatically rearrange when one of them is moved to a different position.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/chartbox.png
+    :align: center
 
 .. _create_new_series_layout:
 
@@ -237,7 +241,7 @@ Create new Series Dialog
 This Dialog will appear every time a new Chartbox is created, or adding a new series by the button in the Chartbox
 *Series->AddSeries*.
 
-.. todo::
-    Include a screenshot.
+.. figure:: /rst/figures/screenshots/create_series_dialog.png
+    :align: center
 
 For further details on how to configure a new series refer to :ref:`create_serie`.
