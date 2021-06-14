@@ -11,6 +11,7 @@ This is available on the `eProsima <https://www.eprosima.com/>`_ website in the
 `Downloads <https://www.eprosima.com/index.php/downloads-all>`_ section.
 
 There are two mechanisms for running the monitor application.
+
 - Through the *Fast DDS Monitor* installer.
 - Using the *AppImage* format, which is a portable format of the application software.
 
@@ -18,8 +19,8 @@ There are two mechanisms for running the monitor application.
 ============================
 
 The first option is to install the *Fast DDS monitor* application together with all its dependencies.
-To do this, first run the ``FastDDSMonitorInstaller.run`` executable and follow the instructions it ç
-provides to install the monitor in a directory on the system.
+To do so, first run the ``FastDDSMonitorInstaller.run`` executable and follow the instructions it
+provides to install the program in a directory on the system.
 
 .. figure:: /rst/figures/installer.png
     :align: center
