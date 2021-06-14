@@ -450,10 +450,10 @@ EntityInfo SyncBackendConnection::get_summary(
 
         // Check that there is data to report, if not set value 0
         summary[backend::data_kind_to_string(configuration.first)]
-            [backend::statistic_kind_to_string(configuration.second)]
-                = data.empty() ?
-                    0 :
-                    data[0].second; // get the value of the first (only) element
+        [backend::statistic_kind_to_string(configuration.second)]
+            = data.empty() ?
+                0 :
+                data[0].second;     // get the value of the first (only) element
     }
 
     return summary;
