@@ -32,13 +32,35 @@ are running.
    configuration and physical deployment.
 #. **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
 
-.. warning::
-  This application is in the early stages of development.
-  For this reason, it should not be considered stable, as the design and functionality may change significantly
-  before the first release.
-  Furthermore, several features may not be implemented yet.
+###############################
+Contacts and Commercial support
+###############################
 
+Find more about us at `eProsima's webpage <https://eprosima.com/>`_.
 
-#############
-Main Features
-#############
+Support available at:
+
+* Email: support@eprosima.com
+* Phone: +34 91 804 34 48
+
+#################################
+Contributing to the documentation
+#################################
+
+*Fast DDS Monitor Documentation* is an open source project, and as such all contributions, both in the form of
+feedback and content generation, are most welcomed.
+To make such contributions, please refer to the
+`Contribution Guidelines <https://github.com/eProsima/all-docs/blob/master/CONTRIBUTING.md>`_ hosted in our GitHub
+repository.
+
+##############################
+Structure of the documentation
+##############################
+
+This documentation is organized into the sections below.
+
+* :ref:`Installation Manual <installation_manual_linux>`
+* :ref:`Getting Started <entities>`
+* :ref:`User Manual <initialize_monitoring>`
+* :ref:`Developer Manual <developer_manual_installation_sources_linux>`
+* :ref:`Release Notes <release_notes>`
