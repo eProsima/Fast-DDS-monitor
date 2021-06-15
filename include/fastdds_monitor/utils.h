@@ -36,10 +36,10 @@ std::string to_string(
         QString st);
 
 /**
- * @brief Returns the actual time in string format
+ * @brief Returns the current time in string format
  *
- * The format is: "YYYY:MM:DD HH:MM:SS"
- * With \c miliseconds set to true, the format is: "YYYY:MM:DD HH:MM:SS.sss"
+ * The format is: "YYYY-MM-DD HH:MM:SS"
+ * If \c miliseconds is set to true, the format is: "YYYY-MM-DD HH:MM:SS.sss"
  *
  * @param miliseconds add miliseconds to the string
  * @return string with actual time

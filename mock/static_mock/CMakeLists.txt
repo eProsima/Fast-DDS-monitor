@@ -22,7 +22,9 @@ find_package(fastrtps REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
 
 # Allow to use threads
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+if(NOT (MSVC OR MSVC_IDE))
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+endif()
 
 set(STATIC_MOCK_SOURCE
     StatisticsBackend.cpp
@@ -35,7 +37,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<AND:$<NOT:$<BOOL:${WIN32}>>,$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">>:__DEBUG>
 )
 
-target_link_libraries(${PROJECT_NAME} fastdds_statistics_backend)
+target_link_libraries(${PROJECT_NAME} PUBLIC fastdds_statistics_backend)
 install(TARGETS ${PROJECT_NAME}
-    RUNTIME DESTINATION Mock/${PROJECT_NAME}/${BIN_INSTALL_DIR}
-    LIBRARY DESTINATION Mock/${PROJECT_NAME}/${LIB_INSTALL_DIR})
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR}
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR})

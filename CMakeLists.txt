@@ -129,7 +129,14 @@ else()
     endif()
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -pthread -no-pie")
+###############################################################################
+# Qt compiler flags, pthreads, and position independent code (PIE)
+###############################################################################
+if(MSVC OR MSVC_IDE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -pthread -no-pie")
+endif()
 
 ###############################################################################
 # Installation paths
@@ -289,7 +296,7 @@ elseif(STATIC_MOCK)
 else()
 
     # Link against fast backend and its dependencies
-    target_link_libraries(${PROJECT_NAME}
+    target_link_libraries(${PROJECT_NAME} PUBLIC
         ${QT5_LIBRARY_LINKS}
         fastcdr
         fastrtps
@@ -338,3 +345,17 @@ if(BUILD_DOCUMENTATION OR BUILD_DOCUMENTATION_TESTS)
     set(BUILD_DOCUMENTATION ON)
     add_subdirectory(docs)
 endif()
+
+###############################################################################
+# Packaging
+###############################################################################
+# Install license
+install(FILES ${PROJECT_SOURCE_DIR}/LICENSE
+    DESTINATION ${LICENSE_INSTALL_DIR}
+    COMPONENT licenses
+    )
+set(CPACK_COMPONENT_LICENSES_HIDDEN 1)
+
+#Install executable
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR})

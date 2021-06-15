@@ -49,8 +49,8 @@ TEST(utilsTest, to_string)
 }
 
 //! Check that now function returns the correct format:
-//  - miliseconds OFF: YYYY:MM:DD HH:MM:SS
-//  - miliseconds ON : YYYY:MM:DD HH:MM:SS.mmm
+//  - miliseconds OFF: YYYY-MM-DD HH:MM:SS
+//  - miliseconds ON : YYYY-MM-DD HH:MM:SS.mmm
 TEST(utilsTest, now_format)
 {
     // Without miliseconds
@@ -66,6 +66,8 @@ TEST(utilsTest, now_format)
                 {
                     case 4:
                     case 7:
+                        ASSERT_EQ(date[j], '-');
+                        break;
                     case 13:
                     case 16:
                         ASSERT_EQ(date[j], ':');
@@ -97,6 +99,8 @@ TEST(utilsTest, now_format)
                 {
                     case 4:
                     case 7:
+                        ASSERT_EQ(date[j], '-');
+                        break;
                     case 13:
                     case 16:
                         ASSERT_EQ(date[j], ':');

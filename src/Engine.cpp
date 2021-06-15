@@ -416,12 +416,12 @@ bool Engine::entity_clicked(
         last_entity_clicked_ = id;
         last_entity_clicked_kind_ = kind;
 
-        res = update_reset_dds_data(id) or res;
+        res = update_reset_dds_data(id) || res;
     }
 
     // All entities including DDS
-    res = fill_entity_info_(id) or res;
-    res = fill_summary_(id) or res;
+    res = fill_entity_info_(id) || res;
+    res = fill_summary_(id) || res;
 
     return res;
 }
@@ -479,7 +479,7 @@ bool Engine::on_add_statistics_data_series(
         time_to);
 
     QVector<QPointF> points;
-    points.reserve(statistic_data.size());
+    points.reserve(static_cast<int>(statistic_data.size()));
     qreal max_value = 0;
     qreal min_value = 0;
 
@@ -578,8 +578,6 @@ bool Engine::read_callback_(
     // Add one to the number of discovered entities
     sum_entity_number_issue(1);
 
-    bool res = false;
-
     switch (callback.new_entity_kind)
     {
         case backend::EntityKind::HOST:
@@ -596,6 +594,4 @@ bool Engine::read_callback_(
             // TODO this is only needed when new entity is related with the last_clicked entity
             return fill_dds_data_();
     }
-
-    return res;
 }
