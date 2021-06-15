@@ -220,7 +220,7 @@ void TreeModel::setup_model_data(
         {
             data << QString::fromUtf8(it.key().c_str());
         }
-        else if(json_data.is_array() && !it.value().is_primitive())
+        else if (json_data.is_array() && !it.value().is_primitive())
         {
             data << QString::fromUtf8(std::to_string(iteration).c_str());
         }
