@@ -61,4 +61,13 @@ Item {
             }
         }
     }
+
+    // Timer to refresh summary each 5 seconds
+    Timer{
+        id: timer
+        interval: 5000
+        running: true
+        repeat: true
+        onTriggered: controller.refresh_summary()
+    }
 }

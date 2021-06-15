@@ -595,3 +595,8 @@ bool Engine::read_callback_(
             return fill_dds_data_();
     }
 }
+
+void Engine::refresh_summary()
+{
+    fill_summary_(last_entity_clicked_);
+}

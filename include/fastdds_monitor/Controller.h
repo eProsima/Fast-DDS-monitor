@@ -123,6 +123,9 @@ public slots:
     //! Returns the Fast DDS Monitor GitHub commit built
     QString git_commit();
 
+    //! Call engine to refresh summary
+    void refresh_summary();
+
 protected:
 
     //! Reference to \c Engine object
