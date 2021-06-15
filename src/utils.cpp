@@ -14,11 +14,11 @@
 
 #include <chrono>
 #include <ctime>
-#include <time.h>
-#include <sstream>
 #include <iomanip>
-#include <string>
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <time.h>
 
 #include <fastdds_monitor/utils.h>
 
