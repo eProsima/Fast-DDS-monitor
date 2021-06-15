@@ -22,7 +22,8 @@
    :hidden:
 
    Windows </rst/installation/windows.rst>
-   Linux </rst/installation/linux.rst>
+   Linux from binaries </rst/installation/binaries_linux.rst>
+   Linux from sources </rst/installation/sources_linux.rst>
 
 .. _index_getting_started:
 

@@ -2,13 +2,16 @@ backend
 Backend
 Chartbox
 CMake
+colcon
 datareader
 DataReader
 datawriter
 DataWriter
 eProsima
+gtest
 localhost
 multicast
 Qos
 QoS
 Todo
+wget

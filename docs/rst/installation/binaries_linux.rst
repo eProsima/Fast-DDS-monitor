@@ -2,9 +2,9 @@
 
 .. _installation_manual_linux:
 
-#########################
-Fast DDS Monitor on Linux
-#########################
+#################################################
+Fast DDS Monitor Linux installation from binaries
+#################################################
 
 This section provides instructions on how to install the *Fast DDS Monitor* application.
 This is available on the `eProsima <https://www.eprosima.com/>`_ website in the
