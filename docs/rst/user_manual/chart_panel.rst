@@ -128,7 +128,7 @@ The *Number of bins* determines how many fractions on which this time interval w
 will be displayed in the chart.
 To see all the individual data points without accumulate them, set the *Number of bins* to 0.
 
-.. note::
+.. warning::
 
     Some of the data queried could not exist.
     In these cases the point will not be plotted, and the number of points in the
@@ -191,12 +191,12 @@ specified by the value :ref:`statistics_kind`.
 In case the *Number of bins* is set to 0, there is no accumulation or time frame, and so the data displayed will be
 all the data points for this configuration, each in its time value.
 
-.. note::
+.. warning::
 
     Some of the data queried could not exist in the database for many reasons, i.e. the entity did not exist in
-    the time where the query requires data, the entity does not report such data or simply some data is reported
+    the time where the query requires data, the entity does not report such data, or simply some data is reported
     with lower frequency than the one asked.
-    In these cases, the graph could not be connected, the points where the data is not retrieved
+    In these cases, the graph could not be connected and the points where the data is not retrieved
     will not be shown.
 
 .. _chartbox:
