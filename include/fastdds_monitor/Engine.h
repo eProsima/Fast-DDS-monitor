@@ -482,6 +482,9 @@ protected:
 
     //! Object that manage all the communications with the QML view
     Controller* controller_;
+
+    //! Time when the monitor has been started. It will be used as default timestamp
+    backend::Timestamp initial_time_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H

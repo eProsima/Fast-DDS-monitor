@@ -88,6 +88,9 @@ QObject* Engine::enable()
     statistics_data_ = new StatisticsData();
     controller_ = new Controller(this);
 
+    // Set the initial time
+    initial_time_ = std::chrono::system_clock::now();
+
     // Initialized qml
     rootContext()->setContextProperty("participantModel", participants_model_);
     rootContext()->setContextProperty("hostModel", physical_model_);
@@ -462,7 +465,7 @@ bool Engine::on_add_statistics_data_series(
         backend::StatisticKind statistic_kind)
 {
     backend::Timestamp time_from =
-            start_time_default ? backend::Timestamp() : backend::Timestamp(std::chrono::milliseconds(start_time));
+            start_time_default ? initial_time_ : backend::Timestamp(std::chrono::milliseconds(start_time));
     backend::Timestamp time_to =
             end_time_default ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(end_time));
 
