@@ -19,6 +19,7 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_TREEMODEL_H
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_TREEMODEL_H
 
+#include <mutex>
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
@@ -138,6 +139,8 @@ private:
 
     //! Parent node of the items tree
     TreeItem* root_item_;
+
+    mutable std::mutex update_mutex_;
 
 };
 

@@ -210,19 +210,23 @@ void TreeModel::setup_model_data(
 
     bool last_child = false;
 
+    uint32_t iteration = 0;
+
     json value;
 
     for (json::const_iterator it = json_data.begin(); it != json_data.end(); ++it)
     {
-
-        if (!json_data.is_array() || (json_data.is_array() && !it.value().is_primitive()) || it.value().is_array())
+        if (!json_data.is_array() || it.value().is_array())
         {
             data << QString::fromUtf8(it.key().c_str());
+        }
+        else if (json_data.is_array() && !it.value().is_primitive())
+        {
+            data << QString::fromUtf8(std::to_string(iteration).c_str());
         }
 
         if (it.value().size() == 1)
         {
-
             value = it.value().is_array() ? it.value().at(0) : it.value();
 
             if (value.is_string())
@@ -263,6 +267,8 @@ void TreeModel::clear()
 void TreeModel::update(
         const json& data)
 {
+    std::unique_lock<std::mutex> lock(update_mutex_);
+
     beginResetModel();
     clear();
     setup_model_data(data, root_item_);

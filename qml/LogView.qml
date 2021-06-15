@@ -30,7 +30,11 @@ Item {
             Text {
                 anchors.fill: parent
                 elide: styleData.elideMode
-                text: styleData.value
+                text: {
+                    // Error when undefined value.
+                    // Do not know when this could happen, but happens
+                    styleData.value ? styleData.value : ""
+                }
             }
         }
 
