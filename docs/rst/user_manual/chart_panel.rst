@@ -134,7 +134,7 @@ Start time
 ----------
 The time that represents the minimum limit for the data points that will be displayed.
 That is, every data that refers to a time before this value will not be displayed.
-*Default initial timestamp* means the lower timestamp that this data configuration has.
+*Default initial timestamp* means the time when the monitor has been initialized.
 
 .. _end_time:
 
