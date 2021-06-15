@@ -270,6 +270,9 @@ public:
      */
     void process_callback_queue();
 
+    //! Refresh summary panel
+    void refresh_summary();
+
 signals:
 
     /**

@@ -156,3 +156,8 @@ QString Controller::git_commit()
 {
     return utils::to_QString(GIT_COMMIT_HASH);
 }
+
+void Controller::refresh_summary()
+{
+    engine_->refresh_summary();
+}

@@ -599,3 +599,8 @@ bool Engine::read_callback_(
 
     return res;
 }
+
+void Engine::refresh_summary()
+{
+    fill_summary_(last_entity_clicked_);
+}
