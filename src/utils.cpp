@@ -49,10 +49,10 @@ std::string now(
 
 #ifdef _WIN32
     struct tm now_tm;
-    _gmtime64_s(&now_tm, &now_time_t);
+    _localtime64_s(&now_tm, &now_time_t);
     ss << std::put_time(&now_tm, "%Y-%m-%d %X");
 #else
-    ss << std::put_time(gmtime(&now_time_t), "%Y-%m-%d %X");
+    ss << std::put_time(localtime(&now_time_t), "%Y-%m-%d %X");
 #endif // ifdef _WIN32
 
     if (miliseconds)
