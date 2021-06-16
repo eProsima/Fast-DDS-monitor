@@ -62,10 +62,10 @@ Item {
         }
     }
 
-    // Timer to refresh summary each 5 seconds
+    // Timer to refresh summary each 10 seconds
     Timer{
         id: timer
-        interval: 5000
+        interval: 10000
         running: true
         repeat: true
         onTriggered: controller.refresh_summary()

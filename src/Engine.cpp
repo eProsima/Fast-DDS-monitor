@@ -404,6 +404,10 @@ bool Engine::entity_clicked(
 {
     bool res = false;
 
+    // Set as clicked entity
+    last_entity_clicked_ = id;
+    last_entity_clicked_kind_ = kind;
+
     // All Entities in Physical and Logical Models affect over the participant view
     if ((kind == backend::EntityKind::HOST) ||
             (kind == backend::EntityKind::USER) ||
@@ -412,10 +416,7 @@ bool Engine::entity_clicked(
             (kind == backend::EntityKind::TOPIC) ||
             (kind == backend::EntityKind::INVALID))
     {
-        // Set as clicked entity to update whit new dds entities
-        last_entity_clicked_ = id;
-        last_entity_clicked_kind_ = kind;
-
+        // update whit related dds entities
         res = update_reset_dds_data(id) || res;
     }
 
