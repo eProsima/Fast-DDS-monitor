@@ -21,6 +21,7 @@
 #include <QDebug>
 
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
+#include <fastdds_statistics_backend/exception/Exception.hpp>
 
 #include <fastdds_monitor/backend/backend_utils.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
@@ -374,13 +375,39 @@ bool SyncBackendConnection::unset_listener()
 EntityId SyncBackendConnection::init_monitor(
         int domain)
 {
-    return StatisticsBackend::init_monitor(domain);
+    try
+    {
+        return StatisticsBackend::init_monitor(domain);
+    }
+    catch(const Error& e)
+    {
+        qDebug() << "Error initializing monitor " << e.what();
+    }
+    catch(const BadParameter& e)
+    {
+        qDebug() << "Bad Parameter initializing monitor " << e.what();
+    }
+
+    return EntityId::invalid();
 }
 
 EntityId SyncBackendConnection::init_monitor(
         QString locators)
 {
-    return StatisticsBackend::init_monitor(locators.toStdString());
+    try
+    {
+        return StatisticsBackend::init_monitor(locators.toStdString());
+    }
+    catch(const Error& e)
+    {
+        qDebug() << "Error initializing monitor " << e.what();
+    }
+    catch(const BadParameter& e)
+    {
+        qDebug() << "Bad Parameter initializing monitor " << e.what();
+    }
+
+    return EntityId::invalid();
 }
 
 EntityInfo SyncBackendConnection::get_info(

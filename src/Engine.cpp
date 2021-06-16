@@ -176,6 +176,13 @@ void Engine::init_monitor(
 void Engine::shared_init_monitor_(
         backend::EntityId domain_id)
 {
+    // init_monitor may fail
+    // TODO show an error dialog when fail
+    if (!domain_id.is_valid())
+    {
+        return;
+    }
+
     add_status_domain_(backend_connection_.get_name(domain_id), utils::now());
 
     entity_clicked(domain_id, backend::EntityKind::DOMAIN);
