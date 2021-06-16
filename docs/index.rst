@@ -67,10 +67,6 @@
    /rst/developer_manual/installation/configuration/cmake_options.rst
 
 
-
-
-
-
 .. _index_notes:
 
 .. toctree::
