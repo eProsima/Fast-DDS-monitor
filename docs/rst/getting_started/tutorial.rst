@@ -82,6 +82,7 @@ The topics that are going to be reported by this example are:
 * **HISTORY_LATENCY_TOPIC** Report the latency of the messages between the two entities.
 * **DATA_COUNT_TOPIC** Report the number of samples sent.
 * **PHYSICAL_DATA_TOPIC** Report the physical data of the participant.
+  This will make possible to see in which hosts and context each entity is running.
 
 For further information about these topics and other that could be use, refer to
 `Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.2/fastdds/statistics/dds_layer/topic_names.html>`_.
@@ -133,4 +134,26 @@ Execute subscriber
 ==================
 
 Now we are going to execute the first DDS entity in our DDS network: a *DomainParticipant* with one *DataReader* in
-topic :code:`HelloWorldTopic` in domain :code:`0`
+topic :code:`HelloWorldTopic` in domain :code:`0` following the steps given in :ref:`hello_world_example`.
+Once the subscriber is running our window will update and we could see new information.
+
+.. todo::
+
+    subscriber initialized
+
+First of all, we could see that the number of entities discovered has incresed.
+Now we have a *DomainParticipant* called :code:`Participant_sub`, that holds a *DataReader* called
+:code:`DataReader_HelloWorldTopic_0.0.1.4`.
+This *DataReader* has a locator, that with default configurtion will be the *Shared Memory* related locator.
+That is because the Monitor and the *DomainParticipant* are running in the same host, and so they use *interprocess*
+communication.
+
+We could see as well that now *Host* exists, with a *User* and a *Process* where :code:`Participant_sub` is running.
+This information is retrieved by the *DomainParticipant* thanks to activate the :code:`PHYSICAL_DATA_TOPIC`.
+There is also a new *Topic* :code:`HelloWorldTopic` under *Domain* :code:`0`.
+
+Making double click in any entity name we could see its specific information, such as name, backend id, QoS, etc.
+
+.. todo::
+
+    information of Datareader
