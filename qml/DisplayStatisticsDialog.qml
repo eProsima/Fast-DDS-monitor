@@ -384,9 +384,7 @@ Dialog {
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The start timestamp entered is posterior to the end timestamp."
         onAccepted: {
-            console.log("Wrong dates dialog accepted 1")
             displayStatisticsDialog.open()
-            console.log("Wrong dates dialog accepted 2")
         }
     }
 
