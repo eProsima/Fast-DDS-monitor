@@ -30,6 +30,8 @@ Rectangle {
 
     property variant lastClickedIdx: [-1, -1]
 
+    property variant knownDomains: []
+
     property int verticalSpacing: 5
     property int spacingIconLabel: 8
     property int iconSize: 18
@@ -62,6 +64,13 @@ Rectangle {
             property int domainIdx: index
             property bool highlight: false
             property var topicList: topicList
+
+            ListView.onAdd: {
+                if (knownDomains.indexOf(id) < 0) {
+                    knownDomains.push(id)
+                    lastClickedLogical(domainIdx, -1)
+                }
+            }
 
             Column {
                 id: domainListColumn
