@@ -49,21 +49,29 @@ This does not change the Monitor behavior, but would change the data and informa
 
 #. Execute a Fast DDS :code:`DDSHelloWorldExample` **subscriber** with statistics data active.
 
-.. code-block:: bash
+    .. code-block:: bash
 
-    FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;DATA_COUNT_TOPIC;PHYSICAL_DATA_TOPIC" \
-        ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample \
-        subscriber  # Creates a subscriber in topic: "HellowWorldTopic" domain: 0
+        FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;DATA_COUNT_TOPIC;PHYSICAL_DATA_TOPIC" \
+            ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample \
+            subscriber
+
+    :code:`subscriber` argument creates a *DomainParticipant* with a *DataReader* in the topic
+    :code:`HelloWorldTopic` in *Domain* :code:`0`.
 
 #. Execute a Fast DDS :code:`DDSHelloWorldExample` **publisher** with statistics data active.
 
-.. code-block:: bash
+    .. code-block:: bash
 
-    FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;DATA_COUNT_TOPIC;PHYSICAL_DATA_TOPIC" \
-        ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample \
-        publisher \ # Creates a publisher in topic: "HellowWorldTopic" domain: 0
-        0 \         # Run indefinitly until enter pressed
-        1000        # Send one message per second
+        FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;DATA_COUNT_TOPIC;PHYSICAL_DATA_TOPIC" \
+            ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample \
+            publisher \
+            0 \
+            1000
+
+    :code:`publisher` argument creates a *DomainParticipant* with a *DataWriter* in the topic
+    :code:`HelloWorldTopic` in *Domain* :code:`0`.
+    The following arguments indicate this process to run until the user press :code:`enter` (:code:`0` samples)
+    and to write one message each second (:code:`1000` seconds).
 
 Statistics topics
 -----------------
@@ -157,3 +165,34 @@ Making double click in any entity name we could see its specific information, su
 .. todo::
 
     information of Datareader
+
+Execute publisher
+=================
+
+The next step is to execute a publisher in topic :code:`HelloWorldTopic` in domain :code:`0`,
+following the steps given in :ref:`hello_world_example`.
+Once the publisher is running we will see that new entities has appearead.
+Specifically, a new *DomainParticipant* :code:`Participant_pub` with a *DataWrtier*
+:code:`DataWriter_HelloWorldTopic_0.0.1.3` and, in the case that this publisher has been executed from same
+*Host* and *User*, there will be a new *Process* that represents the process where this new :code:`Participant_pub`
+is running.
+
+.. todo::
+
+    information of DataWriter
+
+Discovery Callbacks
+===================
+
+Whenever a new entity is discovered by the Monitor, there is an event registered in :ref:`log_panel_layout`.
+Checkin this panel we could see the time when every entity that is being monitoring has been discovered.
+This panel is refreshed automatically whenever a new entity is discovered.
+Using the :ref:`refresh_button` this information is cleared till the actual moment.
+
+.. todo::
+
+    Callbacks info
+
+
+Summary of Statistical Data
+===========================
