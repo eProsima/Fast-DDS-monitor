@@ -63,6 +63,10 @@ Rectangle {
             property bool highlight: false
             property var topicList: topicList
 
+            ListView.onAdd: {
+                lastClickedLogical(domainIdx, -1)
+            }
+
             Column {
                 id: domainListColumn
 
