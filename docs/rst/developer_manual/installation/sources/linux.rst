@@ -98,7 +98,7 @@ For a detailed description of the Gtest installation process, please refer to th
 Dependencies
 ------------
 
-*eProsima Fast DDS* has the following dependencies, when installed from binaries in a Linux environment:
+*eProsima Fast DDS* has the following dependencies, when installed from sources in a Linux environment:
 
 * :ref:`asiotinyxml2_sl`
 * :ref:`openssl_sl`
@@ -164,32 +164,32 @@ To install this Qt version, refer to `Qt Downloads <https://www.qt.io/download>`
 Colcon installation
 ===================
 
-Create a :code:`Fast-DDS-Monitor` directory and download the :code:`.repos` file that will be used to install
-*eProsima Fast DDS Monitor* and its dependencies:
+#.  Create a :code:`Fast-DDS-Monitor` directory and download the :code:`.repos` file that will be used to install
+    *eProsima Fast DDS Monitor* and its dependencies:
 
-.. code-block:: bash
+    .. code-block:: bash
 
-    mkdir -p ~/Fast-DDS-Monitor/src
-    cd ~/Fast-DDS-Monitor
-    wget https://raw.githubusercontent.com/eProsima/Fast-DDS-monitor/main/fastdds_monitor.repos
-    vcs import src < fastdds_monitor.repos
+        mkdir -p ~/Fast-DDS-Monitor/src
+        cd ~/Fast-DDS-Monitor
+        wget https://raw.githubusercontent.com/eProsima/Fast-DDS-monitor/main/fastdds_monitor.repos
+        vcs import src < fastdds_monitor.repos
 
-.. note::
+    .. note::
 
-    In case there is an already *Fast DDS* installation in the system it is not required to download and build
-    every dependency in the :code:`.repos` file.
-    It is just needed to download and build the *Fast DDS Monitor* project having sourced its dependencies.
-    Refer to section :ref:`eprosima_dependencies` in order to check how to source *Fast DDS* and
-    *Fast DDS Statistics Backend* libraries.
+        In case there is an already *Fast DDS* installation in the system it is not required to download and build
+        every dependency in the :code:`.repos` file.
+        It is just needed to download and build the *Fast DDS Monitor* project having sourced its dependencies.
+        Refer to section :ref:`eprosima_dependencies` in order to check how to source *Fast DDS* and
+        *Fast DDS Statistics Backend* libraries.
 
-In order to build the project, it must be specified the path to the Qt 5.15 :code:`gcc_64` installation path.
-Using the standard Qt installation, this path should be similar to :code:`/home/<user>/Qt/5.15.2/gcc_64`
+    In order to build the project, it must be specified the path to the Qt 5.15 :code:`gcc_64` installation path.
+    Using the standard Qt installation, this path should be similar to :code:`/home/<user>/Qt/5.15.2/gcc_64`.
 
-#. Build the packages:
+#.  Build the packages:
 
-   .. code-block:: bash
+    .. code-block:: bash
 
-       colcon build --cmake-args -DQT_PATH=<qt-installation-path>
+        colcon build --cmake-args -DQT_PATH=<qt-installation-path>
 
 .. note::
 
@@ -212,13 +212,13 @@ This section explains how to compile *eProsima Fast DDS Monitor* with CMake_, ei
 Local installation
 ------------------
 
-#. Create a :code:`Fast-DDS` directory where to download and build *eProsima Fast DDS Monitor* and its dependencies:
+#.  Create a :code:`Fast-DDS` directory where to download and build *eProsima Fast DDS Monitor* and its dependencies:
 
     .. code-block:: bash
 
         mkdir ~/Fast-DDS-Monitor
 
-#. Clone the following dependencies and compile them using CMake_.
+#.  Clone the following dependencies and compile them using CMake_.
 
     * `Foonathan memory <https://github.com/foonathan/memory>`_
 
@@ -264,7 +264,7 @@ Local installation
             cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install
             cmake --build . --target install
 
-#. Once all dependencies are installed, install *eProsima Fast DDS Monitor*:
+#.  Once all dependencies are installed, install *eProsima Fast DDS Monitor*:
 
     .. code-block:: bash
 
@@ -282,7 +282,8 @@ Local installation
 .. note::
 
     By default, *eProsima Fast DDS Monitor* does not compile tests.
-    However, they can be activated by downloading and installing `Gtest <https://github.com/google/googletest>`_.
+    However, they can be activated by downloading and installing `Gtest <https://github.com/google/googletest>`_
+    and building with CMake option ``-DBUILD_TESTS=ON``.
 
 
 .. _global_installation_sl:
@@ -309,10 +310,11 @@ and execute the executable file that has been installed in :code:`<install-path>
 
 .. code-block:: bash
 
+    # If built has been done using colcon, all projects could be sourced as follows
     source install/setup.bash
     ./<install-path>/fastdds_monitor/bin/fastdds_monitor
 
-Be sure that this executable has executable permissions.
+Be sure that this executable has execute permissions.
 
 .. External links
 
