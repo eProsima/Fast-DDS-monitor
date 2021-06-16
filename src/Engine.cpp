@@ -164,24 +164,39 @@ Engine::~Engine()
 void Engine::init_monitor(
         int domain)
 {
-    shared_init_monitor_(backend_connection_.init_monitor(domain));
+    backend::EntityId domain_id = backend_connection_.init_monitor(domain);
+
+    if (domain_id.is_valid())
+    {
+        shared_init_monitor_(domain_id);
+    }
+    else
+    {
+        // TODO add to issue
+        // TODO create warning dialog
+    }
 }
 
 void Engine::init_monitor(
         QString locators)
 {
-    shared_init_monitor_(backend_connection_.init_monitor(locators));
+    backend::EntityId domain_id = backend_connection_.init_monitor(locators);
+
+    if (domain_id.is_valid())
+    {
+        shared_init_monitor_(domain_id);
+    }
+    else
+    {
+        // TODO add to issue
+        // TODO create warning dialog
+    }
 }
 
 void Engine::shared_init_monitor_(
         backend::EntityId domain_id)
 {
-    // init_monitor may fail
-    // TODO show an error dialog when fail
-    if (!domain_id.is_valid())
-    {
-        return;
-    }
+    // if init_monitor fail it does not arrive here
 
     add_status_domain_(backend_connection_.get_name(domain_id), utils::now());
 

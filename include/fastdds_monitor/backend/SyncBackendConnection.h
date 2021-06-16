@@ -298,10 +298,6 @@ public:
             Timestamp end_time = std::chrono::system_clock::now());
 
     //! Get info from an entity from the Backend
-    EntityInfo get_entity_info(
-            EntityId id);
-
-    //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(
             EntityKind entity_type,
             EntityId entity_id = EntityId::all());
