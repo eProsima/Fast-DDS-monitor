@@ -17,13 +17,13 @@ In order to show the *Fast DDS Monitor* running and monitoring a real DDS networ
 example to create a simple and understandable DDS network.
 The example proposed by this tutorial is using :code:`DDSHelloWorldExample` of *Fast DDS* repository.
 Be aware that the statistics module is not compiled and used by default by *Fast DDS* but it has to be specifically
-configured to run to send statistical data of an specific entity.
+configured to send statistical data of an specific entity.
 
 In order to execute this minimum DDS scenario where each entity publish its statistical data, follow these steps:
 
 #. Compile *Fast DDS* library with CMake option :code:`FASTDDS_STATISTICS` to activate the statistics module.
 #. Compile *Fast DDS* library with CMake option :code:`COMPILE_EXAMPLES` to build the examples.
-#. Have an working environment with *Fast DDS*, *Fast DDS Statistics Backend* and *Fast DDS Monitor* built.
+#. Have a working environment with *Fast DDS*, *Fast DDS Statistics Backend* and *Fast DDS Monitor* built.
 #. Use the environment variable :code:`FASTDDS_STATISTICS` to activate the statistics writers in the DDS execution.
 
 For further information about the Statistics configuration, please refer to
@@ -200,7 +200,7 @@ are related with the topics that we are not using will remain without data.
 Create Series Chart
 ===================
 
-This section describe how to graphically represent the data that is being monitored.
+This section describes how to graphically represent the data that is being monitored.
 
 Data Count Plot
 ---------------
@@ -208,7 +208,7 @@ Data Count Plot
 This section explains how to represent the data being monitored and retrieved by the DDS entities.
 First of all, click in :ref:`display_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
-The :code:`DATA_COUNT` han been choosen for this tutorial.
+The :code:`DATA_COUNT` has been chosen for this tutorial.
 
 .. figure:: /rst/figures/screenshots/usage_example/new_series_data_count.png
     :align: center
