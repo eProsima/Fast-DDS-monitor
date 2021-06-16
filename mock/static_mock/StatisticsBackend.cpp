@@ -377,8 +377,8 @@ Info StatisticsBackend::get_info(
 // Call get_data for one entity data
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        const std::vector<EntityId> entity_ids_source,
-        const std::vector<EntityId> entity_ids_target,
+        const std::vector<EntityId>& entity_ids_source,
+        const std::vector<EntityId>& entity_ids_target,
         uint16_t bins,
         Timestamp t_from,
         Timestamp t_to,
@@ -393,7 +393,7 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
 // Each element time in each pair is coherent with the query
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        const std::vector<EntityId> entity_ids,
+        const std::vector<EntityId>& entity_ids,
         uint16_t bins,
         Timestamp t_from,
         Timestamp t_to,
@@ -433,8 +433,8 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
 // Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        const std::vector<EntityId> entity_ids_source,
-        const std::vector<EntityId> entity_ids_target,
+        const std::vector<EntityId>& entity_ids_source,
+        const std::vector<EntityId>& entity_ids_target,
         uint16_t bins,
         StatisticKind statistic)
 {
@@ -451,7 +451,7 @@ std::vector<StatisticsData> StatisticsBackend::get_data(
 // Call get_data with different default values
 std::vector<StatisticsData> StatisticsBackend::get_data(
         DataKind data_type,
-        const std::vector<EntityId> entity_ids,
+        const std::vector<EntityId>& entity_ids,
         uint16_t bins,
         StatisticKind statistic)
 {
