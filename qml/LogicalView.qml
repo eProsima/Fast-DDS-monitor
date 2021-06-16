@@ -62,15 +62,6 @@ Rectangle {
             property int domainIdx: index
             property bool highlight: false
             property var topicList: topicList
-            property bool isLast: index + 1 < domainList.count ? false : true
-
-            ListView.onAdd: {
-                // When a new Domain is added it is set as the last entity clicked
-                if (isLast) {
-                    lastClickedLogical(domainIdx, -1)
-                }
-            }
-
 
             Column {
                 id: domainListColumn
