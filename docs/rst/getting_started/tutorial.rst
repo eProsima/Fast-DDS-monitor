@@ -66,12 +66,12 @@ This does not change the Monitor behavior, but would change the data and informa
             ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample \
             publisher \
             0 \
-            1000
+            500
 
     :code:`publisher` argument creates a *DomainParticipant* with a *DataWriter* in the topic
     :code:`HelloWorldTopic` in *Domain* :code:`0`.
     The following arguments indicate this process to run until the user press :code:`enter` (:code:`0` samples)
-    and to write one message each second (:code:`1000` seconds).
+    and to write two messages each second (:code:`500` miliseconds period).
 
 Statistics topics
 -----------------
@@ -196,3 +196,127 @@ Using the :ref:`refresh_button` this information is cleared till the actual mome
 
 Summary of Statistical Data
 ===========================
+
+In :ref:`statistics_panel_layout` we could see the main information retrieved by each entity.
+This panel shows a summary of the data retrieved by the entity that is clicked.
+In this case we could only see those data that the entities are publishing, and so the rest of the *DataKinds* that
+are related with the topics that we are not using will remain without data.
+
+.. todo::
+
+    Summary info
+
+Create Series Chart
+===================
+
+In this section we are going to see how to graphically represent the data that is being monitored.
+
+Data Count Plot
+---------------
+
+We are going to see how to represent the data that we are monitoring retrieving by the DDS entities.
+First of all we click in :ref:`display_data_button`.
+This will open a Dialog where we should choose one of the topics in which we want to see the data collected.
+For this case, we will choose :code:`DATA_COUNT`.
+
+.. todo::
+
+    display new data with DATA_COUNT chosen
+
+Once done this, a new Dialog will open asking to configure the series that is going to be displayed.
+In the case of :code:`DATA_COUNT` the data belongs to the *DataWriter*, and so we will chooose this entity in the
+:code:`Source Entity Id:` checkbox.
+The :code:`Number of bins` is the number of different points in which our data is goint to be stored.
+In our case we are going to use :code:`20` bins.
+Using :code:`Default initial timestamp` in option :code:`Start time` the time when the Monitor has been executed will
+be chose.
+Using :code:`Now` in option :code:`End time` will get all the data available till the moment the chart is created.
+Now for the :code:`Statistics kind` option we are going to use :code:`SUM` as we want to know the number of
+datas sent in each time interval.
+
+.. todo::
+
+    create chart dialog with specific data
+
+Clicking :code:`Apply` the series will be created in the main window, but the Dialog will no close.
+This is very useful in order to create a series similar to the one before.
+We are going to reuse all the information but we are going to change the :code:`Number of bins` to :code:`0`.
+Using the value :code:`0`means that we want to see all the different *datapoints* that the writer has stored.
+Be ware that option :code:`Statistics kind` do not have effect when :code:`Number of bins` is :code:`0`.
+We click :code:`OK` and now we can see both series represented in the :code:`DATA_COUNT` window.
+
+
+.. todo::
+
+    data displayed
+
+
+.. todo::
+
+    explain this data
+
+.. warning::
+
+    The value :code:`Default initial timestamp` uses the Monitor start time as initial time.
+    Thus, depending on the time elapsed between the Monitor starts and the creation of the chart, first values
+    could not exist, and thus will not be displayed in the graph.
+
+Latency Plot
+-------------
+
+Next we are going to see how to represent the latency between these *DomainParticipants*.
+First click in :ref:`display_data_button`.
+This will open a Dialog where we should choose one of the topics in which we want to see the data collected.
+For this case, we will choose :code:`FASTDDS_LATENCY`.
+This data is called like this because it represents the time elapsed between the user call :code:`write` function
+and the reader in the other endpoint receives it in the user callback.
+For the network latency there is other topic :code:`NETWORK_LATENCY`, but our endpoints are not storing neither
+publishing it, and so we cannot access to it.
+
+.. todo::
+
+    display new data with FASTDDS_LATENCY chosen
+
+Once done this, a new Dialog will open asking to configure the series that is going to be displayed.
+In the case of :code:`FASTDDS_LATENCY` the data to show is related with two entities.
+The *DataWriter* has the data, and it is related with a *DataReader*.
+However, we could choose these entities differently, as the application allows to choose any entity, and it will
+find itself which *DataWriters* and *DataReaders* are associated with it.
+In our example we are going choose both *DomainParticipants*, and this will give us all the data from all the
+*DataWriters* of the first participant and all the *DataReaders* of the second one (in our example there is just one
+of each kind).
+
+The :code:`Number of bins` is the number of different points in which our data is goint to be stored.
+In our case we are going to use :code:`20` bins.
+Using :code:`Default initial timestamp` in option :code:`Start time` the time when the Monitor has been executed will
+be chose.
+Using :code:`Now` in option :code:`End time` will get all the data available till the moment the chart is created.
+
+.. todo::
+
+    create chart dialog with specific data
+
+Now for the :code:`Statistics kind` option we are going to use several in order to see statistical data.
+Change the :code:`Statistics kind` and click :code:`Apply` for each of them in order to create a series for each one.
+The kinds that we are going to use for this example are:
+
+* :code:`MEDIAN`
+* :code:`STANDARD_DEVIATION`
+* :code:`MIN`
+* :code:`MAX`
+
+
+.. todo::
+
+    data displayed
+
+
+.. todo::
+
+    explain this data
+
+.. warning::
+
+    The value :code:`Default initial timestamp` uses the Monitor start time as initial time.
+    Thus, depending on the time elapsed between the Monitor starts and the creation of the chart, first values
+    could not exist, and thus will not be displayed in the graph.
