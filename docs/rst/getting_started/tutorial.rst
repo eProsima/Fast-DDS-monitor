@@ -29,11 +29,7 @@ In order to execute this minimum DDS scenario where each entity publish its stat
 For further information about the Statistics configuration, refer to
 `Fast DDS statistics module <https://fast-dds.docs.eprosima.com/en/v2.3.2/fastdds/statistics/statistics.html>`_.
 For further information about installation of the Monitor and its dependencies, refer to this documentation section
-:ref:`installation_manual_linux`.
-
-.. todo::
-
-    add the source installation.
+:ref:`installation_manual_linux` or :ref:`developer_manual_installation_sources_linux`.
 
 .. _hello_world_example:
 
@@ -71,7 +67,7 @@ This does not change the Monitor behavior, but would change the data and informa
     :code:`publisher` argument creates a *DomainParticipant* with a *DataWriter* in the topic
     :code:`HelloWorldTopic` in *Domain* :code:`0`.
     The following arguments indicate this process to run until the user press :code:`enter` (:code:`0` samples)
-    and to write two messages each second (:code:`500` miliseconds period).
+    and to write two messages each second (:code:`500` milliseconds period).
 
 Statistics topics
 -----------------
@@ -108,9 +104,8 @@ To start this example, we start with non DDS entities running.
 First of all we would see the Fast DDS Monitor initial window.
 We press :code:`Start monitoring!` in order to enter the application and start the monitoring.
 
-.. todo::
-
-    main screenshot
+.. figure:: /rst/figures/screenshots/main.png
+    :align: center
 
 Initiate monitoring
 ===================
@@ -125,9 +120,8 @@ We could always return to the :ref:`initialize_monitoring` dialog from :ref:`edi
 
 We are going to initialize monitoring in **domain 0** and pressing :code:`OK`.
 
-.. todo::
-
-    init monitor 0
+.. figure:: /rst/figures/screenshots/usage_example/init_domain.png
+    :align: center
 
 At this point, we are going to see the whole window of the application.
 We could see how a unique entity is present in the application in left panels.
@@ -145,14 +139,13 @@ Now we are going to execute the first DDS entity in our DDS network: a *DomainPa
 topic :code:`HelloWorldTopic` in domain :code:`0` following the steps given in :ref:`hello_world_example`.
 Once the subscriber is running our window will update and we could see new information.
 
-.. todo::
+.. figure:: /rst/figures/screenshots/usage_example/execute_subscriber.png
+    :align: center
 
-    subscriber initialized
-
-First of all, we could see that the number of entities discovered has incresed.
+First of all, we could see that the number of entities discovered has increased.
 Now we have a *DomainParticipant* called :code:`Participant_sub`, that holds a *DataReader* called
 :code:`DataReader_HelloWorldTopic_0.0.1.4`.
-This *DataReader* has a locator, that with default configurtion will be the *Shared Memory* related locator.
+This *DataReader* has a locator, that with default configuration will be the *Shared Memory* related locator.
 That is because the Monitor and the *DomainParticipant* are running in the same host, and so they use *interprocess*
 communication.
 
@@ -162,37 +155,33 @@ There is also a new *Topic* :code:`HelloWorldTopic` under *Domain* :code:`0`.
 
 Making double click in any entity name we could see its specific information, such as name, backend id, QoS, etc.
 
-.. todo::
-
-    information of Datareader
+.. figure:: /rst/figures/screenshots/usage_example/information_subscriber.png
+    :align: center
 
 Execute publisher
 =================
 
 The next step is to execute a publisher in topic :code:`HelloWorldTopic` in domain :code:`0`,
 following the steps given in :ref:`hello_world_example`.
-Once the publisher is running we will see that new entities has appearead.
+Once the publisher is running we will see that new entities has appeared.
 Specifically, a new *DomainParticipant* :code:`Participant_pub` with a *DataWrtier*
 :code:`DataWriter_HelloWorldTopic_0.0.1.3` and, in the case that this publisher has been executed from same
 *Host* and *User*, there will be a new *Process* that represents the process where this new :code:`Participant_pub`
 is running.
 
-.. todo::
-
-    information of DataWriter
+.. figure:: /rst/figures/screenshots/usage_example/information_publisher.png
+    :align: center
 
 Discovery Callbacks
 ===================
 
 Whenever a new entity is discovered by the Monitor, there is an event registered in :ref:`log_panel_layout`.
-Checkin this panel we could see the time when every entity that is being monitoring has been discovered.
+Checking this panel we could see the time when every entity that is being monitoring has been discovered.
 This panel is refreshed automatically whenever a new entity is discovered.
 Using the :ref:`refresh_button` this information is cleared till the actual moment.
 
-.. todo::
-
-    Callbacks info
-
+.. figure:: /rst/figures/screenshots/usage_example/callbacks.png
+    :align: center
 
 Summary of Statistical Data
 ===========================
@@ -202,9 +191,8 @@ This panel shows a summary of the data retrieved by the entity that is clicked.
 In this case we could only see those data that the entities are publishing, and so the rest of the *DataKinds* that
 are related with the topics that we are not using will remain without data.
 
-.. todo::
-
-    Summary info
+.. figure:: /rst/figures/screenshots/usage_example/summary.png
+    :align: center
 
 Create Series Chart
 ===================
@@ -219,24 +207,22 @@ First of all we click in :ref:`display_data_button`.
 This will open a Dialog where we should choose one of the topics in which we want to see the data collected.
 For this case, we will choose :code:`DATA_COUNT`.
 
-.. todo::
-
-    display new data with DATA_COUNT chosen
+.. figure:: /rst/figures/screenshots/usage_example/new_series_data_count.png
+    :align: center
 
 Once done this, a new Dialog will open asking to configure the series that is going to be displayed.
-In the case of :code:`DATA_COUNT` the data belongs to the *DataWriter*, and so we will chooose this entity in the
+In the case of :code:`DATA_COUNT` the data belongs to the *DataWriter*, and so we will choose this entity in the
 :code:`Source Entity Id:` checkbox.
-The :code:`Number of bins` is the number of different points in which our data is goint to be stored.
+The :code:`Number of bins` is the number of different points in which our data is going to be stored.
 In our case we are going to use :code:`20` bins.
 Using :code:`Default initial timestamp` in option :code:`Start time` the time when the Monitor has been executed will
 be chose.
 Using :code:`Now` in option :code:`End time` will get all the data available till the moment the chart is created.
 Now for the :code:`Statistics kind` option we are going to use :code:`SUM` as we want to know the number of
-datas sent in each time interval.
+data sent in each time interval.
 
-.. todo::
-
-    create chart dialog with specific data
+.. figure:: /rst/figures/screenshots/usage_example/data_count_configuration.png
+    :align: center
 
 Clicking :code:`Apply` the series will be created in the main window, but the Dialog will no close.
 This is very useful in order to create a series similar to the one before.
@@ -245,21 +231,17 @@ Using the value :code:`0`means that we want to see all the different *datapoints
 Be ware that option :code:`Statistics kind` do not have effect when :code:`Number of bins` is :code:`0`.
 We click :code:`OK` and now we can see both series represented in the :code:`DATA_COUNT` window.
 
+.. figure:: /rst/figures/screenshots/usage_example/data_count_chart.png
+    :align: center
 
-.. todo::
+In this new chart created we could see in the blue series the total amount of data packages sent in each time interval.
+Each points means that from that time till the time of next point, it has been sent :code:`24/25` messages.
+In the green chart we could see how the report of this data has been sent periodically by the publisher each time
+it had update the number of data sent.
 
-    data displayed
-
-
-.. todo::
-
-    explain this data
-
-.. warning::
-
-    The value :code:`Default initial timestamp` uses the Monitor start time as initial time.
-    Thus, depending on the time elapsed between the Monitor starts and the creation of the chart, first values
-    could not exist, and thus will not be displayed in the graph.
+Here we could appreciate that the beginning of the chart is empty.
+This is because the monitor has started before the publisher, and so there are some data at the beginning of the
+time displayed that does not exist.
 
 Latency Plot
 -------------
@@ -273,10 +255,6 @@ and the reader in the other endpoint receives it in the user callback.
 For the network latency there is other topic :code:`NETWORK_LATENCY`, but our endpoints are not storing neither
 publishing it, and so we cannot access to it.
 
-.. todo::
-
-    display new data with FASTDDS_LATENCY chosen
-
 Once done this, a new Dialog will open asking to configure the series that is going to be displayed.
 In the case of :code:`FASTDDS_LATENCY` the data to show is related with two entities.
 The *DataWriter* has the data, and it is related with a *DataReader*.
@@ -286,15 +264,14 @@ In our example we are going choose both *DomainParticipants*, and this will give
 *DataWriters* of the first participant and all the *DataReaders* of the second one (in our example there is just one
 of each kind).
 
-The :code:`Number of bins` is the number of different points in which our data is goint to be stored.
+The :code:`Number of bins` is the number of different points in which our data is going to be stored.
 In our case we are going to use :code:`20` bins.
 Using :code:`Default initial timestamp` in option :code:`Start time` the time when the Monitor has been executed will
 be chose.
 Using :code:`Now` in option :code:`End time` will get all the data available till the moment the chart is created.
 
-.. todo::
-
-    create chart dialog with specific data
+.. figure:: /rst/figures/screenshots/usage_example/fastdds_latency_configuration.png
+    :align: center
 
 Now for the :code:`Statistics kind` option we are going to use several in order to see statistical data.
 Change the :code:`Statistics kind` and click :code:`Apply` for each of them in order to create a series for each one.
@@ -305,18 +282,14 @@ The kinds that we are going to use for this example are:
 * :code:`MIN`
 * :code:`MAX`
 
+.. figure:: /rst/figures/screenshots/usage_example/fastdds_latency_chart.png
+    :align: center
 
-.. todo::
+In this new chart created we could see in the blue series the mean latency between the two DDS entities
+in each time interval.
+In green the maximum.
+In yellow the minimum.
+In purple the standard deviation of the latency measured for each interval.
 
-    data displayed
-
-
-.. todo::
-
-    explain this data
-
-.. warning::
-
-    The value :code:`Default initial timestamp` uses the Monitor start time as initial time.
-    Thus, depending on the time elapsed between the Monitor starts and the creation of the chart, first values
-    could not exist, and thus will not be displayed in the graph.
+Be aware that the name and color, the axis changed, the zoom and center, etc. could be changed as mention
+in :ref:`chartbox`.
