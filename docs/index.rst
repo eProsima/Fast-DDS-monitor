@@ -22,8 +22,7 @@
    :hidden:
 
    Windows </rst/installation/windows.rst>
-   Linux from binaries </rst/installation/binaries_linux.rst>
-   Linux from sources </rst/installation/sources_linux.rst>
+   Linux </rst/installation/linux.rst>
 
 .. _index_getting_started:
 
@@ -66,10 +65,6 @@
 
    /rst/developer_manual/installation/sources/linux.rst
    /rst/developer_manual/installation/configuration/cmake_options.rst
-
-
-
-
 
 
 .. _index_notes:

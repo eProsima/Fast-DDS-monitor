@@ -1,8 +1,8 @@
-.. _linux_sources:
+.. _developer_manual_installation_sources_linux:
 
-################################################
-Fast DDS Monitor Linux installation from sources
-################################################
+###############################
+Linux installation from sources
+###############################
 
 The instructions for installing the *eProsima Fast DDS Monitor application* from sources and the required
 `Qt` installation are provided in this page.
@@ -19,7 +19,7 @@ Dependencies installation
 =========================
 
 *Fast DDS Monitor* depends on *eProsima Fast DDS* library, *eProsima Fast DDS Statistics Backend* library, Qt and
-certain debian packages.
+certain Debian packages.
 This section describes the instructions for installing *eProsima Fast DDS* dependencies and requirements in a Linux
 environment from sources.
 The following packages will be installed:
@@ -72,11 +72,11 @@ Install the ROS 2 development tools (colcon_ and vcstool_) by executing the foll
 
 .. code-block:: bash
 
-pip3 install -U colcon-common-extensions vcstool
+    pip3 install -U colcon-common-extensions vcstool
 
 .. note::
 
-If this fails due to an Environment Error, add the :code:`--user` flag to the :code:`pip3` installation command.
+    If this fails due to an Environment Error, add the :code:`--user` flag to the :code:`pip3` installation command.
 
 
 .. _gtest_sl:
@@ -87,7 +87,7 @@ Gtest
 Gtest is a unit testing library for C++.
 By default, *eProsima Fast DDS Monitor* does not compile tests.
 It is possible to activate them with the opportune
-`CMake specific arguments <https://colcon.readthedocs.io/en/released/reference/verb/build.html#cmake-options>`_
+`CMake options <https://colcon.readthedocs.io/en/released/reference/verb/build.html#cmake-options>`_
 when calling colcon_ or CMake_.
 For more details, please refer to the :ref:`cmake_options` section.
 For a detailed description of the Gtest installation process, please refer to the
@@ -197,6 +197,9 @@ Using the standard Qt installation, this path should be similar to :code:`/home/
     command. For more information on the specific syntax, please refer to the
     `CMake specific arguments <https://colcon.readthedocs.io/en/released/reference/verb/build.html#cmake-specific-arguments>`_
     page of the colcon_ manual.
+
+
+.. _cmake_installation:
 
 CMake installation
 ==================

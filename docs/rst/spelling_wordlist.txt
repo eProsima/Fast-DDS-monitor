@@ -1,3 +1,5 @@
+allocator
+Asio
 backend
 Backend
 Chartbox
@@ -7,6 +9,7 @@ datareader
 DataReader
 datawriter
 DataWriter
+Debian
 eProsima
 gtest
 localhost
