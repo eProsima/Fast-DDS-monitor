@@ -173,7 +173,7 @@ void Engine::init_monitor(
     else
     {
         add_issue_info_("Error trying to initialize monitor with DomainId: " + std::to_string(domain), utils::now());
-        // TODO create warning dialog
+        controller_->set_error("Error initializing monitor");
     }
 }
 

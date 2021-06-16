@@ -161,3 +161,14 @@ void Controller::refresh_summary()
 {
     engine_->refresh_summary();
 }
+
+QString Controller::error_message()
+{
+    return last_error_;
+}
+
+void Controller::set_error(QString error_msg)
+{
+    last_error_ = error_msg;
+    emit error();
+}

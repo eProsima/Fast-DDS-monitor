@@ -40,12 +40,15 @@ public:
             QObject* parent = nullptr)
         : QObject(parent)
         , engine_(engine)
+        , last_error_()
     {
     }
 
-    // Methods to be called from QML
+    //! Returns the last error logged
+    void set_error(QString error_msg);
 
 public slots:
+    // Methods to be called from QML
 
     //! Slot called by init a monitor with a domain number
     void init_monitor(
@@ -123,13 +126,24 @@ public slots:
     //! Returns the Fast DDS Monitor GitHub commit built
     QString git_commit();
 
+    //! Returns the last error logged
+    QString error_message();
+
     //! Call engine to refresh summary
     void refresh_summary();
+
+signals:
+
+    //! Signal that communicate that the model has been modified
+    void error();
 
 protected:
 
     //! Reference to \c Engine object
     Engine* engine_;
+
+    //! Last error logged
+    QString last_error_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_CONTROLLER_H
