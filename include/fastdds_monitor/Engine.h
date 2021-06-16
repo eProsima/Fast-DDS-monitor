@@ -350,7 +350,7 @@ protected:
             std::string time);
 
     //! Add a new issue message to the Issue model
-    bool add_issue_issue_(
+    bool add_issue_info_(
             std::string issue,
             std::string time);
 
@@ -416,6 +416,9 @@ protected:
 
     //! Remove all the callbacks from issue model (called in \c refresh )
     void clear_callback_log_();
+
+    //! Clear issues panel information
+    void clear_issue_info_();
 
     /////
     // Variables

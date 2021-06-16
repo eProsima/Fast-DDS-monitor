@@ -172,7 +172,7 @@ void Engine::init_monitor(
     }
     else
     {
-        // TODO add to issue
+        add_issue_info_("Error trying to initialize monitor with DomainId: " + std::to_string(domain), utils::now());
         // TODO create warning dialog
     }
 }
@@ -188,7 +188,9 @@ void Engine::init_monitor(
     }
     else
     {
-        // TODO add to issue
+        add_issue_info_(
+            "Error trying to initialize monitor in Discovery Server with locators: " + utils::to_string(locators),
+            utils::now());
         // TODO create warning dialog
     }
 }
@@ -311,6 +313,22 @@ void Engine::clear_callback_log_()
 {
     log_info_["Callbacks"] = EntityInfo();
     fill_log_();
+}
+
+bool Engine::add_issue_info_(
+        std::string issue,
+        std::string time)
+{
+    issue_info_["Issues"][time] = issue;
+    fill_issue_();
+
+    return true;
+}
+
+void Engine::clear_issue_info_()
+{
+    issue_info_["Issues"] = EntityInfo();
+    fill_issue_();
 }
 
 bool Engine::fill_first_entity_info_()
@@ -540,6 +558,7 @@ void Engine::refresh_engine()
 {
     // TODO this should be changed from erase all models and re draw them
     clear_callback_log_();
+    clear_issue_info_();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
     process_callback_queue();
 }
