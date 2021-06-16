@@ -279,7 +279,7 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(
             changed = true;
         }
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail updating get data dialog: " << e.what();
         return false;
@@ -297,7 +297,7 @@ bool SyncBackendConnection::update_item_info_(
         item->info(StatisticsBackend::get_info(item->get_entity_id()));
         return true;
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail updating item info: " << e.what();
         return false;
@@ -340,7 +340,7 @@ bool SyncBackendConnection::update_subitems_(
             changed = (this->*update_function)(subentity_item) || changed;
         }
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail updating subitems: " << e.what();
     }
@@ -379,7 +379,7 @@ bool SyncBackendConnection::update_model_(
             changed = (this->*update_function)(subentity_item) || changed;
         }
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail updating model: " << e.what();
     }
@@ -395,7 +395,7 @@ bool SyncBackendConnection::set_listener(
         StatisticsBackend::set_physical_listener(listener);
         return true;
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail setting listener: " << e.what();
         return false;
@@ -409,7 +409,7 @@ bool SyncBackendConnection::unset_listener()
         StatisticsBackend::set_physical_listener(nullptr);
         return true;
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail unsetting listener: " << e.what();
         return false;
@@ -423,11 +423,11 @@ EntityId SyncBackendConnection::init_monitor(
     {
         return StatisticsBackend::init_monitor(domain);
     }
-    catch(const Error& e)
+    catch (const Error& e)
     {
         qWarning() << "Error initializing monitor " << e.what();
     }
-    catch(const BadParameter& e)
+    catch (const BadParameter& e)
     {
         qWarning() << "Bad Parameter initializing monitor " << e.what();
     }
@@ -442,11 +442,11 @@ EntityId SyncBackendConnection::init_monitor(
     {
         return StatisticsBackend::init_monitor(locators.toStdString());
     }
-    catch(const Error& e)
+    catch (const Error& e)
     {
         qWarning() << "Error initializing monitor " << e.what();
     }
-    catch(const BadParameter& e)
+    catch (const BadParameter& e)
     {
         qWarning() << "Bad Parameter initializing monitor " << e.what();
     }
@@ -461,7 +461,7 @@ EntityInfo SyncBackendConnection::get_info(
     {
         return StatisticsBackend::get_info(id);
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail getting entity info: " << e.what();
         return EntityInfo();
@@ -475,7 +475,7 @@ EntityKind SyncBackendConnection::get_type(
     {
         return StatisticsBackend::get_type(id);
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail getting entity type: " << e.what();
         return EntityKind::INVALID;
@@ -490,7 +490,7 @@ std::vector<EntityId> SyncBackendConnection::get_entities(
     {
         return StatisticsBackend::get_entities(entity_type, entity_id);
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail getting entities: " << e.what();
         return std::vector<EntityId>();
@@ -620,7 +620,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
                 statistic_kind);
         }
     }
-    catch(const Exception& e)
+    catch (const Exception& e)
     {
         qWarning() << "Fail getting data: " << e.what();
         return std::vector<StatisticsData>();
