@@ -50,9 +50,12 @@ public:
     }
 
     //! Returns the last error logged
-    void send_error(QString error_msg, ErrorType error_type = ErrorType::GENERIC);
+    void send_error(
+            QString error_msg,
+            ErrorType error_type = ErrorType::GENERIC);
 
 public slots:
+
     // Methods to be called from QML
 
     //! Slot called by init a monitor with a domain number
@@ -137,7 +140,9 @@ public slots:
 signals:
 
     //! Signal to show the Error Dialog
-    void error(QString error_msg, int error_type);
+    void error(
+            QString error_msg,
+            int error_type);
 
 protected:
 
