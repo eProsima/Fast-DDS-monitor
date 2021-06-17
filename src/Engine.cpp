@@ -540,11 +540,11 @@ bool Engine::on_add_statistics_data_series(
     QDateTime startDate;
     startDate.setMSecsSinceEpoch(
         std::chrono::duration_cast<std::chrono::milliseconds>(
-            statistic_data.front().first.time_since_epoch()).count());
+            time_from.time_since_epoch()).count());
     QDateTime endDate;
     endDate.setMSecsSinceEpoch(
         std::chrono::duration_cast<std::chrono::milliseconds>(
-            statistic_data.back().first.time_since_epoch()).count());
+            time_to.time_since_epoch()).count());
 
     statistics_data_->setAxisYMax(max_value);
     statistics_data_->setAxisYMin(min_value);
