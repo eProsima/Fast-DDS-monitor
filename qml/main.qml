@@ -79,19 +79,17 @@ ApplicationWindow {
         id: aboutDialog
     }
 
+    ErrorDialog {
+        id: errorDialog
+    }
+
+    // Creates a connection between Controller::error(QString, int) signal and ErrorDialog
     Connections {
         target: controller
-        function onError() {
-            error.open()
+        function onError(errorMsg, errorType) {
+            errorDialog.text = errorMsg
+            errorDialog.errorType = errorType
+            errorDialog.open()
         }
     }
-
-    MessageDialog {
-        id: error
-        title: "Error"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Ok
-        text: controller.error_message()
-    }
-
 }

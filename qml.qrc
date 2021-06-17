@@ -9,6 +9,7 @@
         <file>qml/DataKindDialog.qml</file>
         <file>qml/DisplayStatisticsDialog.qml</file>
         <file>qml/EntityList.qml</file>
+        <file>qml/ErrorDialog.qml</file>
         <file>qml/IconSVG.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
         <file>qml/IssueView.qml</file>

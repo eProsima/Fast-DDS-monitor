@@ -162,13 +162,10 @@ void Controller::refresh_summary()
     engine_->refresh_summary();
 }
 
-QString Controller::error_message()
+void Controller::send_error(
+        QString error_msg,
+        ErrorType error_type /*= GENERIC*/)
 {
-    return last_error_;
-}
-
-void Controller::set_error(QString error_msg)
-{
-    last_error_ = error_msg;
-    emit error();
+    // Must convert enumeration to int in order to qml understand it
+    emit error(error_msg, static_cast<typename std::underlying_type<ErrorType>::type>(error_type));
 }

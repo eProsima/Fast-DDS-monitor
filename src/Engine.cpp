@@ -172,8 +172,9 @@ void Engine::init_monitor(
     }
     else
     {
-        add_issue_info_("Error trying to initialize monitor with DomainId: " + std::to_string(domain), utils::now());
-        controller_->set_error("Error initializing monitor");
+        process_error(
+            "Error trying to initialize monitor with DomainId: " + std::to_string(domain),
+            ErrorType::INIT_MONITOR);
     }
 }
 
@@ -188,10 +189,9 @@ void Engine::init_monitor(
     }
     else
     {
-        add_issue_info_(
+        process_error(
             "Error trying to initialize monitor in Discovery Server with locators: " + utils::to_string(locators),
-            utils::now());
-        // TODO create warning dialog
+            ErrorType::INIT_MONITOR);
     }
 }
 
@@ -641,4 +641,12 @@ bool Engine::read_callback_(
 void Engine::refresh_summary()
 {
     fill_summary_(last_entity_clicked_);
+}
+
+void Engine::process_error(
+        std::string error_msg,
+        ErrorType error_type /* = ErrorType::GENERIC */)
+{
+    add_issue_info_(error_msg, utils::now());
+    controller_->send_error(utils::to_QString(error_msg), error_type);
 }

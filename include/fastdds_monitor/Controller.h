@@ -24,6 +24,12 @@
 
 class Engine;
 
+enum class ErrorType : int
+{
+    GENERIC = 0,        //! Generic error, just show the message
+    INIT_MONITOR = 1    //! Error in @c init_monitor. Reopen the @c init_monitor dialog
+};
+
 /**
  * Class to connect the QML js view with the main Engine class.
  * All the methods in the class will be called by the interaction with the view and will call methods in the Engine.
@@ -40,12 +46,11 @@ public:
             QObject* parent = nullptr)
         : QObject(parent)
         , engine_(engine)
-        , last_error_()
     {
     }
 
     //! Returns the last error logged
-    void set_error(QString error_msg);
+    void send_error(QString error_msg, ErrorType error_type = ErrorType::GENERIC);
 
 public slots:
     // Methods to be called from QML
@@ -126,24 +131,18 @@ public slots:
     //! Returns the Fast DDS Monitor GitHub commit built
     QString git_commit();
 
-    //! Returns the last error logged
-    QString error_message();
-
     //! Call engine to refresh summary
     void refresh_summary();
 
 signals:
 
-    //! Signal that communicate that the model has been modified
-    void error();
+    //! Signal to show the Error Dialog
+    void error(QString error_msg, int error_type);
 
 protected:
 
     //! Reference to \c Engine object
     Engine* engine_;
-
-    //! Last error logged
-    QString last_error_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_CONTROLLER_H
