@@ -24,6 +24,12 @@
 
 class Engine;
 
+enum class ErrorType : int
+{
+    GENERIC = 0,        //! Generic error, just show the message
+    INIT_MONITOR = 1    //! Error in @c init_monitor. Reopen the @c init_monitor dialog
+};
+
 /**
  * Class to connect the QML js view with the main Engine class.
  * All the methods in the class will be called by the interaction with the view and will call methods in the Engine.
@@ -43,9 +49,14 @@ public:
     {
     }
 
-    // Methods to be called from QML
+    //! Returns the last error logged
+    void send_error(
+            QString error_msg,
+            ErrorType error_type = ErrorType::GENERIC);
 
 public slots:
+
+    // Methods to be called from QML
 
     //! Slot called by init a monitor with a domain number
     void init_monitor(
@@ -125,6 +136,13 @@ public slots:
 
     //! Call engine to refresh summary
     void refresh_summary();
+
+signals:
+
+    //! Signal to show the Error Dialog
+    void error(
+            QString error_msg,
+            int error_type);
 
 protected:
 

@@ -161,3 +161,11 @@ void Controller::refresh_summary()
 {
     engine_->refresh_summary();
 }
+
+void Controller::send_error(
+        QString error_msg,
+        ErrorType error_type /*= GENERIC*/)
+{
+    // Must convert enumeration to int in order to qml understand it
+    emit error(error_msg, static_cast<typename std::underlying_type<ErrorType>::type>(error_type));
+}

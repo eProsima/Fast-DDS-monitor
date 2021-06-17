@@ -17,6 +17,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.15
+import QtQuick.Dialogs 1.2
 
 import Theme 1.0
 
@@ -76,5 +77,19 @@ ApplicationWindow {
 
     AboutDialog {
         id: aboutDialog
+    }
+
+    ErrorDialog {
+        id: errorDialog
+    }
+
+    // Creates a connection between Controller::error(QString, int) signal and ErrorDialog
+    Connections {
+        target: controller
+        function onError(errorMsg, errorType) {
+            errorDialog.text = errorMsg
+            errorDialog.errorType = errorType
+            errorDialog.open()
+        }
     }
 }

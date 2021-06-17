@@ -273,6 +273,11 @@ public:
     //! Refresh summary panel
     void refresh_summary();
 
+    //! Process a new error showing a Error Dialog in screen and add it to issues model
+    void process_error(
+            std::string error_msg,
+            ErrorType error_type = ErrorType::GENERIC);
+
 signals:
 
     /**
