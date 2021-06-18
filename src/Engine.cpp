@@ -584,10 +584,6 @@ bool Engine::add_callback(
     std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     callback_queue_.append(callback);
 
-    // Add callback to log model
-    add_log_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered",
-            utils::now());
-
     // Emit signal to specify there are new data
     emit new_callback_signal();
 
@@ -617,6 +613,10 @@ bool Engine::process_callback_()
 bool Engine::read_callback_(
         backend::Callback callback)
 {
+    // // Add callback to log model
+    add_log_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered",
+            utils::now());
+
     // Add one to the number of discovered entities
     sum_entity_number_issue(1);
 
