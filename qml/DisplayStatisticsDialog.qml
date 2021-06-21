@@ -113,6 +113,7 @@ Dialog {
             AdaptiveComboBox {
                 id: sourceEntityId
                 textRole: "nameId"
+                valueRole: "id"
                 model: entityModelFirst
 
                 onActivated: {
@@ -152,6 +153,7 @@ Dialog {
             AdaptiveComboBox {
                 id: targetEntityId
                 textRole: "nameId"
+                valueRole: "id"
                 model: entityModelSecond
 
                 onActivated: {
@@ -439,8 +441,8 @@ Dialog {
             controlPanel.addSeries(
                         chartTitle,
                         (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
-                        sourceEntityId.currentText,
-                        (targetEntityIdLayout.visible == true) ? sourceEntityId.currentText : '',
+                        sourceEntityId.currentValue,
+                        (targetEntityIdLayout.visible == true) ? targetEntityId.currentValue : '',
                         bins.value,
                         startTime,
                         startTimeDefault.checked,

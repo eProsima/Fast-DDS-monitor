@@ -52,7 +52,7 @@ EntityId models_id_to_backend_id(
     {
         return EntityId::all();
     }
-    else if (id == models::ID_INVALID)
+    else if (id == models::ID_INVALID || id == "")
     {
         return EntityId::invalid();
     }
