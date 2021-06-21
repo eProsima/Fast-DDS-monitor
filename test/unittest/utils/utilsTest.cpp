@@ -16,6 +16,7 @@
 #include <ctime>
 #include <math.h>
 #include <sys/time.h>
+#include <thread>
 #include <time.h>
 
 #include <string>
@@ -53,11 +54,14 @@ TEST(utilsTest, to_string)
 //  - miliseconds ON : YYYY-MM-DD HH:MM:SS.mmm
 TEST(utilsTest, now_format)
 {
+    int repeat = 20;
+    uint32_t sleep = 113; // Use non round numbers so the microseconds change randomly
     // Without miliseconds
     {
-        // Get the date 5 times
-        for (int i = 0; i < 5; ++i)
+        // Get the date <repeat> times
+        for (int i = 0; i < repeat; ++i)
         {
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
             std::string date = now(false);
             ASSERT_EQ(date.size(), 19);
             for (int j = 0; j < 19; ++j)
@@ -88,9 +92,10 @@ TEST(utilsTest, now_format)
 
     // With miliseconds
     {
-        // Get the date 5 times
-        for (int i = 0; i < 5; ++i)
+        // Get the date <repeat> times
+        for (int i = 0; i < repeat; ++i)
         {
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
             std::string date = now();
             ASSERT_EQ(date.size(), 23);
             for (int j = 0; j < 19; ++j)

@@ -57,7 +57,7 @@ std::string now(
 
     if (miliseconds)
     {
-        ss << "." << msec;
+        ss << "." << std::setw(3) << std::setfill('0') << msec;
     }
 
     return ss.str();
