@@ -8,24 +8,26 @@ CONFIG += qtquickcompiler
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        src/backend/Listener.cpp \
-        src/statistics/StatisticsData.cpp \
-        src/Controller.cpp \
-        src/backend/SyncBackendConnection.cpp \
         src/backend/backend_utils.cpp \
-        src/model/ListItem.cpp \
-        src/model/dds/ParticipantModelItem.cpp \
+        src/backend/Listener.cpp \
+        src/backend/SyncBackendConnection.cpp \
+        src/Controller.cpp \
+        src/Engine.cpp \
         src/model/dds/EndpointModelItem.cpp \
+        src/model/dds/ParticipantModelItem.cpp \
+        src/model/dynamic/DynamicDataModel.cpp \
+        src/model/ListItem.cpp \
+        src/model/ListModel.cpp \
         src/model/logical/TopicModelItem.cpp \
         src/model/physical/ProcessModelItem.cpp \
         src/model/statistics/EntityItem.cpp \
-        src/model/ListModel.cpp \
         src/model/SubListedListModel.cpp \
-        src/main.cpp \
         src/model/tree/TreeItem.cpp \
         src/model/tree/TreeModel.cpp \
-        src/utils.cpp \
-        src/Engine.cpp
+        src/statistics/DynamicChartBox.cpp \
+        src/statistics/DynamicData.cpp \
+        src/statistics/StatisticsData.cpp \
+        src/utils.cpp
 
 RESOURCES += qml.qrc
 
@@ -43,32 +45,35 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 INCLUDEPATH += include
 
 HEADERS += \
-        include/fastdds_monitor/Controller.h \
-        include/fastdds_monitor/backend/Callback.h \
-        include/fastdds_monitor/backend/Listener.h \
-        include/fastdds_monitor/backend/SyncBackendConnection.h \
-        include/fastdds_monitor/backend/backend_types.h \
-        include/fastdds_monitor/model/EntityContainerModelItem.h \
-        include/fastdds_monitor/model/statistics/EntityItem.h \
-        include/fastdds_monitor/model/dds/LocatorModelItem.h \
-        include/fastdds_monitor/model/model_types.h \
-        include/fastdds_monitor/utils.h \
-        include/fastdds_monitor/backend/backend_utils.h \
-        include/fastdds_monitor/model/dds/ParticipantModelItem.h \
-        include/fastdds_monitor/model/dds/EndpointModelItem.h \
-        include/fastdds_monitor/model/logical/DomainModelItem.h \
-        include/fastdds_monitor/model/logical/TopicModelItem.h \
-        include/fastdds_monitor/model/physical/HostModelItem.h \
-        include/fastdds_monitor/model/physical/UserModelItem.h \
-        include/fastdds_monitor/model/physical/ProcessModelItem.h \
-        include/fastdds_monitor/model/ListModel.h \
-        include/fastdds_monitor/model/ListItem.h \
-        include/fastdds_monitor/model/SubListedListModel.h \
-        include/fastdds_monitor/model/SubListedListItem.h \
-        include/fastdds_monitor/Engine.h \
-        include/fastdds_monitor/model/tree/TreeModel.h \
-        include/fastdds_monitor/model/tree/TreeItem.h \
-        include/fastdds_monitor/statistics/StatisticsData.h
+    include/fastdds_monitor/backend/backend_types.h \
+    include/fastdds_monitor/backend/backend_utils.h \
+    include/fastdds_monitor/backend/Callback.h \
+    include/fastdds_monitor/backend/Listener.h \
+    include/fastdds_monitor/backend/SyncBackendConnection.h \
+    include/fastdds_monitor/Controller.h \
+    include/fastdds_monitor/Engine.h \
+    include/fastdds_monitor/model/dds/EndpointModelItem.h \
+    include/fastdds_monitor/model/dds/LocatorModelItem.h \
+    include/fastdds_monitor/model/dds/ParticipantModelItem.h \
+    include/fastdds_monitor/model/dynamic/DynamicDataModel.h \
+    include/fastdds_monitor/model/EntityContainerModelItem.h \
+    include/fastdds_monitor/model/ListItem.h \
+    include/fastdds_monitor/model/ListModel.h \
+    include/fastdds_monitor/model/logical/DomainModelItem.h \
+    include/fastdds_monitor/model/logical/TopicModelItem.h \
+    include/fastdds_monitor/model/model_types.h \
+    include/fastdds_monitor/model/physical/HostModelItem.h \
+    include/fastdds_monitor/model/physical/ProcessModelItem.h \
+    include/fastdds_monitor/model/physical/UserModelItem.h \
+    include/fastdds_monitor/model/statistics/EntityItem.h \
+    include/fastdds_monitor/model/SubListedListItem.h \
+    include/fastdds_monitor/model/SubListedListModel.h \
+    include/fastdds_monitor/model/tree/TreeItem.h \
+    include/fastdds_monitor/model/tree/TreeModel.h \
+    include/fastdds_monitor/statistics/DynamicChartBox.h \
+    include/fastdds_monitor/statistics/DynamicData.h \
+    include/fastdds_monitor/statistics/StatisticsData.h \
+    include/fastdds_monitor/utils.h
 
 DISTFILES += \
     qml/*

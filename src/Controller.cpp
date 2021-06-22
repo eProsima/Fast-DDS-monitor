@@ -169,3 +169,44 @@ void Controller::send_error(
     // Must convert enumeration to int in order to qml understand it
     emit error(error_msg, static_cast<typename std::underlying_type<ErrorType>::type>(error_type));
 }
+
+void Controller::update_dynamic_chartbox(
+        quint64 chartbox_id,
+        QString data_kind,
+        quint64 last_x,
+        quint64 refresh_size,
+        QVector<QString> source_ids,
+        QVector<QString> target_ids,
+        QVector<QString> statistics_kinds)
+{
+    // Transform source & target & kind ids from QString to EntityId
+    std::vector<backend::EntityId> source_ids_;
+    std::vector<backend::EntityId> target_ids_;
+    std::vector<backend::StatisticKind> statistics_kinds_;
+
+    std::transform(
+        source_ids.begin(),
+        source_ids.end(),
+        source_ids_.begin(),
+        [](QString id){return backend::models_id_to_backend_id(id);});
+    std::transform(
+        target_ids.begin(),
+        target_ids.end(),
+        target_ids_.begin(),
+        [](QString id){return backend::models_id_to_backend_id(id);});
+    std::transform(
+        statistics_kinds.begin(),
+        statistics_kinds.end(),
+        statistics_kinds_.begin(),
+        [](QString kind){return backend::string_to_statistic_kind(kind);});
+
+    // Call engine function
+    engine_->update_dynamic_chartbox(
+        chartbox_id,
+        backend::string_to_data_kind(data_kind),
+        last_x,
+        refresh_size,
+        source_ids_,
+        target_ids_,
+        statistics_kinds_);
+}

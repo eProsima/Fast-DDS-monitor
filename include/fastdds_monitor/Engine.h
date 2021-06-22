@@ -33,6 +33,7 @@
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/statistics/DynamicData.h>
 
 /**
  * Main class that connects the View (QML), the models (Controller) and the backend (Listener + SyncBackendConnection)
@@ -278,6 +279,16 @@ public:
             std::string error_msg,
             ErrorType error_type = ErrorType::GENERIC);
 
+    //! TODO
+    void update_dynamic_chartbox(
+            quint64 chartbox_id,
+            backend::DataKind data_kind,
+            quint64 last_x,
+            quint64 refresh_size,
+            std::vector<backend::EntityId> source_ids,
+            std::vector<backend::EntityId> target_ids,
+            std::vector<backend::StatisticKind> statistics_kinds);
+
 signals:
 
     /**
@@ -496,6 +507,9 @@ protected:
 
     //! Time when the monitor has been started. It will be used as default timestamp
     backend::Timestamp initial_time_;
+
+    //! TODO
+    DynamicData* dynamic_data_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H

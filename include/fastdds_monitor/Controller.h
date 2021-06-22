@@ -137,6 +137,15 @@ public slots:
     //! Call engine to refresh summary
     void refresh_summary();
 
+    void update_dynamic_chartbox(
+        quint64 chartbox_id,
+        QString data_kind,
+        quint64 last_x,
+        quint64 refresh_size,
+        QVector<QString> source_ids,
+        QVector<QString> target_ids,
+        QVector<QString> statistics_kinds);
+
 signals:
 
     //! Signal to show the Error Dialog
