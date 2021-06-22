@@ -33,6 +33,7 @@
 #include <fastdds_monitor/model/SubListedListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/statistics/DynamicData.h>
 
 using EntityInfo = backend::EntityInfo;
 
@@ -86,6 +87,7 @@ QObject* Engine::enable()
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
     statistics_data_ = new StatisticsData();
+    dynamic_data_ = new DynamicData();
     controller_ = new Controller(this);
 
     // Set the initial time
@@ -157,6 +159,16 @@ Engine::~Engine()
         if (summary_model_)
         {
             delete summary_model_;
+        }
+
+        if(statistics_data_)
+        {
+            delete statistics_data_;
+        }
+
+        if(dynamic_data_)
+        {
+            delete dynamic_data_;
         }
     }
 }

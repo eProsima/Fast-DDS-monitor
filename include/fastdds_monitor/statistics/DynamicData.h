@@ -31,13 +31,31 @@ class DynamicData : public QObject
 
 public:
 
+    ~DynamicData();
+
     void update(
         quint64 chartbox_id,
         std::vector<QPointF> new_data);
 
+public slots:
+
+    void add_series(
+        quint64 chartbox_id,
+        QString statistic_kind,
+        models::EntityId source_id,
+        models::EntityId target_id = models::ID_INVALID);
+
+    quint64 add_chartbox(
+        QString data_kind,
+        quint64 last_x,
+        quint64 frame_size,
+        quint64 refresh_size);
+
 protected:
 
-    std::map<quint64, DynamicChartBox> chartboxes_;
+    static quint64 last_id_;
+
+    std::map<quint64, DynamicChartBox*> chartboxes_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H

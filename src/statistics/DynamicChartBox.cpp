@@ -17,6 +17,19 @@
 #include <fastdds_monitor/statistics/DynamicChartBox.h>
 #include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
 
+DynamicChartBox::~DynamicChartBox()
+{
+    for(auto m : mappers_)
+    {
+        delete m;
+    }
+
+    for (auto s : series_)
+    {
+        delete s;
+    }
+}
+
 void DynamicChartBox::add_series(
         QString statistic_kind,
         models::EntityId source_id,

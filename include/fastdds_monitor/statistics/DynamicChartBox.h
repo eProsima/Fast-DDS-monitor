@@ -40,7 +40,7 @@ public:
             quint64 last_x,
             quint64 frame_size,
             quint64 refresh_size,
-            QObject* parent)
+            QObject* parent = nullptr)
         : QObject(parent)
         , id_(id)
         , data_kind_(data_kind)
@@ -51,6 +51,8 @@ public:
         , axisYMin_(0)
     {
     }
+
+    ~DynamicChartBox();
 
     void update(std::vector<QPointF> new_data);
 
@@ -85,8 +87,6 @@ public:
     //! Set the new Y min axis size
     void setAxisYMin(
             qreal axisYMin);
-
-public slots:
 
     void add_series(
         QString statistic_kind,
