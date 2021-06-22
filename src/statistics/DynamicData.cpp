@@ -15,15 +15,15 @@
 #include <QDebug>
 
 #include <fastdds_monitor/statistics/DynamicData.h>
+#include <fastdds_monitor/statistics/DynamicChartBox.h>
 
 void DynamicData::update(
     quint64 chartbox_id,
     std::vector<QPointF> new_data)
 {
-    // TODO
-    // auto it = chartboxes_.find(chartbox_id);
+    auto it = chartboxes_.find(chartbox_id);
 
-    // assert(it != chartboxes_.end());
+    assert(it != chartboxes_.end());
 
-    // it.second()->update(new_data);
+    it->second.update(new_data);
 }

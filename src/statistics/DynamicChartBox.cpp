@@ -53,6 +53,14 @@ void DynamicChartBox::update(std::vector<QPointF> new_data)
         for (size_t i = 0; i < series_.size(); i++)
         {
             series_[i]->handleNewPoint(new_data[i]);
+            if(new_data[i].ry() > axisYMax_)
+            {
+                setAxisYMax(new_data[i].ry());
+            }
+            else if (new_data[i].ry() < axisYMin_)
+            {
+                setAxisYMin(new_data[i].ry());
+            }
         }
     }
 
@@ -62,6 +70,26 @@ void DynamicChartBox::update(std::vector<QPointF> new_data)
 void DynamicChartBox::update_frame_()
 {
     last_x_ += refresh_size_;
+}
 
-    // TODO check if axis must be changed here or in QML
+qreal DynamicChartBox::axisYMax()
+{
+    return axisYMax_;
+}
+
+qreal DynamicChartBox::axisYMin()
+{
+    return axisYMin_;
+}
+
+void DynamicChartBox::setAxisYMax(
+        qreal axisYMax)
+{
+    axisYMax_ = axisYMax;
+}
+
+void DynamicChartBox::setAxisYMin(
+        qreal axisYMin)
+{
+    axisYMin_ = axisYMin;
 }

@@ -30,6 +30,8 @@
 class DynamicChartBox : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(qreal axisYMax READ axisYMax NOTIFY axisYMaxChanged)
+    Q_PROPERTY(qreal axisYMin READ axisYMin NOTIFY axisYMinChanged)
 
 public:
     DynamicChartBox(
@@ -45,30 +47,44 @@ public:
         , last_x_(last_x)
         , frame_size_(frame_size)
         , refresh_size_(refresh_size)
+        , axisYMax_(10)
+        , axisYMin_(0)
     {
     }
 
     void update(std::vector<QPointF> new_data);
 
-    QString data_kind()
+    QString data_kind() const
     {
         return data_kind_;
     }
 
-    quint64 last_x()
+    quint64 last_x() const
     {
         return last_x_;
     }
 
-    quint64 frame_size()
+    quint64 frame_size() const
     {
         return frame_size_;
     }
 
-    quint64 refresh_size()
+    quint64 refresh_size() const
     {
         return refresh_size_;
     }
+
+    //! Get Y max axis size
+    qreal axisYMax();
+    //! Get Y min axis size
+    qreal axisYMin();
+
+    //! Set the new Y max axis size
+    void setAxisYMax(
+            qreal axisYMax);
+    //! Set the new Y min axis size
+    void setAxisYMin(
+            qreal axisYMin);
 
 public slots:
 
@@ -76,6 +92,13 @@ public slots:
         QString statistic_kind,
         models::EntityId source_id,
         models::EntityId target_id = models::ID_INVALID);
+
+signals:
+
+    //! Signal to communicate that max Y axis has changed
+    void axisYMaxChanged();
+    //! Signal to communicate that min Y axis has changed
+    void axisYMinChanged();
 
 protected:
 
@@ -89,6 +112,12 @@ protected:
     quint64 last_x_;
     quint64 frame_size_;
     quint64 refresh_size_;
+
+    //! Max Y axis size
+    qreal axisYMax_;
+
+    //! Min Y axis size
+    qreal axisYMin_;
 };
 
 
