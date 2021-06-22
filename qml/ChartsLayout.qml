@@ -106,7 +106,6 @@ Rectangle {
             id: widgetdelegate
 
             Item {
-                property int indexOfThisDelegate: index
                 width: gridView.cellWidth
                 height: gridView.cellHeight
 
@@ -121,6 +120,9 @@ Rectangle {
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: dataKind
+                    isDynamic: (updatePeriod) ? true : false
+                    timeWindow: timeWindow ? timeWindow : -1
+                    updatePeriod: updatePeriod ? updatePeriod : -1
                     index: model.index
                     state: "inactive"
                     anchors.centerIn: parent
@@ -190,6 +192,14 @@ Rectangle {
 
     function createChart(dataKind){
         statisticsChartBoxModel.append({"dataKind": dataKind})
+    }
+
+    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
+        statisticsChartBoxModel.append({
+                                           "dataKind": dataKind,
+                                           "timeWindow": timeWindowSeconds,
+                                           "updatePeriod": updatePeriod
+                                       })
     }
 
     function calculateGridViewWidth(){

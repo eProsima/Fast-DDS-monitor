@@ -75,6 +75,11 @@ ApplicationWindow {
         onCreateChart: panels.createChart(dataKind)
     }
 
+    DynamicDataKindDialog {
+        id: dynamicDataKindDialog
+        onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod)
+    }
+
     AboutDialog {
         id: aboutDialog
     }

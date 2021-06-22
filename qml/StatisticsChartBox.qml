@@ -29,8 +29,11 @@ Rectangle {
     property string chartTitle
     property int index
     property bool visibility: true
+    property bool isDynamic: false
+    property double timeWindow: -1
+    property int updatePeriod: -1
 
-    Component.onCompleted: displayStatisticsDialog.open();
+    Component.onCompleted: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : displayStatisticsDialog.open();
 
     ColumnLayout {
 
@@ -113,6 +116,14 @@ Rectangle {
                         date endTime,
                         bool endTimeDefault,
                         string statisticKind)
+                    signal addDynamicSeries(
+                        string dataKind,
+                        string seriesLabel,
+                        string sourceEntityId,
+                        string targetEntityId,
+                        string statisticKind,
+                        double timeWindow,
+                        int updatePeriod)
                     signal clearChart()
 
                     onAddSeries: statisticsChartView.addSeries(
@@ -126,6 +137,14 @@ Rectangle {
                                      endTime,
                                      endTimeDefault,
                                      statisticKind);
+//                    onAddDynamicSeries: statisticsChartView.addDynamicSeries(
+//                                     dataKind,
+//                                     seriesLabel,
+//                                     sourceEntityId,
+//                                     targetEntityId,
+//                                     statisticKind,
+//                                     timeWindow,
+//                                     updatePeriod);
                     onClearChart: statisticsChartView.clearChart();
 
                     Menu {
@@ -153,7 +172,7 @@ Rectangle {
                         title: "Series"
                         Action {
                             text: "Add series"
-                            onTriggered: displayStatisticsDialog.open();
+                            onTriggered: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : displayStatisticsDialog.open();
                         }
 
                         Action {
@@ -169,14 +188,26 @@ Rectangle {
             }
         }
 
+//        Loader {
+//            id: statisticsChartViewLoader
+//            Layout.alignment: Qt.AlignCenter
+//            height: statisticsChartBox.height - 2*chartBoxTitle.height
+//            width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+
+//            property string chartTitle: ""
+//            property bool isDynamic: false
+
+
+
+//        }
+
         StatisticsChartView {
             id: statisticsChartView
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-            chartTitle: {
-                return statisticsChartBox.chartTitle
-            }
+            chartTitle: statisticsChartBox.chartTitle
+            isDynamic: isDynamic
 
             onSeriesAdded: customLegend.addLeyend(series.name, series.color)
             onSeriesRemoved: customLegend.removeLeyend(series.index)
@@ -207,6 +238,11 @@ Rectangle {
 
     DisplayStatisticsDialog {
         id: displayStatisticsDialog
+        anchors.centerIn: Overlay.overlay
+    }
+
+    DynamicDisplayStatisticsDialog {
+        id: dynamicDisplayStatisticsDialog
         anchors.centerIn: Overlay.overlay
     }
 }

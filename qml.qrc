@@ -8,6 +8,7 @@
         <file>qml/CustomLegend.qml</file>
         <file>qml/DataKindDialog.qml</file>
         <file>qml/DisplayStatisticsDialog.qml</file>
+        <file>qml/DynamicDisplayStatisticsDialog.qml</file>
         <file>qml/EntityList.qml</file>
         <file>qml/ErrorDialog.qml</file>
         <file>qml/IconSVG.qml</file>
@@ -29,6 +30,7 @@
         <file>qml/SummaryView.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
         <file>qml/InfoToolTip.qml</file>
+        <file>qml/DynamicDataKindDialog.qml</file>
         <file>imports/Theme/Theme.qml</file>
         <file>imports/Theme/qmldir</file>
         <file>controls/MenuBar.qml</file>

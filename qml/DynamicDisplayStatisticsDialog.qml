@@ -1,0 +1,261 @@
+// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import QtQml 2.15
+import QtQuick 2.15
+import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.3
+import Qt.labs.calendar 1.0
+import QtQuick.Controls 2.15
+import QtQuick.Controls 1.4 as QCC1
+import QtQuick.Controls.Styles 1.4
+import QtQml.Models 2.12
+
+Dialog {
+    id: dynamicDisplayStatisticsDialog
+    modal: false
+    title: "Display new statistics data"
+    standardButtons: Dialog.Apply | Dialog.Ok | Dialog.Cancel
+
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
+
+    property bool targetExists: false
+
+    property bool activeOk: true
+
+    Component.onCompleted: {
+        if (chartTitle == "FASTDDS_LATENCY" |
+                chartTitle == "NETWORK_LATENCY" |
+                chartTitle == "RTPS_PACKETS_SENT" |
+                chartTitle == "RTPS_BYTES_SENT" |
+                chartTitle == "RTPS_PACKETS_LOST" |
+                chartTitle == "RTPS_BYTES_LOST") {
+            targetExists = true
+        }
+
+        controller.update_available_entity_ids("Host", "getDataDialogSourceEntityId")
+        controller.update_available_entity_ids("Host", "getDataDialogDestinationEntityId")
+        regenerateSeriesLabel()
+    }
+
+    onAccepted: {
+        if (activeOk) {
+            createSeries()
+        }
+        activeOk = true
+    }
+
+    onApplied: {
+        activeOk = false
+        createSeries()
+    }
+
+    GridLayout{
+
+        columns: 2
+        rowSpacing: 20
+
+        Label {
+            id: seriesLabel
+            text: "Series label: "
+        }
+        TextField {
+            id: seriesLabelTextField
+            placeholderText: ""
+            selectByMouse: true
+            maximumLength: 20
+            Layout.fillWidth: true
+
+            onTextEdited: activeOk = true
+        }
+
+
+        Label {
+            id: sourceEntityIdLabel
+            text: "Source Entity Id: "
+        }
+        RowLayout {
+            AdaptiveComboBox {
+                id: getDataDialogSourceEntityId
+                model: [
+                    "Host",
+                    "User",
+                    "Process",
+                    "Domain",
+                    "Topic",
+                    "DomainParticipant",
+                    "DataWriter",
+                    "DataReader",
+                    "Locator"]
+
+                onActivated: {
+                    activeOk = true
+                    controller.update_available_entity_ids(currentText, "getDataDialogSourceEntityId")
+                    sourceEntityId.recalculateWidth()
+                    regenerateSeriesLabel()
+                }
+            }
+            AdaptiveComboBox {
+                id: sourceEntityId
+                textRole: "nameId"
+                valueRole: "id"
+                model: entityModelFirst
+
+                onActivated: {
+                    activeOk = true
+                    regenerateSeriesLabel()
+                }
+            }
+        }
+
+        Label {
+            id: targetEntityIdLabel
+            text: "Target Entity Id: "
+            visible: targetExists
+        }
+        RowLayout {
+            id: targetEntityIdLayout
+            visible: targetExists
+            AdaptiveComboBox {
+                id: getDataDialogTargetEntityId
+                model: [
+                    "Host",
+                    "User",
+                    "Process",
+                    "Domain",
+                    "Topic",
+                    "DomainParticipant",
+                    "DataWriter",
+                    "DataReader",
+                    "Locator"]
+                onActivated:  {
+                    activeOk = true
+                    controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
+                    targetEntityId.recalculateWidth()
+                    regenerateSeriesLabel()
+                }
+            }
+            AdaptiveComboBox {
+                id: targetEntityId
+                textRole: "nameId"
+                valueRole: "id"
+                model: entityModelSecond
+
+                onActivated: {
+                    activeOk = true
+                    regenerateSeriesLabel()
+                }
+            }
+        }
+
+        Label {
+            text: "Statistic kind: "
+        }
+        AdaptiveComboBox {
+            id: statisticKind
+            model: [
+                "NONE",
+                "MEAN",
+                "STANDARD_DEVIATION",
+                "MAX",
+                "MIN",
+                "MEDIAN",
+                "COUNT",
+                "SUM"]
+
+            onActivated: {
+                activeOk = true
+                regenerateSeriesLabel()
+            }
+        }
+    }
+
+    MessageDialog {
+        id: emptySourceEntityIdDialog
+        title: "Empty Source Entity Id"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
+        onAccepted: {
+            dynamicDisplayStatisticsDialog.open()
+        }
+    }
+
+    MessageDialog {
+        id: emptyTargetEntityIdDialog
+        title: "Empty Target Entity Id"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
+        onAccepted: {
+            dynamicDisplayStatisticsDialog.open()
+        }
+    }
+
+    function createSeries() {
+        if (sourceEntityId.currentText == "") {
+            emptySourceEntityIdDialog.open()
+            return
+        } else if ((targetEntityId.currentText == "") && targetExists) {
+            dynamicDisplayStatisticsDialog.open()
+            return
+        }
+
+        controlPanel.addDynamicSeries(
+                    chartTitle,
+                    (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
+                    sourceEntityId.currentValue,
+                    (targetEntityIdLayout.visible == true) ? targetEntityId.currentValue : '',
+                    statisticKind.currentText,
+                    timeWindow,
+                    updatePeriod)
+    }
+
+    function formatText(count, modelData) {
+        var data = count === 24 ? modelData + 1 : modelData;
+        return data.toString().length < 2 ? "0" + data : data;
+    }
+
+    function regenerateSeriesLabel(){
+        var text = ((statisticKind.currentText === "STANDARD_DEVIATION") ? "SD" : statisticKind.currentText) +
+                   "_" +
+                   sourceEntityId.currentText
+        if (targetExists) {
+            text += "_" +
+                    targetEntityId.currentText
+        }
+        seriesLabelTextField.placeholderText = text;
+    }
+
+    function abbreviateEntityName(entityName){
+        var srcEntityId;
+        switch(entityName) {
+            case "DomainParticipant":
+                srcEntityId = "Part";
+                break;
+            case "DataWriter":
+                srcEntityId = "DW";
+                break;
+            case "DataReader":
+                srcEntityId = "DR";
+                break;
+            default:
+                srcEntityId = entityName;
+        }
+        return srcEntityId;
+    }
+}
+
+

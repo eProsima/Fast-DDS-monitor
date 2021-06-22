@@ -38,10 +38,18 @@ ToolBar {
         }
 
         ToolButton {
-            text: "Display new data"
+            text: "Display historical data"
             visible: isVisibleDispData
             onClicked: {
                 dataKindDialog.open()
+            }
+        }
+
+        ToolButton {
+            text: "Display real-time data"
+            visible: isVisibleDispData
+            onClicked: {
+                dynamicDataKindDialog.open()
             }
         }
 

@@ -73,14 +73,6 @@ HEADERS += \
 DISTFILES += \
     qml/*
 
-# Link to the Fast DDS Statistics Backend Complex Mock library
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/release/ -lcomplex-backend-mock
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/debug/ -lcomplex-backend-mock
-else:unix: LIBS += -L$$PWD/../../install/fastdds_monitor/lib/ -lcomplex-backend-mock
-
-INCLUDEPATH += $$PWD/../../install/fastdds_monitor
-DEPENDPATH += $$PWD/../../install/fastdds_monitor
-
 # Link to the Fast DDS Statistics Backend library
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/release/ -lfastdds_statistics_backend
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/debug/ -lfastdds_statistics_backend
@@ -96,6 +88,14 @@ else:unix: LIBS += -L$$PWD/../../install/fastrtps/lib/ -lfastrtps
 
 INCLUDEPATH += $$PWD/../../install/fastrtps/include
 DEPENDPATH += $$PWD/../../install/fastrtps/include
+
+# Link to the Fast CDR library
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastcdr/lib/release/ -lfastcdr
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastcdr/lib/debug/ -lfastcdr
+else:unix: LIBS += -L$$PWD/../../install/fastcdr/lib/ -lfastcdr
+
+INCLUDEPATH += $$PWD/../../install/fastcdr/include
+DEPENDPATH += $$PWD/../../install/fastcdr/include
 
 # Link to the Fast DDS Monitor includes
 INCLUDEPATH += $$PWD/../../install/fastdds_monitor/include
