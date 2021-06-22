@@ -28,6 +28,7 @@
         <file>qml/StatisticsChartView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
+        <file>qml/InfoToolTip.qml</file>
         <file>imports/Theme/Theme.qml</file>
         <file>imports/Theme/qmldir</file>
         <file>controls/MenuBar.qml</file>

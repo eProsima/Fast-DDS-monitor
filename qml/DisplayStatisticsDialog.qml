@@ -21,6 +21,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls 1.4 as QCC1
 import QtQuick.Controls.Styles 1.4
 import QtQml.Models 2.12
+import Theme 1.0
 
 Dialog {
     id: displayStatisticsDialog
@@ -73,6 +74,11 @@ Dialog {
         Label {
             id: seriesLabel
             text: "Series label: "
+            InfoToolTip {
+                text: "Name of the series. The series\n" +
+                      "name is autogerated using the\n" +
+                      "values given in this dialog."
+            }
         }
         TextField {
             id: seriesLabelTextField
@@ -88,6 +94,10 @@ Dialog {
         Label {
             id: sourceEntityIdLabel
             text: "Source Entity Id: "
+            InfoToolTip {
+                text: "Entity from which the data will\n" +
+                      "be collected."
+            }
         }
         RowLayout {
             AdaptiveComboBox {
@@ -127,6 +137,13 @@ Dialog {
             id: targetEntityIdLabel
             text: "Target Entity Id: "
             visible: targetExists
+            InfoToolTip {
+                text: "This is the entity to which the\n" +
+                      "data refer. It is available\n" +
+                      "only for those data kinds that\n" +
+                      "involve a source and a target \n" +
+                      "entity such as latency."
+            }
         }
         RowLayout {
             id: targetEntityIdLayout
@@ -166,6 +183,13 @@ Dialog {
         Label {
             id: binsLabel
             text: "Number of bins: "
+            InfoToolTip {
+                text: "Number of time points to be plotted.\n" +
+                      "If bins is equal to 0, all available\n" +
+                      "values will be represented. In case bins\n" +
+                      "is greater than 0, the selected statistic\n" +
+                      "will be applied in each time interval."
+            }
         }
         SpinBox {
             id: bins
@@ -179,6 +203,9 @@ Dialog {
 
         Label {
             text: "Start time: "
+            InfoToolTip {
+                text: "Initial time from which data are collected."
+            }
         }
         ColumnLayout {
             id: startTimeValues
@@ -186,6 +213,11 @@ Dialog {
             RowLayout {
                 Label {
                     text: "Default inital timestamp: "
+                    InfoToolTip {
+                        text: "The default start timestamp\n" +
+                              "is the time at which the monitor\n" +
+                              "application was launched."
+                    }
                 }
 
                 CheckBox {
@@ -218,6 +250,9 @@ Dialog {
 
         Label {
             text: "End time: "
+            InfoToolTip {
+                text: "End timestamp of the data series."
+            }
         }
         ColumnLayout {
             id: endTimeValues
@@ -255,6 +290,13 @@ Dialog {
 
         Label {
             text: "Statistic kind: "
+            InfoToolTip {
+                text: "Cumulative function that is\n" +
+                      "applied to the data of each time\n" +
+                      "interval. If none is selected, the\n" +
+                      "first available data of the interval\n" +
+                      "is taken."
+            }
         }
         AdaptiveComboBox {
             id: statisticKind

@@ -35,6 +35,9 @@ Dialog {
         Label {
             id: dataKindLabel
             text: "Data kind: "
+            InfoToolTip {
+                text: "Data type to be plotted."
+            }
         }
         AdaptiveComboBox {
             id: dataKindComboBox
