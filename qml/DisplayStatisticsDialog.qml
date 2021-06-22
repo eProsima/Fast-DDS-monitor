@@ -442,7 +442,7 @@ Dialog {
                         chartTitle,
                         (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
                         sourceEntityId.currentValue,
-                        (targetEntityIdLayout.visible == true) ? targetEntityId.currentValue : '',
+                        (targetExists) ? targetEntityId.currentValue : '',
                         bins.value,
                         startTime,
                         startTimeDefault.checked,
