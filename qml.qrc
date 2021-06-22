@@ -27,6 +27,7 @@
         <file>qml/RightPanel.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
+        <file>qml/DynamicStatisticsChartView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
         <file>qml/InfoToolTip.qml</file>

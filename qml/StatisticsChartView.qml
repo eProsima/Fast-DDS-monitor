@@ -28,9 +28,6 @@ ChartView {
     property date dateTimeAxisXMin: new Date()
     property date dateTimeAxisXMax: new Date()
 
-    property string chartTitle: ""
-    property bool isDynamic: false
-
     ValueAxis {
         id: axisY
         min: axisYMin

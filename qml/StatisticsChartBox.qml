@@ -33,7 +33,14 @@ Rectangle {
     property double timeWindow: -1
     property int updatePeriod: -1
 
-    Component.onCompleted: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : displayStatisticsDialog.open();
+    Component.onCompleted: {
+        console.log("------------------------ Is dynamic: " + isDynamic)
+        if (isDynamic){
+            dynamicDisplayStatisticsDialog.open()
+        } else {
+            displayStatisticsDialog.open();
+        }
+    }
 
     ColumnLayout {
 
@@ -126,7 +133,7 @@ Rectangle {
                         int updatePeriod)
                     signal clearChart()
 
-                    onAddSeries: statisticsChartView.addSeries(
+                    onAddSeries: statisticsChartViewLoader.item.addSeries(
                                      dataKind,
                                      seriesLabel,
                                      sourceEntityId,
@@ -137,22 +144,23 @@ Rectangle {
                                      endTime,
                                      endTimeDefault,
                                      statisticKind);
-//                    onAddDynamicSeries: statisticsChartView.addDynamicSeries(
-//                                     dataKind,
-//                                     seriesLabel,
-//                                     sourceEntityId,
-//                                     targetEntityId,
-//                                     statisticKind,
-//                                     timeWindow,
-//                                     updatePeriod);
-                    onClearChart: statisticsChartView.clearChart();
+                    onAddDynamicSeries: statisticsChartViewLoader.item.addDynamicSeries(
+                                     dataKind,
+                                     seriesLabel,
+                                     sourceEntityId,
+                                     targetEntityId,
+                                     statisticKind,
+                                     timeWindow,
+                                     updatePeriod);
+                    onClearChart: statisticsChartViewLoader.item.clearChart();
 
                     Menu {
                         title: "Chart"
                         Action {
                             text: "Reset zoom"
                             Component.onCompleted: {
-                                triggered.connect(statisticsChartView.resetChartViewZoom)
+                                if (!isDynamic)
+                                    triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
                             }
                         }
                         Action {
@@ -188,29 +196,24 @@ Rectangle {
             }
         }
 
-//        Loader {
-//            id: statisticsChartViewLoader
-//            Layout.alignment: Qt.AlignCenter
-//            height: statisticsChartBox.height - 2*chartBoxTitle.height
-//            width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-
-//            property string chartTitle: ""
-//            property bool isDynamic: false
-
-
-
-//        }
-
-        StatisticsChartView {
-            id: statisticsChartView
+        Loader {
+            id: statisticsChartViewLoader
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-            chartTitle: statisticsChartBox.chartTitle
-            isDynamic: isDynamic
 
-            onSeriesAdded: customLegend.addLeyend(series.name, series.color)
-            onSeriesRemoved: customLegend.removeLeyend(series.index)
+            property string chartTitle: statisticsChartBox.chartTitle
+            source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "StatisticsChartView.qml"
+        }
+
+        Connections {
+            target: statisticsChartViewLoader.item
+            function onSeriesAdded(series){
+                customLegend.addLeyend(series.name, series.color)
+            }
+            function onSeriesRemoved(series){
+                customLegend.removeLeyend(series.index)
+            }
         }
 
         CustomLegend {
@@ -218,13 +221,13 @@ Rectangle {
             Layout.alignment: Qt.AlignCenter
             Layout.fillHeight: true
             height: statisticsChartBox.height - chartBoxTitle.height -
-                    statisticsChartView.height - statisticsChartBox.border.width
+                    statisticsChartViewLoader.item.height - statisticsChartBox.border.width
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-            onSeriesNameUpdated: statisticsChartView.updateSeriesName(seriesIndex, newSeriesName)
-            onSeriesColorUpdated: statisticsChartView.updateSeriesColor(seriesIndex, newSeriesColor)
-            onSeriesHidden: statisticsChartView.hideSeries(seriesIndex)
-            onSeriesDisplayed: statisticsChartView.displaySeries(seriesIndex)
-            onSeriesRemoved: statisticsChartView.removeSeries(statisticsChartView.series(seriesIndex))
+            onSeriesNameUpdated: statisticsChartViewLoader.item.updateSeriesName(seriesIndex, newSeriesName)
+            onSeriesColorUpdated: statisticsChartViewLoader.item.updateSeriesColor(seriesIndex, newSeriesColor)
+            onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
+            onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
+            onSeriesRemoved: statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
         }
     }
 

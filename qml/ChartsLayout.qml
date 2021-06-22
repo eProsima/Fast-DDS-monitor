@@ -120,9 +120,9 @@ Rectangle {
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: dataKind
-                    isDynamic: (updatePeriod) ? true : false
-                    timeWindow: timeWindow ? timeWindow : -1
-                    updatePeriod: updatePeriod ? updatePeriod : -1
+                    isDynamic: (dynamic) ? true : false
+                    timeWindow: timeFrame
+                    updatePeriod: timeUpdate
                     index: model.index
                     state: "inactive"
                     anchors.centerIn: parent
@@ -191,14 +191,20 @@ Rectangle {
     }
 
     function createChart(dataKind){
-        statisticsChartBoxModel.append({"dataKind": dataKind})
+        statisticsChartBoxModel.append({
+                                           "dataKind": dataKind,
+                                           "timeFrame": -1,
+                                           "timeUpdate": -1,
+                                           "dynamic": false
+                                       })
     }
 
     function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
         statisticsChartBoxModel.append({
                                            "dataKind": dataKind,
-                                           "timeWindow": timeWindowSeconds,
-                                           "updatePeriod": updatePeriod
+                                           "timeFrame": timeWindowSeconds,
+                                           "timeUpdate": updatePeriod,
+                                           "dynamic": true
                                        })
     }
 
