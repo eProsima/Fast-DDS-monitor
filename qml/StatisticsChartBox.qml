@@ -211,8 +211,8 @@ Rectangle {
             function onSeriesAdded(series){
                 customLegend.addLeyend(series.name, series.color)
             }
-            function onSeriesRemoved(series){
-                customLegend.removeLeyend(series.index)
+            function onClearedChart(){
+                customLegend.removeAllLegends()
             }
         }
 
@@ -227,7 +227,10 @@ Rectangle {
             onSeriesColorUpdated: statisticsChartViewLoader.item.updateSeriesColor(seriesIndex, newSeriesColor)
             onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
             onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
-            onSeriesRemoved: statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
+            onSeriesRemoved: {
+                    statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
+                    removeLeyend(seriesIndex)
+            }
         }
     }
 
