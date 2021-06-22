@@ -24,6 +24,15 @@
 
 #include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
 
+struct UpdateParameters
+{
+    QString data_kind;
+    quint64 time_from;
+    std::vector<QString> source_ids;
+    std::vector<QString> target_ids;
+    std::vector<QString> statistics_kinds;
+};
+
 /**
  * @brief TODO
  */
@@ -37,16 +46,12 @@ public:
     DynamicChartBox(
             quint64 id,
             QString data_kind,
-            quint64 last_x,
-            quint64 frame_size,
-            quint64 refresh_size,
+            quint64 time_to,
             QObject* parent = nullptr)
         : QObject(parent)
         , id_(id)
         , data_kind_(data_kind)
-        , last_x_(last_x)
-        , frame_size_(frame_size)
-        , refresh_size_(refresh_size)
+        , time_to_(time_to)
         , axisYMax_(10)
         , axisYMin_(0)
     {
@@ -54,27 +59,19 @@ public:
 
     ~DynamicChartBox();
 
-    void update(std::vector<QPointF> new_data);
+    void update(std::vector<QPointF> new_data, quint64 time_to);
 
     QString data_kind() const
     {
         return data_kind_;
     }
 
-    quint64 last_x() const
+    quint64 time_to() const
     {
-        return last_x_;
+        return time_to_;
     }
 
-    quint64 frame_size() const
-    {
-        return frame_size_;
-    }
-
-    quint64 refresh_size() const
-    {
-        return refresh_size_;
-    }
+    UpdateParameters get_update_parameters();
 
     //! Get Y max axis size
     qreal axisYMax();
@@ -88,7 +85,7 @@ public:
     void setAxisYMin(
             qreal axisYMin);
 
-    void add_series(
+    QtCharts::QVXYModelMapper* add_series(
         QString statistic_kind,
         models::EntityId source_id,
         models::EntityId target_id = models::ID_INVALID);
@@ -109,9 +106,7 @@ protected:
 
     quint64 id_;
     QString data_kind_;
-    quint64 last_x_;
-    quint64 frame_size_;
-    quint64 refresh_size_;
+    quint64 time_to_;
 
     //! Max Y axis size
     qreal axisYMax_;

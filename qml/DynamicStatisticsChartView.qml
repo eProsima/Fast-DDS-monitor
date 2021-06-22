@@ -23,6 +23,11 @@ ChartView {
     antialiasing: true
     legend.visible: false
 
+    property int axisYMin: 0
+    property int axisYMax: 10
+    property date dateTimeAxisXMin: new Date()
+    property date dateTimeAxisXMax: new Date()
+
     ValueAxis {
         id: axisY
         min: axisYMin
@@ -73,8 +78,8 @@ ChartView {
 
     DateTimeAxis {
         id: dateTimeAxisX
-        min: dateTimeAxisXMin
-        max: dateTimeAxisXMax
+        min: chartView.fromMsecsSinceEpoch(currentDate - timeWindow)
+        max: chartView.fromMsecsSinceEpoch(currentDate)
         format: "hh:mm:ss (dd.MM)"
         labelsAngle: -45
         labelsFont: Qt.font({pointSize: 8})
@@ -82,16 +87,31 @@ ChartView {
     }
 
     function addDynamicSeries(
-            dataKind,
+            dataKindx,
             seriesLabel,
             sourceEntityId,
             targetEntityId,
             statisticKind,
-            timeWindow,
-            updatePeriod) {
+            timeWindowx,
+            updatePeriodx,
+            currentDatex) {
+
+        console.log("--- chatbox id in ChartView: " + chartboxId)
+        console.log("--- : currentDate: " + currentDate + " ; time window: " + timeWindow)
+        console.log("--- : updatePeriod: " + currentDate + " ; time window: " + timeWindow)
+
+        console.log("--- : starting in point: " + dateTimeAxisX.min)
+
+        var mapper = dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId, dateTimeAxisX.max)
+        console.log("------------------------ mapper: " + mapper)
+        var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
+
+        mapper.series = new_series
+
+        refreshTimer.running = true
 
         // TODO
-        resetChartViewZoom();
+        // resetChartViewZoom();
     }
 
     function toMsecsSinceEpoch(date) {
@@ -100,5 +120,27 @@ ChartView {
 
     function fromMsecsSinceEpoch(milliseconds) {
         return new Date(milliseconds);
+    }
+
+    Timer {
+        id:  refreshTimer
+        interval: updatePeriod
+        running: false
+        repeat: true
+        onTriggered: {
+            controller.update_dynamic_chartbox(chartboxId, dateTimeAxisX.max);
+        }
+    }
+
+    Timer {
+        id:  refreshxTimer
+        interval: 10
+        running: true
+        repeat: true
+        onTriggered: {
+            // update X axis
+            dateTimeAxisX.max = new Date()
+            dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow)
+        }
     }
 }

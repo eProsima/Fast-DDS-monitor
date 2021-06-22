@@ -282,12 +282,13 @@ public:
     //! TODO
     void update_dynamic_chartbox(
             quint64 chartbox_id,
-            backend::DataKind data_kind,
-            quint64 last_x,
-            quint64 refresh_size,
-            std::vector<backend::EntityId> source_ids,
-            std::vector<backend::EntityId> target_ids,
-            std::vector<backend::StatisticKind> statistics_kinds);
+            quint64 time_to);
+            // backend::DataKind data_kind,
+            // quint64 last_x,
+            // quint64 refresh_size,
+            // std::vector<backend::EntityId> source_ids,
+            // std::vector<backend::EntityId> target_ids,
+            // std::vector<backend::StatisticKind> statistics_kinds);
 
 signals:
 

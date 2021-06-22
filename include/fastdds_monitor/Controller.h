@@ -139,12 +139,7 @@ public slots:
 
     void update_dynamic_chartbox(
         quint64 chartbox_id,
-        QString data_kind,
-        quint64 last_x,
-        quint64 refresh_size,
-        QVector<QString> source_ids,
-        QVector<QString> target_ids,
-        QVector<QString> statistics_kinds);
+        quint64 time_to);
 
 signals:
 

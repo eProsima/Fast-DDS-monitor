@@ -35,21 +35,23 @@ public:
 
     void update(
         quint64 chartbox_id,
-        std::vector<QPointF> new_data);
+        std::vector<QPointF> new_data,
+        quint64 time_to);
+
+    UpdateParameters get_update_parameters(quint64 chartbox_id);
 
 public slots:
 
-    void add_series(
+    QtCharts::QVXYModelMapper* add_series(
         quint64 chartbox_id,
         QString statistic_kind,
-        models::EntityId source_id,
-        models::EntityId target_id = models::ID_INVALID);
+        QString source_id,
+        QString target_id,
+        quint64 time_to);
 
     quint64 add_chartbox(
         QString data_kind,
-        quint64 last_x,
-        quint64 frame_size,
-        quint64 refresh_size);
+        quint64 time_to);
 
 protected:
 

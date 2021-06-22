@@ -16,6 +16,7 @@
 
 #include <fastdds_monitor/statistics/DynamicChartBox.h>
 #include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
+#include <fastdds_monitor/utils.h>
 
 DynamicChartBox::~DynamicChartBox()
 {
@@ -30,7 +31,7 @@ DynamicChartBox::~DynamicChartBox()
     }
 }
 
-void DynamicChartBox::add_series(
+QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
         QString statistic_kind,
         models::EntityId source_id,
         models::EntityId target_id /* = ID_INVALID */)
@@ -39,7 +40,20 @@ void DynamicChartBox::add_series(
              << " with source: " << source_id
              << " and with target: " << target_id;
 
+    qDebug() << "Actual time to set points now: " << utils::to_QString(utils::now());
+    qDebug() << "Actual time to set points: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    qDebug() << "Actual time to set points: " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000);
+
     auto new_data_model = new models::DynamicDataModel(statistic_kind, source_id, target_id);
+
+    new_data_model->handleNewPoint(
+        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 1));
+
+    new_data_model->handleNewPoint(
+        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 1));
+
+    new_data_model->handleNewPoint(
+        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 1));
 
     // Add it to series collection
     series_.push_back(new_data_model);
@@ -51,10 +65,26 @@ void DynamicChartBox::add_series(
 
     // Add it to mappers collection
     mappers_.push_back(mapper);
+
+
+    new_data_model->handleNewPoint(
+        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 2));
+
+    new_data_model->handleNewPoint(
+        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 2));
+
+    new_data_model->handleNewPoint(
+        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 2));
+
+
+    return mapper;
 }
 
-void DynamicChartBox::update(std::vector<QPointF> new_data)
+void DynamicChartBox::update(std::vector<QPointF> new_data, quint64 time_to)
 {
+    // Update internal timer so next call to get data use it as from
+    time_to_ = time_to;
+
     if(new_data.size() != series_.size())
     {
         qWarning() << "Updating model with no data: ";
@@ -76,13 +106,6 @@ void DynamicChartBox::update(std::vector<QPointF> new_data)
             }
         }
     }
-
-    update_frame_();
-}
-
-void DynamicChartBox::update_frame_()
-{
-    last_x_ += refresh_size_;
 }
 
 qreal DynamicChartBox::axisYMax()
@@ -105,4 +128,21 @@ void DynamicChartBox::setAxisYMin(
         qreal axisYMin)
 {
     axisYMin_ = axisYMin;
+}
+
+UpdateParameters DynamicChartBox::get_update_parameters()
+{
+    UpdateParameters parameters;
+    parameters.data_kind = data_kind_;
+    parameters.time_from = time_to_;
+
+    // TODO : store these vectors so it is not needed to create it every time
+    for (auto model : series_)
+    {
+        parameters.source_ids.push_back(model->source_id());
+        parameters.target_ids.push_back(model->target_id());
+        parameters.statistics_kinds.push_back(model->statistic_kind());
+    }
+
+    return parameters;
 }

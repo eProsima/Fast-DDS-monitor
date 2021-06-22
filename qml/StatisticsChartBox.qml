@@ -30,12 +30,18 @@ Rectangle {
     property int index
     property bool visibility: true
     property bool isDynamic: false
-    property double timeWindow: -1
-    property int updatePeriod: -1
+    property variant timeWindow: -1
+    property variant updatePeriod: -1
+    property int chartboxId: -1
+    property variant currentDate: toMsecsSinceEpoch(new Date())
 
     Component.onCompleted: {
         console.log("------------------------ Is dynamic: " + isDynamic)
         if (isDynamic){
+
+            chartboxId = dynamicData.add_chartbox(chartTitle, currentDate, timeWindow, updatePeriod)
+            console.log("-------- id chartbox " + chartboxId + " current date: " + currentDate)
+            console.log("-------- new Date " + new Date())
             dynamicDisplayStatisticsDialog.open()
         } else {
             displayStatisticsDialog.open();
@@ -129,8 +135,9 @@ Rectangle {
                         string sourceEntityId,
                         string targetEntityId,
                         string statisticKind,
-                        double timeWindow,
-                        int updatePeriod)
+                        variant timeWindow,
+                        variant updatePeriod,
+                        variant currenDate)
                     signal clearChart()
 
                     onAddSeries: statisticsChartViewLoader.item.addSeries(
@@ -151,7 +158,8 @@ Rectangle {
                                      targetEntityId,
                                      statisticKind,
                                      timeWindow,
-                                     updatePeriod);
+                                     updatePeriod,
+                                     currentDate);
                     onClearChart: statisticsChartViewLoader.item.clearChart();
 
                     Menu {
@@ -203,6 +211,11 @@ Rectangle {
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
 
             property string chartTitle: statisticsChartBox.chartTitle
+            property variant timeWindow: statisticsChartBox.timeWindow
+            property variant currentDate: statisticsChartBox.currentDate
+            property variant updatePeriod: statisticsChartBox.updatePeriod
+            property variant chartboxId: statisticsChartBox.chartboxId
+
             source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "StatisticsChartView.qml"
         }
 
@@ -250,5 +263,9 @@ Rectangle {
     DynamicDisplayStatisticsDialog {
         id: dynamicDisplayStatisticsDialog
         anchors.centerIn: Overlay.overlay
+    }
+
+    function toMsecsSinceEpoch(date) {
+        return date.getTime().valueOf();
     }
 }

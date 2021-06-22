@@ -35,11 +35,11 @@ Dialog {
         var minutes = (timeWindowMinutes.text === "") ? 0 : parseInt(timeWindowMinutes.text)
         var seconds = (timeWindowSeconds.text === "") ? 0 : parseInt(timeWindowSeconds.text)
 
-        var timeFrame = days*86400 + hours*3600 + minutes*60 + seconds
+        var timeFrame = (days*86400 + hours*3600 + minutes*60 + seconds)*1000
         if (timeFrame === 0){
             emptyTimeWindow.open()
         } else {
-            createChart(dataKindComboBox.currentText, timeFrame, updatePeriod.value)
+            createChart(dataKindComboBox.currentText, timeFrame, (updatePeriod.value) * 1000)
         }
     }
 

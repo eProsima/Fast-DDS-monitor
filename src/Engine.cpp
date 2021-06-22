@@ -108,6 +108,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
 
     rootContext()->setContextProperty("statisticsData", statistics_data_);
+    rootContext()->setContextProperty("dynamicData", dynamic_data_);
     rootContext()->setContextProperty("controller", controller_);
 
     addImportPath(":/imports");
@@ -665,43 +666,47 @@ void Engine::process_error(
 
 void Engine::update_dynamic_chartbox(
         quint64 chartbox_id,
-        backend::DataKind data_kind,
-        quint64 last_x,
-        quint64 refresh_size,
-        std::vector<backend::EntityId> source_ids,
-        std::vector<backend::EntityId> target_ids,
-        std::vector<backend::StatisticKind> statistics_kinds)
+        quint64 time_to)
 {
-    std::vector<QPointF> new_series_points(source_ids.size());
+    qDebug() << "Updating chartbox: " << chartbox_id;
+
+    // Get time into Timestamp
+    backend::Timestamp time_to_timestamp = backend::Timestamp(std::chrono::milliseconds(time_to));
+
+    /////
+    // Get the parameters to get data
+    // time_from, data_kind, source_ids, target_ids, statistics_kinds
+    UpdateParameters parameters = dynamic_data_->get_update_parameters(chartbox_id);
+
+    /////
+    // Collect the data for each series and store it in a point vector
+    std::vector<QPointF> new_series_points(parameters.source_ids.size());
 
     // Check that source target and kinds has same size
-    if (source_ids.size() != target_ids.size() ||
-        source_ids.size() != statistics_kinds.size())
+    if (parameters.source_ids.size() != parameters.target_ids.size() ||
+        parameters.source_ids.size() != parameters.statistics_kinds.size())
     {
         // BAD PARAMENTERS
         qCritical() << "Bad parameters in function update_dynamic_chartbox."
-                << "sources: " << source_ids.size()
-                << "targets: " << target_ids.size()
-                << "statistics kind: " << statistics_kinds.size();
+                << "sources: " << parameters.source_ids.size()
+                << "targets: " << parameters.target_ids.size()
+                << "statistics kind: " << parameters.statistics_kinds.size();
 
         // Update the model with an empty vector so the time saves coherence in chart
-        dynamic_data_->update(chartbox_id, new_series_points);
+        dynamic_data_->update(chartbox_id, new_series_points, time_to);
         return;
     }
 
-    backend::Timestamp time_to = backend::Timestamp(std::chrono::milliseconds(last_x));
-    backend::Timestamp time_from = backend::Timestamp(std::chrono::milliseconds(last_x + refresh_size));
-
-    for (std::size_t i = 0; i < source_ids.size(); i++)
+    for (std::size_t i = 0; i < parameters.source_ids.size(); i++)
     {
         std::vector<backend::StatisticsData> new_point = backend_connection_.get_data(
-            data_kind,
-            source_ids[i],
-            target_ids[i],
+            backend::string_to_data_kind(parameters.data_kind),
+            backend::models_id_to_backend_id(parameters.source_ids[i]),
+            backend::models_id_to_backend_id(parameters.target_ids[i]),
             1,                      // Only ask for one data
-            statistics_kinds[i],
-            time_to,                 // Last time value taken in last call
-            time_from); // New limit value
+            backend::string_to_statistic_kind(parameters.statistics_kinds[i]),
+            time_to_timestamp,                 // Last time value taken in last call
+            backend::Timestamp(std::chrono::milliseconds(parameters.time_from))); // New limit value
 
         // Check that get_data call has not failed
         if (new_point.size() != 1)
@@ -722,6 +727,7 @@ void Engine::update_dynamic_chartbox(
         }
     }
 
-    // Update Model with series
-    dynamic_data_->update(chartbox_id, new_series_points);
+    /////
+    // Update series with data AND now value
+    dynamic_data_->update(chartbox_id, new_series_points, time_to);
 }

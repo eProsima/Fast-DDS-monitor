@@ -29,34 +29,43 @@ DynamicData::~DynamicData()
 
 void DynamicData::update(
     quint64 chartbox_id,
-    std::vector<QPointF> new_data)
+    std::vector<QPointF> new_data,
+    quint64 time_to)
 {
     auto it = chartboxes_.find(chartbox_id);
 
     assert(it != chartboxes_.end());
 
-    it->second->update(new_data);
+    it->second->update(new_data, time_to);
 }
 
-void DynamicData::add_series(
+QtCharts::QVXYModelMapper* DynamicData::add_series(
     quint64 chartbox_id,
     QString statistic_kind,
-    models::EntityId source_id,
-    models::EntityId target_id)
+    QString source_id,
+    QString target_id,
+    quint64 time_to)
 {
     auto it = chartboxes_.find(chartbox_id);
 
     assert(it != chartboxes_.end());
 
-    it->second->add_series(statistic_kind, source_id, target_id);
+    return it->second->add_series(statistic_kind, source_id, target_id);
 }
 
 quint64 DynamicData::add_chartbox(
     QString data_kind,
-    quint64 last_x,
-    quint64 frame_size,
-    quint64 refresh_size)
+    quint64 time_to)
 {
-    chartboxes_.insert({last_id_, new DynamicChartBox(last_id_, data_kind, last_x, frame_size, refresh_size)});
+    chartboxes_.insert({last_id_, new DynamicChartBox(last_id_, data_kind, time_to)});
     return last_id_++;
+}
+
+UpdateParameters DynamicData::get_update_parameters(quint64 chartbox_id)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->get_update_parameters();
 }

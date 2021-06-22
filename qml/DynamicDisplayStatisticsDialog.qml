@@ -220,7 +220,8 @@ Dialog {
                     (targetEntityIdLayout.visible == true) ? targetEntityId.currentValue : '',
                     statisticKind.currentText,
                     timeWindow,
-                    updatePeriod)
+                    updatePeriod,
+                    currentDate)
     }
 
     function formatText(count, modelData) {
