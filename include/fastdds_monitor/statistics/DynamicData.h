@@ -46,8 +46,7 @@ public slots:
         quint64 chartbox_id,
         QString statistic_kind,
         QString source_id,
-        QString target_id,
-        quint64 time_to);
+        QString target_id);
 
     quint64 add_chartbox(
         QString data_kind,

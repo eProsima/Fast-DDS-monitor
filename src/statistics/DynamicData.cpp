@@ -43,9 +43,10 @@ QtCharts::QVXYModelMapper* DynamicData::add_series(
     quint64 chartbox_id,
     QString statistic_kind,
     QString source_id,
-    QString target_id,
-    quint64 time_to)
+    QString target_id)
 {
+    qDebug() << "Addin serie to chartbox id: " << chartbox_id;
+
     auto it = chartboxes_.find(chartbox_id);
 
     assert(it != chartboxes_.end());
@@ -57,15 +58,19 @@ quint64 DynamicData::add_chartbox(
     QString data_kind,
     quint64 time_to)
 {
+    qDebug() << "Addin chartbox with id: " << last_id_;
+
     chartboxes_.insert({last_id_, new DynamicChartBox(last_id_, data_kind, time_to)});
     return last_id_++;
 }
 
 UpdateParameters DynamicData::get_update_parameters(quint64 chartbox_id)
 {
+    qDebug() << "Getting parameters from: " << chartbox_id;
+
     auto it = chartboxes_.find(chartbox_id);
 
     assert(it != chartboxes_.end());
 
-    it->second->get_update_parameters();
+    return it->second->get_update_parameters();
 }

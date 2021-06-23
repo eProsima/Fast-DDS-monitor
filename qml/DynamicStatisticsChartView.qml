@@ -87,14 +87,10 @@ ChartView {
     }
 
     function addDynamicSeries(
-            dataKindx,
             seriesLabel,
             sourceEntityId,
             targetEntityId,
-            statisticKind,
-            timeWindowx,
-            updatePeriodx,
-            currentDatex) {
+            statisticKind) {
 
         console.log("--- chatbox id in ChartView: " + chartboxId)
         console.log("--- : currentDate: " + currentDate + " ; time window: " + timeWindow)
@@ -102,13 +98,15 @@ ChartView {
 
         console.log("--- : starting in point: " + dateTimeAxisX.min)
 
-        var mapper = dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId, dateTimeAxisX.max)
+        // For some reason de axis is a float and must be converted to int
+        var mapper = dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId)
         console.log("------------------------ mapper: " + mapper)
         var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
 
+        series.pointsVisible = true
         mapper.series = new_series
 
-        refreshTimer.running = true
+        refreshaxisTimer.running = true
 
         // TODO
         // resetChartViewZoom();
@@ -125,17 +123,18 @@ ChartView {
     Timer {
         id:  refreshTimer
         interval: updatePeriod
-        running: false
+        running: true
         repeat: true
         onTriggered: {
-            controller.update_dynamic_chartbox(chartboxId, dateTimeAxisX.max);
+            console.log("Timer -> Updating chartbox " + chartboxId)
+            controller.update_dynamic_chartbox(chartboxId, Math.round(dateTimeAxisX.max));
         }
     }
 
     Timer {
-        id:  refreshxTimer
+        id:  refreshaxisTimer
         interval: 10
-        running: true
+        running: false
         repeat: true
         onTriggered: {
             // update X axis

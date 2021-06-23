@@ -130,14 +130,10 @@ Rectangle {
                         bool endTimeDefault,
                         string statisticKind)
                     signal addDynamicSeries(
-                        string dataKind,
                         string seriesLabel,
                         string sourceEntityId,
                         string targetEntityId,
-                        string statisticKind,
-                        variant timeWindow,
-                        variant updatePeriod,
-                        variant currenDate)
+                        string statisticKind)
                     signal clearChart()
 
                     onAddSeries: statisticsChartViewLoader.item.addSeries(
@@ -152,14 +148,10 @@ Rectangle {
                                      endTimeDefault,
                                      statisticKind);
                     onAddDynamicSeries: statisticsChartViewLoader.item.addDynamicSeries(
-                                     dataKind,
                                      seriesLabel,
                                      sourceEntityId,
                                      targetEntityId,
-                                     statisticKind,
-                                     timeWindow,
-                                     updatePeriod,
-                                     currentDate);
+                                     statisticKind);
                     onClearChart: statisticsChartViewLoader.item.clearChart();
 
                     Menu {

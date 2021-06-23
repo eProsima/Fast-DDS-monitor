@@ -668,15 +668,24 @@ void Engine::update_dynamic_chartbox(
         quint64 chartbox_id,
         quint64 time_to)
 {
-    qDebug() << "Updating chartbox: " << chartbox_id;
+    qDebug() << "Updating chartbox: " << chartbox_id << " with time: " << time_to;
 
     // Get time into Timestamp
     backend::Timestamp time_to_timestamp = backend::Timestamp(std::chrono::milliseconds(time_to));
+
+    qDebug() << "Updating chartbox: " << chartbox_id << " with timestamp: ---";
 
     /////
     // Get the parameters to get data
     // time_from, data_kind, source_ids, target_ids, statistics_kinds
     UpdateParameters parameters = dynamic_data_->get_update_parameters(chartbox_id);
+
+    qDebug() << "Parameters from chartbox: " << chartbox_id
+        << " source_ids" << parameters.source_ids.size()
+        << " target_ids" << parameters.target_ids.size()
+        << " statistics_kinds" << parameters.statistics_kinds.size()
+        << " data_kind" << parameters.data_kind
+        << " time_from" << parameters.time_from;
 
     /////
     // Collect the data for each series and store it in a point vector
@@ -705,8 +714,8 @@ void Engine::update_dynamic_chartbox(
             backend::models_id_to_backend_id(parameters.target_ids[i]),
             1,                      // Only ask for one data
             backend::string_to_statistic_kind(parameters.statistics_kinds[i]),
-            time_to_timestamp,                 // Last time value taken in last call
-            backend::Timestamp(std::chrono::milliseconds(parameters.time_from))); // New limit value
+            backend::Timestamp(std::chrono::milliseconds(parameters.time_from)), // New limit value
+            time_to_timestamp);                 // Last time value taken in last call
 
         // Check that get_data call has not failed
         if (new_point.size() != 1)
@@ -714,7 +723,7 @@ void Engine::update_dynamic_chartbox(
             qInfo() << "get_data call has failed in series: " << i;
 
             new_series_points[i] = QPointF(
-                    std::chrono::duration_cast<std::chrono::milliseconds>(new_point[0].first.time_since_epoch()).count(),
+                    std::chrono::duration_cast<std::chrono::milliseconds>(time_to_timestamp.time_since_epoch()).count(),
                     std::numeric_limits<double>::quiet_NaN());
         }
         else
@@ -726,6 +735,13 @@ void Engine::update_dynamic_chartbox(
                     new_point[0].second);
         }
     }
+
+    qDebug() << "Results from chartbox: " << chartbox_id;
+    for (auto p : new_series_points)
+    {
+        qDebug() << p;
+    }
+
 
     /////
     // Update series with data AND now value

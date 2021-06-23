@@ -46,14 +46,14 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
 
     auto new_data_model = new models::DynamicDataModel(statistic_kind, source_id, target_id);
 
-    new_data_model->handleNewPoint(
-        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 1));
+    // new_data_model->handleNewPoint(
+    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 1));
 
-    new_data_model->handleNewPoint(
-        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 1));
+    // new_data_model->handleNewPoint(
+    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 1));
 
-    new_data_model->handleNewPoint(
-        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 1));
+    // new_data_model->handleNewPoint(
+    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 1));
 
     // Add it to series collection
     series_.push_back(new_data_model);
@@ -66,16 +66,14 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
     // Add it to mappers collection
     mappers_.push_back(mapper);
 
+    // new_data_model->handleNewPoint(
+    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 2));
 
-    new_data_model->handleNewPoint(
-        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 2));
+    // new_data_model->handleNewPoint(
+    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 2));
 
-    new_data_model->handleNewPoint(
-        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 2));
-
-    new_data_model->handleNewPoint(
-        QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 2));
-
+    // new_data_model->handleNewPoint(
+    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 2));
 
     return mapper;
 }
@@ -132,6 +130,8 @@ void DynamicChartBox::setAxisYMin(
 
 UpdateParameters DynamicChartBox::get_update_parameters()
 {
+    qDebug() << "Getting parameters in DynamicChartBox";
+
     UpdateParameters parameters;
     parameters.data_kind = data_kind_;
     parameters.time_from = time_to_;
