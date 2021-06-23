@@ -64,6 +64,10 @@ public slots:
     qreal axis_y_min(
         quint64 chartbox_id);
 
+    //! Send clear chart to internal chartbox
+    void clear_charts(quint64 chartbox_id);
+
+
 protected:
 
     //! Unique id of the new chartbox to add

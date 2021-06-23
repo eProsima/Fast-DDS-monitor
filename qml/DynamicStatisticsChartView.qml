@@ -24,6 +24,9 @@ ChartView {
     legend.visible: false
 
     property variant mapper: []
+    property int delay_time: 5000
+
+    signal clearedChart()
 
     ValueAxis {
         id: axisY
@@ -74,9 +77,11 @@ ChartView {
     }
 
     DateTimeAxis {
+        // dateTimeAxisX must be always delayed by a delay_time, so every time the axis is modified must be
+        // substracted the delay_time
         id: dateTimeAxisX
-        min: chartView.fromMsecsSinceEpoch(currentDate - timeWindow)
-        max: chartView.fromMsecsSinceEpoch(currentDate)
+        min: chartView.fromMsecsSinceEpoch(currentDate - timeWindow - delay_time)
+        max: chartView.fromMsecsSinceEpoch(currentDate - delay_time)
         format: "hh:mm:ss (dd.MM)"
         labelsAngle: -45
         labelsFont: Qt.font({pointSize: 8})
@@ -121,6 +126,24 @@ ChartView {
         return new Date(milliseconds);
     }
 
+    function clearChart() {
+        console.log("clearCHart in Dynamic")
+        refreshaxisTimer.running = false
+        chartView.removeAllSeries();
+        clearedChart()
+        resetChartViewZoom();
+        dynamicData.clear_charts(chartboxId);
+
+    }
+
+    function resetChartViewZoom(){
+        chartView.zoomReset()
+        axisY.min = dynamicData.axis_y_min(chartboxId)
+        axisY.max = dynamicData.axis_y_max(chartboxId)
+        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
+        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
+    }
+
     Timer {
         id:  refreshTimer
         interval: updatePeriod
@@ -141,8 +164,8 @@ ChartView {
         repeat: true
         onTriggered: {
             // update X axis
-            dateTimeAxisX.max = new Date()
-            dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow)
+            dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
+            dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
         }
     }
 }

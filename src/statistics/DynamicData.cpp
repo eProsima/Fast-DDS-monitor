@@ -94,3 +94,12 @@ qreal DynamicData::axis_y_min(
 
     return it->second->axisYMin();
 }
+
+void DynamicData::clear_charts(quint64 chartbox_id)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->clear_charts();
+}

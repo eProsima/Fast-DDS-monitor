@@ -87,6 +87,9 @@ public:
         models::EntityId source_id,
         models::EntityId target_id = models::ID_INVALID);
 
+    //! Eliminate all series
+    void clear_charts();
+
 signals:
 
     //! Signal to communicate that max Y axis has changed

@@ -23,15 +23,7 @@ quint64 DynamicChartBox::last_id_ = 0;
 
 DynamicChartBox::~DynamicChartBox()
 {
-    for(auto m : mappers_)
-    {
-        delete m.second;
-    }
-
-    for (auto s : series_)
-    {
-        delete s.second;
-    }
+    clear_charts();
 }
 
 QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
@@ -159,7 +151,7 @@ void DynamicChartBox::setAxisYMin(
 
 UpdateParameters DynamicChartBox::get_update_parameters()
 {
-    qDebug() << "Getting parameters in DynamicChartBox";
+    qDebug() << "Getting parameters in DynamicChartBox for n series: " << series_.size();
 
     UpdateParameters parameters;
     parameters.data_kind = data_kind_;
@@ -174,4 +166,21 @@ UpdateParameters DynamicChartBox::get_update_parameters()
     }
 
     return parameters;
+}
+
+void DynamicChartBox::clear_charts()
+{
+    qDebug() << "Clearing chartbox: " << id_;
+
+    for(auto m : mappers_)
+    {
+        delete m.second;
+    }
+    mappers_.clear();
+
+    for (auto s : series_)
+    {
+        delete s.second;
+    }
+    series_.clear();
 }
