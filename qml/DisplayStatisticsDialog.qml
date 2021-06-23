@@ -75,9 +75,10 @@ Dialog {
             id: seriesLabel
             text: "Series label: "
             InfoToolTip {
-                text: "Name of the series. The series\n" +
-                      "name is autogerated using the\n" +
-                      "values given in this dialog."
+                text: "Name of the series\n"+
+                      "The series name is autogerated\n" +
+                      "using the values given in this\n" +
+                      "dialog."
             }
         }
         TextField {
@@ -95,8 +96,8 @@ Dialog {
             id: sourceEntityIdLabel
             text: "Source Entity Id: "
             InfoToolTip {
-                text: "Entity from which the data will\n" +
-                      "be collected."
+                text: "Entity from which the data\n" +
+                      "will be collected."
             }
         }
         RowLayout {
@@ -138,11 +139,12 @@ Dialog {
             text: "Target Entity Id: "
             visible: targetExists
             InfoToolTip {
-                text: "This is the entity to which the\n" +
-                      "data refer. It is available\n" +
-                      "only for those data kinds that\n" +
-                      "involve a source and a target \n" +
-                      "entity such as latency."
+                text: "This is the entity to which\n" +
+                      "the data refer.\n" +
+                      "It is available only for those\n" +
+                      "data kinds that involve a\n" +
+                      "source and a target entity\n" +
+                      "such as latency."
             }
         }
         RowLayout {
@@ -184,11 +186,15 @@ Dialog {
             id: binsLabel
             text: "Number of bins: "
             InfoToolTip {
-                text: "Number of time points to be plotted.\n" +
-                      "If bins is equal to 0, all available\n" +
-                      "values will be represented. In case bins\n" +
-                      "is greater than 0, the selected statistic\n" +
-                      "will be applied in each time interval."
+                text: "Number of time points to be\n" +
+                      "plotted.\n" +
+                      "If bins is equal to 0, all\n" +
+                      "available values will be\n" +
+                      "represented.\n" +
+                      "In case bins is greater than\n" +
+                      "0, the selected statistic will\n" +
+                      "be applied in each time\n" +
+                      "interval."
             }
         }
         SpinBox {
@@ -204,7 +210,8 @@ Dialog {
         Label {
             text: "Start time: "
             InfoToolTip {
-                text: "Initial time from which data are collected."
+                text: "Initial time from which data\n" +
+                      "are collected."
             }
         }
         ColumnLayout {
@@ -215,8 +222,9 @@ Dialog {
                     text: "Default inital timestamp: "
                     InfoToolTip {
                         text: "The default start timestamp\n" +
-                              "is the time at which the monitor\n" +
-                              "application was launched."
+                              "is the time at which the\n" +
+                              "monitor application was\n" +
+                              "launched."
                     }
                 }
 
@@ -251,7 +259,8 @@ Dialog {
         Label {
             text: "End time: "
             InfoToolTip {
-                text: "End timestamp of the data series."
+                text: "End timestamp of the data\n" +
+                      "series."
             }
         }
         ColumnLayout {
@@ -292,9 +301,10 @@ Dialog {
             text: "Statistic kind: "
             InfoToolTip {
                 text: "Cumulative function that is\n" +
-                      "applied to the data of each time\n" +
-                      "interval. If none is selected, the\n" +
-                      "first available data of the interval\n" +
+                      "applied to the data of each\n" +
+                      "time interval.\n" +
+                      "If none is selected, the first\n" +
+                      "available data of the interval\n" +
                       "is taken."
             }
         }

@@ -16,8 +16,15 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import Theme 1.0
 
+
+/*
+    Object to create information boxes about a Label.
+    This box appears automatically when the mouse is hovered over the Label object that contains it.
+    The text property defines the text to be displayed in the info box.
+ */
 Item {
     anchors.fill: parent
+    // Text to show in the tooltip
     property string text: ""
     ToolTip {
         id: tooltip
