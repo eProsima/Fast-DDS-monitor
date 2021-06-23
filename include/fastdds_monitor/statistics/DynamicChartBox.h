@@ -59,18 +59,10 @@ public:
 
     ~DynamicChartBox();
 
+    //! Updata the internal series with one point for each series and set new \c time_to
     void update(std::vector<QPointF> new_data, quint64 time_to);
 
-    QString data_kind() const
-    {
-        return data_kind_;
-    }
-
-    quint64 time_to() const
-    {
-        return time_to_;
-    }
-
+    //! Get parameters from an internal chartbox to get next data point
     UpdateParameters get_update_parameters();
 
     //! Get Y max axis size
@@ -85,6 +77,11 @@ public:
     void setAxisYMin(
             qreal axisYMin);
 
+    /**
+     * @brief Add new series
+     *
+     * Create a new \c DynamicDataModel and a mapper related to it
+     */
     QtCharts::QVXYModelMapper* add_series(
         QString statistic_kind,
         models::EntityId source_id,
@@ -99,13 +96,18 @@ signals:
 
 protected:
 
-    void update_frame_();
+    //! Map of ModelMappers reference by unique id from this chartbox
+    std::map<quint64, QtCharts::QVXYModelMapper*> mappers_;
+    //! Map of \c DynamicDataModel reference by unique id from this chartbox
+    std::map<quint64, models::DynamicDataModel*> series_;
 
-    std::vector<QtCharts::QVXYModelMapper*> mappers_;
-    std::vector<models::DynamicDataModel*> series_;
-
+    //! Unique id of this chatbox referenced by upper DynamicData
     quint64 id_;
+
+    //! String with data_kind of this chartbox series
     QString data_kind_;
+
+    //! Time to of last point stored
     quint64 time_to_;
 
     //! Max Y axis size
@@ -113,6 +115,9 @@ protected:
 
     //! Min Y axis size
     qreal axisYMin_;
+
+    //! Unique id of the new chartbox to add
+    static quint64 last_id_;
 };
 
 

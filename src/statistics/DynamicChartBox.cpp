@@ -19,16 +19,18 @@
 #include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
 #include <fastdds_monitor/utils.h>
 
+quint64 DynamicChartBox::last_id_ = 0;
+
 DynamicChartBox::~DynamicChartBox()
 {
     for(auto m : mappers_)
     {
-        delete m;
+        delete m.second;
     }
 
     for (auto s : series_)
     {
-        delete s;
+        delete s.second;
     }
 }
 
@@ -57,7 +59,8 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
     //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 1));
 
     // Add it to series collection
-    series_.push_back(new_data_model);
+    // series_.push_back(new_data_model);
+    series_.insert({last_id_, new_data_model});
 
     auto mapper = new QtCharts::QVXYModelMapper();
     mapper->setModel(new_data_model);
@@ -65,7 +68,8 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
     mapper->setYColumn(1);
 
     // Add it to mappers collection
-    mappers_.push_back(mapper);
+    // mappers_.push_back(mapper);
+    mappers_.insert({last_id_, mapper});
 
     // new_data_model->handleNewPoint(
     //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 2));
@@ -76,6 +80,7 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
     // new_data_model->handleNewPoint(
     //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 2));
 
+    last_id_++;
     return mapper;
 }
 
@@ -91,10 +96,11 @@ void DynamicChartBox::update(std::vector<QPointF> new_data, quint64 time_to)
     else
     {
         qDebug() << "Updating model with id: " << id_;
+        size_t i = 0;
 
-        for (size_t i = 0; i < series_.size(); i++)
+        for (auto model : series_)
         {
-            series_[i]->handleNewPoint(new_data[i]);
+            model.second->handleNewPoint(new_data[i]);
             if(new_data[i].ry() > axisYMax_)
             {
                 setAxisYMax(new_data[i].ry() + 1);
@@ -105,11 +111,27 @@ void DynamicChartBox::update(std::vector<QPointF> new_data, quint64 time_to)
                 setAxisYMin(new_data[i].ry() - 1);
                 qDebug() << "Updating y min axis : " << axisYMin_;
             }
-
-            std::cout << "After handle point : " << i << " mapper i has : " << mappers_[i] << std::endl;
-            qDebug() << "After handle point : " << i << " mapper i has : " << mappers_[i];
-
+            ++i;
         }
+
+        // for (size_t i = 0; i < series_.size(); i++)
+        // {
+        //     series_[i]->handleNewPoint(new_data[i]);
+        //     if(new_data[i].ry() > axisYMax_)
+        //     {
+        //         setAxisYMax(new_data[i].ry() + 1);
+        //         qDebug() << "Updating y max axis : " << axisYMax_;
+        //     }
+        //     else if (new_data[i].ry() < axisYMin_)
+        //     {
+        //         setAxisYMin(new_data[i].ry() - 1);
+        //         qDebug() << "Updating y min axis : " << axisYMin_;
+        //     }
+
+        //     std::cout << "After handle point : " << i << " mapper i has : " << mappers_[i] << std::endl;
+        //     qDebug() << "After handle point : " << i << " mapper i has : " << mappers_[i];
+
+        // }
     }
 }
 
@@ -146,9 +168,9 @@ UpdateParameters DynamicChartBox::get_update_parameters()
     // TODO : store these vectors so it is not needed to create it every time
     for (auto model : series_)
     {
-        parameters.source_ids.push_back(model->source_id());
-        parameters.target_ids.push_back(model->target_id());
-        parameters.statistics_kinds.push_back(model->statistic_kind());
+        parameters.source_ids.push_back(model.second->source_id());
+        parameters.target_ids.push_back(model.second->target_id());
+        parameters.statistics_kinds.push_back(model.second->statistic_kind());
     }
 
     return parameters;

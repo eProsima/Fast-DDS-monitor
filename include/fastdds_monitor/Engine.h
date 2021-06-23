@@ -279,16 +279,19 @@ public:
             std::string error_msg,
             ErrorType error_type = ErrorType::GENERIC);
 
-    //! TODO
+    /**
+     * @brief Add a new data point in an internal dynamic chartbox
+     *
+     * It gets the parameters needed to call \c get_data from \c DynamicData and its internal chartbox referenced by
+     * \c chartbox_id .
+     * It calls \c get_data to get 1 value for each series inside the chartbox, and the update the chartbox
+     *
+     * @param chatbox_id unique id of the chartbox inside the \c DynamicData object
+     * @param time_to new time reference to now
+     */
     void update_dynamic_chartbox(
             quint64 chartbox_id,
             quint64 time_to);
-            // backend::DataKind data_kind,
-            // quint64 last_x,
-            // quint64 refresh_size,
-            // std::vector<backend::EntityId> source_ids,
-            // std::vector<backend::EntityId> target_ids,
-            // std::vector<backend::StatisticKind> statistics_kinds);
 
 signals:
 
