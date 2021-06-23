@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <QDebug>
+#include <iostream>
 
 #include <fastdds_monitor/statistics/DynamicChartBox.h>
 #include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
@@ -85,7 +86,7 @@ void DynamicChartBox::update(std::vector<QPointF> new_data, quint64 time_to)
 
     if(new_data.size() != series_.size())
     {
-        qWarning() << "Updating model with no data: ";
+        qInfo() << "Updating model with wrong data: ";
     }
     else
     {
@@ -96,12 +97,18 @@ void DynamicChartBox::update(std::vector<QPointF> new_data, quint64 time_to)
             series_[i]->handleNewPoint(new_data[i]);
             if(new_data[i].ry() > axisYMax_)
             {
-                setAxisYMax(new_data[i].ry());
+                setAxisYMax(new_data[i].ry() + 1);
+                qDebug() << "Updating y max axis : " << axisYMax_;
             }
             else if (new_data[i].ry() < axisYMin_)
             {
-                setAxisYMin(new_data[i].ry());
+                setAxisYMin(new_data[i].ry() - 1);
+                qDebug() << "Updating y min axis : " << axisYMin_;
             }
+
+            std::cout << "After handle point : " << i << " mapper i has : " << mappers_[i] << std::endl;
+            qDebug() << "After handle point : " << i << " mapper i has : " << mappers_[i];
+
         }
     }
 }

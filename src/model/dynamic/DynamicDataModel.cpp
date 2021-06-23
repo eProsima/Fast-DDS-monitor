@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <QDebug>
+
 #include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
 
 namespace models {
@@ -25,12 +27,14 @@ DynamicDataModel::DynamicDataModel()
 
 void DynamicDataModel::handleNewPoint(const QPointF &point)
 {
+    qDebug() << "Data model handle new point: " << point;
     emit newPointAdded(point);
 }
 
 void DynamicDataModel::addNewPoint(const QPointF& point)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    qDebug() << "Data model adding new point: " << point;
     m_data.push_back(point);
     endInsertRows();
 }
@@ -39,6 +43,7 @@ void DynamicDataModel::addNewPoint(const QPointF& point)
 int DynamicDataModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
+    qDebug() << "Data model row count: " << m_data.size();
     return m_data.size();
 }
 

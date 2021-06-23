@@ -27,6 +27,7 @@ ChartView {
     property int axisYMax: 10
     property date dateTimeAxisXMin: new Date()
     property date dateTimeAxisXMax: new Date()
+    property variant mapper: []
 
     ValueAxis {
         id: axisY
@@ -99,14 +100,21 @@ ChartView {
         console.log("--- : starting in point: " + dateTimeAxisX.min)
 
         // For some reason de axis is a float and must be converted to int
-        var mapper = dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId)
+        mapper.push(dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId))
         console.log("------------------------ mapper: " + mapper)
         var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
 
-        series.pointsVisible = true
-        mapper.series = new_series
+        new_series.pointsVisible = true
+        mapper[mapper.length-1].series = new_series
 
         refreshaxisTimer.running = true
+
+        new_series.pointAdded.connect(
+                    function (index){
+                        console.log("In point Added: " + index)
+                        console.log("X series: " + new_series.at(index).rx())
+                        console.log("X point: " + new_series.index.rx())
+                    })
 
         // TODO
         // resetChartViewZoom();
