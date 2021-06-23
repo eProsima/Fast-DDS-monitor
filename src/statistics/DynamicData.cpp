@@ -74,3 +74,23 @@ UpdateParameters DynamicData::get_update_parameters(quint64 chartbox_id)
 
     return it->second->get_update_parameters();
 }
+
+qreal DynamicData::axis_y_max(
+    quint64 chartbox_id)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->axisYMax();
+}
+
+qreal DynamicData::axis_y_min(
+    quint64 chartbox_id)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->axisYMin();
+}

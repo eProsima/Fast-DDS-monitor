@@ -52,6 +52,12 @@ public slots:
         QString data_kind,
         quint64 time_to);
 
+    qreal axis_y_max(
+        quint64 chartbox_id);
+
+    qreal axis_y_min(
+        quint64 chartbox_id);
+
 protected:
 
     static quint64 last_id_;

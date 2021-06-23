@@ -23,16 +23,12 @@ ChartView {
     antialiasing: true
     legend.visible: false
 
-    property int axisYMin: 0
-    property int axisYMax: 10
-    property date dateTimeAxisXMin: new Date()
-    property date dateTimeAxisXMax: new Date()
     property variant mapper: []
 
     ValueAxis {
         id: axisY
-        min: axisYMin
-        max: axisYMax
+        min: 0
+        max: 10
         titleText: {
             switch (chartTitle) {
                 case "FASTDDS_LATENCY":
@@ -115,9 +111,6 @@ ChartView {
                         console.log("X series: " + new_series.at(index).rx())
                         console.log("X point: " + new_series.index.rx())
                     })
-
-        // TODO
-        // resetChartViewZoom();
     }
 
     function toMsecsSinceEpoch(date) {
@@ -136,6 +129,8 @@ ChartView {
         onTriggered: {
             console.log("Timer -> Updating chartbox " + chartboxId)
             controller.update_dynamic_chartbox(chartboxId, Math.round(dateTimeAxisX.max));
+            axisY.min = dynamicData.axis_y_min(chartboxId)
+            axisY.max = dynamicData.axis_y_max(chartboxId)
         }
     }
 
