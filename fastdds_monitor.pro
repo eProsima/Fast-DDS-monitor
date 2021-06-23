@@ -13,6 +13,7 @@ SOURCES += \
         src/backend/SyncBackendConnection.cpp \
         src/Controller.cpp \
         src/Engine.cpp \
+        src/main.cpp \
         src/model/dds/EndpointModelItem.cpp \
         src/model/dds/ParticipantModelItem.cpp \
         src/model/dynamic/DynamicDataModel.cpp \
