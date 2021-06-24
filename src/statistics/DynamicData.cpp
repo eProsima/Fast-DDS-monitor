@@ -54,6 +54,19 @@ QtCharts::QVXYModelMapper* DynamicData::add_series(
     return it->second->add_series(statistic_kind, source_id, target_id);
 }
 
+void DynamicData::delete_series(
+    quint64 chartbox_id,
+    quint64 series_index)
+{
+    qDebug() << "Deleting series " << series_index << " to chartbox id: " << chartbox_id;
+
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->delete_series_by_index(series_index);
+}
+
 quint64 DynamicData::add_chartbox(
     QString data_kind,
     quint64 time_to)
@@ -62,6 +75,20 @@ quint64 DynamicData::add_chartbox(
 
     chartboxes_.insert({last_id_, new DynamicChartBox(last_id_, data_kind, time_to)});
     return last_id_++;
+}
+
+void DynamicData::delete_chartbox(
+    quint64 chartbox_id)
+{
+    qDebug() << "Erasing dynamic chartbox with id: " << chartbox_id;
+
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    delete it->second;
+
+    chartboxes_.erase(chartbox_id);
 }
 
 UpdateParameters DynamicData::get_update_parameters(quint64 chartbox_id)
@@ -97,6 +124,8 @@ qreal DynamicData::axis_y_min(
 
 void DynamicData::clear_charts(quint64 chartbox_id)
 {
+    qDebug() << "Clearinf charts from: " << chartbox_id;
+
     auto it = chartboxes_.find(chartbox_id);
 
     assert(it != chartboxes_.end());

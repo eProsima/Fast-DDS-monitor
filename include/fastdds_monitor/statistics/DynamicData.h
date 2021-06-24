@@ -51,10 +51,25 @@ public slots:
         QString source_id,
         QString target_id);
 
+    /**
+     * Delete a series belongs to an internal Chartbox
+     *
+     * @warning This method is called with the QML series_index, that is not static for a series, but it is
+     * an index in an array that varies. In the unlikely case of deleting two series in less time than C++
+     * handles one destruction, it could lead to error
+     */
+    void delete_series(
+        quint64 chartbox_id,
+        quint64 series_index);
+
     //! Add a new internal Chartbox
     quint64 add_chartbox(
         QString data_kind,
         quint64 time_to);
+
+    //! Delete an internal Chartbox
+    void delete_chartbox(
+        quint64 chartbox_id);
 
     //! Get max Y value in all the internal series
     qreal axis_y_max(

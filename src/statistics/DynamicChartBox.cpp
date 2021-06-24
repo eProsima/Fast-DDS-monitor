@@ -40,17 +40,7 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
 
     auto new_data_model = new models::DynamicDataModel(statistic_kind, source_id, target_id);
 
-    // new_data_model->handleNewPoint(
-    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 1));
-
-    // new_data_model->handleNewPoint(
-    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 1));
-
-    // new_data_model->handleNewPoint(
-    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 1));
-
     // Add it to series collection
-    // series_.push_back(new_data_model);
     series_.insert({last_id_, new_data_model});
 
     auto mapper = new QtCharts::QVXYModelMapper();
@@ -59,17 +49,7 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
     mapper->setYColumn(1);
 
     // Add it to mappers collection
-    // mappers_.push_back(mapper);
     mappers_.insert({last_id_, mapper});
-
-    // new_data_model->handleNewPoint(
-    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), 2));
-
-    // new_data_model->handleNewPoint(
-    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 30000, 2));
-
-    // new_data_model->handleNewPoint(
-    //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 2));
 
     current_update_parameters_.series_ids.push_back(last_id_);
     current_update_parameters_.source_ids.push_back(source_id);
@@ -80,6 +60,42 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
     return mapper;
 }
 
+void DynamicChartBox::delete_series_by_index(
+    quint64 series_index)
+{
+    const std::lock_guard<std::mutex> lock(mutex_);
+
+    qDebug() << "Deleting series " << series_index << " in chartbox with series: " << series_.size();
+
+    if (series_index >= current_update_parameters_.series_ids.size())
+    {
+        qCritical() << "Error deleting series. Series does not exist in Chartbox. Probably race condition problem!";
+    }
+    else
+    {
+        // This is the index that this chartbox internally handles regarding the currently deleting series
+        quint64 real_index_ = current_update_parameters_.series_ids[series_index];
+
+        qDebug() << "Deleting real index " << real_index_;
+
+        // Delete mapper and series
+        delete mappers_[real_index_];
+        mappers_.erase(real_index_);
+        delete series_[real_index_];
+        series_.erase(real_index_);
+
+        // Delete the data so it is not updated next time calling get_data
+        // It is deleting with series_index as are vectors and not maps, so the actual element to erase is in the
+        // same position of creation, as in QML
+        current_update_parameters_.series_ids.erase(current_update_parameters_.series_ids.begin() + series_index);
+        current_update_parameters_.source_ids.erase(current_update_parameters_.source_ids.begin() + series_index);
+        current_update_parameters_.target_ids.erase(current_update_parameters_.target_ids.begin() + series_index);
+        current_update_parameters_.statistics_kinds.erase(
+            current_update_parameters_.statistics_kinds.begin() + series_index);
+    }
+}
+
+
 void DynamicChartBox::update(std::map<quint64, std::vector<QPointF>>& new_data, quint64 time_to)
 {
     const std::lock_guard<std::mutex> lock(mutex_);
@@ -87,24 +103,18 @@ void DynamicChartBox::update(std::map<quint64, std::vector<QPointF>>& new_data, 
     // Update internal timer so next call to get data use it as from
     time_to_ = time_to;
 
-    qDebug() << "Updating chartbox with id: " << id_;
-
     for (auto points : new_data)
     {
-        qDebug() << "Updating model with id: " << points.first;
         for (auto point : points.second)
         {
-            qDebug() << "Updating with point: " << point;
             series_[points.first]->handleNewPoint(point);
             if(point.ry() >= axisYMax_)
             {
                 setAxisYMax(point.ry() + 1);
-                qDebug() << "Updating y max axis : " << axisYMax_;
             }
             else if (point.ry() <= axisYMin_)
             {
                 setAxisYMin(point.ry() - 1);
-                qDebug() << "Updating y min axis : " << axisYMin_;
             }
         }
     }

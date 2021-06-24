@@ -31,7 +31,6 @@ ChartView {
     property int y_axis_current_max: 10
 
     property bool running: false
-    // property int time_to: chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
 
     signal clearedChart()
 
@@ -202,23 +201,20 @@ ChartView {
             targetEntityId,
             statisticKind) {
 
-        console.log("--- chatbox id in ChartView: " + chartboxId)
-        console.log("--- : currentDate: " + currentDate + " ; time window: " + timeWindow)
-        console.log("--- : updatePeriod: " + currentDate + " ; time window: " + timeWindow)
-
-        console.log("--- : starting in point: " + dateTimeAxisX.min)
-        // console.log("--- : series Index: " + seriesIndex)
-
-        // For some reason de axis is a float and must be converted to int
+        // Calle DynamicChartBox add_series that creates a series and a related mapper and returns the mapper
         mapper.push(dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId))
-        console.log("------------------------ mapper: " + mapper)
+        // Create a new QAbstractSeries with index chartView.count (this index varies with deletion of series)
         var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
 
+        // See each of the points and not just the line
         new_series.pointsVisible = true
+        // Stores a mapper array with every series in order to hjavascript not indiscriminately destroy the C++ mapper
         mapper[mapper.length-1].series = new_series
 
+        // Set timer that moves the axis to running
         running = true
 
+        // Connect to see points when passing with the mouse through the chart
         new_series.clicked.connect(
                     function (point){
                         var p = chartView.mapToPosition(point)
@@ -280,6 +276,11 @@ ChartView {
     function dynamicContinue(){
         running = true
     }
+
+    function customRemoveSeries(seriesIndex){
+        mapper.splice(seriesIndex, 1)
+    }
+
 
     Timer {
         id:  refreshTimer

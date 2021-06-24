@@ -37,16 +37,18 @@ Rectangle {
     property bool running: false
 
     Component.onCompleted: {
-        console.log("------------------------ Is dynamic: " + isDynamic)
         if (isDynamic){
-
             chartboxId = dynamicData.add_chartbox(chartTitle, currentDate, timeWindow, updatePeriod)
-            console.log("-------- id chartbox " + chartboxId + " current date: " + currentDate)
-            console.log("-------- new Date " + new Date())
             dynamicDisplayStatisticsDialog.open()
         } else {
             controlPanel.removeMenu(realTimeMenu);
             displayStatisticsDialog.open();
+        }
+    }
+
+    Component.onDestruction: {
+        if (isDynamic && dynamicData) {
+            dynamicData.delete_chartbox(chartboxId)
         }
     }
 
@@ -75,7 +77,7 @@ Rectangle {
 
                     Label {
                         id: statisticsChartBoxLabel
-                        text: isDynamic ? chartTitle + " [dynamic]" : chartTitle + " [record]"
+                        text: isDynamic ? chartTitle + " [dynamic]" : chartTitle + " [historic]"
                         color: "white"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -221,10 +223,7 @@ Rectangle {
 
             Loader {
                 id: statisticsChartViewLoader
-                // Layout.alignment: Qt.AlignCenter
                 anchors.fill: parent
-                // height: statisticsChartBox.height - 2*chartBoxTitle.height
-                // width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
 
                 property string chartTitle: statisticsChartBox.chartTitle
                 property variant timeWindow: statisticsChartBox.timeWindow
@@ -286,14 +285,6 @@ Rectangle {
                     }
                 }
             }
-
-            // Button {
-            //     text: "play"
-            //     anchors.right: parent.right
-            //     anchors.top: parent.top
-            //     anchors.rightMargin: 5
-            //     anchors.topMargin: 5
-            // }
         }
 
         CustomLegend {
@@ -308,8 +299,13 @@ Rectangle {
             onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
             onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
             onSeriesRemoved: {
+                    console.log("--- : Remove series Index: " + seriesIndex)
                     statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
                     removeLeyend(seriesIndex)
+                    if(isDynamic) {
+                        dynamicData.delete_series(chartboxId, seriesIndex)
+                        statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
+                    }
             }
         }
     }

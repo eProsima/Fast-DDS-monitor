@@ -97,6 +97,10 @@ public:
         models::EntityId source_id,
         models::EntityId target_id = models::ID_INVALID);
 
+    //! Delete the series created in the number \c series_index regarding the currently existing ones
+    void delete_series_by_index(
+        quint64 series_index);
+
     //! Eliminate all series
     void clear_charts();
 
