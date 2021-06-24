@@ -25,6 +25,10 @@ ChartView {
 
     property variant mapper: []
     property int delay_time: 5000
+    property int axis_refresh_time: 10
+
+    property bool running: false
+    // property int time_to: chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
 
     signal clearedChart()
 
@@ -99,6 +103,7 @@ ChartView {
         console.log("--- : updatePeriod: " + currentDate + " ; time window: " + timeWindow)
 
         console.log("--- : starting in point: " + dateTimeAxisX.min)
+        // console.log("--- : series Index: " + seriesIndex)
 
         // For some reason de axis is a float and must be converted to int
         mapper.push(dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId))
@@ -108,13 +113,11 @@ ChartView {
         new_series.pointsVisible = true
         mapper[mapper.length-1].series = new_series
 
-        refreshaxisTimer.running = true
+        running = true
 
         new_series.pointAdded.connect(
                     function (index){
                         console.log("In point Added: " + index)
-                        console.log("X series: " + new_series.at(index).rx())
-                        console.log("X point: " + new_series.index.rx())
                     })
     }
 
@@ -126,22 +129,47 @@ ChartView {
         return new Date(milliseconds);
     }
 
+    function updateSeriesName(seriesIndex, newSeriesName) {
+        series(seriesIndex).name = newSeriesName
+    }
+
+    function updateSeriesColor(seriesIndex, newSeriesColor) {
+        series(seriesIndex).color = newSeriesColor
+    }
+
+    function hideSeries(seriesIndex) {
+        series(seriesIndex).opacity = 0.0
+    }
+
+    function displaySeries(seriesIndex) {
+        series(seriesIndex).opacity = 1.0
+    }
+
     function clearChart() {
-        console.log("clearCHart in Dynamic")
-        refreshaxisTimer.running = false
+        console.log("clearChart in Dynamic")
+        running = false
         chartView.removeAllSeries();
         clearedChart()
-        resetChartViewZoom();
         dynamicData.clear_charts(chartboxId);
-
+        resetChartViewZoom();
+        mapper = []
     }
 
     function resetChartViewZoom(){
+        console.log("resetChartViewZoom in Dynamic")
         chartView.zoomReset()
         axisY.min = dynamicData.axis_y_min(chartboxId)
         axisY.max = dynamicData.axis_y_max(chartboxId)
-        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
-        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
+        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
+        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
+    }
+
+    function dynamicPause(){
+        running = false
+    }
+
+    function dynamicContinue(){
+        running = true
     }
 
     Timer {
@@ -151,21 +179,23 @@ ChartView {
         repeat: true
         onTriggered: {
             console.log("Timer -> Updating chartbox " + chartboxId)
-            controller.update_dynamic_chartbox(chartboxId, Math.round(dateTimeAxisX.max));
+            var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
+            controller.update_dynamic_chartbox(chartboxId, time_to);
             axisY.min = dynamicData.axis_y_min(chartboxId)
             axisY.max = dynamicData.axis_y_max(chartboxId)
         }
     }
 
     Timer {
-        id:  refreshaxisTimer
-        interval: 10
-        running: false
+        id:  refreshAxisTimer
+        interval: axis_refresh_time
+        running: parent.running
         repeat: true
         onTriggered: {
             // update X axis
-            dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
-            dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
+            var current_date = toMsecsSinceEpoch(new Date())
+            dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(current_date - delay_time)
+            dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time)
         }
     }
 }

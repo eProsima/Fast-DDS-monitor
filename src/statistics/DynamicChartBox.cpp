@@ -35,10 +35,6 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
              << " with source: " << source_id
              << " and with target: " << target_id;
 
-    qDebug() << "Actual time to set points now: " << utils::to_QString(utils::now());
-    qDebug() << "Actual time to set points: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    qDebug() << "Actual time to set points: " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000);
-
     auto new_data_model = new models::DynamicDataModel(statistic_kind, source_id, target_id);
 
     // new_data_model->handleNewPoint(
@@ -93,37 +89,18 @@ void DynamicChartBox::update(std::vector<QPointF> new_data, quint64 time_to)
         for (auto model : series_)
         {
             model.second->handleNewPoint(new_data[i]);
-            if(new_data[i].ry() > axisYMax_)
+            if(new_data[i].ry() >= axisYMax_)
             {
                 setAxisYMax(new_data[i].ry() + 1);
                 qDebug() << "Updating y max axis : " << axisYMax_;
             }
-            else if (new_data[i].ry() < axisYMin_)
+            else if (new_data[i].ry() <= axisYMin_)
             {
                 setAxisYMin(new_data[i].ry() - 1);
                 qDebug() << "Updating y min axis : " << axisYMin_;
             }
             ++i;
         }
-
-        // for (size_t i = 0; i < series_.size(); i++)
-        // {
-        //     series_[i]->handleNewPoint(new_data[i]);
-        //     if(new_data[i].ry() > axisYMax_)
-        //     {
-        //         setAxisYMax(new_data[i].ry() + 1);
-        //         qDebug() << "Updating y max axis : " << axisYMax_;
-        //     }
-        //     else if (new_data[i].ry() < axisYMin_)
-        //     {
-        //         setAxisYMin(new_data[i].ry() - 1);
-        //         qDebug() << "Updating y min axis : " << axisYMin_;
-        //     }
-
-        //     std::cout << "After handle point : " << i << " mapper i has : " << mappers_[i] << std::endl;
-        //     qDebug() << "After handle point : " << i << " mapper i has : " << mappers_[i];
-
-        // }
     }
 }
 
@@ -183,4 +160,7 @@ void DynamicChartBox::clear_charts()
         delete s.second;
     }
     series_.clear();
+
+    setAxisYMax(10);
+    setAxisYMin(0);
 }

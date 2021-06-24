@@ -34,6 +34,7 @@ Rectangle {
     property variant updatePeriod: -1
     property int chartboxId: -1
     property variant currentDate: toMsecsSinceEpoch(new Date())
+    property bool running: false
 
     Component.onCompleted: {
         console.log("------------------------ Is dynamic: " + isDynamic)
@@ -44,6 +45,7 @@ Rectangle {
             console.log("-------- new Date " + new Date())
             dynamicDisplayStatisticsDialog.open()
         } else {
+            controlPanel.removeMenu(realTimeMenu);
             displayStatisticsDialog.open();
         }
     }
@@ -135,6 +137,10 @@ Rectangle {
                         string targetEntityId,
                         string statisticKind)
                     signal clearChart()
+                    // signal clearSeries()
+                    signal dynamicPause()
+                    signal dynamicContinue()
+                    // signal resetChartViewZoom()
 
                     onAddSeries: statisticsChartViewLoader.item.addSeries(
                                      dataKind,
@@ -153,15 +159,17 @@ Rectangle {
                                      targetEntityId,
                                      statisticKind);
                     onClearChart: statisticsChartViewLoader.item.clearChart();
+                    onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
+                    onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
 
                     Menu {
                         title: "Chart"
                         Action {
                             text: "Reset zoom"
                             Component.onCompleted: {
-                                if (!isDynamic)
-                                    triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
+                                triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
                             }
+                            // onTriggered: controlPanel.resetChartViewZoom();
                         }
                         Action {
                             text: "Clear chart"
@@ -192,6 +200,17 @@ Rectangle {
                             onTriggered: customLegend.displayAllSeries()
                         }
                     }
+
+                    Menu {
+                        id: realTimeMenu
+                        title: "Real Time"
+                        Action {
+                            text: running ? "Pause" : "Continue"
+                            onTriggered: {
+                                running ? statisticsChartViewLoader.item.dynamicPause() : statisticsChartViewLoader.item.dynamicContinue()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -218,6 +237,10 @@ Rectangle {
             }
             function onClearedChart(){
                 customLegend.removeAllLegends()
+            }
+            function onRunningChanged(){
+                console.log("*** RUnning has changed ***")
+                running = !running
             }
         }
 
