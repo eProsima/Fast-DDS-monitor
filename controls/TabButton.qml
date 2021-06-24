@@ -49,11 +49,11 @@ T.TabButton {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    padding: 12 // PivotItemMargin
+    padding: 6 // PivotItemMargin
     spacing: 8
 
-    icon.width: 20
-    icon.height: 20
+    icon.width: 15
+    icon.height: 15
     icon.color: Color.transparent(control.hovered ? control.Universal.baseMediumHighColor : control.Universal.foreground,
                                                     control.checked || control.down || control.hovered ? 1.0 : 0.2)
 

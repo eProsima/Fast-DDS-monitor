@@ -51,7 +51,7 @@ T.ItemDelegate {
 
     spacing: 0
 
-    padding: 7.5
+    padding: 5
     topPadding: padding - 1
     bottomPadding: padding + 1
 

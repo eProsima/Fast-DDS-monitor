@@ -38,7 +38,7 @@ Rectangle {
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
 
-    signal lastClickedPhysical(int hostIdx, int userIdx, int processIdx)
+    signal lastClickedPhysical(int hostIdx, int userIdx, int processIdx, string entityName, string entityKind)
 
     ListView {
         id: hostList
@@ -114,7 +114,8 @@ Rectangle {
                                 }
                                 onDoubleClick: {
                                     controller.host_click(id)
-                                    lastClickedPhysical(hostIdx, -1, -1)
+                                    console.log("Clicked " + kind + " with name " + name)
+                                    lastClickedPhysical(hostIdx, -1, -1, name, kind)
                                 }
                             }
                         }
@@ -208,7 +209,8 @@ Rectangle {
                                             }
                                             onDoubleClick: {
                                                 controller.host_click(id)
-                                                lastClickedPhysical(hostIdx, userIdx, -1)
+                                                console.log("Clicked " + kind + " with name " + name)
+                                                lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
                                             }
                                         }
                                     }
@@ -277,7 +279,8 @@ Rectangle {
                                                         anchors.fill: parent
                                                         onDoubleClicked: {
                                                             controller.host_click(id)
-                                                            lastClickedPhysical(hostIdx, userIdx, processIdx)
+                                                            console.log("Clicked " + kind + " with name " + name)
+                                                            lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
                                                         }
                                                     }
                                                 }

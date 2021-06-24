@@ -23,39 +23,21 @@ SplitView {
     orientation: Qt.Vertical
 
     ColumnLayout {
-        SplitView.preferredHeight: parent.height / 2
-        SplitView.minimumHeight: parent.height / 4
-        spacing: 0
-
-        ComboBox {
-            id: settingsViewTabBar
-            model: ["Info", "Statistics"]
-            Layout.fillWidth: true
-        }
-
-        StackLayout {
-            currentIndex: settingsViewTabBar.currentIndex
-            Layout.alignment: Qt.AlignTop
-            Layout.fillHeight: true
-
-            QosView {
-                id: qosView
-            }
-
-            SummaryView {
-                id: summaryView
-            }
-        }
-    }
-
-    ColumnLayout {
         SplitView.fillHeight: true
         SplitView.minimumHeight: parent.height / 4
         spacing: 0
 
-        ComboBox {
+        TabBar {
             id: logViewTabBar
-            model: ["Status", "Log", "Issues"]
+            TabButton {
+                text: qsTr("Status")
+            }
+            TabButton {
+                text: qsTr("Log")
+            }
+            TabButton {
+                text: qsTr("Issues")
+            }
             Layout.fillWidth: true
         }
 

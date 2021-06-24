@@ -38,7 +38,7 @@ Rectangle {
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
 
-    signal lastClickedPhysical
+    signal lastClickedDDSEntity(int participantIdx, int endpointIdx, int locatorIdx, string entityName, string entityKind)
 
     ListView {
         id: participantList
@@ -113,8 +113,7 @@ Rectangle {
                                 }
                                 onDoubleClick: {
                                     controller.participant_click(id)
-                                    updateLastEntityClicked(participantIdx, -1, -1)
-                                    lastClickedPhysical()
+                                    lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
                                 }
                             }
                         }
@@ -140,7 +139,6 @@ Rectangle {
 
                     Item {
                         id: endpointItem
-                        width: parent.width
                         height: endpointListColumn.childrenRect.height
 
                         property var endpointId: id
@@ -208,8 +206,7 @@ Rectangle {
                                             }
                                             onDoubleClick: {
                                                 controller.participant_click(id)
-                                                updateLastEntityClicked(participantIdx, endpointIdx, -1)
-                                                lastClickedPhysical()
+                                                lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
                                             }
                                         }
                                     }
@@ -278,8 +275,7 @@ Rectangle {
                                                         anchors.fill: parent
                                                         onDoubleClicked: {
                                                             controller.participant_click(id)
-                                                            updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx)
-                                                            lastClickedPhysical()
+                                                            lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
                                                         }
                                                     }
                                                 }

@@ -48,21 +48,21 @@ ListItem* SyncBackendConnection::create_process_data_(
         EntityId id)
 {
     qDebug() << "Creating Process " << backend::backend_id_to_models_id(id);
-    return new ProcessModelItem(id, EntityKind::HOST, get_info(id));
+    return new ProcessModelItem(id, EntityKind::PROCESS, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_host_data_(
         EntityId id)
 {
     qDebug() << "Creating Host " << backend::backend_id_to_models_id(id);
-    return new HostModelItem(id, EntityKind::USER, get_info(id));
+    return new HostModelItem(id, EntityKind::HOST, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_user_data_(
         EntityId id)
 {
     qDebug() << "Creating User " << backend::backend_id_to_models_id(id);
-    return new UserModelItem(id, EntityKind::PROCESS, get_info(id));
+    return new UserModelItem(id, EntityKind::USER, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_domain_data_(

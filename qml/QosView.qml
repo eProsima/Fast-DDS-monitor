@@ -38,6 +38,7 @@ Item {
                 text: styleData.value
             }
         }
+        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
 
         TableViewColumn {
             width: parent.width / 2
@@ -51,12 +52,12 @@ Item {
             title: "Value"
         }
 
-        Component.onCompleted: rightPanel.expandAll(qos_tree_view, qosModel)
+        Component.onCompleted: leftPanel.expandAll(qos_tree_view, qosModel)
 
         Connections {
             target: qosModel
             function onUpdatedData() {
-                rightPanel.expandAll(qos_tree_view, qosModel)
+                leftPanel.expandAll(qos_tree_view, qosModel)
             }
         }
     }

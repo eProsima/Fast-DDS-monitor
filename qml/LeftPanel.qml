@@ -18,224 +18,330 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 import Theme 1.0
 
-SplitView {
-    id: leftPanels
-    orientation: Qt.Vertical
+ColumnLayout {
+    id: leftPanel
+    height: parent.height
+    spacing: 0
 
-    signal leftSidebarHidden
+    Rectangle {
+        Layout.fillWidth: true
+        height: 20
+        color: Theme.grey
 
-    property int viewsCount: 0
-    property variant views: []
-    property variant comboBoxIdx: []
-
-    Component.onCompleted: {
-        addView("ddsEntities")
-        addView("physical")
-        addView("logical")
-    }
-
-    Repeater {
-        id: viewsRepeater
-        model: viewsCount
-
-
-        delegate: ColumnLayout {
-            SplitView.preferredHeight: parent.height / 4
-            SplitView.minimumHeight: settingsViewTabBar.height
-            Layout.fillWidth: true
-
-            visible: true
-
-            property int comboBoxIndex: comboBoxIdx[index]
-            property var listStackItem: listStack
-
+        RowLayout {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 0
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
+            Label {
+                text: "Explorer"
+                Layout.preferredWidth: parent.width - parent.height
+                color: Theme.whiteSmoke
+            }
             Rectangle {
-                Layout.fillWidth: true
-                height: settingsViewTabBar.height
-                color: settingsViewTabBar.background.color
+                color: Theme.eProsimaLightBlue
+                Layout.preferredWidth: parent.height
+                Layout.preferredHeight: parent.height
+                Layout.alignment: Qt.AlignRight
 
-                RowLayout {
-                    spacing: 0
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                MouseArea {
+                    anchors.fill: parent
 
-                    ComboBox {
-                        id: settingsViewTabBar
-                        model: ["DDS Entities", "Physical", "Logical"]
-                        Layout.fillWidth: true
-                        currentIndex: comboBoxIndex
-                        property int modelIdx: index
-                        onActivated: {
-                            comboBoxIdx[modelIdx] = currentIndex
-                        }
+                    onClicked: {
+                        contextMenu.y = parent.y + parent.height;
+                        contextMenu.open()
                     }
+                }
 
-                    Rectangle {
-                        id: separator
-                        height: settingsViewTabBar.height
-                        width: 2
-                        color: Theme.grey
+                Menu {
+                    id: contextMenu
+
+                    Action {
+                        text: "DDS Entities"
+                        checkable: true
+                        checked: true
+                        onTriggered: entityListLayout.visible = checked
                     }
-
-                    Rectangle {
-                        id: addSplitView
-                        width: settingsViewTabBar.height/2
-                        height: settingsViewTabBar.height/2
-                        radius: settingsViewTabBar.height/2
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.leftMargin: settingsViewTabBar.height/5
-                        Layout.rightMargin: settingsViewTabBar.height/5
-                        color: Theme.lightGrey
-
-                        IconSVG {
-                            size: settingsViewTabBar.height/3
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "/resources/images/plus.svg"
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: {
-                                contextMenu.x = parent.x - settingsViewTabBar.height/5
-                                contextMenu.y = parent.y + addSplitView.height/2 + settingsViewTabBar.height/2
-                                contextMenu.open()
-                            }
-                            onEntered: {
-                                parent.color = Theme.whiteSmoke
-                            }
-                            onExited: {
-                                parent.color = Theme.lightGrey
-                            }
-                        }
+                    Action {
+                        text: "Physical"
+                        checkable: true
+                        onTriggered: physicalViewLayout.visible = checked
                     }
+                    Action {
+                        text: "Logical"
+                        checkable: true
+                        onTriggered: logicalViewLayout.visible = checked
+                    }
+                    Action {
+                        text: "Entity Info"
+                        checkable: true
+                        checked: true
+                        onTriggered: entityInfo.visible = checked
+                    }
+                    delegate: MenuItem {
+                        id: menuItem
+                        implicitWidth: 150
+                        implicitHeight: 30
 
-                    Rectangle {
-                        id: closeSplitView
-                        width: settingsViewTabBar.height/2
-                        height: settingsViewTabBar.height/2
-                        radius: settingsViewTabBar.height/2
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.leftMargin: settingsViewTabBar.height/5
-                        Layout.rightMargin: settingsViewTabBar.height/5
-                        color: Theme.lightGrey
-
-
-                        IconSVG {
-                            size: settingsViewTabBar.height/3
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: index === 0 ? "/resources/images/lessthan.svg" : "/resources/images/cross.svg"
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: {
-                                if (index == 0) {
-                                    leftSidebarHidden()
-                                } else {
-                                    removeView(index)
+                        indicator: Item {
+                            implicitWidth: 30
+                            implicitHeight: 30
+                            Rectangle {
+                                width: 16
+                                height: 16
+                                anchors.centerIn: parent
+                                visible: menuItem.checkable
+                                border.color: menuItem.highlighted ? Theme.eProsimaLightBlue :
+                                              !menuItem.checked ? Theme.grey : "black"
+                                radius: 3
+                                Rectangle {
+                                    width: 10
+                                    height: 10
+                                    anchors.centerIn: parent
+                                    visible: menuItem.checked
+                                    color: Theme.eProsimaLightBlue
+                                    radius: 2
                                 }
                             }
-                            onEntered: {
-                                parent.color = Theme.whiteSmoke
-                            }
-                            onExited: {
-                                parent.color = Theme.lightGrey
-                            }
+                        }
+
+                        contentItem: Text {
+                            leftPadding: 15
+                            text: menuItem.text
+                            opacity: enabled ? 1.0 : 0.3
+                            color: menuItem.highlighted ? Theme.eProsimaLightBlue :
+                                   !menuItem.checked ? Theme.grey : "black"
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideRight
                         }
                     }
                 }
             }
+        }
+    }
 
-            Menu {
-                id: contextMenu
-                MenuItem {
-                    text: "DDS Entities"
-                    onTriggered: {
-                        addView("ddsEntities")
+    Rectangle {
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+
+        SplitView {
+            orientation: Qt.Vertical
+            anchors.fill: parent
+
+            ColumnLayout {
+                id: entityListLayout
+                SplitView.preferredHeight: parent.height / 4
+                SplitView.minimumHeight: entityListTitle.height
+                spacing: 10
+                visible: true
+                clip: true
+
+                Rectangle {
+                    id: entityListTitle
+                    Layout.fillWidth: true
+                    height: infoTabBar.height
+                    Label {
+                        text: "DDS Entities"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Rectangle {
+                        color: Theme.eProsimaLightBlue
+                        height: 2
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
                     }
                 }
-                MenuItem {
-                    text: "Physical"
-                    onTriggered: {
-                        addView("physical")
-                    }
-                }
-                MenuItem {
-                    text: "Logical"
-                    onTriggered: {
-                        addView("logical")
-                    }
-                }
-            }
-
-            StackLayout {
-                id: listStack
-                currentIndex: settingsViewTabBar.currentIndex
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-
-                property var entityListItem: entityList
-                property var physicalViewItem: physicalView
-                property var logicalViewItem: logicalView
 
                 EntityList {
                     id: entityList
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                    Layout.bottomMargin: 1
+                    onLastClickedDDSEntity: {
+                        updateLastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx)
+                        infoSelectedEntityLabel.text = entityKind + ": " + entityName
+                    }
+                }
+            }
+
+            ColumnLayout {
+                id: physicalViewLayout
+                SplitView.fillHeight: true
+                SplitView.preferredHeight: parent.height / 4
+                SplitView.minimumHeight: physicalViewTitle.height
+                spacing: 10
+                visible: false
+                clip: true
+
+                Rectangle {
+                    id: physicalViewTitle
+                    Layout.fillWidth: true
+                    height: infoTabBar.height
+                    Label {
+                        text: "Physical"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Rectangle {
+                        color: Theme.eProsimaLightBlue
+                        height: 2
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                    }
                 }
 
                 PhysicalView {
                     id: physicalView
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    onLastClickedPhysical: updateLastClickedPhysical(hostIdx, userIdx, processIdx)
+                    Layout.bottomMargin: 1
+                    onLastClickedPhysical: {
+                        updateLastClickedPhysical(hostIdx, userIdx, processIdx)
+                        infoSelectedEntityLabel.text = entityKind + ": " + entityName
+                    }
+                }
+            }
+
+            ColumnLayout {
+                id: logicalViewLayout
+                SplitView.preferredHeight: parent.height / 4
+                SplitView.minimumHeight: logicalViewTitle.height
+                spacing: 10
+                visible: false
+                clip: true
+
+                Rectangle {
+                    id: logicalViewTitle
+                    Layout.fillWidth: true
+                    height: infoTabBar.height
+                    Label {
+                        text: "Logical"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Rectangle {
+                        color: Theme.eProsimaLightBlue
+                        height: 2
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                    }
                 }
 
                 LogicalView {
                     id: logicalView
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    onLastClickedLogical: updateLastClickedLogical(domainIdx, topicIdx)
+                    Layout.bottomMargin: 1
+                    onLastClickedLogical: {
+                        updateLastClickedLogical(domainIdx, topicIdx)
+                        infoSelectedEntityLabel.text = entityKind + ": " + entityName
+                    }
                 }
+            }
+
+            ColumnLayout {
+                id: entityInfo
+                visible: true
+                SplitView.fillHeight: true
+                SplitView.preferredHeight: parent.height / 4
+                SplitView.minimumHeight: infoTabBar.height
+                spacing: 0
+                clip: true
+
+                TabBar {
+                    id: infoTabBar
+                    TabButton {
+                        text: qsTr("Info")
+                    }
+                    TabButton {
+                        text: qsTr("Statistics")
+                    }
+                    Layout.fillWidth: true
+                }
+
+                Rectangle {
+                    id: infoSelectedEntity
+                    Layout.fillWidth: true
+                    height: infoTabBar.height
+                    Label {
+                        id: infoSelectedEntityLabel
+                        text: "No entity selected"
+                        font.pointSize: 10
+                        font.italic: true
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                }
+
+                StackLayout {
+                    currentIndex: infoTabBar.currentIndex
+                    Layout.alignment: Qt.AlignTop
+                    Layout.fillHeight: true
+
+                    QosView {
+                        id: qosView
+                    }
+
+                    SummaryView {
+                        id: summaryView
+                    }
+                }
+            }
+
+        }
+    }
+
+    function updateLastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx) {
+        entityList.updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx)
+    }
+
+    function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
+        entityList.resetLastEntityClicked()
+        logicalView.resetLastEntityClicked()
+        physicalView.updateLastEntityClicked(hostIdx, userIdx, processIdx)
+    }
+
+    function updateLastClickedLogical(domainIdx, topicIdx) {
+        entityList.resetLastEntityClicked()
+        physicalView.resetLastEntityClicked()
+        logicalView.updateLastEntityClicked(domainIdx, topicIdx)
+    }
+
+    function resetLastClicked() {
+        entityList.resetLastEntityClicked()
+        physicalView.resetLastEntityClicked()
+        logicalView.resetLastEntityClicked()
+        infoSelectedEntity.text = "No entity selected"
+    }
+
+    function expandAll(view, model) {
+        for(var i=0; i < model.rowCount(); i++) {
+            var index = model.index(i, 0)
+            if (!view.isExpanded(index)) {
+                view.expand(index)
+            }
+            if (model.rowCount(index) > 0) {
+                expandChilds(view, model, index)
             }
         }
     }
 
-    function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
-        for(var i=0; i<viewsRepeater.count; i++){
-            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.updateLastEntityClicked(hostIdx, userIdx, processIdx)
+    function expandChilds(view, model, parent) {
+        for(var i=0; i < model.rowCount(parent); i++) {
+            var index = model.index(i, 0, parent)
+            if (!view.isExpanded(index)) {
+                view.expand(index)
+            }
+            if (model.rowCount(index) > 0) {
+                expandChilds(view, model, index)
+            }
         }
-    }
-
-    function updateLastClickedLogical(domainIdx, topicIdx) {
-        for(var i=0; i<viewsRepeater.count; i++){
-            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.updateLastEntityClicked(domainIdx, topicIdx)
-        }
-    }
-
-    function resetLastClicked() {
-        for(var i=0; i<viewsRepeater.count; i++){
-            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
-        }
-    }
-
-    function addView(viewKind) {
-        views[viewsCount] = viewKind
-        comboBoxIdx[viewsCount] = (viewKind === "ddsEntities") ? 0 :
-                          (viewKind === "physical") ? 1 :
-                          (viewKind === "logical") ? 2 : 0
-        viewsCount++
-    }
-
-    function removeView(idx) {
-        views.splice(idx, 1)
-        comboBoxIdx.splice(idx, 1)
-        viewsCount--
     }
 }
