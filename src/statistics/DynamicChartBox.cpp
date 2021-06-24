@@ -14,6 +14,7 @@
 
 #include <QDebug>
 #include <iostream>
+#include <mutex>
 
 #include <fastdds_monitor/statistics/DynamicChartBox.h>
 #include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
@@ -31,6 +32,8 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
         models::EntityId source_id,
         models::EntityId target_id /* = ID_INVALID */)
 {
+    const std::lock_guard<std::mutex> lock(mutex_);
+
     qDebug() << "Add mapper with statistics: " << statistic_kind
              << " with source: " << source_id
              << " and with target: " << target_id;
@@ -68,38 +71,41 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
     // new_data_model->handleNewPoint(
     //     QPointF(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - 10000, 2));
 
+    current_update_parameters_.series_ids.push_back(last_id_);
+    current_update_parameters_.source_ids.push_back(source_id);
+    current_update_parameters_.target_ids.push_back(target_id);
+    current_update_parameters_.statistics_kinds.push_back(statistic_kind);
+
     last_id_++;
     return mapper;
 }
 
-void DynamicChartBox::update(std::vector<QPointF> new_data, quint64 time_to)
+void DynamicChartBox::update(std::map<quint64, std::vector<QPointF>>& new_data, quint64 time_to)
 {
+    const std::lock_guard<std::mutex> lock(mutex_);
+
     // Update internal timer so next call to get data use it as from
     time_to_ = time_to;
 
-    if(new_data.size() != series_.size())
-    {
-        qInfo() << "Updating model with wrong data: ";
-    }
-    else
-    {
-        qDebug() << "Updating model with id: " << id_;
-        size_t i = 0;
+    qDebug() << "Updating chartbox with id: " << id_;
 
-        for (auto model : series_)
+    for (auto points : new_data)
+    {
+        qDebug() << "Updating model with id: " << points.first;
+        for (auto point : points.second)
         {
-            model.second->handleNewPoint(new_data[i]);
-            if(new_data[i].ry() >= axisYMax_)
+            qDebug() << "Updating with point: " << point;
+            series_[points.first]->handleNewPoint(point);
+            if(point.ry() >= axisYMax_)
             {
-                setAxisYMax(new_data[i].ry() + 1);
+                setAxisYMax(point.ry() + 1);
                 qDebug() << "Updating y max axis : " << axisYMax_;
             }
-            else if (new_data[i].ry() <= axisYMin_)
+            else if (point.ry() <= axisYMin_)
             {
-                setAxisYMin(new_data[i].ry() - 1);
+                setAxisYMin(point.ry() - 1);
                 qDebug() << "Updating y min axis : " << axisYMin_;
             }
-            ++i;
         }
     }
 }
@@ -128,25 +134,15 @@ void DynamicChartBox::setAxisYMin(
 
 UpdateParameters DynamicChartBox::get_update_parameters()
 {
-    qDebug() << "Getting parameters in DynamicChartBox for n series: " << series_.size();
-
-    UpdateParameters parameters;
-    parameters.data_kind = data_kind_;
-    parameters.time_from = time_to_;
-
-    // TODO : store these vectors so it is not needed to create it every time
-    for (auto model : series_)
-    {
-        parameters.source_ids.push_back(model.second->source_id());
-        parameters.target_ids.push_back(model.second->target_id());
-        parameters.statistics_kinds.push_back(model.second->statistic_kind());
-    }
-
-    return parameters;
+    const std::lock_guard<std::mutex> lock(mutex_);
+    current_update_parameters_.time_from = time_to_;
+    return current_update_parameters_;
 }
 
 void DynamicChartBox::clear_charts()
 {
+    const std::lock_guard<std::mutex> lock(mutex_);
+
     qDebug() << "Clearing chartbox: " << id_;
 
     for(auto m : mappers_)
@@ -163,4 +159,9 @@ void DynamicChartBox::clear_charts()
 
     setAxisYMax(10);
     setAxisYMin(0);
+
+    current_update_parameters_.series_ids.clear();
+    current_update_parameters_.source_ids.clear();
+    current_update_parameters_.target_ids.clear();
+    current_update_parameters_.statistics_kinds.clear();
 }

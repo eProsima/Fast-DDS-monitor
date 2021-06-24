@@ -19,6 +19,8 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICCHARTBOX_H
 #define _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICCHARTBOX_H
 
+#include <mutex>
+
 #include <QtCore/QObject>
 #include <QtCharts/QVXYModelMapper>
 
@@ -31,6 +33,7 @@ struct UpdateParameters
     std::vector<QString> source_ids;
     std::vector<QString> target_ids;
     std::vector<QString> statistics_kinds;
+    std::vector<quint64> series_ids;
 };
 
 /**
@@ -54,13 +57,20 @@ public:
         , time_to_(time_to)
         , axisYMax_(10)
         , axisYMin_(0)
+        , current_update_parameters_({
+            data_kind,
+            time_to,
+            std::vector<QString>(),
+            std::vector<QString>(),
+            std::vector<QString>(),
+            std::vector<quint64>()})
     {
     }
 
     ~DynamicChartBox();
 
     //! Updata the internal series with one point for each series and set new \c time_to
-    void update(std::vector<QPointF> new_data, quint64 time_to);
+    void update(std::map<quint64, std::vector<QPointF>>& new_data, quint64 time_to);
 
     //! Get parameters from an internal chartbox to get next data point
     UpdateParameters get_update_parameters();
@@ -118,6 +128,12 @@ protected:
 
     //! Min Y axis size
     qreal axisYMin_;
+
+    //! Do not recalculate parameters each time is updated but when series change
+    UpdateParameters current_update_parameters_;
+
+    //! Lock internal series acces while creating or updating
+    mutable std::mutex mutex_;
 
     //! Unique id of the new chartbox to add
     static quint64 last_id_;

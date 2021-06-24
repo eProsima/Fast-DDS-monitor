@@ -671,25 +671,30 @@ void Engine::update_dynamic_chartbox(
     qDebug() << "Updating chartbox: " << chartbox_id << " with time: " << time_to;
 
     // Get time into Timestamp
-    backend::Timestamp time_to_timestamp = backend::Timestamp(std::chrono::milliseconds(time_to));
+    backend::Timestamp time_to_timestamp_ = backend::Timestamp(std::chrono::milliseconds(time_to));
 
     qDebug() << "Updating chartbox: " << chartbox_id << " with timestamp: ---";
 
     /////
     // Get the parameters to get data
     // time_from, data_kind, source_ids, target_ids, statistics_kinds
-    UpdateParameters parameters = dynamic_data_->get_update_parameters(chartbox_id);
+    const UpdateParameters parameters = dynamic_data_->get_update_parameters(chartbox_id);
 
     qDebug() << "Parameters from chartbox: " << chartbox_id
         << " source_ids" << parameters.source_ids.size()
         << " target_ids" << parameters.target_ids.size()
         << " statistics_kinds" << parameters.statistics_kinds.size()
         << " data_kind" << parameters.data_kind
-        << " time_from" << parameters.time_from;
+        << " time_from" << parameters.time_from
+        << " series_id" << parameters.series_ids;
 
     /////
     // Collect the data for each series and store it in a point vector
-    std::vector<QPointF> new_series_points(parameters.source_ids.size());
+    std::map<quint64, std::vector<QPointF>> new_series_points;
+    for (auto id : parameters.series_ids)
+    {
+        new_series_points[id] = std::vector<QPointF>();
+    }
 
     // Check that source target and kinds has same size
     if (parameters.source_ids.size() != parameters.target_ids.size() ||
@@ -706,33 +711,40 @@ void Engine::update_dynamic_chartbox(
         return;
     }
 
+    eprosima::statistics_backend::Timestamp time_from_ =
+        backend::Timestamp(std::chrono::milliseconds(parameters.time_from)); // This value is reused for every series
+
     for (std::size_t i = 0; i < parameters.source_ids.size(); i++)
     {
-        std::vector<backend::StatisticsData> new_point = backend_connection_.get_data(
+        backend::StatisticKind statistics_kind_ = backend::string_to_statistic_kind(parameters.statistics_kinds[i]);
+        // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
+        // Otherwise the bins is 1 so only one data is updated
+        uint16_t bins_ = (statistics_kind_ == backend::StatisticKind::NONE) ? 0 : 1;
+
+        std::vector<backend::StatisticsData> new_points = backend_connection_.get_data(
             backend::string_to_data_kind(parameters.data_kind),
             backend::models_id_to_backend_id(parameters.source_ids[i]),
             backend::models_id_to_backend_id(parameters.target_ids[i]),
-            1,                      // Only ask for one data
-            backend::string_to_statistic_kind(parameters.statistics_kinds[i]),
-            backend::Timestamp(std::chrono::milliseconds(parameters.time_from)), // New limit value
-            time_to_timestamp);                 // Last time value taken in last call
+            bins_,                      // 0 when NONE , 1 otherwise
+            statistics_kind_,
+            time_from_, // New limit value
+            time_to_timestamp_);                 // Last time value taken in last call
 
         // Check that get_data call has not failed
-        if (new_point.size() != 1)
+        if (new_points.empty())
         {
             qInfo() << "get_data call has failed in series: " << i;
-
-            new_series_points[i] = QPointF(
-                    std::chrono::duration_cast<std::chrono::milliseconds>(time_to_timestamp.time_since_epoch()).count(),
-                    std::numeric_limits<double>::quiet_NaN());
         }
         else
         {
-            // Add point to list of new points
-            new_series_points[i] = QPointF(
-                    std::chrono::duration_cast<std::chrono::milliseconds>(
-                        new_point[0].first.time_since_epoch()).count(),
-                    new_point[0].second);
+            for (auto point : new_points)
+            {
+                // Add points to list of new points
+                new_series_points[i].push_back(QPointF(
+                        std::chrono::duration_cast<std::chrono::milliseconds>(
+                            point.first.time_since_epoch()).count(),
+                        point.second));
+            }
         }
     }
 
@@ -741,7 +753,6 @@ void Engine::update_dynamic_chartbox(
     {
         qDebug() << p;
     }
-
 
     /////
     // Update series with data AND now value

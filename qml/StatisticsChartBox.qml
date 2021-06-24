@@ -75,7 +75,7 @@ Rectangle {
 
                     Label {
                         id: statisticsChartBoxLabel
-                        text: isDynamic ? chartTitle + " [dynamic]" : chartTitle
+                        text: isDynamic ? chartTitle + " [dynamic]" : chartTitle + " [record]"
                         color: "white"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter

@@ -29,7 +29,7 @@ DynamicData::~DynamicData()
 
 void DynamicData::update(
     quint64 chartbox_id,
-    std::vector<QPointF> new_data,
+    std::map<quint64, std::vector<QPointF>>& new_data,
     quint64 time_to)
 {
     auto it = chartboxes_.find(chartbox_id);

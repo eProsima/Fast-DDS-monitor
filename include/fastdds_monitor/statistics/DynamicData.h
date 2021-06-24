@@ -36,7 +36,7 @@ public:
     //! Updata an internal chartbox with one point for each series
     void update(
         quint64 chartbox_id,
-        std::vector<QPointF> new_data,
+        std::map<quint64, std::vector<QPointF>>& new_data,
         quint64 time_to);
 
     //! Get parameters from an internal chartbox to get next data point
