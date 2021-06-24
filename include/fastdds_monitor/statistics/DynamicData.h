@@ -23,7 +23,13 @@
 #include <fastdds_monitor/statistics/DynamicChartBox.h>
 
 /**
- * @brief TODO
+ * @brief Handle all the connections between QML and the dynamic data / real time data
+ *
+ * It maintains a map with key a unique id given by a static variable, and as value the
+ * \c DynamicChartBox related with this id.
+ *
+ * It gets with slots the QML signals sent from dynamic data related methods.
+ * Most of these methods uses the internal id to the chartbox to reference with chartbox must be affected.
  */
 class DynamicData : public QObject
 {

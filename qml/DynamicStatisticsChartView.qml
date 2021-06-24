@@ -25,6 +25,13 @@ ChartView {
 
     property variant mapper: []
 
+    // There is an issue if the time that is used in the axis is the current time, as the data for current
+    // time may has not arrived yet.
+    // Thus, a delay_time is used in order to delay the chart regarding the actual moment.
+    // For now, use delay_time to subsctract to xaxis every time this value changes
+    // TODO if the backend changes and uses max time_frame as time in any point, this delay could be applied
+    // to the time_to get_data call and not to the axis.
+    // Meanwhile doing that would leave the chart too shifted to the left
     property int delay_time: 5000
     property int axis_refresh_time: 100
     property int y_axis_current_min: 0
@@ -83,8 +90,8 @@ ChartView {
     }
 
     DateTimeAxis {
-        // dateTimeAxisX must be always delayed by a delay_time, so every time the axis is modified must be
-        // substracted the delay_time
+        // dateTimeAxisX must be always delayed by a delay_time
+        // Thus every time the axis is modified must be substracted the delay_time
         id: dateTimeAxisX
         min: chartView.fromMsecsSinceEpoch(currentDate - timeWindow - delay_time)
         max: chartView.fromMsecsSinceEpoch(currentDate - delay_time)
@@ -279,16 +286,21 @@ ChartView {
 
     function customRemoveSeries(seriesIndex){
         mapper.splice(seriesIndex, 1)
+        if (mapper.empty()){
+            running = false
+        }
     }
 
-
+    // This timer calls update_dynamic_chartbox so it calls get_data and update the series with new data from backend
+    // It runs constantly so the timer in the DynamicChartBox(C++) is updated constantly.
+    // If not extra logic will be needed or the first point will be an accumulation from the begin of the chartbox
+    // till the current moment
     Timer {
         id:  refreshTimer
         interval: updatePeriod
         running: true
         repeat: true
         onTriggered: {
-            console.log("Timer -> Updating chartbox " + chartboxId)
             var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
             controller.update_dynamic_chartbox(chartboxId, time_to);
             y_axis_current_min = dynamicData.axis_y_min(chartboxId)
@@ -296,16 +308,20 @@ ChartView {
         }
     }
 
+    // This timer refresh the X axis and Y axis in case it has changed by new data in refreshTimer
+    // It starts pressing Continue/Play(Button) or creating a series
+    // It stops pressing pause/Pause(Button) or clearing chartbox (not erasing all series)
     Timer {
         id:  refreshAxisTimer
         interval: axis_refresh_time
         running: parent.running
         repeat: true
         onTriggered: {
-            // update X axis
+            // update X by current time
             var current_date = toMsecsSinceEpoch(new Date())
             dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(current_date - delay_time)
             dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time)
+            // update y axis in case it has changed in timer refreshTimer
             axisY.min = y_axis_current_min
             axisY.max = y_axis_current_max
         }

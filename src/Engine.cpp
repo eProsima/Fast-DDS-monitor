@@ -569,11 +569,13 @@ bool Engine::on_add_statistics_data_series(
 
 void Engine::refresh_engine()
 {
-    // TODO this should be changed from erase all models and re draw them
     clear_callback_log_();
     clear_issue_info_();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
-    process_callback_queue();
+
+    // In case there are expected callbacks emit signal to read them and
+    // update the models from the graphic thread
+    emit new_callback_signal();
 }
 
 void Engine::process_callback_queue()

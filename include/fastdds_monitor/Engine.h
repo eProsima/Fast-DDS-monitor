@@ -47,6 +47,8 @@
  *  - Issue model       : contains info about events: callbacks, issues and number of entities discovered
  *  - source ent model  : TODO
  *  - dest entity model : TODO
+ *  - StatisticsData    : handles the historic series
+ *  - DynamicData       : handles the dynamic series
  * These models are used to represent data in the view.
  * The \c Controller object interact between the user interface and the Engine, translating the user actions.
  *
@@ -229,7 +231,11 @@ public:
             backend::EntityKind entity_kind,
             QString entity_model_id);
 
-    //! TODO
+    /**
+     * @brief Add a static series in when user set new series parameters
+     *
+     * Calls get_data with the params given and appends the new series to \c statistics_data_ (historic data)
+     */
     bool on_add_statistics_data_series(
             backend::DataKind data_kind,
             backend::EntityId source_entity_id,
@@ -494,7 +500,7 @@ protected:
     //! Kind of the last Entity clicked or \c INVALID
     backend::EntityKind last_entity_clicked_kind_;
 
-    //! TODO
+    //! QML connected object to handler the static series created
     StatisticsData* statistics_data_;
 
     //! Object that manage all the communications with the backend
@@ -512,7 +518,13 @@ protected:
     //! Time when the monitor has been started. It will be used as default timestamp
     backend::Timestamp initial_time_;
 
-    //! TODO
+    /**
+     * @brief QML connected object to handler the dynamic series created
+     *
+     * It handles several \c DynamicChartBox (as many as chartbox in real time the user has created)
+     * and connect all the QML calls for user active to them (create/delete series,
+     * create/delete chartboxes, get data to update/new data series data, etc.)
+     */
     DynamicData* dynamic_data_;
 };
 

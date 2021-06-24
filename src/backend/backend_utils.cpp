@@ -62,30 +62,6 @@ EntityId models_id_to_backend_id(
     }
 }
 
-// PROCESS
-QString process_pid(
-        backend::EntityId process_id)
-{
-    // TODO
-    return backend_id_to_models_id(process_id);
-}
-
-// DDS GUID
-QString entity_guid(
-        backend::EntityId id)
-{
-    // TODO
-    return backend_id_to_models_id(id);
-}
-
-// TOPIC
-QString topic_type(
-        backend::EntityId id)
-{
-    // TODO
-    return backend_id_to_models_id(id);
-}
-
 QString entity_kind_to_QString(
         const EntityKind& entity_kind)
 {

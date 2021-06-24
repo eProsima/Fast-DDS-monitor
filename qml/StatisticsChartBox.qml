@@ -299,7 +299,6 @@ Rectangle {
             onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
             onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
             onSeriesRemoved: {
-                    console.log("--- : Remove series Index: " + seriesIndex)
                     statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
                     removeLeyend(seriesIndex)
                     if(isDynamic) {

@@ -37,7 +37,20 @@ struct UpdateParameters
 };
 
 /**
- * @brief TODO
+ * @brief Class that represets a ChartBox with dynamic data
+ *
+ * In QML DynamicStatisticsChartView is a panel that can represent 0 or several series at the same time,
+ * all of them with the same update time and statistics_kind.
+ * These series will get 1 (or all in NONE case) new data each update interval, and will add it to internal
+ * series in \c DynamicDataModel objects stored in a vector.
+ *
+ * The internal series information is stored in the variable \c current_update_parameters_ and it should be
+ * updated every time a series is added or deleted.
+ *
+ * This map uses a unique id to represent each series, and this index is stored in the vector \c series_ids
+ * with the order of the creation of each series!
+ * Be aware that this id is not the same as \c seriesIndex from QML that is used in \c delete_series_by_index
+ * as QML does not mantain a unique inmutable id for each series.
  */
 class DynamicChartBox : public QObject
 {
@@ -69,7 +82,13 @@ public:
 
     ~DynamicChartBox();
 
-    //! Updata the internal series with one point for each series and set new \c time_to
+    /**
+     * @brief Updata the internal series with one point for each series.
+     *
+     * Get a map of vectors \c new_data .
+     * This map has key the unique id for each series to update and as value a vector of points SORTED
+     * to add in the specific series.
+     */
     void update(std::map<quint64, std::vector<QPointF>>& new_data, quint64 time_to);
 
     //! Get parameters from an internal chartbox to get next data point
@@ -90,7 +109,9 @@ public:
     /**
      * @brief Add new series
      *
-     * Create a new \c DynamicDataModel and a mapper related to it
+     * Create a new \c DynamicDataModel and a mapper related to it.
+     *
+     * @return The mapper created (and stored in \c mappers_ )
      */
     QtCharts::QVXYModelMapper* add_series(
         QString statistic_kind,

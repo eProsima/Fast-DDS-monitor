@@ -29,20 +29,14 @@
 namespace models {
 
 /**
- * @brief TODO
+ * @brief Class to handle a vector of points and a QML series, related by a mapper instance
  */
 class DynamicDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    DynamicDataModel(
-            QString statistic_kind,
-            models::EntityId source_id,
-            models::EntityId target_id = ID_INVALID)
-        : source_id_(source_id)
-        , target_id_(target_id)
-        , statistic_kind_(statistic_kind)
+    DynamicDataModel()
     {
         QObject::connect(this, &DynamicDataModel::newPointAdded, this, &DynamicDataModel::addNewPoint,
                 Qt::QueuedConnection);
@@ -60,28 +54,10 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
-    models::EntityId source_id()
-    {
-        return source_id_;
-    }
-
-    models::EntityId target_id()
-    {
-        return target_id_;
-    }
-
-    QString statistic_kind()
-    {
-        return statistic_kind_;
-    }
-
 protected:
     void addNewPoint(const QPointF& point);
 
     std::vector<QPointF> m_data;
-    models::EntityId source_id_;
-    models::EntityId target_id_;
-    QString statistic_kind_;
 };
 
 } // namespace models
