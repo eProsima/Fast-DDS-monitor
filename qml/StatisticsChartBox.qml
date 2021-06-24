@@ -23,7 +23,7 @@ Rectangle {
     id: statisticsChartBox
     border {
         width: 2
-        color: "#09487e"
+        color: Theme.eProsimaDarkBlue
     }
 
     property string chartTitle
@@ -61,7 +61,7 @@ Rectangle {
             id: chartBoxTitle
             width: statisticsChartBox.width
             height: statisticsChartBox.height/20 + controlPanel.contentHeight
-            color: "#09487e"
+            color: Theme.eProsimaDarkBlue
 
             ColumnLayout {
                 Layout.alignment: Qt.AlignCenter
@@ -71,7 +71,7 @@ Rectangle {
                     id: chartBoxInnerTitle
                     width: statisticsChartBox.width
                     height: statisticsChartBox.height/20
-                    color: "#09487e"
+                    color: Theme.eProsimaDarkBlue
 
                     Label {
                         id: statisticsChartBoxLabel
@@ -140,7 +140,6 @@ Rectangle {
                     // signal clearSeries()
                     signal dynamicPause()
                     signal dynamicContinue()
-                    // signal resetChartViewZoom()
 
                     onAddSeries: statisticsChartViewLoader.item.addSeries(
                                      dataKind,
@@ -169,7 +168,6 @@ Rectangle {
                             Component.onCompleted: {
                                 triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
                             }
-                            // onTriggered: controlPanel.resetChartViewZoom();
                         }
                         Action {
                             text: "Clear chart"
@@ -215,33 +213,87 @@ Rectangle {
             }
         }
 
-        Loader {
-            id: statisticsChartViewLoader
+        Rectangle {
+
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
 
-            property string chartTitle: statisticsChartBox.chartTitle
-            property variant timeWindow: statisticsChartBox.timeWindow
-            property variant currentDate: statisticsChartBox.currentDate
-            property variant updatePeriod: statisticsChartBox.updatePeriod
-            property variant chartboxId: statisticsChartBox.chartboxId
+            Loader {
+                id: statisticsChartViewLoader
+                // Layout.alignment: Qt.AlignCenter
+                anchors.fill: parent
+                // height: statisticsChartBox.height - 2*chartBoxTitle.height
+                // width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
 
-            source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "StatisticsChartView.qml"
-        }
+                property string chartTitle: statisticsChartBox.chartTitle
+                property variant timeWindow: statisticsChartBox.timeWindow
+                property variant currentDate: statisticsChartBox.currentDate
+                property variant updatePeriod: statisticsChartBox.updatePeriod
+                property variant chartboxId: statisticsChartBox.chartboxId
 
-        Connections {
-            target: statisticsChartViewLoader.item
-            function onSeriesAdded(series){
-                customLegend.addLeyend(series.name, series.color)
+                source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "StatisticsChartView.qml"
             }
-            function onClearedChart(){
-                customLegend.removeAllLegends()
+
+            Connections {
+                target: statisticsChartViewLoader.item
+                ignoreUnknownSignals: true
+                function onSeriesAdded(series){
+                    customLegend.addLeyend(series.name, series.color)
+                }
+                function onClearedChart(){
+                    customLegend.removeAllLegends()
+                }
+                function onRunningChanged(){
+                    running = !running
+                }
             }
-            function onRunningChanged(){
-                console.log("*** RUnning has changed ***")
-                running = !running
+
+            Rectangle {
+                property int size: 30
+
+                height: size
+                width: size
+                radius: size/10
+
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.rightMargin: size/4
+                anchors.topMargin: size/4
+
+                color: playMouseArea.containsMouse ? Theme.lightGrey : "transparent"
+                visible: isDynamic
+
+                IconSVG {
+                    size: parent.size*3/4
+                    source: running ? "/resources/images/pause.svg" : "/resources/images/play.svg"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    dye: true
+                    color: running ? Theme.eProsimaLightBlue : "green"
+                }
+
+                MouseArea {
+                    id: playMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        if (running) {
+                            statisticsChartViewLoader.item.dynamicPause()
+                        } else {
+                            statisticsChartViewLoader.item.dynamicContinue()
+                        }
+                    }
+                }
             }
+
+            // Button {
+            //     text: "play"
+            //     anchors.right: parent.right
+            //     anchors.top: parent.top
+            //     anchors.rightMargin: 5
+            //     anchors.topMargin: 5
+            // }
         }
 
         CustomLegend {

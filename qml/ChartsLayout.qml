@@ -16,6 +16,7 @@ import QtQuick 2.6
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
+import Theme 1.0
 
 Rectangle {
     id: chartsLayout
@@ -157,7 +158,7 @@ Rectangle {
                         }
                         PropertyChanges{
                             target: statisticsChartBox
-                            color: "#09487e"
+                            color: Theme.eProsimaDarkBlue
                         }
                         PropertyChanges {
                             target: statisticsChartBox

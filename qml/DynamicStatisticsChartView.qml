@@ -24,8 +24,11 @@ ChartView {
     legend.visible: false
 
     property variant mapper: []
+
     property int delay_time: 5000
-    property int axis_refresh_time: 10
+    property int axis_refresh_time: 100
+    property int y_axis_current_min: 0
+    property int y_axis_current_max: 10
 
     property bool running: false
     // property int time_to: chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
@@ -92,6 +95,107 @@ ChartView {
         titleText: qsTr("Time [hh:mm:ss (dd.MM)]")
     }
 
+    ToolTip {
+        id: tooltip
+
+        property string seriesColor: "black"
+
+        contentItem: Text{
+            color: tooltip.seriesColor
+            text: tooltip.text
+        }
+        background: Rectangle {
+            border.color: tooltip.seriesColor
+        }
+    }
+
+    Rectangle {
+        id: horizontalScrollMask
+        visible: false
+    }
+
+    Rectangle {
+        id: verticalScrollMask
+        visible: false
+    }
+
+    Rectangle{
+        id: zoomRect
+        color: "black"
+        opacity: 0.6
+        visible: false
+    }
+
+    MouseArea{
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.AllButtons
+
+        property bool pressedZoom: false
+        property bool pressedDrag: false
+
+        onPressed: {
+            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
+                mouse.accepted = false
+            } else {
+                if (mouse.modifiers & Qt.ShiftModifier){
+                    zoomRect.x = mouseX
+                    zoomRect.y = mouseY
+                    zoomRect.visible = true
+                    pressedZoom = true
+                } else if (mouse.modifiers & Qt.ControlModifier) {
+                    verticalScrollMask.y = mouseY;
+                    horizontalScrollMask.x = mouseX;
+                    pressedDrag = true;
+                }
+            }
+        }
+        onMouseXChanged: {
+            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
+                if (pressedZoom){
+                    zoomRect.width = mouseX - zoomRect.x
+                } else if (pressedDrag){
+                    chartView.scrollLeft(mouseX - horizontalScrollMask.x);
+                    horizontalScrollMask.x = mouseX;
+                }
+            }
+        }
+        onMouseYChanged: {
+            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
+                if (pressedZoom){
+                    zoomRect.height = mouseY - zoomRect.y
+                } else if (pressedDrag){
+                    chartView.scrollUp(mouseY - verticalScrollMask.y);
+                    verticalScrollMask.y = mouseY;
+                }
+            }
+        }
+        onReleased: {
+            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
+                mouse.accepted = false
+            } else {
+                if (pressedZoom) {
+                    chartView.zoomIn(Qt.rect(zoomRect.x, zoomRect.y, zoomRect.width, zoomRect.height))
+                    zoomRect.visible = false
+                    pressedZoom = false
+                } else if (pressedDrag) {
+                    pressedDrag = false
+                }
+            }
+        }
+        onWheel: {
+            if(!(wheel.modifiers & Qt.ControlModifier)) {
+                wheel.accepted = false
+            } else {
+                if (wheel.angleDelta.y > 0) {
+                    chartView.zoomIn()
+                } else {
+                    chartView.zoomOut()
+                }
+            }
+        }
+    }
+
     function addDynamicSeries(
             seriesLabel,
             sourceEntityId,
@@ -115,9 +219,16 @@ ChartView {
 
         running = true
 
-        new_series.pointAdded.connect(
-                    function (index){
-                        console.log("In point Added: " + index)
+        new_series.clicked.connect(
+                    function (point){
+                        var p = chartView.mapToPosition(point)
+                        var text = qsTr("x: %1 \ny: %2").arg(
+                                    new Date(point.x).toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")).arg(point.y)
+                        tooltip.x = p.x
+                        tooltip.y = p.y - tooltip.height
+                        tooltip.text = text
+                        tooltip.seriesColor = new_series.color
+                        tooltip.visible = true
                     })
     }
 
@@ -146,7 +257,6 @@ ChartView {
     }
 
     function clearChart() {
-        console.log("clearChart in Dynamic")
         running = false
         chartView.removeAllSeries();
         clearedChart()
@@ -156,7 +266,6 @@ ChartView {
     }
 
     function resetChartViewZoom(){
-        console.log("resetChartViewZoom in Dynamic")
         chartView.zoomReset()
         axisY.min = dynamicData.axis_y_min(chartboxId)
         axisY.max = dynamicData.axis_y_max(chartboxId)
@@ -181,8 +290,8 @@ ChartView {
             console.log("Timer -> Updating chartbox " + chartboxId)
             var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
             controller.update_dynamic_chartbox(chartboxId, time_to);
-            axisY.min = dynamicData.axis_y_min(chartboxId)
-            axisY.max = dynamicData.axis_y_max(chartboxId)
+            y_axis_current_min = dynamicData.axis_y_min(chartboxId)
+            y_axis_current_max = dynamicData.axis_y_max(chartboxId)
         }
     }
 
@@ -196,6 +305,8 @@ ChartView {
             var current_date = toMsecsSinceEpoch(new Date())
             dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(current_date - delay_time)
             dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time)
+            axisY.min = y_axis_current_min
+            axisY.max = y_axis_current_max
         }
     }
 }
