@@ -40,11 +40,13 @@ ColumnLayout {
                 Layout.preferredWidth: parent.width - parent.height
                 color: Theme.whiteSmoke
             }
-            Rectangle {
-                color: Theme.eProsimaLightBlue
-                Layout.preferredWidth: parent.height
-                Layout.preferredHeight: parent.height
+            IconSVG {
+                source: "/resources/images/three_dots_menu.svg"
                 Layout.alignment: Qt.AlignRight
+                scalingFactor: 2
+                dye: true
+                color: Theme.whiteSmoke
+
 
                 MouseArea {
                     anchors.fill: parent

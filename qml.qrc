@@ -65,5 +65,6 @@
         <file alias="tick.svg">resources/images/tick.svg</file>
         <file alias="topic.svg">resources/images/topic.svg</file>
         <file alias="user.svg">resources/images/user.svg</file>
+        <file alias="three_dots_menu.svg">resources/images/three_dots_menu.svg</file>
     </qresource>
 </RCC>
