@@ -239,7 +239,8 @@ Dialog {
     function abbreviateEntityName(entityName){
         // TODO workaround for Host too long name. Erase when alias are included
         if (entityName.length > 20) {
-            return entityName.split(":")[0]
+            var entityName_id_str = entityName.split("<")
+            return entityName.split(":")[0] + "<" + entityName_id_str[entityName_id_str.length-1]
         }
     }
 }
