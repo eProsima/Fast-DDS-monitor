@@ -209,7 +209,7 @@ Dialog {
             emptySourceEntityIdDialog.open()
             return
         } else if ((targetEntityId.currentText == "") && targetExists) {
-            dynamicDisplayStatisticsDialog.open()
+            emptyTargetEntityIdDialog.open()
             return
         }
 
@@ -228,30 +228,19 @@ Dialog {
     function regenerateSeriesLabel(){
         var text = ((statisticKind.currentText === "STANDARD_DEVIATION") ? "SD" : statisticKind.currentText) +
                    "_" +
-                   sourceEntityId.currentText
+                   abbreviateEntityName(sourceEntityId.currentText)
         if (targetExists) {
             text += "_" +
-                    targetEntityId.currentText
+                    abbreviateEntityName(targetEntityId.currentText)
         }
         seriesLabelTextField.placeholderText = text;
     }
 
     function abbreviateEntityName(entityName){
-        var srcEntityId;
-        switch(entityName) {
-            case "DomainParticipant":
-                srcEntityId = "Part";
-                break;
-            case "DataWriter":
-                srcEntityId = "DW";
-                break;
-            case "DataReader":
-                srcEntityId = "DR";
-                break;
-            default:
-                srcEntityId = entityName;
+        // TODO workaround for Host too long name. Erase when alias are included
+        if (entityName.length > 20) {
+            return entityName.split(":")[0]
         }
-        return srcEntityId;
     }
 }
 
