@@ -23,6 +23,7 @@ ToolBar {
     property bool isVisible: true
     property bool isVisibleInitMonitor: true
     property bool isVisibleDispData: true
+    property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true
 
     signal lastClickedReset
@@ -47,7 +48,7 @@ ToolBar {
 
         ToolButton {
             text: "Display real-time data"
-            visible: isVisibleDispData
+            visible: isVisibleDispDynData
             onClicked: {
                 dynamicDataKindDialog.open()
             }

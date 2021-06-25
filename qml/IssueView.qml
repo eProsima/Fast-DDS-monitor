@@ -47,12 +47,12 @@ Item {
         }
 
 
-        Component.onCompleted: rightPanel.expandAll(issue_tree_view, issueModel)
+        Component.onCompleted: leftPanel.expandAll(issue_tree_view, issueModel)
 
         Connections {
             target: issueModel
             function onUpdatedData() {
-                rightPanel.expandAll(issue_tree_view, issueModel)
+                leftPanel.expandAll(issue_tree_view, issueModel)
             }
         }
     }

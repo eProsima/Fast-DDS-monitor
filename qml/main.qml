@@ -49,9 +49,9 @@ ApplicationWindow {
         onToolBarHidden: toolBar.isVisible = !toolBar.isVisible
         onInitMonitorButtonHidden: toolBar.isVisibleInitMonitor = !toolBar.isVisibleInitMonitor
         onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
+        onDispDynDataButtonHidden: toolBar.isVisibleDispDynData = !toolBar.isVisibleDispDynData
         onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
-        onLeftSidebarHidden: panels.showLeftSidebar = !panels.showLeftSidebar
-        onRightSidebarHidden: panels.showRightSidebar = !panels.showRightSidebar
+        onLeftSidebarHidden: panels.openCloseLeftSideBar()
         onLastClickedReset: panels.lastClickedReset()
     }
 

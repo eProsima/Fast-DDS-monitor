@@ -9,10 +9,10 @@ MenuBar {
     signal toolBarHidden
     signal initMonitorButtonHidden
     signal dispDataButtonHidden
+    signal dispDynDataButtonHidden
     signal refreshButtonHidden
 
     signal leftSidebarHidden
-    signal rightSidebarHidden
 
     signal lastClickedReset
 
@@ -60,10 +60,6 @@ MenuBar {
         Action {
             text: (panels.showLeftSidebar) ? "Hide Left sidebar" : "Show Left Sidebar"
             onTriggered: leftSidebarHidden()
-        }
-        Action {
-            text: (panels.showRightSidebar) ? "Hide Right sidebar" : "Show Right Sidebar"
-            onTriggered: rightSidebarHidden()
         }
     }
 
@@ -124,7 +120,17 @@ MenuBar {
                 onCheckStateChanged: dispDataButtonHidden()
             }
             Label {
-                text: "Display New Data"
+                text: "Display Historical Data"
+            }
+            CheckBox {
+                id: displayDynamicDataCheckBox
+                checked: true
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: dispDynDataButtonHidden()
+            }
+            Label {
+                text: "Display Real-Time Data"
             }
             CheckBox {
                 id: refreshCheckBox

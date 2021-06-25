@@ -18,27 +18,45 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 import Theme 1.0
 
-SplitView {
-    id: rightPanels
-    orientation: Qt.Vertical
+
+ColumnLayout {
+    id: statusPanel
+    spacing: 0
+
+    Rectangle {
+        Layout.fillWidth: true
+        height: 20
+        color: Theme.grey
+
+        RowLayout {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 0
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
+            Label {
+                text: "Monitor Status"
+                Layout.preferredWidth: parent.width - parent.height
+                color: Theme.whiteSmoke
+            }
+        }
+    }
 
     ColumnLayout {
-        SplitView.fillHeight: true
-        SplitView.minimumHeight: parent.height / 4
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         spacing: 0
 
         TabBar {
             id: logViewTabBar
+            Layout.fillWidth: true
             TabButton {
                 text: qsTr("Status")
             }
             TabButton {
                 text: qsTr("Log")
             }
-            TabButton {
-                text: qsTr("Issues")
-            }
-            Layout.fillWidth: true
         }
 
         StackLayout {
@@ -52,35 +70,6 @@ SplitView {
 
             LogView {
                 id: logView
-            }
-
-            IssueView {
-                id: issueView
-            }
-        }
-
-    }
-
-    function expandAll(view, model) {
-        for(var i=0; i < model.rowCount(); i++) {
-            var index = model.index(i, 0)
-            if (!view.isExpanded(index)) {
-                view.expand(index)
-            }
-            if (model.rowCount(index) > 0) {
-                expandChilds(view, model, index)
-            }
-        }
-    }
-
-    function expandChilds(view, model, parent) {
-        for(var i=0; i < model.rowCount(parent); i++) {
-            var index = model.index(i, 0, parent)
-            if (!view.isExpanded(index)) {
-                view.expand(index)
-            }
-            if (model.rowCount(index) > 0) {
-                expandChilds(view, model, index)
             }
         }
     }
