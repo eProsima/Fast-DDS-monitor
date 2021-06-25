@@ -35,7 +35,9 @@ void Listener::on_participant_discovery(
     {
         qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " DISCOVERED";
         engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT));
-    } else {
+    }
+    else
+    {
         qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " update info";
         engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT, true));
     }
@@ -53,7 +55,9 @@ void Listener::on_datareader_discovery(
     {
         qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " DISCOVERED";
         engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER));
-    } else {
+    }
+    else
+    {
         qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " update info";
         engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER, true));
     }
@@ -71,7 +75,9 @@ void Listener::on_datawriter_discovery(
     {
         qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " DISCOVERED";
         engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER));
-    } else {
+    }
+    else
+    {
         qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " update info";
         engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER, true));
     }
@@ -89,7 +95,9 @@ void Listener::on_host_discovery(
     {
         qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " DISCOVERED";
         engine_->add_callback(Callback(host_id, EntityKind::HOST));
-    } else {
+    }
+    else
+    {
         qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " update info";
         engine_->add_callback(Callback(host_id, EntityKind::HOST, true));
     }
@@ -107,7 +115,9 @@ void Listener::on_user_discovery(
     {
         qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " DISCOVERED";
         engine_->add_callback(Callback(user_id, EntityKind::USER));
-    } else {
+    }
+    else
+    {
         qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " update info";
         engine_->add_callback(Callback(user_id, EntityKind::USER, true));
     }
@@ -125,7 +135,9 @@ void Listener::on_process_discovery(
     {
         qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " DISCOVERED";
         engine_->add_callback(Callback(process_id, EntityKind::PROCESS));
-    } else {
+    }
+    else
+    {
         qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " update info";
         engine_->add_callback(Callback(process_id, EntityKind::PROCESS, true));
     }
@@ -143,7 +155,9 @@ void Listener::on_locator_discovery(
     {
         qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " DISCOVERED";
         engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR));
-    } else {
+    }
+    else
+    {
         qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " update info";
         engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR, true));
     }
@@ -161,7 +175,9 @@ void Listener::on_topic_discovery(
     {
         qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " DISCOVERED";
         engine_->add_callback(Callback(topic_id, EntityKind::TOPIC));
-    } else {
+    }
+    else
+    {
         qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " update info";
         engine_->add_callback(Callback(topic_id, EntityKind::TOPIC, true));
     }
