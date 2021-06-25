@@ -96,7 +96,8 @@ public:
     }
 
     //! Alias setter
-    void alias(std::string alias)
+    void alias(
+            std::string alias)
     {
         alias_ = alias;
     }

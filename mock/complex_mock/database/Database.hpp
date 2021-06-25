@@ -140,7 +140,9 @@ public:
     size_t count_domains();
 
     //! Change entity name
-    void set_alias(EntityId id, std::string new_alias);
+    void set_alias(
+            EntityId id,
+            std::string new_alias);
 
 protected:
 
