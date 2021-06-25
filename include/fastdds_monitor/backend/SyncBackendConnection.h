@@ -303,7 +303,9 @@ public:
             EntityId entity_id = EntityId::all());
 
     //! Set a new alias in backend
-    void set_alias(const backend::EntityId& id, const std::string& new_alias);
+    void set_alias(
+            const backend::EntityId& id,
+            const std::string& new_alias);
 
 protected:
 
