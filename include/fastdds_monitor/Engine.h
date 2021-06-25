@@ -309,6 +309,12 @@ public:
             quint64 chartbox_id,
             quint64 time_to);
 
+    //! Change alias to an already existing entity and refresh its info
+    void set_alias(
+            const backend::EntityId& entity_id,
+            const std::string& new_alias,
+            const backend::EntityKind& entity_kind);
+
 signals:
 
     /**
@@ -509,6 +515,12 @@ protected:
 
     //! Kind of the last Entity clicked or \c INVALID
     backend::EntityKind last_entity_clicked_kind_;
+
+    //! Id of the last Entity clicked in physical or logical or \c ID_ALL
+    backend::EntityId last_physical_logical_entity_clicked_;
+
+    //! Kind of the last Entity clicked in physical or logical or \c INVALID
+    backend::EntityKind last_physical_logical_entity_clicked_kind_;
 
     //! QML connected object to handler the static series created
     StatisticsData* statistics_data_;

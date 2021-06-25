@@ -18,8 +18,11 @@ import QtQuick.Controls 2.15
 MouseArea {
     anchors.fill: parent
 
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
     signal singleClick
     signal doubleClick
+    signal rightClick
 
     Timer{
         id: timer
@@ -28,7 +31,9 @@ MouseArea {
     }
 
     onClicked: {
-        if(timer.running) {
+        if(mouse.button & Qt.RightButton) {
+            rightClick()
+        } else if(timer.running) {
             doubleClick()
             timer.stop()
         } else {

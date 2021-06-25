@@ -302,6 +302,9 @@ public:
             EntityKind entity_type,
             EntityId entity_id = EntityId::all());
 
+    //! Set a new alias in backend
+    void set_alias(const backend::EntityId& id, const std::string& new_alias);
+
 protected:
 
     //! Create a new \c ListItem of class \c Host related with the backend entity with id \c id

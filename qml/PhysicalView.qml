@@ -116,6 +116,9 @@ Rectangle {
                                     controller.host_click(id)
                                     lastClickedPhysical(hostIdx, -1, -1, name, kind)
                                 }
+                                onRightClick: {
+                                    changeAlias(id, name, kind)
+                                }
                             }
                         }
                     }
@@ -210,6 +213,9 @@ Rectangle {
                                                 controller.user_click(id)
                                                 lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
                                             }
+                                            onRightClick: {
+                                                changeAlias(id, name, kind)
+                                            }
                                         }
                                     }
                                 }
@@ -273,11 +279,14 @@ Rectangle {
                                                     text: name
                                                     color: highlight ? Theme.whiteSmoke : "black"
 
-                                                    MouseArea {
+                                                    DifferClickMouseArea {
                                                         anchors.fill: parent
                                                         onDoubleClicked: {
                                                             controller.process_click(id)
                                                             lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
+                                                        }
+                                                        onRightClick: {
+                                                            changeAlias(id, name, kind)
                                                         }
                                                     }
                                                 }
@@ -291,6 +300,7 @@ Rectangle {
                 }
             }
         }
+
     }
 
     function updateLastEntityClicked(hostIdx, userIdx, processIdx, update = true) {

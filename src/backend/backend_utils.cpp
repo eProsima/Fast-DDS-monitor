@@ -68,23 +68,23 @@ QString entity_kind_to_QString(
     switch (entity_kind)
     {
         case EntityKind::HOST:
-            return "HOST";
+            return "Host";
         case EntityKind::USER:
-            return "USER";
+            return "User";
         case EntityKind::PROCESS:
-            return "PROCESS";
+            return "Process";
         case EntityKind::DOMAIN:
-            return "DOMAIN";
+            return "Domain";
         case EntityKind::TOPIC:
-            return "TOPIC";
+            return "Topic";
         case EntityKind::PARTICIPANT:
-            return "PARTICIPANT";
+            return "DomainParticipant";
         case EntityKind::DATAWRITER:
-            return "DATAWRITER";
+            return "DataWriter";
         case EntityKind::DATAREADER:
-            return "DATAREADER";
+            return "DataReader";
         case EntityKind::LOCATOR:
-            return "LOCATOR";
+            return "Locator";
         default:
             return "INVALID";
     }
@@ -169,7 +169,6 @@ EntityKind string_to_entity_kind(
         {"Process", EntityKind::PROCESS},
         {"Domain", EntityKind::DOMAIN},
         {"Topic", EntityKind::TOPIC},
-        {"Participant", EntityKind::PARTICIPANT},
         {"DomainParticipant", EntityKind::PARTICIPANT},
         {"DataWriter", EntityKind::DATAWRITER},
         {"DataReader", EntityKind::DATAREADER},

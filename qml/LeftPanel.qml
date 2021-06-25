@@ -49,6 +49,25 @@ RowLayout {
         visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Status]) ? true : false
     }
 
+    ChangeAliasDialog {
+        id: aliasDialog
+    }
+
+    function changeAlias(entityId, currentAlias, entityKind) {
+        aliasDialog.entityId = entityId
+        aliasDialog.currentAlias = currentAlias
+        aliasDialog.entityKind = entityKind
+        aliasDialog.open()
+    }
+
+    function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
+        for(var i=0; i<viewsRepeater.count; i++){
+            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
+            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
+            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.updateLastEntityClicked(hostIdx, userIdx, processIdx)
+        }
+    }
+
     IssuesPanel {
         id: issuesPanel
         Layout.fillHeight: true

@@ -115,6 +115,9 @@ Rectangle {
                                     controller.participant_click(id)
                                     lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
                                 }
+                                onRightClick: {
+                                    changeAlias(id, name, kind)
+                                }
                             }
                         }
                     }
@@ -208,6 +211,9 @@ Rectangle {
                                                 controller.endpoint_click(id)
                                                 lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
                                             }
+                                            onRightClick: {
+                                                changeAlias(id, name, kind)
+                                            }
                                         }
                                     }
                                 }
@@ -271,11 +277,14 @@ Rectangle {
                                                     text: name
                                                     color: highlight ? Theme.whiteSmoke : "black"
 
-                                                    MouseArea {
+                                                    DifferClickMouseArea {
                                                         anchors.fill: parent
                                                         onDoubleClicked: {
                                                             controller.locator_click(id)
                                                             lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
+                                                        }
+                                                        onRightClick: {
+                                                            changeAlias(id, name, kind)
                                                         }
                                                     }
                                                 }

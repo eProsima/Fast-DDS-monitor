@@ -41,6 +41,8 @@ Engine::Engine()
     : enabled_(false)
     , last_entity_clicked_(backend::ID_ALL)
     , last_entity_clicked_kind_(backend::EntityKind::INVALID)
+    , last_physical_logical_entity_clicked_(backend::ID_ALL)
+    , last_physical_logical_entity_clicked_kind_(backend::EntityKind::INVALID)
 {
 }
 
@@ -220,7 +222,7 @@ void Engine::shared_init_monitor_(
     if (domain_id.is_valid())
     {
         update_domain_data(domain_id);
-        last_entity_clicked_ = domain_id;
+        last_physical_logical_entity_clicked_ = domain_id;
     }
 }
 
@@ -407,7 +409,7 @@ bool Engine::update_topic_data(
 // DDS PARTITION
 bool Engine::fill_dds_data_()
 {
-    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
 
 bool Engine::update_reset_dds_data(
@@ -430,7 +432,7 @@ bool Engine::update_participant_data(
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
-    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
 
 bool Engine::update_endpoint_data(
@@ -439,7 +441,7 @@ bool Engine::update_endpoint_data(
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
-    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
 
 bool Engine::update_locator_data(
@@ -448,7 +450,7 @@ bool Engine::update_locator_data(
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
-    return backend_connection_.update_dds_model(participants_model_, last_entity_clicked_);
+    return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
 
 bool Engine::entity_clicked(
@@ -471,6 +473,8 @@ bool Engine::entity_clicked(
     {
         // update whit related dds entities
         res = update_reset_dds_data(id) || res;
+        last_physical_logical_entity_clicked_ = id;
+        last_physical_logical_entity_clicked_kind_ = kind;
     }
 
     // All entities including DDS
@@ -748,4 +752,57 @@ void Engine::update_dynamic_chartbox(
     /////
     // Update series with data AND now value
     dynamic_data_->update(chartbox_id, new_series_points, time_to);
+}
+
+void Engine::set_alias(
+        const backend::EntityId& entity_id,
+        const std::string& new_alias,
+        const backend::EntityKind& entity_kind)
+{
+    backend_connection_.set_alias(entity_id, new_alias);
+
+    // Refresh specific model
+    // TODO when callbacks on info update are implemented this could be erased
+    switch (entity_kind)
+    {
+        case backend::EntityKind::HOST:
+            update_host_data(entity_id);
+            break;
+
+        case backend::EntityKind::USER:
+            update_user_data(entity_id);
+            break;
+
+        case backend::EntityKind::PROCESS:
+            update_process_data(entity_id);
+            break;
+
+        case backend::EntityKind::DOMAIN:
+            update_domain_data(entity_id);
+            break;
+
+        case backend::EntityKind::TOPIC:
+            update_topic_data(entity_id);
+            break;
+
+        case backend::EntityKind::PARTICIPANT:
+            update_participant_data(entity_id);
+            break;
+
+        case backend::EntityKind::DATAWRITER:
+            update_endpoint_data(entity_id);
+            break;
+
+        case backend::EntityKind::DATAREADER:
+            update_endpoint_data(entity_id);
+            break;
+
+        case backend::EntityKind::LOCATOR:
+            update_locator_data(entity_id);
+            break;
+
+        default:
+            qWarning() << "Updated alias of an unknown EntityKind";
+            break;
+    }
 }

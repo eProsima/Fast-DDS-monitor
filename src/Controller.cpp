@@ -186,3 +186,14 @@ void Controller::update_dynamic_chartbox(
 {
     engine_->update_dynamic_chartbox(chartbox_id, time_to);
 }
+
+void Controller::set_alias(
+        QString entity_id,
+        QString new_alias,
+        QString entity_kind)
+{
+    engine_->set_alias(
+        backend::models_id_to_backend_id(entity_id),
+        utils::to_string(new_alias),
+        backend::string_to_entity_kind(entity_kind));
+}
