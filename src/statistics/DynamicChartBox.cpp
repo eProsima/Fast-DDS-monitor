@@ -38,7 +38,7 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
              << " with source: " << source_id
              << " and with target: " << target_id;
 
-    auto new_data_model = new models::DynamicDataModel(statistic_kind, source_id, target_id);
+    auto new_data_model = new models::DynamicDataModel();
 
     // Add it to series collection
     series_.insert({last_id_, new_data_model});

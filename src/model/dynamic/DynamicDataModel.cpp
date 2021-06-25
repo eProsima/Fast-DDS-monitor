@@ -18,12 +18,6 @@
 
 namespace models {
 
-DynamicDataModel::DynamicDataModel()
-{
-    QObject::connect(this, &DynamicDataModel::newPointAdded, this, &DynamicDataModel::addNewPoint,
-            Qt::QueuedConnection);
-}
-
 void DynamicDataModel::handleNewPoint(
         const QPointF& point)
 {

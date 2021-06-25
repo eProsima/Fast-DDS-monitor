@@ -53,7 +53,6 @@ signals:
 
 public:
 
-    DynamicDataModel();
     int rowCount(
             const QModelIndex& parent = QModelIndex()) const;
     int columnCount(
