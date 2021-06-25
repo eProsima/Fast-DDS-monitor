@@ -26,7 +26,7 @@ const EntityId ID_ALL = EntityId::all();
 const EntityId ID_NONE = EntityId::invalid();
 
 models::EntityId backend_id_to_models_id(
-        const EntityId id)
+        const EntityId& id)
 {
     std::ostringstream stream;
     if (id == ID_ALL)
@@ -45,7 +45,7 @@ models::EntityId backend_id_to_models_id(
 }
 
 EntityId models_id_to_backend_id(
-        const models::EntityId id)
+        const models::EntityId& id)
 {
     std::ostringstream stream;
     if (id == models::ID_ALL)
@@ -248,8 +248,8 @@ StatisticKind string_to_statistic_kind(
 }
 
 std::string get_info_value(
-        EntityInfo info,
-        std::string key)
+        const EntityInfo& info,
+        const std::string& key)
 {
     if (info.contains(key))
     {
@@ -277,6 +277,19 @@ std::string get_info_value(
     else
     {
         return ("No key " + key);
+    }
+}
+
+std::string get_alias(
+        const EntityInfo& info)
+{
+    if (info.contains("alias"))
+    {
+        return info["alias"].get<std::string>();
+    }
+    else
+    {
+        return get_info_value(info, "name");
     }
 }
 
