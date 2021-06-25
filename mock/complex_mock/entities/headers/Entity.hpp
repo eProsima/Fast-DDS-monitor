@@ -49,6 +49,7 @@ public:
             std::string name)
         : id_(id)
         , name_(name)
+        , alias_(name)
     {
     }
 
@@ -88,6 +89,18 @@ public:
         return name_;
     }
 
+    //! Alias getter
+    std::string alias() const
+    {
+        return alias_;
+    }
+
+    //! Alias setter
+    void alias(std::string alias)
+    {
+        alias_ = alias;
+    }
+
     /**
      * @brief Get id of entity
      *
@@ -114,6 +127,9 @@ private:
 
     //! Name of the entity
     const std::string name_;
+
+    //! Name of the entity
+    std::string alias_;
 };
 
 //! Type name for entity shared pointer

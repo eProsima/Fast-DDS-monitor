@@ -350,6 +350,8 @@ Info StatisticsBackend::get_info(
         json_obj["name"] = names[entity_id.value()];
     }
 
+    json_obj["alias"] = json_obj["name"];
+
     return json_obj;
 }
 

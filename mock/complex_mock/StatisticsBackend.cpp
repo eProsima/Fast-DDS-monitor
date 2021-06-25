@@ -276,11 +276,11 @@ std::vector<std::pair<EntityKind, EntityKind>> StatisticsBackend::get_data_suppo
     return data_to_entity_map[data_kind];
 }
 
-void set_alias(
+void StatisticsBackend::set_alias(
         EntityId entity_id,
         const std::string& alias)
 {
-    // TODO
+    Database::get_instance()->set_alias(entity_id, alias);
 }
 
 } //namespace statistics_backend

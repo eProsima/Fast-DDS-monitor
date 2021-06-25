@@ -28,6 +28,7 @@ Info Entity::get_info() const
 
     json_obj["id"] = entityId_to_string(id());
     json_obj["name"] = name();
+    json_obj["alias"] = alias();
     json_obj["kind"] = kind();
 
     return json_obj;

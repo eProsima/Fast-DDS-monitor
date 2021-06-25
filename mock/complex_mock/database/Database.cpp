@@ -378,5 +378,16 @@ EntityPointer Database::get_entity(
     }
 }
 
+void Database::set_alias(EntityId id, std::string new_alias)
+{
+    auto it = entities_.find(id);
+
+    if (it != entities_.end())
+    {
+        it->second->alias(new_alias);
+    }
+}
+
+
 } // namespace statistics_backend
 } // namespace eprosima
