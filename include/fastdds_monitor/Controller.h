@@ -139,8 +139,8 @@ public slots:
 
     //! Call engine to update a dynamic chartbox
     void update_dynamic_chartbox(
-        quint64 chartbox_id,
-        quint64 time_to);
+            quint64 chartbox_id,
+            quint64 time_to);
 
 signals:
 

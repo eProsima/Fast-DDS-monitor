@@ -162,12 +162,12 @@ Engine::~Engine()
             delete summary_model_;
         }
 
-        if(statistics_data_)
+        if (statistics_data_)
         {
             delete statistics_data_;
         }
 
-        if(dynamic_data_)
+        if (dynamic_data_)
         {
             delete dynamic_data_;
         }
@@ -688,13 +688,13 @@ void Engine::update_dynamic_chartbox(
 
     // Check that source target and kinds has same size
     if (parameters.source_ids.size() != parameters.target_ids.size() ||
-        parameters.source_ids.size() != parameters.statistics_kinds.size())
+            parameters.source_ids.size() != parameters.statistics_kinds.size())
     {
         // BAD PARAMENTERS
         qCritical() << "Bad parameters in function update_dynamic_chartbox."
-                << "sources: " << parameters.source_ids.size()
-                << "targets: " << parameters.target_ids.size()
-                << "statistics kind: " << parameters.statistics_kinds.size();
+                    << "sources: " << parameters.source_ids.size()
+                    << "targets: " << parameters.target_ids.size()
+                    << "statistics kind: " << parameters.statistics_kinds.size();
 
         // Update the model with an empty vector so the time saves coherence in chart
         dynamic_data_->update(chartbox_id, new_series_points, time_to);
@@ -702,7 +702,7 @@ void Engine::update_dynamic_chartbox(
     }
 
     eprosima::statistics_backend::Timestamp time_from_ =
-        backend::Timestamp(std::chrono::milliseconds(parameters.time_from)); // This value is reused for every series
+            backend::Timestamp(std::chrono::milliseconds(parameters.time_from)); // This value is reused for every series
 
     for (std::size_t i = 0; i < parameters.series_ids.size(); i++)
     {
@@ -731,9 +731,9 @@ void Engine::update_dynamic_chartbox(
             {
                 // Add points to list of new points
                 new_series_points[parameters.series_ids[i]].push_back(QPointF(
-                        std::chrono::duration_cast<std::chrono::milliseconds>(
-                            point.first.time_since_epoch()).count(),
-                        point.second));
+                            std::chrono::duration_cast<std::chrono::milliseconds>(
+                                point.first.time_since_epoch()).count(),
+                            point.second));
             }
         }
     }

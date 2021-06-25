@@ -41,21 +41,22 @@ public:
 
     //! Updata an internal chartbox with one point for each series
     void update(
-        quint64 chartbox_id,
-        std::map<quint64, std::vector<QPointF>>& new_data,
-        quint64 time_to);
+            quint64 chartbox_id,
+            std::map<quint64, std::vector<QPointF>>& new_data,
+            quint64 time_to);
 
     //! Get parameters from an internal chartbox to get next data point
-    UpdateParameters get_update_parameters(quint64 chartbox_id);
+    UpdateParameters get_update_parameters(
+            quint64 chartbox_id);
 
 public slots:
 
     //! Add a new series in an internal chartbox
     QtCharts::QVXYModelMapper* add_series(
-        quint64 chartbox_id,
-        QString statistic_kind,
-        QString source_id,
-        QString target_id);
+            quint64 chartbox_id,
+            QString statistic_kind,
+            QString source_id,
+            QString target_id);
 
     /**
      * Delete a series belongs to an internal Chartbox
@@ -65,29 +66,29 @@ public slots:
      * handles one destruction, it could lead to error
      */
     void delete_series(
-        quint64 chartbox_id,
-        quint64 series_index);
+            quint64 chartbox_id,
+            quint64 series_index);
 
     //! Add a new internal Chartbox
     quint64 add_chartbox(
-        QString data_kind,
-        quint64 time_to);
+            QString data_kind,
+            quint64 time_to);
 
     //! Delete an internal Chartbox
     void delete_chartbox(
-        quint64 chartbox_id);
+            quint64 chartbox_id);
 
     //! Get max Y value in all the internal series
     qreal axis_y_max(
-        quint64 chartbox_id);
+            quint64 chartbox_id);
 
     //! Get min Y value in all the internal series
     qreal axis_y_min(
-        quint64 chartbox_id);
+            quint64 chartbox_id);
 
     //! Send clear chart to internal chartbox
-    void clear_charts(quint64 chartbox_id);
-
+    void clear_charts(
+            quint64 chartbox_id);
 
 protected:
 

@@ -36,26 +36,40 @@ class DynamicDataModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
+
     DynamicDataModel()
     {
         QObject::connect(this, &DynamicDataModel::newPointAdded, this, &DynamicDataModel::addNewPoint,
                 Qt::QueuedConnection);
     }
 
-    void handleNewPoint(const QPointF& point);
+    void handleNewPoint(
+            const QPointF& point);
 
 signals:
-    void newPointAdded(const QPointF& point);
+
+    void newPointAdded(
+            const QPointF& point);
 
 public:
+
     DynamicDataModel();
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    int rowCount(
+            const QModelIndex& parent = QModelIndex()) const;
+    int columnCount(
+            const QModelIndex& parent = QModelIndex()) const;
+    QVariant headerData(
+            int section,
+            Qt::Orientation orientation,
+            int role = Qt::DisplayRole) const;
+    QVariant data(
+            const QModelIndex& index,
+            int role = Qt::DisplayRole) const;
 
 protected:
-    void addNewPoint(const QPointF& point);
+
+    void addNewPoint(
+            const QPointF& point);
 
     std::vector<QPointF> m_data;
 };

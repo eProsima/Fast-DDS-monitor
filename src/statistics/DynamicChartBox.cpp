@@ -61,7 +61,7 @@ QtCharts::QVXYModelMapper* DynamicChartBox::add_series(
 }
 
 void DynamicChartBox::delete_series_by_index(
-    quint64 series_index)
+        quint64 series_index)
 {
     const std::lock_guard<std::mutex> lock(mutex_);
 
@@ -95,8 +95,9 @@ void DynamicChartBox::delete_series_by_index(
     }
 }
 
-
-void DynamicChartBox::update(std::map<quint64, std::vector<QPointF>>& new_data, quint64 time_to)
+void DynamicChartBox::update(
+        std::map<quint64, std::vector<QPointF>>& new_data,
+        quint64 time_to)
 {
     const std::lock_guard<std::mutex> lock(mutex_);
 
@@ -108,7 +109,7 @@ void DynamicChartBox::update(std::map<quint64, std::vector<QPointF>>& new_data, 
         for (auto point : points.second)
         {
             series_[points.first]->handleNewPoint(point);
-            if(point.ry() >= axisYMax_)
+            if (point.ry() >= axisYMax_)
             {
                 setAxisYMax(point.ry() + 1);
             }
@@ -155,7 +156,7 @@ void DynamicChartBox::clear_charts()
 
     qDebug() << "Clearing chartbox: " << id_;
 
-    for(auto m : mappers_)
+    for (auto m : mappers_)
     {
         delete m.second;
     }

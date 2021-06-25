@@ -28,9 +28,9 @@ DynamicData::~DynamicData()
 }
 
 void DynamicData::update(
-    quint64 chartbox_id,
-    std::map<quint64, std::vector<QPointF>>& new_data,
-    quint64 time_to)
+        quint64 chartbox_id,
+        std::map<quint64, std::vector<QPointF>>& new_data,
+        quint64 time_to)
 {
     auto it = chartboxes_.find(chartbox_id);
 
@@ -40,10 +40,10 @@ void DynamicData::update(
 }
 
 QtCharts::QVXYModelMapper* DynamicData::add_series(
-    quint64 chartbox_id,
-    QString statistic_kind,
-    QString source_id,
-    QString target_id)
+        quint64 chartbox_id,
+        QString statistic_kind,
+        QString source_id,
+        QString target_id)
 {
     qDebug() << "Addin serie to chartbox id: " << chartbox_id;
 
@@ -55,8 +55,8 @@ QtCharts::QVXYModelMapper* DynamicData::add_series(
 }
 
 void DynamicData::delete_series(
-    quint64 chartbox_id,
-    quint64 series_index)
+        quint64 chartbox_id,
+        quint64 series_index)
 {
     qDebug() << "Deleting series " << series_index << " to chartbox id: " << chartbox_id;
 
@@ -68,8 +68,8 @@ void DynamicData::delete_series(
 }
 
 quint64 DynamicData::add_chartbox(
-    QString data_kind,
-    quint64 time_to)
+        QString data_kind,
+        quint64 time_to)
 {
     qDebug() << "Addin chartbox with id: " << last_id_;
 
@@ -78,7 +78,7 @@ quint64 DynamicData::add_chartbox(
 }
 
 void DynamicData::delete_chartbox(
-    quint64 chartbox_id)
+        quint64 chartbox_id)
 {
     qDebug() << "Erasing dynamic chartbox with id: " << chartbox_id;
 
@@ -91,7 +91,8 @@ void DynamicData::delete_chartbox(
     chartboxes_.erase(chartbox_id);
 }
 
-UpdateParameters DynamicData::get_update_parameters(quint64 chartbox_id)
+UpdateParameters DynamicData::get_update_parameters(
+        quint64 chartbox_id)
 {
     qDebug() << "Getting parameters from: " << chartbox_id;
 
@@ -103,7 +104,7 @@ UpdateParameters DynamicData::get_update_parameters(quint64 chartbox_id)
 }
 
 qreal DynamicData::axis_y_max(
-    quint64 chartbox_id)
+        quint64 chartbox_id)
 {
     auto it = chartboxes_.find(chartbox_id);
 
@@ -113,7 +114,7 @@ qreal DynamicData::axis_y_max(
 }
 
 qreal DynamicData::axis_y_min(
-    quint64 chartbox_id)
+        quint64 chartbox_id)
 {
     auto it = chartboxes_.find(chartbox_id);
 
@@ -122,7 +123,8 @@ qreal DynamicData::axis_y_min(
     return it->second->axisYMin();
 }
 
-void DynamicData::clear_charts(quint64 chartbox_id)
+void DynamicData::clear_charts(
+        quint64 chartbox_id)
 {
     qDebug() << "Clearinf charts from: " << chartbox_id;
 

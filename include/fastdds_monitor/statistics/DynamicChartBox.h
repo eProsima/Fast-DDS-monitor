@@ -59,6 +59,7 @@ class DynamicChartBox : public QObject
     Q_PROPERTY(qreal axisYMin READ axisYMin NOTIFY axisYMinChanged)
 
 public:
+
     DynamicChartBox(
             quint64 id,
             QString data_kind,
@@ -71,12 +72,12 @@ public:
         , axisYMax_(10)
         , axisYMin_(0)
         , current_update_parameters_({
-            data_kind,
-            time_to,
-            std::vector<QString>(),
-            std::vector<QString>(),
-            std::vector<QString>(),
-            std::vector<quint64>()})
+        data_kind,
+        time_to,
+        std::vector<QString>(),
+        std::vector<QString>(),
+        std::vector<QString>(),
+        std::vector<quint64>()})
     {
     }
 
@@ -89,7 +90,9 @@ public:
      * This map has key the unique id for each series to update and as value a vector of points SORTED
      * to add in the specific series.
      */
-    void update(std::map<quint64, std::vector<QPointF>>& new_data, quint64 time_to);
+    void update(
+            std::map<quint64, std::vector<QPointF>>& new_data,
+            quint64 time_to);
 
     //! Get parameters from an internal chartbox to get next data point
     UpdateParameters get_update_parameters();
@@ -114,13 +117,13 @@ public:
      * @return The mapper created (and stored in \c mappers_ )
      */
     QtCharts::QVXYModelMapper* add_series(
-        QString statistic_kind,
-        models::EntityId source_id,
-        models::EntityId target_id = models::ID_INVALID);
+            QString statistic_kind,
+            models::EntityId source_id,
+            models::EntityId target_id = models::ID_INVALID);
 
     //! Delete the series created in the number \c series_index regarding the currently existing ones
     void delete_series_by_index(
-        quint64 series_index);
+            quint64 series_index);
 
     //! Eliminate all series
     void clear_charts();

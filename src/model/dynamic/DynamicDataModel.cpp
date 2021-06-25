@@ -21,54 +21,69 @@ namespace models {
 DynamicDataModel::DynamicDataModel()
 {
     QObject::connect(this, &DynamicDataModel::newPointAdded, this, &DynamicDataModel::addNewPoint,
-                     Qt::QueuedConnection);
+            Qt::QueuedConnection);
 }
 
-
-void DynamicDataModel::handleNewPoint(const QPointF &point)
+void DynamicDataModel::handleNewPoint(
+        const QPointF& point)
 {
     emit newPointAdded(point);
 }
 
-void DynamicDataModel::addNewPoint(const QPointF& point)
+void DynamicDataModel::addNewPoint(
+        const QPointF& point)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_data.push_back(point);
     endInsertRows();
 }
 
-
-int DynamicDataModel::rowCount(const QModelIndex &parent) const
+int DynamicDataModel::rowCount(
+        const QModelIndex& parent) const
 {
     Q_UNUSED(parent)
     return m_data.size();
 }
 
-int DynamicDataModel::columnCount(const QModelIndex &parent) const
+int DynamicDataModel::columnCount(
+        const QModelIndex& parent) const
 {
     Q_UNUSED(parent)
     return 2;
 }
 
-QVariant DynamicDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DynamicDataModel::headerData(
+        int section,
+        Qt::Orientation orientation,
+        int role) const
 {
     Q_UNUSED(orientation)
     Q_UNUSED(role)
 
-    if(section == 0)
+    if (section == 0)
+    {
         return "x";
+    }
     else
+    {
         return "y";
+    }
 }
 
-QVariant DynamicDataModel::data(const QModelIndex &index, int role) const
+QVariant DynamicDataModel::data(
+        const QModelIndex& index,
+        int role) const
 {
     Q_UNUSED(role)
 
     if (index.column() == 0)
+    {
         return m_data[index.row()].x();
+    }
     else
+    {
         return m_data[index.row()].y();
+    }
 }
 
 } // namespace models
