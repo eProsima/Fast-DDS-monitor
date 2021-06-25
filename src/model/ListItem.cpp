@@ -105,6 +105,11 @@ backend::EntityId ListItem::get_entity_id() const
     return id_;
 }
 
+bool ListItem::alive() const
+{
+    return backend::get_info_value(info_, "name");
+}
+
 QVariant ListItem::data(
         int role) const
 {

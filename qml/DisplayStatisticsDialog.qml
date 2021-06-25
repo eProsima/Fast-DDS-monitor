@@ -303,7 +303,7 @@ Dialog {
                 text: "Cumulative function that is\n" +
                       "applied to the data of each\n" +
                       "time interval.\n" +
-                      "If none is selected, the first\n" +
+                      "If NONE is selected, the first\n" +
                       "available data of the interval\n" +
                       "is taken."
             }

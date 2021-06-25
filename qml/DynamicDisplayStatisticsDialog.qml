@@ -70,6 +70,12 @@ Dialog {
         Label {
             id: seriesLabel
             text: "Series label: "
+            InfoToolTip {
+                text: "Name of the series\n"+
+                      "The series name is autogerated\n" +
+                      "using the values given in this\n" +
+                      "dialog."
+            }
         }
         TextField {
             id: seriesLabelTextField
@@ -85,6 +91,10 @@ Dialog {
         Label {
             id: sourceEntityIdLabel
             text: "Source Entity Id: "
+            InfoToolTip {
+                text: "Entity from which the data\n" +
+                      "will be collected."
+            }
         }
         RowLayout {
             AdaptiveComboBox {
@@ -124,6 +134,14 @@ Dialog {
             id: targetEntityIdLabel
             text: "Target Entity Id: "
             visible: targetExists
+            InfoToolTip {
+                text: "This is the entity to which\n" +
+                      "the data refer.\n" +
+                      "It is available only for those\n" +
+                      "data kinds that involve a\n" +
+                      "source and a target entity\n" +
+                      "such as latency."
+            }
         }
         RowLayout {
             id: targetEntityIdLayout
@@ -162,6 +180,14 @@ Dialog {
 
         Label {
             text: "Statistic kind: "
+            InfoToolTip {
+                text: "Cumulative function that is\n" +
+                      "applied to the data of each\n" +
+                      "time interval.\n" +
+                      "If NONE is selected, all \n" +
+                      "available data in the last\n" +
+                      "time frame is displayed.\n"
+            }
         }
         AdaptiveComboBox {
             id: statisticKind

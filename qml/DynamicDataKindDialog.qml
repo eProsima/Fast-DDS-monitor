@@ -51,6 +51,9 @@ Dialog {
         Label {
             id: dataKindLabel
             text: "Data kind: "
+            InfoToolTip {
+                text: "Data type to be plotted."
+            }
         }
         AdaptiveComboBox {
             id: dataKindComboBox
@@ -78,6 +81,10 @@ Dialog {
         Label {
             id: timeWindow
             text: "Time window: "
+            InfoToolTip {
+                text: "Maximum time shown in X axis\n" +
+                      "while real-time is playing"
+            }
         }
 
         GridLayout {
@@ -152,6 +159,10 @@ Dialog {
 
         Label {
             text: qsTr("Update period: ")
+            InfoToolTip {
+                text: "Period to update chart with\n" +
+                      "new data received\n"
+            }
         }
         RowLayout {
             SpinBox {

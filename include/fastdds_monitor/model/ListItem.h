@@ -105,6 +105,12 @@ public:
     virtual QString kind() const;
 
     /**
+     * @brief Entity status
+     * @return entity status
+     */
+    virtual bool alive() const;
+
+    /**
      * @brief Item info setter
      *
      * Set the info to the Item.
