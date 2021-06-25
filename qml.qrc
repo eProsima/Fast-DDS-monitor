@@ -25,45 +25,29 @@
         <file>qml/DynamicStatisticsChartView.qml</file>
         <file>qml/EntityList.qml</file>
         <file>qml/ErrorDialog.qml</file>
+        <file>qml/IconsVBar.qml</file>
         <file>qml/IconSVG.qml</file>
         <file>qml/InfoToolTip.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
+        <file>qml/IssuesPanel.qml</file>
         <file>qml/IssueView.qml</file>
         <file>qml/LeftPanel.qml</file>
         <file>qml/LogicalView.qml</file>
         <file>qml/LogView.qml</file>
         <file>qml/main.qml</file>
         <file>qml/MainStartView.qml</file>
+        <file>qml/MonitoringPanel.qml</file>
         <file>qml/MonitorMenuBar.qml</file>
         <file>qml/MonitorToolBar.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
         <file>qml/QosView.qml</file>
-        <file>qml/IssuesPanel.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
+        <file>qml/StatusPanel.qml</file>
         <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
-        <file>qml/DifferClickMouseArea.qml</file>
-        <file>qml/InfoToolTip.qml</file>
-        <file>qml/DynamicDataKindDialog.qml</file>
-        <file>qml/MonitoringPanel.qml</file>
-        <file>qml/IconsVBar.qml</file>
-        <file>qml/StatusPanel.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>imports/Theme/Theme.qml</file>
-        <file>imports/Theme/qmldir</file>
-        <file>controls/MenuBar.qml</file>
-        <file>controls/MenuBarItem.qml</file>
-        <file>controls/TabBar.qml</file>
-        <file>controls/TabButton.qml</file>
-        <file>controls/ScrollBar.qml</file>
-        <file>controls/SplitView.qml</file>
-        <file>controls/ToolBar.qml</file>
-        <file>controls/ToolButton.qml</file>
-        <file>controls/ComboBox.qml</file>
-        <file>controls/ItemDelegate.qml</file>
-        <file>controls/Button.qml</file>
     </qresource>
     <qresource prefix="/resources/images">
         <file alias="cross.svg">resources/images/cross.svg</file>
