@@ -181,6 +181,10 @@ Rectangle {
         seriesModel.remove(seriesIndex)
     }
 
+    function removeAllLegends() {
+        seriesModel.clear()
+    }
+
     function hideSeriesLegend(seriesIndex) {
         seriesModel.setProperty(seriesIndex, "seriesColor", "grey")
         seriesModel.setProperty(seriesIndex, "hidden", true)

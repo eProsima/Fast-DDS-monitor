@@ -28,7 +28,7 @@ ChartView {
     property date dateTimeAxisXMin: new Date()
     property date dateTimeAxisXMax: new Date()
 
-    property string chartTitle: ""
+    signal clearedChart()
 
     ValueAxis {
         id: axisY
@@ -242,6 +242,7 @@ ChartView {
 
     function clearChart() {
         chartView.removeAllSeries();
+        clearedChart()
         axisYMin = 0
         axisYMax = 10
         dateTimeAxisXMax = new Date()

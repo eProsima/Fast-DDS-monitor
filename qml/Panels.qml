@@ -54,5 +54,9 @@ SplitView {
     function createChart(dataKind){
         chartsLayout.createChart(dataKind)
     }
+
+    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
+        chartsLayout.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod)
+    }
 }
 

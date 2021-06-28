@@ -1,23 +1,39 @@
 <RCC>
     <qresource prefix="/">
-        <file>qtquickcontrols2.conf</file>
+        <file>controls/Button.qml</file>
+        <file>controls/ComboBox.qml</file>
+        <file>controls/ItemDelegate.qml</file>
+        <file>controls/MenuBar.qml</file>
+        <file>controls/MenuBarItem.qml</file>
+        <file>controls/ScrollBar.qml</file>
+        <file>controls/SplitView.qml</file>
+        <file>controls/TabBar.qml</file>
+        <file>controls/TabButton.qml</file>
+        <file>controls/ToolBar.qml</file>
+        <file>controls/ToolButton.qml</file>
+        <file>imports/Theme/qmldir</file>
+        <file>imports/Theme/Theme.qml</file>
         <file>qml/AboutDialog.qml</file>
-        <file>qml/MainStartView.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
         <file>qml/DataKindDialog.qml</file>
+        <file>qml/DifferClickMouseArea.qml</file>
         <file>qml/DisplayStatisticsDialog.qml</file>
+        <file>qml/DynamicDataKindDialog.qml</file>
+        <file>qml/DynamicDisplayStatisticsDialog.qml</file>
+        <file>qml/DynamicStatisticsChartView.qml</file>
         <file>qml/EntityList.qml</file>
         <file>qml/ErrorDialog.qml</file>
         <file>qml/IconSVG.qml</file>
+        <file>qml/InfoToolTip.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
         <file>qml/IssueView.qml</file>
-        <file>qml/LogView.qml</file>
-        <file>qml/StatusView.qml</file>
         <file>qml/LeftPanel.qml</file>
         <file>qml/LogicalView.qml</file>
+        <file>qml/LogView.qml</file>
         <file>qml/main.qml</file>
+        <file>qml/MainStartView.qml</file>
         <file>qml/MonitorMenuBar.qml</file>
         <file>qml/MonitorToolBar.qml</file>
         <file>qml/Panels.qml</file>
@@ -26,38 +42,28 @@
         <file>qml/RightPanel.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
+        <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
-        <file>qml/DifferClickMouseArea.qml</file>
-        <file>qml/InfoToolTip.qml</file>
-        <file>imports/Theme/Theme.qml</file>
-        <file>imports/Theme/qmldir</file>
-        <file>controls/MenuBar.qml</file>
-        <file>controls/MenuBarItem.qml</file>
-        <file>controls/TabBar.qml</file>
-        <file>controls/TabButton.qml</file>
-        <file>controls/ScrollBar.qml</file>
-        <file>controls/SplitView.qml</file>
-        <file>controls/ToolBar.qml</file>
-        <file>controls/ToolButton.qml</file>
-        <file>controls/ComboBox.qml</file>
-        <file>controls/ItemDelegate.qml</file>
-        <file>controls/Button.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
     <qresource prefix="/resources/images">
-        <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
-        <file alias="eprosima_logo_horizontal.png">resources/images/eprosima_logo_horizontal.png</file>
-        <file alias="fastdds-monitor-logo.png">resources/images/fastdds-monitor-logo.png</file>
-        <file alias="participant.svg">resources/images/participant.svg</file>
+        <file alias="cross.svg">resources/images/cross.svg</file>
         <file alias="datareader.svg">resources/images/datareader.svg</file>
         <file alias="datawriter.svg">resources/images/datawriter.svg</file>
-        <file alias="locator.svg">resources/images/locator.svg</file>
         <file alias="domain.svg">resources/images/domain.svg</file>
-        <file alias="topic.svg">resources/images/topic.svg</file>
+        <file alias="eprosima_logo_horizontal.png">resources/images/eprosima_logo_horizontal.png</file>
+        <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
+        <file alias="fastdds-monitor-logo.png">resources/images/fastdds-monitor-logo.png</file>
         <file alias="host.svg">resources/images/host.svg</file>
-        <file alias="user.svg">resources/images/user.svg</file>
-        <file alias="process.svg">resources/images/process.svg</file>
-        <file alias="cross.svg">resources/images/cross.svg</file>
-        <file alias="plus.svg">resources/images/plus.svg</file>
         <file alias="lessthan.svg">resources/images/lessthan.svg</file>
+        <file alias="locator.svg">resources/images/locator.svg</file>
+        <file alias="participant.svg">resources/images/participant.svg</file>
+        <file alias="pause.svg">resources/images/pause.svg</file>
+        <file alias="play.svg">resources/images/play.svg</file>
+        <file alias="plus.svg">resources/images/plus.svg</file>
+        <file alias="process.svg">resources/images/process.svg</file>
+        <file alias="tick.svg">resources/images/tick.svg</file>
+        <file alias="topic.svg">resources/images/topic.svg</file>
+        <file alias="user.svg">resources/images/user.svg</file>
     </qresource>
 </RCC>

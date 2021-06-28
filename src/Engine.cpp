@@ -33,6 +33,7 @@
 #include <fastdds_monitor/model/SubListedListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/statistics/DynamicData.h>
 
 using EntityInfo = backend::EntityInfo;
 
@@ -86,6 +87,7 @@ QObject* Engine::enable()
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
     statistics_data_ = new StatisticsData();
+    dynamic_data_ = new DynamicData();
     controller_ = new Controller(this);
 
     // Set the initial time
@@ -106,6 +108,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
 
     rootContext()->setContextProperty("statisticsData", statistics_data_);
+    rootContext()->setContextProperty("dynamicData", dynamic_data_);
     rootContext()->setContextProperty("controller", controller_);
 
     addImportPath(":/imports");
@@ -157,6 +160,16 @@ Engine::~Engine()
         if (summary_model_)
         {
             delete summary_model_;
+        }
+
+        if (statistics_data_)
+        {
+            delete statistics_data_;
+        }
+
+        if (dynamic_data_)
+        {
+            delete dynamic_data_;
         }
     }
 }
@@ -556,11 +569,13 @@ bool Engine::on_add_statistics_data_series(
 
 void Engine::refresh_engine()
 {
-    // TODO this should be changed from erase all models and re draw them
     clear_callback_log_();
     clear_issue_info_();
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
-    process_callback_queue();
+
+    // In case there are expected callbacks emit signal to read them and
+    // update the models from the graphic thread
+    emit new_callback_signal();
 }
 
 void Engine::process_callback_queue()
@@ -649,4 +664,81 @@ void Engine::process_error(
 {
     add_issue_info_(error_msg, utils::now());
     controller_->send_error(utils::to_QString(error_msg), error_type);
+}
+
+void Engine::update_dynamic_chartbox(
+        quint64 chartbox_id,
+        quint64 time_to)
+{
+    // Get time into Timestamp
+    backend::Timestamp time_to_timestamp_ = backend::Timestamp(std::chrono::milliseconds(time_to));
+
+    /////
+    // Get the parameters to get data
+    // time_from, data_kind, source_ids, target_ids, statistics_kinds
+    const UpdateParameters parameters = dynamic_data_->get_update_parameters(chartbox_id);
+
+    /////
+    // Collect the data for each series and store it in a point vector
+    std::map<quint64, std::vector<QPointF>> new_series_points;
+    for (auto id : parameters.series_ids)
+    {
+        new_series_points[id] = std::vector<QPointF>();
+    }
+
+    // Check that source target and kinds has same size
+    if (parameters.source_ids.size() != parameters.target_ids.size() ||
+            parameters.source_ids.size() != parameters.statistics_kinds.size())
+    {
+        // BAD PARAMENTERS
+        qCritical() << "Bad parameters in function update_dynamic_chartbox."
+                    << "sources: " << parameters.source_ids.size()
+                    << "targets: " << parameters.target_ids.size()
+                    << "statistics kind: " << parameters.statistics_kinds.size();
+
+        // Update the model with an empty vector so the time saves coherence in chart
+        dynamic_data_->update(chartbox_id, new_series_points, time_to);
+        return;
+    }
+
+    eprosima::statistics_backend::Timestamp time_from_ =
+            backend::Timestamp(std::chrono::milliseconds(parameters.time_from)); // This value is reused for every series
+
+    for (std::size_t i = 0; i < parameters.series_ids.size(); i++)
+    {
+        backend::StatisticKind statistics_kind_ = backend::string_to_statistic_kind(parameters.statistics_kinds[i]);
+        // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
+        // Otherwise the bins is 1 so only one data is updated
+        uint16_t bins_ = (statistics_kind_ == backend::StatisticKind::NONE) ? 0 : 1;
+
+        std::vector<backend::StatisticsData> new_points = backend_connection_.get_data(
+            backend::string_to_data_kind(parameters.data_kind),
+            backend::models_id_to_backend_id(parameters.source_ids[i]),
+            backend::models_id_to_backend_id(parameters.target_ids[i]),
+            bins_,                      // 0 when NONE , 1 otherwise
+            statistics_kind_,
+            time_from_, // New limit value
+            time_to_timestamp_);                 // Last time value taken in last call
+
+        // Check that get_data call has not failed
+        if (new_points.empty())
+        {
+            qInfo() << "get_data call has failed in series: " << parameters.series_ids[i];
+        }
+        else
+        {
+            for (auto point : new_points)
+            {
+                // Add points to list of new points
+                new_series_points[parameters.series_ids[i]].push_back(QPointF(
+                            std::chrono::duration_cast<std::chrono::milliseconds>(
+                                point.first.time_since_epoch()).count(),
+                            point.second));
+            }
+        }
+    }
+
+    /////
+    // Update series with data AND now value
+    dynamic_data_->update(chartbox_id, new_series_points, time_to);
 }

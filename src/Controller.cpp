@@ -169,3 +169,10 @@ void Controller::send_error(
     // Must convert enumeration to int in order to qml understand it
     emit error(error_msg, static_cast<typename std::underlying_type<ErrorType>::type>(error_type));
 }
+
+void Controller::update_dynamic_chartbox(
+        quint64 chartbox_id,
+        quint64 time_to)
+{
+    engine_->update_dynamic_chartbox(chartbox_id, time_to);
+}

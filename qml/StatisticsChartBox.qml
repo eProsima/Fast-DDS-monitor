@@ -23,14 +23,34 @@ Rectangle {
     id: statisticsChartBox
     border {
         width: 2
-        color: "#09487e"
+        color: Theme.eProsimaDarkBlue
     }
 
     property string chartTitle
     property int index
     property bool visibility: true
+    property bool isDynamic: false
+    property variant timeWindow: -1
+    property variant updatePeriod: -1
+    property int chartboxId: -1
+    property variant currentDate: toMsecsSinceEpoch(new Date())
+    property bool running: false
 
-    Component.onCompleted: displayStatisticsDialog.open();
+    Component.onCompleted: {
+        if (isDynamic){
+            chartboxId = dynamicData.add_chartbox(chartTitle, currentDate, timeWindow, updatePeriod)
+            dynamicDisplayStatisticsDialog.open()
+        } else {
+            controlPanel.removeMenu(realTimeMenu);
+            displayStatisticsDialog.open();
+        }
+    }
+
+    Component.onDestruction: {
+        if (isDynamic && dynamicData) {
+            dynamicData.delete_chartbox(chartboxId)
+        }
+    }
 
     ColumnLayout {
 
@@ -43,7 +63,7 @@ Rectangle {
             id: chartBoxTitle
             width: statisticsChartBox.width
             height: statisticsChartBox.height/20 + controlPanel.contentHeight
-            color: "#09487e"
+            color: Theme.eProsimaDarkBlue
 
             ColumnLayout {
                 Layout.alignment: Qt.AlignCenter
@@ -53,11 +73,11 @@ Rectangle {
                     id: chartBoxInnerTitle
                     width: statisticsChartBox.width
                     height: statisticsChartBox.height/20
-                    color: "#09487e"
+                    color: Theme.eProsimaDarkBlue
 
                     Label {
                         id: statisticsChartBoxLabel
-                        text: chartTitle
+                        text: isDynamic ? chartTitle + " [dynamic]" : chartTitle + " [historic]"
                         color: "white"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -113,9 +133,17 @@ Rectangle {
                         date endTime,
                         bool endTimeDefault,
                         string statisticKind)
+                    signal addDynamicSeries(
+                        string seriesLabel,
+                        string sourceEntityId,
+                        string targetEntityId,
+                        string statisticKind)
                     signal clearChart()
+                    // signal clearSeries()
+                    signal dynamicPause()
+                    signal dynamicContinue()
 
-                    onAddSeries: statisticsChartView.addSeries(
+                    onAddSeries: statisticsChartViewLoader.item.addSeries(
                                      dataKind,
                                      seriesLabel,
                                      sourceEntityId,
@@ -126,14 +154,21 @@ Rectangle {
                                      endTime,
                                      endTimeDefault,
                                      statisticKind);
-                    onClearChart: statisticsChartView.clearChart();
+                    onAddDynamicSeries: statisticsChartViewLoader.item.addDynamicSeries(
+                                     seriesLabel,
+                                     sourceEntityId,
+                                     targetEntityId,
+                                     statisticKind);
+                    onClearChart: statisticsChartViewLoader.item.clearChart();
+                    onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
+                    onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
 
                     Menu {
                         title: "Chart"
                         Action {
                             text: "Reset zoom"
                             Component.onCompleted: {
-                                triggered.connect(statisticsChartView.resetChartViewZoom)
+                                triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
                             }
                         }
                         Action {
@@ -153,7 +188,7 @@ Rectangle {
                         title: "Series"
                         Action {
                             text: "Add series"
-                            onTriggered: displayStatisticsDialog.open();
+                            onTriggered: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : displayStatisticsDialog.open();
                         }
 
                         Action {
@@ -165,21 +200,91 @@ Rectangle {
                             onTriggered: customLegend.displayAllSeries()
                         }
                     }
+
+                    Menu {
+                        id: realTimeMenu
+                        title: "Real Time"
+                        Action {
+                            text: running ? "Pause" : "Continue"
+                            onTriggered: {
+                                running ? statisticsChartViewLoader.item.dynamicPause() : statisticsChartViewLoader.item.dynamicContinue()
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        StatisticsChartView {
-            id: statisticsChartView
+        Rectangle {
+
             Layout.alignment: Qt.AlignCenter
             height: statisticsChartBox.height - 2*chartBoxTitle.height
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-            chartTitle: {
-                return statisticsChartBox.chartTitle
+
+            Loader {
+                id: statisticsChartViewLoader
+                anchors.fill: parent
+
+                property string chartTitle: statisticsChartBox.chartTitle
+                property variant timeWindow: statisticsChartBox.timeWindow
+                property variant currentDate: statisticsChartBox.currentDate
+                property variant updatePeriod: statisticsChartBox.updatePeriod
+                property variant chartboxId: statisticsChartBox.chartboxId
+
+                source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "StatisticsChartView.qml"
             }
 
-            onSeriesAdded: customLegend.addLeyend(series.name, series.color)
-            onSeriesRemoved: customLegend.removeLeyend(series.index)
+            Connections {
+                target: statisticsChartViewLoader.item
+                ignoreUnknownSignals: true
+                function onSeriesAdded(series){
+                    customLegend.addLeyend(series.name, series.color)
+                }
+                function onClearedChart(){
+                    customLegend.removeAllLegends()
+                }
+                function onRunningChanged(){
+                    running = !running
+                }
+            }
+
+            Rectangle {
+                property int size: 30
+
+                height: size
+                width: size
+                radius: size/10
+
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.rightMargin: size/4
+                anchors.topMargin: size/4
+
+                color: playMouseArea.containsMouse ? Theme.lightGrey : "transparent"
+                visible: isDynamic
+
+                IconSVG {
+                    size: parent.size*3/4
+                    source: running ? "/resources/images/pause.svg" : "/resources/images/play.svg"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    dye: true
+                    color: running ? Theme.eProsimaLightBlue : "green"
+                }
+
+                MouseArea {
+                    id: playMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        if (running) {
+                            statisticsChartViewLoader.item.dynamicPause()
+                        } else {
+                            statisticsChartViewLoader.item.dynamicContinue()
+                        }
+                    }
+                }
+            }
         }
 
         CustomLegend {
@@ -187,13 +292,20 @@ Rectangle {
             Layout.alignment: Qt.AlignCenter
             Layout.fillHeight: true
             height: statisticsChartBox.height - chartBoxTitle.height -
-                    statisticsChartView.height - statisticsChartBox.border.width
+                    statisticsChartViewLoader.item.height - statisticsChartBox.border.width
             width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-            onSeriesNameUpdated: statisticsChartView.updateSeriesName(seriesIndex, newSeriesName)
-            onSeriesColorUpdated: statisticsChartView.updateSeriesColor(seriesIndex, newSeriesColor)
-            onSeriesHidden: statisticsChartView.hideSeries(seriesIndex)
-            onSeriesDisplayed: statisticsChartView.displaySeries(seriesIndex)
-            onSeriesRemoved: statisticsChartView.removeSeries(statisticsChartView.series(seriesIndex))
+            onSeriesNameUpdated: statisticsChartViewLoader.item.updateSeriesName(seriesIndex, newSeriesName)
+            onSeriesColorUpdated: statisticsChartViewLoader.item.updateSeriesColor(seriesIndex, newSeriesColor)
+            onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
+            onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
+            onSeriesRemoved: {
+                    statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
+                    removeLeyend(seriesIndex)
+                    if(isDynamic) {
+                        dynamicData.delete_series(chartboxId, seriesIndex)
+                        statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
+                    }
+            }
         }
     }
 
@@ -208,5 +320,14 @@ Rectangle {
     DisplayStatisticsDialog {
         id: displayStatisticsDialog
         anchors.centerIn: Overlay.overlay
+    }
+
+    DynamicDisplayStatisticsDialog {
+        id: dynamicDisplayStatisticsDialog
+        anchors.centerIn: Overlay.overlay
+    }
+
+    function toMsecsSinceEpoch(date) {
+        return date.getTime().valueOf();
     }
 }

@@ -16,6 +16,7 @@ import QtQuick 2.6
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
+import Theme 1.0
 
 Rectangle {
     id: chartsLayout
@@ -106,7 +107,6 @@ Rectangle {
             id: widgetdelegate
 
             Item {
-                property int indexOfThisDelegate: index
                 width: gridView.cellWidth
                 height: gridView.cellHeight
 
@@ -121,6 +121,9 @@ Rectangle {
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: dataKind
+                    isDynamic: (dynamic) ? true : false
+                    timeWindow: timeFrame
+                    updatePeriod: timeUpdate
                     index: model.index
                     state: "inactive"
                     anchors.centerIn: parent
@@ -155,7 +158,7 @@ Rectangle {
                         }
                         PropertyChanges{
                             target: statisticsChartBox
-                            color: "#09487e"
+                            color: Theme.eProsimaDarkBlue
                         }
                         PropertyChanges {
                             target: statisticsChartBox
@@ -189,7 +192,21 @@ Rectangle {
     }
 
     function createChart(dataKind){
-        statisticsChartBoxModel.append({"dataKind": dataKind})
+        statisticsChartBoxModel.append({
+                                           "dataKind": dataKind,
+                                           "timeFrame": -1,
+                                           "timeUpdate": -1,
+                                           "dynamic": false
+                                       })
+    }
+
+    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
+        statisticsChartBoxModel.append({
+                                           "dataKind": dataKind,
+                                           "timeFrame": timeWindowSeconds,
+                                           "timeUpdate": updatePeriod,
+                                           "dynamic": true
+                                       })
     }
 
     function calculateGridViewWidth(){

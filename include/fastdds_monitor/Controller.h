@@ -137,6 +137,11 @@ public slots:
     //! Call engine to refresh summary
     void refresh_summary();
 
+    //! Call engine to update a dynamic chartbox
+    void update_dynamic_chartbox(
+            quint64 chartbox_id,
+            quint64 time_to);
+
 signals:
 
     //! Signal to show the Error Dialog

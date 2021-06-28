@@ -33,6 +33,7 @@
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/statistics/DynamicData.h>
 
 /**
  * Main class that connects the View (QML), the models (Controller) and the backend (Listener + SyncBackendConnection)
@@ -46,6 +47,8 @@
  *  - Issue model       : contains info about events: callbacks, issues and number of entities discovered
  *  - source ent model  : TODO
  *  - dest entity model : TODO
+ *  - StatisticsData    : handles the historic series
+ *  - DynamicData       : handles the dynamic series
  * These models are used to represent data in the view.
  * The \c Controller object interact between the user interface and the Engine, translating the user actions.
  *
@@ -228,7 +231,11 @@ public:
             backend::EntityKind entity_kind,
             QString entity_model_id);
 
-    //! TODO
+    /**
+     * @brief Add a static series in when user set new series parameters
+     *
+     * Calls get_data with the params given and appends the new series to \c statistics_data_ (historic data)
+     */
     bool on_add_statistics_data_series(
             backend::DataKind data_kind,
             backend::EntityId source_entity_id,
@@ -277,6 +284,20 @@ public:
     void process_error(
             std::string error_msg,
             ErrorType error_type = ErrorType::GENERIC);
+
+    /**
+     * @brief Add a new data point in an internal dynamic chartbox
+     *
+     * It gets the parameters needed to call \c get_data from \c DynamicData and its internal chartbox referenced by
+     * \c chartbox_id .
+     * It calls \c get_data to get 1 value for each series inside the chartbox, and the update the chartbox
+     *
+     * @param chatbox_id unique id of the chartbox inside the \c DynamicData object
+     * @param time_to new time reference to now
+     */
+    void update_dynamic_chartbox(
+            quint64 chartbox_id,
+            quint64 time_to);
 
 signals:
 
@@ -479,7 +500,7 @@ protected:
     //! Kind of the last Entity clicked or \c INVALID
     backend::EntityKind last_entity_clicked_kind_;
 
-    //! TODO
+    //! QML connected object to handler the static series created
     StatisticsData* statistics_data_;
 
     //! Object that manage all the communications with the backend
@@ -496,6 +517,15 @@ protected:
 
     //! Time when the monitor has been started. It will be used as default timestamp
     backend::Timestamp initial_time_;
+
+    /**
+     * @brief QML connected object to handler the dynamic series created
+     *
+     * It handles several \c DynamicChartBox (as many as chartbox in real time the user has created)
+     * and connect all the QML calls for user active to them (create/delete series,
+     * create/delete chartboxes, get data to update/new data series data, etc.)
+     */
+    DynamicData* dynamic_data_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H

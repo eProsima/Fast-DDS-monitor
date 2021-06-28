@@ -75,7 +75,7 @@ Dialog {
             id: seriesLabel
             text: "Series label: "
             InfoToolTip {
-                text: "Name of the series\n"+
+                text: "Name of the series.\n"+
                       "The series name is autogerated\n" +
                       "using the values given in this\n" +
                       "dialog."
@@ -303,7 +303,7 @@ Dialog {
                 text: "Cumulative function that is\n" +
                       "applied to the data of each\n" +
                       "time interval.\n" +
-                      "If none is selected, the first\n" +
+                      "If NONE is selected, the first\n" +
                       "available data of the interval\n" +
                       "is taken."
             }
@@ -516,30 +516,22 @@ Dialog {
     function regenerateSeriesLabel(){
         var text = ((statisticKind.currentText === "STANDARD_DEVIATION") ? "SD" : statisticKind.currentText) +
                    "_" +
-                   sourceEntityId.currentText
+                   abbreviateEntityName(sourceEntityId.currentText)
         if (targetExists) {
             text += "_" +
-                    targetEntityId.currentText
+                    abbreviateEntityName(targetEntityId.currentText)
         }
         seriesLabelTextField.placeholderText = text;
     }
 
     function abbreviateEntityName(entityName){
-        var srcEntityId;
-        switch(entityName) {
-            case "DomainParticipant":
-                srcEntityId = "Part";
-                break;
-            case "DataWriter":
-                srcEntityId = "DW";
-                break;
-            case "DataReader":
-                srcEntityId = "DR";
-                break;
-            default:
-                srcEntityId = entityName;
+        // TODO workaround for Host too long name. Erase when alias are included
+        if (entityName.length > 20) {
+            var entityName_id_str = entityName.split("<")
+            return entityName.split(":")[0] + "<" + entityName_id_str[entityName_id_str.length-1]
+        }else{
+            return entityName
         }
-        return srcEntityId;
     }
 }
 
