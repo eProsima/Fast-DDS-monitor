@@ -167,6 +167,16 @@ QString Controller::git_commit()
     return utils::to_QString(GIT_COMMIT_HASH);
 }
 
+bool Controller::inactive_visible()
+{
+    return engine_->inactive_visible();
+}
+
+void Controller::change_inactive_visible()
+{
+    engine_->change_inactive_visible();
+}
+
 void Controller::refresh_summary()
 {
     engine_->refresh_summary();

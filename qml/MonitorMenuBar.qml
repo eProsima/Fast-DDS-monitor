@@ -18,6 +18,8 @@ MenuBar {
 
     signal lastClickedReset
 
+    property bool inactive_visible: controller.inactive_visible
+
     Menu {
         title: qsTr("&File")
         Action {
@@ -74,6 +76,13 @@ MenuBar {
         Action {
             text: (panels.showLeftSidebar) ? "Hide Left sidebar" : "Show Left Sidebar"
             onTriggered: leftSidebarHidden()
+        }
+        Action {
+            text: (inactive_visible) ? "Hide Inactive Entities" : "Show Inactive Entities"
+            onTriggered: {
+                inactive_visible = !inactive_visible
+                controller.change_inactive_visible()
+            }
         }
     }
 
