@@ -241,9 +241,22 @@ public:
             ListItem* locator_item);
 
     bool update_host(
-        models::ListModel* dds_model,
+        models::ListModel* physical_model,
         EntityId id,
-        bool new_entity);
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_user(
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_process(
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
 
     /////
     // Monitor manage functions
@@ -290,6 +303,10 @@ public:
 
     //! Get the name of an entity from the Backend by calling \c get_info
     std::string get_name(
+            backend::EntityId id);
+
+    //! Get the alive status of an entity from the Backend by calling \c is_active
+    bool get_alive(
             backend::EntityId id);
 
     //! Get data from the backend with specific paramenters calling backend \c get_data
@@ -359,19 +376,32 @@ protected:
 
     //! General method to encapsulate the common funcionality of \c update_*_item methods refereing to items update
     bool update_subitems_(
-        SubListedListItem * item,
-        backend::EntityKind type,
-        bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem * (SyncBackendConnection::* create_function)(backend::EntityId));
+            SubListedListItem * item,
+            backend::EntityKind type,
+            bool (SyncBackendConnection::* update_function)(ListItem*),
+            ListItem * (SyncBackendConnection::* create_function)(backend::EntityId));
 
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
-        ListModel * model,
-        EntityKind type,
-        EntityId id,
-        bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem * (SyncBackendConnection::* create_function)(EntityId));
+            ListModel * model,
+            EntityKind type,
+            EntityId id,
+            bool (SyncBackendConnection::* update_function)(ListItem*),
+            ListItem * (SyncBackendConnection::* create_function)(EntityId));
 
+    /////
+    // Methods to update just one entity
+    ListModel* get_model_(
+            models::ListModel* parent_model,
+            EntityId id,
+            EntityKind parent_kind);
+
+    bool update_one_entity_in_model_(
+            models::ListModel* model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible,
+            ListItem* (SyncBackendConnection::* create_function)(EntityId));
 };
 
 } //namespace backend

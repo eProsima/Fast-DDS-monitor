@@ -312,8 +312,7 @@ bool SyncBackendConnection::update_subitems_(
         SubListedListItem* item,
         EntityKind type,
         bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem* (SyncBackendConnection::* create_function)(EntityId),
-        bool alive_allow)
+        ListItem* (SyncBackendConnection::* create_function)(EntityId))
 {
     bool changed = false;
 
@@ -659,29 +658,136 @@ void SyncBackendConnection::set_alias(
     }
 }
 
-bool update_host(
-    models::SubListedListModel* model,
+bool SyncBackendConnection::update_host(
+    models::ListModel* physical_model,
     EntityId id,
     bool new_entity,
     bool inactive_visible)
 {
-    return update_one_entity_in_model(
-        model,
+    // Host model is already physical model
+    return update_one_entity_in_model_(
+        physical_model,
         id,
         new_entity,
         inactive_visible,
         &SyncBackendConnection::create_host_data_);
 }
 
-bool update_one_entity_in_model(
-    models::SubListedListModel* model,
+bool SyncBackendConnection::update_user(
+    models::ListModel* physical_model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    // Get Host model where this user belongs
+    ListModel* host_model = get_model_(physical_model, id, EntityKind::HOST);
+
+    if (host_model == nullptr)
+    {
+        qWarning() << "Error getting host model for user " << id.value();
+        return false;
+    }
+
+    return update_one_entity_in_model_(
+        host_model,
+        id,
+        new_entity,
+        inactive_visible,
+        &SyncBackendConnection::create_user_data_);
+}
+
+bool SyncBackendConnection::update_process(
+    models::ListModel* physical_model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    // Get Host model where this process belongs
+    ListModel* host_model = get_model_(physical_model, id, EntityKind::HOST);
+
+    if (host_model == nullptr)
+    {
+        qWarning() << "Error getting host model for process " << id.value();
+        return false;
+    }
+
+    // Get User model where this process belongs
+    ListModel* user_model = get_model_(host_model, id, EntityKind::USER);
+
+    if (user_model == nullptr)
+    {
+        qWarning() << "Error getting host model for process " << id.value();
+        return false;
+    }
+
+    return update_one_entity_in_model_(
+        user_model,
+        id,
+        new_entity,
+        inactive_visible,
+        &SyncBackendConnection::create_user_data_);
+}
+
+ListModel* SyncBackendConnection::get_model_(
+    models::ListModel* parent_model,
+    EntityId id,
+    EntityKind parent_kind)
+{
+    // Look for parent id in model
+    EntityId parent_id;
+
+    try
+    {
+        auto parents = StatisticsBackend::get_entities(parent_kind, id);
+
+        // It must be just one host
+        if (parents.size() != 1)
+        {
+            qCritical() << "Parents related with entity " << id.value() << " are expected to be 1 but are: "
+                        << parents.size();
+            return nullptr;
+        }
+        else
+        {
+            parent_id = parents[0];
+        }
+    }
+    catch(const std::exception& e)
+    {
+        qWarning() << "Fail getting entities: " << e.what();
+        return nullptr;
+    }
+
+    // Once we have the host id, we get the item related to it in the physical model
+    ListItem* parent_item = parent_model->find(backend::backend_id_to_models_id(parent_id));
+
+    if (parent_item == nullptr)
+    {
+        qWarning() << "Parent item of entity " << id.value() << " does not exist";
+        return nullptr;
+    }
+
+    // Parent must be SubListedListItem so it can contain something, so this cast should not fail
+    auto parent_sublist = static_cast<SubListedListItem*>(parent_item);
+
+    if (parent_sublist == nullptr)
+    {
+        qCritical() << "Parent item was not SubListed.";
+        return nullptr;
+    }
+
+    return parent_sublist->submodel();
+}
+
+bool SyncBackendConnection::update_one_entity_in_model_(
+    models::ListModel* model,
     EntityId id,
     bool new_entity,
     bool inactive_visible,
     ListItem* (SyncBackendConnection::* create_function)(EntityId))
 {
     // Check if element already exists
-    int index = model->rowIndexFromId(id);
+    int index = model->rowIndexFromId(backend::backend_id_to_models_id(id));
 
     // The element does not exist
     if (index == -1)
@@ -697,7 +803,7 @@ bool update_one_entity_in_model(
         bool active = get_alive(id);
         if (inactive_visible || active)
         {
-            model->appendRow(create_function(id));
+            model->appendRow((this->*create_function)(id));
             return true;
         }
         else
@@ -722,13 +828,11 @@ bool update_one_entity_in_model(
         // If it is not alive and inactive are not visible, this entity must be erased from model
         if (!inactive_visible && !active)
         {
-            // Clear the item so the submodules are erased
-            item->clear();
-
             // Remove the item from the model
             model->removeRow(index);
 
             // Destroy Item object
+            // In case it has subitems they will be destroy as well
             delete item;
 
             return true;

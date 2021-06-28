@@ -43,6 +43,7 @@ Engine::Engine()
     , last_entity_clicked_kind_(backend::EntityKind::INVALID)
     , last_physical_logical_entity_clicked_(backend::ID_ALL)
     , last_physical_logical_entity_clicked_kind_(backend::EntityKind::INVALID)
+    , inactive_visible_(true)
 {
 }
 
@@ -133,7 +134,7 @@ Engine::~Engine()
 {
     if  (enabled_)
     {
-        // First free the listener so no new entities appear
+        // First free the listener to stop new entities from appear
         if (listener_)
         {
             backend_connection_.unset_listener();
@@ -154,28 +155,6 @@ Engine::~Engine()
         if (logical_model_)
         {
             delete logical_model_;
-        }
-
-        // Interactive models
-        if (statistics_data_)
-        {
-            delete statistics_data_;
-        }
-
-        if (controller_)
-        {
-            delete controller_;
-        }
-
-        // Auxiliar models
-        if (source_entity_id_model_)
-        {
-            delete source_entity_id_model_;
-        }
-
-        if (destination_entity_id_model_)
-        {
-            delete destination_entity_id_model_;
         }
 
         // Info models
@@ -202,6 +181,28 @@ Engine::~Engine()
         if (status_model_)
         {
             delete status_model_;
+        }
+
+        // Auxiliar models
+        if (source_entity_id_model_)
+        {
+            delete source_entity_id_model_;
+        }
+
+        if (destination_entity_id_model_)
+        {
+            delete destination_entity_id_model_;
+        }
+
+        // Interactive models
+        if (statistics_data_)
+        {
+            delete statistics_data_;
+        }
+
+        if (controller_)
+        {
+            delete controller_;
         }
     }
 }
@@ -396,21 +397,25 @@ bool Engine::update_host_data(
 {
     updated_entity(id);
     // return backend_connection_.update_physical_model(physical_model_, id);
-    return backend_connection_.update_host(physical_model_, id, new_entity);
+    return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible());
 }
 
 bool Engine::update_user_data(
-        backend::EntityId id)
+        backend::EntityId id,
+        bool new_entity /* true */)
 {
     updated_entity(id);
-    return backend_connection_.update_physical_model(physical_model_);
+    // return backend_connection_.update_physical_model(physical_model_);
+    return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible());
 }
 
 bool Engine::update_process_data(
-        backend::EntityId id)
+        backend::EntityId id,
+        bool new_entity /* true */)
 {
     updated_entity(id);
-    return backend_connection_.update_physical_model(physical_model_);
+    return backend_connection_.update_process(physical_model_, id, new_entity, inactive_visible());
+    // return backend_connection_.update_physical_model(physical_model_);
 }
 
 // LOGICAL PARTITION
@@ -720,9 +725,11 @@ bool Engine::read_callback_(
         switch (callback.entity_kind)
         {
             case backend::EntityKind::HOST:
+                return update_host_data(callback.entity_id);
             case backend::EntityKind::USER:
+                return update_user_data(callback.entity_id);
             case backend::EntityKind::PROCESS:
-                return fill_physical_data_();
+                return update_process_data(callback.entity_id);
 
             case backend::EntityKind::DOMAIN:
             case backend::EntityKind::TOPIC:
@@ -890,4 +897,12 @@ bool Engine::updated_entity(
     }
 
     return false;
+}
+
+void Engine::change_inactive_visible()
+{
+    inactive_visible_ = !inactive_visible_;
+    fill_physical_data_();
+    fill_logical_data_();
+    fill_dds_data_();
 }

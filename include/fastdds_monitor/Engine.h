@@ -106,7 +106,8 @@ public:
      * @return true if any change in model has been done
      */
     bool update_host_data(
-            backend::EntityId id);
+            backend::EntityId id,
+            bool new_entity = true);
 
     /**
      * @brief Update the internal physical model with a user notification
@@ -114,7 +115,8 @@ public:
      * @return true if any change in model has been done
      */
     bool update_user_data(
-            backend::EntityId id);
+            backend::EntityId id,
+            bool new_entity = true);
 
     /**
      * @brief Update the internal physical model with a process notification
@@ -122,7 +124,8 @@ public:
      * @return true if any change in model has been done
      */
     bool update_process_data(
-            backend::EntityId id);
+            backend::EntityId id,
+            bool new_entity = true);
 
     /////
     // LOGICAL PARTITION
@@ -321,6 +324,15 @@ public:
      */
     bool updated_entity(
             const backend::EntityId& entity_updated);
+
+    //! Change inactive visible parameter
+    void change_inactive_visible();
+
+    //! Get if inactive entities must be visible
+    bool inactive_visible() const
+    {
+        return inactive_visible_;
+    }
 
 signals:
 
@@ -555,6 +567,9 @@ protected:
      * create/delete chartboxes, get data to update/new data series data, etc.)
      */
     DynamicData* dynamic_data_;
+
+    //! Whether the inactive entities must be visible in the model
+    bool inactive_visible_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H

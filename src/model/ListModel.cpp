@@ -208,7 +208,7 @@ ListItem* ListModel::find(
 ListItem* ListModel::at(
         int index) const
 {
-    returns items_.at(index);
+    return items_.at(index);
 }
 
 int ListModel::getRowFromItem(
