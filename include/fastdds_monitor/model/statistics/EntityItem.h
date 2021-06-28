@@ -38,8 +38,23 @@ public:
         nameIdRole = ModelItemRoles::nameRole + 1,    //! Role for attribute Type
     };
 
-    //! Default ListItem constructor
-    using ListItem::ListItem;
+    //!
+    EntityItem(
+            QObject* parent = 0)
+        : ListItem(parent)
+    {
+    }
+
+    //! Default QObject constructor. Used for model specification
+    EntityItem(
+            backend::EntityId id,
+            backend::EntityKind kind,
+            backend::EntityInfo info,
+            QObject* parent = 0)
+        : ListItem(id, info, parent)
+        , kind_(kind)
+    {
+    }
 
     //! Override the ListItem \c data method to add new roles
     QVariant data(
@@ -50,6 +65,17 @@ public:
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
+
+    //! Overwrite entity kind
+    virtual backend::EntityKind backend_kind() const override
+    {
+        return kind_;
+    }
+
+protected:
+
+    //! Backend Kind of the entity
+    backend::EntityInfo kind_;
 };
 
 } // namespace models

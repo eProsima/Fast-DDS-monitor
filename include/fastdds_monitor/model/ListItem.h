@@ -189,7 +189,6 @@ protected:
 
     //! Backend info that contains all the needed information for this item
     backend::EntityInfo info_;
-
 };
 
 } // namespace models

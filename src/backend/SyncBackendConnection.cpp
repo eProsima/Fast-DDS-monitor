@@ -14,6 +14,8 @@
 
 /**
  * @file SyncBackendConnection.cpp
+ *
+ * This file includes the .ipp files with the class divided \c SyncBackendConnection implementation.
  */
 
 #include <iostream>
