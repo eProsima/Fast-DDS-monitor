@@ -283,5 +283,11 @@ void StatisticsBackend::set_alias(
     Database::get_instance()->set_alias(entity_id, alias);
 }
 
+bool StatisticsBackend::is_active(
+        EntityId entity_id)
+{
+    return Database::get_instance()->get_info(entity_id)["active"];
+}
+
 } //namespace statistics_backend
 } //namespace eprosima

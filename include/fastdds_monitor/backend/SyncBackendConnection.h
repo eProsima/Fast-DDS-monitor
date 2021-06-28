@@ -55,8 +55,10 @@ public:
     {
     }
 
-    /////
-    // Listener functions
+    /***********
+     * BACKEND *
+     **********/
+public:
 
     //! Set the \c PhysicalListener in the backend
     bool set_listener(
@@ -65,8 +67,125 @@ public:
     //! Set the \c PhysicalListener in the backend as \c nullptr
     bool unset_listener();
 
+    /**
+     * @brief Init a monitor by setting an integer for domain number
+     *
+     * Calls the Backend \c init_monitor method in order to initialize a new monitor in a new Domain
+     *
+     * @param domain new domain number
+     * @return EntityId of the new Domain Entity created
+     */
+    EntityId init_monitor(
+            int domain);
+
+    /**
+     * @brief Init a monitor by setting a string with one or many locators of Discovery Servers
+     *
+     * Calls the Backend \c init_monitor method in order to initialize a new monitor in a new Domain.
+     *
+     * The format of the \c locators string would be "ip1:port1,ip2:port2,...,ipN:portN"
+     * i.e. "127.0.0.1:11811,127.0.0.1:11812"
+     *
+     * @param locators string with Discovery Server addresses
+     * @return EntityId of the new Domain Entity created
+     */
+    EntityId init_monitor(
+            QString locators);
+
     /////
-    // Model update functions
+    // Information query functions
+
+    //! Get info from an entity from the Backend
+    EntityInfo get_info(
+            EntityId id);
+
+    //! Get the \c EntityKind of a given \c EntityId
+    EntityKind get_type(
+            backend::EntityId id);
+
+    //! Get a summary of important data collected from the backend related with the entity with id \c id
+    EntityInfo get_summary(
+            backend::EntityId id);
+
+    //! Get the name of an entity from the Backend by calling \c get_info
+    std::string get_name(
+            backend::EntityId id);
+
+    //! Get the alive status of an entity from the Backend by calling \c is_active
+    bool get_alive(
+            backend::EntityId id);
+
+    //! Get data from the backend with specific paramenters calling backend \c get_data
+    std::vector<backend::StatisticsData> get_data(
+            DataKind data_kind,
+            EntityId source_entity_id,
+            EntityId target_entity_id,
+            uint16_t bins = 0,
+            StatisticKind statistic_kind = StatisticKind::NONE,
+            Timestamp start_time = Timestamp(),
+            Timestamp end_time = std::chrono::system_clock::now());
+
+    //! Get info from an entity from the Backend
+    std::vector<EntityId> get_entities(
+            EntityKind entity_type,
+            EntityId entity_id = EntityId::all());
+
+    /**********
+     * CREATE *
+     **********/
+protected:
+
+    //! Create a new \c ListItem of class \c Host related with the backend entity with id \c id
+    ListItem* create_host_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c User related with the backend entity with id \c id
+    ListItem* create_user_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c Process related with the backend entity with id \c id
+    ListItem* create_process_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c Domain related with the backend entity with id \c id
+    ListItem* create_domain_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c Topic related with the backend entity with id \c id
+    ListItem* create_topic_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c Participant related with the backend entity with id \c id
+    ListItem* create_participant_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c Endpoint related with the backend entity with id \c id
+    ListItem* create_datawriter_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c Endpoint related with the backend entity with id \c id
+    ListItem* create_datareader_data_(
+            backend::EntityId id);
+
+    //! Create a new \c ListItem of class \c Locator related with the backend entity with id \c id
+    ListItem* create_locator_data_(
+            backend::EntityId id);
+
+    /************
+     * GET DATA *
+     ***********/
+public:
+
+    // TODO
+    bool update_get_data_dialog_entity_id(
+            models::ListModel* entity_model,
+            EntityKind entity_kind,
+            bool inactive_visible = true);
+
+    /**************
+     * UPDATE ALL *
+     *************/
+public:
 
     /**
      * @brief Update the Physical model with every Physical entity in the backend
@@ -102,7 +221,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_logical_model(
-            models::ListModel* logical_model);
+            models::ListModel* logical_model,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the DDS model with every DDS entity in the backend
@@ -128,12 +248,8 @@ public:
      */
     bool update_dds_model(
             models::ListModel* dds_model,
-            EntityId id);
-
-    // TODO
-    bool update_get_data_dialog_entity_id(
-            models::ListModel* entity_model,
-            EntityKind entity_kind);
+            EntityId id,
+            bool inactive_visible = true);
 
     /////
     // Entity update functions
@@ -249,132 +365,7 @@ public:
             ListItem* locator_item,
             bool inactive_visible = true);
 
-    bool update_host(
-        models::ListModel* physical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
-
-    bool update_user(
-        models::ListModel* physical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
-
-    bool update_process(
-        models::ListModel* physical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
-
-    /////
-    // Monitor manage functions
-
-    /**
-     * @brief Init a monitor by setting an integer for domain number
-     *
-     * Calls the Backend \c init_monitor method in order to initialize a new monitor in a new Domain
-     *
-     * @param domain new domain number
-     * @return EntityId of the new Domain Entity created
-     */
-    EntityId init_monitor(
-            int domain);
-
-    /**
-     * @brief Init a monitor by setting a string with one or many locators of Discovery Servers
-     *
-     * Calls the Backend \c init_monitor method in order to initialize a new monitor in a new Domain.
-     *
-     * The format of the \c locators string would be "ip1:port1,ip2:port2,...,ipN:portN"
-     * i.e. "127.0.0.1:11811,127.0.0.1:11812"
-     *
-     * @param locators string with Discovery Server addresses
-     * @return EntityId of the new Domain Entity created
-     */
-    EntityId init_monitor(
-            QString locators);
-
-    /////
-    // Information query functions
-
-    //! Get info from an entity from the Backend
-    EntityInfo get_info(
-            EntityId id);
-
-    //! Get the \c EntityKind of a given \c EntityId
-    EntityKind get_type(
-            backend::EntityId id);
-
-    //! Get a summary of important data collected from the backend related with the entity with id \c id
-    EntityInfo get_summary(
-            backend::EntityId id);
-
-    //! Get the name of an entity from the Backend by calling \c get_info
-    std::string get_name(
-            backend::EntityId id);
-
-    //! Get the alive status of an entity from the Backend by calling \c is_active
-    bool get_alive(
-            backend::EntityId id);
-
-    //! Get data from the backend with specific paramenters calling backend \c get_data
-    std::vector<backend::StatisticsData> get_data(
-            DataKind data_kind,
-            EntityId source_entity_id,
-            EntityId target_entity_id,
-            uint16_t bins = 0,
-            StatisticKind statistic_kind = StatisticKind::NONE,
-            Timestamp start_time = Timestamp(),
-            Timestamp end_time = std::chrono::system_clock::now());
-
-    //! Get info from an entity from the Backend
-    std::vector<EntityId> get_entities(
-            EntityKind entity_type,
-            EntityId entity_id = EntityId::all());
-
-    //! Set a new alias in backend
-    void set_alias(
-            const backend::EntityId& id,
-            const std::string& new_alias);
-
 protected:
-
-    //! Create a new \c ListItem of class \c Host related with the backend entity with id \c id
-    ListItem* create_host_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c User related with the backend entity with id \c id
-    ListItem* create_user_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c Process related with the backend entity with id \c id
-    ListItem* create_process_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c Domain related with the backend entity with id \c id
-    ListItem* create_domain_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c Topic related with the backend entity with id \c id
-    ListItem* create_topic_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c Participant related with the backend entity with id \c id
-    ListItem* create_participant_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c Endpoint related with the backend entity with id \c id
-    ListItem* create_datawriter_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c Endpoint related with the backend entity with id \c id
-    ListItem* create_datareader_data_(
-            backend::EntityId id);
-
-    //! Create a new \c ListItem of class \c Locator related with the backend entity with id \c id
-    ListItem* create_locator_data_(
-            backend::EntityId id);
 
     bool update_item_(
             ListItem* item,
@@ -397,8 +388,73 @@ protected:
             ListItem * (SyncBackendConnection::* create_function)(EntityId),
             bool inactive_visible = true);
 
-    /////
-    // Methods to update just one entity
+    /**************
+     * UPDATE ONE *
+     *************/
+public:
+
+    bool update_host(
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_user(
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_process(
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_domain(
+        models::ListModel* logical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_topic(
+        models::ListModel* logical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_participant(
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        EntityId related_entity_id,
+        bool inactive_visible);
+
+    bool update_datawriter(
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_datareader(
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    bool update_locator(
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible);
+
+    //! Set a new alias in backend
+    void set_alias(
+            const backend::EntityId& id,
+            const std::string& new_alias);
+
+protected:
+
     ListModel* get_model_(
             models::ListModel* parent_model,
             EntityId id,
@@ -408,8 +464,8 @@ protected:
             models::ListModel* model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible,
-            ListItem* (SyncBackendConnection::* create_function)(EntityId));
+            ListItem* (SyncBackendConnection::* create_function)(EntityId),
+            bool inactive_visible);
 };
 
 } //namespace backend

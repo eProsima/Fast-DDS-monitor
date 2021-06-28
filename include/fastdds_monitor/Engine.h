@@ -136,7 +136,8 @@ public:
      * @return true if any change in model has been done
      */
     bool update_domain_data(
-            backend::EntityId id);
+            backend::EntityId id,
+            bool new_entity = true);
 
     /**
      * @brief Update the internal logical model with a topic notification
@@ -144,7 +145,8 @@ public:
      * @return true if any change in model has been done
      */
     bool update_topic_data(
-            backend::EntityId id);
+            backend::EntityId id,
+            bool new_entity = true);
 
     /////
     // DDS PARTITION
@@ -159,19 +161,34 @@ public:
      * @return true if any change in model has been done
      */
     bool update_participant_data(
-            backend::EntityId id);
+            backend::EntityId id,
+            bool new_entity = true);
 
     /**
-     * @brief Update the internal dds model with a endpoint notification
+     * @brief Update the internal dds model with a datawriter notification
      *
      * It is possible that this entity is not being showed because of the entity clicked
      * an so that this function do not update the model.
      *
-     * @param id endpoint id to create or update
+     * @param id datawriter id to create or update
      * @return true if any change in model has been done
      */
-    bool update_endpoint_data(
-            backend::EntityId id);
+    bool update_datawriter_data(
+            backend::EntityId id,
+            bool new_entity = true);
+
+    /**
+     * @brief Update the internal dds model with a datareader notification
+     *
+     * It is possible that this entity is not being showed because of the entity clicked
+     * an so that this function do not update the model.
+     *
+     * @param id datareader id to create or update
+     * @return true if any change in model has been done
+     */
+    bool update_datareader_data(
+            backend::EntityId id,
+            bool new_entity = true);
 
     /**
      * @brief Update the internal dds model with a locator notification
@@ -183,7 +200,8 @@ public:
      * @return true if any change in model has been done
      */
     bool update_locator_data(
-            backend::EntityId id);
+            backend::EntityId id,
+            bool new_entity = true);
 
     /**
      * @brief Update the internal dds model with entities related with Entity referenced by \c id

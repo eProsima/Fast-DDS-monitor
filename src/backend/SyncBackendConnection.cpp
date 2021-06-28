@@ -242,7 +242,8 @@ bool SyncBackendConnection::update_physical_model(
 }
 
 bool SyncBackendConnection::update_logical_model(
-        models::ListModel* logical_model)
+        models::ListModel* logical_model,
+        bool inactive_visible /* true */)
 {
     qDebug() << "Update Logical Data";
 
@@ -251,12 +252,14 @@ bool SyncBackendConnection::update_logical_model(
         EntityKind::DOMAIN,
         ID_ALL,
         &SyncBackendConnection::update_domain_item,
-        &SyncBackendConnection::create_domain_data_);
+        &SyncBackendConnection::create_domain_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_dds_model(
         models::ListModel* dds_model,
-        EntityId id)
+        EntityId id,
+        bool inactive_visible /* true */)
 {
     qDebug() << "Update DDS Data";
 
@@ -265,27 +268,25 @@ bool SyncBackendConnection::update_dds_model(
         EntityKind::PARTICIPANT,
         id,
         &SyncBackendConnection::update_participant_item,
-        &SyncBackendConnection::create_participant_data_);
+        &SyncBackendConnection::create_participant_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_get_data_dialog_entity_id(
         models::ListModel* entity_model,
-        EntityKind entity_kind)
+        EntityKind entity_kind,
+            bool inactive_visible /* true */)
 {
     bool changed = false;
 
-    try
+    for (auto entity_id : get_entities(entity_kind, ID_ALL))
     {
-        for (auto entity_id : StatisticsBackend::get_entities(entity_kind, ID_ALL))
+        // Only get entities active if requested so
+        if (inactive_visible || get_alive(entity_id))
         {
-            entity_model->appendRow(new EntityItem(entity_id, StatisticsBackend::get_info(entity_id)));
+            entity_model->appendRow(new EntityItem(entity_id, entity_kind, get_info(entity_id)));
             changed = true;
         }
-    }
-    catch (const Exception& e)
-    {
-        qWarning() << "Fail updating get data dialog: " << e.what();
-        return false;
     }
 
     return changed;
@@ -659,8 +660,8 @@ bool SyncBackendConnection::update_host(
         physical_model,
         id,
         new_entity,
-        inactive_visible,
-        &SyncBackendConnection::create_host_data_);
+        &SyncBackendConnection::create_host_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_user(
@@ -682,8 +683,8 @@ bool SyncBackendConnection::update_user(
         host_model,
         id,
         new_entity,
-        inactive_visible,
-        &SyncBackendConnection::create_user_data_);
+        &SyncBackendConnection::create_user_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_process(
@@ -714,8 +715,191 @@ bool SyncBackendConnection::update_process(
         user_model,
         id,
         new_entity,
-        inactive_visible,
-        &SyncBackendConnection::create_user_data_);
+        &SyncBackendConnection::create_user_data_,
+        inactive_visible);
+}
+
+
+bool SyncBackendConnection::update_domain(
+    models::ListModel* logical_model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    // Domain model is already logical model
+    return update_one_entity_in_model_(
+        logical_model,
+        id,
+        new_entity,
+        &SyncBackendConnection::create_domain_data_,
+        inactive_visible);
+}
+
+bool SyncBackendConnection::update_topic(
+    models::ListModel* logical_model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    // Get Domain model where this Topic belongs
+    ListModel* domain_model = get_model_(logical_model, id, EntityKind::DOMAIN);
+
+    if (domain_model == nullptr)
+    {
+        qWarning() << "Error getting domain model for topic " << id.value();
+        return false;
+    }
+
+    return update_one_entity_in_model_(
+        domain_model,
+        id,
+        new_entity,
+        &SyncBackendConnection::create_topic_data_,
+        inactive_visible);
+}
+
+bool SyncBackendConnection::update_participant(
+    models::ListModel* dds_model,
+    EntityId id,
+    bool new_entity,
+    EntityId related_entity_id,
+    bool inactive_visible)
+{
+    // Check if the participant belongs to the entity context
+    auto participants_related = get_entities(EntityKind::PARTICIPANT, related_entity_id);
+
+    // If the related entity does not have this participant as related, the participant will not appear
+    if (std::find(participants_related.begin(), participants_related.end(), id) == participants_related.end())
+    {
+        return false;
+    }
+
+    // Domain model is already logical model
+    return update_one_entity_in_model_(
+        dds_model,
+        id,
+        new_entity,
+        &SyncBackendConnection::create_participant_data_,
+        inactive_visible);
+}
+
+bool SyncBackendConnection::update_datawriter(
+    models::ListModel* dds_model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    // Get Host model where this datawriter belongs
+    ListModel* participant_model = get_model_(dds_model, id, EntityKind::PARTICIPANT);
+
+    // If the participant model does not exist is because the participant is not related with the last entity
+    // clicked and so its subentities should not appear, so no update is done
+    if (participant_model == nullptr)
+    {
+        qDebug() << "Missing participant model for datawriter " << id.value();
+        return false;
+    }
+
+    return update_one_entity_in_model_(
+        participant_model,
+        id,
+        new_entity,
+        &SyncBackendConnection::create_datawriter_data_,
+        inactive_visible);
+}
+
+bool SyncBackendConnection::update_datareader(
+    models::ListModel* dds_model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    // Get Host model where this datareader belongs
+    ListModel* participant_model = get_model_(dds_model, id, EntityKind::PARTICIPANT);
+
+    // If the participant model does not exist is because the participant is not related with the last entity
+    // clicked and so its subentities should not appear, so no update is done
+    if (participant_model == nullptr)
+    {
+        qDebug() << "Missing participant model for datareader " << id.value();
+        return false;
+    }
+
+    return update_one_entity_in_model_(
+        participant_model,
+        id,
+        new_entity,
+        &SyncBackendConnection::create_datareader_data_,
+        inactive_visible);
+}
+
+bool SyncBackendConnection::update_locator(
+    models::ListModel* dds_model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    bool res = false;
+
+    // In Locator case, it could be several models where this locator belongs to
+    for (auto participant_id : get_entities(EntityKind::PARTICIPANT, id))
+    {
+        // Get Participant model (if it is visible)
+        ListItem* participant_item = dds_model->find(participant_id);
+
+        // Check if participant item exists in view
+        if (participant_item == nullptr)
+        {
+            continue;
+        }
+
+        // Parent must be SubListedListItem so it can contain something, so this cast should not fail
+        SubListedListItem* participant_sublist = static_cast<SubListedListItem*>(participant_item);
+
+        if (participant_sublist == nullptr)
+        {
+            qCritical() << "Parent item of locator " << id.value() << " was not SubListed.";
+            continue;
+        }
+
+        ListModel* participant_model = participant_sublist->submodel();
+
+        if (participant_model == nullptr)
+        {
+            qCritical() << "Parent item of locator " << id.value() << " has not submodule";
+            continue;
+        }
+
+        // Check in DataReader and DataWriters models of this participant
+        // Get DataWriter model where this locator belongs
+        ListModel* dw_model = get_model_(participant_model, id, EntityKind::DATAWRITER);
+
+        if (dw_model != nullptr)
+        {
+            res = update_one_entity_in_model_(
+                dw_model,
+                id,
+                new_entity,
+                &SyncBackendConnection::create_locator_data_,
+                inactive_visible) || res;
+        }
+
+
+        // Get DataReader model where this locator belongs
+        ListModel* dr_model = get_model_(participant_model, id, EntityKind::DATAREADER);
+
+        if (dr_model != nullptr)
+        {
+            res = update_one_entity_in_model_(
+                dr_model,
+                id,
+                new_entity,
+                &SyncBackendConnection::create_locator_data_,
+                inactive_visible) || res;
+        }
+    }
+
+    return res;
 }
 
 ListModel* SyncBackendConnection::get_model_(
@@ -753,7 +937,8 @@ ListModel* SyncBackendConnection::get_model_(
 
     if (parent_item == nullptr)
     {
-        qWarning() << "Parent item of entity " << id.value() << " does not exist";
+        // It is not an error in dds model
+        qDebug() << "Parent item of entity " << id.value() << " does not exist";
         return nullptr;
     }
 
@@ -773,8 +958,8 @@ bool SyncBackendConnection::update_one_entity_in_model_(
     models::ListModel* model,
     EntityId id,
     bool new_entity,
-    bool inactive_visible,
-    ListItem* (SyncBackendConnection::* create_function)(EntityId))
+    ListItem* (SyncBackendConnection::* create_function)(EntityId),
+    bool inactive_visible)
 {
     // Check if element already exists
     int index = model->rowIndexFromId(id);
