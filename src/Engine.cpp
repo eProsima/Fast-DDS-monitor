@@ -738,13 +738,6 @@ void Engine::update_dynamic_chartbox(
         }
     }
 
-    qDebug() << "\nResults from chartbox: " << chartbox_id;
-    for (auto p : new_series_points)
-    {
-        qDebug() << p;
-    }
-    qDebug() << "\n";
-
     /////
     // Update series with data AND now value
     dynamic_data_->update(chartbox_id, new_series_points, time_to);

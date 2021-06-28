@@ -75,7 +75,7 @@ Dialog {
             id: seriesLabel
             text: "Series label: "
             InfoToolTip {
-                text: "Name of the series\n"+
+                text: "Name of the series.\n"+
                       "The series name is autogerated\n" +
                       "using the values given in this\n" +
                       "dialog."

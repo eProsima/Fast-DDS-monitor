@@ -37,39 +37,48 @@ class DynamicDataModel : public QAbstractTableModel
 
 public:
 
+    //! Default costructor. Connects \c newPointAdded with this same object \c addNewPoint
     DynamicDataModel()
     {
         QObject::connect(this, &DynamicDataModel::newPointAdded, this, &DynamicDataModel::addNewPoint,
                 Qt::QueuedConnection);
     }
 
+    //! Function to add a new point by sending signal \c newPointAdded
     void handleNewPoint(
             const QPointF& point);
 
 signals:
 
+    //! Signal to notify a new point must be added
     void newPointAdded(
             const QPointF& point);
 
 public:
 
+    //! Number of rows
     int rowCount(
             const QModelIndex& parent = QModelIndex()) const;
+    //! Number of columns
     int columnCount(
             const QModelIndex& parent = QModelIndex()) const;
+    //! Data header
     QVariant headerData(
             int section,
             Qt::Orientation orientation,
             int role = Qt::DisplayRole) const;
+    //! Point data getter
     QVariant data(
             const QModelIndex& index,
             int role = Qt::DisplayRole) const;
 
 protected:
 
+    //! Function to add a new point to the model
     void addNewPoint(
             const QPointF& point);
 
+    //! Vector of points (not sorted)
     std::vector<QPointF> m_data;
 };
 
