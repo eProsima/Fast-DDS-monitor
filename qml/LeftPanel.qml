@@ -97,4 +97,13 @@ RowLayout {
             }
         }
     }
+
+    function iconDyed(highlight, alive) {
+        return highlight || !alive
+    }
+
+    function entityLabelColor(highlight, alive) {
+        return highlight ? Theme.whiteSmoke :
+                alive ? "black" : "grey"
+    }
 }

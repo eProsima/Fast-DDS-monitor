@@ -89,8 +89,8 @@ Rectangle {
                             source: "/resources/images/domain.svg"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
-                            dye: highlight ? true : false
-                            color: highlight ? Theme.whiteSmoke : "black"
+                            dye: iconDyed(highlight, alive)
+                            color: entityLabelColor(highlight, alive)
 
                             MouseArea {
                                 anchors.fill: parent
@@ -106,7 +106,7 @@ Rectangle {
                         }
                         Label {
                             text: name
-                            color: highlight ? Theme.whiteSmoke : "black"
+                            color: entityLabelColor(highlight, alive)
 
                             DifferClickMouseArea {
                                 anchors.fill: parent
@@ -178,12 +178,12 @@ Rectangle {
                                         source: "/resources/images/topic.svg"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
-                                        dye: highlight ? true : false
-                                        color: highlight ? Theme.whiteSmoke : "black"
+                                        dye: iconDyed(highlight, alive)
+                                        color: entityLabelColor(highlight, alive)
                                     }
                                     Label {
                                         text: name
-                                        color: highlight ? Theme.whiteSmoke : "black"
+                                        color: entityLabelColor(highlight, alive)
 
                                         DifferClickMouseArea {
                                             anchors.fill: parent

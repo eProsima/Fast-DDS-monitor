@@ -30,6 +30,8 @@ QVariant ProcessModelItem::data(
             return this->kind();
         case pidRole:
             return this->pid();
+        case aliveRole:
+            return this->alive();
         default:
             return QVariant();
     }

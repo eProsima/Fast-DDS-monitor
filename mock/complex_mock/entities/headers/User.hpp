@@ -49,6 +49,12 @@ public:
         return EntityKind::USER;
     }
 
+    //! Overwrite alive so User is always not alive
+    bool alive() const override
+    {
+        return false;
+    }
+
 private:
 
     //! Collection of Processes subentities

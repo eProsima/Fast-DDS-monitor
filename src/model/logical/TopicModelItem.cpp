@@ -30,6 +30,8 @@ QVariant TopicModelItem::data(
             return this->kind();
         case typeRole:
             return this->type();
+        case aliveRole:
+            return this->alive();
         default:
             return QVariant();
     }

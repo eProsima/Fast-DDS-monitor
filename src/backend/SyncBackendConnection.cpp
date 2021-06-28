@@ -48,42 +48,42 @@ ListItem* SyncBackendConnection::create_host_data_(
         EntityId id)
 {
     qDebug() << "Creating Host " << backend::backend_id_to_models_id(id);
-    return new HostModelItem(id, EntityKind::HOST, get_info(id));
+    return new HostModelItem(id, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_user_data_(
         EntityId id)
 {
     qDebug() << "Creating User " << backend::backend_id_to_models_id(id);
-    return new UserModelItem(id, EntityKind::USER, get_info(id));
+    return new UserModelItem(id, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_process_data_(
         EntityId id)
 {
     qDebug() << "Creating Process " << backend::backend_id_to_models_id(id);
-    return new ProcessModelItem(id, EntityKind::PROCESS, get_info(id));
+    return new ProcessModelItem(id, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_domain_data_(
         EntityId id)
 {
     qDebug() << "Creating Domain " << backend::backend_id_to_models_id(id);
-    return new DomainModelItem(id, EntityKind::DOMAIN, get_info(id));
+    return new DomainModelItem(id, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_topic_data_(
         EntityId id)
 {
     qDebug() << "Creating Topic " << backend::backend_id_to_models_id(id);
-    return new TopicModelItem(id, EntityKind::TOPIC, get_info(id));
+    return new TopicModelItem(id, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_participant_data_(
         backend::EntityId id)
 {
     qDebug() << "Creating Participant " << backend::backend_id_to_models_id(id);
-    return new ParticipantModelItem(id, EntityKind::PARTICIPANT, get_info(id));
+    return new ParticipantModelItem(id, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_datawriter_data_(
@@ -104,132 +104,129 @@ ListItem* SyncBackendConnection::create_locator_data_(
         backend::EntityId id)
 {
     qDebug() << "Creating Locator " << backend::backend_id_to_models_id(id);
-    return new LocatorModelItem(id, EntityKind::LOCATOR, get_info(id));
+    return new LocatorModelItem(id, get_info(id));
 }
 
 /// UPDATE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_host_item(
-        ListItem* host_item)
+        ListItem* host_item,
+        bool inactive_visible /* true */)
 {
-    // update the internal info
-    bool res = update_item_info_(host_item);
-
     auto host_item_sublist = static_cast<SubListedListItem*>(host_item);
 
-    return update_subitems_(
-        host_item_sublist,
+    return update_model_(
+        host_item_sublist->submodel(),
         EntityKind::USER,
+        host_item->get_entity_id(),
         &SyncBackendConnection::update_user_item,
-        &SyncBackendConnection::create_user_data_) || res;
+        &SyncBackendConnection::create_user_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_user_item(
-        ListItem* user_item)
+        ListItem* user_item,
+        bool inactive_visible /* true */)
 {
-    // update the internal info
-    bool res = update_item_info_(user_item);
-
     auto user_item_sublist = static_cast<SubListedListItem*>(user_item);
 
-    return update_subitems_(
-        user_item_sublist,
+    return update_model_(
+        user_item_sublist->submodel(),
         EntityKind::PROCESS,
+        user_item->get_entity_id(),
         &SyncBackendConnection::update_process_item,
-        &SyncBackendConnection::create_process_data_) || res;
+        &SyncBackendConnection::create_process_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_process_item(
-        ListItem* process_item)
+        ListItem* process_item,
+        bool inactive_visible /* true */)
 {
-    static_cast<void>(process_item);
-
-    // update the internal info
-    bool res = update_item_info_(process_item);
-
     // Process does not have update
-    return res;
+    static_cast<void>(process_item);
+    static_cast<void>(inactive_visible);
+    return false;
 }
 
 bool SyncBackendConnection::update_domain_item(
-        ListItem* domain_item)
+        ListItem* domain_item,
+        bool inactive_visible /* true */)
 {
-    // update the internal info
-    bool res = update_item_info_(domain_item);
-
     auto domain_item_sublist = static_cast<SubListedListItem*>(domain_item);
 
-    return update_subitems_(
-        domain_item_sublist,
+    return update_model_(
+        domain_item_sublist->submodel(),
         EntityKind::TOPIC,
+        domain_item->get_entity_id(),
         &SyncBackendConnection::update_topic_item,
-        &SyncBackendConnection::create_topic_data_) || res;
+        &SyncBackendConnection::create_topic_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_topic_item(
-        ListItem* topic_item)
+        ListItem* topic_item,
+        bool inactive_visible /* true */)
 {
-    static_cast<void>(topic_item);
-
-    // update the internal info
-    bool res = update_item_info_(topic_item);
-
     // Process does not have update
-    return res;
+    static_cast<void>(topic_item);
+    static_cast<void>(inactive_visible);
+    return false;
 }
 
 bool SyncBackendConnection::update_participant_item(
-        ListItem* participant_item)
+        ListItem* participant_item,
+        bool inactive_visible /* true */)
 {
-    // update the internal info
-    bool res = update_item_info_(participant_item);
-
     auto participant_item_sublist = static_cast<SubListedListItem*>(participant_item);
 
-    res = update_subitems_(
-        participant_item_sublist,
+    bool res = update_model_(
+        participant_item_sublist->submodel(),
         EntityKind::DATAREADER,
+        participant_item->get_entity_id(),
         &SyncBackendConnection::update_endpoint_item,
-        &SyncBackendConnection::create_datareader_data_) || res;
+        &SyncBackendConnection::create_datareader_data_,
+        inactive_visible);
 
-    res = update_subitems_(
-        participant_item_sublist,
+    res = update_model_(
+        participant_item_sublist->submodel(),
         EntityKind::DATAWRITER,
+        participant_item->get_entity_id(),
         &SyncBackendConnection::update_endpoint_item,
-        &SyncBackendConnection::create_datawriter_data_) || res;
+        &SyncBackendConnection::create_datawriter_data_,
+        inactive_visible) || res;
 
     return res;
 }
 
 bool SyncBackendConnection::update_endpoint_item(
-        ListItem* endpoint_item)
+        ListItem* endpoint_item,
+        bool inactive_visible /* true */)
 {
-    // update the internal info
-    bool res = update_item_info_(endpoint_item);
-
     auto endpoint_item_sublist = static_cast<SubListedListItem*>(endpoint_item);
 
-    return update_subitems_(
-        endpoint_item_sublist,
+    return update_model_(
+        endpoint_item_sublist->submodel(),
         EntityKind::LOCATOR,
+        endpoint_item->get_entity_id(),
         &SyncBackendConnection::update_locator_item,
-        &SyncBackendConnection::create_locator_data_) || res;
+        &SyncBackendConnection::create_locator_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_locator_item(
-        ListItem* locator_item)
+        ListItem* locator_item,
+        bool inactive_visible /* true */)
 {
-    static_cast<void>(locator_item);
-
-    // update the internal info
-    bool res = update_item_info_(locator_item);
-
     // Locator does not have update
-    return res;
+    static_cast<void>(locator_item);
+    static_cast<void>(inactive_visible);
+    return false;
 }
 
 /// UPDATE STRUCTURE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_physical_model(
-        models::ListModel* physical_model)
+        models::ListModel* physical_model,
+        bool inactive_visible /* true */)
 {
     qDebug() << "Update Physical Data";
 
@@ -238,7 +235,8 @@ bool SyncBackendConnection::update_physical_model(
         EntityKind::HOST,
         ID_ALL,
         &SyncBackendConnection::update_host_item,
-        &SyncBackendConnection::create_host_data_);
+        &SyncBackendConnection::create_host_data_,
+        inactive_visible);
 }
 
 bool SyncBackendConnection::update_logical_model(
@@ -278,7 +276,7 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(
     {
         for (auto entity_id : StatisticsBackend::get_entities(entity_kind, ID_ALL))
         {
-            entity_model->appendRow(new EntityItem(entity_id, entity_kind, StatisticsBackend::get_info(entity_id)));
+            entity_model->appendRow(new EntityItem(entity_id, StatisticsBackend::get_info(entity_id)));
             changed = true;
         }
     }
@@ -289,6 +287,15 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(
     }
 
     return changed;
+}
+
+bool SyncBackendConnection::update_item_(
+        ListItem* item,
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+        bool inactive_visible /* true */)
+{
+    bool res = update_item_info_(item);
+    return (this->*update_function)(item, inactive_visible) || res;
 }
 
 bool SyncBackendConnection::update_item_info_(
@@ -307,56 +314,13 @@ bool SyncBackendConnection::update_item_info_(
     }
 }
 
-// Template functions to update
-bool SyncBackendConnection::update_subitems_(
-        SubListedListItem* item,
-        EntityKind type,
-        bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem* (SyncBackendConnection::* create_function)(EntityId))
-{
-    bool changed = false;
-
-    // Get Item id
-    EntityId id = item->get_entity_id();
-
-    try
-    {
-        // For each User get all processes
-        for (auto subentity_id : StatisticsBackend::get_entities(type, id))
-        {
-            // Check if it exists already
-            models::ListItem* subentity_item = item->submodel()->find(backend::backend_id_to_models_id(subentity_id));
-
-            // If it does not exist, it creates it and add a Row with it
-            // If it exists it updates its info
-            if (nullptr == subentity_item)
-            {
-                auto e = (this->*create_function)(subentity_id);
-
-                item->submodel()->appendRow(e);
-                changed = true;
-                subentity_item = item->submodel()->find(backend::backend_id_to_models_id(subentity_id));
-
-                // It shold not fail after including it in row
-                assert(subentity_item);
-            }
-            changed = (this->*update_function)(subentity_item) || changed;
-        }
-    }
-    catch (const Exception& e)
-    {
-        qWarning() << "Fail updating subitems: " << e.what();
-    }
-
-    return changed;
-}
-
 bool SyncBackendConnection::update_model_(
         ListModel* model,
         EntityKind type,
         EntityId id,
-        bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem* (SyncBackendConnection::* create_function)(EntityId))
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+        ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        bool inactive_visible /* true */)
 {
     bool changed = false;
 
@@ -366,20 +330,44 @@ bool SyncBackendConnection::update_model_(
         for (auto subentity_id : StatisticsBackend::get_entities(type, id))
         {
             // Check if it exists already
-            models::ListItem* subentity_item = model->find(backend::backend_id_to_models_id(subentity_id));
+            int index = model->rowIndexFromId(subentity_id);
 
             // If it does not exist, it creates it and add a Row with it
             // If it exists it updates its info
-            if (nullptr == subentity_item)
+            if (index == -1)
             {
-                model->appendRow((this->*create_function)(subentity_id));
-                changed = true;
-                subentity_item = model->find(backend::backend_id_to_models_id(subentity_id));
+                // Only create the new entity if is alive or inactive are visible
+                if (inactive_visible || get_alive(subentity_id))
+                {
+                    // Creates the Item object and update its data
+                    model->appendRow((this->*create_function)(subentity_id));
+                    changed = true;
+                    models::ListItem* subentity_item = model->find(subentity_id);
 
-                // It shold not fail after including it in row
-                assert(subentity_item);
+                    changed = update_item_(subentity_item, update_function, inactive_visible) || changed;
+                }
             }
-            changed = (this->*update_function)(subentity_item) || changed;
+
+            // In case this entity is inactive and inactive are not being displayed, remove ir
+            else if (!inactive_visible && !get_alive(subentity_id))
+            {
+                models::ListItem* subentity_item = model->at(index);
+
+                // Remove the row
+                model->removeRow(index);
+
+                // Remove its subentities and the object ListItem
+                delete subentity_item;
+
+                changed = true;
+            }
+
+            // Otherwise just update the entity
+            else
+            {
+                models::ListItem* subentity_item = model->at(index);
+                changed = update_item_(subentity_item, update_function, inactive_visible) || changed;
+            }
         }
     }
     catch (const Exception& e)
@@ -759,7 +747,7 @@ ListModel* SyncBackendConnection::get_model_(
     }
 
     // Once we have the host id, we get the item related to it in the physical model
-    ListItem* parent_item = parent_model->find(backend::backend_id_to_models_id(parent_id));
+    ListItem* parent_item = parent_model->find(parent_id);
 
     if (parent_item == nullptr)
     {
@@ -787,7 +775,7 @@ bool SyncBackendConnection::update_one_entity_in_model_(
     ListItem* (SyncBackendConnection::* create_function)(EntityId))
 {
     // Check if element already exists
-    int index = model->rowIndexFromId(backend::backend_id_to_models_id(id));
+    int index = model->rowIndexFromId(id);
 
     // The element does not exist
     if (index == -1)

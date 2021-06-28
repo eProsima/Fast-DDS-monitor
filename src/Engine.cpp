@@ -387,7 +387,7 @@ bool Engine::fill_first_entity_info_()
 /// Backend API
 bool Engine::fill_physical_data_()
 {
-    return backend_connection_.update_physical_model(physical_model_);
+    return backend_connection_.update_physical_model(physical_model_, inactive_visible());
 }
 
 // TODO reimplement these functions so it is not needed to call the whole fill

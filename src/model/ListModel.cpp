@@ -205,6 +205,19 @@ ListItem* ListModel::find(
     return nullptr;
 }
 
+ListItem* ListModel::find(
+        backend::EntityId itemId) const
+{
+    foreach(ListItem * item, items_)
+    {
+        if (item->get_entity_id() == itemId)
+        {
+            return item;
+        }
+    }
+    return nullptr;
+}
+
 ListItem* ListModel::at(
         int index) const
 {
@@ -263,6 +276,18 @@ QVariant ListModel::get(
 
 int ListModel::rowIndexFromId(
         EntityId id)
+{
+    ListItem* item = find(id);
+
+    if (item)
+    {
+        return indexFromItem(item).row();
+    }
+    return -1;
+}
+
+int ListModel::rowIndexFromId(
+        backend::EntityId id)
 {
     ListItem* item = find(id);
 

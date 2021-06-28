@@ -295,9 +295,9 @@ std::string get_alias(
 bool get_info_alive(
         EntityInfo info)
 {
-    if (info.contains("alive"))
+    if (info.contains("active"))
     {
-        return info["alive"].get<bool>();
+        return info["active"].get<bool>();
     }
     else
     {

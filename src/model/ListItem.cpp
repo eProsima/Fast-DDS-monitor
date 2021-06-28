@@ -53,7 +53,6 @@ ListItem::ListItem(
         QObject* parent)
     : QObject(parent)
     , id_(backend::EntityId::invalid())
-    , kind_(backend::EntityKind::INVALID)
 {
 }
 
@@ -62,18 +61,15 @@ ListItem::ListItem(
         QObject* parent)
     : QObject(parent)
     , id_(id)
-    , kind_(backend::EntityKind::INVALID)
 {
 }
 
 ListItem::ListItem(
         backend::EntityId id,
-        backend::EntityKind kind,
         backend::EntityInfo info,
         QObject* parent)
     : QObject(parent)
     , id_(id)
-    , kind_(kind)
     , info_(info)
 {
 }
@@ -94,7 +90,7 @@ QString ListItem::name() const
 
 QString ListItem::kind() const
 {
-    return backend::entity_kind_to_QString(kind_);
+    return backend::entity_kind_to_QString(backend_kind());
 }
 
 bool ListItem::alive() const

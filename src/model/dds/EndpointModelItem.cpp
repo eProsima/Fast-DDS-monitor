@@ -32,6 +32,8 @@ QVariant EndpointModelItem::data(
             return this->guid();
         case topicRole:
             return this->topic();
+        case aliveRole:
+            return this->alive();
         default:
             return QVariant();
     }

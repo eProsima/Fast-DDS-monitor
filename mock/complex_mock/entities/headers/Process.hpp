@@ -56,6 +56,12 @@ public:
     //! Override of \c get_info Entity method
     Info get_info() const override;
 
+    //! Overwrite alive so Process is always not alive
+    bool alive() const override
+    {
+        return false;
+    }
+
 private:
 
     //! Collection of participants subentities

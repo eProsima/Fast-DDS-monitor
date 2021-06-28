@@ -116,10 +116,18 @@ public:
             const QModelIndex& index = QModelIndex()) Q_DECL_OVERRIDE;
 
     /**
-     * Returns the item whose id matches the itemId.
+     * Returns the item whose id matches the modlesitemId.
      */
     ListItem* find(
             EntityId itemId) const;
+
+    /**
+     * Returns the item whose id matches the backend itemId.
+     *
+     * @note This method is faster with backend than models id as the actual value stored is \c backend::EntityId
+     */
+    ListItem* find(
+            backend::EntityId itemId) const;
 
     /**
      * Returns the item whose id matches the itemId.
@@ -151,10 +159,16 @@ public:
             int index);
 
     /**
-     * Returns the row index of an item given the item id.
+     * Returns the row index of an item given the models item id.
      */
     Q_INVOKABLE int rowIndexFromId(
             EntityId itemId);
+
+    /**
+     * Returns the row index of an item given the backend item id.
+     */
+    Q_INVOKABLE int rowIndexFromId(
+            backend::EntityId itemId);
 
     /**
      * Clears the whole model removing all rows.

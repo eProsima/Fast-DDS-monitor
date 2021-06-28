@@ -202,9 +202,10 @@ EntityKind StatisticsBackend::get_type(
 }
 
 // Returns an info key values:
-//  - qos   : a Fast DDS complete qos (the same for all entities, as an example)
-//  - name  : name of the entity Kind + "_0"
-//  - id    : id of the entity kind (the one given as argument)
+//  - qos       : a Fast DDS complete qos (the same for all entities, as an example)
+//  - name      : name of the entity Kind + "_0"
+//  - id        : id of the entity kind (the one given as argument)
+//  - active    : false for physical entities
 Info StatisticsBackend::get_info(
         EntityId entity_id)
 {
@@ -352,7 +353,7 @@ Info StatisticsBackend::get_info(
 
     if (entity_id.value() == 2 || entity_id.value() == 3)
     {
-        json_obj["alive"] = false;
+        json_obj["active"] = false;
     }
 
     json_obj["alias"] = json_obj["name"];
@@ -530,6 +531,20 @@ void StatisticsBackend::set_alias(
     else
     {
         names[entity_id.value()] = alias;
+    }
+}
+
+bool StatisticsBackend::is_active(
+        EntityId entity_id)
+{
+    switch (entity_id.value())
+    {
+        case 2:
+        case 3:
+            return false;
+
+        default:
+            return true;
     }
 }
 

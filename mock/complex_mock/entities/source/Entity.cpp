@@ -46,5 +46,10 @@ EntityKind Entity::kind() const
     return EntityKind::INVALID;
 }
 
+bool Entity::alive() const
+{
+    return true;
+}
+
 } // namespace statistics_backend
 } // namespace eprosima

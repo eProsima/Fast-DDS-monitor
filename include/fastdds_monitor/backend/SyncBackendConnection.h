@@ -82,7 +82,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_physical_model(
-            models::ListModel* physical_model);
+            models::ListModel* physical_model,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the Logical model with every Logical entity in the backend
@@ -149,7 +150,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_host_item(
-            ListItem* host_item);
+            ListItem* host_item,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the user item and their subentities with backend information
@@ -163,7 +165,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_user_item(
-            ListItem* user_item);
+            ListItem* user_item,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the process item with backend information
@@ -174,7 +177,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_process_item(
-            ListItem* process_item);
+            ListItem* process_item,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the domain item and their subentities with backend information
@@ -188,7 +192,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_domain_item(
-            ListItem* domain_item);
+            ListItem* domain_item,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the topic item with backend information
@@ -199,7 +204,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_topic_item(
-            ListItem* topic_item);
+            ListItem* topic_item,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the participant item and their subentities with backend information
@@ -213,7 +219,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_participant_item(
-            ListItem* participant_item);
+            ListItem* participant_item,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the datawriter or datareader item and their subentities with backend information
@@ -227,7 +234,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_endpoint_item(
-            ListItem* endpoint_item);
+            ListItem* endpoint_item,
+            bool inactive_visible = true);
 
     /**
      * @brief Update the topic item with backend information
@@ -238,7 +246,8 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_locator_item(
-            ListItem* locator_item);
+            ListItem* locator_item,
+            bool inactive_visible = true);
 
     bool update_host(
         models::ListModel* physical_model,
@@ -367,6 +376,11 @@ protected:
     ListItem* create_locator_data_(
             backend::EntityId id);
 
+    bool update_item_(
+            ListItem* item,
+            bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+            bool inactive_visible = true);
+
     /**
      * General method to encapsulate the common funcionality of updating the info from backend
      * So far it does always return \c true
@@ -374,20 +388,14 @@ protected:
     bool update_item_info_(
             ListItem* item);
 
-    //! General method to encapsulate the common funcionality of \c update_*_item methods refereing to items update
-    bool update_subitems_(
-            SubListedListItem * item,
-            backend::EntityKind type,
-            bool (SyncBackendConnection::* update_function)(ListItem*),
-            ListItem * (SyncBackendConnection::* create_function)(backend::EntityId));
-
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
             ListModel * model,
             EntityKind type,
             EntityId id,
-            bool (SyncBackendConnection::* update_function)(ListItem*),
-            ListItem * (SyncBackendConnection::* create_function)(EntityId));
+            bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+            ListItem * (SyncBackendConnection::* create_function)(EntityId),
+            bool inactive_visible = true);
 
     /////
     // Methods to update just one entity
