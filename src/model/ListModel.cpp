@@ -196,13 +196,19 @@ ListItem* ListModel::find(
         EntityId itemId) const
 {
     foreach(ListItem * item, items_)
-    if (item->entity_id() == itemId)
     {
-        // std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
-        return item;
+        if (item->entity_id() == itemId)
+        {
+            return item;
+        }
     }
-    // std::cout << "Not found item with id: " << utils::to_string(itemId) << std::endl;
     return nullptr;
+}
+
+ListItem* ListModel::at(
+        int index) const
+{
+    returns items_.at(index);
 }
 
 int ListModel::getRowFromItem(

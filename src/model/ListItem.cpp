@@ -97,6 +97,11 @@ QString ListItem::kind() const
     return backend::entity_kind_to_QString(kind_);
 }
 
+bool ListItem::alive() const
+{
+    return backend::get_info_alive(info_);
+}
+
 backend::EntityInfo ListItem::info() const
 {
     return info_;
@@ -118,6 +123,8 @@ QVariant ListItem::data(
             return this->name();
         case kindRole:
             return this->kind();
+        case aliveRole:
+            return this->alive();
         default:
             return QVariant();
     }
@@ -130,6 +137,7 @@ QHash<int, QByteArray> ListItem::roleNames() const
     roles[idRole] = "id";
     roles[nameRole] = "name";
     roles[kindRole] = "kind";
+    roles[aliveRole] = "alive";
 
     return roles;
 }

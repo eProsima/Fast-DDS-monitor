@@ -312,7 +312,8 @@ bool SyncBackendConnection::update_subitems_(
         SubListedListItem* item,
         EntityKind type,
         bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem* (SyncBackendConnection::* create_function)(EntityId))
+        ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        bool alive_allow)
 {
     bool changed = false;
 
@@ -468,6 +469,20 @@ EntityInfo SyncBackendConnection::get_info(
     {
         qWarning() << "Fail getting entity info: " << e.what();
         return EntityInfo();
+    }
+}
+
+bool SyncBackendConnection::get_alive(
+        EntityId id)
+{
+    try
+    {
+        return StatisticsBackend::is_active(id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting entity alive status: " << e.what();
+        return true;
     }
 }
 
@@ -641,6 +656,88 @@ void SyncBackendConnection::set_alias(
     catch (const Exception& e)
     {
         qWarning() << "Fail setting new alias for entity: " << id.value();
+    }
+}
+
+bool update_host(
+    models::SubListedListModel* model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible)
+{
+    return update_one_entity_in_model(
+        model,
+        id,
+        new_entity,
+        inactive_visible,
+        &SyncBackendConnection::create_host_data_);
+}
+
+bool update_one_entity_in_model(
+    models::SubListedListModel* model,
+    EntityId id,
+    bool new_entity,
+    bool inactive_visible,
+    ListItem* (SyncBackendConnection::* create_function)(EntityId))
+{
+    // Check if element already exists
+    int index = model->rowIndexFromId(id);
+
+    // The element does not exist
+    if (index == -1)
+    {
+        // If it didnt exist yet something has gone wrong in backend
+        if (!new_entity)
+        {
+            qWarning() << "Trying to update an entity that did not exist";
+        }
+
+        // Get alive status of entity.
+        // This is faster than asking for the whole info, which in some cases will not be needed.
+        bool active = get_alive(id);
+        if (inactive_visible || active)
+        {
+            model->appendRow(create_function(id));
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        // If it existed already something has gone wrong in backend
+        if (new_entity)
+        {
+            qWarning() << "Trying to create an entity that already exists";
+        }
+
+        // Get item from model from the index already calculated
+        ListItem* item = model->at(index);
+
+        // Get alive status of entity.
+        bool active = get_alive(id);
+
+        // If it is not alive and inactive are not visible, this entity must be erased from model
+        if (!inactive_visible && !active)
+        {
+            // Clear the item so the submodules are erased
+            item->clear();
+
+            // Remove the item from the model
+            model->removeRow(index);
+
+            // Destroy Item object
+            delete item;
+
+            return true;
+        }
+        else
+        {
+            // In case the entity must keep existing, just update its info
+            return update_item_info_(item);
+        }
     }
 }
 

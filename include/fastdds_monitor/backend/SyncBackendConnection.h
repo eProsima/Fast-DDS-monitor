@@ -240,6 +240,11 @@ public:
     bool update_locator_item(
             ListItem* locator_item);
 
+    bool update_host(
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity);
+
     /////
     // Monitor manage functions
 

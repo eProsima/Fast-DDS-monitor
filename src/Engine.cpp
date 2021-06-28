@@ -133,12 +133,14 @@ Engine::~Engine()
 {
     if  (enabled_)
     {
+        // First free the listener so no new entities appear
         if (listener_)
         {
             backend_connection_.unset_listener();
             delete listener_;
         }
 
+        // View models
         if (participants_model_)
         {
             delete participants_model_;
@@ -154,24 +156,52 @@ Engine::~Engine()
             delete logical_model_;
         }
 
-        if (info_model_)
-        {
-            delete info_model_;
-        }
-
-        if (summary_model_)
-        {
-            delete summary_model_;
-        }
-
+        // Interactive models
         if (statistics_data_)
         {
             delete statistics_data_;
         }
 
-        if (dynamic_data_)
+        if (controller_)
         {
-            delete dynamic_data_;
+            delete controller_;
+        }
+
+        // Auxiliar models
+        if (source_entity_id_model_)
+        {
+            delete source_entity_id_model_;
+        }
+
+        if (destination_entity_id_model_)
+        {
+            delete destination_entity_id_model_;
+        }
+
+        // Info models
+        if (summary_model_)
+        {
+            delete summary_model_;
+        }
+
+        if (info_model_)
+        {
+            delete info_model_;
+        }
+
+        if (issue_model_)
+        {
+            delete issue_model_;
+        }
+
+        if (log_model_)
+        {
+            delete log_model_;
+        }
+
+        if (status_model_)
+        {
+            delete status_model_;
         }
     }
 }
@@ -361,18 +391,18 @@ bool Engine::fill_physical_data_()
 
 // TODO reimplement these functions so it is not needed to call the whole fill
 bool Engine::update_host_data(
-        backend::EntityId id)
+        backend::EntityId id,
+        bool new_entity /* true */)
 {
     updated_entity(id);
-    physical_model_->clear();
-    return backend_connection_.update_physical_model(physical_model_);
+    // return backend_connection_.update_physical_model(physical_model_, id);
+    return backend_connection_.update_host(physical_model_, id, new_entity);
 }
 
 bool Engine::update_user_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
 
@@ -380,7 +410,6 @@ bool Engine::update_process_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
 

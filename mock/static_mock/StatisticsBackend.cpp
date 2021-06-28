@@ -350,6 +350,11 @@ Info StatisticsBackend::get_info(
         json_obj["name"] = names[entity_id.value()];
     }
 
+    if (entity_id.value() == 2 || entity_id.value() == 3)
+    {
+        json_obj["alive"] = false;
+    }
+
     json_obj["alias"] = json_obj["name"];
 
     return json_obj;

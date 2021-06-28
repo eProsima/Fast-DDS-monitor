@@ -51,6 +51,7 @@ public:
     {
         idRole = Qt::UserRole + 1,      //! Role for attribute Id
         kindRole,                       //! Role for attribute Kind
+        aliveRole,                      //! Role for attribute Alive
         nameRole                        //! Role for attribute Name
     };
 
@@ -103,6 +104,12 @@ public:
      * @return entity kind in QString format
      */
     virtual QString kind() const;
+
+    /**
+     * @brief Entity alive status getter
+     * @return entity alive status
+     */
+    virtual bool alive() const;
 
     /**
      * @brief Item info setter

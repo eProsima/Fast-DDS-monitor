@@ -56,6 +56,14 @@ std::string get_info_value(
 std::string get_alias(
         const EntityInfo& info);
 
+/**
+ * @brief Get the alive status in \c EntityInfo structure (json format). True by default.
+ * @param info \c EntityInfo structure
+ * @return alive status value
+ */
+bool get_info_alive(
+        EntityInfo info);
+
 //! Converts the \c EntityKind to QString
 QString entity_kind_to_QString(
         const EntityKind& entity_kind);

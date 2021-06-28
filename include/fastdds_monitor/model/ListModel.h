@@ -122,6 +122,12 @@ public:
             EntityId itemId) const;
 
     /**
+     * Returns the item whose id matches the itemId.
+     */
+    ListItem* at(
+            int index) const;
+
+    /**
      * Returns the row index of item in the model.
      */
     int getRowFromItem(
@@ -160,6 +166,8 @@ protected:
     //! Void ListItem that is used to know the role names. This is why a default constructor is needed in \c ListItem
     ListItem* prototype_;
 
+    // This object stores the subitems indexing by <index> (internal list index) that is used by qt.
+    // Thus, it is not easy to create a map with item and entity in a simple way.
     //! List of Items under this model
     QList<ListItem*> items_;
 

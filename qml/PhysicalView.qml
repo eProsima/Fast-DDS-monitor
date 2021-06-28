@@ -65,7 +65,6 @@ Rectangle {
             property bool highlight: false
             property var userList: userList
 
-
             Column {
                 id: hostListColumn
 
@@ -83,8 +82,9 @@ Rectangle {
                             source: "/resources/images/host.svg"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
-                            dye: highlight ? true : false
-                            color: highlight ? Theme.whiteSmoke : "black"
+                            dye: (highlight || !alive) ? true : false
+                            color: highlight ? Theme.whiteSmoke :
+                                   alive ? "black" : "grey"
 
                             MouseArea {
                                 anchors.fill: parent
@@ -100,7 +100,15 @@ Rectangle {
                         }
                         Label {
                             text: name
-                            color: highlight ? Theme.whiteSmoke : "black"
+                            color: {
+                                if (highlight) {
+                                    return Theme.whiteSmoke
+                                } else if(alive) {
+                                    return "black"
+                                } else {
+                                    return "grey"
+                                }
+                            }
 
                             DifferClickMouseArea {
                                 anchors.fill: parent
