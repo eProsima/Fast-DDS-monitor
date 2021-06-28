@@ -37,6 +37,9 @@ Rectangle {
         ListElement {
             icon: "/resources/images/issues.svg"
         }
+        ListElement {
+            icon: ""
+        }
     }
 
     ListView {
@@ -55,9 +58,54 @@ Rectangle {
 
             Rectangle {
                 anchors.fill: parent
-                height: parent.width
-                color: (selected == index) ? "white" :
-                       ma.containsMouse ? Theme.lightGrey : Theme.grey
+                color: {
+                    if (selected == index) {
+                        return "white"
+                    } else if (((selected + 1) == index) || ((selected - 1) == index)) {
+                        return "transparent"
+                    } else {
+                        if (ma.containsMouse) {
+                            return Theme.lightGrey
+                        } else {
+                            return "transparent"
+                        }
+                    }
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    visible: (((selected + 1) == index) || ((selected - 1) == index))
+                    color: "white"
+
+                    Rectangle {
+                        height: parent.height/2
+                        width: parent.width
+                        anchors.bottom: parent.bottom
+                        visible: ((selected + 1) == index)
+                        color: (ma.containsMouse) ? Theme.lightGrey : Theme.grey
+                    }
+
+                    Rectangle {
+                        height: parent.height/2
+                        width: parent.width
+                        anchors.top: parent.top
+                        visible: ((selected - 1) == index)
+                        color: (ma.containsMouse) ? Theme.lightGrey : Theme.grey
+                    }
+
+                    Rectangle {
+                        height: parent.height
+                        width: parent.width/2
+                        anchors.left: parent.left
+                        color: (ma.containsMouse) ? Theme.lightGrey : Theme.grey
+                    }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: 7
+                        color: (ma.containsMouse) ? Theme.lightGrey : Theme.grey
+                    }
+                }
 
                 IconSVG {
                     id: explorerIcon
@@ -75,6 +123,7 @@ Rectangle {
                     id: ma
                     anchors.fill: parent
                     hoverEnabled: true
+                    enabled: (index != (iconsVBarModel.count -1))
                     onClicked: iconClicked(index)
                 }
 

@@ -27,6 +27,7 @@ Item {
         anchors.fill: parent
         model: qosModel
         selectionMode: SelectionMode.NoSelection
+        frameVisible: false
         selection: ItemSelectionModel {
             id: item_selection_model
             model: qosModel

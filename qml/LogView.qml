@@ -26,6 +26,7 @@ Item {
         anchors.fill: parent
         model: logModel
         selectionMode: SelectionMode.NoSelection
+        frameVisible: false
         itemDelegate: Item {
             Text {
                 anchors.fill: parent

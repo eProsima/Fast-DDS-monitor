@@ -26,6 +26,7 @@ Item {
         anchors.fill: parent
         model: issueModel
         selectionMode: SelectionMode.NoSelection
+        frameVisible: false
         itemDelegate: Item {
             Text {
                 anchors.fill: parent
@@ -45,7 +46,6 @@ Item {
             role: "value"
             title: "Value"
         }
-
 
         Component.onCompleted: leftPanel.expandAll(issue_tree_view, issueModel)
 
