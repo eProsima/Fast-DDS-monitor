@@ -25,6 +25,8 @@ ToolBar {
     property bool isVisibleDispData: true
     property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true
+    property bool isVisibleClearLog: false
+    property bool isVisibleClearIssues: false
 
     signal lastClickedReset
 
@@ -60,6 +62,22 @@ ToolBar {
             onClicked: {
                 controller.refresh_click()
                 lastClickedReset()
+            }
+        }
+
+        ToolButton {
+            text: "Clear log"
+            visible: isVisibleClearLog
+            onClicked: {
+                controller.clear_log()
+            }
+        }
+
+        ToolButton {
+            text: "Clear issues"
+            visible: isVisibleClearIssues
+            onClicked: {
+                controller.clear_issues()
             }
         }
 

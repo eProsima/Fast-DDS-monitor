@@ -97,6 +97,16 @@ void Controller::refresh_click()
     engine_->refresh_engine();
 }
 
+void Controller::clear_log()
+{
+    engine_->clear_log();
+}
+
+void Controller::clear_issues()
+{
+    engine_->clear_issues();
+}
+
 void Controller::add_statistics_data(
         QString data_kind,
         QString source_entity_id,

@@ -51,6 +51,8 @@ ApplicationWindow {
         onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
         onDispDynDataButtonHidden: toolBar.isVisibleDispDynData = !toolBar.isVisibleDispDynData
         onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
+        onClearLogButtonHidden: toolBar.isVisibleClearLog = !toolBar.isVisibleClearLog
+        onClearIssuesButtonHidden: toolBar.isVisibleClearIssues = !toolBar.isVisibleClearIssues
         onLeftSidebarHidden: panels.openCloseLeftSideBar()
         onLastClickedReset: panels.lastClickedReset()
     }

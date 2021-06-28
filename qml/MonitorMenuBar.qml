@@ -11,6 +11,8 @@ MenuBar {
     signal dispDataButtonHidden
     signal dispDynDataButtonHidden
     signal refreshButtonHidden
+    signal clearLogButtonHidden
+    signal clearIssuesButtonHidden
 
     signal leftSidebarHidden
 
@@ -26,15 +28,15 @@ MenuBar {
     Menu {
         title: qsTr("&Edit")
         Action {
-            text: qsTr("&Init New Monitor")
+            text: qsTr("Init New &Monitor")
             onTriggered: dialogInitMonitor.open()
         }
         Action {
-            text: qsTr("&Display Historical Data")
+            text: qsTr("Display &Historical Data")
             onTriggered: dataKindDialog.open()
         }
         Action {
-            text: qsTr("&Display Real-Time Data")
+            text: qsTr("Display &Real-Time Data")
             onTriggered: dynamicDataKindDialog.open()
         }
         Action {
@@ -42,6 +44,18 @@ MenuBar {
             onTriggered: {
                 controller.refresh_click()
                 lastClickedReset()
+            }
+        }
+        Action {
+            text: qsTr("Clear &Log")
+            onTriggered: {
+                controller.clear_log()
+            }
+        }
+        Action {
+            text: qsTr("Clear &Issues")
+            onTriggered: {
+                controller.clear_issues()
             }
         }
     }
@@ -141,6 +155,26 @@ MenuBar {
             }
             Label {
                 text: "Refresh"
+            }
+            CheckBox {
+                id: clearLogCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: clearLogButtonHidden()
+            }
+            Label {
+                text: "Clear Log"
+            }
+            CheckBox {
+                id: clearIssuesCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: clearIssuesButtonHidden()
+            }
+            Label {
+                text: "Clear Issues"
             }
         }
     }
