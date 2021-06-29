@@ -220,17 +220,16 @@ From now on this name will be used all along the monitor.
 
     Be aware that this changes the alias of the entity inside the monitor, and does not affect to the real DDS network.
 
+Create Historic Series Chart
+============================
 
-Create Series Chart
-===================
-
-This section describes how to graphically represent the data that is being monitored.
+This section describes how to graphically represent data reported by a DDS network.
 
 Data Count Plot
 ---------------
 
 This section explains how to represent the data being monitored and retrieved by the DDS entities.
-First of all, click in :ref:`display_historical_data_button`.
+First of all, click in :ref:`display_historic_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 The :code:`DATA_COUNT` has been chosen for this tutorial.
 
@@ -261,21 +260,25 @@ Then, click :code:`OK` and now you should be able to see both series represented
 .. figure:: /rst/figures/screenshots/usage_example/data_count_chart.png
     :align: center
 
-In this new chart created, you could see in the blue series the total amount of data packages sent in each time
-interval.
-Each points means that from that timestamp until the timestamp of next point the publisher sent :code:`24/25` messages.
-The green series reports that this data has been sent periodically by the publisher each time
-it had updated the number of data sent.
+.. todo::
 
-Here you could appreciate that the beginning of the chart is empty.
-This is because the monitor has started before the publisher, and so there are some data at the beginning of the
-time displayed that does not exist.
+    Comment depending on the screeshot
+
+    In this new chart created, you could see in the blue series the total amount of data packages sent in each time
+    interval.
+    Each points means that from that timestamp until the timestamp of next point the publisher sent :code:`24/25` messages.
+    The green series reports that this data has been sent periodically by the publisher each time
+    it had updated the number of data sent.
+
+    Here you could appreciate that the beginning of the chart is empty.
+    This is because the monitor has started before the publisher, and so there are some data at the beginning of the
+    time displayed that does not exist.
 
 Latency Plot
 -------------
 
 Next, you are going to see how to represent the latency between these *DomainParticipants*.
-First, click in :ref:`display_historical_data_button`.
+First, click in :ref:`display_historic_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 For this case, we will choose :code:`FASTDDS_LATENCY`.
 This data is called like this because it represents the time elapsed between the user call :code:`write` function
@@ -308,3 +311,79 @@ The statistic kinds that we are going to use for this example are:
 
 It is worth mentioning that the series name, its color, the axis, and some features of the chart box could be changed
 as mention in :ref:`chartbox`.
+
+Create Dynamic Series Chart
+===========================
+
+This section describes how to graphically represent data in real-time of a running DDS network.
+
+Periodic Latency Plot
+---------------------
+
+This section explains how to represent the data regarding the latency in real-time between the publisher and
+the subscriber.
+First of all, click in :ref:`display_dynamic_data_button`.
+This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
+
+This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
+For this case, we will choose :code:`FASTDDS_LATENCY`.
+We are going to set a :code:`Time window` of 1 minute.
+This means we will see the data of the last minute of the network.
+We are going to set an :code:`Update period` of 5 seconds.
+This will query for new data every 5 seconds and retrieve and display it in the chart.
+
+After this, a new Dialog will open asking to configure the series that is going to be displayed.
+In the case of :code:`FASTDDS_LATENCY` the data to show is related with two entities.
+In our example we are going choose both *DomainParticipants*, and this will give us all the latency between the
+*DataWriters* of the first participant and the *DataReaders* of the second one.
+
+Now for the :code:`Statistics kind` option, we are going to use some of them in order to see more than one series of
+statistical data.
+Change the :code:`Statistics kind` and click :code:`Apply` for each of them in order to create a series for each one.
+The statistic kinds that we are going to use for this example are:
+
+* :code:`MEAN` (blue series)
+* :code:`MIN` (yellow series)
+* :code:`MAX` (purple series)
+
+.. todo::
+
+    .. figure:: /rst/figures/screenshots/usage_example/fastdds_dynamic_latency_configuration.png
+        :align: center
+
+.. todo::
+
+    Comment depending on the screenshot
+
+    .. figure:: /rst/figures/screenshots/usage_example/fastdds_dynamic_latency_chart.png
+        :align: center
+
+Latency DataPoints
+------------------
+
+There is a special feature for real-time data display that allow to see every datapoint received from the DDS
+entities monitored.
+In order to see this data in real-time, add a new series in this same chartbox in *Series->Add series*.
+Choose again the two *DomainParticipants* as source and target and choose :code:`NONE` as :code:`Statistics kind`.
+
+.. todo::
+
+    .. figure:: /rst/figures/screenshots/usage_example/fastdds_dynamic_all_latency_configuration.png
+        :align: center
+
+.. todo::
+
+    Comment depending on the screenshot
+
+    .. figure:: /rst/figures/screenshots/usage_example/fastdds_dynamic_all_latency_chart.png
+        :align: center
+
+.. todo::
+
+    Add explanation of pause and move
+
+    .. figure:: /rst/figures/screenshots/usage_example/fastdds_dynamic_all_latency_chart_move.png
+        :align: center
+
+
+It is worth mentioning that dynamic series could be configurable as

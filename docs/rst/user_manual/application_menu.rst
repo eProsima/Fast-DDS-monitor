@@ -59,12 +59,14 @@ separated by ``;``.
 This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
-.. _display_historical_data_button:
+.. _display_historic_data_button:
 
 Display Historical Data
 -----------------------
 Create a new historic *Chartbox* in the central panel.
 To know how to configure a historic *Chartbox*, please refer to the section :ref:`historic_series`.
+
+.. _display_dynamic_data_button:
 
 Display Dynamic Data
 --------------------
