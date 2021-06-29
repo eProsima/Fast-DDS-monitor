@@ -331,21 +331,23 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 ###############################################################################
 # Test
 ###############################################################################
-option(BUILD_TESTS "Build Fast DDS Monitor library and documentation tests" OFF)
+option(BUILD_TESTS "Build Fast DDS Monitor appliction and documentation tests" OFF)
+option(BUILD_APP_TESTS "Build Fast DDS Monitor application tests" OFF)
 option(BUILD_DOCUMENTATION_TESTS "Build Fast DDS Monitor documentation tests" OFF)
 
 if (BUILD_TESTS)
+    set(BUILD_APP_TESTS ON)
     set(BUILD_DOCUMENTATION_TESTS ON)
 endif()
 
-if (BUILD_TESTS OR BUILD_DOCUMENTATION_TESTS)
+if (BUILD_TESTS OR BUILD_APP_TESTS OR BUILD_DOCUMENTATION_TESTS)
     # CTest needs to be included here, otherwise it is not possible to run the tests from the root
     # of the build directory
     enable_testing()
     include(CTest)
 endif()
 
-if (BUILD_TESTS)
+if (BUILD_TESTS OR BUILD_APP_TESTS)
     add_subdirectory(test)
 endif()
 
