@@ -79,12 +79,13 @@ HEADERS += \
 DISTFILES += \
     qml/*
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/release/ -lcomplex-backend-mock
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/debug/ -lcomplex-backend-mock
-else:unix: LIBS += -L$$PWD/../../install/fastdds_monitor/lib/ -lcomplex-backend-mock
+# Link to the Complex Backend Mock (uncomment to link against the mock)
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/release/ -lcomplex-backend-mock
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/debug/ -lcomplex-backend-mock
+#else:unix: LIBS += -L$$PWD/../../install/fastdds_monitor/lib/ -lcomplex-backend-mock
 
-INCLUDEPATH += $$PWD/../../install/fastdds_monitor/include
-DEPENDPATH += $$PWD/../../install/fastdds_monitor/include
+#INCLUDEPATH += $$PWD/../../install/fastdds_monitor/include
+#DEPENDPATH += $$PWD/../../install/fastdds_monitor/include
 
 # Link to the Fast DDS Statistics Backend library
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/release/ -lfastdds_statistics_backend
