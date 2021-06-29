@@ -17,4 +17,6 @@ multicast
 Qos
 QoS
 Todo
+subpanel
+subpanels
 wget
