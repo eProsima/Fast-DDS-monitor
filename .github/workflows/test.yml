@@ -94,8 +94,7 @@ jobs:
       - name: install Fast-DDS-monitor
         shell: pwsh
         run: >
-          git clone https://github.com/eProsima/Fast-DDS-monitor.git;
-          cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest' -DBUILD_TESTS=ON -DBUILD_MOCK=ON `
+          cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest' -DBUILD_APP_TESTS=ON -DBUILD_MOCK=ON `
             -DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/5.15.2 `
             -B build\monitor -A x64 -T host=x64 Fast-DDS-monitor;
           cmake --build build\monitor --config Debug --target install;
