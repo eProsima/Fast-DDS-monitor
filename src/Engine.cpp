@@ -649,6 +649,7 @@ bool Engine::on_add_statistics_data_series(
 void Engine::refresh_engine()
 {
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
+
     fill_physical_data_();
     fill_logical_data_();
     fill_dds_data_();

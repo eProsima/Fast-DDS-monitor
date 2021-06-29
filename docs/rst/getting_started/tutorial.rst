@@ -129,10 +129,9 @@ At this point, you are going to see the whole window of the application.
 You should be able to see how an unique entity is present in the application in the left sidebar.
 This is the domain that you have just initiated.
 Once a domain is initiated, it is set as :ref:`selected_entity` and so its information is shown in the
-:ref:`right_sidebar_layout`.
+:ref:`info_panel_layout`.
 
 For specific details on how the information is divided and where to find it, please refer to :ref:`index_user_manual`.
-
 
 Execute subscriber
 ==================
@@ -231,7 +230,7 @@ Data Count Plot
 ---------------
 
 This section explains how to represent the data being monitored and retrieved by the DDS entities.
-First of all, click in :ref:`display_data_button`.
+First of all, click in :ref:`display_historical_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 The :code:`DATA_COUNT` has been chosen for this tutorial.
 
@@ -276,7 +275,7 @@ Latency Plot
 -------------
 
 Next, you are going to see how to represent the latency between these *DomainParticipants*.
-First, click in :ref:`display_data_button`.
+First, click in :ref:`display_historical_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 For this case, we will choose :code:`FASTDDS_LATENCY`.
 This data is called like this because it represents the time elapsed between the user call :code:`write` function
