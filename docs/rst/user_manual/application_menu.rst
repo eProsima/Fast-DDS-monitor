@@ -61,17 +61,15 @@ and it will get all the discovery information of the entities connecting through
 
 .. _display_historical_data_button:
 
-Display historical data
+Display Historical Data
 -----------------------
-Create a new *Chartbox* for historic series in the central panel.
-To know how to configure a *Chartbox*, please refer to the section :ref:`chart_panel`.
+Create a new historic *Chartbox* in the central panel.
+To know how to configure a historic *Chartbox*, please refer to the section :ref:`historic_series`.
 
-.. _display_realtime_data_button:
-
-Display real-time data
-----------------------
-Create a new *Chartbox* for dynamic in the central panel.
-To know how to configure a *Chartbox*, please refer to the section :ref:`chart_panel`.
+Display Dynamic Data
+--------------------
+Create a new dynamic *Chartbox* in the central panel.
+To know how to configure a dynamic *Chartbox*, please refer to the section :ref:`dynamic_series`.
 
 .. _refresh_button:
 

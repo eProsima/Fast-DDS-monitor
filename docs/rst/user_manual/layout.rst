@@ -241,4 +241,5 @@ This Dialog will appear every time a new Chartbox is created, or adding a new se
 .. figure:: /rst/figures/screenshots/create_series_dialog.png
     :align: center
 
-For further details on how to configure a new series refer to :ref:`create_serie`.
+For further details on how to configure a new series refer to :ref:`historic_series` for historic data or
+:ref:`dynamic_series` for dynamic data.

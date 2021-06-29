@@ -10,7 +10,7 @@
    :maxdepth: 2
    :hidden:
 
-   /rst/formalia/titlepage.rst
+   /rst/formalia/titlepage
 
 
 .. _index_installation:
@@ -45,14 +45,14 @@
    :numbered: 5
    :hidden:
 
-   /rst/user_manual/initialize_monitoring.rst
+   /rst/user_manual/initialize_monitoring
    /rst/user_manual/layout
    /rst/user_manual/application_menu
    /rst/user_manual/shortcuts_bar
    /rst/user_manual/explorer_panel
    /rst/user_manual/status_panel
    /rst/user_manual/issues_panel
-   /rst/user_manual/chart_panel
+   /rst/user_manual/chart_panel_index
    /rst/user_manual/select_entity
 
 
@@ -64,8 +64,8 @@
    :numbered: 5
    :hidden:
 
-   /rst/developer_manual/installation/sources/linux.rst
-   /rst/developer_manual/installation/configuration/cmake_options.rst
+   /rst/developer_manual/installation/sources/linux
+   /rst/developer_manual/installation/configuration/cmake_options
 
 
 .. _index_notes:
@@ -75,4 +75,4 @@
    :maxdepth: 2
    :hidden:
 
-   /rst/notes/notes.rst
+   /rst/notes/notes

@@ -805,7 +805,7 @@ void Engine::update_dynamic_chartbox(
     if (parameters.source_ids.size() != parameters.target_ids.size() ||
             parameters.source_ids.size() != parameters.statistics_kinds.size())
     {
-        // BAD PARAMENTERS
+        // BAD PARAMETERS
         qCritical() << "Bad parameters in function update_dynamic_chartbox."
                     << "sources: " << parameters.source_ids.size()
                     << "targets: " << parameters.target_ids.size()
