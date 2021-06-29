@@ -96,6 +96,12 @@ public slots:
     //! Slot called when refresh button is pressed
     void refresh_click();
 
+    //! Slot to clear the monitor logging information
+    void clear_log();
+
+    //! Slot to clear the issues list
+    void clear_issues();
+
     //! Slot called when chart is to be created and ids mst be updated by an entity kind
     void update_available_entity_ids(
             QString entity_kind,

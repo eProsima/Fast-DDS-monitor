@@ -38,7 +38,7 @@ Rectangle {
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
 
-    signal lastClickedLogical(int domainIdx, int topicIdx)
+    signal lastClickedLogical(int domainIdx, int topicIdx, string entityName, string entityKind)
 
     ListView {
         id: domainList
@@ -68,7 +68,7 @@ Rectangle {
             ListView.onAdd: {
                 if (knownDomains.indexOf(id) < 0) {
                     knownDomains.push(id)
-                    lastClickedLogical(domainIdx, -1)
+                    lastClickedLogical(domainIdx, -1, name, kind)
                 }
             }
 
@@ -120,7 +120,7 @@ Rectangle {
                                 }
                                 onDoubleClick: {
                                     controller.domain_click(id)
-                                    lastClickedLogical(domainIdx, -1)
+                                    lastClickedLogical(domainIdx, -1, name, kind)
                                 }
                             }
                         }
@@ -154,9 +154,7 @@ Rectangle {
 
                         ListView.onAdd: {
                             if(topicList.height != 0) {
-                                var prevHeight = topicList.height
                                 topicList.height = topicList.collapseHeightFlag
-                                domainList.height = domainList.height + topicList.height - prevHeight
                             }
                         }
 
@@ -188,7 +186,7 @@ Rectangle {
                                             anchors.fill: parent
                                             onDoubleClicked: {
                                                 controller.domain_click(id)
-                                                lastClickedLogical(domainIdx, topicIdx)
+                                                lastClickedLogical(domainIdx, topicIdx, name, kind)
                                             }
                                         }
                                     }

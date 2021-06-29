@@ -23,7 +23,10 @@ ToolBar {
     property bool isVisible: true
     property bool isVisibleInitMonitor: true
     property bool isVisibleDispData: true
+    property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true
+    property bool isVisibleClearLog: false
+    property bool isVisibleClearIssues: false
 
     signal lastClickedReset
 
@@ -47,7 +50,7 @@ ToolBar {
 
         ToolButton {
             text: "Display real-time data"
-            visible: isVisibleDispData
+            visible: isVisibleDispDynData
             onClicked: {
                 dynamicDataKindDialog.open()
             }
@@ -59,6 +62,22 @@ ToolBar {
             onClicked: {
                 controller.refresh_click()
                 lastClickedReset()
+            }
+        }
+
+        ToolButton {
+            text: "Clear log"
+            visible: isVisibleClearLog
+            onClicked: {
+                controller.clear_log()
+            }
+        }
+
+        ToolButton {
+            text: "Clear issues"
+            visible: isVisibleClearIssues
+            onClicked: {
+                controller.clear_issues()
             }
         }
 

@@ -26,6 +26,7 @@ Item {
         anchors.fill: parent
         model: logModel
         selectionMode: SelectionMode.NoSelection
+        frameVisible: false
         itemDelegate: Item {
             Text {
                 anchors.fill: parent
@@ -50,12 +51,12 @@ Item {
             title: "Value"
         }
 
-        Component.onCompleted: rightPanel.expandAll(logTreeView, logModel)
+        Component.onCompleted: leftPanel.expandAll(logTreeView, logModel)
 
         Connections {
             target: logModel
             function onUpdatedData() {
-                rightPanel.expandAll(logTreeView, logModel)
+                leftPanel.expandAll(logTreeView, logModel)
             }
         }
     }

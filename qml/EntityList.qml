@@ -25,8 +25,8 @@ Rectangle {
 
     enum DDSEntity {
         Participant,
-        User,
-        Process
+        Endpoint,
+        Locator
     }
 
     property variant lastClickedIdx: [-1, -1, -1]
@@ -38,7 +38,7 @@ Rectangle {
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
 
-    signal lastClickedPhysical
+    signal lastClickedDDSEntity(int participantIdx, int endpointIdx, int locatorIdx, string entityName, string entityKind)
 
     ListView {
         id: participantList
@@ -113,8 +113,7 @@ Rectangle {
                                 }
                                 onDoubleClick: {
                                     controller.participant_click(id)
-                                    updateLastEntityClicked(participantIdx, -1, -1)
-                                    lastClickedPhysical()
+                                    lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
                                 }
                             }
                         }
@@ -140,7 +139,6 @@ Rectangle {
 
                     Item {
                         id: endpointItem
-                        width: parent.width
                         height: endpointListColumn.childrenRect.height
 
                         property var endpointId: id
@@ -207,9 +205,8 @@ Rectangle {
                                                 }
                                             }
                                             onDoubleClick: {
-                                                controller.participant_click(id)
-                                                updateLastEntityClicked(participantIdx, endpointIdx, -1)
-                                                lastClickedPhysical()
+                                                controller.endpoint_click(id)
+                                                lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
                                             }
                                         }
                                     }
@@ -277,9 +274,8 @@ Rectangle {
                                                     MouseArea {
                                                         anchors.fill: parent
                                                         onDoubleClicked: {
-                                                            controller.participant_click(id)
-                                                            updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx)
-                                                            lastClickedPhysical()
+                                                            controller.locator_click(id)
+                                                            lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
                                                         }
                                                     }
                                                 }
@@ -297,15 +293,15 @@ Rectangle {
 
     function updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx, update = true) {
         if (lastClickedIdx[EntityList.DDSEntity.Participant] !== -1) {
-            if (lastClickedIdx[EntityList.DDSEntity.User] !== -1) {
-                if (lastClickedIdx[EntityList.DDSEntity.Process] !== -1) {
+            if (lastClickedIdx[EntityList.DDSEntity.Endpoint] !== -1) {
+                if (lastClickedIdx[EntityList.DDSEntity.Locator] !== -1) {
                     participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant])
-                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.User])
-                            .locatorList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Process])
+                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Endpoint])
+                            .locatorList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Locator])
                                 .highlight = !update
                 } else {
                     participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant])
-                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.User])
+                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Endpoint])
                             .highlight = !update
                 }
             } else {

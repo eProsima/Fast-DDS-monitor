@@ -39,6 +39,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <QDebug>
+
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/model/ListItem.h>

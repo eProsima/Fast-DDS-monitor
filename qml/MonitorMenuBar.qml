@@ -9,10 +9,12 @@ MenuBar {
     signal toolBarHidden
     signal initMonitorButtonHidden
     signal dispDataButtonHidden
+    signal dispDynDataButtonHidden
     signal refreshButtonHidden
+    signal clearLogButtonHidden
+    signal clearIssuesButtonHidden
 
     signal leftSidebarHidden
-    signal rightSidebarHidden
 
     signal lastClickedReset
 
@@ -26,7 +28,7 @@ MenuBar {
     Menu {
         title: qsTr("&Edit")
         Action {
-            text: qsTr("&Init New Monitor")
+            text: qsTr("Init New &Monitor")
             onTriggered: dialogInitMonitor.open()
         }
         Action {
@@ -34,7 +36,7 @@ MenuBar {
             onTriggered: dataKindDialog.open()
         }
         Action {
-            text: qsTr("&Display Real-Time Data")
+            text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
         }
         Action {
@@ -42,6 +44,18 @@ MenuBar {
             onTriggered: {
                 controller.refresh_click()
                 lastClickedReset()
+            }
+        }
+        Action {
+            text: qsTr("Clear &Log")
+            onTriggered: {
+                controller.clear_log()
+            }
+        }
+        Action {
+            text: qsTr("Clear &Issues")
+            onTriggered: {
+                controller.clear_issues()
             }
         }
     }
@@ -60,10 +74,6 @@ MenuBar {
         Action {
             text: (panels.showLeftSidebar) ? "Hide Left sidebar" : "Show Left Sidebar"
             onTriggered: leftSidebarHidden()
-        }
-        Action {
-            text: (panels.showRightSidebar) ? "Hide Right sidebar" : "Show Right Sidebar"
-            onTriggered: rightSidebarHidden()
         }
     }
 
@@ -124,7 +134,17 @@ MenuBar {
                 onCheckStateChanged: dispDataButtonHidden()
             }
             Label {
-                text: "Display New Data"
+                text: "Display Historical Data"
+            }
+            CheckBox {
+                id: displayDynamicDataCheckBox
+                checked: true
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: dispDynDataButtonHidden()
+            }
+            Label {
+                text: "Display Real-Time Data"
             }
             CheckBox {
                 id: refreshCheckBox
@@ -135,6 +155,26 @@ MenuBar {
             }
             Label {
                 text: "Refresh"
+            }
+            CheckBox {
+                id: clearLogCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: clearLogButtonHidden()
+            }
+            Label {
+                text: "Clear Log"
+            }
+            CheckBox {
+                id: clearIssuesCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: clearIssuesButtonHidden()
+            }
+            Label {
+                text: "Clear Issues"
             }
         }
     }

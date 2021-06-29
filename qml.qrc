@@ -25,23 +25,26 @@
         <file>qml/DynamicStatisticsChartView.qml</file>
         <file>qml/EntityList.qml</file>
         <file>qml/ErrorDialog.qml</file>
+        <file>qml/IconsVBar.qml</file>
         <file>qml/IconSVG.qml</file>
         <file>qml/InfoToolTip.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
+        <file>qml/IssuesPanel.qml</file>
         <file>qml/IssueView.qml</file>
         <file>qml/LeftPanel.qml</file>
         <file>qml/LogicalView.qml</file>
         <file>qml/LogView.qml</file>
         <file>qml/main.qml</file>
         <file>qml/MainStartView.qml</file>
+        <file>qml/MonitoringPanel.qml</file>
         <file>qml/MonitorMenuBar.qml</file>
         <file>qml/MonitorToolBar.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
         <file>qml/QosView.qml</file>
-        <file>qml/RightPanel.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
+        <file>qml/StatusPanel.qml</file>
         <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qtquickcontrols2.conf</file>
@@ -65,5 +68,9 @@
         <file alias="tick.svg">resources/images/tick.svg</file>
         <file alias="topic.svg">resources/images/topic.svg</file>
         <file alias="user.svg">resources/images/user.svg</file>
+        <file alias="three_dots_menu.svg">resources/images/three_dots_menu.svg</file>
+        <file alias="explorer.svg">resources/images/explorer.svg</file>
+        <file alias="status.svg">resources/images/status.svg</file>
+        <file alias="issues.svg">resources/images/issues.svg</file>
     </qresource>
 </RCC>

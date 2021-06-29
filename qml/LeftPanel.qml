@@ -18,224 +18,64 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 import Theme 1.0
 
-SplitView {
-    id: leftPanels
-    orientation: Qt.Vertical
+RowLayout {
+    id: leftPanel
+    height: parent.height
+    spacing: 0
 
-    signal leftSidebarHidden
-
-    property int viewsCount: 0
-    property variant views: []
-    property variant comboBoxIdx: []
-
-    Component.onCompleted: {
-        addView("ddsEntities")
-        addView("physical")
-        addView("logical")
+    enum LeftSubPanel {
+        Explorer,
+        Status,
+        Issues
     }
 
-    Repeater {
-        id: viewsRepeater
-        model: viewsCount
+    property variant panelItem: [monitoringPanel, statusPanel, issuesPanel]
 
+    property variant visiblePanel: panelItem[LeftPanel.LeftSubPanel.Explorer]
 
-        delegate: ColumnLayout {
-            SplitView.preferredHeight: parent.height / 4
-            SplitView.minimumHeight: settingsViewTabBar.height
-            Layout.fillWidth: true
+    signal resetLastClicked()
 
-            visible: true
+    onResetLastClicked: monitoringPanel.resetLastClicked()
 
-            property int comboBoxIndex: comboBoxIdx[index]
-            property var listStackItem: listStack
+    MonitoringPanel {
+        id: monitoringPanel
+        Layout.fillHeight: true
+        visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Explorer]) ? true : false
+    }
 
-            Rectangle {
-                Layout.fillWidth: true
-                height: settingsViewTabBar.height
-                color: settingsViewTabBar.background.color
+    StatusPanel {
+        id: statusPanel
+        Layout.fillHeight: true
+        visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Status]) ? true : false
+    }
 
-                RowLayout {
-                    spacing: 0
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+    IssuesPanel {
+        id: issuesPanel
+        Layout.fillHeight: true
+        visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Issues]) ? true : false
+    }
 
-                    ComboBox {
-                        id: settingsViewTabBar
-                        model: ["DDS Entities", "Physical", "Logical"]
-                        Layout.fillWidth: true
-                        currentIndex: comboBoxIndex
-                        property int modelIdx: index
-                        onActivated: {
-                            comboBoxIdx[modelIdx] = currentIndex
-                        }
-                    }
-
-                    Rectangle {
-                        id: separator
-                        height: settingsViewTabBar.height
-                        width: 2
-                        color: Theme.grey
-                    }
-
-                    Rectangle {
-                        id: addSplitView
-                        width: settingsViewTabBar.height/2
-                        height: settingsViewTabBar.height/2
-                        radius: settingsViewTabBar.height/2
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.leftMargin: settingsViewTabBar.height/5
-                        Layout.rightMargin: settingsViewTabBar.height/5
-                        color: Theme.lightGrey
-
-                        IconSVG {
-                            size: settingsViewTabBar.height/3
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "/resources/images/plus.svg"
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: {
-                                contextMenu.x = parent.x - settingsViewTabBar.height/5
-                                contextMenu.y = parent.y + addSplitView.height/2 + settingsViewTabBar.height/2
-                                contextMenu.open()
-                            }
-                            onEntered: {
-                                parent.color = Theme.whiteSmoke
-                            }
-                            onExited: {
-                                parent.color = Theme.lightGrey
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        id: closeSplitView
-                        width: settingsViewTabBar.height/2
-                        height: settingsViewTabBar.height/2
-                        radius: settingsViewTabBar.height/2
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.leftMargin: settingsViewTabBar.height/5
-                        Layout.rightMargin: settingsViewTabBar.height/5
-                        color: Theme.lightGrey
-
-
-                        IconSVG {
-                            size: settingsViewTabBar.height/3
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: index === 0 ? "/resources/images/lessthan.svg" : "/resources/images/cross.svg"
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: {
-                                if (index == 0) {
-                                    leftSidebarHidden()
-                                } else {
-                                    removeView(index)
-                                }
-                            }
-                            onEntered: {
-                                parent.color = Theme.whiteSmoke
-                            }
-                            onExited: {
-                                parent.color = Theme.lightGrey
-                            }
-                        }
-                    }
-                }
+    function expandAll(view, model) {
+        for(var i=0; i < model.rowCount(); i++) {
+            var index = model.index(i, 0)
+            if (!view.isExpanded(index)) {
+                view.expand(index)
             }
-
-            Menu {
-                id: contextMenu
-                MenuItem {
-                    text: "DDS Entities"
-                    onTriggered: {
-                        addView("ddsEntities")
-                    }
-                }
-                MenuItem {
-                    text: "Physical"
-                    onTriggered: {
-                        addView("physical")
-                    }
-                }
-                MenuItem {
-                    text: "Logical"
-                    onTriggered: {
-                        addView("logical")
-                    }
-                }
-            }
-
-            StackLayout {
-                id: listStack
-                currentIndex: settingsViewTabBar.currentIndex
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-
-                property var entityListItem: entityList
-                property var physicalViewItem: physicalView
-                property var logicalViewItem: logicalView
-
-                EntityList {
-                    id: entityList
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                }
-
-                PhysicalView {
-                    id: physicalView
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    onLastClickedPhysical: updateLastClickedPhysical(hostIdx, userIdx, processIdx)
-                }
-
-                LogicalView {
-                    id: logicalView
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    onLastClickedLogical: updateLastClickedLogical(domainIdx, topicIdx)
-                }
+            if (model.rowCount(index) > 0) {
+                expandChilds(view, model, index)
             }
         }
     }
 
-    function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
-        for(var i=0; i<viewsRepeater.count; i++){
-            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.updateLastEntityClicked(hostIdx, userIdx, processIdx)
+    function expandChilds(view, model, parent) {
+        for(var i=0; i < model.rowCount(parent); i++) {
+            var index = model.index(i, 0, parent)
+            if (!view.isExpanded(index)) {
+                view.expand(index)
+            }
+            if (model.rowCount(index) > 0) {
+                expandChilds(view, model, index)
+            }
         }
-    }
-
-    function updateLastClickedLogical(domainIdx, topicIdx) {
-        for(var i=0; i<viewsRepeater.count; i++){
-            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.updateLastEntityClicked(domainIdx, topicIdx)
-        }
-    }
-
-    function resetLastClicked() {
-        for(var i=0; i<viewsRepeater.count; i++){
-            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
-        }
-    }
-
-    function addView(viewKind) {
-        views[viewsCount] = viewKind
-        comboBoxIdx[viewsCount] = (viewKind === "ddsEntities") ? 0 :
-                          (viewKind === "physical") ? 1 :
-                          (viewKind === "logical") ? 2 : 0
-        viewsCount++
-    }
-
-    function removeView(idx) {
-        views.splice(idx, 1)
-        comboBoxIdx.splice(idx, 1)
-        viewsCount--
     }
 }

@@ -270,6 +270,16 @@ public:
     void refresh_engine();
 
     /**
+     * @brief Erase the callback log list
+     */
+    void clear_log();
+
+    /**
+     * @brief Erase the issues list
+     */
+    void clear_issues();
+
+    /**
      * @brief Pop callbacks from the callback queues while non empty and update the models
      *
      * @warning This method must be executed from the main Thread (or at least a QThread) so the models are

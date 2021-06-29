@@ -47,9 +47,7 @@ T.ComboBox {
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding,
-                             implicitIndicatorHeight + topPadding + bottomPadding)
+    implicitHeight: 27
 
     leftPadding: padding + (!control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
     rightPadding: padding + (control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
@@ -85,8 +83,8 @@ T.ComboBox {
     contentItem: T.TextField {
         leftPadding: control.mirrored ? 1 : 12
         rightPadding: control.mirrored ? 10 : 1
-        topPadding: 5 - control.topPadding
-        bottomPadding: 7 - control.bottomPadding
+        topPadding: 0
+        bottomPadding: 0
 
         text: control.editable ? control.editText : control.displayText
 
@@ -107,7 +105,7 @@ T.ComboBox {
 
     background: Rectangle {
         implicitWidth: 120
-        implicitHeight: 20
+        implicitHeight: 10
 
         border.width: control.pressed ? 2 :
                       control.hovered ? 2 : 0

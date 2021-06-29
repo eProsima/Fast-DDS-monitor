@@ -26,6 +26,7 @@ Item {
         anchors.fill: parent
         model: issueModel
         selectionMode: SelectionMode.NoSelection
+        frameVisible: false
         itemDelegate: Item {
             Text {
                 anchors.fill: parent
@@ -46,13 +47,12 @@ Item {
             title: "Value"
         }
 
-
-        Component.onCompleted: rightPanel.expandAll(issue_tree_view, issueModel)
+        Component.onCompleted: leftPanel.expandAll(issue_tree_view, issueModel)
 
         Connections {
             target: issueModel
             function onUpdatedData() {
-                rightPanel.expandAll(issue_tree_view, issueModel)
+                leftPanel.expandAll(issue_tree_view, issueModel)
             }
         }
     }
