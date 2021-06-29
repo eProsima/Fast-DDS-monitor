@@ -363,6 +363,7 @@ bool Engine::fill_physical_data_()
 bool Engine::update_host_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
@@ -371,6 +372,7 @@ bool Engine::update_host_data(
 bool Engine::update_user_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
@@ -379,6 +381,7 @@ bool Engine::update_user_data(
 bool Engine::update_process_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
@@ -393,6 +396,7 @@ bool Engine::fill_logical_data_()
 bool Engine::update_domain_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     static_cast<void>(id);
     logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_);
@@ -401,6 +405,7 @@ bool Engine::update_domain_data(
 bool Engine::update_topic_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     static_cast<void>(id);
     logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_);
@@ -429,6 +434,7 @@ bool Engine::update_dds_data(
 bool Engine::update_participant_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
@@ -438,6 +444,7 @@ bool Engine::update_participant_data(
 bool Engine::update_endpoint_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
@@ -447,6 +454,7 @@ bool Engine::update_endpoint_data(
 bool Engine::update_locator_data(
         backend::EntityId id)
 {
+    updated_entity(id);
     // TODO update only the entity that has changed
     static_cast<void>(id);
     participants_model_->clear();
@@ -805,4 +813,17 @@ void Engine::set_alias(
             qWarning() << "Updated alias of an unknown EntityKind";
             break;
     }
+}
+
+bool Engine::updated_entity(
+        const backend::EntityId& entity_updated)
+{
+    // Only update the info if the updated entity is the one that is being shown
+    if (last_entity_clicked_ == entity_updated)
+    {
+        bool res = fill_entity_info_(last_entity_clicked_);
+        return fill_summary_(last_entity_clicked_) || res;
+    }
+
+    return false;
 }

@@ -197,6 +197,31 @@ are related with the topics that we are not using will remain without data.
 .. figure:: /rst/figures/screenshots/usage_example/summary.png
     :align: center
 
+Change entity alias
+===================
+
+In order to make the user experience easier, there is a possibility to change the name of an specific entity.
+We are going to change the name of the *DomainParticipant* that contains the publisher.
+For that, just do right click over the entity name and a dialog will open.
+
+.. todo::
+
+    .. .. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
+    ..     :align: center
+
+Set the new alias that you want for this entity.
+From now on this name will be used all along the monitor.
+
+.. todo::
+
+    .. .. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
+    ..     :align: center
+
+.. note::
+
+    Be aware that this changes the alias of the entity inside the monitor, and does not affect to the real DDS network.
+
+
 Create Series Chart
 ===================
 

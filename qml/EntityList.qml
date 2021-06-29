@@ -169,7 +169,7 @@ Rectangle {
 
                                     IconSVG {
                                         id: endpointIcon
-                                        source: (kind == "DATAREADER") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
+                                        source: (kind == "DataReader") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
                                         dye: highlight ? true : false

@@ -315,6 +315,13 @@ public:
             const std::string& new_alias,
             const backend::EntityKind& entity_kind);
 
+    /**
+     * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the
+     * entity updated.
+     */
+    bool updated_entity(
+            const backend::EntityId& entity_updated);
+
 signals:
 
     /**

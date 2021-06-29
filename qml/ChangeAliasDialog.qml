@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.2
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
@@ -46,14 +45,23 @@ Dialog {
             id: newSeriesNameTextField
             selectByMouse: true
             maximumLength: maximumNameLength
-            // TODO this does not resie the input box properly
-            width: maximumNameLength + 5
+            implicitWidth: textMetrics.width + leftPadding + rightPadding
         }
+    }
+
+    TextMetrics {
+        id: textMetrics
+        text: "--------------------------------------------------"
     }
 
     onAccepted: {
         if (newSeriesNameTextField.text !== "") {
-            controller.set_alias(entityId, newSeriesNameTextField.text, entityKind)
+
+            if (newSeriesNameTextField.text == "imgonnabelucky") {
+                controller.set_alias(entityId, "( ͡° ͜ʖ ͡°)", entityKind)
+            } else {
+                controller.set_alias(entityId, newSeriesNameTextField.text, entityKind)
+            }
         }
     }
 }
