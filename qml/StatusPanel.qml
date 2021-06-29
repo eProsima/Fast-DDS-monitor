@@ -18,7 +18,9 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 import Theme 1.0
 
-
+/*
+    Sidebar containing the Status and the Log views.
+ */
 ColumnLayout {
     id: statusPanel
     spacing: 0

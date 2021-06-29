@@ -18,6 +18,9 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 import Theme 1.0
 
+/*
+    Sidebar containing the DDS Entities, Logical, Physical, and Information elements of the backend entities.
+ */
 ColumnLayout {
     id: monitoringPanel
     spacing: 0

@@ -32,11 +32,11 @@ MenuBar {
             onTriggered: dialogInitMonitor.open()
         }
         Action {
-            text: qsTr("Display &Historical Data")
+            text: qsTr("&Display Historical Data")
             onTriggered: dataKindDialog.open()
         }
         Action {
-            text: qsTr("Display &Real-Time Data")
+            text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
         }
         Action {

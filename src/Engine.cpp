@@ -583,9 +583,6 @@ void Engine::clear_log()
 void Engine::clear_issues()
 {
     clear_issue_info_();
-    // In case there are expected callbacks emit signal to read them and
-    // update the models from the graphic thread
-    emit new_callback_signal();
 }
 
 void Engine::process_callback_queue()

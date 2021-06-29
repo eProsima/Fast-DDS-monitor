@@ -18,6 +18,12 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.12
 import Theme 1.0
 
+/*
+    Object to create the sidebar for shortcuts to DDS entity lists and information, monitor status and issues.
+    The accesses are arranged in a list containing the icons of each drop-down.
+    Each item in the list displays its corresponding display sidebar.
+ */
+
 Rectangle {
     id: iconsVBar
     color: Theme.grey
@@ -26,6 +32,7 @@ Rectangle {
 
     property int selected: 0
 
+    // List of sidebar icons
     ListModel {
         id: iconsVBarModel
         ListElement {
@@ -42,6 +49,7 @@ Rectangle {
         }
     }
 
+    // List view of the icons list
     ListView {
         id: iconsVBarListView
         anchors.fill: parent
@@ -72,6 +80,7 @@ Rectangle {
                     }
                 }
 
+                // Selected icon view effect
                 Rectangle {
                     anchors.fill: parent
                     visible: (((selected + 1) == index) || ((selected - 1) == index))
@@ -138,6 +147,7 @@ Rectangle {
         }
     }
 
+    // Function to update the currently displayed sidebar.
     function updateSelectedSubPanel(panelIdx, show) {
         if (show) {
             selected = panelIdx

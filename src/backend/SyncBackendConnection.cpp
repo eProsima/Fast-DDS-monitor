@@ -44,13 +44,6 @@ namespace backend {
 using namespace eprosima::statistics_backend;
 using namespace models;
 
-ListItem* SyncBackendConnection::create_process_data_(
-        EntityId id)
-{
-    qDebug() << "Creating Process " << backend::backend_id_to_models_id(id);
-    return new ProcessModelItem(id, EntityKind::PROCESS, get_info(id));
-}
-
 ListItem* SyncBackendConnection::create_host_data_(
         EntityId id)
 {
@@ -63,6 +56,13 @@ ListItem* SyncBackendConnection::create_user_data_(
 {
     qDebug() << "Creating User " << backend::backend_id_to_models_id(id);
     return new UserModelItem(id, EntityKind::USER, get_info(id));
+}
+
+ListItem* SyncBackendConnection::create_process_data_(
+        EntityId id)
+{
+    qDebug() << "Creating Process " << backend::backend_id_to_models_id(id);
+    return new ProcessModelItem(id, EntityKind::PROCESS, get_info(id));
 }
 
 ListItem* SyncBackendConnection::create_domain_data_(
