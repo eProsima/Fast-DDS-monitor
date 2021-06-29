@@ -114,7 +114,6 @@ Rectangle {
                                 }
                                 onDoubleClick: {
                                     controller.host_click(id)
-                                    console.log("Clicked " + kind + " with name " + name)
                                     lastClickedPhysical(hostIdx, -1, -1, name, kind)
                                 }
                             }
@@ -208,8 +207,7 @@ Rectangle {
                                                 }
                                             }
                                             onDoubleClick: {
-                                                controller.host_click(id)
-                                                console.log("Clicked " + kind + " with name " + name)
+                                                controller.user_click(id)
                                                 lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
                                             }
                                         }
@@ -278,8 +276,7 @@ Rectangle {
                                                     MouseArea {
                                                         anchors.fill: parent
                                                         onDoubleClicked: {
-                                                            controller.host_click(id)
-                                                            console.log("Clicked " + kind + " with name " + name)
+                                                            controller.process_click(id)
                                                             lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
                                                         }
                                                     }

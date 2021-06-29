@@ -79,6 +79,13 @@ HEADERS += \
 DISTFILES += \
     qml/*
 
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/release/ -lcomplex-backend-mock
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_monitor/lib/debug/ -lcomplex-backend-mock
+else:unix: LIBS += -L$$PWD/../../install/fastdds_monitor/lib/ -lcomplex-backend-mock
+
+INCLUDEPATH += $$PWD/../../install/fastdds_monitor/include
+DEPENDPATH += $$PWD/../../install/fastdds_monitor/include
+
 # Link to the Fast DDS Statistics Backend library
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/release/ -lfastdds_statistics_backend
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds_statistics_backend/lib/debug/ -lfastdds_statistics_backend
@@ -106,3 +113,5 @@ DEPENDPATH += $$PWD/../../install/fastcdr/include
 # Link to the Fast DDS Monitor includes
 INCLUDEPATH += $$PWD/../../install/fastdds_monitor/include
 DEPENDPATH += $$PWD/../../install/fastdds_monitor/include
+
+

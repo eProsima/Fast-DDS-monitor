@@ -146,6 +146,7 @@ Rectangle {
 
                     Item {
                         id: topicItem
+                        width: parent.width
                         height: topicListColumn.childrenRect.height
 
                         property int topicIdx: index
@@ -153,9 +154,7 @@ Rectangle {
 
                         ListView.onAdd: {
                             if(topicList.height != 0) {
-                                var prevHeight = topicList.height
                                 topicList.height = topicList.collapseHeightFlag
-                                domainList.height = domainList.height + topicList.height - prevHeight
                             }
                         }
 
