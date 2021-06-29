@@ -20,7 +20,8 @@
 
 #include <string>
 
-#include "gtest/gtest.h"
+#include <gtest_aux.hpp>
+#include <gtest/gtest.h>
 
 #include <QString>
 
