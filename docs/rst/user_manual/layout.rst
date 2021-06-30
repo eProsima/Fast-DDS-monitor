@@ -78,6 +78,10 @@ This subpanel will be filled with the DDS entities that are related with the ent
 so it could happen that not all the DDS entities discovered by the monitor appears in this subpanel at a certain point
 (see :ref:`selected_entity` for further details).
 
+.. todo::
+
+    use a figure with not alive entities
+
 .. figure:: /rst/figures/screenshots/dds_panel.png
     :align: center
 
