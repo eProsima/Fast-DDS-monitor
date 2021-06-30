@@ -122,6 +122,9 @@ Rectangle {
                                     controller.domain_click(id)
                                     lastClickedLogical(domainIdx, -1, name, kind)
                                 }
+                                onRightClick: {
+                                    changeAlias(id, name, kind)
+                                }
                             }
                         }
                     }
@@ -182,11 +185,14 @@ Rectangle {
                                         text: name
                                         color: highlight ? Theme.whiteSmoke : "black"
 
-                                        MouseArea {
+                                        DifferClickMouseArea {
                                             anchors.fill: parent
                                             onDoubleClicked: {
                                                 controller.domain_click(id)
                                                 lastClickedLogical(domainIdx, topicIdx, name, kind)
+                                            }
+                                            onRightClick: {
+                                                changeAlias(id, name, kind)
                                             }
                                         }
                                     }

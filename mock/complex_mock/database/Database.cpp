@@ -365,7 +365,7 @@ void Database::callback_listener_thread_()
 EntityPointer Database::get_entity(
         EntityId id)
 {
-    auto it = entities_.find(id);
+    std::map<EntityId, EntityPointer>::iterator it = entities_.find(id);
 
     if (it == entities_.end())
     {
@@ -375,6 +375,18 @@ EntityPointer Database::get_entity(
     else
     {
         return it->second;
+    }
+}
+
+void Database::set_alias(
+        EntityId id,
+        std::string new_alias)
+{
+    std::map<EntityId, EntityPointer>::iterator it = entities_.find(id);
+
+    if (it != entities_.end())
+    {
+        it->second->alias(new_alias);
     }
 }
 

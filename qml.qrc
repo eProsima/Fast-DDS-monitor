@@ -15,6 +15,7 @@
         <file>imports/Theme/Theme.qml</file>
         <file>qml/AboutDialog.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
+        <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
         <file>qml/DataKindDialog.qml</file>

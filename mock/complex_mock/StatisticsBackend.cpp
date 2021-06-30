@@ -276,5 +276,12 @@ std::vector<std::pair<EntityKind, EntityKind>> StatisticsBackend::get_data_suppo
     return data_to_entity_map[data_kind];
 }
 
+void StatisticsBackend::set_alias(
+        EntityId entity_id,
+        const std::string& alias)
+{
+    Database::get_instance()->set_alias(entity_id, alias);
+}
+
 } //namespace statistics_backend
 } //namespace eprosima

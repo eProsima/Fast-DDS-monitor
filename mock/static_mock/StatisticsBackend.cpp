@@ -32,6 +32,19 @@ namespace statistics_backend {
 // Dynamic ID to identify new domains started
 static int ID = 10;
 
+static std::map<int, std::string> names = {
+    {1, "Host_0"},
+    {2, "User_0"},
+    {3, "Process_0"},
+    {4, "Domain_0"},
+    {5, "Topic_0"},
+    {6, "Participant_0"},
+    {7, "Writer_0"},
+    {8, "Reader_0"},
+    {9, "Locator_0"},
+    {0, "an entity has no name"}
+};
+
 /*
  * This mock works with a static model formed by the following entities:
  *
@@ -328,48 +341,16 @@ Info StatisticsBackend::get_info(
 
     json_obj["id"] = entity_id.value();
 
-    switch (entity_id.value())
+    if (entity_id.value() < 1 || entity_id.value() > 9)
     {
-        case 1:
-            json_obj["name"] = "Host_0";
-            break;
-
-        case 2:
-            json_obj["name"] = "User_0";
-            break;
-
-        case 3:
-            json_obj["name"] = "Process_0";
-            break;
-
-        case 4:
-            json_obj["name"] = "Domain_0";
-            break;
-
-        case 5:
-            json_obj["name"] = "Topic_0";
-            break;
-
-        case 6:
-            json_obj["name"] = "Participant_0";
-            break;
-
-        case 7:
-            json_obj["name"] = "Writer_0";
-            break;
-
-        case 8:
-            json_obj["name"] = "Reader_0";
-            break;
-
-        case 9:
-            json_obj["name"] = "Locator_0";
-            break;
-
-        default:
-            json_obj["name"] = "a domain has no name";
-            break;
+        json_obj["name"] = names[0];
     }
+    else
+    {
+        json_obj["name"] = names[entity_id.value()];
+    }
+
+    json_obj["alias"] = json_obj["name"];
 
     return json_obj;
 }
@@ -531,6 +512,20 @@ std::vector<std::pair<EntityKind, EntityKind>> StatisticsBackend::get_data_suppo
     };
 
     return data_to_entity_map[data_kind];
+}
+
+void StatisticsBackend::set_alias(
+        EntityId entity_id,
+        const std::string& alias)
+{
+    if (entity_id.value() < 1 || entity_id.value() > 9)
+    {
+        names[0] = alias;
+    }
+    else
+    {
+        names[entity_id.value()] = alias;
+    }
 }
 
 } //namespace statistics_backend

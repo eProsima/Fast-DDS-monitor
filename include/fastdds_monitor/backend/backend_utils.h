@@ -32,7 +32,7 @@ namespace backend {
 
 //! Convert an \c EntityId into a QString
 models::EntityId backend_id_to_models_id(
-        const EntityId id);
+        const EntityId& id);
 
 /**
  * @brief Convert a QML model \c EntityID (Qstring) into a backend \c EntityId
@@ -40,7 +40,7 @@ models::EntityId backend_id_to_models_id(
  * @return backend \c EntityId
  */
 EntityId models_id_to_backend_id(
-        const models::EntityId id);
+        const models::EntityId& id);
 
 /**
  * @brief Get the value related with a specific tag inside a \c EntityInfo structure (json format)
@@ -49,8 +49,12 @@ EntityId models_id_to_backend_id(
  * @return value in QString format
  */
 std::string get_info_value(
-        EntityInfo info,
-        std::string key);
+        const EntityInfo& info,
+        const std::string& key);
+
+//! Look for attribute alias in info. If it does not exist returns name.
+std::string get_alias(
+        const EntityInfo& info);
 
 //! Converts the \c EntityKind to QString
 QString entity_kind_to_QString(

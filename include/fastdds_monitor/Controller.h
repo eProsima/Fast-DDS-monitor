@@ -148,6 +148,12 @@ public slots:
             quint64 chartbox_id,
             quint64 time_to);
 
+    //! Change alias
+    void set_alias(
+            QString entity_id,
+            QString new_alias,
+            QString entity_kind);
+
 signals:
 
     //! Signal to show the Error Dialog

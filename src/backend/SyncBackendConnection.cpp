@@ -627,4 +627,18 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     }
 }
 
+void SyncBackendConnection::set_alias(
+        const backend::EntityId& id,
+        const std::string& new_alias)
+{
+    try
+    {
+        StatisticsBackend::set_alias(id, new_alias);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail setting new alias for entity: " << id.value();
+    }
+}
+
 } //namespace backend
