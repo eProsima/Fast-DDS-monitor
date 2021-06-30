@@ -364,7 +364,6 @@ bool Engine::update_host_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
@@ -373,7 +372,6 @@ bool Engine::update_user_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
@@ -382,7 +380,6 @@ bool Engine::update_process_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
@@ -397,7 +394,6 @@ bool Engine::update_domain_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_);
 }
@@ -406,7 +402,6 @@ bool Engine::update_topic_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_);
 }
@@ -436,7 +431,6 @@ bool Engine::update_participant_data(
 {
     updated_entity(id);
     // TODO update only the entity that has changed
-    static_cast<void>(id);
     participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
@@ -446,7 +440,6 @@ bool Engine::update_endpoint_data(
 {
     updated_entity(id);
     // TODO update only the entity that has changed
-    static_cast<void>(id);
     participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
@@ -456,7 +449,6 @@ bool Engine::update_locator_data(
 {
     updated_entity(id);
     // TODO update only the entity that has changed
-    static_cast<void>(id);
     participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }

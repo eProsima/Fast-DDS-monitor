@@ -52,15 +52,15 @@ void StatisticsBackend::set_physical_listener(
         CallbackMask callback_mask,
         DataKindMask data_mask)
 {
+    static_cast<void>(callback_mask);
+    static_cast<void>(data_mask);
+
     if (!listener)
     {
         Database::get_instance()->stop();
     }
 
     Database::get_instance()->listener(listener);
-
-    static_cast<void>(callback_mask);
-    static_cast<void>(data_mask);
 }
 
 // Call Discovery Server init_monitor
@@ -81,6 +81,11 @@ EntityId StatisticsBackend::init_monitor(
         CallbackMask callback_mask,
         DataKindMask data_mask)
 {
+    static_cast<void>(discovery_server_locators);
+    static_cast<void>(domain_listener);
+    static_cast<void>(callback_mask);
+    static_cast<void>(data_mask);
+
     if (Database::get_instance()->count_domains() == 0)
     {
         if (!discovery_server_locators.empty())
@@ -94,11 +99,6 @@ EntityId StatisticsBackend::init_monitor(
     }
 
     EntityId domain_id = Database::get_instance()->add_domain();
-
-    static_cast<void>(discovery_server_locators);
-    static_cast<void>(domain_listener);
-    static_cast<void>(callback_mask);
-    static_cast<void>(data_mask);
     return domain_id;
 }
 

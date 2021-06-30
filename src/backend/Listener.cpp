@@ -31,6 +31,8 @@ void Listener::on_participant_discovery(
         EntityId participant_id,
         const Status& status)
 {
+    static_cast<void>(domain_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " DISCOVERED";
@@ -41,9 +43,6 @@ void Listener::on_participant_discovery(
         qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " update info";
         engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT, true));
     }
-
-    static_cast<void>(domain_id);
-    static_cast<void>(status);
 }
 
 void Listener::on_datareader_discovery(
@@ -51,6 +50,8 @@ void Listener::on_datareader_discovery(
         EntityId datareader_id,
         const Status& status)
 {
+    static_cast<void>(domain_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " DISCOVERED";
@@ -61,9 +62,6 @@ void Listener::on_datareader_discovery(
         qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " update info";
         engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER, true));
     }
-
-    static_cast<void>(domain_id);
-    static_cast<void>(status);
 }
 
 void Listener::on_datawriter_discovery(
@@ -71,6 +69,8 @@ void Listener::on_datawriter_discovery(
         EntityId datawriter_id,
         const Status& status)
 {
+    static_cast<void>(domain_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " DISCOVERED";
@@ -81,9 +81,6 @@ void Listener::on_datawriter_discovery(
         qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " update info";
         engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER, true));
     }
-
-    static_cast<void>(domain_id);
-    static_cast<void>(status);
 }
 
 void Listener::on_host_discovery(
@@ -91,6 +88,8 @@ void Listener::on_host_discovery(
         EntityId host_id,
         const Status& status)
 {
+    static_cast<void>(participant_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " DISCOVERED";
@@ -101,9 +100,6 @@ void Listener::on_host_discovery(
         qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " update info";
         engine_->add_callback(Callback(host_id, EntityKind::HOST, true));
     }
-
-    static_cast<void>(participant_id);
-    static_cast<void>(status);
 }
 
 void Listener::on_user_discovery(
@@ -111,6 +107,8 @@ void Listener::on_user_discovery(
         EntityId user_id,
         const Status& status)
 {
+    static_cast<void>(participant_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " DISCOVERED";
@@ -121,9 +119,6 @@ void Listener::on_user_discovery(
         qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " update info";
         engine_->add_callback(Callback(user_id, EntityKind::USER, true));
     }
-
-    static_cast<void>(participant_id);
-    static_cast<void>(status);
 }
 
 void Listener::on_process_discovery(
@@ -131,6 +126,8 @@ void Listener::on_process_discovery(
         EntityId process_id,
         const Status& status)
 {
+    static_cast<void>(participant_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " DISCOVERED";
@@ -141,9 +138,6 @@ void Listener::on_process_discovery(
         qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " update info";
         engine_->add_callback(Callback(process_id, EntityKind::PROCESS, true));
     }
-
-    static_cast<void>(participant_id);
-    static_cast<void>(status);
 }
 
 void Listener::on_locator_discovery(
@@ -151,6 +145,8 @@ void Listener::on_locator_discovery(
         EntityId locator_id,
         const Status& status)
 {
+    static_cast<void>(participant_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " DISCOVERED";
@@ -161,9 +157,6 @@ void Listener::on_locator_discovery(
         qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " update info";
         engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR, true));
     }
-
-    static_cast<void>(participant_id);
-    static_cast<void>(status);
 }
 
 void Listener::on_topic_discovery(
@@ -171,6 +164,8 @@ void Listener::on_topic_discovery(
         EntityId topic_id,
         const Status& status)
 {
+    static_cast<void>(domain_id);
+
     if (status.current_count == 1)
     {
         qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " DISCOVERED";
@@ -181,9 +176,6 @@ void Listener::on_topic_discovery(
         qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " update info";
         engine_->add_callback(Callback(topic_id, EntityKind::TOPIC, true));
     }
-
-    static_cast<void>(domain_id);
-    static_cast<void>(status);
 }
 
 } //namespace backend
