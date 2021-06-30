@@ -53,6 +53,12 @@ RowLayout {
         id: aliasDialog
     }
 
+    IssuesPanel {
+        id: issuesPanel
+        Layout.fillHeight: true
+        visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Issues]) ? true : false
+    }
+
     function changeAlias(entityId, currentAlias, entityKind) {
         aliasDialog.entityId = entityId
         aliasDialog.currentAlias = currentAlias
@@ -66,12 +72,6 @@ RowLayout {
             viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
             viewsRepeater.itemAt(i).listStackItem.physicalViewItem.updateLastEntityClicked(hostIdx, userIdx, processIdx)
         }
-    }
-
-    IssuesPanel {
-        id: issuesPanel
-        Layout.fillHeight: true
-        visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Issues]) ? true : false
     }
 
     function expandAll(view, model) {
