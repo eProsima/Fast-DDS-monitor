@@ -656,44 +656,35 @@ bool Engine::read_callback_(
         switch (callback.entity_kind)
         {
             case backend::EntityKind::HOST:
-                update_host_data(callback.entity_id);
-                break;
+                return update_host_data(callback.entity_id);
 
             case backend::EntityKind::USER:
-                update_user_data(callback.entity_id);
-                break;
+                return update_user_data(callback.entity_id);
 
             case backend::EntityKind::PROCESS:
-                update_process_data(callback.entity_id);
-                break;
+                return update_process_data(callback.entity_id);
 
             case backend::EntityKind::DOMAIN:
-                update_domain_data(callback.entity_id);
-                break;
+                return update_domain_data(callback.entity_id);
 
             case backend::EntityKind::TOPIC:
-                update_topic_data(callback.entity_id);
-                break;
+                return update_topic_data(callback.entity_id);
 
             case backend::EntityKind::PARTICIPANT:
-                update_participant_data(callback.entity_id);
-                break;
+                return update_participant_data(callback.entity_id);
 
             case backend::EntityKind::DATAWRITER:
-                update_endpoint_data(callback.entity_id);
-                break;
+                return update_endpoint_data(callback.entity_id);
 
             case backend::EntityKind::DATAREADER:
-                update_endpoint_data(callback.entity_id);
-                break;
+                return update_endpoint_data(callback.entity_id);
 
             case backend::EntityKind::LOCATOR:
-                update_locator_data(callback.entity_id);
-                break;
+                return update_locator_data(callback.entity_id);
 
             default:
                 qWarning() << "Update callback of an Entity with unknown EntityKind";
-                break;
+                return false;
         }
     }
     else
