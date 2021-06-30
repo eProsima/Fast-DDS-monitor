@@ -31,11 +31,18 @@ void Listener::on_participant_discovery(
         EntityId participant_id,
         const Status& status)
 {
-    qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " DISCOVERED";
-    engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT));
-
     static_cast<void>(domain_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " DISCOVERED";
+        engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT));
+    }
+    else
+    {
+        qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " update info";
+        engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT, true));
+    }
 }
 
 void Listener::on_datareader_discovery(
@@ -43,11 +50,18 @@ void Listener::on_datareader_discovery(
         EntityId datareader_id,
         const Status& status)
 {
-    qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " DISCOVERED";
-    engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER));
-
     static_cast<void>(domain_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " DISCOVERED";
+        engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER));
+    }
+    else
+    {
+        qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " update info";
+        engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER, true));
+    }
 }
 
 void Listener::on_datawriter_discovery(
@@ -55,11 +69,18 @@ void Listener::on_datawriter_discovery(
         EntityId datawriter_id,
         const Status& status)
 {
-    qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " DISCOVERED";
-    engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER));
-
     static_cast<void>(domain_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " DISCOVERED";
+        engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER));
+    }
+    else
+    {
+        qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " update info";
+        engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER, true));
+    }
 }
 
 void Listener::on_host_discovery(
@@ -67,11 +88,18 @@ void Listener::on_host_discovery(
         EntityId host_id,
         const Status& status)
 {
-    qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " DISCOVERED";
-    engine_->add_callback(Callback(host_id, EntityKind::HOST));
-
     static_cast<void>(participant_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " DISCOVERED";
+        engine_->add_callback(Callback(host_id, EntityKind::HOST));
+    }
+    else
+    {
+        qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " update info";
+        engine_->add_callback(Callback(host_id, EntityKind::HOST, true));
+    }
 }
 
 void Listener::on_user_discovery(
@@ -79,11 +107,18 @@ void Listener::on_user_discovery(
         EntityId user_id,
         const Status& status)
 {
-    qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " DISCOVERED";
-    engine_->add_callback(Callback(user_id, EntityKind::USER));
-
     static_cast<void>(participant_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " DISCOVERED";
+        engine_->add_callback(Callback(user_id, EntityKind::USER));
+    }
+    else
+    {
+        qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " update info";
+        engine_->add_callback(Callback(user_id, EntityKind::USER, true));
+    }
 }
 
 void Listener::on_process_discovery(
@@ -91,11 +126,18 @@ void Listener::on_process_discovery(
         EntityId process_id,
         const Status& status)
 {
-    qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " DISCOVERED";
-    engine_->add_callback(Callback(process_id, EntityKind::PROCESS));
-
     static_cast<void>(participant_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " DISCOVERED";
+        engine_->add_callback(Callback(process_id, EntityKind::PROCESS));
+    }
+    else
+    {
+        qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " update info";
+        engine_->add_callback(Callback(process_id, EntityKind::PROCESS, true));
+    }
 }
 
 void Listener::on_locator_discovery(
@@ -103,11 +145,18 @@ void Listener::on_locator_discovery(
         EntityId locator_id,
         const Status& status)
 {
-    qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " DISCOVERED";
-    engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR));
-
     static_cast<void>(participant_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " DISCOVERED";
+        engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR));
+    }
+    else
+    {
+        qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " update info";
+        engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR, true));
+    }
 }
 
 void Listener::on_topic_discovery(
@@ -115,11 +164,18 @@ void Listener::on_topic_discovery(
         EntityId topic_id,
         const Status& status)
 {
-    qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " DISCOVERED";
-    engine_->add_callback(Callback(topic_id, EntityKind::TOPIC));
-
     static_cast<void>(domain_id);
-    static_cast<void>(status);
+
+    if (status.current_count == 1)
+    {
+        qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " DISCOVERED";
+        engine_->add_callback(Callback(topic_id, EntityKind::TOPIC));
+    }
+    else
+    {
+        qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " update info";
+        engine_->add_callback(Callback(topic_id, EntityKind::TOPIC, true));
+    }
 }
 
 } //namespace backend

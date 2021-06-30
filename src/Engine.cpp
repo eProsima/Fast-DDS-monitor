@@ -364,7 +364,6 @@ bool Engine::update_host_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
@@ -373,7 +372,6 @@ bool Engine::update_user_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
@@ -382,7 +380,6 @@ bool Engine::update_process_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_);
 }
@@ -397,7 +394,6 @@ bool Engine::update_domain_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_);
 }
@@ -406,7 +402,6 @@ bool Engine::update_topic_data(
         backend::EntityId id)
 {
     updated_entity(id);
-    static_cast<void>(id);
     logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_);
 }
@@ -436,7 +431,6 @@ bool Engine::update_participant_data(
 {
     updated_entity(id);
     // TODO update only the entity that has changed
-    static_cast<void>(id);
     participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
@@ -446,7 +440,6 @@ bool Engine::update_endpoint_data(
 {
     updated_entity(id);
     // TODO update only the entity that has changed
-    static_cast<void>(id);
     participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
@@ -456,7 +449,6 @@ bool Engine::update_locator_data(
 {
     updated_entity(id);
     // TODO update only the entity that has changed
-    static_cast<void>(id);
     participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_);
 }
@@ -639,7 +631,7 @@ bool Engine::process_callback_()
         callback_queue_.pop_front();
     }
 
-    qDebug() << "Processing callback: " << backend::backend_id_to_models_id(first_callback.new_entity);
+    qDebug() << "Processing callback: " << backend::backend_id_to_models_id(first_callback.entity_id);
 
     return read_callback_(first_callback);
 }
@@ -647,28 +639,71 @@ bool Engine::process_callback_()
 bool Engine::read_callback_(
         backend::Callback callback)
 {
-    // // Add callback to log model
-    add_log_callback_("New entity " + backend_connection_.get_name(callback.new_entity) + " discovered",
-            utils::now());
-
-    // Add one to the number of discovered entities
-    sum_entity_number_issue(1);
-
-    switch (callback.new_entity_kind)
+    if (callback.is_update)
     {
-        case backend::EntityKind::HOST:
-        case backend::EntityKind::USER:
-        case backend::EntityKind::PROCESS:
-            return fill_physical_data_();
+        // Add callback of updating entity to log model
+        add_log_callback_("Update info in entity " + backend_connection_.get_name(callback.entity_id),
+                utils::now());
 
-        case backend::EntityKind::DOMAIN:
-        case backend::EntityKind::TOPIC:
-            return fill_logical_data_();
+        switch (callback.entity_kind)
+        {
+            case backend::EntityKind::HOST:
+                return update_host_data(callback.entity_id);
 
-        default:
-            // DDS Model entities
-            // TODO this is only needed when new entity is related with the last_clicked entity
-            return fill_dds_data_();
+            case backend::EntityKind::USER:
+                return update_user_data(callback.entity_id);
+
+            case backend::EntityKind::PROCESS:
+                return update_process_data(callback.entity_id);
+
+            case backend::EntityKind::DOMAIN:
+                return update_domain_data(callback.entity_id);
+
+            case backend::EntityKind::TOPIC:
+                return update_topic_data(callback.entity_id);
+
+            case backend::EntityKind::PARTICIPANT:
+                return update_participant_data(callback.entity_id);
+
+            case backend::EntityKind::DATAWRITER:
+                return update_endpoint_data(callback.entity_id);
+
+            case backend::EntityKind::DATAREADER:
+                return update_endpoint_data(callback.entity_id);
+
+            case backend::EntityKind::LOCATOR:
+                return update_locator_data(callback.entity_id);
+
+            default:
+                qWarning() << "Update callback of an Entity with unknown EntityKind";
+                return false;
+        }
+    }
+    else
+    {
+        // Add callback to log model
+        add_log_callback_("New entity " + backend_connection_.get_name(callback.entity_id) + " discovered",
+                utils::now());
+
+        // Add one to the number of discovered entities
+        sum_entity_number_issue(1);
+
+        switch (callback.entity_kind)
+        {
+            case backend::EntityKind::HOST:
+            case backend::EntityKind::USER:
+            case backend::EntityKind::PROCESS:
+                return fill_physical_data_();
+
+            case backend::EntityKind::DOMAIN:
+            case backend::EntityKind::TOPIC:
+                return fill_logical_data_();
+
+            default:
+                // DDS Model entities
+                // TODO this is only needed when new entity is related with the last_clicked entity
+                return fill_dds_data_();
+        }
     }
 }
 

@@ -36,17 +36,21 @@ struct Callback
 
     //! Standard constructor with the two fields required
     Callback(
-            backend::EntityId new_entity,
-            backend::EntityKind new_entity_kind)
-        : new_entity(new_entity)
-        , new_entity_kind(new_entity_kind)
+            backend::EntityId entity_id,
+            backend::EntityKind entity_kind,
+            bool is_update = false)
+        : entity_id(entity_id)
+        , entity_kind(entity_kind)
+        , is_update(is_update)
     {
     }
 
-    //! Information of the new \c EntityId found
-    backend::EntityId new_entity;
-    //! Information of the new \c EntityKind found
-    backend::EntityKind new_entity_kind;
+    //! Information of the \c EntityId the callback refers
+    backend::EntityId entity_id;
+    //! Information of the \c EntityKind the callback refers
+    backend::EntityKind entity_kind;
+    //! If the calback refers to a new discovered entity or it is an update
+    bool is_update;
 };
 
 } // namespace backend

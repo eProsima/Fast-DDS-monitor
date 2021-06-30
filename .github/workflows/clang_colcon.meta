@@ -12,11 +12,8 @@
         {
             "cmake-args":
             [
-                "-DCMAKE_BUILD_TYPE=Debug",
-                "-DBUILD_MOCK=ON",
+                "-DCMAKE_BUILD_TYPE=Release",
                 "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/5.15.2",
-                "-DBUILD_DOCUMENTATION=ON",
-                "-DBUILD_TESTS=ON",
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
             ]
         }

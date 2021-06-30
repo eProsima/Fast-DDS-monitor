@@ -141,11 +141,12 @@ bool SyncBackendConnection::update_user_item(
 bool SyncBackendConnection::update_process_item(
         ListItem* process_item)
 {
+    static_cast<void>(process_item);
+
     // update the internal info
     bool res = update_item_info_(process_item);
 
     // Process does not have update
-    static_cast<void>(process_item);
     return res;
 }
 
@@ -167,11 +168,12 @@ bool SyncBackendConnection::update_domain_item(
 bool SyncBackendConnection::update_topic_item(
         ListItem* topic_item)
 {
+    static_cast<void>(topic_item);
+
     // update the internal info
     bool res = update_item_info_(topic_item);
 
     // Process does not have update
-    static_cast<void>(topic_item);
     return res;
 }
 
@@ -216,11 +218,12 @@ bool SyncBackendConnection::update_endpoint_item(
 bool SyncBackendConnection::update_locator_item(
         ListItem* locator_item)
 {
+    static_cast<void>(locator_item);
+
     // update the internal info
     bool res = update_item_info_(locator_item);
 
     // Locator does not have update
-    static_cast<void>(locator_item);
     return res;
 }
 
