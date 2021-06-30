@@ -94,8 +94,6 @@ void DynamicData::delete_chartbox(
 UpdateParameters DynamicData::get_update_parameters(
         quint64 chartbox_id)
 {
-    qDebug() << "Getting parameters from: " << chartbox_id;
-
     auto it = chartboxes_.find(chartbox_id);
 
     assert(it != chartboxes_.end());

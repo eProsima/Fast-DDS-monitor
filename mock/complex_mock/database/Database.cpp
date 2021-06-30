@@ -146,7 +146,7 @@ Info Database::get_info(
         return summary;
     }
 
-    auto entity = get_entity(entity_id);
+    eprosima::statistics_backend::EntityPointer entity = get_entity(entity_id);
     if (entity)
     {
         return entity->get_info();
@@ -298,6 +298,8 @@ void Database::callback_listener_thread_()
         // Non initialize status
         DomainListener::Status status;
 
+        status.current_count_change = 1;
+
         // While there are new entities to notify
         while (run_.load() && !new_entities_.empty())
         {
@@ -311,8 +313,8 @@ void Database::callback_listener_thread_()
                 const std::lock_guard<std::recursive_mutex> lock_entities(data_mutex_);
 
                 // Gets the element and erase it
-                entity = new_entities_.back();
-                new_entities_.pop_back();
+                entity = new_entities_.front();
+                new_entities_.erase(new_entities_.begin());
             }
 
             // If listener is not set, the callback is not called and so the notification is lost
@@ -387,6 +389,21 @@ void Database::set_alias(
     if (it != entities_.end())
     {
         it->second->alias(new_alias);
+    }
+}
+
+bool Database::get_active(
+        EntityId id)
+{
+    Info info = get_info(id);
+
+    if (info.contains("active"))
+    {
+        return info["active"];
+    }
+    else
+    {
+        return true;
     }
 }
 

@@ -286,7 +286,7 @@ void StatisticsBackend::set_alias(
 bool StatisticsBackend::is_active(
         EntityId entity_id)
 {
-    return Database::get_instance()->get_info(entity_id)["active"];
+    return Database::get_instance()->get_active(entity_id);
 }
 
 } //namespace statistics_backend

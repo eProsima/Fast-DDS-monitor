@@ -219,15 +219,9 @@ public:
             const backend::EntityId& id);
 
     /**
-     * @brief Clear the internal dds model and fill it with entities related with Entity referenced by \c id
-     *
-     * Clear the DDS model and call \c update_dds_data
-     *
-     * @param id Entity id of the entity the model must reference
-     * @return true if any change in model has been done
+     * @brief Clear the internal dds model
      */
-    bool update_reset_dds_data(
-            const backend::EntityId& id);
+    void reset_dds_data();
 
     /////
     // ON CLICKED
@@ -241,11 +235,15 @@ public:
      *
      * @param id Entity id of the entity clicked
      * @param kind Entity kind of the entity clicked
+     * @param update_dds Update the dds model
+     * @param update_dds Reset the dds model before update it
      * @return true if any change in any model has been done
      */
     bool entity_clicked(
             backend::EntityId id,
-            backend::EntityKind kind);
+            backend::EntityKind kind,
+            bool update_dds = true,
+            bool reset_dds = true);
 
     //! TODO
     bool on_selected_entity_kind(

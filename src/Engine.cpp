@@ -259,7 +259,12 @@ void Engine::shared_init_monitor_(
     {
         add_status_domain_(backend_connection_.get_name(domain_id), utils::now());
 
-        entity_clicked(domain_id, backend::EntityKind::DOMAIN);
+        // WARNING
+        // When a new Domain is created its entities begin to appear in callbacks
+        // If the dds model is updated with this model, the callbacks will refer to new entities but they
+        // will be already in the model as the model will call backend to update it completly
+        // This, entity_clicked must be called but do not update dds model (but reset it)
+        entity_clicked(domain_id, backend::EntityKind::DOMAIN, false);
 
         update_entity(domain_id, &Engine::update_domain);
     }
@@ -449,11 +454,9 @@ bool Engine::fill_dds_data_()
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_, inactive_visible());
 }
 
-bool Engine::update_reset_dds_data(
-        const backend::EntityId& id /*ID_ALL*/)
+void Engine::reset_dds_data()
 {
     participants_model_->clear();
-    return update_dds_data(id);
 }
 
 bool Engine::update_dds_data(
@@ -510,7 +513,9 @@ bool Engine::update_locator(
 
 bool Engine::entity_clicked(
         backend::EntityId id,
-        backend::EntityKind kind)
+        backend::EntityKind kind,
+        bool update_dds /* = true */,
+        bool reset_dds /* = true */)
 {
     bool res = false;
 
@@ -526,8 +531,16 @@ bool Engine::entity_clicked(
             (kind == backend::EntityKind::TOPIC) ||
             (kind == backend::EntityKind::INVALID))
     {
-        // update whit related dds entities
-        res = update_reset_dds_data(id) || res;
+        // Reset dds model and update if needed
+        if (reset_dds)
+        {
+            reset_dds_data();
+        }
+        if(update_dds)
+        {
+            res = update_dds_data(id) || res;
+        }
+
         last_physical_logical_entity_clicked_ = id;
         last_physical_logical_entity_clicked_kind_ = kind;
     }
