@@ -207,10 +207,10 @@ Chartbox
 In this section it is explained the main functionalities and interactions available within a :ref:`chartbox_layout`,
 a window contained in the :ref:`main_panel_layout` that displays entities data with different configurations.
 
-To start a new Chartbox, press :ref:`display_data_button` in :ref:`edit_menu` or in :ref:`shortcuts_bar`.
+To start a new Chartbox, press :ref:`display_historical_data_button` in :ref:`edit_menu` or in :ref:`shortcuts_bar`.
 
-Clicking :ref:`display_data_button`, a new Dialog will appear requesting to choose one of the data types that are
-being collected in the application.
+Clicking :ref:`display_historical_data_button`, a new Dialog will appear requesting to choose one of the data types
+that are being collected in the application.
 Once a chart has been set with a *DataKind* it could not be changed.
 Nevertheless, new charts could be started with the same or different *DataKind*.
 
