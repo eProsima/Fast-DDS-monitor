@@ -200,9 +200,14 @@ Engine::~Engine()
             delete statistics_data_;
         }
 
+        // WARNING: destroying this object heads to an error in javascript because cannot access methods of null:
+        // qrc:/qml/AboutDialog.qml:57: TypeError: Cannot call method '...' of null
+        // The elements that fail are:
+        // system_info; qt_version; fastdds_statistics_backend_version; fastdds_version;
+        // build_date; git_commit; fastdds_monitor_version; inactive_visible
         if (controller_)
         {
-            delete controller_;
+            // delete controller_;
         }
     }
 }
@@ -210,6 +215,8 @@ Engine::~Engine()
 void Engine::init_monitor(
         int domain)
 {
+    std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
     backend::EntityId domain_id = backend_connection_.init_monitor(domain);
 
     if (domain_id.is_valid())
@@ -227,6 +234,8 @@ void Engine::init_monitor(
 void Engine::init_monitor(
         QString locators)
 {
+    std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
     backend::EntityId domain_id = backend_connection_.init_monitor(locators);
 
     if (domain_id.is_valid())
@@ -246,14 +255,13 @@ void Engine::shared_init_monitor_(
 {
     // if init_monitor fail it does not arrive here
 
-    add_status_domain_(backend_connection_.get_name(domain_id), utils::now());
-
-    entity_clicked(domain_id, backend::EntityKind::DOMAIN);
-
     if (domain_id.is_valid())
     {
-        update_domain_data(domain_id);
-        last_physical_logical_entity_clicked_ = domain_id;
+        add_status_domain_(backend_connection_.get_name(domain_id), utils::now());
+
+        entity_clicked(domain_id, backend::EntityKind::DOMAIN);
+
+        update_entity(domain_id, &Engine::update_domain);
     }
 }
 
@@ -387,81 +395,78 @@ bool Engine::fill_first_entity_info_()
 /// Backend API
 bool Engine::fill_physical_data_()
 {
+    physical_model_->clear();
     return backend_connection_.update_physical_model(physical_model_, inactive_visible());
 }
 
-bool Engine::update_host_data(
-        backend::EntityId id,
+bool Engine::update_host(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible());
 }
 
-bool Engine::update_user_data(
-        backend::EntityId id,
+bool Engine::update_user(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible());
 }
 
-bool Engine::update_process_data(
-        backend::EntityId id,
+bool Engine::update_process(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_process(physical_model_, id, new_entity, inactive_visible());
 }
 
 // LOGICAL PARTITION
 bool Engine::fill_logical_data_()
 {
+    logical_model_->clear();
     return backend_connection_.update_logical_model(logical_model_, inactive_visible());
 }
 
 // TODO reimplement these functions so it is not needed to call the whole fill
-bool Engine::update_domain_data(
-        backend::EntityId id,
+bool Engine::update_domain(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_domain(logical_model_, id, new_entity, inactive_visible());
 }
 
-bool Engine::update_topic_data(
-        backend::EntityId id,
+bool Engine::update_topic(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_topic(logical_model_, id, new_entity, inactive_visible());
 }
 
 // DDS PARTITION
 bool Engine::fill_dds_data_()
 {
+    participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_, inactive_visible());
 }
 
 bool Engine::update_reset_dds_data(
-        backend::EntityId id /*ID_ALL*/)
+        const backend::EntityId& id /*ID_ALL*/)
 {
     participants_model_->clear();
     return update_dds_data(id);
 }
 
 bool Engine::update_dds_data(
-        backend::EntityId id /*ID_ALL*/)
+        const backend::EntityId& id /*ID_ALL*/)
 {
     return backend_connection_.update_dds_model(participants_model_, id, inactive_visible());
 }
 
 // Update the model with a new or updated entity
-bool Engine::update_participant_data(
-        backend::EntityId id,
+bool Engine::update_participant(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_participant(
         participants_model_,
         id,
@@ -470,18 +475,21 @@ bool Engine::update_participant_data(
         inactive_visible());
 }
 
-bool Engine::update_datawriter_data(
-        backend::EntityId id,
+bool Engine::update_datawriter(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_datawriter(
+        participants_model_,
+        id,
+        new_entity,
+        inactive_visible());
+}
 
-bool Engine::update_datareader_data(
-        backend::EntityId id,
+bool Engine::update_datareader(
+        const backend::EntityId& id,
         bool new_entity /* true */)
 {
-    updated_entity(id);
     return backend_connection_.update_datareader(
         participants_model_,
         id,
@@ -489,10 +497,10 @@ bool Engine::update_datareader_data(
         inactive_visible());
 }
 
-bool Engine::update_locator_data(
-        backend::EntityId id,
+bool Engine::update_locator(
+        const backend::EntityId& id,
         bool new_entity /* true */)
-    updated_entity(id);
+{
     return backend_connection_.update_locator(
         participants_model_,
         id,
@@ -627,6 +635,9 @@ bool Engine::on_add_statistics_data_series(
 void Engine::refresh_engine()
 {
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
+    fill_physical_data_();
+    fill_logical_data_();
+    fill_dds_data_();
 }
 
 void Engine::clear_log()
@@ -692,12 +703,14 @@ bool Engine::process_callback_()
 bool Engine::read_callback_(
         backend::Callback callback)
 {
+    // It should not read callbacks while a domain is being initialized
+    std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
     if (callback.is_update)
     {
         // Add callback of updating entity to log model
         add_log_callback_("Update info in entity " + backend_connection_.get_name(callback.entity_id),
                 utils::now());
-
     }
     else
     {
@@ -712,31 +725,31 @@ bool Engine::read_callback_(
     switch (callback.entity_kind)
     {
         case backend::EntityKind::HOST:
-            return update_host_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_host, !callback.is_update);
 
         case backend::EntityKind::USER:
-            return update_user_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_user, !callback.is_update);
 
         case backend::EntityKind::PROCESS:
-            return update_process_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_process, !callback.is_update);
 
         case backend::EntityKind::DOMAIN:
-            return update_domain_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_domain, !callback.is_update);
 
         case backend::EntityKind::TOPIC:
-            return update_topic_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_topic, !callback.is_update);
 
         case backend::EntityKind::PARTICIPANT:
-            return update_participant_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_participant, !callback.is_update);
 
         case backend::EntityKind::DATAWRITER:
-            return update_datawriter_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_datawriter, !callback.is_update);
 
         case backend::EntityKind::DATAREADER:
-            return update_datareader_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_datareader, !callback.is_update);
 
         case backend::EntityKind::LOCATOR:
-            return update_locator_data(callback.entity_id, !callback.is_update);
+            return update_entity(callback.entity_id, &Engine::update_locator, !callback.is_update);
 
         default:
             qWarning() << "Update callback of an Entity with unknown EntityKind";
@@ -846,39 +859,39 @@ void Engine::set_alias(
     switch (entity_kind)
     {
         case backend::EntityKind::HOST:
-            update_host_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_host, false);
             break;
 
         case backend::EntityKind::USER:
-            update_user_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_user, false);
             break;
 
         case backend::EntityKind::PROCESS:
-            update_process_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_process, false);
             break;
 
         case backend::EntityKind::DOMAIN:
-            update_domain_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_domain, false);
             break;
 
         case backend::EntityKind::TOPIC:
-            update_topic_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_topic, false);
             break;
 
         case backend::EntityKind::PARTICIPANT:
-            update_participant_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_participant, false);
             break;
 
         case backend::EntityKind::DATAWRITER:
-            update_datawriter_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_datawriter, false);
             break;
 
         case backend::EntityKind::DATAREADER:
-            update_datareader_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_datareader, false);
             break;
 
         case backend::EntityKind::LOCATOR:
-            update_locator_data(entity_id, false);
+            update_entity(entity_id, &Engine::update_locator, false);
             break;
 
         default:
@@ -887,17 +900,23 @@ void Engine::set_alias(
     }
 }
 
-bool Engine::updated_entity(
-        const backend::EntityId& entity_updated)
+bool Engine::update_entity(
+        const backend::EntityId& entity_updated,
+        bool (Engine::* update_function)(const backend::EntityId&, bool),
+        bool new_entity /* true */)
 {
+    bool res = false;
+
     // Only update the info if the updated entity is the one that is being shown
     if (last_entity_clicked_ == entity_updated)
     {
-        bool res = fill_entity_info_(last_entity_clicked_);
-        return fill_summary_(last_entity_clicked_) || res;
+        res = fill_entity_info_(last_entity_clicked_) || res;
+        res = fill_summary_(last_entity_clicked_) || res;
     }
 
-    return false;
+    res = (this->*update_function)(entity_updated, new_entity) || res;
+
+    return res;
 }
 
 void Engine::change_inactive_visible()

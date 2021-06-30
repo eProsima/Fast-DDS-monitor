@@ -92,14 +92,14 @@ ListItem* SyncBackendConnection::create_datawriter_data_(
         backend::EntityId id)
 {
     qDebug() << "Creating DataWriter " << backend::backend_id_to_models_id(id);
-    return new EndpointModelItem(id, EntityKind::DATAWRITER, get_info(id));
+    return new EndpointModelItem(id, get_info(id), EntityKind::DATAWRITER);
 }
 
 ListItem* SyncBackendConnection::create_datareader_data_(
         backend::EntityId id)
 {
     qDebug() << "Creating DataReader " << backend::backend_id_to_models_id(id);
-    return new EndpointModelItem(id, EntityKind::DATAREADER, get_info(id));
+    return new EndpointModelItem(id, get_info(id), EntityKind::DATAREADER);
 }
 
 ListItem* SyncBackendConnection::create_locator_data_(
@@ -308,6 +308,7 @@ bool SyncBackendConnection::update_item_info_(
     {
         // Query for this item info and updte it
         item->info(StatisticsBackend::get_info(item->get_entity_id()));
+        item->triggerItemUpdate();
         return true;
     }
     catch (const Exception& e)

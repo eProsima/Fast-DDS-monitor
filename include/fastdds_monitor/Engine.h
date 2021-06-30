@@ -105,8 +105,8 @@ public:
      * @param id host id to create or update
      * @return true if any change in model has been done
      */
-    bool update_host_data(
-            backend::EntityId id,
+    bool update_host(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /**
@@ -114,8 +114,8 @@ public:
      * @param id user id to create or update
      * @return true if any change in model has been done
      */
-    bool update_user_data(
-            backend::EntityId id,
+    bool update_user(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /**
@@ -123,8 +123,8 @@ public:
      * @param id process id to create or update
      * @return true if any change in model has been done
      */
-    bool update_process_data(
-            backend::EntityId id,
+    bool update_process(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /////
@@ -135,8 +135,8 @@ public:
      * @param id domain id to create or update
      * @return true if any change in model has been done
      */
-    bool update_domain_data(
-            backend::EntityId id,
+    bool update_domain(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /**
@@ -144,8 +144,8 @@ public:
      * @param id topic id to create or update
      * @return true if any change in model has been done
      */
-    bool update_topic_data(
-            backend::EntityId id,
+    bool update_topic(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /////
@@ -160,8 +160,8 @@ public:
      * @param id participant id to create or update
      * @return true if any change in model has been done
      */
-    bool update_participant_data(
-            backend::EntityId id,
+    bool update_participant(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /**
@@ -173,8 +173,8 @@ public:
      * @param id datawriter id to create or update
      * @return true if any change in model has been done
      */
-    bool update_datawriter_data(
-            backend::EntityId id,
+    bool update_datawriter(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /**
@@ -186,8 +186,8 @@ public:
      * @param id datareader id to create or update
      * @return true if any change in model has been done
      */
-    bool update_datareader_data(
-            backend::EntityId id,
+    bool update_datareader(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /**
@@ -199,8 +199,8 @@ public:
      * @param id locator id to create or update
      * @return true if any change in model has been done
      */
-    bool update_locator_data(
-            backend::EntityId id,
+    bool update_locator(
+            const backend::EntityId& id,
             bool new_entity = true);
 
     /**
@@ -216,7 +216,7 @@ public:
      * @return true if any change in model has been done
      */
     bool update_dds_data(
-            backend::EntityId id);
+            const backend::EntityId& id);
 
     /**
      * @brief Clear the internal dds model and fill it with entities related with Entity referenced by \c id
@@ -227,7 +227,7 @@ public:
      * @return true if any change in model has been done
      */
     bool update_reset_dds_data(
-            backend::EntityId id);
+            const backend::EntityId& id);
 
     /////
     // ON CLICKED
@@ -340,8 +340,10 @@ public:
      * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the
      * entity updated.
      */
-    bool updated_entity(
-            const backend::EntityId& entity_updated);
+    bool update_entity(
+            const backend::EntityId& entity_updated,
+            bool (Engine::* update_function)(const backend::EntityId&, bool),
+            bool new_entity = true);
 
     //! Change inactive visible parameter
     void change_inactive_visible();
@@ -588,6 +590,16 @@ protected:
 
     //! Whether the inactive entities must be visible in the model
     bool inactive_visible_;
+
+    /**
+     * Protect the dds model while a new monitor is being created
+     *
+     * This mutex is needed because when a new Domain is initialie, it is set as entity:clicked.
+     * Thus, the dds model is filled, and so clear and check in database to create it from scratch.
+     * If during this process the callbacks of the entities of this new domain arrive (and it is very likely
+     * to happen) there are going to create entities already created.
+     */
+    std::recursive_mutex initializing_monitor_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H
