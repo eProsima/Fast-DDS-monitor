@@ -32,7 +32,12 @@ set(CMAKE_AUTORCC ON)
 add_executable(BlackboxStaticMockTest
     BlackboxStaticMockTest.cpp ${PROJECT_SOURCES_NO_MAIN} ${PROJECT_HEADERS} ${QT_RESOURCES_SUBDIR})
 
+if(MSVC)
+    target_compile_definitions(BlackboxStaticMockTest PRIVATE _CRT_DECLARE_NONSTDC_NAMES=0)
+endif(MSVC)
+
 target_include_directories(BlackboxStaticMockTest PRIVATE
+    ${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
@@ -41,7 +46,9 @@ target_link_libraries(BlackboxStaticMockTest
     ${QT5_LIBRARY_LINKS}
     fastdds_statistics_backend
     static-backend-mock
-    gtest)
+    ${GTEST_LIBRARIES})
+
+get_win32_path_dependencies(BlackboxStaticMockTest TEST_FRIENDLY_PATH)
 
 set(BSM_TEST_LIST
     enable_engine)
@@ -50,4 +57,8 @@ foreach(test_name ${BSM_TEST_LIST})
     add_test(NAME BlackboxStaticMockTest.${test_name}
             COMMAND BlackboxStaticMockTest
             --gtest_filter=BlackboxStaticMockTest.${test_name}:*/BlackboxStaticMockTest.${test_name}/*)
+
+    if(TEST_FRIENDLY_PATH)
+        set_tests_properties(BlackboxStaticMockTest.${test_name} PROPERTIES ENVIRONMENT "PATH=${TEST_FRIENDLY_PATH}")
+    endif(TEST_FRIENDLY_PATH)
 endforeach()

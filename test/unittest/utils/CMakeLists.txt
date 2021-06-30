@@ -52,7 +52,6 @@ foreach(test_name ${UTILS_TEST_LIST})
     if(TEST_FRIENDLY_PATH)
         set_tests_properties(utilsTest.${test_name} PROPERTIES ENVIRONMENT "PATH=${TEST_FRIENDLY_PATH}")
     endif(TEST_FRIENDLY_PATH)
-
 endforeach()
 
 
