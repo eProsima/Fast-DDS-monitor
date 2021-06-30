@@ -13,26 +13,19 @@
 // limitations under the License.
 
 import QtQuick 2.0
-import QtGraphicalEffects 1.15
 
 Image {
     id: image
     smooth: true
     visible: true
-    property color color: "transparent"
-    property bool dye: false
+    source: name ? "/resources/images/icons/" + name + "_" + color + ".svg" : ""
+
+    property string name: ""
+    property string color: "black"
     property int size: 12
     property real scalingFactor: 1
     sourceSize.width: size * scalingFactor
     sourceSize.height: size * scalingFactor
-
-    ColorOverlay {
-        id: overlay
-        anchors.fill: parent
-        source: parent
-        color: parent.color
-        visible: dye ? true : false
-    }
 }
 
 

@@ -93,10 +93,9 @@ Rectangle {
                         color: "transparent"
 
                         IconSVG {
-                            source: "/resources/images/cross.svg"
+                            name: "cross"
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
-                            dye: true
                             color: "white"
                         }
 
@@ -265,11 +264,10 @@ Rectangle {
 
                 IconSVG {
                     size: parent.size*3/4
-                    source: running ? "/resources/images/pause.svg" : "/resources/images/play.svg"
+                    name: running ? "pause" : "play"
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    dye: true
-                    color: running ? Theme.eProsimaLightBlue : "green"
+                    color: running ? "eProsimaLightBlue" : "green"
                 }
 
                 MouseArea {

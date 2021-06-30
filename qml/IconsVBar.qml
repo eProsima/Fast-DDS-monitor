@@ -36,13 +36,13 @@ Rectangle {
     ListModel {
         id: iconsVBarModel
         ListElement {
-            icon: "/resources/images/explorer.svg"
+            icon: "explorer"
         }
         ListElement {
-            icon: "/resources/images/status.svg"
+            icon: "status"
         }
         ListElement {
-            icon: "/resources/images/issues.svg"
+            icon: "issues"
         }
         ListElement {
             icon: ""
@@ -118,11 +118,10 @@ Rectangle {
 
                 IconSVG {
                     id: explorerIcon
-                    source: icon
+                    name: icon
                     size: parent.width - 15
-                    dye: true
-                    color: (selected == index) ? Theme.grey :
-                           ma.containsMouse ? Theme.grey : "white"
+                    color: (selected == index) ? "grey" :
+                           ma.containsMouse ? "grey" : "white"
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
 

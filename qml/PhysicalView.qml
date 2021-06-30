@@ -79,10 +79,9 @@ Rectangle {
 
                         IconSVG {
                             id: hostIcon
-                            source: "/resources/images/host.svg"
+                            name: "host"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
-                            dye: iconDyed(highlight, alive)
                             color: entityLabelColor(highlight, alive)
 
                             MouseArea {
@@ -170,10 +169,9 @@ Rectangle {
 
                                     IconSVG {
                                         id: userIcon
-                                        source: "/resources/images/user.svg"
+                                        name: "user"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
-                                        dye: iconDyed(highlight, alive)
                                         color: entityLabelColor(highlight, alive)
 
                                         MouseArea {
@@ -268,10 +266,9 @@ Rectangle {
 
                                                 IconSVG {
                                                     id: processIcon
-                                                    source: "/resources/images/process.svg"
+                                                    name: "process"
                                                     size: iconSize
                                                     Layout.leftMargin: thirdIndentation
-                                                    dye: iconDyed(highlight, alive)
                                                     color: entityLabelColor(highlight, alive)
                                                 }
                                                 Label {

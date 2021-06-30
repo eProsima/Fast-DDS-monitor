@@ -79,10 +79,9 @@ Rectangle {
 
                         IconSVG {
                             id: participantIcon
-                            source: "/resources/images/participant.svg"
+                            name: "participant"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
-                            dye: iconDyed(highlight, alive)
                             color: entityLabelColor(highlight, alive)
 
                             MouseArea {
@@ -169,10 +168,9 @@ Rectangle {
 
                                     IconSVG {
                                         id: endpointIcon
-                                        source: (kind == "DataReader") ? "/resources/images/datareader.svg" : "/resources/images/datawriter.svg"
+                                        name: (kind == "DataReader") ? "datareader" : "datawriter"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
-                                        dye: iconDyed(highlight, alive)
                                         color: entityLabelColor(highlight, alive)
 
                                         MouseArea {
@@ -267,10 +265,9 @@ Rectangle {
 
                                                 IconSVG {
                                                     id: locatorIcon
-                                                    source: "/resources/images/locator.svg"
+                                                    name: "locator"
                                                     size: iconSize
                                                     Layout.leftMargin: thirdIndentation
-                                                    dye: iconDyed(highlight, alive)
                                                     color: entityLabelColor(highlight, alive)
                                                 }
                                                 Label {
