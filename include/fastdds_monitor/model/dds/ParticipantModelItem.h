@@ -59,6 +59,13 @@ public:
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
+
+    //! Overwriter entity kind
+    virtual backend::EntityKind backend_kind() const override
+    {
+        return backend::EntityKind::PARTICIPANT;
+    }
+
 };
 
 } // namespace models

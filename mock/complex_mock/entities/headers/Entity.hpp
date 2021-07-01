@@ -121,6 +121,13 @@ public:
      */
     virtual EntityKind kind() const;
 
+    /**
+     * Whether the entity is alive
+     *
+     * @return true by default
+     */
+    virtual bool alive() const;
+
 private:
 
     //! Id of the entity

@@ -55,8 +55,11 @@ public:
     {
     }
 
-    /////
-    // Listener functions
+    /***********
+     * BACKEND *
+     **********/
+
+public:
 
     //! Set the \c PhysicalListener in the backend
     bool set_listener(
@@ -64,184 +67,6 @@ public:
 
     //! Set the \c PhysicalListener in the backend as \c nullptr
     bool unset_listener();
-
-    /////
-    // Model update functions
-
-    /**
-     * @brief Update the Physical model with every Physical entity in the backend
-     *
-     * The Physical entities are \c Host \c User and \c Process
-     *
-     * Gets an already empty/partially/fully filled model.
-     * For every entity it already has, it updates its internl information.
-     * For every new entity found between the physic entities in the backend, new entities are added to the model.
-     * The orphan entities such as User with unknown Host or Process with unknown User are not added or updated.
-     *
-     * @param physical_model Physical model to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_physical_model(
-            models::ListModel* physical_model);
-
-    /**
-     * @brief Update the Logical model with every Logical entity in the backend
-     *
-     * The Logical entities are \c Domain \c Topic
-     *
-     * Gets an already empty/partially/fully filled model.
-     * For every entity it already has, it updates its internl information.
-     * For every new entity found between the physic entities in the backend, new entities are added to the model.
-     * The orphan entities such as Topic with unknown Domain are not added or updated.
-     *
-     * As Domains are known by \c init_monitor methods, they should not be discovered by this method.
-     * Nevertheless, it is in this method when the Domain enters the model.
-     *
-     * @param logical_model Logical model to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_logical_model(
-            models::ListModel* logical_model);
-
-    /**
-     * @brief Update the DDS model with every DDS entity in the backend
-     *
-     * The DDS entities are \c Participant \c DataWriter \c DataReader and \c Locator
-     *
-     * Gets an already empty/partially/fully filled model with only the entities related with the entity  with id \c id
-     * For every entity it already has, it updates its internl information.
-     * For every new entity found between the physic entities in the backend, new entities are added to the model.
-     * The orphan entities such as Endpoints with unknown Participant or Locator without Endpoint
-     * are not added or updated.
-     *
-     * i.e. there exist two Participants below one User (id <u>), but each under different Processes (id <p1> & <p2>),
-     * call this method with id <u> and an empty model will fill the model with both Participants and their subentities
-     * call this method with id <p1> and an empty model will fill the model with only Participant 1 and its subentities
-     * call this method with id <p1> and a model with both participants will update the subentities of Participant 1
-     *
-     * @warning This method do not affect to those entities that are alredy in the model but are not related with \c id
-     *
-     * @param dds_model DDS model to update
-     * @param id entity to show the DDS entities related to ir
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_dds_model(
-            models::ListModel* dds_model,
-            EntityId id);
-
-    // TODO
-    bool update_get_data_dialog_entity_id(
-            models::ListModel* entity_model,
-            EntityKind entity_kind);
-
-    /////
-    // Entity update functions
-
-    /**
-     * @brief Update the Host item and their subentities with backend information
-     *
-     * Regenerate the info of this item from the info in the backend.
-     * Iterate over all the physical subentities of this host in the backend.
-     * In case the subentity does not exist it creates it.
-     * Update every subentity.
-     *
-     * @param host_item Host item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_host_item(
-            ListItem* host_item);
-
-    /**
-     * @brief Update the user item and their subentities with backend information
-     *
-     * Regenerate the info of this item from the info in the backend.
-     * Iterate over all the physical subentities of this user in the backend.
-     * In case the subentity does not exist it creates it.
-     * Update every subentity.
-     *
-     * @param user_item user item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_user_item(
-            ListItem* user_item);
-
-    /**
-     * @brief Update the process item with backend information
-     *
-     * Regenerate the info of this item from the info in the backend
-     *
-     * @param process_item process item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_process_item(
-            ListItem* process_item);
-
-    /**
-     * @brief Update the domain item and their subentities with backend information
-     *
-     * Regenerate the info of this item from the info in the backend.
-     * Iterate over all the physical subentities of this domain in the backend.
-     * In case the subentity does not exist it creates it.
-     * Update every subentity.
-     *
-     * @param domain_item domain item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_domain_item(
-            ListItem* domain_item);
-
-    /**
-     * @brief Update the topic item with backend information
-     *
-     * Regenerate the info of this item from the info in the backend
-     *
-     * @param topic_item topic item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_topic_item(
-            ListItem* topic_item);
-
-    /**
-     * @brief Update the participant item and their subentities with backend information
-     *
-     * Regenerate the info of this item from the info in the backend.
-     * Iterate over all the physical subentities of this participant in the backend.
-     * In case the subentity does not exist it creates it.
-     * Update every subentity.
-     *
-     * @param participant_item participant item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_participant_item(
-            ListItem* participant_item);
-
-    /**
-     * @brief Update the datawriter or datareader item and their subentities with backend information
-     *
-     * Regenerate the info of this item from the info in the backend.
-     * Iterate over all the physical subentities of this endpoint in the backend.
-     * In case the subentity does not exist it creates it.
-     * Update every subentity.
-     *
-     * @param endpoint_item endpoint item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_endpoint_item(
-            ListItem* endpoint_item);
-
-    /**
-     * @brief Update the topic item with backend information
-     *
-     * Regenerate the info of this item from the info in the backend
-     *
-     * @param topic_item topic item to update
-     * @return true if any change has been made, false otherwise
-     */
-    bool update_locator_item(
-            ListItem* locator_item);
-
-    /////
-    // Monitor manage functions
 
     /**
      * @brief Init a monitor by setting an integer for domain number
@@ -287,6 +112,10 @@ public:
     std::string get_name(
             backend::EntityId id);
 
+    //! Get the alive status of an entity from the Backend by calling \c is_active
+    bool get_alive(
+            backend::EntityId id);
+
     //! Get data from the backend with specific paramenters calling backend \c get_data
     std::vector<backend::StatisticsData> get_data(
             DataKind data_kind,
@@ -302,10 +131,9 @@ public:
             EntityKind entity_type,
             EntityId entity_id = EntityId::all());
 
-    //! Set a new alias in backend
-    void set_alias(
-            const backend::EntityId& id,
-            const std::string& new_alias);
+    /**********
+    * CREATE *
+    **********/
 
 protected:
 
@@ -345,6 +173,216 @@ protected:
     ListItem* create_locator_data_(
             backend::EntityId id);
 
+    /************
+     * GET DATA *
+     ***********/
+
+public:
+
+    /**
+     * Updates the entity model used to populate the ComboBox from the list of available entities of a certain type.
+     *
+     * The form the user fills in to generate a series in a graph has the source and target entities
+     * (only for certain data types) on which the data gathering is applied.
+     * This function allows to dynamically fill in the model of available entities according to the type of entity
+     * selected by the user.
+     */
+    bool update_get_data_dialog_entity_id(
+            models::ListModel* entity_model,
+            EntityKind entity_kind,
+            bool inactive_visible = true);
+
+    /**************
+     * UPDATE ALL *
+     *************/
+
+public:
+
+    /**
+     * @brief Update the Physical model with every Physical entity in the backend
+     *
+     * The Physical entities are \c Host \c User and \c Process
+     *
+     * Gets an already empty/partially/fully filled model.
+     * For every entity it already has, it updates its internl information.
+     * For every new entity found between the physic entities in the backend, new entities are added to the model.
+     * The orphan entities such as User with unknown Host or Process with unknown User are not added or updated.
+     *
+     * @param physical_model Physical model to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_physical_model(
+            models::ListModel* physical_model,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the Logical model with every Logical entity in the backend
+     *
+     * The Logical entities are \c Domain \c Topic
+     *
+     * Gets an already empty/partially/fully filled model.
+     * For every entity it already has, it updates its internl information.
+     * For every new entity found between the physic entities in the backend, new entities are added to the model.
+     * The orphan entities such as Topic with unknown Domain are not added or updated.
+     *
+     * As Domains are known by \c init_monitor methods, they should not be discovered by this method.
+     * Nevertheless, it is in this method when the Domain enters the model.
+     *
+     * @param logical_model Logical model to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_logical_model(
+            models::ListModel* logical_model,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the DDS model with every DDS entity in the backend
+     *
+     * The DDS entities are \c Participant \c DataWriter \c DataReader and \c Locator
+     *
+     * Gets an already empty/partially/fully filled model with only the entities related with the entity  with id \c id
+     * For every entity it already has, it updates its internl information.
+     * For every new entity found between the physic entities in the backend, new entities are added to the model.
+     * The orphan entities such as Endpoints with unknown Participant or Locator without Endpoint
+     * are not added or updated.
+     *
+     * i.e. there exist two Participants below one User (id <u>), but each under different Processes (id <p1> & <p2>),
+     * call this method with id <u> and an empty model will fill the model with both Participants and their subentities
+     * call this method with id <p1> and an empty model will fill the model with only Participant 1 and its subentities
+     * call this method with id <p1> and a model with both participants will update the subentities of Participant 1
+     *
+     * @warning This method do not affect to those entities that are alredy in the model but are not related with \c id
+     *
+     * @param dds_model DDS model to update
+     * @param id entity to show the DDS entities related to ir
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_dds_model(
+            models::ListModel* dds_model,
+            EntityId id,
+            bool inactive_visible = true);
+
+    /////
+    // Entity update functions
+
+    /**
+     * @brief Update the Host item and their subentities with backend information
+     *
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this host in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
+     *
+     * @param host_item Host item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_host_item(
+            ListItem* host_item,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the user item and their subentities with backend information
+     *
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this user in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
+     *
+     * @param user_item user item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_user_item(
+            ListItem* user_item,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the process item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param process_item process item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_process_item(
+            ListItem* process_item,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the domain item and their subentities with backend information
+     *
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this domain in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
+     *
+     * @param domain_item domain item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_domain_item(
+            ListItem* domain_item,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the topic item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param topic_item topic item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_topic_item(
+            ListItem* topic_item,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the participant item and their subentities with backend information
+     *
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this participant in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
+     *
+     * @param participant_item participant item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_participant_item(
+            ListItem* participant_item,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the datawriter or datareader item and their subentities with backend information
+     *
+     * Regenerate the info of this item from the info in the backend.
+     * Iterate over all the physical subentities of this endpoint in the backend.
+     * In case the subentity does not exist it creates it.
+     * Update every subentity.
+     *
+     * @param endpoint_item endpoint item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_endpoint_item(
+            ListItem* endpoint_item,
+            bool inactive_visible = true);
+
+    /**
+     * @brief Update the topic item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param topic_item topic item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_locator_item(
+            ListItem* locator_item,
+            bool inactive_visible = true);
+
+protected:
+
+    bool update_item_(
+        ListItem * item,
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+        bool inactive_visible = true);
+
     /**
      * General method to encapsulate the common funcionality of updating the info from backend
      * So far it does always return \c true
@@ -352,21 +390,94 @@ protected:
     bool update_item_info_(
             ListItem* item);
 
-    //! General method to encapsulate the common funcionality of \c update_*_item methods refereing to items update
-    bool update_subitems_(
-        SubListedListItem * item,
-        backend::EntityKind type,
-        bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem * (SyncBackendConnection::* create_function)(backend::EntityId));
-
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
         ListModel * model,
         EntityKind type,
         EntityId id,
-        bool (SyncBackendConnection::* update_function)(ListItem*),
-        ListItem * (SyncBackendConnection::* create_function)(EntityId));
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        bool inactive_visible = true);
 
+    /**************
+     * UPDATE ONE *
+     *************/
+
+public:
+
+    bool update_host(
+            models::ListModel* physical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    bool update_user(
+            models::ListModel* physical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    bool update_process(
+            models::ListModel* physical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    bool update_domain(
+            models::ListModel* logical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    bool update_topic(
+            models::ListModel* logical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    bool update_participant(
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            EntityId related_entity_id,
+            bool inactive_visible);
+
+    bool update_datawriter(
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    bool update_datareader(
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    bool update_locator(
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
+
+    //! Set a new alias in backend
+    void set_alias(
+            const backend::EntityId& id,
+            const std::string& new_alias);
+
+protected:
+
+    ListModel* get_model_(
+            models::ListModel* parent_model,
+            EntityId id,
+            EntityKind parent_kind);
+
+    bool update_one_entity_in_model_(
+        models::ListModel* model,
+        EntityId id,
+        bool new_entity,
+        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        bool inactive_visible);
 };
 
 } //namespace backend

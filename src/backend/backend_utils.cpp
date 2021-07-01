@@ -292,4 +292,18 @@ std::string get_alias(
     }
 }
 
+bool get_info_alive(
+        EntityInfo info)
+{
+    if (info.contains("alive"))
+    {
+        return info["alive"].get<bool>();
+    }
+    else
+    {
+        // In case alive is not retrieved, it counts as an alive entity
+        return true;
+    }
+}
+
 } // namespace backend

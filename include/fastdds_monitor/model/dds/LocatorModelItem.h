@@ -35,6 +35,12 @@ public:
     // Use ListItem constructors
     using ListItem::ListItem;
 
+    //! Overwriter entity kind
+    virtual backend::EntityKind backend_kind() const override
+    {
+        return backend::EntityKind::LOCATOR;
+    }
+
 };
 
 } // namespace models

@@ -75,6 +75,7 @@ Info Process::get_info() const
 {
     Info info = Entity::get_info();
     info["pid"] = pid();
+    info["alive"] = false;
 
     return info;
 }

@@ -40,6 +40,12 @@ public:
     // Use EntityContainerModelItem constructors
     using EntityContainerModelItem::EntityContainerModelItem;
 
+    //! Overwriter entity kind
+    virtual backend::EntityKind backend_kind() const override
+    {
+        return backend::EntityKind::HOST;
+    }
+
 };
 
 } // namespace models

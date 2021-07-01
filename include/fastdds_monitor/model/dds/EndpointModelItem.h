@@ -44,8 +44,32 @@ public:
         topicRole                                   //! Role for attribute Topic
     };
 
-    // Use EntityContainerModelItem constructors
-    using EntityContainerModelItem::EntityContainerModelItem;
+    // EntityContainerModelItem default constructor
+    EndpointModelItem(
+            QObject* parent = 0)
+        : EntityContainerModelItem(parent)
+    {
+    }
+
+    // EntityContainerModelItem constructor
+    EndpointModelItem(
+            backend::EntityId id,
+            backend::EntityInfo info,
+            QObject* parent = 0)
+        : EntityContainerModelItem(id, info, parent)
+    {
+    }
+
+    //! Specific DDS Item constructor, with a backend \c EntityId associated
+    EndpointModelItem(
+            backend::EntityId id,
+            backend::EntityInfo info,
+            backend::EntityKind kind,
+            QObject* parent = 0)
+        : EntityContainerModelItem(id, info, parent)
+        , kind_(kind)
+    {
+    }
 
     //! Override the ListItem \c data method to add new roles
     QVariant data(
@@ -59,6 +83,17 @@ public:
 
     //! Override the ListItem \c roleNames method to add new roles
     QHash<int, QByteArray> roleNames() const override;
+
+    //! Overwriter entity kind
+    virtual backend::EntityKind backend_kind() const override
+    {
+        return kind_;
+    }
+
+protected:
+
+    //! Wether the entity is DataWriter or DataReader
+    backend::EntityKind kind_;
 };
 
 } // namespace models

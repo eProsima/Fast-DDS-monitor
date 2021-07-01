@@ -144,6 +144,10 @@ public:
             EntityId id,
             std::string new_alias);
 
+    //! Get active status from an entity. Default true.
+    bool get_active(
+            EntityId id);
+
 protected:
 
     /**

@@ -116,10 +116,24 @@ public:
             const QModelIndex& index = QModelIndex()) Q_DECL_OVERRIDE;
 
     /**
-     * Returns the item whose id matches the itemId.
+     * Returns the item whose id matches the models itemId.
      */
     ListItem* find(
             EntityId itemId) const;
+
+    /**
+     * Returns the item whose id matches the backend itemId.
+     *
+     * @note This method is faster with backend than models id as the actual value stored is \c backend::EntityId
+     */
+    ListItem* find(
+            backend::EntityId itemId) const;
+
+    /**
+     * Returns the item whose id matches the itemId.
+     */
+    ListItem* at(
+            int index) const;
 
     /**
      * Returns the row index of item in the model.
@@ -145,10 +159,16 @@ public:
             int index);
 
     /**
-     * Returns the row index of an item given the item id.
+     * Returns the row index of an item given the models item id.
      */
     Q_INVOKABLE int rowIndexFromId(
             EntityId itemId);
+
+    /**
+     * Returns the row index of an item given the backend item id.
+     */
+    Q_INVOKABLE int rowIndexFromId(
+            backend::EntityId itemId);
 
     /**
      * Clears the whole model removing all rows.
@@ -160,6 +180,8 @@ protected:
     //! Void ListItem that is used to know the role names. This is why a default constructor is needed in \c ListItem
     ListItem* prototype_;
 
+    // This object stores the subitems indexing by <index> (internal list index) that is used by qt.
+    // Thus, it is not easy to create a map with item and entity in a simple way.
     //! List of Items under this model
     QList<ListItem*> items_;
 

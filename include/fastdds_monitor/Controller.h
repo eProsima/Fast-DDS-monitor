@@ -140,6 +140,12 @@ public slots:
     //! Returns the Fast DDS Monitor GitHub commit built
     QString git_commit();
 
+    //! Whether the inactive entities must be shown or hidden
+    bool inactive_visible();
+
+    //! Change \c inactive_visible status
+    void change_inactive_visible();
+
     //! Call engine to refresh summary
     void refresh_summary();
 

@@ -53,7 +53,6 @@ ListItem::ListItem(
         QObject* parent)
     : QObject(parent)
     , id_(backend::EntityId::invalid())
-    , kind_(backend::EntityKind::INVALID)
 {
 }
 
@@ -62,18 +61,15 @@ ListItem::ListItem(
         QObject* parent)
     : QObject(parent)
     , id_(id)
-    , kind_(backend::EntityKind::INVALID)
 {
 }
 
 ListItem::ListItem(
         backend::EntityId id,
-        backend::EntityKind kind,
         backend::EntityInfo info,
         QObject* parent)
     : QObject(parent)
     , id_(id)
-    , kind_(kind)
     , info_(info)
 {
 }
@@ -94,7 +90,12 @@ QString ListItem::name() const
 
 QString ListItem::kind() const
 {
-    return backend::entity_kind_to_QString(kind_);
+    return backend::entity_kind_to_QString(backend_kind());
+}
+
+bool ListItem::alive() const
+{
+    return backend::get_info_alive(info_);
 }
 
 backend::EntityInfo ListItem::info() const
@@ -118,6 +119,8 @@ QVariant ListItem::data(
             return this->name();
         case kindRole:
             return this->kind();
+        case aliveRole:
+            return this->alive();
         default:
             return QVariant();
     }
@@ -130,6 +133,7 @@ QHash<int, QByteArray> ListItem::roleNames() const
     roles[idRole] = "id";
     roles[nameRole] = "name";
     roles[kindRole] = "kind";
+    roles[aliveRole] = "alive";
 
     return roles;
 }

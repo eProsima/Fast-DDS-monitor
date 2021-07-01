@@ -196,13 +196,32 @@ ListItem* ListModel::find(
         EntityId itemId) const
 {
     foreach(ListItem * item, items_)
-    if (item->entity_id() == itemId)
     {
-        // std::cout << "Found item with id: " << utils::to_string(itemId) << std::endl;
-        return item;
+        if (item->entity_id() == itemId)
+        {
+            return item;
+        }
     }
-    // std::cout << "Not found item with id: " << utils::to_string(itemId) << std::endl;
     return nullptr;
+}
+
+ListItem* ListModel::find(
+        backend::EntityId itemId) const
+{
+    foreach(ListItem * item, items_)
+    {
+        if (item->get_entity_id() == itemId)
+        {
+            return item;
+        }
+    }
+    return nullptr;
+}
+
+ListItem* ListModel::at(
+        int index) const
+{
+    return items_.at(index);
 }
 
 int ListModel::getRowFromItem(
@@ -257,6 +276,18 @@ QVariant ListModel::get(
 
 int ListModel::rowIndexFromId(
         EntityId id)
+{
+    ListItem* item = find(id);
+
+    if (item)
+    {
+        return indexFromItem(item).row();
+    }
+    return -1;
+}
+
+int ListModel::rowIndexFromId(
+        backend::EntityId id)
 {
     ListItem* item = find(id);
 

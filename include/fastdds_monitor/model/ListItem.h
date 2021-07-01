@@ -51,6 +51,7 @@ public:
     {
         idRole = Qt::UserRole + 1,      //! Role for attribute Id
         kindRole,                       //! Role for attribute Kind
+        aliveRole,                      //! Role for attribute Alive
         nameRole                        //! Role for attribute Name
     };
 
@@ -66,7 +67,6 @@ public:
     //! Specific DDS Item constructor, with a backend \c EntityId associateds
     ListItem(
             backend::EntityId id,
-            backend::EntityKind kind,
             backend::EntityInfo info,
             QObject* parent = 0);
 
@@ -97,12 +97,26 @@ public:
      */
     virtual backend::EntityInfo info() const;
 
-
     /**
      * @brief Entity kind getter
      * @return entity kind in QString format
      */
     virtual QString kind() const;
+
+    /**
+     * @brief Entity kind backend type getter
+     * @return entity kind
+     */
+    virtual backend::EntityKind backend_kind() const
+    {
+        return backend::EntityKind::INVALID;
+    }
+
+    /**
+     * @brief Entity alive status getter
+     * @return entity alive status
+     */
+    virtual bool alive() const;
 
     /**
      * @brief Item info setter
@@ -173,12 +187,8 @@ protected:
     //! Backend Id that references the \c Entity that this Item represents
     backend::EntityId id_;
 
-    //! Backend Kind of the entity
-    backend::EntityInfo kind_;
-
     //! Backend info that contains all the needed information for this item
     backend::EntityInfo info_;
-
 };
 
 } // namespace models
