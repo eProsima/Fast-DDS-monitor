@@ -10,8 +10,8 @@ Chartbox
 In this section it is explained the main functionalities and interactions available within a :ref:`chartbox_layout`,
 a window contained in the :ref:`main_panel_layout` that displays entities data with different configurations.
 
-To start a new Chartbox, press :ref:`display_data_button` or :ref:`display_data_button` in :ref:`edit_menu`
-or in :ref:`shortcuts_bar`.
+To start a new Chartbox, press :ref:`display_historic_data_button` or :ref:`display_dynamic_data_button`
+in :ref:`edit_menu` or in :ref:`shortcuts_bar`.
 These chartbox will be displayed in the central panel with the title of the *DataKind* they refer to.
 In these charts it will be displayed the Series of data that the user initialize.
 For how to set a new series please refer to :ref:`create_historic_series` or :ref:`create_dynamic_series`.

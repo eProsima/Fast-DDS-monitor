@@ -21,7 +21,7 @@ chart is not complete.
 Create Dynamic Series Chartbox
 ==============================
 An static chartbox could only contain series referring the same *DataKind*.
-In order to create a new chartbox in the central panel, use the button :ref:`display_data_button` in the
+In order to create a new chartbox in the central panel, use the button :ref:`display_dynamic_data_button` in the
 :ref:`edit_menu` or in :ref:`shortcuts_bar_layout`.
 
 A new dialog will appear asking to choose some parameters that will be share for all the new series created in this
