@@ -46,16 +46,16 @@ public:
 
     // EntityContainerModelItem default constructor
     EndpointModelItem(
-        QObject* parent = 0)
+            QObject* parent = 0)
         : EntityContainerModelItem(parent)
     {
     }
 
     // EntityContainerModelItem constructor
     EndpointModelItem(
-        backend::EntityId id,
-        backend::EntityInfo info,
-        QObject* parent = 0)
+            backend::EntityId id,
+            backend::EntityInfo info,
+            QObject* parent = 0)
         : EntityContainerModelItem(id, info, parent)
     {
     }
