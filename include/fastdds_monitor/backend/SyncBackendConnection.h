@@ -58,6 +58,7 @@ public:
     /***********
      * BACKEND *
      **********/
+
 public:
 
     //! Set the \c PhysicalListener in the backend
@@ -131,8 +132,9 @@ public:
             EntityId entity_id = EntityId::all());
 
     /**********
-     * CREATE *
-     **********/
+    * CREATE *
+    **********/
+
 protected:
 
     //! Create a new \c ListItem of class \c Host related with the backend entity with id \c id
@@ -174,6 +176,7 @@ protected:
     /************
      * GET DATA *
      ***********/
+
 public:
 
     // TODO
@@ -185,6 +188,7 @@ public:
     /**************
      * UPDATE ALL *
      *************/
+
 public:
 
     /**
@@ -368,9 +372,9 @@ public:
 protected:
 
     bool update_item_(
-            ListItem* item,
-            bool (SyncBackendConnection::* update_function)(ListItem*, bool),
-            bool inactive_visible = true);
+        ListItem * item,
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+        bool inactive_visible = true);
 
     /**
      * General method to encapsulate the common funcionality of updating the info from backend
@@ -381,72 +385,73 @@ protected:
 
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
-            ListModel * model,
-            EntityKind type,
-            EntityId id,
-            bool (SyncBackendConnection::* update_function)(ListItem*, bool),
-            ListItem * (SyncBackendConnection::* create_function)(EntityId),
-            bool inactive_visible = true);
+        ListModel * model,
+        EntityKind type,
+        EntityId id,
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool),
+        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        bool inactive_visible = true);
 
     /**************
      * UPDATE ONE *
      *************/
+
 public:
 
     bool update_host(
-        models::ListModel* physical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* physical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     bool update_user(
-        models::ListModel* physical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* physical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     bool update_process(
-        models::ListModel* physical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* physical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     bool update_domain(
-        models::ListModel* logical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* logical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     bool update_topic(
-        models::ListModel* logical_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* logical_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     bool update_participant(
-        models::ListModel* dds_model,
-        EntityId id,
-        bool new_entity,
-        EntityId related_entity_id,
-        bool inactive_visible);
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            EntityId related_entity_id,
+            bool inactive_visible);
 
     bool update_datawriter(
-        models::ListModel* dds_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     bool update_datareader(
-        models::ListModel* dds_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     bool update_locator(
-        models::ListModel* dds_model,
-        EntityId id,
-        bool new_entity,
-        bool inactive_visible);
+            models::ListModel* dds_model,
+            EntityId id,
+            bool new_entity,
+            bool inactive_visible);
 
     //! Set a new alias in backend
     void set_alias(
@@ -461,11 +466,11 @@ protected:
             EntityKind parent_kind);
 
     bool update_one_entity_in_model_(
-            models::ListModel* model,
-            EntityId id,
-            bool new_entity,
-            ListItem* (SyncBackendConnection::* create_function)(EntityId),
-            bool inactive_visible);
+        models::ListModel* model,
+        EntityId id,
+        bool new_entity,
+        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        bool inactive_visible);
 };
 
 } //namespace backend

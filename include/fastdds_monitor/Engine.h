@@ -339,9 +339,9 @@ public:
      * entity updated.
      */
     bool update_entity(
-            const backend::EntityId& entity_updated,
-            bool (Engine::* update_function)(const backend::EntityId&, bool),
-            bool new_entity = true);
+        const backend::EntityId& entity_updated,
+        bool (Engine::* update_function)(const backend::EntityId&, bool),
+        bool new_entity = true);
 
     //! Change inactive visible parameter
     void change_inactive_visible();

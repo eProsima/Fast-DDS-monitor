@@ -65,6 +65,7 @@ public:
     {
         return backend::EntityKind::PARTICIPANT;
     }
+
 };
 
 } // namespace models

@@ -146,7 +146,7 @@ public:
 
     //! Get active status from an entity. Default true.
     bool get_active(
-        EntityId id);
+            EntityId id);
 
 protected:
 

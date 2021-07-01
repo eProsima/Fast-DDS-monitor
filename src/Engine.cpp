@@ -451,7 +451,8 @@ bool Engine::update_topic(
 bool Engine::fill_dds_data_()
 {
     participants_model_->clear();
-    return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_, inactive_visible());
+    return backend_connection_.update_dds_model(participants_model_, last_physical_logical_entity_clicked_,
+                   inactive_visible());
 }
 
 void Engine::reset_dds_data()
@@ -536,7 +537,7 @@ bool Engine::entity_clicked(
         {
             reset_dds_data();
         }
-        if(update_dds)
+        if (update_dds)
         {
             res = update_dds_data(id) || res;
         }

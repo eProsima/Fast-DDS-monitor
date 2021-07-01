@@ -57,6 +57,7 @@ public:
     {
         return backend::EntityKind::TOPIC;
     }
+
 };
 
 } // namespace models

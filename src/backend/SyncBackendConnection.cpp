@@ -275,7 +275,7 @@ bool SyncBackendConnection::update_dds_model(
 bool SyncBackendConnection::update_get_data_dialog_entity_id(
         models::ListModel* entity_model,
         EntityKind entity_kind,
-            bool inactive_visible /* true */)
+        bool inactive_visible /* true */)
 {
     bool changed = false;
 
@@ -651,10 +651,10 @@ void SyncBackendConnection::set_alias(
 }
 
 bool SyncBackendConnection::update_host(
-    models::ListModel* physical_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     // Host model is already physical model
     return update_one_entity_in_model_(
@@ -666,10 +666,10 @@ bool SyncBackendConnection::update_host(
 }
 
 bool SyncBackendConnection::update_user(
-    models::ListModel* physical_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     // Get Host model where this user belongs
     ListModel* host_model = get_model_(physical_model, id, EntityKind::HOST);
@@ -689,10 +689,10 @@ bool SyncBackendConnection::update_user(
 }
 
 bool SyncBackendConnection::update_process(
-    models::ListModel* physical_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* physical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     // Get Host model where this process belongs
     ListModel* host_model = get_model_(physical_model, id, EntityKind::HOST);
@@ -720,12 +720,11 @@ bool SyncBackendConnection::update_process(
         inactive_visible);
 }
 
-
 bool SyncBackendConnection::update_domain(
-    models::ListModel* logical_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* logical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     // Domain model is already logical model
     return update_one_entity_in_model_(
@@ -737,10 +736,10 @@ bool SyncBackendConnection::update_domain(
 }
 
 bool SyncBackendConnection::update_topic(
-    models::ListModel* logical_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* logical_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     // Get Domain model where this Topic belongs
     ListModel* domain_model = get_model_(logical_model, id, EntityKind::DOMAIN);
@@ -760,11 +759,11 @@ bool SyncBackendConnection::update_topic(
 }
 
 bool SyncBackendConnection::update_participant(
-    models::ListModel* dds_model,
-    EntityId id,
-    bool new_entity,
-    EntityId related_entity_id,
-    bool inactive_visible)
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        EntityId related_entity_id,
+        bool inactive_visible)
 {
     // Check if the participant belongs to the entity context
     auto participants_related = get_entities(EntityKind::PARTICIPANT, related_entity_id);
@@ -785,10 +784,10 @@ bool SyncBackendConnection::update_participant(
 }
 
 bool SyncBackendConnection::update_datawriter(
-    models::ListModel* dds_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     // Get Host model where this datawriter belongs
     ListModel* participant_model = get_model_(dds_model, id, EntityKind::PARTICIPANT);
@@ -810,10 +809,10 @@ bool SyncBackendConnection::update_datawriter(
 }
 
 bool SyncBackendConnection::update_datareader(
-    models::ListModel* dds_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     // Get Host model where this datareader belongs
     ListModel* participant_model = get_model_(dds_model, id, EntityKind::PARTICIPANT);
@@ -835,10 +834,10 @@ bool SyncBackendConnection::update_datareader(
 }
 
 bool SyncBackendConnection::update_locator(
-    models::ListModel* dds_model,
-    EntityId id,
-    bool new_entity,
-    bool inactive_visible)
+        models::ListModel* dds_model,
+        EntityId id,
+        bool new_entity,
+        bool inactive_visible)
 {
     bool res = false;
 
@@ -904,9 +903,9 @@ bool SyncBackendConnection::update_locator(
 }
 
 ListModel* SyncBackendConnection::get_model_(
-    models::ListModel* parent_model,
-    EntityId id,
-    EntityKind parent_kind)
+        models::ListModel* parent_model,
+        EntityId id,
+        EntityKind parent_kind)
 {
     // Look for parent id in model
     EntityId parent_id;
@@ -927,7 +926,7 @@ ListModel* SyncBackendConnection::get_model_(
             parent_id = parents[0];
         }
     }
-    catch(const std::exception& e)
+    catch (const std::exception& e)
     {
         qWarning() << "Fail getting entities: " << e.what();
         return nullptr;
@@ -956,11 +955,11 @@ ListModel* SyncBackendConnection::get_model_(
 }
 
 bool SyncBackendConnection::update_one_entity_in_model_(
-    models::ListModel* model,
-    EntityId id,
-    bool new_entity,
-    ListItem* (SyncBackendConnection::* create_function)(EntityId),
-    bool inactive_visible)
+        models::ListModel* model,
+        EntityId id,
+        bool new_entity,
+        ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        bool inactive_visible)
 {
     // Check if element already exists
     int index = model->rowIndexFromId(id);

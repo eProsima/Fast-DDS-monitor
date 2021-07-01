@@ -45,6 +45,7 @@ public:
     {
         return backend::EntityKind::HOST;
     }
+
 };
 
 } // namespace models

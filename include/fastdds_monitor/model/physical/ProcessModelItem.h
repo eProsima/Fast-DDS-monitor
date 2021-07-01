@@ -58,6 +58,7 @@ public:
     {
         return backend::EntityKind::PROCESS;
     }
+
 };
 
 } // namespace models

@@ -40,6 +40,7 @@ public:
     {
         return backend::EntityKind::LOCATOR;
     }
+
 };
 
 } // namespace models

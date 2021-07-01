@@ -44,6 +44,7 @@ public:
     {
         return backend::EntityKind::DOMAIN;
     }
+
 };
 
 } // namespace models

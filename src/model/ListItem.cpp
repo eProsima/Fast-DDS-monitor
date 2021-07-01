@@ -74,7 +74,6 @@ ListItem::ListItem(
 {
 }
 
-
 ListItem::~ListItem()
 {
 }
