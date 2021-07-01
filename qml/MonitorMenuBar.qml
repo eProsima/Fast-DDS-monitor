@@ -65,6 +65,14 @@ MenuBar {
         title: qsTr("&View")
         implicitWidth: 250
         Action {
+            text: inactive_visible ? "Hide Inactive Entities" : "Show Inactive Entities"
+            onTriggered: {
+                inactive_visible = !inactive_visible
+                controller.change_inactive_visible()
+            }
+        }
+        MenuSeparator { }
+        Action {
             text: (toolBar.isVisible) ? "Hide Shorcuts Toolbar" : "Show Shorcuts Toolbar"
             onTriggered: toolBarHidden()
         }
@@ -76,13 +84,6 @@ MenuBar {
         Action {
             text: (panels.showLeftSidebar) ? "Hide Left sidebar" : "Show Left Sidebar"
             onTriggered: leftSidebarHidden()
-        }
-        Action {
-            text: (inactive_visible) ? "Hide Inactive Entities" : "Show Inactive Entities"
-            onTriggered: {
-                inactive_visible = !inactive_visible
-                controller.change_inactive_visible()
-            }
         }
     }
 

@@ -179,7 +179,14 @@ protected:
 
 public:
 
-    // TODO
+    /**
+     * Updates the entity model used to populate the ComboBox from the list of available entities of a certain type.
+     *
+     * The form the user fills in to generate a series in a graph has the source and target entities
+     * (only for certain data types) on which the data gathering is applied.
+     * This function allows to dynamically fill in the model of available entities according to the type of entity
+     * selected by the user.
+     */
     bool update_get_data_dialog_entity_id(
             models::ListModel* entity_model,
             EntityKind entity_kind,

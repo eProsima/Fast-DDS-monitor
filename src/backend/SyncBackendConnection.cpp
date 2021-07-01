@@ -314,6 +314,8 @@ bool SyncBackendConnection::update_item_info_(
     catch (const Exception& e)
     {
         qWarning() << "Fail updating item info: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return false;
     }
 }
@@ -377,6 +379,8 @@ bool SyncBackendConnection::update_model_(
     catch (const Exception& e)
     {
         qWarning() << "Fail updating model: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
     }
 
     return changed;
@@ -393,6 +397,8 @@ bool SyncBackendConnection::set_listener(
     catch (const Exception& e)
     {
         qWarning() << "Fail setting listener: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return false;
     }
 }
@@ -407,6 +413,8 @@ bool SyncBackendConnection::unset_listener()
     catch (const Exception& e)
     {
         qWarning() << "Fail unsetting listener: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return false;
     }
 }
@@ -459,6 +467,8 @@ EntityInfo SyncBackendConnection::get_info(
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entity info: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return EntityInfo();
     }
 }
@@ -473,6 +483,8 @@ bool SyncBackendConnection::get_alive(
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entity alive status: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return true;
     }
 }
@@ -487,6 +499,8 @@ EntityKind SyncBackendConnection::get_type(
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entity type: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return EntityKind::INVALID;
     }
 }
@@ -502,6 +516,8 @@ std::vector<EntityId> SyncBackendConnection::get_entities(
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entities: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return std::vector<EntityId>();
     }
 }
@@ -632,6 +648,8 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     catch (const Exception& e)
     {
         qWarning() << "Fail getting data: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
         return std::vector<StatisticsData>();
     }
 }
@@ -647,6 +665,8 @@ void SyncBackendConnection::set_alias(
     catch (const Exception& e)
     {
         qWarning() << "Fail setting new alias for entity: " << id.value();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
     }
 }
 

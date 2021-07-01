@@ -44,7 +44,7 @@ public:
         topicRole                                   //! Role for attribute Topic
     };
 
-    //! Specific DDS Item constructor, with a backend \c EntityId associateds
+    //! Specific DDS Item constructor, with a backend \c EntityId associated
     EndpointModelItem(
             backend::EntityId id,
             backend::EntityInfo info,

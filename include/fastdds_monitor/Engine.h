@@ -347,10 +347,7 @@ public:
     void change_inactive_visible();
 
     //! Get if inactive entities must be visible
-    bool inactive_visible() const
-    {
-        return inactive_visible_;
-    }
+    bool inactive_visible() const;
 
 signals:
 

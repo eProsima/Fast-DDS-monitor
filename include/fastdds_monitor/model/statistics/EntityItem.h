@@ -38,7 +38,7 @@ public:
         nameIdRole = ModelItemRoles::nameRole + 1,    //! Role for attribute Type
     };
 
-    //!
+    //! Default ListItem constructor
     EntityItem(
             QObject* parent = 0)
         : ListItem(parent)

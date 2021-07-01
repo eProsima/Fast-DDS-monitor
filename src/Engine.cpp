@@ -940,3 +940,8 @@ void Engine::change_inactive_visible()
     fill_logical_data_();
     fill_dds_data_();
 }
+
+bool Engine::inactive_visible() const
+{
+    return inactive_visible_;
+}

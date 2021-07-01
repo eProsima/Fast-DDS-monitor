@@ -116,7 +116,7 @@ public:
             const QModelIndex& index = QModelIndex()) Q_DECL_OVERRIDE;
 
     /**
-     * Returns the item whose id matches the modlesitemId.
+     * Returns the item whose id matches the models itemId.
      */
     ListItem* find(
             EntityId itemId) const;
