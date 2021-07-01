@@ -397,9 +397,9 @@ bool Database::get_active(
 {
     Info info = get_info(id);
 
-    if (info.contains("active"))
+    if (info.contains("alive"))
     {
-        return info["active"];
+        return info["alive"];
     }
     else
     {

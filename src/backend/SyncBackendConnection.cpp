@@ -1024,11 +1024,8 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         if (!inactive_visible && !active)
         {
             // Remove the item from the model
+            // This destroys the pointer of the item
             model->removeRow(index);
-
-            // Destroy Item object
-            // In case it has subitems they will be destroy as well
-            delete item;
 
             return true;
         }

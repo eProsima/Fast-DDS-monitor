@@ -353,7 +353,7 @@ Info StatisticsBackend::get_info(
 
     if (entity_id.value() == 2 || entity_id.value() == 3)
     {
-        json_obj["active"] = false;
+        json_obj["alive"] = false;
     }
 
     json_obj["alias"] = json_obj["name"];

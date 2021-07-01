@@ -44,6 +44,22 @@ public:
         topicRole                                   //! Role for attribute Topic
     };
 
+    // EntityContainerModelItem default constructor
+    EndpointModelItem(
+        QObject* parent = 0)
+        : EntityContainerModelItem(parent)
+    {
+    }
+
+    // EntityContainerModelItem constructor
+    EndpointModelItem(
+        backend::EntityId id,
+        backend::EntityInfo info,
+        QObject* parent = 0)
+        : EntityContainerModelItem(id, info, parent)
+    {
+    }
+
     //! Specific DDS Item constructor, with a backend \c EntityId associated
     EndpointModelItem(
             backend::EntityId id,
@@ -54,9 +70,6 @@ public:
         , kind_(kind)
     {
     }
-
-    // Use EntityContainerModelItem constructors
-    using EntityContainerModelItem::EntityContainerModelItem;
 
     //! Override the ListItem \c data method to add new roles
     QVariant data(

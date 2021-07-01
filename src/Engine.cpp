@@ -841,7 +841,7 @@ void Engine::update_dynamic_chartbox(
         // Check that get_data call has not failed
         if (new_points.empty())
         {
-            qInfo() << "get_data call has failed in series: " << parameters.series_ids[i];
+            qDebug() << "get_data call has not retrieved datapoints in series: " << parameters.series_ids[i];
         }
         else
         {
