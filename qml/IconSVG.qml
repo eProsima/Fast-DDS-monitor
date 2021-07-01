@@ -18,7 +18,7 @@ Image {
     id: image
     smooth: true
     visible: true
-    source: name ? "/resources/images/icons/" + name + "_" + color + ".svg" : ""
+    source: buildFileName()
 
     property string name: ""
     property string color: "black"
@@ -26,6 +26,10 @@ Image {
     property real scalingFactor: 1
     sourceSize.width: size * scalingFactor
     sourceSize.height: size * scalingFactor
+
+    function buildFileName() {
+        return name ? ("/resources/images/icons/" + name + "_" + color + ".svg") : ""
+    }
 }
 
 
