@@ -86,10 +86,9 @@ Rectangle {
 
                         IconSVG {
                             id: domainIcon
-                            source: "/resources/images/domain.svg"
+                            name: "domain"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
-                            dye: iconDyed(highlight, alive)
                             color: entityLabelColor(highlight, alive)
 
                             MouseArea {
@@ -175,10 +174,9 @@ Rectangle {
 
                                     IconSVG {
                                         id: topicIcon
-                                        source: "/resources/images/topic.svg"
+                                        name: "topic"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
-                                        dye: iconDyed(highlight, alive)
                                         color: entityLabelColor(highlight, alive)
                                     }
                                     Label {

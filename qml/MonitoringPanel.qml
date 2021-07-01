@@ -43,11 +43,10 @@ ColumnLayout {
                 color: Theme.whiteSmoke
             }
             IconSVG {
-                source: "/resources/images/three_dots_menu.svg"
+                name: "three_dots_menu"
                 Layout.alignment: Qt.AlignRight
                 scalingFactor: 2
-                dye: true
-                color: Theme.whiteSmoke
+                color: "white"
 
 
                 MouseArea {
