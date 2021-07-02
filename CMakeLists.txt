@@ -266,7 +266,13 @@ set(PROJECT_SOURCES
 configure_file(${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/config.h.in
 ${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/config.h)
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
+# Avoid launch command prompt when running the executable (.exe) from file explorer
+if(MSVC OR MSVC_IDE)
+    add_executable(${PROJECT_NAME} WIN32 ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
+else()
+    add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
+endif()
+
 target_include_directories(${PROJECT_NAME} PRIVATE
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
