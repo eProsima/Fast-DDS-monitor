@@ -375,8 +375,8 @@ entities monitored (similar to :code:`bins 0` in historic series).
 In order to see this data in real-time, add a new series in this same chartbox in *Series->Add series*.
 Choose again the *Host* as source and target and choose :code:`NONE` as :code:`Statistics kind`.
 
-Now you should be able to see a new series (by default purple, in the example image red) that represents each of the *DataPoints*
-sent by the DDS entities and collected by the monitor in the last 5 seconds.
+Now you should be able to see a new series (by default purple, in the example image red) that represents each of the
+*DataPoints* sent by the DDS entities and collected by the monitor in the last 5 seconds.
 This is very helpful to understand the :code:`Statistics kind`.
 As you can see, the :code:`MEAN`, :code:`MAX` and :code:`MIN` in each interval are calculated with this *DataPoints*.
 
