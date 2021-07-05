@@ -115,7 +115,7 @@ Rectangle {
                                     lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
                                 }
                                 onRightClick: {
-                                    changeAlias(id, name, kind)
+                                    openEntitiesMenu(id, name, kind)
                                 }
                             }
                         }
@@ -210,7 +210,7 @@ Rectangle {
                                                 lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
                                             }
                                             onRightClick: {
-                                                changeAlias(id, name, kind)
+                                                openEntitiesMenu(id, name, kind)
                                             }
                                         }
                                     }
@@ -281,7 +281,7 @@ Rectangle {
                                                             lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
                                                         }
                                                         onRightClick: {
-                                                            changeAlias(id, name, kind)
+                                                            openEntitiesMenu(id, name, kind)
                                                         }
                                                     }
                                                 }
