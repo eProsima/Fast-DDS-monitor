@@ -31,9 +31,15 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
         - -
         - -
     *   - :class:`BUILD_TESTS`
-        - Build the *Fast DDS Monitor* and documentation tests. |br|
-          Setting :class:`BUILD_TESTS` to ``ON`` sets :class:`BUILD_DOCUMENTATION_TESTS` |br|
-          to ``ON``.
+        - Build the *Fast DDS Monitor* application and documentation |br|
+          tests. Setting :class:`BUILD_TESTS` to ``ON`` sets |br|
+          :class:`BUILD_DOCUMENTATION_TESTS` to ``ON``.
+        - ``OFF`` |br|
+          ``ON``
+        - ``OFF``
+    *   - :class:`BUILD_APP_TESTS`
+        - Build the *Fast DDS Monitor* application tests. It is |br|
+          set to ``ON`` if :class:`BUILD_TESTS` is set to ``ON``. |br|
         - ``OFF`` |br|
           ``ON``
         - ``OFF``
