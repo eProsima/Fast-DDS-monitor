@@ -307,7 +307,7 @@ bool SyncBackendConnection::update_item_info_(
     try
     {
         // Query for this item info and updte it
-        item->info(StatisticsBackend::get_info(item->get_entity_id()));
+        item->info(get_info(item->get_entity_id()));
         item->triggerItemUpdate();
         return true;
     }
@@ -462,7 +462,8 @@ EntityInfo SyncBackendConnection::get_info(
 {
     try
     {
-        return StatisticsBackend::get_info(id);
+        // Refactor json info so there are no vectors
+        return backend::refactor_json(StatisticsBackend::get_info(id));
     }
     catch (const Exception& e)
     {
@@ -932,7 +933,7 @@ ListModel* SyncBackendConnection::get_model_(
 
     try
     {
-        auto parents = StatisticsBackend::get_entities(parent_kind, id);
+        std::vector<backend::EntityId> parents = get_entities(parent_kind, id);
 
         // It must be just one host
         if (parents.size() != 1)

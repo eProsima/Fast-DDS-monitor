@@ -306,4 +306,34 @@ bool get_info_alive(
     }
 }
 
+backend::EntityInfo refactor_json(
+        backend::EntityInfo json_data)
+{
+    if (json_data.is_array())
+    {
+        // In this case it is already a correct json
+        // Iterate over elements and refactor them
+        int counter = 0;
+        backend::EntityInfo new_json;
+        for (auto& element : json_data)
+        {
+            new_json[std::to_string(counter++)] = refactor_json(element);
+        }
+
+        return new_json;
+    }
+    else if (json_data.is_object())
+    {
+        // In this case it is already a correct json
+        // Iterate over elements and refactor them
+        for (auto& element : json_data.items())
+        {
+            json_data[element.key()] = refactor_json(element.value());
+        }
+    }
+
+    // Otherwise is primitive or null and it is already correct
+    return json_data;
+}
+
 } // namespace backend

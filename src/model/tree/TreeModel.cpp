@@ -204,58 +204,61 @@ TreeItem* TreeModel::get_item(
 
 void TreeModel::setup_model_data(
         const json& json_data,
-        TreeItem* parent)
+        TreeItem* parent,
+        bool _first /* = true */)
 {
     QList<QString> data;
 
     bool last_child = false;
 
-    uint32_t iteration = 0;
-
     json value;
 
     for (json::const_iterator it = json_data.begin(); it != json_data.end(); ++it)
     {
-        if (!json_data.is_array() || it.value().is_array())
-        {
-            data << QString::fromUtf8(it.key().c_str());
-        }
-        else if (json_data.is_array() && !it.value().is_primitive())
-        {
-            data << QString::fromUtf8(std::to_string(iteration).c_str());
-        }
+        data << QString::fromUtf8(it.key().c_str());
 
-        if (it.value().size() == 1)
+        if (it.value().is_primitive())
         {
-            value = it.value().is_array() ? it.value().at(0) : it.value();
-
-            if (value.is_string())
+            if (it.value().is_string())
             {
-                data << QString::fromUtf8(static_cast<std::string>(value).c_str());
+                data << QString::fromUtf8(static_cast<std::string>(it.value()).c_str());
                 last_child = true;
             }
-            else if (value.is_number())
+            else if (it.value().is_number())
             {
-                data << QString::number(static_cast<int>(value));
+                data << QString::number(static_cast<int>(it.value()));
                 last_child = true;
             }
-            else if (value.is_boolean())
+            else if (it.value().is_boolean())
             {
-                data << (value ? QString("true") : QString("false"));
+                data << (it.value() ? QString("true") : QString("false"));
+                last_child = true;
+            }
+            else
+            {
+                data << "-";
                 last_child = true;
             }
         }
 
         TreeItem* current_child = new TreeItem(data, parent);
+        if (!last_child)
+        {
+            setup_model_data(static_cast<json>(it.value()), current_child, false);
+        }
+
         parent->append_child(current_child);
         data.clear();
 
-        if (!last_child)
-        {
-            setup_model_data(static_cast<json>(it.value()), current_child);
-        }
 
         last_child = false;
+    }
+
+    // Add a final void element to avoid TreeView collapse fail
+    if (_first)
+    {
+        TreeItem* last_child = new TreeItem(data, parent);
+        parent->append_child(last_child);
     }
 }
 
@@ -265,7 +268,7 @@ void TreeModel::clear()
 }
 
 void TreeModel::update(
-        const json& data)
+        json data)
 {
     std::unique_lock<std::mutex> lock(update_mutex_);
 

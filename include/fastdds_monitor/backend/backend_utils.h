@@ -88,6 +88,10 @@ backend::DataKind string_to_data_kind(
 backend::StatisticKind string_to_statistic_kind(
         const QString& statistic_kind);
 
+
+//! recursive function to convert array json subelements to dictionaries indexed by numbers
+backend::EntityInfo refactor_json(backend::EntityInfo json_data);
+
 } //namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_BACKENDUTILS_H
