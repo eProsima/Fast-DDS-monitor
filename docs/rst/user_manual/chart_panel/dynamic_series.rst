@@ -8,7 +8,7 @@ Real-Time Data
 ##############
 
 A **Dynamic** or **Real-Time** series displays the data that is being receiving by the monitor in the current moment.
-This is a pseud-real-time display of a running DDS network.
+This is a pseudo-real-time display of a running DDS network.
 Pseudo because it is not an exact representation of the DDS network activity in the exact moment it is represented,
 but it represents a periodical update of the last seconds of the network.
 
