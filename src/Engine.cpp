@@ -638,8 +638,8 @@ bool Engine::on_add_statistics_data_series(
         std::chrono::duration_cast<std::chrono::milliseconds>(
             time_to.time_since_epoch()).count());
 
-    statistics_data_->setAxisYMax(max_value);
-    statistics_data_->setAxisYMin(min_value);
+    statistics_data_->setAxisYMax(max_value+1);
+    statistics_data_->setAxisYMin(min_value-1);
     statistics_data_->setAxisXMax(endDate.toMSecsSinceEpoch());
     statistics_data_->setAxisXMin(startDate.toMSecsSinceEpoch());
 
