@@ -88,6 +88,7 @@ Rectangle {
             interactive: false
             model: statisticsChartBoxModel
             delegate: widgetdelegate
+            cacheBuffer: chartBoxHeight * 100
 
             property int firstIndexDrag: -1
 
