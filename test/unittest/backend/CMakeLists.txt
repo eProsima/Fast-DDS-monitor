@@ -40,6 +40,8 @@ target_include_directories(SyncBackendConnectionTest PRIVATE
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 target_link_libraries(SyncBackendConnectionTest PUBLIC
+    fastrtps
+    fastcdr
     fastdds_statistics_backend
     ${QT5_LIBRARY_LINKS}
     ${GTEST_LIBRARIES})

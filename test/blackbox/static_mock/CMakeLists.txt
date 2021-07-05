@@ -43,6 +43,8 @@ target_include_directories(BlackboxStaticMockTest PRIVATE
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 target_link_libraries(BlackboxStaticMockTest
+    fastrtps
+    fastcdr
     ${QT5_LIBRARY_LINKS}
     fastdds_statistics_backend
     static-backend-mock

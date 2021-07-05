@@ -28,7 +28,6 @@ if(WIN32)
     # a third argument can be specify to simplify recursive operation. If it's value is
     # "EXTRA_PATHS" the current PATH will not be included in the output.
     function(get_win32_path_dependencies GOAL_TARGET OUTPUT_VARIABLE)
-
         unset(LOCAL_PATH)
 
         get_target_property(LINK_LIBRARIES_ ${GOAL_TARGET} LINK_LIBRARIES)

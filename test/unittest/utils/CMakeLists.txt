@@ -85,6 +85,8 @@ target_include_directories(BackendUtilsTest PRIVATE
     ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(BackendUtilsTest PUBLIC
+    fastrtps
+    fastcdr
     fastdds_statistics_backend
     ${QT5_LIBRARY_LINKS}
     ${GTEST_LIBRARIES})
