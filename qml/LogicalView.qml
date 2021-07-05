@@ -122,7 +122,7 @@ Rectangle {
                                     lastClickedLogical(domainIdx, -1, name, kind)
                                 }
                                 onRightClick: {
-                                    changeAlias(id, name, kind)
+                                    openEntitiesMenu(id, name, kind)
                                 }
                             }
                         }
@@ -190,7 +190,7 @@ Rectangle {
                                                 lastClickedLogical(domainIdx, topicIdx, name, kind)
                                             }
                                             onRightClick: {
-                                                changeAlias(id, name, kind)
+                                                openEntitiesMenu(id, name, kind)
                                             }
                                         }
                                     }

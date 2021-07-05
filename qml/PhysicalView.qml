@@ -115,7 +115,7 @@ Rectangle {
                                     lastClickedPhysical(hostIdx, -1, -1, name, kind)
                                 }
                                 onRightClick: {
-                                    changeAlias(id, name, kind)
+                                    openEntitiesMenu(id, name, kind)
                                 }
                             }
                         }
@@ -211,7 +211,7 @@ Rectangle {
                                                 lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
                                             }
                                             onRightClick: {
-                                                changeAlias(id, name, kind)
+                                                openEntitiesMenu(id, name, kind)
                                             }
                                         }
                                     }
@@ -282,7 +282,7 @@ Rectangle {
                                                             lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
                                                         }
                                                         onRightClick: {
-                                                            changeAlias(id, name, kind)
+                                                            openEntitiesMenu(id, name, kind)
                                                         }
                                                     }
                                                 }

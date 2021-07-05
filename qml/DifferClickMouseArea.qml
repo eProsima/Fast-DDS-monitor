@@ -22,7 +22,7 @@ MouseArea {
 
     signal singleClick
     signal doubleClick
-    signal rightClick
+    signal rightClick(variant mouse)
 
     Timer{
         id: timer
@@ -32,7 +32,7 @@ MouseArea {
 
     onClicked: {
         if(mouse.button & Qt.RightButton) {
-            rightClick()
+            rightClick(mouse)
         } else if(timer.running) {
             doubleClick()
             timer.stop()

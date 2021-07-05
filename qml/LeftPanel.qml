@@ -53,6 +53,10 @@ RowLayout {
         id: aliasDialog
     }
 
+    EntitiesMenu {
+        id: entitiesMenu
+    }
+
     IssuesPanel {
         id: issuesPanel
         Layout.fillHeight: true
@@ -64,6 +68,13 @@ RowLayout {
         aliasDialog.currentAlias = currentAlias
         aliasDialog.entityKind = entityKind
         aliasDialog.open()
+    }
+
+    function openEntitiesMenu(entityId, currentAlias, entityKind) {
+        entitiesMenu.entityId = entityId
+        entitiesMenu.currentAlias = currentAlias
+        entitiesMenu.entityKind = entityKind
+        entitiesMenu.popup()
     }
 
     function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
