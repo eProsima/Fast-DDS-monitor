@@ -286,7 +286,7 @@ ChartView {
 
     function customRemoveSeries(seriesIndex){
         mapper.splice(seriesIndex, 1)
-        if (mapper.empty()){
+        if (mapper.length == 0){
             running = false
         }
     }

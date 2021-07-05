@@ -106,7 +106,7 @@ public:
 
     //! Clear the model and create a new tree with new data
     void update(
-            const json& data);
+            json data);
 
     //! Return the role names of the values in nodes to acces them via \c data
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
@@ -128,12 +128,20 @@ protected:
      * It iterates over a json object, each key is created as a new subnode and the values
      * are used to fill this subnode with this same function.
      *
+     * Go through the whole json and its subelements and change every array of elements by a dictionary
+     * indexed by numbers starting in 0.
+     * For the first element, adds an empty row at the end to prevent the TreeView(*) error.
+     *
+     * (*) TreeView does not collapse correctly a subtree in case its last element is itself a subtree and
+     * it is not collapsed.
      * @param json_data data in json format to fill the item
      * @param parent item to fill
+     * @param _first wether is the parent element of the json (false only used in internal recursion)
      */
     static void setup_model_data(
             const json& json_data,
-            TreeItem* parent);
+            TreeItem* parent,
+            bool _first = true);
 
 private:
 
