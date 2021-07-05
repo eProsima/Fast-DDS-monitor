@@ -128,7 +128,8 @@ Let's initialize monitoring in **domain 0** and pressing :code:`OK`.
 Add physical and logical panels
 ===============================
 
-By default, it is only displayed the DDS panel with where DDS entities are shown.
+By default, the Monitor only displays the DDS panel which lists the DDS entities together with their configuration
+and available statistics information.
 In order to open the logical and the physical panels, click on the top right corner of the
 :code:`Explorer` panel, in button :code:`···` and add all the panels to visualize the whole information.
 
@@ -157,8 +158,9 @@ First of all, the number of entities discovered has increased.
 Now, you have a *DomainParticipant* called :code:`Participant_sub`, that holds a *DataReader* called
 :code:`DataReader_HelloWorldTopic_0.0.1.4`.
 This *DataReader* has a locator, which will be the *Shared Memory Transport* locator.
-That is because the Monitor and the *DomainParticipant* are running in the same host, and so they use *shared memory*
-communication.
+That is because the Monitor and the *DomainParticipant* are running in the same host, and so they communicate using
+the `Shared Memory Transport (SHM) protocol
+<https://fast-dds.docs.eprosima.com/en/v2.3.3/fastdds/transport/shared_memory/shared_memory.html>`_.
 
 You should be able to see as well that now *Host* exists, with a *User* and a *Process* where :code:`Participant_sub`
 is running.
@@ -210,8 +212,9 @@ Change entity alias
 ===================
 
 In order to make the user experience easier, there is a possibility to change the name of an specific entity.
-We are going to change the name of our *Host* to make it simpler.
-For that, just do right click over the entity name and a dialog will open.
+We are going to change the name of our *Host* to make it easier to identify.
+For that, just do right-click over the entity name and menu with the available options for that entity will popup.
+Click on *Change alias* to re-name the entity.
 
 .. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
     :align: center
@@ -265,10 +268,6 @@ Then, click :code:`OK` and now you should be able to see both series represented
 
 .. figure:: /rst/figures/screenshots/usage_example/data_count_chart.png
     :align: center
-
-.. todo::
-
-    Comment depending on the screenshot
 
 In this new chart created, you could see in the blue series the total amount of data packages sent in each time
 interval.
@@ -326,14 +325,14 @@ This section describes how to graphically represent data in real-time of a runni
 Periodic Latency Plot
 ---------------------
 
-This section explains how to represent the data regarding the latency in real-time between the publisher and
+This section explains how to represent the FastDDS latency in real-time between the publisher and
 the subscriber.
 First of all, click in :ref:`display_dynamic_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
-For this case, we will choose :code:`FASTDDS_LATENCY`.
-We are going to set a :code:`Time window` of 1 minute.
-This means we will see the data of the last minute of the network.
-We are going to set an :code:`Update period` of 5 seconds.
+For this case, choose :code:`FASTDDS_LATENCY`.
+Set a :code:`Time window` of 1 minute.
+This means you will be able to see the data of the last minute of the network.
+Finally, set an :code:`Update period` of 5 seconds.
 This will query for new data every 5 seconds and retrieve and display it in the chart.
 
 .. figure:: /rst/figures/screenshots/usage_example/new_dynamic_series_latency.png
@@ -358,7 +357,7 @@ The statistic kinds that we are going to use for this example are:
 .. figure:: /rst/figures/screenshots/usage_example/dynamic_latency_configuration.png
     :align: center
 
-This chart will be updated each 5 seconds, displaying the data collected within the last 5 seconds by the monitor.
+This chart will be updated each 5 seconds, displaying the data collected by the monitor within the last 5 seconds.
 The axis are updated periodically, and so the zoom and chart move is not available in this kind of charts while
 running.
 For this propose, the *play/pause* button stops the axis to update, and so you could zoom and move along the chart.
@@ -376,7 +375,7 @@ entities monitored (similar to :code:`bins 0` in historic series).
 In order to see this data in real-time, add a new series in this same chartbox in *Series->Add series*.
 Choose again the *Host* as source and target and choose :code:`NONE` as :code:`Statistics kind`.
 
-Now we will see a new series (by default purple, in the example image red) that represents each of the *DataPoints*
+Now you should be able to see a new series (by default purple, in the example image red) that represents each of the *DataPoints*
 sent by the DDS entities and collected by the monitor in the last 5 seconds.
 This is very helpful to understand the :code:`Statistics kind`.
 As you can see, the :code:`MEAN`, :code:`MAX` and :code:`MIN` in each interval are calculated with this *DataPoints*.
