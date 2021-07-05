@@ -649,9 +649,6 @@ bool Engine::on_add_statistics_data_series(
 void Engine::refresh_engine()
 {
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
-    fill_physical_data_();
-    fill_logical_data_();
-    fill_dds_data_();
 }
 
 void Engine::clear_log()
@@ -808,7 +805,7 @@ void Engine::update_dynamic_chartbox(
     if (parameters.source_ids.size() != parameters.target_ids.size() ||
             parameters.source_ids.size() != parameters.statistics_kinds.size())
     {
-        // BAD PARAMENTERS
+        // BAD PARAMETERS
         qCritical() << "Bad parameters in function update_dynamic_chartbox."
                     << "sources: " << parameters.source_ids.size()
                     << "targets: " << parameters.target_ids.size()

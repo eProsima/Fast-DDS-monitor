@@ -59,23 +59,37 @@ separated by ``;``.
 This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
-.. _display_data_button:
+.. _display_historic_data_button:
 
-Display New Data
-----------------
-Create a new *Chartbox* in the central panel.
-To know how to configure a *Chartbox*, please refer to the section :ref:`chart_panel`.
+Display Historical Data
+-----------------------
+Create a new historic *Chartbox* in the central panel.
+To know how to configure a historic *Chartbox*, please refer to the section :ref:`historic_series`.
+
+.. _display_dynamic_data_button:
+
+Display Dynamic Data
+--------------------
+Create a new dynamic *Chartbox* in the central panel.
+To know how to configure a dynamic *Chartbox*, please refer to the section :ref:`dynamic_series`.
 
 .. _refresh_button:
 
 Refresh
 -------
-This button resets several points in the monitor:
+This button resets the entity clicked and the entities models in case there is some entity missing in the display.
 
-- It clears the callback list in the *Issues* right panel.
-- It resets the entity clicked.
-  All DDS entities discovered will be shown regardless of the DDS Domain they belong
-  and the information displayed refer to a summary of all the entities in the monitor.
+.. _clear_log:
+
+Clear Log
+---------
+This button clear the callbacks log.
+
+.. _clear_issues:
+
+Clear Issues
+------------
+This button clear the issues log.
 
 View
 ====
@@ -91,10 +105,6 @@ Allow to show or hide independently the shortcut buttons in the shortcut toolbar
 Hide/Show Left sidebar
 ----------------------
 Hide the left sidebar if visible, or reveal it otherwise.
-
-Hide/Show Right sidebar
-------------------------
-Hide the right sidebar if visible, or reveal it otherwise.
 
 Help
 ====

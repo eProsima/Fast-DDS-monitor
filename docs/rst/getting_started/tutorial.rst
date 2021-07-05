@@ -125,14 +125,24 @@ Let's initialize monitoring in **domain 0** and pressing :code:`OK`.
 .. figure:: /rst/figures/screenshots/usage_example/init_domain.png
     :align: center
 
+Add physical and logical panels
+===============================
+
+By default, the Monitor only displays the DDS panel which lists the DDS entities together with their configuration
+and available statistics information.
+In order to open the logical and the physical panels, click on the top right corner of the
+:code:`Explorer` panel, in button :code:`···` and add all the panels to visualize the whole information.
+
+.. figure:: /rst/figures/screenshots/usage_example/add_panels.png
+    :align: center
+
 At this point, you are going to see the whole window of the application.
 You should be able to see how an unique entity is present in the application in the left sidebar.
 This is the domain that you have just initiated.
 Once a domain is initiated, it is set as :ref:`selected_entity` and so its information is shown in the
-:ref:`right_sidebar_layout`.
+:ref:`info_panel_layout`.
 
 For specific details on how the information is divided and where to find it, please refer to :ref:`index_user_manual`.
-
 
 Execute subscriber
 ==================
@@ -148,8 +158,9 @@ First of all, the number of entities discovered has increased.
 Now, you have a *DomainParticipant* called :code:`Participant_sub`, that holds a *DataReader* called
 :code:`DataReader_HelloWorldTopic_0.0.1.4`.
 This *DataReader* has a locator, which will be the *Shared Memory Transport* locator.
-That is because the Monitor and the *DomainParticipant* are running in the same host, and so they use *interprocess*
-communication.
+That is because the Monitor and the *DomainParticipant* are running in the same host, and so they communicate using
+the `Shared Memory Transport (SHM) protocol
+<https://fast-dds.docs.eprosima.com/en/v2.3.3/fastdds/transport/shared_memory/shared_memory.html>`_.
 
 You should be able to see as well that now *Host* exists, with a *User* and a *Process* where :code:`Participant_sub`
 is running.
@@ -201,37 +212,33 @@ Change entity alias
 ===================
 
 In order to make the user experience easier, there is a possibility to change the name of an specific entity.
-We are going to change the name of the *DomainParticipant* that contains the publisher.
-For that, just do right click over the entity name and a dialog will open.
+We are going to change the name of our *Host* to make it easier to identify.
+For that, just do right-click over the entity name and menu with the available options for that entity will popup.
+Click on *Change alias* to re-name the entity.
 
-.. todo::
-
-    .. .. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
-    ..     :align: center
+.. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
+    :align: center
 
 Set the new alias that you want for this entity.
 From now on this name will be used all along the monitor.
 
-.. todo::
-
-    .. .. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
-    ..     :align: center
+.. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
+    :align: center
 
 .. note::
 
     Be aware that this changes the alias of the entity inside the monitor, and does not affect to the real DDS network.
 
+Create Historic Series Chart
+============================
 
-Create Series Chart
-===================
-
-This section describes how to graphically represent the data that is being monitored.
+This section describes how to graphically represent data reported by a DDS network.
 
 Data Count Plot
 ---------------
 
 This section explains how to represent the data being monitored and retrieved by the DDS entities.
-First of all, click in :ref:`display_data_button`.
+First of all, click in :ref:`display_historic_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 The :code:`DATA_COUNT` has been chosen for this tutorial.
 
@@ -264,9 +271,9 @@ Then, click :code:`OK` and now you should be able to see both series represented
 
 In this new chart created, you could see in the blue series the total amount of data packages sent in each time
 interval.
-Each points means that from that timestamp until the timestamp of next point the publisher sent :code:`24/25` messages.
+Each points means that from that timestamp until the timestamp of next point the publisher sent :code:`10/11` messages.
 The green series reports that this data has been sent periodically by the publisher each time
-it had updated the number of data sent.
+it had updated the number of data sent by 1.
 
 Here you could appreciate that the beginning of the chart is empty.
 This is because the monitor has started before the publisher, and so there are some data at the beginning of the
@@ -276,7 +283,7 @@ Latency Plot
 -------------
 
 Next, you are going to see how to represent the latency between these *DomainParticipants*.
-First, click in :ref:`display_data_button`.
+First, click in :ref:`display_historic_data_button`.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 For this case, we will choose :code:`FASTDDS_LATENCY`.
 This data is called like this because it represents the time elapsed between the user call :code:`write` function
@@ -291,7 +298,7 @@ In our example we are going choose both *DomainParticipants*, and this will give
 
 For simplicity, we will use the same bins, start time, and end time configuration parameters as in the previous example.
 
-.. figure:: /rst/figures/screenshots/usage_example/fastdds_latency_configuration.png
+.. figure:: /rst/figures/screenshots/usage_example/latency_configuration.png
     :align: center
 
 Now for the :code:`Statistics kind` option, we are going to use some of them in order to see more than one series of
@@ -300,12 +307,92 @@ Change the :code:`Statistics kind` and click :code:`Apply` for each of them in o
 The statistic kinds that we are going to use for this example are:
 
 * :code:`MEDIAN` (blue series)
-* :code:`STANDARD_DEVIATION` (green series)
+* :code:`MAX`  (green series)
 * :code:`MIN` (yellow series)
-* :code:`MAX` (purple series)
+* :code:`STANDARD_DEVIATION` (purple series)
 
-.. figure:: /rst/figures/screenshots/usage_example/fastdds_latency_chart.png
+.. figure:: /rst/figures/screenshots/usage_example/latency_chart.png
     :align: center
 
 It is worth mentioning that the series name, its color, the axis, and some features of the chart box could be changed
 as mention in :ref:`chartbox`.
+
+Create Dynamic Series Chart
+===========================
+
+This section describes how to graphically represent data in real-time of a running DDS network.
+
+Periodic Latency Plot
+---------------------
+
+This section explains how to represent the FastDDS latency in real-time between the publisher and
+the subscriber.
+First of all, click in :ref:`display_dynamic_data_button`.
+This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
+For this case, choose :code:`FASTDDS_LATENCY`.
+Set a :code:`Time window` of 1 minute.
+This means you will be able to see the data of the last minute of the network.
+Finally, set an :code:`Update period` of 5 seconds.
+This will query for new data every 5 seconds and retrieve and display it in the chart.
+
+.. figure:: /rst/figures/screenshots/usage_example/new_dynamic_series_latency.png
+    :align: center
+
+After this, a new Dialog will open asking to configure the series that is going to be displayed.
+In the case of :code:`FASTDDS_LATENCY` the data to show is related with two entities.
+In our example we are going choose our *Host*.
+This will retrieve the latency measured in the communication between the entities of this host to itself.
+For this case, it is going to be the latency between the two participants, but this trick is very useful when
+you want to filter latency between two specific hosts or even to collect all the latency in the same domain.
+
+Now for the :code:`Statistics kind` option, we are going to use some of them in order to see more than one series of
+statistical data.
+Change the :code:`Statistics kind` and click :code:`Apply` for each of them in order to create a series for each one.
+The statistic kinds that we are going to use for this example are:
+
+* :code:`MEAN` (blue series)
+* :code:`MAX` (green series)
+* :code:`MIN` (yellow series)
+
+.. figure:: /rst/figures/screenshots/usage_example/dynamic_latency_configuration.png
+    :align: center
+
+This chart will be updated each 5 seconds, displaying the data collected by the monitor within the last 5 seconds.
+The axis are updated periodically, and so the zoom and chart move is not available in this kind of charts while
+running.
+For this propose, the *play/pause* button stops the axis to update, and so you could zoom and move along the chart.
+Be aware that pausing the chart do not stop new points to appear, as every 5 seconds the update of the data will
+still happen.
+
+.. figure:: /rst/figures/screenshots/usage_example/dynamic_latency_chart.png
+    :align: center
+
+Latency DataPoints
+------------------
+
+There is a special feature for real-time data display that allow to see every *DataPoint* received from the DDS
+entities monitored (similar to :code:`bins 0` in historic series).
+In order to see this data in real-time, add a new series in this same chartbox in *Series->Add series*.
+Choose again the *Host* as source and target and choose :code:`NONE` as :code:`Statistics kind`.
+
+Now you should be able to see a new series (by default purple, in the example image red) that represents each of the
+*DataPoints* sent by the DDS entities and collected by the monitor in the last 5 seconds.
+This is very helpful to understand the :code:`Statistics kind`.
+As you can see, the :code:`MEAN`, :code:`MAX` and :code:`MIN` in each interval are calculated with this *DataPoints*.
+
+.. todo::
+
+    Erase this note if/when get_data changes the main time point for *DataPoints*
+
+.. note::
+
+    The monitor retrieves each *DataPoint* with the time of the beginning of the interval it represents.
+    This means that the real *DataPoints* used to calculate the :code:`MEAN`, :code:`MAX` and :code:`MIN`
+    are the ones ahead of it.
+
+.. figure:: /rst/figures/screenshots/usage_example/dynamic_all_latency_chart.png
+    :align: center
+
+It is worth mentioning that dynamic series could be configurable as the historic series.
+The label and color of each series is mutable, and the chart could zoom in and out and move along the axis
+while the chart is paused.

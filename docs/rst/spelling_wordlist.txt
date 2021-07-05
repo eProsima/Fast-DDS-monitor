@@ -2,7 +2,7 @@ allocator
 Asio
 backend
 Backend
-Chartbox
+chartbox
 CMake
 colcon
 datareader
@@ -17,4 +17,6 @@ multicast
 Qos
 QoS
 Todo
+subpanel
+subpanels
 wget

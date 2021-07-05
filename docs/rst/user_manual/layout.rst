@@ -5,7 +5,6 @@
 ######
 Layout
 ######
-
 This section explains the Graphical User Interface (GUI) of the *Fast DDS Monitor* application.
 It will briefly explain the main menus and windows that could be seen, in order to familiarize the user
 with where to find the buttons and information.
@@ -18,7 +17,6 @@ Below is a screenshot of the *Fast DDS Monitor* application in operation.
 
 Application Menu
 ================
-
 This general menu contains all the options available for this application divided in four groups depending on
 their area of operation:
 
@@ -36,7 +34,6 @@ For the explanation of the functionality of this buttons refer to the section :r
 
 Shortcuts Bar
 =============
-
 This horizontal bar contains shortcuts to the main operations supported by the application,
 so the user has a faster access to the main functionalities.
 This bar could be configured in the *View* tab of the application menu.
@@ -48,24 +45,21 @@ For the explanation of how to configure this bar refer to the section :ref:`shor
 
 .. _left_sidebar_layout:
 
-Left Sidebar
-============
-
-In this side bar it will be shown the different entities that has been discovered by the monitor.
+Explorer Panel
+==============
+In this panel it will be shown the different entities that has been discovered by the monitor.
 They will be displayed in interactive lists that the user could expand or collapse.
-These entities are clickable as well, in order to inspect them.
+These entities are clickable as well, in order to inspect their information shown in this same panel
 
-This sidebar contains a mutable number of panels where one of the possible entity panels will be displayed.
-The different panels that could be shown are the :ref:`dds_panel_layout`, the :ref:`physical_panel_layout` and
-the :ref:`logical_panel_layout`.
-In this panels, the entities discovered are going to be displayed depending on their kind.
+This panel contains a mutable number of subpanels.
+The different panels that could be shown are the :ref:`dds_panel_layout`, the :ref:`physical_panel_layout`,
+the :ref:`logical_panel_layout` and the :ref:`info_panel_layout`.
+In these subpanels, the entities discovered are going to be displayed depending on their kind.
 In order to know which kind of entities the application has and how are they divided in categories, please refer to
 :ref:`entities`.
 
-To add a new panel to display other relevant information, use the ``+`` button in the upper bar of any panel.
-To delete any panel click in the ``x`` button.
-Once one new panel is created could be changed to the desired kind by clicking in the name of the panel and choosing
-one of them.
+To add a new panel to display other relevant information, use the ``...`` button in the upper bar of the panel and
+select those subpanels that want to be show or hide.
 To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
 In order to hide the whole left sidebar, click in the ``<`` button in the upper panel or click
 *Hide Left sidebar* in the *View* menu..
@@ -77,13 +71,16 @@ For more information about what means to select an entity refer to :ref:`selecte
 
 DDS Panel
 ---------
-
-This panel shows the :ref:`dds_entities` of the monitor.
+This subpanel shows the :ref:`dds_entities` of the monitor.
 This entities are the DDS *DomainParticipant*, the DDS *DataReader* and *DataWriter*, and the transport *Locators* that
 each entity is using.
-This panel will be filled with the DDS entities that are related with the entity currently selected,
-so it could happen that not all the DDS entities discovered by the monitor appears in this panel at a certain point
+This subpanel will be filled with the DDS entities that are related with the entity currently selected,
+so it could happen that not all the DDS entities discovered by the monitor appears in this subpanel at a certain point
 (see :ref:`selected_entity` for further details).
+
+.. todo::
+
+    use a figure with not alive entities
 
 .. figure:: /rst/figures/screenshots/dds_panel.png
     :align: center
@@ -94,8 +91,7 @@ For the explanation of this entities and the interaction with them refer to the 
 
 Physical Panel
 --------------
-
-In this panel it will appear the Entities discovered by the monitor that refers to physical entities.
+In this subpanel it will appear the Entities discovered by the monitor that refers to physical entities.
 There are three different kind of physical entities, *Host*, *User* and *Process*.
 These entities refer to the main information of the machine and the context where an application using
 *Fast DDS* is running.
@@ -108,8 +104,7 @@ For further explanation of this entities and the interaction with them refer to 
 
 Logical Panel
 -------------
-
-In this panel it will appear the Entities discovered by the monitor that refers to abstract entities in a
+In this subpanel it will appear the Entities discovered by the monitor that refers to abstract entities in a
 DDS communication network.
 These entities are *Domain* and *Topic*.
 These entities refer to abstract partitions in a DDS network. Only entities in the same *Domain* could communicate
@@ -119,10 +114,41 @@ For further explanation of this entities and the interaction with them refer to 
 .. figure:: /rst/figures/screenshots/logical_panel.png
     :align: center
 
-.. _right_sidebar_layout:
+.. _info_panel_layout:
 
-Right Sidebar
-=============
+Information Panel
+-----------------
+This subpanel displays information regarding the last entity clicked.
+This information is divided in two categories and are shown in the different subpanel tabs.
+First, the ``info`` tab contains the general information of the last entity clicked.
+Secondly, the ``Statistics`` tab contains a summary of the main statistical data regarding the last entity clicked.
+
+Info Panel
+^^^^^^^^^^
+This panel shows the main information of the last entity clicked.
+This information differs depending on the kind of the entity, i.e. for a *DDS Entity*,
+the *QoS* information would be shown, while for a *Process*, its *process id* will be displayed.
+
+.. figure:: /rst/figures/screenshots/info_panel.png
+    :align: center
+
+For the explanation of this information refer to the section :ref:`info_panel`.
+
+.. _statistics_panel_layout:
+
+Statistics Panel
+^^^^^^^^^^^^^^^^
+This panel shows a summary of the main statistic data related with the last entity clicked.
+
+.. figure:: /rst/figures/screenshots/statistics_panel.png
+    :align: center
+
+For the explanation of this information refer to the section :ref:`statistics_panel`.
+
+.. _status_panel_layout:
+
+Monitor Status Panel
+====================
 
 In this side bar it will be shown different data related with the entities that are being monitored or related
 with the actual state of the application.
@@ -136,34 +162,6 @@ To change from one to another press on the name of the tab an choose the panel d
 To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
 In order to hide the whole left sidebar, click in the ``<`` button in the upper panel or click
 *Hide Left sidebar* in the *View* menu.
-
-.. _info_panel_layout:
-
-Info Panel
-----------
-
-This panel shows the main information of the last entity clicked.
-This information differs depending on the kind of the entity, i.e. for a *DDS Entity*,
-the *QoS* information would be shown, while for a *Process*, its *process id* will be displayed.
-
-.. figure:: /rst/figures/screenshots/info_panel.png
-    :align: center
-
-For the explanation of this information refer to the section :ref:`info_panel`.
-
-.. _statistics_panel_layout:
-
-Statistics Panel
-----------------
-
-This panel shows a summary of the main statistic data related with the last entity clicked.
-
-.. figure:: /rst/figures/screenshots/statistics_panel.png
-    :align: center
-
-For the explanation of this information refer to the section :ref:`statistics_panel`.
-
-.. _status_panel_layout:
 
 Status Panel
 ------------
@@ -201,7 +199,7 @@ For the explanation of this information refer to the section :ref:`log_panel`.
 .. _issues_panel_layout:
 
 Issues Panel
-------------
+============
 
 This panel is not available in this version of the Fast DDS Monitor.
 
@@ -209,7 +207,6 @@ This panel is not available in this version of the Fast DDS Monitor.
 
 Main Panel
 ==========
-
 The central window it will display the data charts, so-called *Chartbox*, that the user has configured.
 To create a new *Chartbox* go to *Edit->DisplayNewData* in the application menu.
 This button will create a new *Chartbox* where new series could be added, removed or modified.
@@ -244,4 +241,5 @@ This Dialog will appear every time a new Chartbox is created, or adding a new se
 .. figure:: /rst/figures/screenshots/create_series_dialog.png
     :align: center
 
-For further details on how to configure a new series refer to :ref:`create_serie`.
+For further details on how to configure a new series refer to :ref:`historic_series` for historic data or
+:ref:`dynamic_series` for dynamic data.
