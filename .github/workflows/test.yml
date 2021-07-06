@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  windows-build-test:
+  windows-build-test-release:
     runs-on: windows-latest
     environment:
       name: codecov
@@ -24,18 +24,89 @@ jobs:
         with:
           path: Fast-DDS-monitor
 
-      - name: install OpenSSL
+      - name: Install OpenSSL
+        uses: ./Fast-DDS-monitor/.github/actions/install-openssl-windows
+
+      - name: Install GoogleTest
         shell: pwsh
         run: >
-          cmake --find-package -DNAME=OpenSSL -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=EXIST | Tee-Object -Variable res;
-          if ( $res -notlike '*OpenSSL found.*')
+          cmake --find-package -DNAME=GTest -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=EXIST | Tee-Object -Variable res;
+          if ( $res -notlike '*GTest found.*')
           {
-            choco install openssl -yr --no-progress;
-            @(ls -Path C:\Windows\System32\* -Include libssl-*.dll; ls -Path C:\Windows\SysWOW64\* -Include libssl-*.dll)
-            | rm -ErrorAction SilentlyContinue
+            git clone https://github.com/google/googletest.git;
+            cmake -DCMAKE_INSTALL_PREFIX='C:\Program Files\gtest' -Dgtest_force_shared_crt=ON -DBUILD_GMOCK=ON `
+              -B build\gtest -A x64 -T host=x64 googletest;
+            cmake --build build\gtest --config Release --target install
           }
 
-      - name: install GoogleTest
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.0
+        with:
+          version: '5.15.2'
+          arch: 'win64_msvc2019_64'
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+
+      - name: Install foonatham memory
+        shell: pwsh
+        run: >
+          git clone --recurse-submodules --branch v0.6-2 https://github.com/foonathan/memory.git;
+          cmake -DBUILD_SHARED_LIBS=OFF -DFOONATHAN_MEMORY_BUILD_TOOLS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON `
+            -DFOONATHAN_MEMORY_BUILD_TESTS=OFF -Ax64 -T host=x64 -B build\memory memory;
+          cmake --build build\memory --config Release --target install
+
+      - name: install Fast-CDR
+        shell: pwsh
+        run: >
+          git clone https://github.com/eProsima/Fast-CDR.git;
+          cmake -Ax64 -T host=x64 -B build\fastcdr Fast-CDR;
+          cmake --build build\fastcdr --config Release --target install
+
+      - name: Install Fast-DDS
+        shell: pwsh
+        run: >
+          git clone https://github.com/eProsima/Fast-DDS.git;
+          cmake -DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
+            -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 -B build\fastdds Fast-DDS;
+          cmake --build build\fastdds --config Release --target install
+
+      - name: Install Fast-DDS-statistics-backend
+        shell: pwsh
+        run: >
+          git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git;
+          cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest' `
+            -B build\backend -A x64 -T host=x64 Fast-DDS-statistics-backend;
+          cmake --build build\backend --config Release --target install
+
+      - name: Install Fast-DDS-monitor
+        shell: pwsh
+        run: >
+          cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest' -DBUILD_APP_TESTS=ON -DBUILD_MOCK=ON `
+            -DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/5.15.2 -DCMAKE_CXX_FLAGS="/WX /EHsc" `
+            -B build\monitor -A x64 -T host=x64 Fast-DDS-monitor;
+          cmake --build build\monitor --config Release --target install
+
+      - name: Run tests
+        shell: pwsh
+        run: ctest -C Release --test-dir build\monitor -V --timeout 60
+
+  windows-build-test-debug:
+    runs-on: windows-latest
+    environment:
+      name: codecov
+    env:
+      CXXFLAGS: /MP
+      OPENSSL64_ROOT: "C:/Program Files/OpenSSL-Win64"
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: Fast-DDS-monitor
+
+      - name: Install OpenSSL
+        uses: ./Fast-DDS-monitor/.github/actions/install-openssl-windows
+
+      - name: Install GoogleTest
         shell: pwsh
         run: >
           cmake --find-package -DNAME=GTest -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=EXIST | Tee-Object -Variable res;
@@ -56,55 +127,46 @@ jobs:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
 
-      - name: install foonatham memory
+      - name: Install foonatham memory
         shell: pwsh
         run: >
           git clone --recurse-submodules --branch v0.6-2 https://github.com/foonathan/memory.git;
           cmake -DBUILD_SHARED_LIBS=OFF -DFOONATHAN_MEMORY_BUILD_TOOLS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON `
             -DFOONATHAN_MEMORY_BUILD_TESTS=OFF -Ax64 -T host=x64 -B build\memory memory;
-          cmake --build build\memory --config Debug --target install;
-          cmake --build build\memory --config Release --target install
+          cmake --build build\memory --config Debug --target install
 
       - name: install Fast-CDR
         shell: pwsh
         run: >
           git clone https://github.com/eProsima/Fast-CDR.git;
           cmake -Ax64 -T host=x64 -B build\fastcdr Fast-CDR;
-          cmake --build build\fastcdr --config Debug --target install;
-          cmake --build build\fastcdr --config Release --target install
+          cmake --build build\fastcdr --config Debug --target install
 
-      - name: install Fast-DDS
+      - name: Install Fast-DDS
         shell: pwsh
         run: >
           git clone https://github.com/eProsima/Fast-DDS.git;
           cmake -DTHIRDPARTY=ON -DSECURITY=ON -DCOMPILE_EXAMPLES=OFF -DEPROSIMA_BUILD_TESTS=OFF `
             -DINTERNAL_DEBUG=ON -Ax64 -T host=x64 -B build\fastdds Fast-DDS;
-          cmake --build build\fastdds --config Debug --target install;
-          cmake --build build\fastdds --config Release --target install
+          cmake --build build\fastdds --config Debug --target install
 
-      - name: install Fast-DDS-statistics-backend
+      - name: Install Fast-DDS-statistics-backend
         shell: pwsh
         run: >
           git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git;
-          cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest' -DBUILD_LIBRARY_TESTS=ON `
+          cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest' `
             -B build\backend -A x64 -T host=x64 Fast-DDS-statistics-backend;
-          cmake --build build\backend --config Debug --target install;
-          cmake --build build\backend --config Release --target install
+          cmake --build build\backend --config Debug --target install
 
-      - name: install Fast-DDS-monitor
+      - name: Install Fast-DDS-monitor
         shell: pwsh
         run: >
           cmake -DCMAKE_PREFIX_PATH='C:\Program Files\gtest' -DBUILD_APP_TESTS=ON -DBUILD_MOCK=ON `
             -DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/5.15.2 -DCMAKE_CXX_FLAGS="/WX /EHsc" `
             -B build\monitor -A x64 -T host=x64 Fast-DDS-monitor;
-          cmake --build build\monitor --config Debug --target install;
-          cmake --build build\monitor --config Release --target install
+          cmake --build build\monitor --config Debug --target install
 
-      - name: Run tests on Release
-        shell: pwsh
-        run: ctest -C Release --test-dir build\monitor -V --timeout 60
-
-      - name: Run tests on Debug
+      - name: Run tests
         shell: pwsh
         run: ctest -C Debug --test-dir build\monitor -V --timeout 60
 
@@ -118,10 +180,17 @@ jobs:
         with:
           path: src/Fast-DDS-monitor
 
-      - uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
-      - uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
-      - uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
-      - uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
+      - name: Install apt packages
+        uses: ./src/Fast-DDS-monitor/.github/actions/install-apt-packages
+
+      - name: Install GTest
+        uses: ./src/Fast-DDS-monitor/.github/actions/install-gtest
+
+      - name: Install Python packages
+        uses: ./src/Fast-DDS-monitor/.github/actions/install-python-packages
+
+      - name: Fetch Fast DDS Statistics Backend repositories
+        uses: ./src/Fast-DDS-monitor/.github/actions/fetch-fastdds-statistics-backend-repos
 
       - name: Update colcon mixin
         run: |
