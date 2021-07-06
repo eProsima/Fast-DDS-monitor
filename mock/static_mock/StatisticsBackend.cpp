@@ -348,7 +348,7 @@ Info StatisticsBackend::get_info(
     }
     else
     {
-        json_obj["name"] = names[entity_id.value()];
+        json_obj["name"] = names[static_cast<int>(entity_id.value())];
     }
 
     if (entity_id.value() == 2 || entity_id.value() == 3)
@@ -530,7 +530,7 @@ void StatisticsBackend::set_alias(
     }
     else
     {
-        names[entity_id.value()] = alias;
+        names[static_cast<int>(entity_id.value())] = alias;
     }
 }
 

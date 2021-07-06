@@ -257,8 +257,8 @@ void TreeModel::setup_model_data(
     // Add a final void element to avoid TreeView collapse fail
     if (_first)
     {
-        TreeItem* last_child = new TreeItem(data, parent);
-        parent->append_child(last_child);
+        TreeItem* empty_child = new TreeItem(data, parent);
+        parent->append_child(empty_child);
     }
 }
 
