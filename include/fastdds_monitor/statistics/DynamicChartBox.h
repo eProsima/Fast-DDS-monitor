@@ -19,6 +19,7 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICCHARTBOX_H
 #define _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICCHARTBOX_H
 
+#include <limits>
 #include <mutex>
 
 #include <QtCore/QObject>
@@ -69,8 +70,8 @@ public:
         , id_(id)
         , data_kind_(data_kind)
         , time_to_(time_to)
-        , axisYMax_(10)
-        , axisYMin_(0)
+        , axisYMax_(std::numeric_limits<qreal>::min())
+        , axisYMin_(std::numeric_limits<qreal>::max())
         , current_update_parameters_({
         data_kind,
         time_to,

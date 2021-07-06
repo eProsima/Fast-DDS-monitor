@@ -34,8 +34,8 @@ ChartView {
     // Meanwhile doing that would leave the chart too shifted to the left
     property int delay_time: 5000
     property int axis_refresh_time: 100
-    property int y_axis_current_min: 0
-    property int y_axis_current_max: 10
+    property real y_axis_current_min: 0
+    property real y_axis_current_max: 10
 
     property bool running: false
 

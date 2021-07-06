@@ -168,8 +168,8 @@ void DynamicChartBox::clear_charts()
     }
     series_.clear();
 
-    setAxisYMax(10);
-    setAxisYMin(0);
+    setAxisYMax(std::numeric_limits<qreal>::min());
+    setAxisYMin(std::numeric_limits<qreal>::max());
 
     current_update_parameters_.series_ids.clear();
     current_update_parameters_.source_ids.clear();
