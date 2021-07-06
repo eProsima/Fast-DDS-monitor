@@ -99,3 +99,6 @@ tags
 build/
 install/
 log/
+
+### Visual Studio ###
+.vs

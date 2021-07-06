@@ -15,13 +15,13 @@
 #include <chrono>
 #include <ctime>
 #include <math.h>
-#include <sys/time.h>
 #include <thread>
 #include <time.h>
 
 #include <string>
 
-#include "gtest/gtest.h"
+#include <gtest_aux.hpp>
+#include <gtest/gtest.h>
 
 #include <QString>
 

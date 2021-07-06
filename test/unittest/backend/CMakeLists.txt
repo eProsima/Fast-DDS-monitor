@@ -29,15 +29,24 @@ add_executable(SyncBackendConnectionTest
     ${BACKENDUTILS_TEST_HEADERS}
     )
 
+if(MSVC)
+    target_compile_definitions(SyncBackendConnectionTest PRIVATE _CRT_DECLARE_NONSTDC_NAMES=0)
+endif(MSVC)
+
 target_include_directories(SyncBackendConnectionTest PRIVATE
+    ${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
 target_link_libraries(SyncBackendConnectionTest PUBLIC
+    fastrtps
+    fastcdr
     fastdds_statistics_backend
     ${QT5_LIBRARY_LINKS}
-    gtest)
+    ${GTEST_LIBRARIES})
+
+get_win32_path_dependencies(SyncBackendConnectionTest TEST_FRIENDLY_PATH)
 
 set(SYNCBACKEND_TEST_LIST
     listener)
@@ -46,4 +55,8 @@ foreach(test_name ${SYNCBACKEND_TEST_LIST})
     add_test(NAME SyncBackendConnectionTest.${test_name}
             COMMAND SyncBackendConnectionTest
             --gtest_filter=SyncBackendConnectionTest.${test_name}:*/SyncBackendConnectionTest.${test_name}/*)
+
+    if(TEST_FRIENDLY_PATH)
+        set_tests_properties(SyncBackendConnectionTest.${test_name} PROPERTIES ENVIRONMENT "PATH=${TEST_FRIENDLY_PATH}")
+    endif(TEST_FRIENDLY_PATH)
 endforeach()
