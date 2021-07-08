@@ -13,14 +13,15 @@
 // limitations under the License.
 
 /**
- * @file DynamicData.hpp
+ * @file DynamicStatisticsData.hpp
  */
 
 #ifndef _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H
 #define _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H
 
 #include <QtCore/QObject>
-#include <fastdds_monitor/statistics/DynamicChartBox.h>
+#include <fastdds_monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/statistics/dynamic/DynamicDataChartBox.h>
 
 /**
  * @brief Handle all the connections between QML and the dynamic data / real time data
@@ -31,18 +32,19 @@
  * It gets with slots the QML signals sent from dynamic data related methods.
  * Most of these methods uses the internal id to the chartbox to reference with chartbox must be affected.
  */
-class DynamicData : public QObject
+class DynamicStatisticsData : public StatisticsData
 {
     Q_OBJECT
 
 public:
 
-    ~DynamicData();
+    // Inherit parent constructors/destructors
+    using StatisticsData::StatisticsData;
 
     //! Updata an internal chartbox with one point for each series
     void update(
             quint64 chartbox_id,
-            std::map<quint64, std::vector<QPointF>>& new_data,
+            std::map<quint64, QVector<QPointF>>& new_data,
             quint64 time_to);
 
     //! Get parameters from an internal chartbox to get next data point
@@ -58,45 +60,10 @@ public slots:
             QString source_id,
             QString target_id);
 
-    /**
-     * Delete a series belongs to an internal Chartbox
-     *
-     * @warning This method is called with the QML series_index, that is not static for a series, but it is
-     * an index in an array that varies. In the unlikely case of deleting two series in less time than C++
-     * handles one destruction, it could lead to error
-     */
-    void delete_series(
-            quint64 chartbox_id,
-            quint64 series_index);
-
     //! Add a new internal Chartbox
     quint64 add_chartbox(
             QString data_kind,
             quint64 time_to);
-
-    //! Delete an internal Chartbox
-    void delete_chartbox(
-            quint64 chartbox_id);
-
-    //! Get max Y value in all the internal series
-    qreal axis_y_max(
-            quint64 chartbox_id);
-
-    //! Get min Y value in all the internal series
-    qreal axis_y_min(
-            quint64 chartbox_id);
-
-    //! Send clear chart to internal chartbox
-    void clear_charts(
-            quint64 chartbox_id);
-
-protected:
-
-    //! Unique id of the new chartbox to add
-    static quint64 last_id_;
-
-    //! Internal chartboxes map by id
-    std::map<quint64, DynamicChartBox*> chartboxes_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H

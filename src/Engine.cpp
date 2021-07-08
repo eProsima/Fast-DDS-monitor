@@ -33,7 +33,8 @@
 #include <fastdds_monitor/model/SubListedListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/statistics/StatisticsData.h>
-#include <fastdds_monitor/statistics/DynamicData.h>
+#include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
+#include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
 
 using EntityInfo = backend::EntityInfo;
 
@@ -89,8 +90,8 @@ QObject* Engine::enable()
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
-    statistics_data_ = new StatisticsData();
-    dynamic_data_ = new DynamicData();
+    historic_statistics_data_ = new HistoricStatisticsData();
+    dynamic_statistics_data_ = new DynamicStatisticsData();
     controller_ = new Controller(this);
 
     // Set the initial time
@@ -110,8 +111,8 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
 
-    rootContext()->setContextProperty("statisticsData", statistics_data_);
-    rootContext()->setContextProperty("dynamicData", dynamic_data_);
+    rootContext()->setContextProperty("statisticsData", historic_statistics_data_);
+    rootContext()->setContextProperty("dynamicData", dynamic_statistics_data_);
     rootContext()->setContextProperty("controller", controller_);
 
     addImportPath(":/imports");
@@ -195,11 +196,15 @@ Engine::~Engine()
         }
 
         // Interactive models
-        if (statistics_data_)
+        if (historic_statistics_data_)
         {
-            delete statistics_data_;
+            delete historic_statistics_data_;
         }
 
+        if (dynamic_statistics_data_)
+        {
+            delete dynamic_statistics_data_;
+        }
         // WARNING: destroying this object heads to an error in javascript because cannot access methods of null:
         // qrc:/qml/AboutDialog.qml:57: TypeError: Cannot call method '...' of null
         // The elements that fail are:
@@ -587,6 +592,7 @@ bool Engine::on_selected_entity_kind(
 }
 
 bool Engine::on_add_statistics_data_series(
+        quint64 chartbox_id,
         backend::DataKind data_kind,
         backend::EntityId source_entity_id,
         backend::EntityId target_entity_id,
@@ -613,37 +619,23 @@ bool Engine::on_add_statistics_data_series(
 
     QVector<QPointF> points;
     points.reserve(static_cast<int>(statistic_data.size()));
-    qreal max_value = 0;
-    qreal min_value = 0;
 
     for (backend::StatisticsData data : statistic_data)
     {
-        points.append(QPointF(
-                    std::chrono::duration_cast<std::chrono::milliseconds>(data.first.time_since_epoch()).count(),
-                    data.second));
-        max_value = (data.second > max_value) ? data.second : max_value;
-        min_value = (data.second < min_value) ? data.second : max_value;
+        if (!std::isnan(data.second))
+        {
+            points.append(QPointF(
+                        std::chrono::duration_cast<std::chrono::milliseconds>(data.first.time_since_epoch()).count(),
+                        data.second));
+        }
     }
 
-    // Remove previous data
-    statistics_data_->clear();
-    statistics_data_->appendData(points);
+    if (historic_statistics_data_->add_series(chartbox_id, points))
+    {
+        return true;
+    }
 
-    QDateTime startDate;
-    startDate.setMSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            time_from.time_since_epoch()).count());
-    QDateTime endDate;
-    endDate.setMSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            time_to.time_since_epoch()).count());
-
-    statistics_data_->setAxisYMax(max_value + 1);
-    statistics_data_->setAxisYMin(min_value - 1);
-    statistics_data_->setAxisXMax(endDate.toMSecsSinceEpoch());
-    statistics_data_->setAxisXMin(startDate.toMSecsSinceEpoch());
-
-    return true;
+    return false;
 }
 
 void Engine::refresh_engine()
@@ -791,14 +783,14 @@ void Engine::update_dynamic_chartbox(
     /////
     // Get the parameters to get data
     // time_from, data_kind, source_ids, target_ids, statistics_kinds
-    const UpdateParameters parameters = dynamic_data_->get_update_parameters(chartbox_id);
+    const UpdateParameters parameters = dynamic_statistics_data_->get_update_parameters(chartbox_id);
 
     /////
     // Collect the data for each series and store it in a point vector
-    std::map<quint64, std::vector<QPointF>> new_series_points;
+    std::map<quint64, QVector<QPointF>> new_series_points;
     for (auto id : parameters.series_ids)
     {
-        new_series_points[id] = std::vector<QPointF>();
+        new_series_points[id] = QVector<QPointF>();
     }
 
     // Check that source target and kinds has same size
@@ -812,7 +804,7 @@ void Engine::update_dynamic_chartbox(
                     << "statistics kind: " << parameters.statistics_kinds.size();
 
         // Update the model with an empty vector so the time saves coherence in chart
-        dynamic_data_->update(chartbox_id, new_series_points, time_to);
+        dynamic_statistics_data_->update(chartbox_id, new_series_points, time_to);
         return;
     }
 
@@ -844,18 +836,21 @@ void Engine::update_dynamic_chartbox(
         {
             for (auto point : new_points)
             {
-                // Add points to list of new points
-                new_series_points[parameters.series_ids[i]].push_back(QPointF(
-                            std::chrono::duration_cast<std::chrono::milliseconds>(
-                                point.first.time_since_epoch()).count(),
-                            point.second));
+                if (!std::isnan(point.second))
+                {
+                    // Add points to list of new points
+                    new_series_points[parameters.series_ids[i]].push_back(QPointF(
+                                std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    point.first.time_since_epoch()).count(),
+                                point.second));
+                }
             }
         }
     }
 
     /////
     // Update series with data AND now value
-    dynamic_data_->update(chartbox_id, new_series_points, time_to);
+    dynamic_statistics_data_->update(chartbox_id, new_series_points, time_to);
 }
 
 void Engine::set_alias(

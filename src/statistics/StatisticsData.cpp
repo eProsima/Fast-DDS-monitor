@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #include <QDateTime>
 #include <QDebug>
 #include <QtCharts/QAreaSeries>
@@ -34,91 +33,148 @@ Q_DECLARE_METATYPE(
 Q_DECLARE_METATYPE(
     QAbstractAxis*)
 
+std::atomic<quint64> StatisticsData::last_id_(0);
+
 StatisticsData::StatisticsData(
         QObject* parent)
     : QObject(parent)
-    , index_(-1)
-    , axisYMax_(10)
-    , axisYMin_(0)
-    , axisXMax_(10)
-    , axisXMin_(0)
 {
 }
 
-void StatisticsData::setData(
-        const QList<QVector<QPointF>>& data)
+StatisticsData::~StatisticsData()
 {
-    data_.clear();
-    data_.append(data);
+    for (auto c : chartboxes_)
+    {
+        delete c.second;
+    }
 }
 
-void StatisticsData::appendData(
-        const QVector<QPointF>& dataSeries)
+void StatisticsData::delete_series_by_order_index(
+        quint64 chartbox_id,
+        quint64 series_index)
 {
-    data_.append(dataSeries);
+    qDebug() << "Deleting series " << series_index << " to chartbox id: " << chartbox_id;
+
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->delete_series_by_order_index(series_index);
 }
 
-void StatisticsData::clear()
+quint64 StatisticsData::add_chartbox(
+        DataChartBox* chartbox)
 {
-    data_.clear();
+    qDebug() << "Adding chartbox with id: " << last_id_;
+
+    quint64 new_id = last_id_++;
+
+    chartboxes_.insert({new_id, chartbox});
+    return new_id;
 }
 
-qreal StatisticsData::axisYMax()
+void StatisticsData::delete_chartbox(
+        quint64 chartbox_id)
 {
-    return axisYMax_;
+    qDebug() << "Erasing chartbox with id: " << chartbox_id;
+
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    delete it->second;
+
+    chartboxes_.erase(chartbox_id);
 }
 
-qreal StatisticsData::axisYMin()
+void StatisticsData::clear_charts(
+        quint64 chartbox_id)
 {
-    return axisYMin_;
+    qDebug() << "Clearing charts from: " << chartbox_id;
+
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->clear_charts();
 }
 
-quint64 StatisticsData::axisXMax()
+qreal StatisticsData::axisYMax(quint64 chartbox_id)
 {
-    return axisXMax_;
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->axisYMax();
 }
 
-quint64 StatisticsData::axisXMin()
+qreal StatisticsData::axisYMin(quint64 chartbox_id)
 {
-    return axisXMin_;
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->axisYMin();
+}
+
+quint64 StatisticsData::axisXMax(quint64 chartbox_id)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->axisXMax();
+}
+
+quint64 StatisticsData::axisXMin(quint64 chartbox_id)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->axisXMin();
 }
 
 void StatisticsData::setAxisYMax(
+        quint64 chartbox_id,
         qreal axisYMax)
 {
-    axisYMax_ = axisYMax;
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->setAxisYMax(axisYMax);
 }
 
 void StatisticsData::setAxisYMin(
+        quint64 chartbox_id,
         qreal axisYMin)
 {
-    axisYMin_ = axisYMin;
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->setAxisYMin(axisYMin);
 }
 
 void StatisticsData::setAxisXMax(
+        quint64 chartbox_id,
         quint64 axisXMax)
 {
-    axisXMax_ = axisXMax;
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->setAxisXMax(axisXMax);
 }
 
 void StatisticsData::setAxisXMin(
+        quint64 chartbox_id,
         quint64 axisXMin)
 {
-    axisXMin_ = axisXMin;
-}
+    auto it = chartboxes_.find(chartbox_id);
 
-void StatisticsData::update(
-        QAbstractSeries* series)
-{
-    if (series)
-    {
-        index_++;
-        if (index_ > data_.count() - 1)
-        {
-            index_ = 0;
-        }
+    assert(it != chartboxes_.end());
 
-        QVector<QPointF> points = data_.at(index_);
-        static_cast<QXYSeries*>(series)->replace(points);
-    }
+    return it->second->setAxisXMin(axisXMin);
 }

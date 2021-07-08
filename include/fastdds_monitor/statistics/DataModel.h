@@ -13,48 +13,39 @@
 // limitations under the License.
 
 /**
- * @file DynamicDataModel.hpp
+ * @file DataModel.hpp
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_DYNAMIC_DYNAMICDATAMODEL_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_DYNAMIC_DYNAMICDATAMODEL_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DATAMODEL_H
+#define _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DATAMODEL_H
 
 #include <QAbstractTableModel>
 #include <QtCore/QObject>
 #include <QPointF>
 
-#include <fastdds_monitor/backend/backend_types.h>
-#include <fastdds_monitor/model/model_types.h>
-
-namespace models {
-
 /**
  * @brief Class to handle a vector of points and a QML series, related by a mapper instance
  */
-class DynamicDataModel : public QAbstractTableModel
+class DataModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
 
+
     //! Default costructor. Connects \c newPointAdded with this same object \c addNewPoint
-    DynamicDataModel()
+    DataModel()
     {
-        QObject::connect(this, &DynamicDataModel::newPointAdded, this, &DynamicDataModel::addNewPoint,
+        QObject::connect(this, &DataModel::newPointAdded, this, &DataModel::addNewPoint,
                 Qt::QueuedConnection);
     }
 
-    //! Function to add a new point by sending signal \c newPointAdded
-    void handleNewPoint(
-            const QPointF& point);
-
-signals:
-
-    //! Signal to notify a new point must be added
-    void newPointAdded(
-            const QPointF& point);
-
-public:
+    DataModel(QVector<QPointF> data)
+        : m_data_(data)
+    {
+        QObject::connect(this, &DataModel::newPointAdded, this, &DataModel::addNewPoint,
+                Qt::QueuedConnection);
+    }
 
     //! Number of rows
     int rowCount(
@@ -72,16 +63,26 @@ public:
             const QModelIndex& index,
             int role = Qt::DisplayRole) const;
 
+    //! Function to add a new point by sending signal \c newPointAdded
+    void handleNewPoint(
+            const QPointF& point);
+
+signals:
+
+    //! Signal to notify a new point must be added
+    void newPointAdded(
+            const QPointF& point);
+
 protected:
 
     //! Function to add a new point to the model
     void addNewPoint(
             const QPointF& point);
 
+protected:
+
     //! Vector of points (not sorted)
-    std::vector<QPointF> m_data;
+    QVector<QPointF> m_data_;
 };
 
-} // namespace models
-
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_DYNAMIC_DYNAMICDATAMODEL_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DATAMODEL_H

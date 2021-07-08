@@ -14,39 +14,23 @@
 
 #include <QDebug>
 
-#include <fastdds_monitor/model/dynamic/DynamicDataModel.h>
+#include <fastdds_monitor/statistics/DataModel.h>
 
-namespace models {
-
-void DynamicDataModel::handleNewPoint(
-        const QPointF& point)
-{
-    emit newPointAdded(point);
-}
-
-void DynamicDataModel::addNewPoint(
-        const QPointF& point)
-{
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    m_data.push_back(point);
-    endInsertRows();
-}
-
-int DynamicDataModel::rowCount(
+int DataModel::rowCount(
         const QModelIndex& parent) const
 {
     Q_UNUSED(parent)
-    return static_cast<int>(m_data.size());
+    return static_cast<int>(m_data_.size());
 }
 
-int DynamicDataModel::columnCount(
+int DataModel::columnCount(
         const QModelIndex& parent) const
 {
     Q_UNUSED(parent)
     return 2;
 }
 
-QVariant DynamicDataModel::headerData(
+QVariant DataModel::headerData(
         int section,
         Qt::Orientation orientation,
         int role) const
@@ -64,7 +48,7 @@ QVariant DynamicDataModel::headerData(
     }
 }
 
-QVariant DynamicDataModel::data(
+QVariant DataModel::data(
         const QModelIndex& index,
         int role) const
 {
@@ -72,12 +56,24 @@ QVariant DynamicDataModel::data(
 
     if (index.column() == 0)
     {
-        return m_data[index.row()].x();
+        return m_data_[index.row()].x();
     }
     else
     {
-        return m_data[index.row()].y();
+        return m_data_[index.row()].y();
     }
 }
 
-} // namespace models
+void DataModel::handleNewPoint(
+        const QPointF& point)
+{
+    emit newPointAdded(point);
+}
+
+void DataModel::addNewPoint(
+        const QPointF& point)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    m_data_.push_back(point);
+    endInsertRows();
+}

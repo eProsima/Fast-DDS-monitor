@@ -109,6 +109,7 @@ public slots:
 
     //! Slot called when chart is to be built
     void add_statistics_data(
+            quint64 chartbox_id,
             QString data_kind,
             QString source_entity_id,
             QString target_entity_id,

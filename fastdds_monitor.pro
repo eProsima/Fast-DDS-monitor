@@ -16,7 +16,6 @@ SOURCES += \
         src/main.cpp \
         src/model/dds/EndpointModelItem.cpp \
         src/model/dds/ParticipantModelItem.cpp \
-        src/model/dynamic/DynamicDataModel.cpp \
         src/model/ListItem.cpp \
         src/model/ListModel.cpp \
         src/model/logical/TopicModelItem.cpp \
@@ -25,8 +24,12 @@ SOURCES += \
         src/model/SubListedListModel.cpp \
         src/model/tree/TreeItem.cpp \
         src/model/tree/TreeModel.cpp \
-        src/statistics/DynamicChartBox.cpp \
-        src/statistics/DynamicData.cpp \
+        src/statistics/dynamic/DynamicDataChartBox.cpp \
+        src/statistics/dynamic/DynamicStatisticsData.cpp \
+        src/statistics/historic/HistoricDataChartBox.cpp \
+        src/statistics/historic/HistoricStatisticsData.cpp \
+        src/statistics/DataChartBox.cpp \
+        src/statistics/DataModel.cpp \
         src/statistics/StatisticsData.cpp \
         src/utils.cpp
 
@@ -56,7 +59,6 @@ HEADERS += \
     include/fastdds_monitor/model/dds/EndpointModelItem.h \
     include/fastdds_monitor/model/dds/LocatorModelItem.h \
     include/fastdds_monitor/model/dds/ParticipantModelItem.h \
-    include/fastdds_monitor/model/dynamic/DynamicDataModel.h \
     include/fastdds_monitor/model/EntityContainerModelItem.h \
     include/fastdds_monitor/model/ListItem.h \
     include/fastdds_monitor/model/ListModel.h \
@@ -71,9 +73,14 @@ HEADERS += \
     include/fastdds_monitor/model/SubListedListModel.h \
     include/fastdds_monitor/model/tree/TreeItem.h \
     include/fastdds_monitor/model/tree/TreeModel.h \
-    include/fastdds_monitor/statistics/DynamicChartBox.h \
-    include/fastdds_monitor/statistics/DynamicData.h \
-    include/fastdds_monitor/statistics/StatisticsData.h \
+    include/fastdds_monitor/statistics/dynamic/DynamicDataChartBox.h
+    include/fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h
+    include/fastdds_monitor/statistics/historic/HistoricDataChartBox.h
+    include/fastdds_monitor/statistics/historic/HistoricStatisticsData.h
+    include/fastdds_monitor/statistics/DataChartBox.h
+    include/fastdds_monitor/statistics/DataModel.h
+    include/fastdds_monitor/statistics/StatisticsData.h
+
     include/fastdds_monitor/utils.h
 
 DISTFILES += \

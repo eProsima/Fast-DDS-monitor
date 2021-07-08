@@ -19,97 +19,103 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_STATISTICS_STATISTICSDATA_H
 #define _EPROSIMA_FASTDDS_MONITOR_STATISTICS_STATISTICSDATA_H
 
-#include <QtCharts/QAbstractSeries>
+#include <atomic>
+
 #include <QtCore/QObject>
+#include <fastdds_monitor/statistics/DataChartBox.h>
 
-
-QT_CHARTS_USE_NAMESPACE
-
-//! TODO
+/**
+ * @brief Handle all the connections between QML and the  data / real time data
+ *
+ * It maintains a map with key a unique id given by a static variable, and as value the
+ * \c ChartBox related with this id.
+ *
+ * It gets with slots the QML signals sent from  data related methods.
+ * Most of these methods uses the internal id to the chartbox to reference with chartbox must be affected.
+ */
 class StatisticsData : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(qreal axisYMax READ axisYMax NOTIFY axisYMaxChanged)
-    Q_PROPERTY(qreal axisYMin READ axisYMin NOTIFY axisYMinChanged)
-    Q_PROPERTY(quint64 axisXMax READ axisXMax NOTIFY axisXMaxChanged)
-    Q_PROPERTY(quint64 axisXMin READ axisXMin NOTIFY axisXMinChanged)
 
 public:
 
-    //! Default QObject constructor
-    explicit StatisticsData(
-            QObject* parent = 0);
+    StatisticsData(
+        QObject* parent = nullptr);
 
-    //! Set data of the chart
-    void setData(
-            const QList<QVector<QPointF>>& data);
-
-    //! Add data serie to the chart
-    void appendData(
-            const QVector<QPointF>& dataSeries);
-
-    //! Erase data of the chart
-    void clear();
-
-    //! Get Y max axis size
-    qreal axisYMax();
-    //! Get Y min axis size
-    qreal axisYMin();
-    //! Get X max axis size
-    quint64 axisXMax();
-    //! Get X min axis size
-    quint64 axisXMin();
-
-    //! Set the new Y max axis size
-    void setAxisYMax(
-            qreal axisYMax);
-    //! Set the new Y min axis size
-    void setAxisYMin(
-            qreal axisYMin);
-    //! Set the new X max axis size
-    void setAxisXMax(
-            quint64 axisXMax);
-    //! Set the new X min axis size
-    void setAxisXMin(
-            quint64 axisXMin);
+    ~StatisticsData();
 
 public slots:
 
-    //! Receives the signal when data has been updated
-    void update(
-            QAbstractSeries* series);
+    /**
+     * Delete a series belongs to an internal Chartbox
+     *
+     * @warning This method is called with the QML series_index, that is not static for a series, but it is
+     * an index in an array that varies. In the unlikely case of deleting two series in less time than C++
+     * handles one destruction, it could lead to error
+     */
+    void delete_series_by_order_index(
+            quint64 chartbox_id,
+            quint64 series_index);
 
-signals:
+    //! Delete an internal Chartbox
+    void delete_chartbox(
+            quint64 chartbox_id);
 
-    //! Signal to communicate that max Y axis has changed
-    void axisYMaxChanged();
-    //! Signal to communicate that min Y axis has changed
-    void axisYMinChanged();
-    //! Signal to communicate that max X axis has changed
-    void axisXMaxChanged();
-    //! Signal to communicate that min X axis has changed
-    void axisXMinChanged();
+    //! Send clear chart to internal chartbox
+    void clear_charts(
+            quint64 chartbox_id);
 
-private:
+    //! Get Y max axis size
+    qreal axisYMax(quint64 chartbox_id);
+    //! Get Y min axis size
+    qreal axisYMin(quint64 chartbox_id);
+    //! Get X max axis size
+    quint64 axisXMax(quint64 chartbox_id);
+    //! Get X min axis size
+    quint64 axisXMin(quint64 chartbox_id);
 
-    //! TODO
-    QList<QVector<QPointF>> data_;
+    //! Set the new Y max axis size
+    void setAxisYMax(
+            quint64 chartbox_id,
+            qreal axisYMax);
+    //! Set the new Y min axis size
+    void setAxisYMin(
+            quint64 chartbox_id,
+            qreal axisYMin);
+    //! Set the new X max axis size
+    void setAxisXMax(
+            quint64 chartbox_id,
+            quint64 axisXMax);
+    //! Set the new X min axis size
+    void setAxisXMin(
+            quint64 chartbox_id,
+            quint64 axisXMin);
 
-    //! TODO
-    int index_;
+// TODO
+// signals:
 
-    //! Max Y axis size
-    qreal axisYMax_;
+//     //! Signal to communicate that max Y axis has changed
+//     void axisYMaxChanged();
+//     //! Signal to communicate that min Y axis has changed
+//     void axisYMinChanged();
+//     //! Signal to communicate that max X axis has changed
+//     void axisXMaxChanged();
+//     //! Signal to communicate that min X axis has changed
+//     void axisXMinChanged();
 
-    //! Min Y axis size
-    qreal axisYMin_;
+protected:
 
-    //! Max X axis size
-    quint64 axisXMax_;
+    /**
+     * Add a new internal Chartbox
+     */
+    quint64 add_chartbox(
+            DataChartBox* chartbox);
 
-    //! Min X axis size
-    quint64 axisXMin_;
+    //! Unique id of the new chartbox to add
+    static std::atomic<quint64> last_id_;
+
+    //! Internal chartboxes map by id
+    std::map<quint64, DataChartBox*> chartboxes_;
 };
-
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_STATISTICSDATA_H
