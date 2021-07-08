@@ -21,7 +21,7 @@ import Theme 1.0
 Dialog {
     id: dialogInitMonitor
     modal: false
-    title: "Init Monitor"
+    title: "Initialize Monitor"
     standardButtons: Dialog.Apply | Dialog.Ok | Dialog.Cancel | Dialog.RestoreDefaults
     width: 700
 
@@ -439,14 +439,13 @@ Dialog {
 
             // Get the IP of locator
             var ip = discoveryServerLocatorsModel.get(i).ip
-            var ipRe;
+            var ipRe = matchAllRegex();
             if (transportProtocol.includes("v4")) {
                 ipRe = ipv4Regex()
             } else if (transportProtocol.includes("v6")) {
                 ipRe = ipv6Regex()
-            } else {
-                ipRe = matchAllRegex()
             }
+
             if (!ip) {
                 continue
             } else if (!ipRe.test(ip)) {
