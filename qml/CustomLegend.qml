@@ -21,6 +21,7 @@ import QtQml.Models 2.15
 
 Rectangle {
     id: legend
+    implicitHeight: itemHeight * gridView.count
 
     property int itemWidth: legend.width
     property int itemHeight: 20
