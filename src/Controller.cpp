@@ -31,9 +31,10 @@ void Controller::init_monitor(
 }
 
 void Controller::init_monitor(
-        QString locators)
+        QString discovery_server_guid_prefix,
+        QString discovery_server_locators)
 {
-    engine_->init_monitor(locators);
+    engine_->init_monitor(discovery_server_guid_prefix, discovery_server_locators);
 }
 
 void Controller::host_click(

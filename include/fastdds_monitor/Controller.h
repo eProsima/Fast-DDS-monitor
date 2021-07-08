@@ -63,9 +63,10 @@ public slots:
     void init_monitor(
             int domain);
 
-    //! Slot called by init a monitor with a list of locators
+    //! Slot called when initializing a monitor for a Discovery Server network
     void init_monitor(
-            QString locators);
+            QString discovery_server_guid_prefix,
+            QString discovery_server_locators);
 
     //! Slot called when a Host entity is pressed
     void host_click(

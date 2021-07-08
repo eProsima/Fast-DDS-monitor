@@ -440,11 +440,14 @@ EntityId SyncBackendConnection::init_monitor(
 }
 
 EntityId SyncBackendConnection::init_monitor(
-        QString locators)
+        QString discovery_server_guid_prefix,
+        QString discovery_server_locators)
 {
     try
     {
-        return StatisticsBackend::init_monitor(locators.toStdString());
+        return StatisticsBackend::init_monitor(
+            discovery_server_guid_prefix.toStdString(),
+            discovery_server_locators.toStdString());
     }
     catch (const Error& e)
     {
