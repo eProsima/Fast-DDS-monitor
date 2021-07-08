@@ -49,7 +49,7 @@ Dialog {
     }
 
     onReset: {
-        discoveryServerGuid.text = ""
+        discoveryServerGuid.text = "44.53.00.5f.45.50.52.4f.53.49.4d.41"
         discoveryServerLocatorsModel.clear()
         discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "", "port": -1})
     }
@@ -129,6 +129,7 @@ Dialog {
                         id: discoveryServerGuid
                         implicitWidth: monitorStack.width
                         placeholderText: "44.53.00.5f.45.50.52.4f.53.49.4d.41"
+                        text: "44.53.00.5f.45.50.52.4f.53.49.4d.41"
                         selectByMouse: true
                         validator: RegExpValidator {
                             regExp: /^(([0-9a-fA-F][0-9a-fA-F]\.){11})([0-9a-fA-F][0-9a-fA-F])$/
@@ -211,6 +212,12 @@ Dialog {
                                 visible: true
                                 hoverEnabled: true
                             }
+
+                            onCountChanged: {
+                                var newIndex = count - 1
+                                positionViewAtEnd()
+                                currentIndex = newIndex
+                            }
                         }
 
                         Component {
@@ -240,7 +247,15 @@ Dialog {
                                         Layout.preferredWidth: discoveryServerIPLabel.width
                                         text: (ip < 0) ? "" : ip
                                         validator: RegExpValidator {
-                                            regExp: /^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3})(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+                                            regExp: {
+                                                if (discoveryServerTransportProtocol.currentText.includes("v4")) {
+                                                    return ipv4Regex()
+                                                } else if (discoveryServerTransportProtocol.currentText.includes("v6")) {
+                                                    return ipv6Regex()
+                                                } else {
+                                                    return matchAllRegex()
+                                                }
+                                            }
                                         }
                                         Keys.onReturnPressed: dialogInitMonitor.accept()
                                         onTextEdited: ip = text
@@ -364,6 +379,33 @@ Dialog {
         }
     }
 
+    /**
+     * Returns an regular expression for IPv4 string matching
+     */
+    function ipv4Regex() {
+        var ipv4re = /^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3})(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g
+        return ipv4re
+    }
+
+    /**
+     * Returns an regular expression for IPv6 string matching
+     */
+    function ipv6Regex() {
+        var ipv6re = /(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))/gi;
+        return ipv6re
+    }
+
+    /**
+     * Returns an regular expression that matches any string
+     */
+    function matchAllRegex() {
+        var re = /[\s\S]*/
+        return re
+    }
+
+    /**
+     * Function to parse the input parameter of the initialize monitor dialog for Discovery Server
+     */
     function initDiscoveryServer(isAccepted) {
         /////
         // Check that Discovery Server GUID is correct
@@ -397,9 +439,15 @@ Dialog {
 
             // Get the IP of locator
             var ip = discoveryServerLocatorsModel.get(i).ip
-            var ipRe = /^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3})(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g
+            var ipRe;
+            if (transportProtocol.includes("v4")) {
+                ipRe = ipv4Regex()
+            } else if (transportProtocol.includes("v6")) {
+                ipRe = ipv6Regex()
+            } else {
+                ipRe = matchAllRegex()
+            }
             if (!ip) {
-                console.log("IP: " + ip)
                 continue
             } else if (!ipRe.test(ip)) {
                 wrongIP.isAccepted = isAccepted
@@ -427,8 +475,8 @@ Dialog {
         /////
         // Call the controller to initialize a Discovery Server monitor
         if (locator) {
-            console.log("Init monitor -> GUID: " + discoveryServerGuid.currentText + " | Locators: " + locators)
-            // controller.init_monitor(discoveryServerGuid.currentText, locators)
+            console.log("Init monitor -> GUID: " + discoveryServerGuid.text + " | Locators: " + locators)
+            controller.init_monitor(discoveryServerGuid.text, locators)
         }
     }
 }
