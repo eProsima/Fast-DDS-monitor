@@ -29,8 +29,8 @@ DataChartBox::~DataChartBox()
 }
 
 QtCharts::QVXYModelMapper* DataChartBox::add_series(
-    DataModel* data_model,
-    quint64& new_series_index)
+        DataModel* data_model,
+        quint64& new_series_index)
 {
     const std::lock_guard<std::recursive_mutex> lock(mutex_);
 
@@ -54,7 +54,7 @@ QtCharts::QVXYModelMapper* DataChartBox::add_series(
 }
 
 QtCharts::QVXYModelMapper* DataChartBox::add_series(
-    DataModel* data_model)
+        DataModel* data_model)
 {
     quint64 _foo;
     return add_series(data_model, _foo);
@@ -161,7 +161,7 @@ quint64 DataChartBox::axisXMin() const
 void DataChartBox::setAxisYMax(
         qreal axisYMax)
 {
-    if(round_axis_)
+    if (round_axis_)
     {
         axisYMax_ = std::round(axisYMax);
     }
@@ -174,7 +174,7 @@ void DataChartBox::setAxisYMax(
 void DataChartBox::setAxisYMin(
         qreal axisYMin)
 {
-    if(round_axis_)
+    if (round_axis_)
     {
         axisYMin_ = std::round(axisYMin);
     }

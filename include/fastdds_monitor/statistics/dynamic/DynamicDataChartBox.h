@@ -103,7 +103,7 @@ public:
     //! Eliminate all series
     void clear_charts() override;
 
-        //! Delete the series created in the number \c series_order_index regarding the currently existing ones
+    //! Delete the series created in the number \c series_order_index regarding the currently existing ones
     void delete_series_by_order_index(
             quint64 series_order_index) override;
 

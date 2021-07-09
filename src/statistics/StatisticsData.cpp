@@ -99,7 +99,8 @@ void StatisticsData::clear_charts(
     it->second->clear_charts();
 }
 
-qreal StatisticsData::axisYMax(quint64 chartbox_id)
+qreal StatisticsData::axisYMax(
+        quint64 chartbox_id)
 {
     auto it = chartboxes_.find(chartbox_id);
 
@@ -108,7 +109,8 @@ qreal StatisticsData::axisYMax(quint64 chartbox_id)
     return it->second->axisYMax();
 }
 
-qreal StatisticsData::axisYMin(quint64 chartbox_id)
+qreal StatisticsData::axisYMin(
+        quint64 chartbox_id)
 {
     auto it = chartboxes_.find(chartbox_id);
 
@@ -117,7 +119,8 @@ qreal StatisticsData::axisYMin(quint64 chartbox_id)
     return it->second->axisYMin();
 }
 
-quint64 StatisticsData::axisXMax(quint64 chartbox_id)
+quint64 StatisticsData::axisXMax(
+        quint64 chartbox_id)
 {
     auto it = chartboxes_.find(chartbox_id);
 
@@ -126,7 +129,8 @@ quint64 StatisticsData::axisXMax(quint64 chartbox_id)
     return it->second->axisXMax();
 }
 
-quint64 StatisticsData::axisXMin(quint64 chartbox_id)
+quint64 StatisticsData::axisXMin(
+        quint64 chartbox_id)
 {
     auto it = chartboxes_.find(chartbox_id);
 

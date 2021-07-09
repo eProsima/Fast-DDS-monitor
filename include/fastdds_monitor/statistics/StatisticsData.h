@@ -40,7 +40,7 @@ class StatisticsData : public QObject
 public:
 
     StatisticsData(
-        QObject* parent = nullptr);
+            QObject* parent = nullptr);
 
     ~StatisticsData();
 
@@ -66,13 +66,17 @@ public slots:
             quint64 chartbox_id);
 
     //! Get Y max axis size
-    qreal axisYMax(quint64 chartbox_id);
+    qreal axisYMax(
+            quint64 chartbox_id);
     //! Get Y min axis size
-    qreal axisYMin(quint64 chartbox_id);
+    qreal axisYMin(
+            quint64 chartbox_id);
     //! Get X max axis size
-    quint64 axisXMax(quint64 chartbox_id);
+    quint64 axisXMax(
+            quint64 chartbox_id);
     //! Get X min axis size
-    quint64 axisXMin(quint64 chartbox_id);
+    quint64 axisXMin(
+            quint64 chartbox_id);
 
     //! Set the new Y max axis size
     void setAxisYMax(
@@ -95,17 +99,17 @@ public slots:
             quint64 chartbox_id,
             quint64 x);
 
-// TODO
-// signals:
+    // TODO
+    // signals:
 
-//     //! Signal to communicate that max Y axis has changed
-//     void axisYMaxChanged();
-//     //! Signal to communicate that min Y axis has changed
-//     void axisYMinChanged();
-//     //! Signal to communicate that max X axis has changed
-//     void axisXMaxChanged();
-//     //! Signal to communicate that min X axis has changed
-//     void axisXMinChanged();
+    //     //! Signal to communicate that max Y axis has changed
+    //     void axisYMaxChanged();
+    //     //! Signal to communicate that min Y axis has changed
+    //     void axisYMinChanged();
+    //     //! Signal to communicate that max X axis has changed
+    //     void axisXMaxChanged();
+    //     //! Signal to communicate that min X axis has changed
+    //     void axisXMinChanged();
 
 protected:
 

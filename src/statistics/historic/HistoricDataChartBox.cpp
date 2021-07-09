@@ -18,8 +18,8 @@
 
 #include <fastdds_monitor/statistics/historic/HistoricDataChartBox.h>
 
-QtCharts::QVXYModelMapper *HistoricDataChartBox::add_series(
-    QVector<QPointF> new_series)
+QtCharts::QVXYModelMapper* HistoricDataChartBox::add_series(
+        QVector<QPointF> new_series)
 {
     const std::lock_guard<std::recursive_mutex> lock(mutex_);
 

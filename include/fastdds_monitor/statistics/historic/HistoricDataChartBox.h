@@ -38,7 +38,7 @@ public:
 
     //! Add new series
     QtCharts::QVXYModelMapper* add_series(
-        QVector<QPointF> new_series);
+            QVector<QPointF> new_series);
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_HISTORIC_HISTORICDATACHARTBOX_H

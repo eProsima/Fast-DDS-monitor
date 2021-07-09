@@ -32,7 +32,6 @@ class DataModel : public QAbstractTableModel
 
 public:
 
-
     //! Default costructor. Connects \c newPointAdded with this same object \c addNewPoint
     DataModel()
     {
@@ -40,7 +39,8 @@ public:
                 Qt::QueuedConnection);
     }
 
-    DataModel(QVector<QPointF> data)
+    DataModel(
+            QVector<QPointF> data)
         : m_data_(data)
     {
         QObject::connect(this, &DataModel::newPointAdded, this, &DataModel::addNewPoint,
