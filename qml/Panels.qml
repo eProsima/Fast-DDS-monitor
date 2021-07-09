@@ -84,8 +84,8 @@ RowLayout {
         }
     }
 
-    function createChart(dataKind){
-        chartsLayout.createChart(dataKind)
+    function createHistoricChart(dataKind){
+        chartsLayout.createHistoricChart(dataKind)
     }
 
     function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){

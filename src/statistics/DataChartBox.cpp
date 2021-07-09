@@ -74,15 +74,15 @@ void DataChartBox::delete_series_by_order_index(
     else
     {
         // This is the index that this chartbox internally handles regarding the currently deleting series
-        quint64 real_index_ = series_ids_[series_order_index];
+        quint64 real_id_ = series_ids_[series_order_index];
 
-        qDebug() << "Deleting real index " << real_index_;
+        qDebug() << "Deleting real id " << real_id_;
 
         // Delete mapper and series
-        delete mappers_[real_index_];
-        mappers_.erase(real_index_);
-        delete series_[real_index_];
-        series_.erase(real_index_);
+        delete mappers_[real_id_];
+        mappers_.erase(real_id_);
+        delete series_[real_id_];
+        series_.erase(real_id_);
         series_ids_.erase(series_ids_.begin() + series_order_index);
     }
 }
@@ -125,7 +125,9 @@ void DataChartBox::update(
             {
                 setAxisYMax(point.ry() + 1);
             }
-            else if (point.ry() <= axisYMin_)
+
+            // Do not use else if because first value could be both
+            if (point.ry() <= axisYMin_)
             {
                 setAxisYMin(point.ry() - 1);
             }
@@ -134,7 +136,8 @@ void DataChartBox::update(
             {
                 setAxisXMax(point.rx());
             }
-            else if (point.rx() <= axisXMin_)
+
+            if (point.rx() <= axisXMin_)
             {
                 setAxisXMin(point.rx());
             }

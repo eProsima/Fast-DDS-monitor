@@ -23,6 +23,7 @@
 
 #include <QQmlApplicationEngine>
 #include <QQueue>
+#include <QtCharts/QVXYModelMapper>
 #include <QThread>
 #include <QWaitCondition>
 
@@ -255,7 +256,7 @@ public:
      *
      * Calls get_data with the params given and appends the new series to \c statistics_data_ (historic data)
      */
-    bool on_add_statistics_data_series(
+    QtCharts::QVXYModelMapper* on_add_statistics_data_series(
             quint64 chartbox_id,
             backend::DataKind data_kind,
             backend::EntityId source_entity_id,

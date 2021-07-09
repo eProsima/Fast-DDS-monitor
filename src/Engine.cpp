@@ -111,7 +111,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
 
-    rootContext()->setContextProperty("statisticsData", historic_statistics_data_);
+    rootContext()->setContextProperty("historicData", historic_statistics_data_);
     rootContext()->setContextProperty("dynamicData", dynamic_statistics_data_);
     rootContext()->setContextProperty("controller", controller_);
 
@@ -591,7 +591,7 @@ bool Engine::on_selected_entity_kind(
     }
 }
 
-bool Engine::on_add_statistics_data_series(
+QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
         quint64 chartbox_id,
         backend::DataKind data_kind,
         backend::EntityId source_entity_id,
@@ -630,12 +630,7 @@ bool Engine::on_add_statistics_data_series(
         }
     }
 
-    if (historic_statistics_data_->add_series(chartbox_id, points))
-    {
-        return true;
-    }
-
-    return false;
+    return historic_statistics_data_->add_series(chartbox_id, points);
 }
 
 void Engine::refresh_engine()

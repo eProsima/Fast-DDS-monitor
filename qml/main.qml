@@ -76,9 +76,9 @@ ApplicationWindow {
         id: dialogInitMonitor
     }
 
-    DataKindDialog {
+    HistoricDataKindDialog {
         id: dataKindDialog
-        onCreateChart: panels.createChart(dataKind)
+        onCreateChart: panels.createHistoricChart(dataKind)
     }
 
     DynamicDataKindDialog {

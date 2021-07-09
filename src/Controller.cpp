@@ -107,7 +107,7 @@ void Controller::clear_issues()
     engine_->clear_issues();
 }
 
-void Controller::add_statistics_data(
+QtCharts::QVXYModelMapper* Controller::add_statistics_data(
         quint64 chartbox_id,
         QString data_kind,
         QString source_entity_id,
@@ -119,7 +119,8 @@ void Controller::add_statistics_data(
         bool end_time_default,
         QString statistic_kind)
 {
-    engine_->on_add_statistics_data_series(
+    qDebug() << "Call add_statistics_data with datakind: " << data_kind;
+    return engine_->on_add_statistics_data_series(
         chartbox_id,
         backend::string_to_data_kind(data_kind),
         backend::models_id_to_backend_id(source_entity_id),

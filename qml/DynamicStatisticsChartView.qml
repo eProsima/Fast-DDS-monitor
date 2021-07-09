@@ -46,43 +46,43 @@ ChartView {
         min: 0
         max: 10
         titleText: {
-            switch (chartTitle) {
+            switch (dataKind) {
                 case "FASTDDS_LATENCY":
-                    return qsTr(chartTitle + " [ns]")
+                    return qsTr(dataKind + " [ns]")
                 case "NETWORK_LATENCY":
-                    return qsTr(chartTitle + " [ns]")
+                    return qsTr(dataKind + " [ns]")
                 case "PUBLICATION_THROUGHPUT":
-                    return qsTr(chartTitle + " [B/s]")
+                    return qsTr(dataKind + " [B/s]")
                 case "SUBSCRIPTION_THROUGHPUT":
-                    return qsTr(chartTitle + " [B/s]")
+                    return qsTr(dataKind + " [B/s]")
                 case "RTPS_PACKETS_SENT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "RTPS_BYTES_SENT":
-                    return qsTr(chartTitle + " [B]")
+                    return qsTr(dataKind + " [B]")
                 case "RTPS_PACKETS_LOST":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "RTPS_BYTES_LOST":
-                    return qsTr(chartTitle + " [B]")
+                    return qsTr(dataKind + " [B]")
                 case "RESENT_DATA":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "HEARTBEAT_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "ACKNACK_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "NACKFRAG_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "GAP_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "DATA_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "PDP_PACKETS":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "EDP_PACKETS":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "DISCOVERED_ENTITY":
-                    return qsTr(chartTitle + " [ns]")
+                    return qsTr(dataKind + " [ns]")
                 case "SAMPLE_DATAS":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 default:
                     return qsTr("")
             }
@@ -208,7 +208,7 @@ ChartView {
             targetEntityId,
             statisticKind) {
 
-        // Calle DynamicChartBox add_series that creates a series and a related mapper and returns the mapper
+        // Call DynamicChartBox add_series that creates a series and a related mapper and returns the mapper
         mapper.push(dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId))
         // Create a new QAbstractSeries with index chartView.count (this index varies with deletion of series)
         var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
@@ -270,8 +270,8 @@ ChartView {
 
     function resetChartViewZoom(){
         chartView.zoomReset()
-        axisY.min = dynamicData.axis_y_min(chartboxId)
-        axisY.max = dynamicData.axis_y_max(chartboxId)
+        axisY.min = dynamicData.axisYMin(chartboxId)
+        axisY.max = dynamicData.axisYMax(chartboxId)
         dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
         dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
     }
@@ -303,8 +303,8 @@ ChartView {
         onTriggered: {
             var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
             controller.update_dynamic_chartbox(chartboxId, time_to);
-            y_axis_current_min = dynamicData.axis_y_min(chartboxId)
-            y_axis_current_max = dynamicData.axis_y_max(chartboxId)
+            y_axis_current_min = dynamicData.axisYMin(chartboxId)
+            y_axis_current_max = dynamicData.axisYMax(chartboxId)
         }
     }
 

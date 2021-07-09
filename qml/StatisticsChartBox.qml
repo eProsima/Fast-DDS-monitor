@@ -22,6 +22,7 @@ import Theme 1.0
 Rectangle {
     id: statisticsChartBox
 
+    property string dataKind
     property string chartTitle
     property int index
     property bool visibility: true
@@ -34,17 +35,20 @@ Rectangle {
 
     Component.onCompleted: {
         if (isDynamic){
-            chartboxId = dynamicData.add_chartbox(chartTitle, currentDate, timeWindow, updatePeriod)
+            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow, updatePeriod)
             dynamicDisplayStatisticsDialog.open()
         } else {
             controlPanel.removeMenu(realTimeMenu);
-            displayStatisticsDialog.open();
+            chartboxId = historicData.add_chartbox(dataKind)
+            historicDisplayStatisticsDialog.open();
         }
     }
 
     Component.onDestruction: {
         if (isDynamic && dynamicData) {
             dynamicData.delete_chartbox(chartboxId)
+        } else if (!isDynamic && historicData) {
+            historicData.delete_chartbox(chartboxId)
         }
     }
 
@@ -98,14 +102,13 @@ Rectangle {
                     }
                 }
             }
-
         }
 
         MenuBar {
             id: controlPanel
             Layout.fillWidth: true
 
-            signal addSeries(
+            signal addHistoricSeries(
                 string dataKind,
                 string seriesLabel,
                 string sourceEntityId,
@@ -122,26 +125,25 @@ Rectangle {
                 string targetEntityId,
                 string statisticKind)
             signal clearChart()
-            // signal clearSeries()
             signal dynamicPause()
             signal dynamicContinue()
 
-            onAddSeries: statisticsChartViewLoader.item.addSeries(
-                             dataKind,
-                             seriesLabel,
-                             sourceEntityId,
-                             targetEntityId,
-                             bins,
-                             startTime,
-                             startTimeDefault,
-                             endTime,
-                             endTimeDefault,
-                             statisticKind);
+            onAddHistoricSeries: statisticsChartViewLoader.item.addHistoricSeries(
+                                    dataKind,
+                                    seriesLabel,
+                                    sourceEntityId,
+                                    targetEntityId,
+                                    bins,
+                                    startTime,
+                                    startTimeDefault,
+                                    endTime,
+                                    endTimeDefault,
+                                    statisticKind);
             onAddDynamicSeries: statisticsChartViewLoader.item.addDynamicSeries(
-                             seriesLabel,
-                             sourceEntityId,
-                             targetEntityId,
-                             statisticKind);
+                                    seriesLabel,
+                                    sourceEntityId,
+                                    targetEntityId,
+                                    statisticKind);
             onClearChart: statisticsChartViewLoader.item.clearChart();
             onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
             onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
@@ -171,7 +173,7 @@ Rectangle {
                 title: "Series"
                 Action {
                     text: "Add series"
-                    onTriggered: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : displayStatisticsDialog.open();
+                    onTriggered: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : historicDisplayStatisticsDialog.open();
                 }
 
                 Action {
@@ -204,13 +206,14 @@ Rectangle {
                 id: statisticsChartViewLoader
                 anchors.fill: parent
 
+                property string dataKind: statisticsChartBox.dataKind
                 property string chartTitle: statisticsChartBox.chartTitle
                 property variant timeWindow: statisticsChartBox.timeWindow
                 property variant currentDate: statisticsChartBox.currentDate
                 property variant updatePeriod: statisticsChartBox.updatePeriod
                 property variant chartboxId: statisticsChartBox.chartboxId
 
-                source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "StatisticsChartView.qml"
+                source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "HistoricStatisticsChartView.qml"
             }
 
             Connections {
@@ -279,7 +282,11 @@ Rectangle {
                     if(isDynamic) {
                         dynamicData.delete_series(chartboxId, seriesIndex)
                         statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
+                    } else {
+                        historicData.delete_series(chartboxId, seriesIndex)
+                        statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
                     }
+
             }
         }
     }
@@ -301,8 +308,8 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
-    DisplayStatisticsDialog {
-        id: displayStatisticsDialog
+    HistoricDisplayStatisticsDialog {
+        id: historicDisplayStatisticsDialog
         anchors.centerIn: Overlay.overlay
     }
 

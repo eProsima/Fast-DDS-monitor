@@ -21,6 +21,7 @@
 
 #include <QDebug>
 #include <QObject>
+#include <QtCharts/QVXYModelMapper>
 
 class Engine;
 
@@ -108,7 +109,7 @@ public slots:
             QString entity_model_id);
 
     //! Slot called when chart is to be built
-    void add_statistics_data(
+    QtCharts::QVXYModelMapper* add_statistics_data(
             quint64 chartbox_id,
             QString data_kind,
             QString source_entity_id,
