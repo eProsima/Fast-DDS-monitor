@@ -90,6 +90,10 @@ public slots:
     void setAxisXMin(
             quint64 chartbox_id,
             quint64 axisXMin);
+    //! Set the new X as max/min if it is bigger/lower than the current one
+    void newXValue(
+            quint64 chartbox_id,
+            quint64 x);
 
 // TODO
 // signals:

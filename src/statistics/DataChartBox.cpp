@@ -132,15 +132,8 @@ void DataChartBox::update(
                 setAxisYMin(point.ry() - 1);
             }
 
-            if (point.rx() >= axisXMax_)
-            {
-                setAxisXMax(point.rx());
-            }
-
-            if (point.rx() <= axisXMin_)
-            {
-                setAxisXMin(point.rx());
-            }
+            // X is not updated to speed up the update
+            // In historic, x is updated after include the points and in dynamic is updated dynamically
         }
     }
 }
@@ -201,4 +194,18 @@ void DataChartBox::setAxisXMin(
         quint64 axisXMin)
 {
     axisXMin_ = axisXMin;
+}
+
+void DataChartBox::newXValue(
+        quint64 x)
+{
+    if (x >= axisXMax_)
+    {
+        setAxisXMax(x + 1);
+    }
+
+    if (x <= axisXMin_)
+    {
+        setAxisXMin(x - 1);
+    }
 }

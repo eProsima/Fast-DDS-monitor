@@ -178,3 +178,14 @@ void StatisticsData::setAxisXMin(
 
     return it->second->setAxisXMin(axisXMin);
 }
+
+void StatisticsData::newXValue(
+        quint64 chartbox_id,
+        quint64 x)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->newXValue(x);
+}

@@ -630,6 +630,20 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
         }
     }
 
+
+    // In case there are Nans at the beggining or end of the series, it adapts the chartbox to the real axis
+    historic_statistics_data_->newXValue(
+        chartbox_id,
+        start_time_default
+            ? std::chrono::duration_cast<std::chrono::milliseconds>(initial_time_.time_since_epoch()).count()
+            : start_time);
+    historic_statistics_data_->newXValue(
+        chartbox_id,
+        end_time_default
+            ? std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count()
+            : end_time);
+
     return historic_statistics_data_->add_series(chartbox_id, points);
 }
 
