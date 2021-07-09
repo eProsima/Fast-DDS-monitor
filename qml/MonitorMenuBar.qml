@@ -278,4 +278,20 @@ MenuBar {
             }
         }
     }
+
+    function changeChartboxLayoutViewMenu(chartsPerRow) {
+        switch (chartsPerRow) {
+            case 1:
+                dashboardLayoutLarge.trigger()
+                break
+            case 2:
+                dashboardLayoutMedium.trigger()
+                break
+            case 3:
+                dashboardLayoutSmall.trigger()
+                break
+            default:
+                break
+        }
+    }
 }

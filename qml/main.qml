@@ -55,13 +55,17 @@ ApplicationWindow {
         onClearIssuesButtonHidden: toolBar.isVisibleClearIssues = !toolBar.isVisibleClearIssues
         onLeftSidebarHidden: panels.openCloseLeftSideBar()
         onLastClickedReset: panels.lastClickedReset()
-        onChangeChartboxLayout: panels.changeChartboxLayout(chartsPerRow)
+        onChangeChartboxLayout: {
+            panels.changeChartboxLayout(chartsPerRow)
+            toolBar.changeChartboxLayoutIcon(chartsPerRow)
+        }
     }
 
     header: MonitorToolBar {
         id: toolBar
         visible: false
         onLastClickedReset: panels.lastClickedReset()
+        onChangeChartboxLayout: monitorMenuBar.changeChartboxLayoutViewMenu(chartsPerRow)
     }
 
     Panels {

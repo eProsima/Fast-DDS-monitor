@@ -29,6 +29,7 @@ ToolBar {
     property bool isVisibleClearIssues: false
 
     signal lastClickedReset
+    signal changeChartboxLayout(int chartsPerRow)
 
     RowLayout {
         anchors.fill: parent
@@ -84,11 +85,38 @@ ToolBar {
         Item {
             Layout.fillWidth: true
         }
+
+        IconSVG {
+            id: chartBoxLayoutIcon
+            name: "grid" + chartsPerRow
+            size: 18
+            property int chartsPerRow: 1
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (parent.chartsPerRow === 3) {
+                        parent.chartsPerRow = 1
+                    } else {
+                        parent.chartsPerRow++
+                    }
+                    changeChartboxLayout(parent.chartsPerRow)
+                }
+            }
+        }
+
+        Item {
+            width: 20
+        }
     }
 
     Shortcut {
         sequence: "Ctrl+R"
         context: Qt.ApplicationShortcut
         onActivated: controller.refresh_click()
+    }
+
+    function changeChartboxLayoutIcon(chartsPerRow) {
+        chartBoxLayoutIcon.chartsPerRow = chartsPerRow
     }
 }
