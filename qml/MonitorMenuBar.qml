@@ -13,6 +13,7 @@ MenuBar {
     signal refreshButtonHidden
     signal clearLogButtonHidden
     signal clearIssuesButtonHidden
+    signal changeChartboxLayout(int chartsPerRow)
 
     signal leftSidebarHidden
 
@@ -69,6 +70,95 @@ MenuBar {
             onTriggered: {
                 inactive_visible = !inactive_visible
                 controller.change_inactive_visible()
+            }
+        }
+        MenuSeparator { }
+        Menu {
+            id: dashboardLayout
+            title: qsTr("&Dashboard Layout")
+            Action {
+                id: dashboardLayoutLarge
+                text: "Large"
+                checkable: true
+                checked: true
+                onTriggered: {
+                    if (!checked) {
+                        checked = true
+                    } else {
+                        dashboardLayoutMedium.checked = false
+                        dashboardLayoutSmall.checked = false
+                    }
+
+                    changeChartboxLayout(1)
+                }
+            }
+            Action {
+                id: dashboardLayoutMedium
+                text: "Medium"
+                checkable: true
+                checked: false
+                onTriggered: {
+                    if (!checked) {
+                        checked = true
+                    } else {
+                        dashboardLayoutLarge.checked = false
+                        dashboardLayoutSmall.checked = false
+                    }
+
+                    changeChartboxLayout(2)
+                }
+            }
+            Action {
+                id: dashboardLayoutSmall
+                text: "Small"
+                checkable: true
+                checked: false
+                onTriggered: {
+                    if (!checked) {
+                        checked = true
+                    } else {
+                        dashboardLayoutLarge.checked = false
+                        dashboardLayoutMedium.checked = false
+                    }
+
+                    changeChartboxLayout(3)
+                }
+            }
+
+            delegate: MenuItem {
+                id: menuItem
+                property string iconName: menuItem.text == "Large" ? "grid1" :
+                                          menuItem.text == "Medium" ? "grid2" : "grid3"
+
+                indicator: Item {
+                    x: contentItem.x + contentItem.leftPadding / 3
+                    y: contentItem.y + contentItem.height / 2
+                    Rectangle {
+                        width: 26
+                        height: 26
+                        anchors.centerIn: parent
+                        visible: menuItem.checkable
+                        IconSVG {
+                            id: participantIcon
+                            name: menuItem.iconName
+                            size: parent.width
+                            anchors.centerIn: parent
+                            visible: menuItem.checkable
+                            color: menuItem.checked ? "eProsimaLightBlue" : "grey"
+                        }
+                    }
+                }
+
+                contentItem: Text {
+                    id: contentItem
+                    leftPadding: 35
+                    text: menuItem.text
+                    opacity: enabled ? 1.0 : 0.3
+                    color: menuItem.checked ? Theme.eProsimaLightBlue : Theme.grey
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
             }
         }
         MenuSeparator { }
