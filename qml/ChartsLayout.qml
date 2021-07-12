@@ -44,11 +44,6 @@ Rectangle {
         property int pressAndHoldDuration: 200
         signal customPressAndHold()
 
-        onWidthChanged: {
-            console.log("MouseArea width: " + width)
-            console.log("Chartbox width: " + chartBoxWidth)
-        }
-
         onPressed: {
             pressAndHoldTimer.start();
         }
@@ -98,10 +93,6 @@ Rectangle {
 
             property int firstIndexDrag: -1
 
-            onWidthChanged: {
-                console.log("GridView width: " + width)
-            }
-
             Item {
                 id: container
                 anchors.fill: parent
@@ -120,14 +111,6 @@ Rectangle {
             Item {
                 width: gridView.cellWidth
                 height: gridView.cellHeight
-
-//                GridView.onAdd: {
-//                    calculateGridViewWidth()
-//                }
-
-//                GridView.onRemove: {
-//                    calculateGridViewWidth()
-//                }
 
                 StatisticsChartBox {
                     id: statisticsChartBox

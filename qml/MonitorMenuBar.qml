@@ -218,7 +218,7 @@ MenuBar {
 
             CheckBox {
                 id: initMonitorCheckBox
-                checked: true
+                checked: false
                 indicator.width: 20
                 indicator.height: 20
                 onCheckStateChanged: initMonitorButtonHidden()

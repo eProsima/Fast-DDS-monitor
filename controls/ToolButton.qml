@@ -39,6 +39,7 @@ import QtQuick.Templates 2.12 as T
 import QtQuick.Controls 2.12
 import QtQuick.Controls.impl 2.12
 import QtQuick.Controls.Universal 2.12
+import Theme 1.0
 
 T.ToolButton {
     id: control
@@ -76,7 +77,9 @@ T.ToolButton {
 
         Rectangle {
             width: parent.width
-            height: parent.height
+            height: parent.height - control.spacing
+            anchors.centerIn: parent
+            radius: 10
             visible: control.down || control.hovered
             color: control.down ? control.Universal.listMediumColor : control.Universal.listLowColor
         }

@@ -41,6 +41,7 @@
         <file>qml/MonitoringPanel.qml</file>
         <file>qml/MonitorMenuBar.qml</file>
         <file>qml/MonitorToolBar.qml</file>
+        <file>qml/MonitorToolBarButton.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
         <file>qml/QosView.qml</file>

@@ -15,13 +15,14 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.1
+import Theme 1.0
 
 ToolBar {
     id: toolBar
     visible: isVisible
 
     property bool isVisible: true
-    property bool isVisibleInitMonitor: true
+    property bool isVisibleInitMonitor: false
     property bool isVisibleDispData: true
     property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true
@@ -34,7 +35,7 @@ ToolBar {
     RowLayout {
         anchors.fill: parent
         ToolButton {
-            text: "Init new monitor"
+            text: "Init monitor"
             visible: isVisibleInitMonitor
             onClicked: {
                 dialogInitMonitor.open()
@@ -82,27 +83,25 @@ ToolBar {
             }
         }
 
-        Item {
-            Layout.fillWidth: true
-        }
+        MonitorToolBarButton {
+            id: dashboardLayout
+            iconName: "grid" + chartsPerRow
+            tooltipText: "Dashboard Layout"
 
-        IconSVG {
-            id: chartBoxLayoutIcon
-            name: "grid" + chartsPerRow
-            size: 18
             property int chartsPerRow: 1
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    if (parent.chartsPerRow === 3) {
-                        parent.chartsPerRow = 1
-                    } else {
-                        parent.chartsPerRow++
-                    }
-                    changeChartboxLayout(parent.chartsPerRow)
+            onClicked: {
+                if (chartsPerRow === 3) {
+                    chartsPerRow = 1
+                } else {
+                    chartsPerRow++
                 }
+                changeChartboxLayout(chartsPerRow)
             }
+        }
+
+        Item {
+            Layout.fillWidth: true
         }
 
         Item {
@@ -117,6 +116,6 @@ ToolBar {
     }
 
     function changeChartboxLayoutIcon(chartsPerRow) {
-        chartBoxLayoutIcon.chartsPerRow = chartsPerRow
+        dashboardLayout.chartsPerRow = chartsPerRow
     }
 }
