@@ -302,46 +302,89 @@ void DataChartBox::save_csv(
 
     qDebug() << "Storing CSV in file: " << utils::to_QString(file_name_);
 
+    std::map<quint64, std::vector<qreal>> datas_ = merge_datas(datas);
+
     try
     {
         std::ofstream ofile(file_name_);
+
+        ofile << "UnixTime[ms]";
 
         // Headers
         for (QString label : label_names)
         {
             std::string label_ = utils::to_string(label);
             std::replace( label_.begin(), label_.end(), ' ', '_');
-            ofile << label_ << "_time" << separator << label_ << "_value" << separator;
+            ofile << separator << label_;
         }
         ofile << "\n";
 
-        // Data
-        // First get the maximum column size
-        int max_index = max_column(datas);
-
         // Iterate over all series for a <max_index> times and print values when are available
-        for (int col = 0; col < max_index; ++col)
+        for (auto data_it : datas_)
         {
-            for (int label_i = 0; label_i < label_names.size(); label_i++)
+            ofile << data_it.first;
+            for (auto series_point : data_it.second)
             {
-                // datas is already sorted as label_names
-
-                if (datas[label_i].size() > col)
+                ofile << ";";
+                // NaN values are not printed
+                if (!std::isnan(series_point))
                 {
-                    ofile << static_cast<unsigned long>(datas[label_i][col].rx()) << ";" << datas[label_i][col].ry() <<
-                            ";";
-                }
-                else
-                {
-                    ofile << ";;";
+                    ofile << series_point;
                 }
             }
             ofile << "\n";
         }
-
     }
     catch (std::ifstream::failure& e)
     {
         qCritical() << "Error writing CSV with error: "  << e.what();
     }
+}
+
+std::map<quint64, std::vector<qreal>> DataChartBox::merge_datas(
+        std::vector<QVector<QPointF>>& datas)
+{
+    std::map<quint64, std::vector<qreal>> res;
+
+    // Go one by one over the series and add all times in points
+    // For each time added in an already time created, add the point and the possible previous points
+    // that may not have been in previous series as null
+    // For any new time, add all the previous series points as null
+    size_t vector_index = 0;
+    for (QVector<QPointF> series : datas)
+    {
+        for (QPointF point : series)
+        {
+            quint64 x_value = static_cast<unsigned long>(point.rx());
+
+            // Check whether this time has already been added
+            auto it = res.find(point.rx());
+            if (it == res.end())
+            {
+                // It is new, so add new vector
+                res[x_value] = std::vector<qreal>();
+            }
+
+            // Add possible previous values as NaN
+            for (size_t i = res[x_value].size(); i < vector_index; i++)
+            {
+                res[x_value].push_back(std::numeric_limits<double>::quiet_NaN());
+            }
+
+            // Add new value
+            res[x_value].push_back({point.ry()});
+        }
+        ++vector_index;
+    }
+
+    // Check that all vectors has correct size (vector_index = number of series)
+    for (std::map<quint64, std::vector<qreal>>::iterator map_it = res.begin(); map_it != res.end(); map_it++)
+    {
+        while (map_it->second.size() < vector_index)
+        {
+            map_it->second.push_back(std::numeric_limits<double>::quiet_NaN());
+        }
+    }
+
+    return res;
 }

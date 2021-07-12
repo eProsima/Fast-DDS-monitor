@@ -49,7 +49,7 @@ StatisticsData::~StatisticsData()
     }
 }
 
-void StatisticsData::delete_series_by_order_index(
+void StatisticsData::delete_series(
         quint64 chartbox_id,
         quint64 series_index)
 {

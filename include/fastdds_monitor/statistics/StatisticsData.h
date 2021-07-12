@@ -53,7 +53,7 @@ public slots:
      * an index in an array that varies. In the unlikely case of deleting two series in less time than C++
      * handles one destruction, it could lead to error
      */
-    void delete_series_by_order_index(
+    void delete_series(
             quint64 chartbox_id,
             quint64 series_index);
 

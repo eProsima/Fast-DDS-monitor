@@ -134,6 +134,9 @@ protected:
             QVector<QString>& label_names,
             std::string separator = ";");
 
+    static std::map<quint64, std::vector<qreal>> merge_datas(
+            std::vector<QVector<QPointF>>& datas);
+
     //! Map of ModelMappers reference by unique id from this chartbox
     std::map<quint64, QtCharts::QVXYModelMapper*> mappers_;
     //! Map of \c DataModel reference by unique id from this chartbox
