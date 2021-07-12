@@ -624,9 +624,11 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
             }
         }
 
+        std::vector<StatisticsData> res;
+
         if (two_entities_data)
         {
-            return StatisticsBackend::get_data(
+            res = StatisticsBackend::get_data(
                 data_kind,
                 source_ids,
                 target_ids,
@@ -637,7 +639,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         }
         else
         {
-            return StatisticsBackend::get_data(
+            res = StatisticsBackend::get_data(
                 data_kind,
                 source_ids,
                 bins,
@@ -645,6 +647,9 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
                 end_time,
                 statistic_kind);
         }
+
+        // Change units depending on the dataKind
+        return change_unit_magnitude(res, data_kind);
     }
     catch (const Exception& e)
     {
@@ -653,6 +658,39 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
 
         return std::vector<StatisticsData>();
     }
+}
+
+std::vector<StatisticsData> SyncBackendConnection::change_unit_magnitude(
+        std::vector<StatisticsData>& data,
+        DataKind data_kind)
+{
+    switch (data_kind)
+    {
+        case DataKind::FASTDDS_LATENCY:
+        case DataKind::NETWORK_LATENCY:
+
+            // Convert from ns to ns
+            for (StatisticsData& point : data)
+            {
+                point.second /= 1000.0;
+            }
+            break;
+
+        case DataKind::PUBLICATION_THROUGHPUT:
+        case DataKind::SUBSCRIPTION_THROUGHPUT:
+
+            // Convert from b/s to kb/s
+            for (StatisticsData& point : data)
+            {
+                point.second /= 1024.0;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return data;
 }
 
 void SyncBackendConnection::set_alias(
