@@ -22,25 +22,18 @@ ToolBar {
     visible: isVisible
 
     property bool isVisible: true
-    property bool isVisibleInitMonitor: false
     property bool isVisibleDispData: true
     property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true
     property bool isVisibleClearLog: false
     property bool isVisibleClearIssues: false
+    property bool isVisibleDashboardLayout: true
 
     signal lastClickedReset
     signal changeChartboxLayout(int chartsPerRow)
 
     RowLayout {
         anchors.fill: parent
-        ToolButton {
-            text: "Init monitor"
-            visible: isVisibleInitMonitor
-            onClicked: {
-                dialogInitMonitor.open()
-            }
-        }
 
         ToolButton {
             text: "Display historical data"
@@ -87,6 +80,7 @@ ToolBar {
             id: dashboardLayout
             iconName: "grid" + chartsPerRow
             tooltipText: "Dashboard Layout"
+            visible: isVisibleDashboardLayout
 
             property int chartsPerRow: 1
 

@@ -47,11 +47,11 @@ ApplicationWindow {
         id: monitorMenuBar
         visible: false
         onToolBarHidden: toolBar.isVisible = !toolBar.isVisible
-        onInitMonitorButtonHidden: toolBar.isVisibleInitMonitor = !toolBar.isVisibleInitMonitor
         onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
         onDispDynDataButtonHidden: toolBar.isVisibleDispDynData = !toolBar.isVisibleDispDynData
         onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
         onClearLogButtonHidden: toolBar.isVisibleClearLog = !toolBar.isVisibleClearLog
+        onDashboardLayoutButtonHidden: toolBar.isVisibleDashboardLayout = !toolBar.isVisibleDashboardLayout
         onClearIssuesButtonHidden: toolBar.isVisibleClearIssues = !toolBar.isVisibleClearIssues
         onLeftSidebarHidden: panels.openCloseLeftSideBar()
         onLastClickedReset: panels.lastClickedReset()

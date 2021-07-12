@@ -13,6 +13,7 @@ MenuBar {
     signal refreshButtonHidden
     signal clearLogButtonHidden
     signal clearIssuesButtonHidden
+    signal dashboardLayoutButtonHidden
     signal changeChartboxLayout(int chartsPerRow)
 
     signal leftSidebarHidden
@@ -217,14 +218,14 @@ MenuBar {
             columns: 2
 
             CheckBox {
-                id: initMonitorCheckBox
+                id: dashboardLayoutCheckBox
                 checked: false
                 indicator.width: 20
                 indicator.height: 20
-                onCheckStateChanged: initMonitorButtonHidden()
+                onCheckStateChanged: dashboardLayoutButtonHidden()
             }
             Label {
-                text: "Init New Monitor"
+                text: "Dashboard Layout"
             }
             CheckBox {
                 id: displayNewDataCheckBox
