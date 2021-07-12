@@ -25,6 +25,9 @@
 #include <QHash>
 #include <QString>
 
+#define MIN(a, b) (((a) < (b))?(a):(b))
+#define MAX(a, b) (((a) > (b))?(a):(b))
+
 namespace utils {
 
 //! Cast a std string to QString Qt type

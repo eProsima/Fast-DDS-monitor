@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <iostream>
+#include <fstream>
 #include <math.h>
 #include <mutex>
 
@@ -20,6 +20,7 @@
 
 #include <fastdds_monitor/statistics/DataChartBox.h>
 #include <fastdds_monitor/statistics/DataModel.h>
+#include <fastdds_monitor/utils.h>
 
 std::atomic<quint64> DataChartBox::last_id_(0);
 
@@ -223,5 +224,124 @@ void DataChartBox::newXValue(
     if (x <= axisXMin_)
     {
         setAxisXMin(x - 1);
+    }
+}
+
+void DataChartBox::save_series_csv(
+        quint64 series_index,
+        QString& file_name,
+        QString& label,
+        std::string separator /* = ";"*/)
+{
+    const std::lock_guard<std::recursive_mutex> lock(mutex_);
+
+    assert(series_index < series_ids_.size());
+    quint64 real_id = series_ids_[series_index];
+
+    qDebug() << "Saving series csv of series index: " << series_index << " which represents series id: " << real_id;
+
+    auto series_it_ = series_.find(real_id);
+    assert(series_it_ != series_.end());
+
+    // These two arguments must be created beforehand as the method requires references
+    // Could be const references if QPointF had its getters as const, but it doesnt
+    std::vector<QVector<QPointF>> data_({series_it_->second->get_data()});
+    QVector<QString> label_({label});
+
+    save_csv(file_name, data_, label_, separator);
+}
+
+void DataChartBox::save_chartbox_csv(
+        QString& file_name,
+        QVector<QString>& label_names,
+        std::string separator /* = ";"*/)
+{
+    const std::lock_guard<std::recursive_mutex> lock(mutex_);
+
+    assert(static_cast<size_t>(label_names.size()) == series_.size());
+
+    std::vector<QVector<QPointF>> datas(label_names.size());
+    // auto d = series_[0]->get_data();
+    size_t i = 0;
+    // Get vectors of data so the acces is faster
+    for (quint64 id : series_ids_)
+    {
+        // Id is already sorted as label_names
+        datas[i++] = series_[id]->get_data();
+    }
+
+    save_csv(file_name, datas, label_names, separator);
+}
+
+int DataChartBox::max_column(
+        std::vector<QVector<QPointF>> datas)
+{
+    int max = 0;
+    for (auto series : datas)
+    {
+        max = MAX(max, series.size());
+    }
+    return max;
+}
+
+void DataChartBox::save_csv(
+        QString& file_name,
+        std::vector<QVector<QPointF>>& datas,
+        QVector<QString>& label_names,
+        std::string separator /* = ";"*/)
+{
+    assert(static_cast<size_t>(label_names.size()) == datas.size());
+
+    std::string file_name_ = utils::to_string(file_name);
+
+    // Check if QML format and erase first substring
+    if (file_name_.rfind("file://", 0) == 0)
+    {
+        file_name_.erase(0, 7);
+    }
+
+    qDebug() << "Storing CSV in file: " << utils::to_QString(file_name_);
+
+    try
+    {
+        std::ofstream ofile(file_name_);
+
+        // Headers
+        for (QString label : label_names)
+        {
+            std::string label_ = utils::to_string(label);
+            std::replace( label_.begin(), label_.end(), ' ', '_');
+            ofile << label_ << "_time" << separator << label_ << "_value" << separator;
+        }
+        ofile << "\n";
+
+        // Data
+        // First get the maximum column size
+        int max_index = max_column(datas);
+
+        // Iterate over all series for a <max_index> times and print values when are available
+        for (int col = 0; col < max_index; ++col)
+        {
+            for (int label_i = 0; label_i < label_names.size(); label_i++)
+            {
+                // datas is already sorted as label_names
+
+                if (datas[label_i].size() > col)
+                {
+                    ofile << static_cast<unsigned long>(datas[label_i][col].rx()) << ";" << datas[label_i][col].ry() <<
+                            ";";
+                }
+                else
+                {
+                    ofile << ";;";
+                }
+            }
+            ofile << "\n";
+        }
+
+    }
+    catch (std::ifstream::failure& e)
+    {
+        qCritical() << "Error writing CSV with error: "  << e.what();
     }
 }

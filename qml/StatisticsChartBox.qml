@@ -18,6 +18,7 @@ import QtQuick.Window 2.15
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.15
 import Theme 1.0
+import QtQuick.Dialogs 1.3 as QtDialogs
 
 Rectangle {
     id: statisticsChartBox
@@ -174,6 +175,13 @@ Rectangle {
                         statisticsChartBox.destroy()
                     }
                 }
+                Action {
+                    text: "Export all to CSV"
+                    onTriggered: {
+                        csvDialog.chartbox = true
+                        csvDialog.open()
+                    }
+                }
             }
 
             Menu {
@@ -201,6 +209,28 @@ Rectangle {
                     onTriggered: {
                         running ? statisticsChartViewLoader.item.dynamicPause() : statisticsChartViewLoader.item.dynamicContinue()
                     }
+
+                }
+            }
+        }
+
+        QtDialogs.FileDialog {
+            id: csvDialog
+            title: "Choose a file name and path to save csv"
+            folder: shortcuts.home
+            selectMultiple: false
+            selectExisting: false
+            selectFolder: false
+            defaultSuffix: ".csv"
+
+            property bool chartbox: true
+            property int seriesIndex: 0
+
+            onAccepted: {
+                if (chartbox) {
+                    saveChartboxCSV(csvDialog.fileUrl)
+                } else {
+                    saveSeriesCSV(seriesIndex, csvDialog.fileUrl)
                 }
             }
         }
@@ -283,16 +313,20 @@ Rectangle {
             onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
             onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
             onSeriesRemoved: {
-                    statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
-                    removeLeyend(seriesIndex)
-                    if(isDynamic) {
-                        dynamicData.delete_series(chartboxId, seriesIndex)
-                        statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
-                    } else {
-                        historicData.delete_series(chartboxId, seriesIndex)
-                        statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
-                    }
-
+                statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
+                removeLeyend(seriesIndex)
+                if(isDynamic) {
+                    dynamicData.delete_series(chartboxId, seriesIndex)
+                    statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
+                } else {
+                    historicData.delete_series(chartboxId, seriesIndex)
+                    statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
+                }
+            }
+            onSeriesCSV: {
+                csvDialog.chartbox = false
+                csvDialog.seriesIndex = seriesIndex
+                csvDialog.open()
             }
         }
     }
@@ -364,5 +398,21 @@ Rectangle {
 
     function toMsecsSinceEpoch(date) {
         return date.getTime().valueOf();
+    }
+
+    function saveSeriesCSV(seriesIndex, fileName) {
+        if(isDynamic) {
+            dynamicData.save_series_csv(chartboxId, seriesIndex, fileName, customLegend.getLabel(seriesIndex))
+        } else {
+            historicData.save_series_csv(chartboxId, seriesIndex, fileName, customLegend.getLabel(seriesIndex))
+        }
+    }
+
+    function saveChartboxCSV(fileName) {
+        if(isDynamic) {
+            dynamicData.save_chartbox_csv(chartboxId, fileName, customLegend.getAllLabels())
+        } else {
+            historicData.save_chartbox_csv(chartboxId, fileName, customLegend.getAllLabels())
+        }
     }
 }

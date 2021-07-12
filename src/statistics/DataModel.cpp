@@ -77,3 +77,8 @@ void DataModel::addNewPoint(
     m_data_.push_back(point);
     endInsertRows();
 }
+
+const QVector<QPointF>& DataModel::get_data() const
+{
+    return m_data_;
+}

@@ -99,6 +99,17 @@ public slots:
             quint64 chartbox_id,
             quint64 x);
 
+    void save_series_csv(
+            quint64 chartbox_id,
+            quint64 series_index,
+            QString file_name,
+            QString label);
+
+    void save_chartbox_csv(
+            quint64 chartbox_id,
+            QString file_name,
+            QVector<QString> label_names);
+
 protected:
 
     /**

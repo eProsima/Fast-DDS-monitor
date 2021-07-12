@@ -29,6 +29,9 @@ int main(
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/resources/images/eprosima_logo.ico"));
+    app.setOrganizationName("eProsima");
+    app.setOrganizationDomain("eprosima.com");
+    app.setApplicationName("FastDDS Monitor");
 
     /******************************************************************************************************************
     * Application engine                                                                                             *

@@ -291,6 +291,10 @@ ChartView {
         }
     }
 
+    function xLabel() {
+        return axisY.titleText
+    }
+
     // This timer calls update_dynamic_chartbox so it calls get_data and update the series with new data from backend
     // It runs constantly so the timer in the DynamicChartBox(C++) is updated constantly.
     // If not extra logic will be needed or the first point will be an accumulation from the begin of the chartbox

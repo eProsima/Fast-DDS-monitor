@@ -288,4 +288,8 @@ ChartView {
     function displaySeries(seriesIndex) {
         series(seriesIndex).opacity = 1.0
     }
+
+    function xLabel() {
+        return axisY.titleText
+    }
 }
