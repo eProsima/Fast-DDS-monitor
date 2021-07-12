@@ -22,7 +22,7 @@ ToolBar {
     visible: isVisible
 
     property bool isVisible: true
-    property bool isVisibleDispData: true
+    property bool isVisibleDispData: false
     property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true
     property bool isVisibleClearLog: false
@@ -34,47 +34,6 @@ ToolBar {
 
     RowLayout {
         anchors.fill: parent
-
-        ToolButton {
-            text: "Display historical data"
-            visible: isVisibleDispData
-            onClicked: {
-                dataKindDialog.open()
-            }
-        }
-
-        ToolButton {
-            text: "Display real-time data"
-            visible: isVisibleDispDynData
-            onClicked: {
-                dynamicDataKindDialog.open()
-            }
-        }
-
-        ToolButton {
-            text: "Refresh"
-            visible: isVisibleRefresh
-            onClicked: {
-                controller.refresh_click()
-                lastClickedReset()
-            }
-        }
-
-        ToolButton {
-            text: "Clear log"
-            visible: isVisibleClearLog
-            onClicked: {
-                controller.clear_log()
-            }
-        }
-
-        ToolButton {
-            text: "Clear issues"
-            visible: isVisibleClearIssues
-            onClicked: {
-                controller.clear_issues()
-            }
-        }
 
         MonitorToolBarButton {
             id: dashboardLayout
@@ -94,12 +53,51 @@ ToolBar {
             }
         }
 
-        Item {
-            Layout.fillWidth: true
+        MonitorToolBarButton {
+            id: historicalChart
+            iconName: "historicalchart"
+            tooltipText: "Display Historical Data"
+            visible: isVisibleDispData
+            onClicked: dataKindDialog.open()
+        }
+
+        MonitorToolBarButton {
+            id: dynamicChart
+            iconName: "dynamicchart"
+            tooltipText: "Display Real-Time Data"
+            visible: isVisibleDispDynData
+            onClicked: dynamicDataKindDialog.open()
+        }
+
+        MonitorToolBarButton {
+            id: refresh
+            iconName: "refresh"
+            tooltipText: "Refresh"
+            visible: isVisibleRefresh
+            onClicked: {
+                controller.refresh_click()
+                lastClickedReset()
+            }
+        }
+
+        MonitorToolBarButton {
+            id: clearLog
+            iconName: "clearlog"
+            tooltipText: "Clear Log"
+            visible: isVisibleClearLog
+            onClicked: controller.clear_log()
+        }
+
+        MonitorToolBarButton {
+            id: clearIssues
+            iconName: "clearissues"
+            tooltipText: "Clear Issues"
+            visible: isVisibleClearIssues
+            onClicked: controller.clear_issues()
         }
 
         Item {
-            width: 20
+            Layout.fillWidth: true
         }
     }
 

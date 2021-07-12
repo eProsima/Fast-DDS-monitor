@@ -219,7 +219,7 @@ MenuBar {
 
             CheckBox {
                 id: dashboardLayoutCheckBox
-                checked: false
+                checked: true
                 indicator.width: 20
                 indicator.height: 20
                 onCheckStateChanged: dashboardLayoutButtonHidden()
@@ -229,7 +229,7 @@ MenuBar {
             }
             CheckBox {
                 id: displayNewDataCheckBox
-                checked: true
+                checked: false
                 indicator.width: 20
                 indicator.height: 20
                 onCheckStateChanged: dispDataButtonHidden()
