@@ -27,7 +27,7 @@
 #include <fastdds_monitor/statistics/DataChartBox.h>
 
 /**
- * TODO
+ * @brief main panel Chartbox that contains Historic Series
  */
 class HistoricDataChartBox : public DataChartBox
 {

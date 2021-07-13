@@ -99,18 +99,6 @@ public slots:
             quint64 chartbox_id,
             quint64 x);
 
-    // TODO
-    // signals:
-
-    //     //! Signal to communicate that max Y axis has changed
-    //     void axisYMaxChanged();
-    //     //! Signal to communicate that min Y axis has changed
-    //     void axisYMinChanged();
-    //     //! Signal to communicate that max X axis has changed
-    //     void axisXMaxChanged();
-    //     //! Signal to communicate that min X axis has changed
-    //     void axisXMinChanged();
-
 protected:
 
     /**

@@ -641,7 +641,7 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
         chartbox_id,
         end_time_default
             ? std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()).count()
+            time_to.time_since_epoch()).count()
             : end_time);
 
     return historic_statistics_data_->add_series(chartbox_id, points);

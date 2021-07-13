@@ -26,7 +26,7 @@ QtCharts::QVXYModelMapper* HistoricDataChartBox::add_series(
     quint64 new_id;
     auto mapper = DataChartBox::add_series(new DataModel(), new_id);
 
-    // In case the creation has been succesfull, add all the data
+    // In case the creation has been successful, add all the data
     if (mapper)
     {
         std::map<quint64, QVector<QPointF>> update_map;
