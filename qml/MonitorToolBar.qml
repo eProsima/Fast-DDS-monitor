@@ -21,7 +21,7 @@ ToolBar {
     id: toolBar
     visible: isVisible
 
-    property bool isVisible: true
+    property bool isVisible: false
     property bool isVisibleDispData: false
     property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true

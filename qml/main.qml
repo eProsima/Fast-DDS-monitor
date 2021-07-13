@@ -33,7 +33,7 @@ ApplicationWindow {
     onStartMonitoring: {
         mainStartView.visible = false
         monitorMenuBar.visible = true
-        toolBar.visible = true
+        toolBar.isVisible = true
         panels.visible = true
         dialogInitMonitor.open()
     }
@@ -63,7 +63,6 @@ ApplicationWindow {
 
     header: MonitorToolBar {
         id: toolBar
-        visible: false
         onLastClickedReset: panels.lastClickedReset()
         onChangeChartboxLayout: monitorMenuBar.changeChartboxLayoutViewMenu(chartsPerRow)
     }
