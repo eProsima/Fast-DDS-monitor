@@ -43,8 +43,8 @@ ChartView {
 
     ValueAxis {
         id: axisY
-        min: 0
-        max: 10
+        min: y_axis_current_min
+        max: y_axis_current_max
         titleText: {
             switch (dataKind) {
                 case "FASTDDS_LATENCY":
@@ -322,8 +322,8 @@ ChartView {
             dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(current_date - delay_time)
             dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time)
             // update y axis in case it has changed in timer refreshTimer
-            axisY.min = y_axis_current_min
-            axisY.max = y_axis_current_max
+            // axisY.min = y_axis_current_min
+            // axisY.max = y_axis_current_max
         }
     }
 }

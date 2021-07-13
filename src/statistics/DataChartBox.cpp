@@ -105,10 +105,10 @@ void DataChartBox::clear_charts()
 
     series_ids_.clear();
 
-    setAxisYMax(std::numeric_limits<qreal>::min());
-    setAxisYMin(std::numeric_limits<qreal>::max());
-    setAxisXMax(std::numeric_limits<quint64>::min());
-    setAxisXMin(std::numeric_limits<quint64>::max());
+    setAxisYMax(Y_MAX_DEFAULT);
+    setAxisYMin(Y_MIN_DEFAULT);
+    setAxisXMax(X_MAX_DEFAULT);
+    setAxisXMin(X_MIN_DEFAULT);
 }
 
 void DataChartBox::update(
@@ -140,21 +140,37 @@ void DataChartBox::update(
 
 qreal DataChartBox::axisYMax() const
 {
+    if (axisYMax_ == Y_MAX_DEFAULT)
+    {
+        return 1;
+    }
     return axisYMax_;
 }
 
 qreal DataChartBox::axisYMin() const
 {
+    if (axisYMin_ == Y_MIN_DEFAULT)
+    {
+        return 0;
+    }
     return axisYMin_;
 }
 
 quint64 DataChartBox::axisXMax() const
 {
+    if (axisXMax_ == X_MAX_DEFAULT)
+    {
+        return 1;
+    }
     return axisXMax_;
 }
 
 quint64 DataChartBox::axisXMin() const
 {
+    if (axisXMin_ == X_MIN_DEFAULT)
+    {
+        return 0;
+    }
     return axisXMin_;
 }
 

@@ -28,6 +28,11 @@
 
 #include <fastdds_monitor/statistics/DataModel.h>
 
+#define Y_MAX_DEFAULT std::numeric_limits<qreal>::lowest()
+#define Y_MIN_DEFAULT std::numeric_limits<qreal>::max()
+#define X_MAX_DEFAULT std::numeric_limits<quint64>::min()
+#define X_MIN_DEFAULT std::numeric_limits<quint64>::max()
+
 /**
  * @brief Class that represets a chartbox in main panel
  */
@@ -42,10 +47,10 @@ public:
             QObject* parent = nullptr)
         : QObject(parent)
         , data_kind_(data_kind)
-        , axisYMax_(10)
-        , axisYMin_(0)
-        , axisXMax_(std::numeric_limits<quint64>::min())
-        , axisXMin_(std::numeric_limits<quint64>::max())
+        , axisYMax_(Y_MAX_DEFAULT)
+        , axisYMin_(Y_MIN_DEFAULT)
+        , axisXMax_(X_MAX_DEFAULT)
+        , axisXMin_(X_MIN_DEFAULT)
         , round_axis_(true)
     {
     }
@@ -93,18 +98,6 @@ public:
     //! Set the new X as max/min if it is bigger/lower than the current one
     void newXValue(
             quint64 x);
-
-    // TODO
-    // signals:
-
-    //     //! Signal to communicate that max Y axis has changed
-    //     void axisYMaxChanged();
-    //     //! Signal to communicate that min Y axis has changed
-    //     void axisYMinChanged();
-    //     //! Signal to communicate that max X axis has changed
-    //     void axisXMaxChanged();
-    //     //! Signal to communicate that min X axis has changed
-    //     void axisXMinChanged();
 
 protected:
 

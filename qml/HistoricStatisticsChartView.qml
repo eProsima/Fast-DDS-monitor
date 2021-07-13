@@ -248,8 +248,12 @@ ChartView {
 
     function resetChartViewZoom(){
         chartView.zoomReset()
-        axisY.min = historicData.axisYMin(chartboxId)
-        axisY.max = historicData.axisYMax(chartboxId)
+
+        axisYMin = historicData.axisYMin(chartboxId)
+        // axisY.min = axisYMin
+        axisYMax = historicData.axisYMax(chartboxId)
+        // axisX.min = axisXMin
+
         dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(historicData.axisXMin(chartboxId))
         dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(historicData.axisXMax(chartboxId))
     }
