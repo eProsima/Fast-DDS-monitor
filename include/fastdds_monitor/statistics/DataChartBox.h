@@ -34,11 +34,6 @@
 class DataChartBox : public QObject
 {
     Q_OBJECT
-    // TODO
-    // Q_PROPERTY(qreal axisYMax READ axisYMax NOTIFY axisYMaxChanged)
-    // Q_PROPERTY(qreal axisYMin READ axisYMin NOTIFY axisYMinChanged)
-    // Q_PROPERTY(qreal axisXMax READ axisXMax NOTIFY axisXMaxChanged)
-    // Q_PROPERTY(qreal axisXMin READ axisXMin NOTIFY axisXMinChanged)
 
 public:
 
@@ -47,8 +42,8 @@ public:
             QObject* parent = nullptr)
         : QObject(parent)
         , data_kind_(data_kind)
-        , axisYMax_(std::numeric_limits<qreal>::min())
-        , axisYMin_(std::numeric_limits<qreal>::max())
+        , axisYMax_(10)
+        , axisYMin_(0)
         , axisXMax_(std::numeric_limits<quint64>::min())
         , axisXMin_(std::numeric_limits<quint64>::max())
         , round_axis_(true)
