@@ -25,16 +25,17 @@ MenuBar {
     Menu {
         title: qsTr("&File")
         Action {
+            text: qsTr("Initialize &Monitor")
+            onTriggered: dialogInitMonitor.open()
+        }
+        MenuSeparator { }
+        Action {
             text: qsTr("&Quit")
             onTriggered: Qt.quit()
         }
     }
     Menu {
         title: qsTr("&Edit")
-        Action {
-            text: qsTr("Init New &Monitor")
-            onTriggered: dialogInitMonitor.open()
-        }
         Action {
             text: qsTr("&Display Historical Data")
             onTriggered: dataKindDialog.open()
@@ -43,6 +44,7 @@ MenuBar {
             text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
         }
+        MenuSeparator { }
         Action {
             text: qsTr("&Refresh")
             onTriggered: {

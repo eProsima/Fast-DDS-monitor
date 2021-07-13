@@ -34,6 +34,11 @@ ToolBar {
 
     RowLayout {
         anchors.fill: parent
+        spacing: 10
+
+        Item {
+            width: 1
+        }
 
         MonitorToolBarButton {
             id: dashboardLayout

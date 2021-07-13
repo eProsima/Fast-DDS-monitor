@@ -19,8 +19,8 @@ import Theme 1.0
 
 Rectangle {
     id: monitorToolBarButton
-    height: 23
-    width: 23
+    height: 28
+    width: 28
     radius: 5
     Layout.alignment: Qt.AlignVCenter
     color: mouseArea.containsMouse ? Theme.grey : "transparent"
