@@ -73,14 +73,13 @@ HEADERS += \
     include/fastdds_monitor/model/SubListedListModel.h \
     include/fastdds_monitor/model/tree/TreeItem.h \
     include/fastdds_monitor/model/tree/TreeModel.h \
-    include/fastdds_monitor/statistics/dynamic/DynamicDataChartBox.h
-    include/fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h
-    include/fastdds_monitor/statistics/historic/HistoricDataChartBox.h
-    include/fastdds_monitor/statistics/historic/HistoricStatisticsData.h
-    include/fastdds_monitor/statistics/DataChartBox.h
-    include/fastdds_monitor/statistics/DataModel.h
-    include/fastdds_monitor/statistics/StatisticsData.h
-
+    include/fastdds_monitor/statistics/dynamic/DynamicDataChartBox.h \
+    include/fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h \
+    include/fastdds_monitor/statistics/historic/HistoricDataChartBox.h \
+    include/fastdds_monitor/statistics/historic/HistoricStatisticsData.h \
+    include/fastdds_monitor/statistics/DataChartBox.h \
+    include/fastdds_monitor/statistics/DataModel.h \
+    include/fastdds_monitor/statistics/StatisticsData.h \
     include/fastdds_monitor/utils.h
 
 DISTFILES += \
