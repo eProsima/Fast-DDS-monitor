@@ -23,6 +23,7 @@
 
 #include <QQmlApplicationEngine>
 #include <QQueue>
+#include <QtCharts/QVXYModelMapper>
 #include <QThread>
 #include <QWaitCondition>
 
@@ -32,8 +33,8 @@
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
-#include <fastdds_monitor/statistics/StatisticsData.h>
-#include <fastdds_monitor/statistics/DynamicData.h>
+#include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
+#include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
 
 /**
  * Main class that connects the View (QML), the models (Controller) and the backend (Listener + SyncBackendConnection)
@@ -255,7 +256,8 @@ public:
      *
      * Calls get_data with the params given and appends the new series to \c statistics_data_ (historic data)
      */
-    bool on_add_statistics_data_series(
+    QtCharts::QVXYModelMapper* on_add_statistics_data_series(
+            quint64 chartbox_id,
             backend::DataKind data_kind,
             backend::EntityId source_entity_id,
             backend::EntityId target_entity_id,
@@ -557,7 +559,16 @@ protected:
     backend::EntityKind last_physical_logical_entity_clicked_kind_;
 
     //! QML connected object to handler the static series created
-    StatisticsData* statistics_data_;
+    HistoricStatisticsData* historic_statistics_data_;
+
+    /**
+     * @brief QML connected object to handler the dynamic series created
+     *
+     * It handles several \c DynamicChartBox (as many as chartbox in real time the user has created)
+     * and connect all the QML calls for user active to them (create/delete series,
+     * create/delete chartboxes, get data to update/new data series data, etc.)
+     */
+    DynamicStatisticsData* dynamic_statistics_data_;
 
     //! Object that manage all the communications with the backend
     backend::SyncBackendConnection backend_connection_;
@@ -573,15 +584,6 @@ protected:
 
     //! Time when the monitor has been started. It will be used as default timestamp
     backend::Timestamp initial_time_;
-
-    /**
-     * @brief QML connected object to handler the dynamic series created
-     *
-     * It handles several \c DynamicChartBox (as many as chartbox in real time the user has created)
-     * and connect all the QML calls for user active to them (create/delete series,
-     * create/delete chartboxes, get data to update/new data series data, etc.)
-     */
-    DynamicData* dynamic_data_;
 
     //! Whether the inactive entities must be visible in the model
     bool inactive_visible_;

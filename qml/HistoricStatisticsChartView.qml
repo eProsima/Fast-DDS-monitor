@@ -23,6 +23,8 @@ ChartView {
     antialiasing: true
     legend.visible: false
 
+    property variant mapper: []
+
     property int axisYMin: 0
     property int axisYMax: 10
     property date dateTimeAxisXMin: new Date()
@@ -35,43 +37,43 @@ ChartView {
         min: axisYMin
         max: axisYMax
         titleText: {
-            switch (chartTitle) {
+            switch (dataKind) {
                 case "FASTDDS_LATENCY":
-                    return qsTr(chartTitle + " [ns]")
+                    return qsTr(dataKind + " [ns]")
                 case "NETWORK_LATENCY":
-                    return qsTr(chartTitle + " [ns]")
+                    return qsTr(dataKind + " [ns]")
                 case "PUBLICATION_THROUGHPUT":
-                    return qsTr(chartTitle + " [B/s]")
+                    return qsTr(dataKind + " [B/s]")
                 case "SUBSCRIPTION_THROUGHPUT":
-                    return qsTr(chartTitle + " [B/s]")
+                    return qsTr(dataKind + " [B/s]")
                 case "RTPS_PACKETS_SENT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "RTPS_BYTES_SENT":
-                    return qsTr(chartTitle + " [B]")
+                    return qsTr(dataKind + " [B]")
                 case "RTPS_PACKETS_LOST":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "RTPS_BYTES_LOST":
-                    return qsTr(chartTitle + " [B]")
+                    return qsTr(dataKind + " [B]")
                 case "RESENT_DATA":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "HEARTBEAT_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "ACKNACK_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "NACKFRAG_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "GAP_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "DATA_COUNT":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "PDP_PACKETS":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "EDP_PACKETS":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 case "DISCOVERED_ENTITY":
-                    return qsTr(chartTitle + " [ns]")
+                    return qsTr(dataKind + " [ns]")
                 case "SAMPLE_DATAS":
-                    return qsTr(chartTitle + " [count]")
+                    return qsTr(dataKind + " [count]")
                 default:
                     return qsTr("")
             }
@@ -189,7 +191,7 @@ ChartView {
         }
     }
 
-    function addSeries(
+    function addHistoricSeries(
             dataKind,
             seriesLabel,
             sourceEntityId,
@@ -200,7 +202,10 @@ ChartView {
             endTime,
             endTimeDefault,
             statisticKind) {
-        controller.add_statistics_data(dataKind,
+
+        mapper.push(
+            controller.add_statistics_data(chartboxId,
+                                     dataKind,
                                      sourceEntityId,
                                      targetEntityId,
                                      bins,
@@ -208,24 +213,18 @@ ChartView {
                                      startTimeDefault,
                                      chartView.toMsecsSinceEpoch(endTime),
                                      endTimeDefault,
-                                     statisticKind)
+                                     statisticKind))
 
-        if (statisticsData.axisYMax > axisYMax)
-            axisYMax = statisticsData.axisYMax
+        // Create a new QAbstractSeries with index chartView.count (this index varies with deletion of series)
+        var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
 
-        if (statisticsData.axisYMin < axisYMin)
-            axisYMin = statisticsData.axisYMin
+        // See each of the points and not just the line
+        new_series.pointsVisible = true
+        // Stores a mapper array with every series in order to hjavascript not indiscriminately destroy the C++ mapper
+        mapper[mapper.length-1].series = new_series
 
-        if (chartView.fromMsecsSinceEpoch(statisticsData.axisXMax) > dateTimeAxisXMax)
-            dateTimeAxisXMax = chartView.fromMsecsSinceEpoch(statisticsData.axisXMax)
-
-        if (chartView.fromMsecsSinceEpoch(statisticsData.axisXMin) < dateTimeAxisXMin)
-            dateTimeAxisXMin = chartView.fromMsecsSinceEpoch(statisticsData.axisXMin)
-
-        var series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
-        series.pointsVisible = true
-        series.acceptedButtons = Qt.MiddleButton
-        series.clicked.connect(
+        new_series.acceptedButtons = Qt.MiddleButton
+        new_series.clicked.connect(
                     function (point){
                         var p = chartView.mapToPosition(point)
                         var text = qsTr("x: %1 \ny: %2").arg(
@@ -233,29 +232,30 @@ ChartView {
                         tooltip.x = p.x
                         tooltip.y = p.y - tooltip.height
                         tooltip.text = text
-                        tooltip.seriesColor = series.color
+                        tooltip.seriesColor = new_series.color
                         tooltip.visible = true
                     })
-        statisticsData.update(series);
         resetChartViewZoom();
     }
 
     function clearChart() {
         chartView.removeAllSeries();
         clearedChart()
-        axisYMin = 0
-        axisYMax = 10
-        dateTimeAxisXMax = new Date()
-        dateTimeAxisXMin = new Date()
+        historicData.clear_charts(chartboxId);
         resetChartViewZoom();
+        mapper = []
     }
 
     function resetChartViewZoom(){
         chartView.zoomReset()
-        axisY.min = axisYMin
-        axisY.max = axisYMax
-        dateTimeAxisX.min = dateTimeAxisXMin
-        dateTimeAxisX.max = dateTimeAxisXMax
+
+        axisYMin = historicData.axisYMin(chartboxId)
+        // axisY.min = axisYMin
+        axisYMax = historicData.axisYMax(chartboxId)
+        // axisX.min = axisXMin
+
+        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(historicData.axisXMin(chartboxId))
+        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(historicData.axisXMax(chartboxId))
     }
 
     function createAxis(min, max) {

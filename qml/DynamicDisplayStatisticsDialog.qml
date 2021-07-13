@@ -36,12 +36,12 @@ Dialog {
     property bool activeOk: true
 
     Component.onCompleted: {
-        if (chartTitle == "FASTDDS_LATENCY" |
-                chartTitle == "NETWORK_LATENCY" |
-                chartTitle == "RTPS_PACKETS_SENT" |
-                chartTitle == "RTPS_BYTES_SENT" |
-                chartTitle == "RTPS_PACKETS_LOST" |
-                chartTitle == "RTPS_BYTES_LOST") {
+        if (dataKind == "FASTDDS_LATENCY" |
+                dataKind == "NETWORK_LATENCY" |
+                dataKind == "RTPS_PACKETS_SENT" |
+                dataKind == "RTPS_BYTES_SENT" |
+                dataKind == "RTPS_PACKETS_LOST" |
+                dataKind == "RTPS_BYTES_LOST") {
             targetExists = true
         }
 

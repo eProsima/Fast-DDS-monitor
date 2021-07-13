@@ -18,9 +18,9 @@
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
-        <file>qml/DataKindDialog.qml</file>
+        <file>qml/HistoricDataKindDialog.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
-        <file>qml/DisplayStatisticsDialog.qml</file>
+        <file>qml/HistoricDisplayStatisticsDialog.qml</file>
         <file>qml/DynamicDataKindDialog.qml</file>
         <file>qml/DynamicDisplayStatisticsDialog.qml</file>
         <file>qml/DynamicStatisticsChartView.qml</file>
@@ -46,7 +46,7 @@
         <file>qml/PhysicalView.qml</file>
         <file>qml/QosView.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
-        <file>qml/StatisticsChartView.qml</file>
+        <file>qml/HistoricStatisticsChartView.qml</file>
         <file>qml/StatusPanel.qml</file>
         <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
