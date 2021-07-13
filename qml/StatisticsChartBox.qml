@@ -267,7 +267,6 @@ Rectangle {
 
         CustomLegend {
             id: customLegend
-            color: "green"
             Layout.fillWidth: true
             Layout.margins: 10
             onSeriesNameUpdated: statisticsChartViewLoader.item.updateSeriesName(seriesIndex, newSeriesName)
