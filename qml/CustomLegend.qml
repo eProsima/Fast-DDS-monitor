@@ -21,9 +21,11 @@ import QtQml.Models 2.15
 
 Rectangle {
     id: legend
+    implicitHeight: (height <= maxLegendHeigh) ? itemHeight * gridView.count : maxLegendHeigh
 
     property int itemWidth: legend.width
     property int itemHeight: 20
+    property int maxLegendHeigh: itemHeight*4
 
     signal seriesNameUpdated(int seriesIndex, string newSeriesName)
     signal seriesColorUpdated(int seriesIndex, color newSeriesColor)

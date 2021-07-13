@@ -48,7 +48,7 @@ T.ToolBar {
                              contentHeight + topPadding + bottomPadding)
 
     background: Rectangle {
-        implicitHeight: 28 // AppBarThemeCompactHeight
+        implicitHeight: 35 // AppBarThemeCompactHeight
         color: control.Universal.chromeMediumColor
 
         Rectangle {

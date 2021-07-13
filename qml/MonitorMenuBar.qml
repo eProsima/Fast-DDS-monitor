@@ -13,6 +13,8 @@ MenuBar {
     signal refreshButtonHidden
     signal clearLogButtonHidden
     signal clearIssuesButtonHidden
+    signal dashboardLayoutButtonHidden
+    signal changeChartboxLayout(int chartsPerRow)
 
     signal leftSidebarHidden
 
@@ -23,16 +25,17 @@ MenuBar {
     Menu {
         title: qsTr("&File")
         Action {
+            text: qsTr("Initialize &Monitor")
+            onTriggered: dialogInitMonitor.open()
+        }
+        MenuSeparator { }
+        Action {
             text: qsTr("&Quit")
             onTriggered: Qt.quit()
         }
     }
     Menu {
         title: qsTr("&Edit")
-        Action {
-            text: qsTr("Init New &Monitor")
-            onTriggered: dialogInitMonitor.open()
-        }
         Action {
             text: qsTr("&Display Historical Data")
             onTriggered: dataKindDialog.open()
@@ -41,6 +44,7 @@ MenuBar {
             text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
         }
+        MenuSeparator { }
         Action {
             text: qsTr("&Refresh")
             onTriggered: {
@@ -69,6 +73,95 @@ MenuBar {
             onTriggered: {
                 inactive_visible = !inactive_visible
                 controller.change_inactive_visible()
+            }
+        }
+        MenuSeparator { }
+        Menu {
+            id: dashboardLayout
+            title: qsTr("&Dashboard Layout")
+            Action {
+                id: dashboardLayoutLarge
+                text: "Large"
+                checkable: true
+                checked: true
+                onTriggered: {
+                    if (!checked) {
+                        checked = true
+                    } else {
+                        dashboardLayoutMedium.checked = false
+                        dashboardLayoutSmall.checked = false
+                    }
+
+                    changeChartboxLayout(1)
+                }
+            }
+            Action {
+                id: dashboardLayoutMedium
+                text: "Medium"
+                checkable: true
+                checked: false
+                onTriggered: {
+                    if (!checked) {
+                        checked = true
+                    } else {
+                        dashboardLayoutLarge.checked = false
+                        dashboardLayoutSmall.checked = false
+                    }
+
+                    changeChartboxLayout(2)
+                }
+            }
+            Action {
+                id: dashboardLayoutSmall
+                text: "Small"
+                checkable: true
+                checked: false
+                onTriggered: {
+                    if (!checked) {
+                        checked = true
+                    } else {
+                        dashboardLayoutLarge.checked = false
+                        dashboardLayoutMedium.checked = false
+                    }
+
+                    changeChartboxLayout(3)
+                }
+            }
+
+            delegate: MenuItem {
+                id: menuItem
+                property string iconName: menuItem.text == "Large" ? "grid1" :
+                                          menuItem.text == "Medium" ? "grid2" : "grid3"
+
+                indicator: Item {
+                    x: contentItem.x + contentItem.leftPadding / 3
+                    y: contentItem.y + contentItem.height / 2
+                    Rectangle {
+                        width: 20
+                        height: 20
+                        anchors.centerIn: parent
+                        visible: menuItem.checkable
+                        IconSVG {
+                            id: participantIcon
+                            name: menuItem.iconName
+                            size: parent.width
+                            anchors.centerIn: parent
+                            visible: menuItem.checkable
+                            color: menuItem.checked ? "eProsimaLightBlue" : "black"
+                        }
+                    }
+                }
+
+                contentItem: Text {
+                    id: contentItem
+                    leftPadding: 35
+                    text: menuItem.text
+                    opacity: enabled ? 1.0 : 0.3
+                    color: menuItem.checked ? Theme.eProsimaLightBlue : "black"
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
             }
         }
         MenuSeparator { }
@@ -127,18 +220,18 @@ MenuBar {
             columns: 2
 
             CheckBox {
-                id: initMonitorCheckBox
+                id: dashboardLayoutCheckBox
                 checked: true
                 indicator.width: 20
                 indicator.height: 20
-                onCheckStateChanged: initMonitorButtonHidden()
+                onCheckStateChanged: dashboardLayoutButtonHidden()
             }
             Label {
-                text: "Init New Monitor"
+                text: "Dashboard Layout"
             }
             CheckBox {
                 id: displayNewDataCheckBox
-                checked: true
+                checked: false
                 indicator.width: 20
                 indicator.height: 20
                 onCheckStateChanged: dispDataButtonHidden()
@@ -186,6 +279,22 @@ MenuBar {
             Label {
                 text: "Clear Issues"
             }
+        }
+    }
+
+    function changeChartboxLayoutViewMenu(chartsPerRow) {
+        switch (chartsPerRow) {
+            case 1:
+                dashboardLayoutLarge.trigger()
+                break
+            case 2:
+                dashboardLayoutMedium.trigger()
+                break
+            case 3:
+                dashboardLayoutSmall.trigger()
+                break
+            default:
+                break
         }
     }
 }

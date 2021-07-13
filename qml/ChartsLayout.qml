@@ -23,12 +23,11 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    property int chartBoxWidth: 600
-    property int chartBoxHeight: 600
-
-    onWidthChanged: {
-        calculateGridViewWidth()
-    }
+    property int boxesPerRow: 1
+    property int actualBoxesPerRow: Math.min(boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)
+    property int chartBoxWidth: gridViewWidth / actualBoxesPerRow
+    property int chartBoxHeight: Math.min(chartBoxWidth, height / actualBoxesPerRow)
+    property int gridViewWidth: width < 1 ? 0 : width - 1
 
     ListModel {
         id: statisticsChartBoxModel
@@ -39,6 +38,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+        width: gridViewWidth
         enabled: true
 
         property int pressAndHoldDuration: 200
@@ -83,6 +83,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width
             cellWidth: chartBoxWidth
             cellHeight: chartBoxHeight
             interactive: false
@@ -111,14 +112,6 @@ Rectangle {
                 width: gridView.cellWidth
                 height: gridView.cellHeight
 
-                GridView.onAdd: {
-                    calculateGridViewWidth()
-                }
-
-                GridView.onRemove: {
-                    calculateGridViewWidth()
-                }
-
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: dataKind
@@ -128,7 +121,8 @@ Rectangle {
                     index: model.index
                     state: "inactive"
                     anchors.centerIn: parent
-                    width: gridView.cellWidth - 10; height: gridView.cellHeight - 10
+                    width: gridView.cellWidth - 10
+                    height: gridView.cellHeight - 10
                     smooth: true
                     states: [
                         State {
@@ -211,13 +205,7 @@ Rectangle {
     }
 
     function calculateGridViewWidth(){
-        if (chartsLayout.width < chartBoxWidth) {
-            mouseArea.width = chartsLayout.width
-        } else if (chartsLayout.width >= chartBoxWidth) {
-            mouseArea.width = chartBoxWidth * Math.min(
-                        Math.floor(chartsLayout.width/gridView.cellWidth), gridView.count)
-        }
-        gridView.width = mouseArea.width
+        mouseArea.width = (chartBoxWidth - 10) * actualBoxesPerRow
     }
 }
 

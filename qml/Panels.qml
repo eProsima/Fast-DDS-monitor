@@ -26,6 +26,7 @@ RowLayout {
 
     signal lastClickedReset
     signal openCloseLeftSideBar
+    signal changeChartboxLayout(int chartsPerRow)
 
     onLastClickedReset: leftPanel.resetLastClicked()
     onOpenCloseLeftSideBar: {
@@ -35,6 +36,7 @@ RowLayout {
             iconsVBar.iconClicked(0)
         }
     }
+    onChangeChartboxLayout: chartsLayout.boxesPerRow = chartsPerRow
 
     IconsVBar {
         id: iconsVBar

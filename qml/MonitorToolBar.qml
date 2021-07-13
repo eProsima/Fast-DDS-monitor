@@ -15,49 +15,69 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.1
+import Theme 1.0
 
 ToolBar {
     id: toolBar
     visible: isVisible
 
-    property bool isVisible: true
-    property bool isVisibleInitMonitor: true
-    property bool isVisibleDispData: true
+    property bool isVisible: false
+    property bool isVisibleDispData: false
     property bool isVisibleDispDynData: true
     property bool isVisibleRefresh: true
     property bool isVisibleClearLog: false
     property bool isVisibleClearIssues: false
+    property bool isVisibleDashboardLayout: true
 
     signal lastClickedReset
+    signal changeChartboxLayout(int chartsPerRow)
 
     RowLayout {
         anchors.fill: parent
-        ToolButton {
-            text: "Init new monitor"
-            visible: isVisibleInitMonitor
+        spacing: 10
+
+        Item {
+            width: 1
+        }
+
+        MonitorToolBarButton {
+            id: dashboardLayout
+            iconName: "grid" + chartsPerRow
+            tooltipText: "Dashboard Layout"
+            visible: isVisibleDashboardLayout
+
+            property int chartsPerRow: 1
+
             onClicked: {
-                dialogInitMonitor.open()
+                if (chartsPerRow === 3) {
+                    chartsPerRow = 1
+                } else {
+                    chartsPerRow++
+                }
+                changeChartboxLayout(chartsPerRow)
             }
         }
 
-        ToolButton {
-            text: "Display historical data"
+        MonitorToolBarButton {
+            id: historicalChart
+            iconName: "historicalchart"
+            tooltipText: "Display Historical Data"
             visible: isVisibleDispData
-            onClicked: {
-                dataKindDialog.open()
-            }
+            onClicked: dataKindDialog.open()
         }
 
-        ToolButton {
-            text: "Display real-time data"
+        MonitorToolBarButton {
+            id: dynamicChart
+            iconName: "dynamicchart"
+            tooltipText: "Display Real-Time Data"
             visible: isVisibleDispDynData
-            onClicked: {
-                dynamicDataKindDialog.open()
-            }
+            onClicked: dynamicDataKindDialog.open()
         }
 
-        ToolButton {
-            text: "Refresh"
+        MonitorToolBarButton {
+            id: refresh
+            iconName: "refresh"
+            tooltipText: "Refresh"
             visible: isVisibleRefresh
             onClicked: {
                 controller.refresh_click()
@@ -65,20 +85,20 @@ ToolBar {
             }
         }
 
-        ToolButton {
-            text: "Clear log"
+        MonitorToolBarButton {
+            id: clearLog
+            iconName: "clearlog"
+            tooltipText: "Clear Log"
             visible: isVisibleClearLog
-            onClicked: {
-                controller.clear_log()
-            }
+            onClicked: controller.clear_log()
         }
 
-        ToolButton {
-            text: "Clear issues"
+        MonitorToolBarButton {
+            id: clearIssues
+            iconName: "clearissues"
+            tooltipText: "Clear Issues"
             visible: isVisibleClearIssues
-            onClicked: {
-                controller.clear_issues()
-            }
+            onClicked: controller.clear_issues()
         }
 
         Item {
@@ -90,5 +110,9 @@ ToolBar {
         sequence: "Ctrl+R"
         context: Qt.ApplicationShortcut
         onActivated: controller.refresh_click()
+    }
+
+    function changeChartboxLayoutIcon(chartsPerRow) {
+        dashboardLayout.chartsPerRow = chartsPerRow
     }
 }

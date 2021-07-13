@@ -21,10 +21,6 @@ import Theme 1.0
 
 Rectangle {
     id: statisticsChartBox
-    border {
-        width: 2
-        color: Theme.eProsimaDarkBlue
-    }
 
     property string chartTitle
     property int index
@@ -53,172 +49,156 @@ Rectangle {
     }
 
     ColumnLayout {
-
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+        anchors.fill: parent
         spacing: 0
         visible: visibility
 
         Rectangle {
             id: chartBoxTitle
-            width: statisticsChartBox.width
-            height: statisticsChartBox.height/20 + controlPanel.contentHeight
+            Layout.fillWidth: true
+            height: 25
             color: Theme.eProsimaDarkBlue
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignCenter
-                spacing: 0
+            Label {
+                id: statisticsChartBoxLabel
+                text: isDynamic ? chartTitle + " [dynamic]" : chartTitle + " [historic]"
+                color: "white"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
 
-                Rectangle {
-                    id: chartBoxInnerTitle
-                    width: statisticsChartBox.width
-                    height: statisticsChartBox.height/20
-                    color: Theme.eProsimaDarkBlue
+            Rectangle {
+                height: parent.height - parent.height/3
+                width: parent.height - parent.height/3
+                radius: parent.height - parent.height/3
+                anchors.right: parent.right
+                anchors.rightMargin: parent.height/3
+                anchors.verticalCenter: parent.verticalCenter
+                color: "transparent"
 
-                    Label {
-                        id: statisticsChartBoxLabel
-                        text: isDynamic ? chartTitle + " [dynamic]" : chartTitle + " [historic]"
-                        color: "white"
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Rectangle {
-                        height: parent.height - parent.height/3
-                        width: parent.height - parent.height/3
-                        radius: parent.height - parent.height/3
-                        anchors.right: parent.right
-                        anchors.rightMargin: parent.height/3
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: "transparent"
-
-                        IconSVG {
-                            name: "cross"
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            color: "white"
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: {
-                                statisticsChartBoxModel.remove(index)
-                                statisticsChartBox.destroy()
-                            }
-                            onEntered: {
-                                parent.color = Theme.eProsimaLightBlue
-                            }
-                            onExited: {
-                                parent.color = "transparent"
-                            }
-                        }
-                    }
+                IconSVG {
+                    name: "cross"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "white"
                 }
 
-                MenuBar {
-                    id: controlPanel
-                    Layout.alignment: Qt.AlignCenter | Qt.AlignBottom
-                    implicitWidth: statisticsChartBox.width - (statisticsChartBox.border.width*2)
-
-                    signal addSeries(
-                        string dataKind,
-                        string seriesLabel,
-                        string sourceEntityId,
-                        string targetEntityId,
-                        int bins,
-                        date startTime,
-                        bool startTimeDefault,
-                        date endTime,
-                        bool endTimeDefault,
-                        string statisticKind)
-                    signal addDynamicSeries(
-                        string seriesLabel,
-                        string sourceEntityId,
-                        string targetEntityId,
-                        string statisticKind)
-                    signal clearChart()
-                    // signal clearSeries()
-                    signal dynamicPause()
-                    signal dynamicContinue()
-
-                    onAddSeries: statisticsChartViewLoader.item.addSeries(
-                                     dataKind,
-                                     seriesLabel,
-                                     sourceEntityId,
-                                     targetEntityId,
-                                     bins,
-                                     startTime,
-                                     startTimeDefault,
-                                     endTime,
-                                     endTimeDefault,
-                                     statisticKind);
-                    onAddDynamicSeries: statisticsChartViewLoader.item.addDynamicSeries(
-                                     seriesLabel,
-                                     sourceEntityId,
-                                     targetEntityId,
-                                     statisticKind);
-                    onClearChart: statisticsChartViewLoader.item.clearChart();
-                    onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
-                    onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
-
-                    Menu {
-                        title: "Chart"
-                        Action {
-                            text: "Reset zoom"
-                            Component.onCompleted: {
-                                triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
-                            }
-                        }
-                        Action {
-                            text: "Clear chart"
-                            onTriggered: controlPanel.clearChart();
-                        }
-                        Action {
-                            text: "Close chart box"
-                            onTriggered: {
-                                statisticsChartBoxModel.remove(index)
-                                statisticsChartBox.destroy()
-                            }
-                        }
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        statisticsChartBoxModel.remove(index)
+                        statisticsChartBox.destroy()
                     }
-
-                    Menu {
-                        title: "Series"
-                        Action {
-                            text: "Add series"
-                            onTriggered: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : displayStatisticsDialog.open();
-                        }
-
-                        Action {
-                            text: "Hide all series"
-                            onTriggered: customLegend.hideAllSeries()
-                        }
-                        Action {
-                            text: "Display all series"
-                            onTriggered: customLegend.displayAllSeries()
-                        }
+                    onEntered: {
+                        parent.color = Theme.eProsimaLightBlue
                     }
+                    onExited: {
+                        parent.color = "transparent"
+                    }
+                }
+            }
 
-                    Menu {
-                        id: realTimeMenu
-                        title: "Real Time"
-                        Action {
-                            text: running ? "Pause" : "Continue"
-                            onTriggered: {
-                                running ? statisticsChartViewLoader.item.dynamicPause() : statisticsChartViewLoader.item.dynamicContinue()
-                            }
-                        }
+        }
+
+        MenuBar {
+            id: controlPanel
+            Layout.fillWidth: true
+
+            signal addSeries(
+                string dataKind,
+                string seriesLabel,
+                string sourceEntityId,
+                string targetEntityId,
+                int bins,
+                date startTime,
+                bool startTimeDefault,
+                date endTime,
+                bool endTimeDefault,
+                string statisticKind)
+            signal addDynamicSeries(
+                string seriesLabel,
+                string sourceEntityId,
+                string targetEntityId,
+                string statisticKind)
+            signal clearChart()
+            // signal clearSeries()
+            signal dynamicPause()
+            signal dynamicContinue()
+
+            onAddSeries: statisticsChartViewLoader.item.addSeries(
+                             dataKind,
+                             seriesLabel,
+                             sourceEntityId,
+                             targetEntityId,
+                             bins,
+                             startTime,
+                             startTimeDefault,
+                             endTime,
+                             endTimeDefault,
+                             statisticKind);
+            onAddDynamicSeries: statisticsChartViewLoader.item.addDynamicSeries(
+                             seriesLabel,
+                             sourceEntityId,
+                             targetEntityId,
+                             statisticKind);
+            onClearChart: statisticsChartViewLoader.item.clearChart();
+            onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
+            onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
+
+            Menu {
+                title: "Chart"
+                Action {
+                    text: "Reset zoom"
+                    Component.onCompleted: {
+                        triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
+                    }
+                }
+                Action {
+                    text: "Clear chart"
+                    onTriggered: controlPanel.clearChart();
+                }
+                Action {
+                    text: "Close chart box"
+                    onTriggered: {
+                        statisticsChartBoxModel.remove(index)
+                        statisticsChartBox.destroy()
+                    }
+                }
+            }
+
+            Menu {
+                title: "Series"
+                Action {
+                    text: "Add series"
+                    onTriggered: (isDynamic) ? dynamicDisplayStatisticsDialog.open() : displayStatisticsDialog.open();
+                }
+
+                Action {
+                    text: "Hide all series"
+                    onTriggered: customLegend.hideAllSeries()
+                }
+                Action {
+                    text: "Display all series"
+                    onTriggered: customLegend.displayAllSeries()
+                }
+            }
+
+            Menu {
+                id: realTimeMenu
+                title: "Real Time"
+                Action {
+                    text: running ? "Pause" : "Continue"
+                    onTriggered: {
+                        running ? statisticsChartViewLoader.item.dynamicPause() : statisticsChartViewLoader.item.dynamicContinue()
                     }
                 }
             }
         }
 
         Rectangle {
-
-            Layout.alignment: Qt.AlignCenter
-            height: statisticsChartBox.height - 2*chartBoxTitle.height
-            width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             Loader {
                 id: statisticsChartViewLoader
@@ -287,11 +267,8 @@ Rectangle {
 
         CustomLegend {
             id: customLegend
-            Layout.alignment: Qt.AlignCenter
-            Layout.fillHeight: true
-            height: statisticsChartBox.height - chartBoxTitle.height -
-                    statisticsChartViewLoader.item.height - statisticsChartBox.border.width
-            width: statisticsChartBox.width - (statisticsChartBox.border.width*2)
+            Layout.fillWidth: true
+            Layout.margins: 10
             onSeriesNameUpdated: statisticsChartViewLoader.item.updateSeriesName(seriesIndex, newSeriesName)
             onSeriesColorUpdated: statisticsChartViewLoader.item.updateSeriesColor(seriesIndex, newSeriesColor)
             onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
@@ -304,6 +281,15 @@ Rectangle {
                         statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
                     }
             }
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+        border {
+            width: 2
+            color: Theme.eProsimaDarkBlue
         }
     }
 
