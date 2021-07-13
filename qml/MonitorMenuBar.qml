@@ -137,8 +137,8 @@ MenuBar {
                     x: contentItem.x + contentItem.leftPadding / 3
                     y: contentItem.y + contentItem.height / 2
                     Rectangle {
-                        width: 26
-                        height: 26
+                        width: 20
+                        height: 20
                         anchors.centerIn: parent
                         visible: menuItem.checkable
                         IconSVG {
@@ -147,7 +147,7 @@ MenuBar {
                             size: parent.width
                             anchors.centerIn: parent
                             visible: menuItem.checkable
-                            color: menuItem.checked ? "eProsimaLightBlue" : "grey"
+                            color: menuItem.checked ? "eProsimaLightBlue" : "black"
                         }
                     }
                 }
@@ -157,7 +157,7 @@ MenuBar {
                     leftPadding: 35
                     text: menuItem.text
                     opacity: enabled ? 1.0 : 0.3
-                    color: menuItem.checked ? Theme.eProsimaLightBlue : Theme.grey
+                    color: menuItem.checked ? Theme.eProsimaLightBlue : "black"
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
