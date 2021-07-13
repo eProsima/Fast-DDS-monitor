@@ -36,10 +36,12 @@ Rectangle {
     Component.onCompleted: {
         if (isDynamic){
             chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow, updatePeriod)
+            chartTitle = chartTitle + " [dynamic]"
             dynamicDisplayStatisticsDialog.open()
         } else {
             controlPanel.removeMenu(realTimeMenu);
             chartboxId = historicData.add_chartbox(dataKind)
+            chartTitle = chartTitle + " [historic]"
             historicDisplayStatisticsDialog.open();
         }
     }
@@ -65,7 +67,7 @@ Rectangle {
 
             Label {
                 id: statisticsChartBoxLabel
-                text: isDynamic ? chartTitle + " [dynamic]" : chartTitle + " [historic]"
+                text: chartTitle
                 color: "white"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -160,6 +162,11 @@ Rectangle {
                     text: "Clear chart"
                     onTriggered: controlPanel.clearChart();
                 }
+                MenuSeparator { }
+                Action {
+                    text: "Rename chart box"
+                    onTriggered: renameChartBoxDialog.open()
+                }
                 Action {
                     text: "Close chart box"
                     onTriggered: {
@@ -207,7 +214,6 @@ Rectangle {
                 anchors.fill: parent
 
                 property string dataKind: statisticsChartBox.dataKind
-                property string chartTitle: statisticsChartBox.chartTitle
                 property variant timeWindow: statisticsChartBox.timeWindow
                 property variant currentDate: statisticsChartBox.currentDate
                 property variant updatePeriod: statisticsChartBox.updatePeriod
@@ -316,6 +322,44 @@ Rectangle {
     DynamicDisplayStatisticsDialog {
         id: dynamicDisplayStatisticsDialog
         anchors.centerIn: Overlay.overlay
+    }
+
+    Dialog {
+        id: renameChartBoxDialog
+        title: "Rename Chart Box"
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        anchors.centerIn: Overlay.overlay
+
+        GridLayout {
+            columns: 2
+            rowSpacing: 20
+            Label {
+                text: "Current chart box name: "
+            }
+            Label {
+                text: chartTitle
+            }
+            Label {
+                text: "New chart box name: "
+            }
+            TextField {
+                id: newChartBoxNameTextField
+                selectByMouse: true
+                maximumLength: 100
+                implicitWidth: textMetrics.width + leftPadding + rightPadding
+            }
+        }
+
+        TextMetrics {
+            id: textMetrics
+            text: "----------------------------------------------------------------------------------------------------"
+        }
+
+        onAccepted: {
+            if (newChartBoxNameTextField.text !== "") {
+                chartTitle = newChartBoxNameTextField.text
+            }
+        }
     }
 
     function toMsecsSinceEpoch(date) {
