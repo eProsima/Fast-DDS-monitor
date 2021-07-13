@@ -18,7 +18,7 @@ import QtQuick.Controls 2.15
 
 ChartView {
     id: chartView
-    animationOptions: ChartView.NoAnimation
+    animationOptions: ChartView.SeriesAnimations
     theme: ChartView.ChartThemeLight
     antialiasing: true
     legend.visible: false
