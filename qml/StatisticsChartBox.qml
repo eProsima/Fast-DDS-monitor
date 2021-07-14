@@ -176,7 +176,8 @@ Rectangle {
                     }
                 }
                 Action {
-                    text: "Export all to CSV"
+                    text: "Export to CSV"
+                    enabled: (isDynamic && !running) || (!isDynamic)
                     onTriggered: {
                         csvDialog.chartbox = true
                         csvDialog.open()
@@ -216,12 +217,14 @@ Rectangle {
 
         QtDialogs.FileDialog {
             id: csvDialog
-            title: "Choose a file name and path to save csv"
-            folder: shortcuts.home
+            title: "TITLE" // chartbox ? "Save " + chartTitle + " chart box data" :
+                    // "Save series " + customLegend.getLabel(seriesIndex) + " from " + chartTitle
+            folder: shortcuts.documents
             selectMultiple: false
             selectExisting: false
             selectFolder: false
             defaultSuffix: ".csv"
+            nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
 
             property bool chartbox: true
             property int seriesIndex: 0
@@ -402,17 +405,17 @@ Rectangle {
 
     function saveSeriesCSV(seriesIndex, fileName) {
         if(isDynamic) {
-            dynamicData.save_series_csv(chartboxId, seriesIndex, fileName, customLegend.getLabel(seriesIndex))
+            dynamicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
         } else {
-            historicData.save_series_csv(chartboxId, seriesIndex, fileName, customLegend.getLabel(seriesIndex))
+            historicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
         }
     }
 
     function saveChartboxCSV(fileName) {
         if(isDynamic) {
-            dynamicData.save_chartbox_csv(chartboxId, fileName, customLegend.getAllLabels())
+            dynamicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
         } else {
-            historicData.save_chartbox_csv(chartboxId, fileName, customLegend.getAllLabels())
+            historicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
         }
     }
 }

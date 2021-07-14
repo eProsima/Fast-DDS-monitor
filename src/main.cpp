@@ -31,7 +31,7 @@ int main(
     app.setWindowIcon(QIcon(":/resources/images/eprosima_logo.ico"));
     app.setOrganizationName("eProsima");
     app.setOrganizationDomain("eprosima.com");
-    app.setApplicationName("FastDDS Monitor");
+    app.setApplicationName("Fast DDS Monitor");
 
     /******************************************************************************************************************
     * Application engine                                                                                             *

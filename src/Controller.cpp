@@ -210,3 +210,8 @@ void Controller::set_alias(
         utils::to_string(new_alias),
         backend::string_to_entity_kind(entity_kind));
 }
+
+QString Controller::get_data_kind_units(QString data_kind)
+{
+    return engine_->get_data_kind_units(data_kind);
+}

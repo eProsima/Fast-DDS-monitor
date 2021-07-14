@@ -99,16 +99,10 @@ public:
     void newXValue(
             quint64 x);
 
-    void save_series_csv(
-            quint64 series_index,
-            QString& file_name,
-            QString& label,
-            std::string separator = ";");
+    QVector<QPointF> get_data(
+            quint64 series_index);
 
-    void save_chartbox_csv(
-            QString& file_name,
-            QVector<QString>& label_names,
-            std::string separator = ";");
+    std::vector<QVector<QPointF>> get_data();
 
 protected:
 
@@ -124,18 +118,6 @@ protected:
      */
     QtCharts::QVXYModelMapper* add_series(
             DataModel* data_model);
-
-    static int max_column(
-            std::vector<QVector<QPointF>> datas);
-
-    static void save_csv(
-            QString& file_name,
-            std::vector<QVector<QPointF>>& datas,
-            QVector<QString>& label_names,
-            std::string separator = ";");
-
-    static std::map<quint64, std::vector<qreal>> merge_datas(
-            std::vector<QVector<QPointF>>& datas);
 
     //! Map of ModelMappers reference by unique id from this chartbox
     std::map<quint64, QtCharts::QVXYModelMapper*> mappers_;

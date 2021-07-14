@@ -32,11 +32,19 @@ namespace utils {
 
 //! Cast a std string to QString Qt type
 QString to_QString(
-        std::string st);
+        std::string& st);
+
+//! Cast a const std string to QString Qt type
+QString to_QString(
+        const std::string& st);
 
 //! Cast a QString to std string
 std::string to_string(
-        QString st);
+        QString& st);
+
+//! Cast a const QString to std string
+std::string to_string(
+        const QString& st);
 
 /**
  * @brief Returns the current time in string format

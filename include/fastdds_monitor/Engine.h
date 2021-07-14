@@ -351,6 +351,9 @@ public:
     //! Get if inactive entities must be visible
     bool inactive_visible() const;
 
+    //! Give a string with the name of the unit magnitud in which each DataKind is measured
+    QString get_data_kind_units(const QString& data_kind);
+
 signals:
 
     /**

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <fstream>
 #include <math.h>
 #include <mutex>
 
@@ -20,7 +19,6 @@
 
 #include <fastdds_monitor/statistics/DataChartBox.h>
 #include <fastdds_monitor/statistics/DataModel.h>
-#include <fastdds_monitor/utils.h>
 
 std::atomic<quint64> DataChartBox::last_id_(0);
 
@@ -227,164 +225,35 @@ void DataChartBox::newXValue(
     }
 }
 
-void DataChartBox::save_series_csv(
-        quint64 series_index,
-        QString& file_name,
-        QString& label,
-        std::string separator /* = ";"*/)
+QVector<QPointF> DataChartBox::get_data(
+        quint64 series_index)
 {
     const std::lock_guard<std::recursive_mutex> lock(mutex_);
 
     assert(series_index < series_ids_.size());
     quint64 real_id = series_ids_[series_index];
 
-    qDebug() << "Saving series csv of series index: " << series_index << " which represents series id: " << real_id;
-
     auto series_it_ = series_.find(real_id);
     assert(series_it_ != series_.end());
 
     // These two arguments must be created beforehand as the method requires references
     // Could be const references if QPointF had its getters as const, but it doesnt
-    std::vector<QVector<QPointF>> data_({series_it_->second->get_data()});
-    QVector<QString> label_({label});
-
-    save_csv(file_name, data_, label_, separator);
+    return series_it_->second->get_data();
 }
 
-void DataChartBox::save_chartbox_csv(
-        QString& file_name,
-        QVector<QString>& label_names,
-        std::string separator /* = ";"*/)
+std::vector<QVector<QPointF>> DataChartBox::get_data()
 {
-    const std::lock_guard<std::recursive_mutex> lock(mutex_);
+    std::vector<QVector<QPointF>> datas(series_.size());
 
-    assert(static_cast<size_t>(label_names.size()) == series_.size());
-
-    std::vector<QVector<QPointF>> datas(label_names.size());
-    // auto d = series_[0]->get_data();
     size_t i = 0;
-    // Get vectors of data so the acces is faster
+    // Must be sorted by id, map could not return the correct order
     for (quint64 id : series_ids_)
     {
-        // Id is already sorted as label_names
-        datas[i++] = series_[id]->get_data();
+        auto series_it_ = series_.find(id);
+        assert(series_it_ != series_.end());
+
+        datas[i++] = series_it_->second->get_data();
     }
 
-    save_csv(file_name, datas, label_names, separator);
-}
-
-int DataChartBox::max_column(
-        std::vector<QVector<QPointF>> datas)
-{
-    int max = 0;
-    for (auto series : datas)
-    {
-        max = MAX(max, series.size());
-    }
-    return max;
-}
-
-void DataChartBox::save_csv(
-        QString& file_name,
-        std::vector<QVector<QPointF>>& datas,
-        QVector<QString>& label_names,
-        std::string separator /* = ";"*/)
-{
-    assert(static_cast<size_t>(label_names.size()) == datas.size());
-
-    std::string file_name_ = utils::to_string(file_name);
-
-    // Check if QML format and erase first substring
-    if (file_name_.rfind("file://", 0) == 0)
-    {
-        file_name_.erase(0, 7);
-    }
-
-    qDebug() << "Storing CSV in file: " << utils::to_QString(file_name_);
-
-    std::map<quint64, std::vector<qreal>> datas_ = merge_datas(datas);
-
-    try
-    {
-        std::ofstream ofile(file_name_);
-
-        ofile << "UnixTime[ms]";
-
-        // Headers
-        for (QString label : label_names)
-        {
-            std::string label_ = utils::to_string(label);
-            std::replace( label_.begin(), label_.end(), ' ', '_');
-            ofile << separator << label_;
-        }
-        ofile << "\n";
-
-        // Iterate over all series for a <max_index> times and print values when are available
-        for (auto data_it : datas_)
-        {
-            ofile << data_it.first;
-            for (auto series_point : data_it.second)
-            {
-                ofile << ";";
-                // NaN values are not printed
-                if (!std::isnan(series_point))
-                {
-                    ofile << series_point;
-                }
-            }
-            ofile << "\n";
-        }
-    }
-    catch (std::ifstream::failure& e)
-    {
-        qCritical() << "Error writing CSV with error: "  << e.what();
-    }
-}
-
-std::map<quint64, std::vector<qreal>> DataChartBox::merge_datas(
-        std::vector<QVector<QPointF>>& datas)
-{
-    std::map<quint64, std::vector<qreal>> res;
-
-    // Go one by one over the series and add all times in points
-    // For each time added in an already time created, add the point and the possible previous points
-    // that may not have been in previous series as null
-    // For any new time, add all the previous series points as null
-    size_t vector_index = 0;
-    for (QVector<QPointF> series : datas)
-    {
-        for (QPointF point : series)
-        {
-            quint64 x_value = static_cast<unsigned long>(point.rx());
-
-            // Check whether this time has already been added
-            auto it = res.find(point.rx());
-            if (it == res.end())
-            {
-                // It is new, so add new vector
-                res[x_value] = std::vector<qreal>();
-            }
-
-            // Add possible previous values as NaN
-            for (size_t i = res[x_value].size(); i < vector_index; i++)
-            {
-                res[x_value].push_back(std::numeric_limits<double>::quiet_NaN());
-            }
-
-            // Add new value
-            res[x_value].push_back({point.ry()});
-        }
-        ++vector_index;
-    }
-
-    // Check that all vectors has correct size (vector_index = number of series)
-    for (std::map<quint64, std::vector<qreal>>::iterator map_it = res.begin(); map_it != res.end(); map_it++)
-    {
-        while (map_it->second.size() < vector_index)
-        {
-            map_it->second.push_back(std::numeric_limits<double>::quiet_NaN());
-        }
-    }
-
-    return res;
+    return datas;
 }

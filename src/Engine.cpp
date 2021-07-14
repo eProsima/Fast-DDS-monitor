@@ -641,7 +641,6 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
         end_time_default
             ? std::chrono::duration_cast<std::chrono::milliseconds>(
             time_to.time_since_epoch()).count()
-
             : end_time);
 
     return historic_statistics_data_->add_series(chartbox_id, points);
@@ -945,4 +944,9 @@ void Engine::change_inactive_visible()
 bool Engine::inactive_visible() const
 {
     return inactive_visible_;
+}
+
+QString Engine::get_data_kind_units(const QString& data_kind)
+{
+    return utils::to_QString(backend_connection_.get_data_kind_units(backend::string_to_data_kind(data_kind)));
 }

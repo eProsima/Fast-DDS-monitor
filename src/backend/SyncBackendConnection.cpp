@@ -1038,4 +1038,49 @@ bool SyncBackendConnection::update_one_entity_in_model_(
     }
 }
 
+std::string SyncBackendConnection::get_data_kind_units(DataKind data_kind)
+{
+    switch (data_kind)
+    {
+        case DataKind::FASTDDS_LATENCY:
+            return "ns";
+        case DataKind::NETWORK_LATENCY:
+            return "ns";
+        case DataKind::PUBLICATION_THROUGHPUT:
+            return "B/s";
+        case DataKind::SUBSCRIPTION_THROUGHPUT:
+            return "B/s";
+        case DataKind::RTPS_PACKETS_SENT:
+            return "count";
+        case DataKind::RTPS_BYTES_SENT:
+            return "B";
+        case DataKind::RTPS_PACKETS_LOST:
+            return "count";
+        case DataKind::RTPS_BYTES_LOST:
+            return "B";
+        case DataKind::RESENT_DATA:
+            return "count";
+        case DataKind::HEARTBEAT_COUNT:
+            return "count";
+        case DataKind::ACKNACK_COUNT:
+            return "count";
+        case DataKind::NACKFRAG_COUNT:
+            return "count";
+        case DataKind::GAP_COUNT:
+            return "count";
+        case DataKind::DATA_COUNT:
+            return "count";
+        case DataKind::PDP_PACKETS:
+            return "count";
+        case DataKind::EDP_PACKETS:
+            return "count";
+        case DataKind::DISCOVERY_TIME:
+            return "ms";
+        case DataKind::SAMPLE_DATAS:
+            return "count";
+        default:
+            return "-";
+    }
+}
+
 } //namespace backend

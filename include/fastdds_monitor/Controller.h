@@ -162,6 +162,8 @@ public slots:
             QString new_alias,
             QString entity_kind);
 
+    QString get_data_kind_units(QString data_kind);
+
 signals:
 
     //! Signal to show the Error Dialog

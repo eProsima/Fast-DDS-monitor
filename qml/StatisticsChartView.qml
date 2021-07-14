@@ -39,48 +39,7 @@ ChartView {
         id: axisY
         min: axisYMin
         max: axisYMax
-        titleText: {
-            switch (dataKind) {
-                case "FASTDDS_LATENCY":
-                    return qsTr(dataKind + " [ns]")
-                case "NETWORK_LATENCY":
-                    return qsTr(dataKind + " [ns]")
-                case "PUBLICATION_THROUGHPUT":
-                    return qsTr(dataKind + " [B/s]")
-                case "SUBSCRIPTION_THROUGHPUT":
-                    return qsTr(dataKind + " [B/s]")
-                case "RTPS_PACKETS_SENT":
-                    return qsTr(dataKind + " [count]")
-                case "RTPS_BYTES_SENT":
-                    return qsTr(dataKind + " [B]")
-                case "RTPS_PACKETS_LOST":
-                    return qsTr(dataKind + " [count]")
-                case "RTPS_BYTES_LOST":
-                    return qsTr(dataKind + " [B]")
-                case "RESENT_DATA":
-                    return qsTr(dataKind + " [count]")
-                case "HEARTBEAT_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "ACKNACK_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "NACKFRAG_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "GAP_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "DATA_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "PDP_PACKETS":
-                    return qsTr(dataKind + " [count]")
-                case "EDP_PACKETS":
-                    return qsTr(dataKind + " [count]")
-                case "DISCOVERED_ENTITY":
-                    return qsTr(dataKind + " [ns]")
-                case "SAMPLE_DATAS":
-                    return qsTr(dataKind + " [count]")
-                default:
-                    return qsTr("")
-            }
-        }
+        titleText: dataKind + "[" + controller.get_data_kind_units(dataKind) + "]"
     }
 
     DateTimeAxis {
