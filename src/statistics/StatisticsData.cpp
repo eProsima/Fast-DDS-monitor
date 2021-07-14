@@ -322,6 +322,7 @@ void StatisticsData::save_csv(
         ofile << "\n";
 
         // Data unit
+        ofile << "ms";
         for (QString unit : data_units)
         {
             std::string unit_ = utils::to_string(unit);
@@ -331,7 +332,7 @@ void StatisticsData::save_csv(
         ofile << "\n";
 
         // Labels
-        ofile << "UnixTime[ms]";
+        ofile << "UnixTime";
 
         for (QString label : label_names)
         {
