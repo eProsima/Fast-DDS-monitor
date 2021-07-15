@@ -46,25 +46,21 @@ public:
 
     //! Callback when a new Host is discovered
     void on_host_discovery(
-            EntityId participant_id,
             EntityId host_id,
             const Status& status) override;
 
     //! Callback when a new User is discovered
     void on_user_discovery(
-            EntityId participant_id,
             EntityId user_id,
             const Status& status) override;
 
     //! Callback when a new Process is discovered
     void on_process_discovery(
-            EntityId participant_id,
             EntityId process_id,
             const Status& status) override;
 
     //! Callback when a new Locator is discovered
     void on_locator_discovery(
-            EntityId participant_id,
             EntityId locator_id,
             const Status& status) override;
 

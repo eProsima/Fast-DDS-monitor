@@ -84,12 +84,9 @@ void Listener::on_datawriter_discovery(
 }
 
 void Listener::on_host_discovery(
-        EntityId participant_id,
         EntityId host_id,
         const Status& status)
 {
-    static_cast<void>(participant_id);
-
     if (status.current_count_change == 1)
     {
         qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " DISCOVERED";
@@ -103,12 +100,9 @@ void Listener::on_host_discovery(
 }
 
 void Listener::on_user_discovery(
-        EntityId participant_id,
         EntityId user_id,
         const Status& status)
 {
-    static_cast<void>(participant_id);
-
     if (status.current_count_change == 1)
     {
         qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " DISCOVERED";
@@ -122,12 +116,9 @@ void Listener::on_user_discovery(
 }
 
 void Listener::on_process_discovery(
-        EntityId participant_id,
         EntityId process_id,
         const Status& status)
 {
-    static_cast<void>(participant_id);
-
     if (status.current_count_change == 1)
     {
         qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " DISCOVERED";
@@ -141,12 +132,9 @@ void Listener::on_process_discovery(
 }
 
 void Listener::on_locator_discovery(
-        EntityId participant_id,
         EntityId locator_id,
         const Status& status)
 {
-    static_cast<void>(participant_id);
-
     if (status.current_count_change == 1)
     {
         qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " DISCOVERED";
