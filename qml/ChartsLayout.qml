@@ -187,6 +187,10 @@ Rectangle {
         }
     }
 
+    ExportCSVFileDialog {
+        id: csvDialog
+    }
+
     function createHistoricChart(dataKind){
         statisticsChartBoxModel.append({
                                            "dataKind": dataKind,
@@ -209,6 +213,39 @@ Rectangle {
 
     function calculateGridViewWidth(){
         mouseArea.width = (chartBoxWidth - 10) * actualBoxesPerRow
+    }
+
+    function save_all_csv(){
+        // TODO
+    }
+
+    function saveCSV(
+            chartboxIds,
+            seriesIds,
+            dataKind,
+            chartboxName,
+            labelNames)
+    {
+        csvDialog.chartboxIds = chartboxIds
+        csvDialog.seriesIds = seriesIds
+        csvDialog.dataKind = dataKind
+        csvDialog.chartboxName = chartboxName
+        csvDialog.labelNames = labelNames
+        csvDialog.open()
+    }
+
+    function saveAllCSV() {
+        // TODO
+        // var chartboxIds = []
+        // var seriesIds = []
+        // var dataKind = []
+        // var chartboxName = []
+        // var labelNames = []
+
+        // for (var idx = 0; idx < statisticsChartBoxModel.count; idx++) {
+        //     labels.push(getLabel(idx))
+        // }
+        // return labels
     }
 }
 

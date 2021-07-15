@@ -13,6 +13,7 @@ SOURCES += \
         src/backend/SyncBackendConnection.cpp \
         src/Controller.cpp \
         src/Engine.cpp \
+        src/io/csv.cpp \
         src/main.cpp \
         src/model/dds/EndpointModelItem.cpp \
         src/model/dds/ParticipantModelItem.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     include/fastdds_monitor/backend/SyncBackendConnection.h \
     include/fastdds_monitor/Controller.h \
     include/fastdds_monitor/Engine.h \
+    include/fastdds_monitor/io/csv.h \
     include/fastdds_monitor/model/dds/EndpointModelItem.h \
     include/fastdds_monitor/model/dds/LocatorModelItem.h \
     include/fastdds_monitor/model/dds/ParticipantModelItem.h \

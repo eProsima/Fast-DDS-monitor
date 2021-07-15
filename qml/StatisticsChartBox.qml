@@ -176,11 +176,19 @@ Rectangle {
                     }
                 }
                 Action {
+                    // Export whole chartbox to CSV
                     text: "Export to CSV"
                     enabled: (isDynamic && !running) || (!isDynamic)
                     onTriggered: {
-                        csvDialog.chartbox = true
-                        csvDialog.open()
+
+                        var num_series = customLegend.getNumberOfSeries()
+
+                        saveCSV(
+                            Array(num_series).fill(chartboxId),
+                            [...Array(num_series).keys()], // Numbers from 0 to <num_series>
+                            Array(num_series).fill(dataKind),
+                            Array(num_series).fill(chartTitle),
+                            customLegend.getAllLabels())
                     }
                 }
             }
@@ -211,29 +219,6 @@ Rectangle {
                         running ? statisticsChartViewLoader.item.dynamicPause() : statisticsChartViewLoader.item.dynamicContinue()
                     }
 
-                }
-            }
-        }
-
-        QtDialogs.FileDialog {
-            id: csvDialog
-            title: "TITLE" // chartbox ? "Save " + chartTitle + " chart box data" :
-                    // "Save series " + customLegend.getLabel(seriesIndex) + " from " + chartTitle
-            folder: shortcuts.documents
-            selectMultiple: false
-            selectExisting: false
-            selectFolder: false
-            defaultSuffix: ".csv"
-            nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
-
-            property bool chartbox: true
-            property int seriesIndex: 0
-
-            onAccepted: {
-                if (chartbox) {
-                    saveChartboxCSV(csvDialog.fileUrl)
-                } else {
-                    saveSeriesCSV(seriesIndex, csvDialog.fileUrl)
                 }
             }
         }
@@ -326,10 +311,14 @@ Rectangle {
                     statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
                 }
             }
-            onSeriesCSV: {
-                csvDialog.chartbox = false
-                csvDialog.seriesIndex = seriesIndex
-                csvDialog.open()
+            onSeriesToCSV: {
+                // Export one series as CSV
+                saveCSV(
+                    [chartboxId],
+                    [seriesIndex],
+                    [dataKind],
+                    [chartTitle],
+                    [seriesLabel])
             }
         }
     }
@@ -417,5 +406,9 @@ Rectangle {
         } else {
             historicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
         }
+    }
+
+    function chartboxTitle() {
+        // TODO
     }
 }

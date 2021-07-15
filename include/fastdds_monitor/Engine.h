@@ -352,7 +352,16 @@ public:
     bool inactive_visible() const;
 
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
-    QString get_data_kind_units(const QString& data_kind);
+    std::string get_data_kind_units(const QString& data_kind);
+
+    //! TODO
+    void save_csv(
+            QString& file_name,
+            QVector<quint64>& chartbox_ids,
+            QVector<quint64>& series_indexes,
+            QVector<QString>& data_kinds,
+            QVector<QString>& chartbox_names,
+            QVector<QString>& label_names);
 
 signals:
 

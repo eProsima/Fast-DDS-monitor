@@ -91,6 +91,10 @@ RowLayout {
     function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
         chartsLayout.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod)
     }
+
+    function saveAllCSV() {
+        chartsLayout.saveAllCSV()
+    }
 }
 
 

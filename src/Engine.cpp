@@ -25,6 +25,7 @@
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/Engine.h>
+#include <fastdds_monitor/io/csv.h>
 #include <fastdds_monitor/model/dds/ParticipantModelItem.h>
 #include <fastdds_monitor/model/logical/DomainModelItem.h>
 #include <fastdds_monitor/model/physical/HostModelItem.h>
@@ -946,7 +947,87 @@ bool Engine::inactive_visible() const
     return inactive_visible_;
 }
 
-QString Engine::get_data_kind_units(const QString& data_kind)
+std::string Engine::get_data_kind_units(const QString& data_kind)
 {
-    return utils::to_QString(backend_connection_.get_data_kind_units(backend::string_to_data_kind(data_kind)));
+    return backend_connection_.get_data_kind_units(backend::string_to_data_kind(data_kind));
 }
+
+void Engine::save_csv(
+        QString& file_name,
+        QVector<quint64>& chartbox_ids,
+        QVector<quint64>& series_indexes,
+        QVector<QString>& data_kinds,
+        QVector<QString>& chartbox_names,
+        QVector<QString>& label_names)
+{
+    // Check input vectors are same size
+    int size = chartbox_ids.size();
+    assert (series_indexes.size() == size);
+    assert (data_kinds.size() == size);
+    assert (chartbox_names.size() == size);
+    assert (label_names.size() == size);
+
+    // get all data
+    std::vector<QVector<QPointF>> datas(size);
+
+    for (int i = 0; i < size; ++i)
+    {
+        // It looks up if it belongs to dynamic or historic before getting its data
+        if (historic_statistics_data_->contains_chartbox(chartbox_ids[i]))
+        {
+            datas[i] = historic_statistics_data_->get_data(chartbox_ids[i], series_indexes[i]);
+        }
+        else if (dynamic_statistics_data_->contains_chartbox(chartbox_ids[i]))
+        {
+            datas[i] = dynamic_statistics_data_->get_data(chartbox_ids[i], series_indexes[i]);
+        }
+        else
+        {
+            // Chartbox does not exist
+            qCritical() << "Chartbox with id " << chartbox_ids[i] << " does not exist.";
+            assert(false);
+        }
+    }
+
+    // get units
+    std::vector<std::string> data_units(size);
+    for (int i = 0; i < size; ++i)
+    {
+        data_units[i] = get_data_kind_units(data_kinds[i]);
+    }
+
+    // call csv write
+    if (io::HandlerCSV::write_series_to_csv(
+            file_name,
+            datas,
+            data_kinds,
+            chartbox_names,
+            label_names,
+            data_units))
+    {
+        qDebug() << "CSV file written successfully to file " << file_name;
+    }
+    else
+    {
+        qWarning() << "Error writing CSV file " << file_name;
+    }
+}
+
+// TODO erase
+// void Engine::save_all_csv(
+//         QString file_name,
+//         QVector<quint64> chartbox_order,
+//         QVector<QString> data_kinds,
+//         QVector<QString> chartbox_name,
+//         QVector<QString> data_unit,
+//         QVector<QString> label_names)
+// {
+//     StatisticsData::save_all_csv(
+//         std::vector<StatisticsData*>({ historic_statistics_data_, dynamic_statistics_data_}),
+//         file_name,
+//         chartbox_order,
+//         data_kinds,
+//         chartbox_name,
+//         data_unit,
+//         label_names);
+// }

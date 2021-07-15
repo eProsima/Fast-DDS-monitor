@@ -213,5 +213,22 @@ void Controller::set_alias(
 
 QString Controller::get_data_kind_units(QString data_kind)
 {
-    return engine_->get_data_kind_units(data_kind);
+    return utils::to_QString(engine_->get_data_kind_units(data_kind));
+}
+
+void Controller::save_csv(
+        QString file_name,
+        QVector<quint64> chartbox_ids,
+        QVector<quint64> series_indexes,
+        QVector<QString> data_kinds,
+        QVector<QString> chartbox_names,
+        QVector<QString> label_names)
+{
+    engine_->save_csv(
+        file_name,
+        chartbox_ids,
+        series_indexes,
+        data_kinds,
+        chartbox_names,
+        label_names);
 }

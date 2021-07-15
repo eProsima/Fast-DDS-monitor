@@ -99,10 +99,10 @@ public:
     void newXValue(
             quint64 x);
 
-    QVector<QPointF> get_data(
+    const QVector<QPointF>& get_data(
             quint64 series_index);
 
-    std::vector<QVector<QPointF>> get_data();
+    // std::vector<QVector<QPointF>> get_data();
 
 protected:
 

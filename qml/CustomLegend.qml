@@ -32,7 +32,7 @@ Rectangle {
     signal seriesHidden(int seriesIndex)
     signal seriesDisplayed(int seriesIndex)
     signal seriesRemoved(int seriesIndex)
-    signal seriesCSV(int seriesIndex)
+    signal seriesToCSV(int seriesIndex, string seriesLabel)
 
     ListModel {
         id: seriesModel
@@ -124,7 +124,7 @@ Rectangle {
                 }
                 MenuItem {
                     text: "Export to CSV"
-                    onTriggered: seriesCSV(index)
+                    onTriggered: seriesToCSV(index, seriesModel.get(index).seriesName)
                 }
             }
 
@@ -236,5 +236,9 @@ Rectangle {
             labels.push(getLabel(idx))
         }
         return labels
+    }
+
+    function getNumberOfSeries() {
+        return seriesModel.count
     }
 }

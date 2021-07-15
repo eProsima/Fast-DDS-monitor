@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <math.h>
+#include <cmath>
 #include <mutex>
 
 #include <QDebug>
@@ -225,7 +225,7 @@ void DataChartBox::newXValue(
     }
 }
 
-QVector<QPointF> DataChartBox::get_data(
+const QVector<QPointF>& DataChartBox::get_data(
         quint64 series_index)
 {
     const std::lock_guard<std::recursive_mutex> lock(mutex_);
@@ -241,19 +241,20 @@ QVector<QPointF> DataChartBox::get_data(
     return series_it_->second->get_data();
 }
 
-std::vector<QVector<QPointF>> DataChartBox::get_data()
-{
-    std::vector<QVector<QPointF>> datas(series_.size());
+// TODO erase
+// std::vector<QVector<QPointF>> DataChartBox::get_data()
+// {
+//     std::vector<QVector<QPointF>> datas(series_.size());
 
-    size_t i = 0;
-    // Must be sorted by id, map could not return the correct order
-    for (quint64 id : series_ids_)
-    {
-        auto series_it_ = series_.find(id);
-        assert(series_it_ != series_.end());
+//     size_t i = 0;
+//     // Must be sorted by id, map could not return the correct order
+//     for (quint64 id : series_ids_)
+//     {
+//         auto series_it_ = series_.find(id);
+//         assert(series_it_ != series_.end());
 
-        datas[i++] = series_it_->second->get_data();
-    }
+//         datas[i++] = series_it_->second->get_data();
+//     }
 
-    return datas;
-}
+//     return datas;
+// }
