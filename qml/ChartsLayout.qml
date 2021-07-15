@@ -249,31 +249,12 @@ Rectangle {
             var seriesLabels = chartboxItem.chartboxSeriesLabels()
             var seriesNum = seriesLabels.length
 
-            console.log("--seriesNum " + seriesNum)
-            console.log("--append chartboxIds: " + (Array(seriesNum).fill(idx)))
-            console.log("--append seriesIds: " + ([...Array(seriesNum).keys()]))
-            console.log("--append dataKinds: " + (Array(seriesNum).fill(chartboxItem.chartboxDataKind())))
-            console.log("--append chartboxNames: " + (Array(seriesNum).fill(chartboxItem.chartboxTitle())))
-            console.log("--append labelNames: " + (seriesLabels))
-
-            chartboxIds     = chartboxIds.concat(Array(seriesNum).fill(idx))
+            chartboxIds     = chartboxIds.concat(Array(seriesNum).fill(chartboxItem.chartboxId)) // not idx
             seriesIds       = seriesIds.concat([...Array(seriesNum).keys()])
-            dataKinds       = dataKinds.concat(Array(seriesNum).fill(chartboxItem.chartboxDataKind()))
-            chartboxNames   = chartboxNames.concat(Array(seriesNum).fill(chartboxItem.chartboxTitle()))
+            dataKinds       = dataKinds.concat(Array(seriesNum).fill(chartboxItem.dataKind))
+            chartboxNames   = chartboxNames.concat(Array(seriesNum).fill(chartboxItem.chartTitle))
             labelNames      = labelNames.concat(seriesLabels)
-
-            console.log("--appended chartboxIds: " + chartboxIds)
-            console.log("--appended seriesIds: " + seriesIds)
-            console.log("--appended dataKinds: " + dataKinds)
-            console.log("--appended chartboxNames: " + chartboxNames)
-            console.log("--appended labelNames: " + labelNames)
         }
-
-        console.log("chartboxIds: " + chartboxIds)
-        console.log("seriesIds: " + seriesIds)
-        console.log("dataKinds: " + dataKinds)
-        console.log("chartboxNames: " + chartboxNames)
-        console.log("labelNames: " + labelNames)
 
         saveCSV(
             chartboxIds,

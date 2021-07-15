@@ -392,14 +392,6 @@ Rectangle {
         return date.getTime().valueOf();
     }
 
-    function chartboxTitle() {
-        return chartTitle
-    }
-
-    function chartboxDataKind() {
-        return dataKind
-    }
-
     function chartboxSeriesLabels() {
         return customLegend.getAllLabels()
     }

@@ -14,9 +14,9 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3 as QtDialogs
+import QtQuick.Dialogs 1.3
 
-QtDialogs.FileDialog {
+FileDialog {
     id: csvDialog
     title: qsTr("Export charts to CSV file")
     folder: shortcuts.documents
@@ -26,11 +26,11 @@ QtDialogs.FileDialog {
     defaultSuffix: ".csv"
     nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
 
-    property variant chartboxIds: []
-    property variant seriesIds: []
-    property variant dataKinds: []
-    property variant chartboxNames: []
-    property variant labelNames: []
+    property var chartboxIds: []
+    property var seriesIds: []
+    property var dataKinds: []
+    property var chartboxNames: []
+    property var labelNames: []
 
     onAccepted: {
         controller.save_csv(

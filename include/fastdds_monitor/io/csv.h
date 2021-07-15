@@ -57,9 +57,9 @@ public:
     static bool write_series_to_csv(
         const QString& file_name,
         const std::vector<QVector<QPointF>>& datas,
-        const QVector<QString>& data_kinds,
-        const QVector<QString>& chartbox_names,
-        const QVector<QString>& label_names,
+        const QStringList& data_kinds,
+        const QStringList& chartbox_names,
+        const QStringList& label_names,
         const std::vector<std::string>& data_units);
 
 protected:

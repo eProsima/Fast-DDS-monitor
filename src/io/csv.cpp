@@ -24,19 +24,23 @@ namespace io {
 bool HandlerCSV::write_series_to_csv(
     const QString& file_name,
     const std::vector<QVector<QPointF>>& datas,
-    const QVector<QString>& data_kinds,
-    const QVector<QString>& chartbox_names,
-    const QVector<QString>& label_names,
+    const QStringList& data_kinds,
+    const QStringList& chartbox_names,
+    const QStringList& label_names,
     const std::vector<std::string>& data_units)
 {
     /////
     // CREATE FILE NAME
     std::string file_name_ = utils::to_string(file_name);
 
-    // Check if QML format and erase first substring
-    if (file_name_.rfind("file://", 0) == 0)
+    // Check if QML format and erase first substring dependeing on SO
+    if (file_name_.rfind("file:///", 0) == 0)
     {
+#ifdef _WIN32
+        file_name_.erase(0, 8);
+#else
         file_name_.erase(0, 7);
+#endif // ifdef _WIN32
     }
 
     /////
@@ -50,6 +54,12 @@ bool HandlerCSV::write_series_to_csv(
     /////
     // CREATE HEADERS
     int size = data_kinds.size();
+
+    // Empty data to export
+    if (size <= 0)
+    {
+        return false;
+    }
 
     // Total size is 1 more for time column
     std::vector<std::vector<std::string>> headers(4, std::vector<std::string>(size + 1));

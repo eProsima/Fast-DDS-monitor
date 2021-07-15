@@ -181,11 +181,11 @@ public slots:
      */
     void save_csv(
             QString file_name,
-            QVector<quint64> chartbox_ids,
-            QVector<quint64> series_indexes,
-            QVector<QString> data_kinds,
-            QVector<QString> chartbox_names,
-            QVector<QString> label_names);
+            QList<quint64> chartbox_ids,
+            QList<quint64> series_indexes,
+            QStringList data_kinds,
+            QStringList chartbox_names,
+            QStringList label_names);
 
 signals:
 

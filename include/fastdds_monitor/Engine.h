@@ -369,12 +369,12 @@ public:
      * @param label_names       Label of each series
      */
     void save_csv(
-            QString& file_name,
-            QVector<quint64>& chartbox_ids,
-            QVector<quint64>& series_indexes,
-            QVector<QString>& data_kinds,
-            QVector<QString>& chartbox_names,
-            QVector<QString>& label_names);
+            const QString& file_name,
+            const QList<quint64>& chartbox_ids,
+            const QList<quint64>& series_indexes,
+            const QStringList& data_kinds,
+            const QStringList& chartbox_names,
+            const QStringList& label_names);
 
 signals:
 
