@@ -106,50 +106,7 @@ public slots:
             quint64 chartbox_id,
             quint64 series_index);
 
-    // TODO erase
-
-    // std::vector<QVector<QPointF>> get_data(
-    //         quint64 chartbox_id);
-
-    // void save_series_csv(
-    //         quint64 chartbox_id,
-    //         quint64 series_index,
-    //         QString file_name,
-    //         QString data_kind,
-    //         QString chartbox_title,
-    //         QString data_unit,
-    //         QString label);
-
-    // void save_chartbox_csv(
-    //         quint64 chartbox_id,
-    //         QString file_name,
-    //         QString data_kind,
-    //         QString chartbox_name,
-    //         QString data_unit,
-    //         QVector<QString> label_names);
-
-    // static void save_all_csv(
-    //         std::vector<StatisticsData*> models,
-    //         QString file_name,
-    //         QVector<quint64> chartbox_order,
-    //         QVector<QString> data_kinds,
-    //         QVector<QString> chartbox_name,
-    //         QVector<QString> data_unit,
-    //         QVector<QString> label_names);
-
 protected:
-
-    // static void save_csv(
-    //         const QString& file_name,
-    //         const std::vector<QVector<QPointF>>& datas,
-    //         const QVector<QString>& data_kinds,
-    //         const QVector<QString>& chartbox_names,
-    //         const QVector<QString>& data_units,
-    //         const QVector<QString>& label_names,
-    //         const std::string separator = ";");
-
-    // static std::map<quint64, std::vector<qreal>> merge_datas(
-    //         const std::vector<QVector<QPointF>>& datas);
 
     /**
      * Add a new internal Chartbox

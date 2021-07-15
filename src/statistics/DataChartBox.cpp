@@ -240,21 +240,3 @@ const QVector<QPointF>& DataChartBox::get_data(
     // Could be const references if QPointF had its getters as const, but it doesnt
     return series_it_->second->get_data();
 }
-
-// TODO erase
-// std::vector<QVector<QPointF>> DataChartBox::get_data()
-// {
-//     std::vector<QVector<QPointF>> datas(series_.size());
-
-//     size_t i = 0;
-//     // Must be sorted by id, map could not return the correct order
-//     for (quint64 id : series_ids_)
-//     {
-//         auto series_it_ = series_.find(id);
-//         assert(series_it_ != series_.end());
-
-//         datas[i++] = series_it_->second->get_data();
-//     }
-
-//     return datas;
-// }

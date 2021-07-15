@@ -438,7 +438,6 @@ bool Engine::fill_logical_data_()
     return backend_connection_.update_logical_model(logical_model_, inactive_visible());
 }
 
-// TODO reimplement these functions so it is not needed to call the whole fill
 bool Engine::update_domain(
         const backend::EntityId& id,
         bool new_entity /* true */)
@@ -870,7 +869,6 @@ void Engine::set_alias(
     backend_connection_.set_alias(entity_id, new_alias);
 
     // Refresh specific model
-    // TODO when callbacks on info update are implemented this could be erased
     switch (entity_kind)
     {
         case backend::EntityKind::HOST:
@@ -1012,22 +1010,3 @@ void Engine::save_csv(
         qWarning() << "Error writing CSV file " << file_name;
     }
 }
-
-// TODO erase
-// void Engine::save_all_csv(
-//         QString file_name,
-//         QVector<quint64> chartbox_order,
-//         QVector<QString> data_kinds,
-//         QVector<QString> chartbox_name,
-//         QVector<QString> data_unit,
-//         QVector<QString> label_names)
-// {
-//     StatisticsData::save_all_csv(
-//         std::vector<StatisticsData*>({ historic_statistics_data_, dynamic_statistics_data_}),
-//         file_name,
-//         chartbox_order,
-//         data_kinds,
-//         chartbox_name,
-//         data_unit,
-//         label_names);
-// }

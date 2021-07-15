@@ -37,7 +37,20 @@ class HandlerCSV
 public:
 
     /**
-     * TODO
+     * Write down several series with the headers and their respective data in the format:
+     *
+     *          ; <data_kind       series1> ; <data_kind          series2> ; ...
+     *          ; <chartbox_names  series1> ; <chartbox_names     series2> ; ...
+     * ms       ; <data_units      series1> ; <data_units         series2> ; ...
+     * UnixTime ; <label_names     series1> ; <label_names        series2> ; ...
+     * <time0>  ; <data0           series1> ; <data1              series2> ; ...
+     * <time1>  ;                           ; <data1              series2> ; ...
+     * <time2>  ; <data0           series1> ;                              ; ...
+     *
+     * Details:
+     * - Every data value is double, included time
+     * - No ; at the final of the row
+     * - No spaces before or after ;
      *
      * @warning Assumes the size of the vectors and datas are coherent
      */
@@ -51,22 +64,41 @@ public:
 
 protected:
 
-    //! TODO
+    /**
+     * Write down the headers and the data in a new csv file
+     *
+     * @param file_name path and name of the csv file
+     * @param headers   each row of headers + each column per row
+     * @param data      each row of data + each column per row
+     * @param separator csv separator for each data
+     *
+     * @warning headers coluumns must be equal to data columns
+     *
+     * @return true if success, false otherwise
+     */
     static bool write_csv(
         const std::string& file_name,
         const std::vector<std::vector<std::string>>& headers,
         const std::vector<std::vector<double>>& data,
         const std::string separator = ";");
 
-    //! TODO
+    /**
+     * Merge several data so the ones that shares time are joined in the same key
+     * For those data that do not have value for a specific key, a NaN is added
+     *
+     * @return map with the data merged
+     */
     static std::map<quint64, std::vector<qreal>> merge_datas(
         const std::vector<QVector<QPointF>>& datas);
 
-    //! TODO
+    //! Transform a map of merged datas on a matrix available to write in a csv
     static std::vector<std::vector<double>> to_csv_data(
         const std::map<quint64, std::vector<qreal>>& data_map);
 
-    //! TODO
+    /**
+     * Convert double to string with non scientific notation.
+     * If value is NaN void string is returned.
+     */
     static std::string double_to_string(double data);
 
 };

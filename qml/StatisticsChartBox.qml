@@ -392,23 +392,6 @@ Rectangle {
         return date.getTime().valueOf();
     }
 
-    // TODO erase
-    // function saveSeriesCSV(seriesIndex, fileName) {
-    //     if(isDynamic) {
-    //         dynamicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
-    //     } else {
-    //         historicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
-    //     }
-    // }
-
-    // function saveChartboxCSV(fileName) {
-    //     if(isDynamic) {
-    //         dynamicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
-    //     } else {
-    //         historicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
-    //     }
-    // }
-
     function chartboxTitle() {
         return chartTitle
     }
