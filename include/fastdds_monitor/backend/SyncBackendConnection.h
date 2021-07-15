@@ -196,6 +196,11 @@ public:
     std::string get_data_kind_units(
             const DataKind data_kind);
 
+protected:
+
+    std::vector<StatisticsData> change_unit_magnitude(
+            std::vector<StatisticsData>& data,
+            DataKind data_kind);
 
     /**************
      * UPDATE ALL *

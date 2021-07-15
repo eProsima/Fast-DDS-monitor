@@ -1082,13 +1082,13 @@ std::string SyncBackendConnection::get_data_kind_units(
     switch (data_kind)
     {
         case DataKind::FASTDDS_LATENCY:
-            return "ns";
+            return "\u00b5s";
         case DataKind::NETWORK_LATENCY:
-            return "ns";
+            return "\u00b5s";
         case DataKind::PUBLICATION_THROUGHPUT:
-            return "B/s";
+            return "kB/s";
         case DataKind::SUBSCRIPTION_THROUGHPUT:
-            return "B/s";
+            return "kB/s";
         case DataKind::RTPS_PACKETS_SENT:
             return "count";
         case DataKind::RTPS_BYTES_SENT:
