@@ -100,7 +100,7 @@ public slots:
             quint64 x);
 
     bool contains_chartbox(
-        quint64 chartbox_id);
+            quint64 chartbox_id);
 
     const QVector<QPointF>& get_data(
             quint64 chartbox_id,

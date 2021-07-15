@@ -22,12 +22,12 @@
 namespace io {
 
 bool HandlerCSV::write_series_to_csv(
-    const QString& file_name,
-    const std::vector<QVector<QPointF>>& datas,
-    const QStringList& data_kinds,
-    const QStringList& chartbox_names,
-    const QStringList& label_names,
-    const std::vector<std::string>& data_units)
+        const QString& file_name,
+        const std::vector<QVector<QPointF>>& datas,
+        const QStringList& data_kinds,
+        const QStringList& chartbox_names,
+        const QStringList& label_names,
+        const std::vector<std::string>& data_units)
 {
     /////
     // CREATE FILE NAME
@@ -67,10 +67,10 @@ bool HandlerCSV::write_series_to_csv(
     // Headers: <void>, dataKind, chartbox name, data unit, series label
     for (int i = 0; i < size; ++i)
     {
-        headers[0][i+1] = utils::to_string(data_kinds[i]);
-        headers[1][i+1] = utils::to_string(chartbox_names[i]);
-        headers[2][i+1] = data_units[i];
-        headers[3][i+1] = utils::to_string(label_names[i]);
+        headers[0][i + 1] = utils::to_string(data_kinds[i]);
+        headers[1][i + 1] = utils::to_string(chartbox_names[i]);
+        headers[2][i + 1] = data_units[i];
+        headers[3][i + 1] = utils::to_string(label_names[i]);
     }
 
     // Fill time column in data units and label
@@ -83,10 +83,10 @@ bool HandlerCSV::write_series_to_csv(
 }
 
 bool HandlerCSV::write_csv(
-    const std::string& file_name,
-    const std::vector<std::vector<std::string>>& headers,
-    const std::vector<std::vector<double>>& data,
-    const std::string separator /* = ";"" */)
+        const std::string& file_name,
+        const std::vector<std::vector<std::string>>& headers,
+        const std::vector<std::vector<double>>& data,
+        const std::string separator /* = ";"" */)
 {
     try
     {
@@ -133,7 +133,7 @@ bool HandlerCSV::write_csv(
 }
 
 std::map<quint64, std::vector<qreal>> HandlerCSV::merge_datas(
-    const std::vector<QVector<QPointF>>& datas)
+        const std::vector<QVector<QPointF>>& datas)
 {
     std::map<quint64, std::vector<qreal>> res;
 
@@ -211,7 +211,8 @@ std::vector<std::vector<double>> HandlerCSV::to_csv_data(
     return csv_data;
 }
 
-std::string HandlerCSV::double_to_string(double data)
+std::string HandlerCSV::double_to_string(
+        double data)
 {
     if (!std::isnan(data))
     {

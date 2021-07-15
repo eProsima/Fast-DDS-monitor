@@ -945,7 +945,8 @@ bool Engine::inactive_visible() const
     return inactive_visible_;
 }
 
-std::string Engine::get_data_kind_units(const QString& data_kind)
+std::string Engine::get_data_kind_units(
+        const QString& data_kind)
 {
     return backend_connection_.get_data_kind_units(backend::string_to_data_kind(data_kind));
 }
@@ -996,12 +997,12 @@ void Engine::save_csv(
 
     // call csv write
     if (io::HandlerCSV::write_series_to_csv(
-            file_name,
-            datas,
-            data_kinds,
-            chartbox_names,
-            label_names,
-            data_units))
+                file_name,
+                datas,
+                data_kinds,
+                chartbox_names,
+                label_names,
+                data_units))
     {
         qDebug() << "CSV file written successfully to file " << file_name;
     }

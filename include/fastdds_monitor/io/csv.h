@@ -55,12 +55,12 @@ public:
      * @warning Assumes the size of the vectors and datas are coherent
      */
     static bool write_series_to_csv(
-        const QString& file_name,
-        const std::vector<QVector<QPointF>>& datas,
-        const QStringList& data_kinds,
-        const QStringList& chartbox_names,
-        const QStringList& label_names,
-        const std::vector<std::string>& data_units);
+            const QString& file_name,
+            const std::vector<QVector<QPointF>>& datas,
+            const QStringList& data_kinds,
+            const QStringList& chartbox_names,
+            const QStringList& label_names,
+            const std::vector<std::string>& data_units);
 
 protected:
 
@@ -77,10 +77,10 @@ protected:
      * @return true if success, false otherwise
      */
     static bool write_csv(
-        const std::string& file_name,
-        const std::vector<std::vector<std::string>>& headers,
-        const std::vector<std::vector<double>>& data,
-        const std::string separator = ";");
+            const std::string& file_name,
+            const std::vector<std::vector<std::string>>& headers,
+            const std::vector<std::vector<double>>& data,
+            const std::string separator = ";");
 
     /**
      * Merge several data so the ones that shares time are joined in the same key
@@ -89,17 +89,18 @@ protected:
      * @return map with the data merged
      */
     static std::map<quint64, std::vector<qreal>> merge_datas(
-        const std::vector<QVector<QPointF>>& datas);
+            const std::vector<QVector<QPointF>>& datas);
 
     //! Transform a map of merged datas on a matrix available to write in a csv
     static std::vector<std::vector<double>> to_csv_data(
-        const std::map<quint64, std::vector<qreal>>& data_map);
+            const std::map<quint64, std::vector<qreal>>& data_map);
 
     /**
      * Convert double to string with non scientific notation.
      * If value is NaN void string is returned.
      */
-    static std::string double_to_string(double data);
+    static std::string double_to_string(
+            double data);
 
 };
 

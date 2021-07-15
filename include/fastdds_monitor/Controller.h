@@ -163,7 +163,8 @@ public slots:
             QString entity_kind);
 
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
-    QString get_data_kind_units(QString data_kind);
+    QString get_data_kind_units(
+            QString data_kind);
 
     /**
      * @brief Export the series given to a new csv file

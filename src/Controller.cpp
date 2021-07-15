@@ -211,7 +211,8 @@ void Controller::set_alias(
         backend::string_to_entity_kind(entity_kind));
 }
 
-QString Controller::get_data_kind_units(QString data_kind)
+QString Controller::get_data_kind_units(
+        QString data_kind)
 {
     return utils::to_QString(engine_->get_data_kind_units(data_kind));
 }

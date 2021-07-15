@@ -1038,7 +1038,8 @@ bool SyncBackendConnection::update_one_entity_in_model_(
     }
 }
 
-std::string SyncBackendConnection::get_data_kind_units(DataKind data_kind)
+std::string SyncBackendConnection::get_data_kind_units(
+        DataKind data_kind)
 {
     switch (data_kind)
     {
