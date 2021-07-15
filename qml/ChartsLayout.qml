@@ -112,6 +112,8 @@ Rectangle {
                 width: gridView.cellWidth
                 height: gridView.cellHeight
 
+                property var statisticsChartBoxItem: statisticsChartBox
+
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: model.dataKind
@@ -222,30 +224,63 @@ Rectangle {
     function saveCSV(
             chartboxIds,
             seriesIds,
-            dataKind,
-            chartboxName,
+            dataKinds,
+            chartboxNames,
             labelNames)
     {
         csvDialog.chartboxIds = chartboxIds
         csvDialog.seriesIds = seriesIds
-        csvDialog.dataKind = dataKind
-        csvDialog.chartboxName = chartboxName
+        csvDialog.dataKinds = dataKinds
+        csvDialog.chartboxNames = chartboxNames
         csvDialog.labelNames = labelNames
         csvDialog.open()
     }
 
     function saveAllCSV() {
-        // TODO
-        // var chartboxIds = []
-        // var seriesIds = []
-        // var dataKind = []
-        // var chartboxName = []
-        // var labelNames = []
+        var chartboxIds = []
+        var seriesIds = []
+        var dataKinds = []
+        var chartboxNames = []
+        var labelNames = []
 
-        // for (var idx = 0; idx < statisticsChartBoxModel.count; idx++) {
-        //     labels.push(getLabel(idx))
-        // }
-        // return labels
+        // For each Chartbox get its data and fill vectors to export each series
+        for (var idx = 0; idx < gridView.count; idx++) {
+            var chartboxItem = gridView.itemAtIndex(idx).statisticsChartBoxItem
+            var seriesLabels = chartboxItem.chartboxSeriesLabels()
+            var seriesNum = seriesLabels.length
+
+            console.log("--seriesNum " + seriesNum)
+            console.log("--append chartboxIds: " + (Array(seriesNum).fill(idx)))
+            console.log("--append seriesIds: " + ([...Array(seriesNum).keys()]))
+            console.log("--append dataKinds: " + (Array(seriesNum).fill(chartboxItem.chartboxDataKind())))
+            console.log("--append chartboxNames: " + (Array(seriesNum).fill(chartboxItem.chartboxTitle())))
+            console.log("--append labelNames: " + (seriesLabels))
+
+            chartboxIds     = chartboxIds.concat(Array(seriesNum).fill(idx))
+            seriesIds       = seriesIds.concat([...Array(seriesNum).keys()])
+            dataKinds       = dataKinds.concat(Array(seriesNum).fill(chartboxItem.chartboxDataKind()))
+            chartboxNames   = chartboxNames.concat(Array(seriesNum).fill(chartboxItem.chartboxTitle()))
+            labelNames      = labelNames.concat(seriesLabels)
+
+            console.log("--appended chartboxIds: " + chartboxIds)
+            console.log("--appended seriesIds: " + seriesIds)
+            console.log("--appended dataKinds: " + dataKinds)
+            console.log("--appended chartboxNames: " + chartboxNames)
+            console.log("--appended labelNames: " + labelNames)
+        }
+
+        console.log("chartboxIds: " + chartboxIds)
+        console.log("seriesIds: " + seriesIds)
+        console.log("dataKinds: " + dataKinds)
+        console.log("chartboxNames: " + chartboxNames)
+        console.log("labelNames: " + labelNames)
+
+        saveCSV(
+            chartboxIds,
+            seriesIds,
+            dataKinds,
+            chartboxNames,
+            labelNames)
     }
 }
 

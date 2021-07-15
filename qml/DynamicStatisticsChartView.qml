@@ -107,6 +107,7 @@ StatisticsChartView {
         repeat: true
         onTriggered: {
             var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
+            console.log("time_to: " + time_to + " updatePeriod: " + interval)
             controller.update_dynamic_chartbox(chartboxId, time_to);
             axisYMin = dynamicData.axisYMin(chartboxId)
             axisYMax = dynamicData.axisYMax(chartboxId)

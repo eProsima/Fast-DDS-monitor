@@ -18,7 +18,7 @@ import QtQuick.Controls 2.15
 
 ChartView {
     id: sharedChartView
-    animationOptions: ChartView.SeriesAnimations
+    animationOptions: ChartView.NoAnimation // Some animations misalign the Timer period (NPI)
     theme: ChartView.ChartThemeLight
     antialiasing: true
     legend.visible: false

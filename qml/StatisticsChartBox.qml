@@ -178,16 +178,16 @@ Rectangle {
                 Action {
                     // Export whole chartbox to CSV
                     text: "Export to CSV"
-                    enabled: (isDynamic && !running) || (!isDynamic)
                     onTriggered: {
 
-                        var num_series = customLegend.getNumberOfSeries()
+                        // All the labels of the series in order of index of each series
+                        var seriesNum = customLegend.getNumberOfSeries()
 
                         saveCSV(
-                            Array(num_series).fill(chartboxId),
-                            [...Array(num_series).keys()], // Numbers from 0 to <num_series>
-                            Array(num_series).fill(dataKind),
-                            Array(num_series).fill(chartTitle),
+                            Array(seriesNum).fill(chartboxId),
+                            [...Array(seriesNum).keys()], // Numbers from 0 to <seriesNum>
+                            Array(seriesNum).fill(dataKind),
+                            Array(seriesNum).fill(chartTitle),
                             customLegend.getAllLabels())
                     }
                 }
@@ -392,23 +392,32 @@ Rectangle {
         return date.getTime().valueOf();
     }
 
-    function saveSeriesCSV(seriesIndex, fileName) {
-        if(isDynamic) {
-            dynamicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
-        } else {
-            historicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
-        }
-    }
+    // TODO erase
+    // function saveSeriesCSV(seriesIndex, fileName) {
+    //     if(isDynamic) {
+    //         dynamicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
+    //     } else {
+    //         historicData.save_series_csv(chartboxId, seriesIndex, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getLabel(seriesIndex))
+    //     }
+    // }
 
-    function saveChartboxCSV(fileName) {
-        if(isDynamic) {
-            dynamicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
-        } else {
-            historicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
-        }
-    }
+    // function saveChartboxCSV(fileName) {
+    //     if(isDynamic) {
+    //         dynamicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
+    //     } else {
+    //         historicData.save_chartbox_csv(chartboxId, fileName, dataKind, chartTitle, controller.get_data_kind_units(dataKind), customLegend.getAllLabels())
+    //     }
+    // }
 
     function chartboxTitle() {
-        // TODO
+        return chartTitle
+    }
+
+    function chartboxDataKind() {
+        return dataKind
+    }
+
+    function chartboxSeriesLabels() {
+        return customLegend.getAllLabels()
     }
 }

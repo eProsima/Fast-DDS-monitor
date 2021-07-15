@@ -18,7 +18,7 @@ import QtQuick.Dialogs 1.3 as QtDialogs
 
 QtDialogs.FileDialog {
     id: csvDialog
-    title: "Export charts to CSV file"
+    title: qsTr("Export charts to CSV file")
     folder: shortcuts.documents
     selectMultiple: false
     selectExisting: false
@@ -28,8 +28,8 @@ QtDialogs.FileDialog {
 
     property variant chartboxIds: []
     property variant seriesIds: []
-    property variant dataKind: []
-    property variant chartboxName: []
+    property variant dataKinds: []
+    property variant chartboxNames: []
     property variant labelNames: []
 
     onAccepted: {
@@ -37,8 +37,8 @@ QtDialogs.FileDialog {
             csvDialog.fileUrl,
             chartboxIds,
             seriesIds,
-            dataKind,
-            chartboxName,
+            dataKinds,
+            chartboxNames,
             labelNames)
     }
 }
