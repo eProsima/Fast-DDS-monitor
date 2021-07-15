@@ -323,15 +323,15 @@ void Database::callback_listener_thread_()
                 switch (std::get<1>(entity))
                 {
                     case EntityKind::HOST:
-                        listener_->on_host_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        listener_->on_host_discovery(std::get<0>(entity), status);
                         break;
 
                     case EntityKind::USER:
-                        listener_->on_user_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        listener_->on_user_discovery(std::get<0>(entity), status);
                         break;
 
                     case EntityKind::PROCESS:
-                        listener_->on_process_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        listener_->on_process_discovery(std::get<0>(entity), status);
                         break;
 
                     case EntityKind::TOPIC:
@@ -351,7 +351,7 @@ void Database::callback_listener_thread_()
                         break;
 
                     case EntityKind::LOCATOR:
-                        listener_->on_locator_discovery(std::get<2>(entity), std::get<0>(entity), status);
+                        listener_->on_locator_discovery(std::get<0>(entity), status);
                         break;
 
                     default:

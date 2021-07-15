@@ -729,7 +729,7 @@ bool SyncBackendConnection::update_process(
 
     if (user_model == nullptr)
     {
-        qWarning() << "Error getting host model for process " << id.value();
+        qWarning() << "Error getting user model for process " << id.value();
         return false;
     }
 
