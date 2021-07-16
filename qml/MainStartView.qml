@@ -159,6 +159,7 @@ ColumnLayout {
 
             MouseArea {
                 anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
 
                 onClicked: {
                     mainApplicationView.startMonitoring()
