@@ -36,6 +36,7 @@ This release includes the following **bugfixes**:
 * Refactor Historic series so all the internal data is deleted when graphics are removed.
 * Increased the number of characters for series labels.
 * Change displayed chart units for some DataKinds.
+* Add units to the statistics entity summary.
 
 #################
 Previous versions
