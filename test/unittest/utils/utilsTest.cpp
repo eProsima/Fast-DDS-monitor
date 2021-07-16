@@ -13,12 +13,11 @@
 // limitations under the License.
 
 #include <chrono>
+#include <cmath>
 #include <ctime>
-#include <math.h>
+#include <string>
 #include <thread>
 #include <time.h>
-
-#include <string>
 
 #include <gtest_aux.hpp>
 #include <gtest/gtest.h>
@@ -127,6 +126,18 @@ TEST(utilsTest, now_format)
             }
         }
     }
+}
+
+//! Test that convert QString to string retrieves the same value as QString constructor
+TEST(utilsTest, double_to_string)
+{
+    ASSERT_EQ(double_to_string(12345), std::string("12345"));
+    ASSERT_EQ(double_to_string(1234500), std::string("1234500"));
+    ASSERT_EQ(double_to_string(1234500.00), std::string("1234500"));
+    ASSERT_EQ(double_to_string(1234500.0011), std::string("1234500.0011"));
+    ASSERT_EQ(double_to_string(1234500.00110), std::string("1234500.0011"));
+    ASSERT_EQ(double_to_string(nan("")), std::string(""));
+    ASSERT_EQ(double_to_string(sqrt(-1.0)), std::string(""));
 }
 
 int main(

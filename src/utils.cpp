@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <chrono>
+#include <cmath>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
@@ -78,21 +79,29 @@ std::string now(
 std::string double_to_string(
         const double& d)
 {
-    std::string str = std::to_string(d);
-    // Ensure that there is a decimal point in the resulting string
-    if(str.find('.') != std::string::npos)
+    // Check if it is NaN
+    if (!std::isnan(d))
     {
-        // Remove trailing zeros
-        str.erase(str.find_last_not_of('0') + 1, std::string::npos);
-
-        // Remove the decimal point in case it is the last element of the string
-        if (str.find('.') == str.size() - 1)
+        std::string str = std::to_string(d);
+        // Ensure that there is a decimal point in the resulting string
+        if(str.find('.') != std::string::npos)
         {
-            str = str.substr(0, str.size() - 1);
+            // Remove trailing zeros
+            str.erase(str.find_last_not_of('0') + 1, std::string::npos);
+
+            // Remove the decimal point in case it is the last element of the string
+            if (str.find('.') == str.size() - 1)
+            {
+                str = str.substr(0, str.size() - 1);
+            }
         }
+
+        return str;
+    }
+    else {
+        return "";
     }
 
-    return str;
 }
 
 } //namespace utils
