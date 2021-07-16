@@ -112,10 +112,10 @@ bool HandlerCSV::write_csv(
         {
             if (data_row.size() > 0)
             {
-                ofile << double_to_string(data_row[0]); // first value print outside the loop to avoid last separator
+                ofile << utils::double_to_string(data_row[0]); // first value print outside the loop to avoid last separator
                 for (auto it = std::next(data_row.begin()); it != data_row.end(); ++it)
                 {
-                    ofile << separator << double_to_string(*it);
+                    ofile << separator << utils::double_to_string(*it);
                 }
             }
             ofile << "\n";
@@ -209,16 +209,6 @@ std::vector<std::vector<double>> HandlerCSV::to_csv_data(
     }
 
     return csv_data;
-}
-
-std::string HandlerCSV::double_to_string(
-        double data)
-{
-    if (!std::isnan(data))
-    {
-        return std::to_string(data);
-    }
-    return "";
 }
 
 } //namespace io

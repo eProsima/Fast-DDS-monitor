@@ -42,7 +42,8 @@ get_win32_path_dependencies(UtilsTest TEST_FRIENDLY_PATH)
 set(UTILS_TEST_LIST
     to_QString
     to_string
-    now_format)
+    now_format
+    double_to_string)
 
 foreach(test_name ${UTILS_TEST_LIST})
     add_test(NAME utilsTest.${test_name}
