@@ -84,7 +84,7 @@ std::string double_to_string(
     {
         std::string str = std::to_string(d);
         // Ensure that there is a decimal point in the resulting string
-        if(str.find('.') != std::string::npos)
+        if (str.find('.') != std::string::npos)
         {
             // Remove trailing zeros
             str.erase(str.find_last_not_of('0') + 1, std::string::npos);
@@ -98,7 +98,8 @@ std::string double_to_string(
 
         return str;
     }
-    else {
+    else
+    {
         return "";
     }
 
