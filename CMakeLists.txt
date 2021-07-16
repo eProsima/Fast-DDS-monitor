@@ -228,12 +228,12 @@ set(PROJECT_HEADERS
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/SubListedListModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/TreeItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/TreeModel.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/DataChartBox.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/DataModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/dynamic/DynamicDataChartBox.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/dynamic/DynamicStatisticsData.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/historic/HistoricDataChartBox.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/historic/HistoricStatisticsData.h
-    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/DataChartBox.h
-    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/DataModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/StatisticsData.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/utils.h
 )
@@ -255,12 +255,12 @@ set(PROJECT_SOURCES_NO_MAIN
     ${PROJECT_SOURCE_DIR}/src/model/SubListedListModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/statistics/DataChartBox.cpp
+    ${PROJECT_SOURCE_DIR}/src/statistics/DataModel.cpp
     ${PROJECT_SOURCE_DIR}/src/statistics/dynamic/DynamicDataChartBox.cpp
     ${PROJECT_SOURCE_DIR}/src/statistics/dynamic/DynamicStatisticsData.cpp
     ${PROJECT_SOURCE_DIR}/src/statistics/historic/HistoricDataChartBox.cpp
     ${PROJECT_SOURCE_DIR}/src/statistics/historic/HistoricStatisticsData.cpp
-    ${PROJECT_SOURCE_DIR}/src/statistics/DataChartBox.cpp
-    ${PROJECT_SOURCE_DIR}/src/statistics/DataModel.cpp
     ${PROJECT_SOURCE_DIR}/src/statistics/StatisticsData.cpp
     ${PROJECT_SOURCE_DIR}/src/utils.cpp
 )

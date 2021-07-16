@@ -31,7 +31,7 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
-            text: qsTr("Export all Charts to &CSV")
+            text: qsTr("Export Charts to &CSV")
             onTriggered: saveAllCSV()
         }
         MenuSeparator { }

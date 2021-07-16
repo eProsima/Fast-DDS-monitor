@@ -18,7 +18,6 @@ import QtQuick.Window 2.15
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.15
 import Theme 1.0
-import QtQuick.Dialogs 1.3 as QtDialogs
 
 Rectangle {
     id: statisticsChartBox
@@ -218,7 +217,6 @@ Rectangle {
                     onTriggered: {
                         running ? statisticsChartViewLoader.item.dynamicPause() : statisticsChartViewLoader.item.dynamicContinue()
                     }
-
                 }
             }
         }

@@ -102,8 +102,6 @@ public:
     const QVector<QPointF>& get_data(
             quint64 series_index);
 
-    // std::vector<QVector<QPointF>> get_data();
-
 protected:
 
     /**

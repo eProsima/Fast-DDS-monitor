@@ -217,10 +217,6 @@ Rectangle {
         mouseArea.width = (chartBoxWidth - 10) * actualBoxesPerRow
     }
 
-    function save_all_csv(){
-        // TODO
-    }
-
     function saveCSV(
             chartboxIds,
             seriesIds,
