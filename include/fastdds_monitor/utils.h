@@ -58,6 +58,10 @@ std::string to_string(
 std::string now(
         bool miliseconds = true);
 
+//! Cast a double to string removing the trailing zeros
+std::string double_to_string(
+        const double& d);
+
 } //namespace utils
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_UTILS_H

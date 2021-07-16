@@ -75,4 +75,17 @@ std::string now(
     return ss.str();
 }
 
+std::string double_to_string(
+        const double& d)
+{
+    std::string str = std::to_string(d);
+    str.erase(str.find_last_not_of('0') + 1, std::string::npos);
+    if(str.find('.') == str.size()-1)
+    {
+        str = str.substr(0, str.size()-1);
+    }
+
+    return str;
+}
+
 } //namespace utils

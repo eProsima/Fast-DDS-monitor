@@ -40,6 +40,7 @@
 #include <fastdds_monitor/model/statistics/EntityItem.h>
 #include <fastdds_monitor/model/SubListedListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
+#include <fastdds_monitor/utils.h>
 
 namespace backend {
 
@@ -572,9 +573,11 @@ EntityInfo SyncBackendConnection::get_summary(
         }
         else
         {
+            // get the value of the first (only) element
+            data = change_unit_magnitude(data, configuration.first);
             summary[backend::data_kind_to_string(configuration.first)]
             [backend::statistic_kind_to_string(configuration.second)]
-                = data[0].second; // get the value of the first (only) element
+                = utils::double_to_string(data[0].second) + " [" + get_data_kind_units(configuration.first) + "]";
         }
     }
 
