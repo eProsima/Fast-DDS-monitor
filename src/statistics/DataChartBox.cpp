@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <iostream>
-#include <math.h>
+#include <cmath>
 #include <mutex>
 
 #include <QDebug>
@@ -224,4 +223,20 @@ void DataChartBox::newXValue(
     {
         setAxisXMin(x - 1);
     }
+}
+
+const QVector<QPointF>& DataChartBox::get_data(
+        quint64 series_index)
+{
+    const std::lock_guard<std::recursive_mutex> lock(mutex_);
+
+    assert(series_index < series_ids_.size());
+    quint64 real_id = series_ids_[series_index];
+
+    auto series_it_ = series_.find(real_id);
+    assert(series_it_ != series_.end());
+
+    // These two arguments must be created beforehand as the method requires references
+    // Could be const references if QPointF had its getters as const, but it doesnt
+    return series_it_->second->get_data();
 }

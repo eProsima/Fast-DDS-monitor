@@ -24,6 +24,7 @@
 #include <QtQuick/QQuickView>
 
 #include <fastdds_monitor/statistics/StatisticsData.h>
+#include <fastdds_monitor/utils.h>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -49,7 +50,7 @@ StatisticsData::~StatisticsData()
     }
 }
 
-void StatisticsData::delete_series_by_order_index(
+void StatisticsData::delete_series(
         quint64 chartbox_id,
         quint64 series_index)
 {
@@ -192,4 +193,21 @@ void StatisticsData::newXValue(
     assert(it != chartboxes_.end());
 
     it->second->newXValue(x);
+}
+
+bool StatisticsData::contains_chartbox(
+        quint64 chartbox_id)
+{
+    return chartboxes_.count(chartbox_id); // 1 if found, 0 if not
+}
+
+const QVector<QPointF>& StatisticsData::get_data(
+        quint64 chartbox_id,
+        quint64 series_index)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    return it->second->get_data(series_index);
 }

@@ -15,6 +15,7 @@ MenuBar {
     signal clearIssuesButtonHidden
     signal dashboardLayoutButtonHidden
     signal changeChartboxLayout(int chartsPerRow)
+    signal saveAllCSV()
 
     signal leftSidebarHidden
 
@@ -27,6 +28,11 @@ MenuBar {
         Action {
             text: qsTr("Initialize &Monitor")
             onTriggered: dialogInitMonitor.open()
+        }
+        MenuSeparator { }
+        Action {
+            text: qsTr("Export Charts to &CSV")
+            onTriggered: saveAllCSV()
         }
         MenuSeparator { }
         Action {

@@ -174,6 +174,22 @@ Rectangle {
                         statisticsChartBox.destroy()
                     }
                 }
+                Action {
+                    // Export whole chartbox to CSV
+                    text: "Export to CSV"
+                    onTriggered: {
+
+                        // All the labels of the series in order of index of each series
+                        var seriesNum = customLegend.getNumberOfSeries()
+
+                        saveCSV(
+                            Array(seriesNum).fill(chartboxId),
+                            [...Array(seriesNum).keys()], // Numbers from 0 to <seriesNum>
+                            Array(seriesNum).fill(dataKind),
+                            Array(seriesNum).fill(chartTitle),
+                            customLegend.getAllLabels())
+                    }
+                }
             }
 
             Menu {
@@ -283,16 +299,24 @@ Rectangle {
             onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
             onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
             onSeriesRemoved: {
-                    statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
-                    removeLeyend(seriesIndex)
-                    if(isDynamic) {
-                        dynamicData.delete_series(chartboxId, seriesIndex)
-                        statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
-                    } else {
-                        historicData.delete_series(chartboxId, seriesIndex)
-                        statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
-                    }
-
+                statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
+                removeLeyend(seriesIndex)
+                if(isDynamic) {
+                    dynamicData.delete_series(chartboxId, seriesIndex)
+                    statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
+                } else {
+                    historicData.delete_series(chartboxId, seriesIndex)
+                    statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
+                }
+            }
+            onSeriesToCSV: {
+                // Export one series as CSV
+                saveCSV(
+                    [chartboxId],
+                    [seriesIndex],
+                    [dataKind],
+                    [chartTitle],
+                    [seriesLabel])
             }
         }
     }
@@ -364,5 +388,9 @@ Rectangle {
 
     function toMsecsSinceEpoch(date) {
         return date.getTime().valueOf();
+    }
+
+    function chartboxSeriesLabels() {
+        return customLegend.getAllLabels()
     }
 }

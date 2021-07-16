@@ -16,14 +16,8 @@ import QtQuick 2.0
 import QtCharts 2.1
 import QtQuick.Controls 2.15
 
-ChartView {
+StatisticsChartView {
     id: chartView
-    animationOptions: ChartView.SeriesAnimations
-    theme: ChartView.ChartThemeLight
-    antialiasing: true
-    legend.visible: false
-
-    property variant mapper: []
 
     // There is an issue if the time that is used in the axis is the current time, as the data for current
     // time may has not arrived yet.
@@ -34,173 +28,8 @@ ChartView {
     // Meanwhile doing that would leave the chart too shifted to the left
     property int delay_time: 5000
     property int axis_refresh_time: 100
-    property real y_axis_current_min: 0
-    property real y_axis_current_max: 10
 
     property bool running: false
-
-    signal clearedChart()
-
-    ValueAxis {
-        id: axisY
-        min: y_axis_current_min
-        max: y_axis_current_max
-        titleText: {
-            switch (dataKind) {
-                case "FASTDDS_LATENCY":
-                    return qsTr(dataKind + " [ns]")
-                case "NETWORK_LATENCY":
-                    return qsTr(dataKind + " [ns]")
-                case "PUBLICATION_THROUGHPUT":
-                    return qsTr(dataKind + " [B/s]")
-                case "SUBSCRIPTION_THROUGHPUT":
-                    return qsTr(dataKind + " [B/s]")
-                case "RTPS_PACKETS_SENT":
-                    return qsTr(dataKind + " [count]")
-                case "RTPS_BYTES_SENT":
-                    return qsTr(dataKind + " [B]")
-                case "RTPS_PACKETS_LOST":
-                    return qsTr(dataKind + " [count]")
-                case "RTPS_BYTES_LOST":
-                    return qsTr(dataKind + " [B]")
-                case "RESENT_DATA":
-                    return qsTr(dataKind + " [count]")
-                case "HEARTBEAT_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "ACKNACK_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "NACKFRAG_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "GAP_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "DATA_COUNT":
-                    return qsTr(dataKind + " [count]")
-                case "PDP_PACKETS":
-                    return qsTr(dataKind + " [count]")
-                case "EDP_PACKETS":
-                    return qsTr(dataKind + " [count]")
-                case "DISCOVERED_ENTITY":
-                    return qsTr(dataKind + " [ns]")
-                case "SAMPLE_DATAS":
-                    return qsTr(dataKind + " [count]")
-                default:
-                    return qsTr("")
-            }
-        }
-    }
-
-    DateTimeAxis {
-        // dateTimeAxisX must be always delayed by a delay_time
-        // Thus every time the axis is modified must be substracted the delay_time
-        id: dateTimeAxisX
-        min: chartView.fromMsecsSinceEpoch(currentDate - timeWindow - delay_time)
-        max: chartView.fromMsecsSinceEpoch(currentDate - delay_time)
-        format: "hh:mm:ss (dd.MM)"
-        labelsAngle: -45
-        labelsFont: Qt.font({pointSize: 8})
-        titleText: qsTr("Time [hh:mm:ss (dd.MM)]")
-    }
-
-    ToolTip {
-        id: tooltip
-
-        property string seriesColor: "black"
-
-        contentItem: Text{
-            color: tooltip.seriesColor
-            text: tooltip.text
-        }
-        background: Rectangle {
-            border.color: tooltip.seriesColor
-        }
-    }
-
-    Rectangle {
-        id: horizontalScrollMask
-        visible: false
-    }
-
-    Rectangle {
-        id: verticalScrollMask
-        visible: false
-    }
-
-    Rectangle{
-        id: zoomRect
-        color: "black"
-        opacity: 0.6
-        visible: false
-    }
-
-    MouseArea{
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.AllButtons
-
-        property bool pressedZoom: false
-        property bool pressedDrag: false
-
-        onPressed: {
-            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
-                mouse.accepted = false
-            } else {
-                if (mouse.modifiers & Qt.ShiftModifier){
-                    zoomRect.x = mouseX
-                    zoomRect.y = mouseY
-                    zoomRect.visible = true
-                    pressedZoom = true
-                } else if (mouse.modifiers & Qt.ControlModifier) {
-                    verticalScrollMask.y = mouseY;
-                    horizontalScrollMask.x = mouseX;
-                    pressedDrag = true;
-                }
-            }
-        }
-        onMouseXChanged: {
-            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
-                if (pressedZoom){
-                    zoomRect.width = mouseX - zoomRect.x
-                } else if (pressedDrag){
-                    chartView.scrollLeft(mouseX - horizontalScrollMask.x);
-                    horizontalScrollMask.x = mouseX;
-                }
-            }
-        }
-        onMouseYChanged: {
-            if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
-                if (pressedZoom){
-                    zoomRect.height = mouseY - zoomRect.y
-                } else if (pressedDrag){
-                    chartView.scrollUp(mouseY - verticalScrollMask.y);
-                    verticalScrollMask.y = mouseY;
-                }
-            }
-        }
-        onReleased: {
-            if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
-                mouse.accepted = false
-            } else {
-                if (pressedZoom) {
-                    chartView.zoomIn(Qt.rect(zoomRect.x, zoomRect.y, zoomRect.width, zoomRect.height))
-                    zoomRect.visible = false
-                    pressedZoom = false
-                } else if (pressedDrag) {
-                    pressedDrag = false
-                }
-            }
-        }
-        onWheel: {
-            if(!(wheel.modifiers & Qt.ControlModifier)) {
-                wheel.accepted = false
-            } else {
-                if (wheel.angleDelta.y > 0) {
-                    chartView.zoomIn()
-                } else {
-                    chartView.zoomOut()
-                }
-            }
-        }
-    }
 
     function addDynamicSeries(
             seriesLabel,
@@ -211,7 +40,7 @@ ChartView {
         // Call DynamicChartBox add_series that creates a series and a related mapper and returns the mapper
         mapper.push(dynamicData.add_series(chartboxId, statisticKind, sourceEntityId, targetEntityId))
         // Create a new QAbstractSeries with index chartView.count (this index varies with deletion of series)
-        var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisX, axisY);
+        var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisXItem, axisYItem);
 
         // See each of the points and not just the line
         new_series.pointsVisible = true
@@ -227,36 +56,12 @@ ChartView {
                         var p = chartView.mapToPosition(point)
                         var text = qsTr("x: %1 \ny: %2").arg(
                                     new Date(point.x).toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")).arg(point.y)
-                        tooltip.x = p.x
-                        tooltip.y = p.y - tooltip.height
-                        tooltip.text = text
-                        tooltip.seriesColor = new_series.color
-                        tooltip.visible = true
+                        tooltipItem.x = p.x
+                        tooltipItem.y = p.y - tooltipItem.height
+                        tooltipItem.text = text
+                        tooltipItem.seriesColor = new_series.color
+                        tooltipItem.visible = true
                     })
-    }
-
-    function toMsecsSinceEpoch(date) {
-        return date.getTime().valueOf();
-    }
-
-    function fromMsecsSinceEpoch(milliseconds) {
-        return new Date(milliseconds);
-    }
-
-    function updateSeriesName(seriesIndex, newSeriesName) {
-        series(seriesIndex).name = newSeriesName
-    }
-
-    function updateSeriesColor(seriesIndex, newSeriesColor) {
-        series(seriesIndex).color = newSeriesColor
-    }
-
-    function hideSeries(seriesIndex) {
-        series(seriesIndex).opacity = 0.0
-    }
-
-    function displaySeries(seriesIndex) {
-        series(seriesIndex).opacity = 1.0
     }
 
     function clearChart() {
@@ -270,10 +75,10 @@ ChartView {
 
     function resetChartViewZoom(){
         chartView.zoomReset()
-        axisY.min = dynamicData.axisYMin(chartboxId)
-        axisY.max = dynamicData.axisYMax(chartboxId)
-        dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
-        dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
+        axisYMin = dynamicData.axisYMin(chartboxId)
+        axisYMax = dynamicData.axisYMax(chartboxId)
+        dateTimeAxisXMax = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
+        dateTimeAxisXMin = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
     }
 
     function dynamicPause(){
@@ -303,8 +108,8 @@ ChartView {
         onTriggered: {
             var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
             controller.update_dynamic_chartbox(chartboxId, time_to);
-            y_axis_current_min = dynamicData.axisYMin(chartboxId)
-            y_axis_current_max = dynamicData.axisYMax(chartboxId)
+            axisYMin = dynamicData.axisYMin(chartboxId)
+            axisYMax = dynamicData.axisYMax(chartboxId)
         }
     }
 
@@ -319,11 +124,8 @@ ChartView {
         onTriggered: {
             // update X by current time
             var current_date = toMsecsSinceEpoch(new Date())
-            dateTimeAxisX.max = chartView.fromMsecsSinceEpoch(current_date - delay_time)
-            dateTimeAxisX.min = chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time)
-            // update y axis in case it has changed in timer refreshTimer
-            // axisY.min = y_axis_current_min
-            // axisY.max = y_axis_current_max
+            dateTimeAxisXMax = chartView.fromMsecsSinceEpoch(current_date - delay_time)
+            dateTimeAxisXMin = chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time)
         }
     }
 }

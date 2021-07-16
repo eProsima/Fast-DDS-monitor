@@ -32,6 +32,7 @@ Rectangle {
     signal seriesHidden(int seriesIndex)
     signal seriesDisplayed(int seriesIndex)
     signal seriesRemoved(int seriesIndex)
+    signal seriesToCSV(int seriesIndex, string seriesLabel)
 
     ListModel {
         id: seriesModel
@@ -120,6 +121,10 @@ Rectangle {
                 MenuItem {
                     text: hidden ? "Display series" : "Hide series"
                     onTriggered: hidden ? displaySeriesLegend(index) : hideSeriesLegend(index)
+                }
+                MenuItem {
+                    text: "Export to CSV"
+                    onTriggered: seriesToCSV(index, seriesModel.get(index).seriesName)
                 }
             }
 
@@ -219,5 +224,21 @@ Rectangle {
 
     function removeSeries(seriesIndex) {
         seriesRemoved(seriesIndex);
+    }
+
+    function getLabel(seriesIndex) {
+        return seriesModel.get(seriesIndex).seriesName
+    }
+
+    function getAllLabels() {
+        var labels = []
+        for (var idx = 0; idx < seriesModel.count; idx++) {
+            labels.push(getLabel(idx))
+        }
+        return labels
+    }
+
+    function getNumberOfSeries() {
+        return seriesModel.count
     }
 }

@@ -210,3 +210,26 @@ void Controller::set_alias(
         utils::to_string(new_alias),
         backend::string_to_entity_kind(entity_kind));
 }
+
+QString Controller::get_data_kind_units(
+        QString data_kind)
+{
+    return utils::to_QString(engine_->get_data_kind_units(data_kind));
+}
+
+void Controller::save_csv(
+        QString file_name,
+        QList<quint64> chartbox_ids,
+        QList<quint64> series_indexes,
+        QStringList data_kinds,
+        QStringList chartbox_names,
+        QStringList label_names)
+{
+    engine_->save_csv(
+        file_name,
+        chartbox_ids,
+        series_indexes,
+        data_kinds,
+        chartbox_names,
+        label_names);
+}

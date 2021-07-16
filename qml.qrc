@@ -27,6 +27,7 @@
         <file>qml/EntitiesMenu.qml</file>
         <file>qml/EntityList.qml</file>
         <file>qml/ErrorDialog.qml</file>
+        <file>qml/ExportCSVFileDialog.qml</file>
         <file>qml/IconsVBar.qml</file>
         <file>qml/IconSVG.qml</file>
         <file>qml/InfoToolTip.qml</file>
@@ -49,6 +50,7 @@
         <file>qml/HistoricStatisticsChartView.qml</file>
         <file>qml/StatusPanel.qml</file>
         <file>qml/StatusView.qml</file>
+        <file>qml/StatisticsChartView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>

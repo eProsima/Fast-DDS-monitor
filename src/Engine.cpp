@@ -25,6 +25,7 @@
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/Engine.h>
+#include <fastdds_monitor/io/csv.h>
 #include <fastdds_monitor/model/dds/ParticipantModelItem.h>
 #include <fastdds_monitor/model/logical/DomainModelItem.h>
 #include <fastdds_monitor/model/physical/HostModelItem.h>
@@ -437,7 +438,6 @@ bool Engine::fill_logical_data_()
     return backend_connection_.update_logical_model(logical_model_, inactive_visible());
 }
 
-// TODO reimplement these functions so it is not needed to call the whole fill
 bool Engine::update_domain(
         const backend::EntityId& id,
         bool new_entity /* true */)
@@ -629,7 +629,6 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
                         data.second));
         }
     }
-
 
     // In case there are Nans at the beggining or end of the series, it adapts the chartbox to the real axis
     historic_statistics_data_->newXValue(
@@ -870,7 +869,6 @@ void Engine::set_alias(
     backend_connection_.set_alias(entity_id, new_alias);
 
     // Refresh specific model
-    // TODO when callbacks on info update are implemented this could be erased
     switch (entity_kind)
     {
         case backend::EntityKind::HOST:
@@ -945,4 +943,71 @@ void Engine::change_inactive_visible()
 bool Engine::inactive_visible() const
 {
     return inactive_visible_;
+}
+
+std::string Engine::get_data_kind_units(
+        const QString& data_kind)
+{
+    return backend_connection_.get_data_kind_units(backend::string_to_data_kind(data_kind));
+}
+
+void Engine::save_csv(
+        const QString& file_name,
+        const QList<quint64>& chartbox_ids,
+        const QList<quint64>& series_indexes,
+        const QStringList& data_kinds,
+        const QStringList& chartbox_names,
+        const QStringList& label_names)
+{
+    // Check input vectors are same size
+    int size = chartbox_ids.size();
+    assert (series_indexes.size() == size);
+    assert (data_kinds.size() == size);
+    assert (chartbox_names.size() == size);
+    assert (label_names.size() == size);
+
+    // get all data
+    std::vector<QVector<QPointF>> datas(size);
+
+    for (int i = 0; i < size; ++i)
+    {
+        // It looks up if it belongs to dynamic or historic before getting its data
+        if (historic_statistics_data_->contains_chartbox(chartbox_ids[i]))
+        {
+            datas[i] = historic_statistics_data_->get_data(chartbox_ids[i], series_indexes[i]);
+        }
+        else if (dynamic_statistics_data_->contains_chartbox(chartbox_ids[i]))
+        {
+            datas[i] = dynamic_statistics_data_->get_data(chartbox_ids[i], series_indexes[i]);
+        }
+        else
+        {
+            // Chartbox does not exist
+            qCritical() << "Chartbox with id " << chartbox_ids[i] << " does not exist.";
+            assert(false);
+        }
+    }
+
+    // get units
+    std::vector<std::string> data_units(size);
+    for (int i = 0; i < size; ++i)
+    {
+        data_units[i] = get_data_kind_units(data_kinds[i]);
+    }
+
+    // call csv write
+    if (io::HandlerCSV::write_series_to_csv(
+                file_name,
+                datas,
+                data_kinds,
+                chartbox_names,
+                label_names,
+                data_units))
+    {
+        qDebug() << "CSV file written successfully to file " << file_name;
+    }
+    else
+    {
+        qWarning() << "Error writing CSV file " << file_name;
+    }
 }

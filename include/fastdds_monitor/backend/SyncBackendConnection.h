@@ -192,6 +192,11 @@ public:
             EntityKind entity_kind,
             bool inactive_visible = true);
 
+    //! Give a string with the name of the unit magnitud in which each DataKind is measured
+    std::string get_data_kind_units(
+            const DataKind data_kind);
+
+
     /**************
      * UPDATE ALL *
      *************/

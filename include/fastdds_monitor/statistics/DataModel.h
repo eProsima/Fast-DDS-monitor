@@ -67,6 +67,8 @@ public:
     void handleNewPoint(
             const QPointF& point);
 
+    const QVector<QPointF>& get_data() const;
+
 signals:
 
     //! Signal to notify a new point must be added
@@ -78,8 +80,6 @@ protected:
     //! Function to add a new point to the model
     void addNewPoint(
             const QPointF& point);
-
-protected:
 
     //! Vector of points (not sorted)
     QVector<QPointF> m_data_;

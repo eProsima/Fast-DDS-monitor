@@ -112,6 +112,8 @@ Rectangle {
                 width: gridView.cellWidth
                 height: gridView.cellHeight
 
+                property var statisticsChartBoxItem: statisticsChartBox
+
                 StatisticsChartBox {
                     id: statisticsChartBox
                     chartTitle: model.dataKind
@@ -187,6 +189,10 @@ Rectangle {
         }
     }
 
+    ExportCSVFileDialog {
+        id: csvDialog
+    }
+
     function createHistoricChart(dataKind){
         statisticsChartBoxModel.append({
                                            "dataKind": dataKind,
@@ -209,6 +215,49 @@ Rectangle {
 
     function calculateGridViewWidth(){
         mouseArea.width = (chartBoxWidth - 10) * actualBoxesPerRow
+    }
+
+    function saveCSV(
+            chartboxIds,
+            seriesIds,
+            dataKinds,
+            chartboxNames,
+            labelNames)
+    {
+        csvDialog.chartboxIds = chartboxIds
+        csvDialog.seriesIds = seriesIds
+        csvDialog.dataKinds = dataKinds
+        csvDialog.chartboxNames = chartboxNames
+        csvDialog.labelNames = labelNames
+        csvDialog.open()
+    }
+
+    function saveAllCSV() {
+        var chartboxIds = []
+        var seriesIds = []
+        var dataKinds = []
+        var chartboxNames = []
+        var labelNames = []
+
+        // For each Chartbox get its data and fill vectors to export each series
+        for (var idx = 0; idx < gridView.count; idx++) {
+            var chartboxItem = gridView.itemAtIndex(idx).statisticsChartBoxItem
+            var seriesLabels = chartboxItem.chartboxSeriesLabels()
+            var seriesNum = seriesLabels.length
+
+            chartboxIds     = chartboxIds.concat(Array(seriesNum).fill(chartboxItem.chartboxId)) // not idx
+            seriesIds       = seriesIds.concat([...Array(seriesNum).keys()])
+            dataKinds       = dataKinds.concat(Array(seriesNum).fill(chartboxItem.dataKind))
+            chartboxNames   = chartboxNames.concat(Array(seriesNum).fill(chartboxItem.chartTitle))
+            labelNames      = labelNames.concat(seriesLabels)
+        }
+
+        saveCSV(
+            chartboxIds,
+            seriesIds,
+            dataKinds,
+            chartboxNames,
+            labelNames)
     }
 }
 

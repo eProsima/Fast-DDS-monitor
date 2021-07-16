@@ -99,6 +99,9 @@ public:
     void newXValue(
             quint64 x);
 
+    const QVector<QPointF>& get_data(
+            quint64 series_index);
+
 protected:
 
     /**

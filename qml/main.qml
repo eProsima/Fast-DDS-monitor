@@ -59,6 +59,9 @@ ApplicationWindow {
             panels.changeChartboxLayout(chartsPerRow)
             toolBar.changeChartboxLayoutIcon(chartsPerRow)
         }
+        onSaveAllCSV: {
+            panels.saveAllCSV()
+        }
     }
 
     header: MonitorToolBar {

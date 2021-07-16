@@ -162,6 +162,32 @@ public slots:
             QString new_alias,
             QString entity_kind);
 
+    //! Give a string with the name of the unit magnitud in which each DataKind is measured
+    QString get_data_kind_units(
+            QString data_kind);
+
+    /**
+     * @brief Export the series given to a new csv file
+     *
+     * Export one or multiple series to a new csv file.
+     * Each series to export is given in a vector as chartobox id and series index to get the data from the models.
+     * Each series to export is given with its headers in order to save them in the csv and can import the file.
+     *
+     * @param file_name         path and name to the new csv file
+     * @param chartbox_ids      ids of the chartboxes of each series
+     * @param series_indexes    indexes of the serioes inside each chartbox
+     * @param data_kinds        DataKind that refers to the each series
+     * @param chartbox_names    Title of the chartbox this series belongs
+     * @param label_names       Label of each series
+     */
+    void save_csv(
+            QString file_name,
+            QList<quint64> chartbox_ids,
+            QList<quint64> series_indexes,
+            QStringList data_kinds,
+            QStringList chartbox_names,
+            QStringList label_names);
+
 signals:
 
     //! Signal to show the Error Dialog
