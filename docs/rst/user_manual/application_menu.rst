@@ -99,6 +99,15 @@ monitor, they will no longer be available in the whole application framework.
 The latter means that it will not be possible to plot charts with data relating to these entities.
 This button hides/reveals the currently inactive entities detected by the monitor.
 
+Dashboard Layout
+----------------
+Changes the size of the chart boxes displayed in the main panel of the application.
+Three mutually exclusive layout options are defined and explained below.
+
+ * |dashboard_layout_1| **Large**: A single full-screen chart is displayed.
+ * |dashboard_layout_2| **Medium**: Adjusts the chart size to show two chart boxes per row.
+ * |dashboard_layout_3| **Small**: Adjusts the chart size to show three chart boxes per row.
+
 Hide/Show Shortcuts Toolbar
 ---------------------------
 Hide the shortcuts superior toolbar if visible, or reveal it otherwise.
@@ -122,8 +131,8 @@ Link to this documentation.
 Release Notes
 -------------
 
-.. warning::
-    Button not supported.
+Link to the *Releases* section of the Fast DDS Monitor repository in
+`GitHub  <https://github.com/eProsima/Fast-DDS-monitor/releases>`_
 
 Join Us on Twitter
 ------------------
@@ -131,12 +140,12 @@ Link to `eProsima Twitter account <https://twitter.com/EProsima>`_.
 
 Search Feature Requests
 -----------------------
-Link to the *issues* section of the Fast DDS Monitor repository in
+Link to the *Issues* section of the Fast DDS Monitor repository in
 `GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
 
 Report Issue
 ------------
-Link to the *issues* section of the Fast DDS Monitor repository in
+Link to the *Issues* section of the Fast DDS Monitor repository in
 `GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
 
 .. todo::
