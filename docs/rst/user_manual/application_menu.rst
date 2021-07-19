@@ -11,21 +11,9 @@ This section describes the operations that can be performed in *Fast DDS Monitor
 File
 ====
 
-.. note::
-    In future versions, this menu will contain generic buttons as open, save, etc.
-
-Quit
-----
-Close the application.
-
-.. _edit_menu:
-
-Edit
-====
-
 .. _init_monitor_button:
 
-Initialize New Monitor
+Initialize Monitor
 ----------------------
 Button to start monitoring a new DDS network.
 The entities of this network will be automatically discovered.
@@ -59,6 +47,15 @@ separated by ``;``.
 This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
+Quit
+----
+Close the application.
+
+.. _edit_menu:
+
+Edit
+====
+
 .. _display_historic_data_button:
 
 Display Historical Data
@@ -83,13 +80,13 @@ This button resets the entity clicked and the entities models in case there is s
 
 Clear Log
 ---------
-This button clear the callbacks log.
+This button clears the callbacks log.
 
 .. _clear_issues:
 
 Clear Issues
 ------------
-This button clear the issues log.
+This button clears the issues log.
 
 View
 ====
