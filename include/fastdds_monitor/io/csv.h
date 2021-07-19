@@ -95,13 +95,6 @@ protected:
     static std::vector<std::vector<double>> to_csv_data(
             const std::map<quint64, std::vector<qreal>>& data_map);
 
-    /**
-     * Convert double to string with non scientific notation.
-     * If value is NaN void string is returned.
-     */
-    static std::string double_to_string(
-            double data);
-
 };
 
 } //namespace io
