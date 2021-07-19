@@ -8,13 +8,16 @@ Application Menu
 
 This section describes the operations that can be performed in *Fast DDS Monitor* through the application menu.
 
+.. _application_menu_file:
+
 File
 ====
 
 .. _init_monitor_button:
 
 Initialize Monitor
-----------------------
+------------------
+
 Button to start monitoring a new DDS network.
 The entities of this network will be automatically discovered.
 Moreover, their connections, their configuration and statistical data reported by them will be built and
@@ -47,8 +50,17 @@ separated by ``;``.
 This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
+
+Export to CSV
+-------------
+
+Export all the data displayed in the current Fast DDS Monitor session to a CSV file.
+Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
+
+
 Quit
 ----
+
 Close the application.
 
 .. _edit_menu:
