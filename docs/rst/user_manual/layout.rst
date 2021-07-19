@@ -233,13 +233,20 @@ The rest of the *Chartboxes* will automatically rearrange when one of them is mo
 
 .. _create_new_series_layout:
 
-Create new Series Dialog
+Create Series Dialog
 ------------------------
 This Dialog will appear every time a new Chartbox is created, or adding a new series by the button in the Chartbox
 *Series->AddSeries*.
 
-.. figure:: /rst/figures/screenshots/create_series_dialog.png
+.. figure:: /rst/figures/screenshots/create_series_historical.png
     :align: center
+
+    Create historical series dialog
+
+.. figure:: /rst/figures/screenshots/create_series_dynamic.png
+    :align: center
+
+    Create real-time series dialog
 
 For further details on how to configure a new series refer to :ref:`historic_series` for historic data or
 :ref:`dynamic_series` for dynamic data.

@@ -131,8 +131,8 @@ Link to this documentation.
 Release Notes
 -------------
 
-Link to the *Releases* section of the Fast DDS Monitor repository in
-`GitHub  <https://github.com/eProsima/Fast-DDS-monitor/releases>`_
+Link to the `Releases <https://github.com/eProsima/Fast-DDS-monitor/releases>`_ section of the
+`GitHub Fast DDS Monitor repository`_.
 
 Join Us on Twitter
 ------------------
@@ -140,13 +140,11 @@ Link to `eProsima Twitter account <https://twitter.com/EProsima>`_.
 
 Search Feature Requests
 -----------------------
-Link to the *Issues* section of the Fast DDS Monitor repository in
-`GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
+Link to the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
 
 Report Issue
 ------------
-Link to the *Issues* section of the Fast DDS Monitor repository in
-`GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
+Link to the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
 
 .. todo::
     Explain the form to add an issue.
@@ -154,3 +152,6 @@ Link to the *Issues* section of the Fast DDS Monitor repository in
 About
 -----
 General information of the currently running *Fast DDS Monitor* application.
+
+.. _GitHub Fast DDS Monitor repository: https://github.com/eProsima/Fast-DDS-monitor
+.. _Issues: https://github.com/eProsima/Fast-DDS-monitor/issues
