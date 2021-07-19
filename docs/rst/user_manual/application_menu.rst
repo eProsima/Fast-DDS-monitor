@@ -91,6 +91,14 @@ This button clears the issues log.
 View
 ====
 
+Hide/Show Inactive entities
+---------------------------
+The user of the application can decide whether to display the currently inactive entities.
+In case they are shown, it will be possible to access the data related to them, while if they are hidden from the
+monitor, they will no longer be available in the whole application framework.
+The latter means that it will not be possible to plot charts with data relating to these entities.
+This button hides/reveals the currently inactive entities detected by the monitor.
+
 Hide/Show Shortcuts Toolbar
 ---------------------------
 Hide the shortcuts superior toolbar if visible, or reveal it otherwise.
