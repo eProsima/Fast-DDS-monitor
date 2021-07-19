@@ -564,14 +564,8 @@ EntityInfo SyncBackendConnection::get_summary(
             1,                                      // Just one bin to get all data available
             configuration.second);                  // StatisticKind
 
-        // Check that there is data to report, if not set or NaN give Nan value
-        if (data.empty() || std::isnan(data[0].second))
-        {
-            summary[backend::data_kind_to_string(configuration.first)]
-            [backend::statistic_kind_to_string(configuration.second)]
-                = "NaN";
-        }
-        else
+        // Check that there is data to report, if not set or NaN do not show this statistic data.
+        if (!data.empty() && !std::isnan(data[0].second))
         {
             // get the value of the first (only) element
             data = change_unit_magnitude(data, configuration.first);
