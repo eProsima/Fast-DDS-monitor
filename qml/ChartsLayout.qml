@@ -25,7 +25,7 @@ Rectangle {
 
     property int boxesPerRow: 2
     property int actualBoxesPerRow: Math.min(boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)
-    property int chartBoxWidth: gridViewWidth / actualBoxesPerRow
+    property int chartBoxWidth: (gridViewWidth / actualBoxesPerRow) - (20 - 5 * actualBoxesPerRow)
     property int chartBoxHeight: Math.min(chartBoxWidth, height / actualBoxesPerRow)
     property int gridViewWidth: width < 1 ? 0 : width - 1
 
@@ -89,7 +89,7 @@ Rectangle {
             interactive: false
             model: statisticsChartBoxModel
             delegate: widgetdelegate
-            cacheBuffer: chartBoxHeight * 100
+            cacheBuffer: ((chartBoxHeight * 100) < 0) ? 250 : (chartBoxHeight * 100)
 
             property int firstIndexDrag: -1
 
@@ -101,7 +101,20 @@ Rectangle {
             ScrollBar.vertical: ScrollBar {
                 id: scrollBar
                 visible: true
+                policy: ScrollBar.AlwaysOn
                 hoverEnabled: true
+
+                contentItem: Rectangle {
+                    implicitWidth: 15
+                    radius: width / 2
+                    color: scrollBar.pressed ? Theme.eProsimaLightBlue : Theme.grey
+                }
+            }
+
+            onCountChanged: {
+                var newIndex = count - 1
+                positionViewAtEnd()
+                currentIndex = newIndex
             }
         }
 
