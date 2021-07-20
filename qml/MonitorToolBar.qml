@@ -46,7 +46,7 @@ ToolBar {
             tooltipText: "Dashboard Layout"
             visible: isVisibleDashboardLayout
 
-            property int chartsPerRow: 1
+            property int chartsPerRow: 2
 
             onClicked: {
                 if (chartsPerRow === 3) {
@@ -77,7 +77,7 @@ ToolBar {
         MonitorToolBarButton {
             id: refresh
             iconName: "refresh"
-            tooltipText: "Refresh"
+            tooltipText: "Refresh (Ctrl+R)"
             visible: isVisibleRefresh
             onClicked: {
                 controller.refresh_click()
@@ -109,7 +109,10 @@ ToolBar {
     Shortcut {
         sequence: "Ctrl+R"
         context: Qt.ApplicationShortcut
-        onActivated: controller.refresh_click()
+        onActivated: {
+            controller.refresh_click()
+            lastClickedReset()
+        }
     }
 
     function changeChartboxLayoutIcon(chartsPerRow) {

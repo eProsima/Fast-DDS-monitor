@@ -23,7 +23,7 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    property int boxesPerRow: 1
+    property int boxesPerRow: 2
     property int actualBoxesPerRow: Math.min(boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)
     property int chartBoxWidth: gridViewWidth / actualBoxesPerRow
     property int chartBoxHeight: Math.min(chartBoxWidth, height / actualBoxesPerRow)
