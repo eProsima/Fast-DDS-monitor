@@ -74,11 +74,16 @@ StatisticsChartView {
     }
 
     function resetChartViewZoom(){
+        dynamicData.recalculate_y_axis(chartboxId);
+
         chartView.zoomReset()
-        axisYMin = dynamicData.axisYMin(chartboxId)
-        axisYMax = dynamicData.axisYMax(chartboxId)
-        dateTimeAxisXMax = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time)
-        dateTimeAxisXMin = chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - timeWindow - delay_time)
+
+        setYAxis(dynamicData.axisYMin(chartboxId), dynamicData.axisYMax(chartboxId))
+
+        var current_date = toMsecsSinceEpoch(new Date())
+        setXAxis(
+            chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time),
+            chartView.fromMsecsSinceEpoch(current_date - delay_time))
     }
 
     function dynamicPause(){
@@ -108,8 +113,7 @@ StatisticsChartView {
         onTriggered: {
             var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
             controller.update_dynamic_chartbox(chartboxId, time_to);
-            axisYMin = dynamicData.axisYMin(chartboxId)
-            axisYMax = dynamicData.axisYMax(chartboxId)
+            setYAxis(dynamicData.axisYMin(chartboxId), dynamicData.axisYMax(chartboxId))
         }
     }
 
@@ -124,8 +128,9 @@ StatisticsChartView {
         onTriggered: {
             // update X by current time
             var current_date = toMsecsSinceEpoch(new Date())
-            dateTimeAxisXMax = chartView.fromMsecsSinceEpoch(current_date - delay_time)
-            dateTimeAxisXMin = chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time)
+            setXAxis(
+                chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time),
+                chartView.fromMsecsSinceEpoch(current_date - delay_time))
         }
     }
 }

@@ -106,6 +106,9 @@ public slots:
             quint64 chartbox_id,
             quint64 series_index);
 
+    void recalculate_y_axis(
+        quint64 chartbox_id);
+
 protected:
 
     /**

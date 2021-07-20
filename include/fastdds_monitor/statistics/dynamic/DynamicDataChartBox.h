@@ -61,9 +61,11 @@ public:
     DynamicDataChartBox(
             QString data_kind,
             quint64 time_to,
+            quint64 window_size,
             QObject* parent = nullptr)
         : DataChartBox(data_kind, parent)
         , time_to_(time_to)
+        , window_size_(window_size)
         , current_update_parameters_({
         data_kind,
         time_to,
@@ -107,10 +109,16 @@ public:
     void delete_series_by_order_index(
             quint64 series_order_index) override;
 
+
+    void recalculate_y_axis() override;
+
 protected:
 
     //! Store last time so next update use it as from time
     quint64 time_to_;
+
+    //! Size of the window that is being shown. This value is used to recalculate the axis.
+    quint64 window_size_;
 
     //! Do not recalculate parameters each time is updated but when series change
     UpdateParameters current_update_parameters_;

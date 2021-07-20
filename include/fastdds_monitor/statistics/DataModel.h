@@ -69,6 +69,10 @@ public:
 
     const QVector<QPointF>& get_data() const;
 
+    std::pair<qreal,qreal> limit_y_value(
+        const quint64 from = 0,
+        const quint64 to = std::numeric_limits<quint64>::max()) const;
+
 signals:
 
     //! Signal to notify a new point must be added

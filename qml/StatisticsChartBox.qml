@@ -35,7 +35,7 @@ Rectangle {
 
     Component.onCompleted: {
         if (isDynamic){
-            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow, updatePeriod)
+            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow)
             chartTitle = chartTitle + " [dynamic]"
             dynamicDisplayStatisticsDialog.open()
         } else {
@@ -221,6 +221,7 @@ Rectangle {
             }
         }
 
+        // Statistics ChartView
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -252,38 +253,131 @@ Rectangle {
                 }
             }
 
-            Rectangle {
-                property int size: 30
+            ColumnLayout {
 
-                height: size
-                width: size
-                radius: size/10
+                id: chartViewIcons
+
+                property int iconSize: 25
 
                 anchors.right: parent.right
                 anchors.top: parent.top
-                anchors.rightMargin: size/4
-                anchors.topMargin: size/4
+                anchors.rightMargin: iconSize/10
+                anchors.topMargin: iconSize/10
 
-                color: playMouseArea.containsMouse ? Theme.lightGrey : "transparent"
-                visible: isDynamic
+                width: iconSize
+                // height: parent.height
 
-                IconSVG {
-                    size: parent.size*3/4
-                    name: running ? "pause" : "play"
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: running ? "eProsimaLightBlue" : "green"
+                spacing: iconSize/10
+
+                // Info Button
+                Rectangle {
+
+                    height: chartViewIcons.iconSize
+                    width: chartViewIcons.iconSize
+                    radius: chartViewIcons.iconSize/10
+
+                    IconSVG {
+                        size: chartViewIcons.iconSize*3/4
+                        name: "info"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "black"
+                    }
+
+                    InfoToolTip {
+                        text:
+                            "Controls to interact with Chart:\n" +
+                            "-`Click in point`          : show point value\n" +
+                            "-`Ctrl + click and drag`   : scroll axex\n" +
+                            "-`Ctrl + wheel`            : zoom in / out\n" +
+                            "-`Mayus + grab area`       : zoom in over the area\n" +
+                            (isDynamic ? "\n                     Only available while stopped" : "")
+
+                    }
                 }
 
-                MouseArea {
-                    id: playMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        if (running) {
-                            statisticsChartViewLoader.item.dynamicPause()
-                        } else {
-                            statisticsChartViewLoader.item.dynamicContinue()
+                // Reset Zoom Button
+                Rectangle {
+
+                    height: chartViewIcons.iconSize
+                    width: chartViewIcons.iconSize
+                    radius: chartViewIcons.iconSize/10
+
+                    color: resetMouseArea.containsMouse ? Theme.lightGrey : "transparent"
+
+                    IconSVG {
+                        size: chartViewIcons.iconSize*3/4
+                        name: "resize"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "black"
+                    }
+
+                    MouseArea {
+                        id: resetMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            statisticsChartViewLoader.item.resetChartViewZoom()
+                        }
+                    }
+
+                    ToolTip {
+                        text: "Reset Chart Zoom"
+                        delay: 250
+                        visible: resetMouseArea.containsMouse
+                        contentItem: Text{
+                            color: Theme.whiteSmoke
+                            text: "Reset Chart Zoom"
+                        }
+                        background: Rectangle {
+                            color: Theme.eProsimaLightBlue
+                            border.color: Theme.eProsimaLightBlue
+                        }
+                    }
+                }
+
+                // Pause/Play Button
+                Rectangle {
+                    height: chartViewIcons.iconSize
+                    width: chartViewIcons.iconSize
+                    radius: chartViewIcons.iconSize/10
+
+                    color: playMouseArea.containsMouse ? Theme.lightGrey : "transparent"
+                    visible: isDynamic
+
+                    IconSVG {
+                        size: chartViewIcons.iconSize*3/4
+                        name: running ? "pause" : "play"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: running ? "eProsimaLightBlue" : "green"
+                    }
+
+                    MouseArea {
+                        id: playMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            if (running) {
+                                statisticsChartViewLoader.item.dynamicPause()
+                            } else {
+                                statisticsChartViewLoader.item.dynamicContinue()
+                            }
+                        }
+                    }
+
+                    ToolTip {
+                        text: running ? "Disable X axis move" : "Enable X axis move"
+                        delay: 250
+                        visible: playMouseArea.containsMouse
+                        contentItem: Text{
+                            color: Theme.whiteSmoke
+                            text: running ? "Disable X axis move" : "Enable X axis move"
+                        }
+                        background: Rectangle {
+                            color: Theme.eProsimaLightBlue
+                            border.color: Theme.eProsimaLightBlue
                         }
                     }
                 }

@@ -112,6 +112,7 @@
         <file alias="host_eProsimaLightBlue.svg">resources/images/icons/host/host_eProsimaLightBlue.svg</file>
         <file alias="host_grey.svg">resources/images/icons/host/host_grey.svg</file>
         <file alias="host_white.svg">resources/images/icons/host/host_white.svg</file>
+        <file alias="info_black.svg">resources/images/icons/info/info_black.svg</file>
         <file alias="issues_black.svg">resources/images/icons/issues/issues_black.svg</file>
         <file alias="issues_eProsimaLightBlue.svg">resources/images/icons/issues/issues_eProsimaLightBlue.svg</file>
         <file alias="issues_grey.svg">resources/images/icons/issues/issues_grey.svg</file>
@@ -150,6 +151,7 @@
         <file alias="refresh_eProsimaLightBlue.svg">resources/images/icons/refresh/refresh_eProsimaLightBlue.svg</file>
         <file alias="refresh_grey.svg">resources/images/icons/refresh/refresh_grey.svg</file>
         <file alias="refresh_white.svg">resources/images/icons/refresh/refresh_white.svg</file>
+        <file alias="resize_black.svg">resources/images/icons/resize/resize_black.svg</file>
         <file alias="status_black.svg">resources/images/icons/status/status_black.svg</file>
         <file alias="status_eProsimaLightBlue.svg">resources/images/icons/status/status_eProsimaLightBlue.svg</file>
         <file alias="status_grey.svg">resources/images/icons/status/status_grey.svg</file>

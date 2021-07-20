@@ -24,34 +24,37 @@ ChartView {
     antialiasing: true
     legend.visible: false
 
+    margins.bottom: 0
+    margins.left: 0
+    margins.right: 10
+    margins.top: 0
+
     property var mapper: []
     property var axisYItem: axisY
     property var dateTimeAxisXItem: dateTimeAxisX
     property var tooltipItem: tooltip
     property var chartViewMouseAreaItem: chartViewMouseArea
 
-    property int axisYMin: 0
-    property int axisYMax: 10
-    property date dateTimeAxisXMin: new Date()
-    property date dateTimeAxisXMax: new Date()
-
     signal clearedChart()
+
+    Component.onCompleted: {
+        axisY.applyNiceNumbers()
+    }
 
     ValueAxis {
         id: axisY
-        min: axisYMin
-        max: axisYMax
+        min: 0
+        max: 1
         titleText: dataKind + "[" + controller.get_data_kind_units(dataKind) + "]"
     }
 
     DateTimeAxis {
         id: dateTimeAxisX
-        min: dateTimeAxisXMin
-        max: dateTimeAxisXMax
-        format: "hh:mm:ss (dd.MM)"
-        labelsAngle: -45
+        min: new Date()
+        max: new Date()
+        format: "hh:mm:ss"
         labelsFont: Qt.font({pointSize: 8})
-        titleText: qsTr("Time [hh:mm:ss (dd.MM)]")
+        titleText: qsTr("Time [hh:mm:ss]")
     }
 
     ToolTip {
@@ -232,6 +235,17 @@ ChartView {
 
     function dynamicContinue(){
         running = true
+    }
+
+    function setYAxis(min, max) {
+        axisY.min = min
+        axisY.max = max
+        axisY.applyNiceNumbers()
+    }
+
+    function setXAxis(min, max) {
+        dateTimeAxisX.min = min
+        dateTimeAxisX.max = max
     }
 
     function xLabel() {

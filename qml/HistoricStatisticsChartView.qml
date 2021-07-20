@@ -63,7 +63,7 @@ StatisticsChartView {
                         tooltipItem.seriesColor = new_series.color
                         tooltipItem.visible = true
                     })
-        resetChartViewZoom();
+        resetChartViewZoom(false);
     }
 
     function clearChart() {
@@ -74,13 +74,17 @@ StatisticsChartView {
         mapper = []
     }
 
-    function resetChartViewZoom(){
-        chartView.zoomReset()
+    function resetChartViewZoom(reset = true){
+        if (reset) {
+            historicData.recalculate_y_axis(chartboxId);
+        }
 
-        axisYMin = historicData.axisYMin(chartboxId)
-        axisYMax = historicData.axisYMax(chartboxId)
-        dateTimeAxisXMin = chartView.fromMsecsSinceEpoch(historicData.axisXMin(chartboxId))
-        dateTimeAxisXMax = chartView.fromMsecsSinceEpoch(historicData.axisXMax(chartboxId))
+        chartView.zoomReset()
+        setYAxis(historicData.axisYMin(chartboxId), historicData.axisYMax(chartboxId))
+
+        setXAxis(
+            chartView.fromMsecsSinceEpoch(historicData.axisXMin(chartboxId)),
+            chartView.fromMsecsSinceEpoch(historicData.axisXMax(chartboxId)))
     }
 
     function customRemoveSeries(seriesIndex){

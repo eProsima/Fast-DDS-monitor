@@ -25,7 +25,7 @@ Rectangle {
 
     property int itemWidth: legend.width
     property int itemHeight: 20
-    property int maxLegendHeigh: itemHeight*4
+    property int maxLegendHeigh: itemHeight*2 // * number of labels by default for first space
 
     signal seriesNameUpdated(int seriesIndex, string newSeriesName)
     signal seriesColorUpdated(int seriesIndex, color newSeriesColor)
@@ -46,6 +46,12 @@ Rectangle {
         model: seriesModel
         delegate: legendDelegate
         clip: true
+
+        onCountChanged: {
+            var newIndex = count - 1
+            positionViewAtEnd()
+            currentIndex = newIndex
+        }
     }
 
     Component {

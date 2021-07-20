@@ -211,3 +211,13 @@ const QVector<QPointF>& StatisticsData::get_data(
 
     return it->second->get_data(series_index);
 }
+
+void StatisticsData::recalculate_y_axis(
+        quint64 chartbox_id)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->recalculate_y_axis();
+}

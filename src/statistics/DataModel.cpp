@@ -82,3 +82,30 @@ const QVector<QPointF>& DataModel::get_data() const
 {
     return m_data_;
 }
+
+std::pair<qreal,qreal> DataModel::limit_y_value(
+    const quint64 from /* = 0 */,
+    const quint64 to /* = std::numeric_limits<quint64>::max() */) const
+{
+    qreal max_val = std::numeric_limits<qreal>::lowest();
+    qreal min_val = std::numeric_limits<qreal>::max();
+
+    // TODO This may be accelerate with binary search at first
+    for (QPointF point : m_data_)
+    {
+        if (point.rx() >= from && point.rx() < to)
+        {
+            if(point.ry() > max_val)
+            {
+                max_val = point.ry();
+            }
+
+            if(point.ry() < min_val)
+            {
+                min_val = point.ry();
+            }
+        }
+    }
+
+    return std::make_pair(min_val, max_val);
+}
