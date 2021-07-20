@@ -371,6 +371,8 @@ Rectangle {
                 selectByMouse: true
                 maximumLength: 100
                 implicitWidth: textMetrics.width + leftPadding + rightPadding
+
+                Keys.onReturnPressed: renameChartBoxDialog.accept()
             }
         }
 

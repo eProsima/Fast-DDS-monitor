@@ -51,6 +51,8 @@ Dialog {
             selectByMouse: true
             maximumLength: maximumNameLength
             implicitWidth: textMetrics.width + leftPadding + rightPadding
+
+            Keys.onReturnPressed: aliasDialog.accept()
         }
     }
 
@@ -61,7 +63,6 @@ Dialog {
 
     onAccepted: {
         if (newSeriesNameTextField.text !== "") {
-
             if (newSeriesNameTextField.text == "imgonnabelucky") {
                 controller.set_alias(entityId, "( ͡° ͜ʖ ͡°)", entityKind)
             } else {

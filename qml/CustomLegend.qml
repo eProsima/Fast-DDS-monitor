@@ -152,6 +152,8 @@ Rectangle {
                         selectByMouse: true
                         maximumLength: 50
                         implicitWidth: textMetrics.width + leftPadding + rightPadding
+
+                        Keys.onReturnPressed: renameSeriesDialog.accept()
                     }
                 }
 
