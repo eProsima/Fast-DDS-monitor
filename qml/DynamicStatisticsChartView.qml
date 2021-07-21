@@ -115,7 +115,9 @@ StatisticsChartView {
         onTriggered: {
             var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
             controller.update_dynamic_chartbox(chartboxId, time_to);
-            setYAxis(dynamicData.axisYMin(chartboxId), dynamicData.axisYMax(chartboxId))
+            if (running) {
+                setYAxis(dynamicData.axisYMin(chartboxId), dynamicData.axisYMax(chartboxId))
+            }
         }
     }
 
@@ -132,7 +134,8 @@ StatisticsChartView {
             var current_date = toMsecsSinceEpoch(new Date())
             setXAxis(
                 chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time),
-                chartView.fromMsecsSinceEpoch(current_date - delay_time))
+                chartView.fromMsecsSinceEpoch(current_date - delay_time),
+                true)
         }
     }
 }

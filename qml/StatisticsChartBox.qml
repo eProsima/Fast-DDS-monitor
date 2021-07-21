@@ -290,11 +290,11 @@ Rectangle {
                     InfoToolTip {
                         text:
                             "Controls to interact with Chart:\n" +
-                            "-`Click in point`          : show point value\n" +
-                            "-`Ctrl + click and drag`   : scroll axex\n" +
-                            "-`Ctrl + wheel`            : zoom in / out\n" +
-                            "-`Mayus + grab area`       : zoom in over the area\n" +
-                            (isDynamic ? "\n                     Only available while stopped" : "")
+                            "-Click in point: show point value\n" +
+                            "-Ctrl + click and drag: scroll axex\n" +
+                            "-Ctrl + wheel: zoom in / out\n" +
+                            "-Mayus + grab area: zoom in over the area" +
+                            (isDynamic ? "\n\nOnly available while stopped" : "")
 
                     }
                 }
