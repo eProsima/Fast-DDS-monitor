@@ -104,10 +104,25 @@ Rectangle {
                 policy: ScrollBar.AlwaysOn
                 hoverEnabled: true
 
-                contentItem: Rectangle {
-                    implicitWidth: 15
-                    radius: width / 2
-                    color: scrollBar.pressed ? Theme.eProsimaLightBlue : Theme.grey
+                contentItem: Item {
+                    implicitWidth: 8
+
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.rightMargin: 2
+                        anchors.leftMargin: 2
+                        radius: width / 2
+                        color: scrollBar.pressed ? Theme.eProsimaLightBlue : Theme.lightGrey
+                    }
+                }
+
+                background: Item {
+                    implicitWidth: 12
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: scrollBar.pressed ? Theme.lightGrey : Theme.grey
+                    }
                 }
             }
 
