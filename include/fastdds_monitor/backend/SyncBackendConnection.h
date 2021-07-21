@@ -198,9 +198,16 @@ public:
 
 protected:
 
-    std::vector<StatisticsData> change_unit_magnitude(
+    void change_unit_magnitude(
             std::vector<StatisticsData>& data,
             DataKind data_kind);
+
+    void filter(
+            std::vector<StatisticsData>& data,
+            DataKind data_kind);
+
+    void sort(
+            std::vector<StatisticsData>& data);
 
     /**************
      * UPDATE ALL *

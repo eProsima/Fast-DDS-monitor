@@ -568,7 +568,6 @@ EntityInfo SyncBackendConnection::get_summary(
         if (!data.empty() && !std::isnan(data[0].second))
         {
             // get the value of the first (only) element
-            data = change_unit_magnitude(data, configuration.first);
             summary[backend::data_kind_to_string(configuration.first)]
             [backend::statistic_kind_to_string(configuration.second)]
                 = utils::double_to_string(data[0].second) + " [" + get_data_kind_units(configuration.first) + "]";
@@ -646,7 +645,11 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         }
 
         // Change units depending on the dataKind
-        return change_unit_magnitude(res, data_kind);
+        filter(res, data_kind);
+        change_unit_magnitude(res, data_kind);
+        sort(res);
+
+        return res;
     }
     catch (const Exception& e)
     {
@@ -657,7 +660,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     }
 }
 
-std::vector<StatisticsData> SyncBackendConnection::change_unit_magnitude(
+void SyncBackendConnection::change_unit_magnitude(
         std::vector<StatisticsData>& data,
         DataKind data_kind)
 {
@@ -667,17 +670,39 @@ std::vector<StatisticsData> SyncBackendConnection::change_unit_magnitude(
         case DataKind::NETWORK_LATENCY:
 
             // Convert from ns to ns
-            for (StatisticsData& point : data)
-            {
-                point.second /= 1000.0;
-            }
+            std::for_each(data.begin(), data.end(),
+                [](StatisticsData& point) { point.second /= 1000; });
             break;
 
         default:
             break;
     }
+}
 
-    return data;
+void SyncBackendConnection::filter(
+        std::vector<StatisticsData>& data,
+        DataKind data_kind)
+{
+    if (get_data_kind_units(data_kind) == "count")
+    {
+        // To count units, change NaN data with 0
+        std::for_each(data.begin(), data.end(),
+            [](StatisticsData& point) { if(std::isnan(point.second)) point.second = 0; });
+    }
+    else
+    {
+        // To non count units, erase NaNs
+        data.erase(
+            std::remove_if(data.begin(), data.end(),
+                [](const StatisticsData& point) { return std::isnan(point.second); }),
+            data.end());
+    }
+}
+
+void SyncBackendConnection::sort(
+        std::vector<StatisticsData>& data)
+{
+    std::sort(data.begin(), data.end());
 }
 
 void SyncBackendConnection::set_alias(
