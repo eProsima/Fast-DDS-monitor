@@ -255,8 +255,8 @@ void Engine::init_monitor(
     {
         process_error(
             "Error trying to initialize monitor in Discovery Server with GUID " +
-                utils::to_string(discovery_server_guid_prefix) +
-                " and locators " + utils::to_string(discovery_server_locators),
+            utils::to_string(discovery_server_guid_prefix) +
+            " and locators " + utils::to_string(discovery_server_locators),
             ErrorType::INIT_MONITOR);
     }
 }
