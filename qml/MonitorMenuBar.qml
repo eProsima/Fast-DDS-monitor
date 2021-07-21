@@ -23,11 +23,15 @@ MenuBar {
 
     property bool inactive_visible: controller.inactive_visible
 
-    Menu {
+    AdaptiveMenu {
         title: qsTr("&File")
         Action {
-            text: qsTr("Initialize &Monitor")
+            text: qsTr("Initialize DDS &Monitor")
             onTriggered: dialogInitMonitor.open()
+        }
+        Action {
+            text: qsTr("Initialize Discovery Server Monitor")
+            onTriggered: dialogDSInitMonitor.open()
         }
         MenuSeparator { }
         Action {
@@ -40,7 +44,7 @@ MenuBar {
             onTriggered: Qt.quit()
         }
     }
-    Menu {
+    AdaptiveMenu {
         title: qsTr("&Edit")
         Action {
             text: qsTr("&Display Historical Data")
@@ -71,7 +75,7 @@ MenuBar {
             }
         }
     }
-    Menu {
+    AdaptiveMenu {
         title: qsTr("&View")
         implicitWidth: 250
         Action {
@@ -82,7 +86,7 @@ MenuBar {
             }
         }
         MenuSeparator { }
-        Menu {
+        AdaptiveMenu {
             id: dashboardLayout
             title: qsTr("&Dashboard Layout")
             Action {
@@ -186,7 +190,7 @@ MenuBar {
         }
     }
 
-    Menu {
+    AdaptiveMenu {
         title: qsTr("&Help")
         Action {
             text: qsTr("&Documentation")
