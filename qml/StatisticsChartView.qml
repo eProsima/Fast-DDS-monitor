@@ -33,7 +33,7 @@ ChartView {
     property var axisYItem: axisY
     property var dateTimeAxisXItem: dateTimeAxisX
     property var tooltipItem: tooltip
-    property var chartViewMouseAreaItem: chartViewMouseArea
+    property bool manuallySetAxes: false
 
     signal clearedChart()
 
@@ -45,6 +45,7 @@ ChartView {
         id: axisY
         min: 0
         max: 1
+        tickCount: 5 // This does not work with nice numbers
         titleText: dataKind + "[" + controller.get_data_kind_units(dataKind) + "]"
     }
 
@@ -141,7 +142,7 @@ ChartView {
             }
 
             onExited: {
-                chartViewMouseAreaItem.cursorShape = Qt.ArrowCursor
+                chartViewMouseArea.cursorShape = Qt.ArrowCursor
             }
 
             onPressed: {
@@ -241,25 +242,28 @@ ChartView {
         running = true
     }
 
-    function setYAxis(min, max, niceNumbers = true) {
-        console.log("\nsetYAxis")
-        console.log(min)
-        console.log(max)
-
-        axisY.min = min
-        axisY.max = max
-        if (niceNumbers) {
-            axisY.applyNiceNumbers()
+    function setYAxis(min, max, niceNumbers = true, force = false) {
+        // If axes has been set manually and forced is not set, do not change
+        if (force || !manuallySetAxes) {
+            axisY.min = min
+            axisY.max = max
+            if (niceNumbers) {
+                axisY.applyNiceNumbers()
+            }
         }
     }
 
-    function setXAxis(min, max) {
-        console.log("\nsetXAxis")
+    function setXAxis(min, max, force = false) {
+
+        console.log("setXAxis")
         console.log(min)
         console.log(max)
 
-        dateTimeAxisX.min = min
-        dateTimeAxisX.max = max
+        // If axes has been set manually and forced is not set, do not change
+        if (force || !manuallySetAxes) {
+            dateTimeAxisX.min = min
+            dateTimeAxisX.max = max
+        }
     }
 
     function xLabel() {
@@ -279,17 +283,13 @@ ChartView {
     }
 
     function modifyAxes(yMax, yMin, xMax, xMin) {
-        console.log("\nmodifyAxes")
-        console.log(yMax)
-        console.log(yMin)
-        console.log(xMax)
-        console.log(xMin)
-        setYAxis(yMin, yMax, false)
-        setXAxis(xMin, xMax)
+        manuallySetAxes = true
+        setYAxis(yMin, yMax, false, true)
+        setXAxis(xMin, xMax, true)
     }
 
     // Virtual functions that require implementation for Historic and Dynamic child classes:
     // - add_Series
     // - clearChart
-    // - resetChartViewZoom
+    // - resetChartViewZoom (must set manuallySetAxes to false)
 }

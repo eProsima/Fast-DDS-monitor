@@ -75,8 +75,10 @@ StatisticsChartView {
     }
 
     function resetChartViewZoom(reset = true){
+
         if (reset) {
             historicData.recalculate_y_axis(chartboxId);
+            manuallySetAxes = false
         }
 
         chartView.zoomReset()

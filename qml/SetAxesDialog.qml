@@ -44,10 +44,10 @@ Dialog {
             text: "X Axis max: "
         }
         Button {
-            id: startTimeCalendarButton
-            text: startTimeDate
+            id: endTimeCalendarButton
+            text: endTimeDate
             onClicked: {
-                startTimeCalendarDialog.open()
+                endTimeCalendarDialog.open()
             }
             enabled: true
         }
@@ -63,10 +63,10 @@ Dialog {
             text: "X Axis min: "
         }
         Button {
-            id: endTimeCalendarButton
-            text: endTimeDate
+            id: startTimeCalendarButton
+            text: startTimeDate
             onClicked: {
-                endTimeCalendarDialog.open()
+                startTimeCalendarDialog.open()
             }
             enabled: true
         }
@@ -94,10 +94,8 @@ Dialog {
         modifyAxes(
             yAxisMax.realValue,
             yAxisMin.realValue,
-            startTimeDate,
-            endTimeDate
-            // Date.fromLocaleString(Qt.locale(), startTimeDate, "dd.MM.yyyy HH:mm:ss"),
-            // Date.fromLocaleString(Qt.locale(), endTimeDate, "dd.MM.yyyy HH:mm:ss")
+            endTimeDate,
+            startTimeDate
         )
     }
 
