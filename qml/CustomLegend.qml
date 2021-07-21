@@ -68,9 +68,10 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton
-                        onClicked: {
-                            colorDialog.open()
-                        }
+                        hoverEnabled: true
+                        onClicked: colorDialog.open()
+                        onEntered: legendDelegateMouseArea.cursorShape = Qt.PointingHandCursor
+                        onExited: legendDelegateMouseArea.cursorShape = Qt.ArrowCursor
                     }
                 }
                 Label {
@@ -81,14 +82,16 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton
-                        onClicked: {
-                            hidden ? displaySeriesLegend(index) : hideSeriesLegend(index)
-                        }
+                        hoverEnabled: true
+                        onClicked: hidden ? displaySeriesLegend(index) : hideSeriesLegend(index)
+                        onEntered: legendDelegateMouseArea.cursorShape = Qt.PointingHandCursor
+                        onExited: legendDelegateMouseArea.cursorShape = Qt.ArrowCursor
                     }
                 }
             }
 
             MouseArea {
+                id: legendDelegateMouseArea
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton | Qt.LeftButton
                 propagateComposedEvents: true

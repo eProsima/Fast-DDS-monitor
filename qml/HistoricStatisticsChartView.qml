@@ -82,4 +82,8 @@ StatisticsChartView {
         dateTimeAxisXMin = chartView.fromMsecsSinceEpoch(historicData.axisXMin(chartboxId))
         dateTimeAxisXMax = chartView.fromMsecsSinceEpoch(historicData.axisXMax(chartboxId))
     }
+
+    function customRemoveSeries(seriesIndex){
+        mapper.splice(seriesIndex, 1)
+    }
 }

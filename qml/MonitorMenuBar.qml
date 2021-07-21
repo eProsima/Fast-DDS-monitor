@@ -89,7 +89,7 @@ MenuBar {
                 id: dashboardLayoutLarge
                 text: "Large"
                 checkable: true
-                checked: true
+                checked: false
                 onTriggered: {
                     if (!checked) {
                         checked = true
@@ -105,7 +105,7 @@ MenuBar {
                 id: dashboardLayoutMedium
                 text: "Medium"
                 checkable: true
-                checked: false
+                checked: true
                 onTriggered: {
                     if (!checked) {
                         checked = true

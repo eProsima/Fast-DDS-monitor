@@ -23,9 +23,9 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    property int boxesPerRow: 1
+    property int boxesPerRow: 2
     property int actualBoxesPerRow: Math.min(boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)
-    property int chartBoxWidth: gridViewWidth / actualBoxesPerRow
+    property int chartBoxWidth: (gridViewWidth / actualBoxesPerRow) - (20 - 5 * actualBoxesPerRow)
     property int chartBoxHeight: Math.min(chartBoxWidth, height / actualBoxesPerRow)
     property int gridViewWidth: width < 1 ? 0 : width - 1
 
@@ -89,7 +89,7 @@ Rectangle {
             interactive: false
             model: statisticsChartBoxModel
             delegate: widgetdelegate
-            cacheBuffer: chartBoxHeight * 100
+            cacheBuffer: ((chartBoxHeight * 100) < 0) ? 250 : (chartBoxHeight * 100)
 
             property int firstIndexDrag: -1
 
@@ -101,7 +101,35 @@ Rectangle {
             ScrollBar.vertical: ScrollBar {
                 id: scrollBar
                 visible: true
+                policy: ScrollBar.AlwaysOn
                 hoverEnabled: true
+
+                contentItem: Item {
+                    implicitWidth: 8
+
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.rightMargin: 2
+                        anchors.leftMargin: 2
+                        radius: width / 2
+                        color: scrollBar.pressed ? Theme.eProsimaLightBlue : Theme.lightGrey
+                    }
+                }
+
+                background: Item {
+                    implicitWidth: 12
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: scrollBar.pressed ? Theme.lightGrey : Theme.grey
+                    }
+                }
+            }
+
+            onCountChanged: {
+                var newIndex = count - 1
+                positionViewAtEnd()
+                currentIndex = newIndex
             }
         }
 
@@ -127,6 +155,7 @@ Rectangle {
                     width: gridView.cellWidth - 10
                     height: gridView.cellHeight - 10
                     smooth: true
+
                     states: [
                         State {
                             name: "inactive";
