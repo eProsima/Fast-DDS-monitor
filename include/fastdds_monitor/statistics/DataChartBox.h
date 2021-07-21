@@ -108,8 +108,8 @@ public:
     virtual void recalculate_y_axis();
 
     void reset_axis(
-        bool x_axis = true,
-        bool y_axis = true);
+            bool x_axis = true,
+            bool y_axis = true);
 
 protected:
 
