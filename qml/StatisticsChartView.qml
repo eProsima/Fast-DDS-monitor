@@ -46,6 +46,7 @@ ChartView {
         min: 0
         max: 1
         tickCount: 5 // This does not work with nice numbers
+        minorTickCount: 5 // Sub divisions (pretty)
         titleText: dataKind + "[" + controller.get_data_kind_units(dataKind) + "]"
     }
 
@@ -254,11 +255,6 @@ ChartView {
     }
 
     function setXAxis(min, max, force = false) {
-
-        console.log("setXAxis")
-        console.log(min)
-        console.log(max)
-
         // If axes has been set manually and forced is not set, do not change
         if (force || !manuallySetAxes) {
             dateTimeAxisX.min = min
