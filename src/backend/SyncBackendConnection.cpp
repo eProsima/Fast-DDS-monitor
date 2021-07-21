@@ -673,16 +673,6 @@ std::vector<StatisticsData> SyncBackendConnection::change_unit_magnitude(
             }
             break;
 
-        case DataKind::PUBLICATION_THROUGHPUT:
-        case DataKind::SUBSCRIPTION_THROUGHPUT:
-
-            // Convert from B/s to KB/s
-            for (StatisticsData& point : data)
-            {
-                point.second /= 1000.0;
-            }
-            break;
-
         default:
             break;
     }
@@ -1083,9 +1073,9 @@ std::string SyncBackendConnection::get_data_kind_units(
         case DataKind::NETWORK_LATENCY:
             return "\u00b5s";
         case DataKind::PUBLICATION_THROUGHPUT:
-            return "KB/s";
+            return "B/s";
         case DataKind::SUBSCRIPTION_THROUGHPUT:
-            return "KB/s";
+            return "B/s";
         case DataKind::RTPS_PACKETS_SENT:
             return "count";
         case DataKind::RTPS_BYTES_SENT:
