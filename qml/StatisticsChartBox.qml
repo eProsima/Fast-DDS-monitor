@@ -154,9 +154,11 @@ Rectangle {
                 title: "Chart"
                 Action {
                     text: "Reset zoom"
-                    Component.onCompleted: {
-                        triggered.connect(statisticsChartViewLoader.item.resetChartViewZoom)
-                    }
+                    onTriggered: statisticsChartViewLoader.item.resetChartViewZoom()
+                }
+                Action {
+                    text: "Set axes"
+                     onTriggered: statisticsChartViewLoader.item.userSetAxes()
                 }
                 Action {
                     text: "Clear chart"
@@ -253,6 +255,7 @@ Rectangle {
                 }
             }
 
+            // Side Buttons Column
             ColumnLayout {
 
                 id: chartViewIcons
@@ -303,6 +306,47 @@ Rectangle {
                     width: chartViewIcons.iconSize
                     radius: chartViewIcons.iconSize/10
 
+                    color: resizeMouseArea.containsMouse ? Theme.lightGrey : "transparent"
+
+                    IconSVG {
+                        size: chartViewIcons.iconSize*3/4
+                        name: "reset_zoom"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "black"
+                    }
+
+                    MouseArea {
+                        id: resizeMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            statisticsChartViewLoader.item.resetChartViewZoom()
+                        }
+                    }
+
+                    ToolTip {
+                        text: "Reset Chart Zoom"
+                        delay: 250
+                        visible: resizeMouseArea.containsMouse
+                        contentItem: Text{
+                            color: Theme.whiteSmoke
+                            text: "Reset Chart Zoom"
+                        }
+                        background: Rectangle {
+                            color: Theme.eProsimaLightBlue
+                            border.color: Theme.eProsimaLightBlue
+                        }
+                    }
+                }
+
+                // Set Axes Button
+                Rectangle {
+
+                    height: chartViewIcons.iconSize
+                    width: chartViewIcons.iconSize
+                    radius: chartViewIcons.iconSize/10
+
                     color: resetMouseArea.containsMouse ? Theme.lightGrey : "transparent"
 
                     IconSVG {
@@ -318,17 +362,17 @@ Rectangle {
                         anchors.fill: parent
                         hoverEnabled: true
                         onClicked: {
-                            statisticsChartViewLoader.item.resetChartViewZoom()
+                            statisticsChartViewLoader.item.userSetAxes()
                         }
                     }
 
                     ToolTip {
-                        text: "Reset Chart Zoom"
+                        text: "Set Axes"
                         delay: 250
                         visible: resetMouseArea.containsMouse
                         contentItem: Text{
                             color: Theme.whiteSmoke
-                            text: "Reset Chart Zoom"
+                            text: "Set Axes"
                         }
                         background: Rectangle {
                             color: Theme.eProsimaLightBlue

@@ -86,7 +86,7 @@ find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
 
-foreach(c Core Widgets Gui Quick Qml Charts QuickControls2)
+foreach(c Core Widgets Gui Quick Qml Charts QuickControls2 Utils)
     if(${Qt5${c}_FOUND})
         message(STATUS "Found Qt5${c}: ${Qt5${c}_CONFIG} (found version ${Qt5${c}_VERSION})")
     endif()

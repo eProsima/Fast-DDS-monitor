@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.0
+import QtQuick 2.15
 import QtCharts 2.1
 import QtQuick.Controls 2.15
 import Theme 1.0
@@ -205,6 +205,10 @@ ChartView {
         }
     }
 
+    SetAxesDialog {
+        id: userResizeAxes
+    }
+
     function toMsecsSinceEpoch(date) {
         return date.getTime().valueOf();
     }
@@ -237,19 +241,51 @@ ChartView {
         running = true
     }
 
-    function setYAxis(min, max) {
+    function setYAxis(min, max, niceNumbers = true) {
+        console.log("\nsetYAxis")
+        console.log(min)
+        console.log(max)
+
         axisY.min = min
         axisY.max = max
-        axisY.applyNiceNumbers()
+        if (niceNumbers) {
+            axisY.applyNiceNumbers()
+        }
     }
 
     function setXAxis(min, max) {
+        console.log("\nsetXAxis")
+        console.log(min)
+        console.log(max)
+
         dateTimeAxisX.min = min
         dateTimeAxisX.max = max
     }
 
     function xLabel() {
         return axisY.titleText
+    }
+
+    function userSetAxes() {
+        dynamicPause()
+
+        // Set actual axes
+        userResizeAxes.startTimeDate = dateTimeAxisX.min
+        userResizeAxes.endTimeDate = dateTimeAxisX.max
+        userResizeAxes.yMax = axisY.max
+        userResizeAxes.yMin = axisY.min
+
+        userResizeAxes.open()
+    }
+
+    function modifyAxes(yMax, yMin, xMax, xMin) {
+        console.log("\nmodifyAxes")
+        console.log(yMax)
+        console.log(yMin)
+        console.log(xMax)
+        console.log(xMin)
+        setYAxis(yMin, yMax, false)
+        setXAxis(xMin, xMax)
     }
 
     // Virtual functions that require implementation for Historic and Dynamic child classes:

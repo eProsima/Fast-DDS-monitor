@@ -18,6 +18,7 @@
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
+        <file>qml/DoubleSpinBox.qml</file>
         <file>qml/HistoricDataKindDialog.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
         <file>qml/HistoricDisplayStatisticsDialog.qml</file>
@@ -46,6 +47,7 @@
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
         <file>qml/QosView.qml</file>
+        <file>qml/SetAxesDialog.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/HistoricStatisticsChartView.qml</file>
         <file>qml/StatusPanel.qml</file>
@@ -151,6 +153,7 @@
         <file alias="refresh_eProsimaLightBlue.svg">resources/images/icons/refresh/refresh_eProsimaLightBlue.svg</file>
         <file alias="refresh_grey.svg">resources/images/icons/refresh/refresh_grey.svg</file>
         <file alias="refresh_white.svg">resources/images/icons/refresh/refresh_white.svg</file>
+        <file alias="reset_zoom_black.svg">resources/images/icons/reset_zoom/reset_zoom_black.svg</file>
         <file alias="resize_black.svg">resources/images/icons/resize/resize_black.svg</file>
         <file alias="status_black.svg">resources/images/icons/status/status_black.svg</file>
         <file alias="status_eProsimaLightBlue.svg">resources/images/icons/status/status_eProsimaLightBlue.svg</file>
