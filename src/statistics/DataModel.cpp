@@ -83,9 +83,9 @@ const QVector<QPointF>& DataModel::get_data() const
     return m_data_;
 }
 
-std::pair<qreal,qreal> DataModel::limit_y_value(
-    const quint64 from /* = 0 */,
-    const quint64 to /* = std::numeric_limits<quint64>::max() */) const
+std::pair<qreal, qreal> DataModel::limit_y_value(
+        const quint64 from /* = 0 */,
+        const quint64 to /* = std::numeric_limits<quint64>::max() */) const
 {
     qreal max_val = std::numeric_limits<qreal>::lowest();
     qreal min_val = std::numeric_limits<qreal>::max();
@@ -95,12 +95,12 @@ std::pair<qreal,qreal> DataModel::limit_y_value(
     {
         if (point.rx() >= from && point.rx() < to)
         {
-            if(point.ry() > max_val)
+            if (point.ry() > max_val)
             {
                 max_val = point.ry();
             }
 
-            if(point.ry() < min_val)
+            if (point.ry() < min_val)
             {
                 min_val = point.ry();
             }

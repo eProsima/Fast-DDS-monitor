@@ -242,7 +242,9 @@ const QVector<QPointF>& DataChartBox::get_data(
     return series_it_->second->get_data();
 }
 
-void DataChartBox::reset_axis(bool x_axis, bool y_axis)
+void DataChartBox::reset_axis(
+        bool x_axis,
+        bool y_axis)
 {
     if (x_axis)
     {
