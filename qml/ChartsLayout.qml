@@ -140,6 +140,7 @@ Rectangle {
                     width: gridView.cellWidth - 10
                     height: gridView.cellHeight - 10
                     smooth: true
+
                     states: [
                         State {
                             name: "inactive";
