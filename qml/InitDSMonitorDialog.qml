@@ -22,31 +22,24 @@ Dialog {
     id: initDSMonitorDialog
     modal: false
     title: "Initialize Discovery Server Monitor"
-    standardButtons: Dialog.Apply | Dialog.Ok | Dialog.Cancel | Dialog.RestoreDefaults
+    standardButtons: Dialog.Ok | Dialog.Cancel | Dialog.RestoreDefaults
     implicitWidth: 600
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
     onAccepted: {
-        initDiscoveryServer(true)
-    }
-
-    onApplied: {
-        initDiscoveryServer(false)
-        initDSMonitorDialog.open()
+        initDiscoveryServer()
     }
 
     onReset: {
         discoveryServerGuid.text = "44.53.00.5f.45.50.52.4f.53.49.4d.41"
         discoveryServerLocatorsModel.clear()
-        discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "", "port": -1})
+        discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "127.0.0.1", "port": "11811"})
     }
 
     Component.onCompleted: {
-        standardButton(Dialog.Apply).text = qsTrId("Apply and Continue")
-        standardButton(Dialog.Ok).text = qsTrId("Apply and Close")
-        discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "", "port": -1})
+        reset()
     }
 
     ListModel {
@@ -72,14 +65,13 @@ Dialog {
             }
             TextField {
                 id: discoveryServerGuid
-                placeholderText: "44.53.00.5f.45.50.52.4f.53.49.4d.41"
+                placeholderText: "GUID example: 44.53.00.5f.45.50.52.4f.53.49.4d.41"
                 implicitWidth: dialogLayout.width
                 text: "44.53.00.5f.45.50.52.4f.53.49.4d.41"
                 selectByMouse: true
                 validator: RegExpValidator {
                     regExp: /^(([0-9a-fA-F][0-9a-fA-F]\.){11})([0-9a-fA-F][0-9a-fA-F])$/
                 }
-                Keys.onReturnPressed: dialogInitMonitor.accept()
             }
         }
         GridLayout {
@@ -188,10 +180,10 @@ Dialog {
                             }
                             TextField {
                                 id: discoveryServerIP
-                                placeholderText: "127.0.0.1"
+                                placeholderText: "IP"
                                 selectByMouse: true
                                 Layout.preferredWidth: discoveryServerIPLabel.width
-                                text: (ip < 0) ? "" : ip
+                                text: ip
                                 validator: RegExpValidator {
                                     regExp: {
                                         if (discoveryServerTransportProtocol.currentText.includes("v4")) {
@@ -203,20 +195,18 @@ Dialog {
                                         }
                                     }
                                 }
-                                Keys.onReturnPressed: dialogInitMonitor.accept()
                                 onTextEdited: ip = text
                             }
                             TextField {
                                 id: discoveryServerPort
-                                placeholderText: "11811"
+                                placeholderText: "Port"
                                 selectByMouse: true
                                 Layout.preferredWidth: discoveryServerPortLabel.width
-                                text: (port < 0) ? "" : port
+                                text: port
                                 validator: IntValidator {
                                     bottom: 0
                                 }
-                                Keys.onReturnPressed: dialogInitMonitor.accept()
-                                onTextEdited: port = parseInt(text)
+                                onTextEdited: port = text
                             }
 
                             Rectangle {
@@ -288,46 +278,47 @@ Dialog {
         id: wrongIP
         title: "Invalid Discovery Server IP"
         icon: StandardIcon.Warning
-        standardButtons:  isAccepted ? (StandardButton.Retry | StandardButton.Discard) : StandardButton.Retry
+        standardButtons:  StandardButton.Retry | StandardButton.Discar
         text: "The inserted Discovery Server IP " + ip + " is not a valid IP."
         property string ip: ""
-        property bool isAccepted: true
-        onAccepted: {
-            dialogInitMonitor.open()
-        }
+        onAccepted: initDSMonitorDialog.open()
     }
 
     MessageDialog {
         id: emptyPort
         title: "Invalid Discovery Server Port"
         icon: StandardIcon.Warning
-        standardButtons:  isAccepted ? (StandardButton.Retry | StandardButton.Discard) : StandardButton.Retry
+        standardButtons:  StandardButton.Retry | StandardButton.Discard
         text: "No port has been inserted for the Discovery Server IP " + ip + ". " +
               "Please fill in the ports of all network addresses."
         property string ip: ""
-        property bool isAccepted: true
-        onAccepted: {
-            dialogInitMonitor.open()
-        }
+        onAccepted: initDSMonitorDialog.open()
     }
 
     MessageDialog {
         id: wrongGuid
         title: "Invalid Discovery Server GUID"
         icon: StandardIcon.Warning
-        standardButtons:  isAccepted ? (StandardButton.Retry | StandardButton.Discard) : StandardButton.Retry
+        standardButtons:  StandardButton.Retry | StandardButton.Discard
         text: "The inserted Discovery Server GUID is not valid."
-        property bool isAccepted: true
-        onAccepted: {
-            dialogInitMonitor.open()
-        }
+        onAccepted: initDSMonitorDialog.open()
+    }
+
+    MessageDialog {
+        id: wrongLocator
+        title: "Invalid Discovery Server Locator"
+        icon: StandardIcon.Warning
+        standardButtons:  StandardButton.Retry | StandardButton.Discard
+        text: "The locator of index " + locatorIdx + " has an empty IP address."
+        property int locatorIdx: 0
+        onAccepted: initDSMonitorDialog.open()
     }
 
     /**
      * Returns an regular expression for IPv4 string matching
      */
     function ipv4Regex() {
-        var ipv4re = /^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3})(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g
+        var ipv4re = /^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){0,3})(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g
         return ipv4re
     }
 
@@ -350,11 +341,10 @@ Dialog {
     /**
      * Function to parse the input parameter of the initialize monitor dialog for Discovery Server
      */
-    function initDiscoveryServer(isAccepted) {
+    function initDiscoveryServer() {
         /////
         // Check that Discovery Server GUID is correct
         if (!discoveryServerGuid.acceptableInput) {
-            wrongGuid.isAccepted = isAccepted
             wrongGuid.open()
             return
         }
@@ -383,6 +373,12 @@ Dialog {
 
             // Get the IP of locator
             var ip = discoveryServerLocatorsModel.get(i).ip
+            if (ip === "") {
+                wrongLocator.locatorIdx = i;
+                wrongLocator.open()
+                return
+            }
+
             var ipRe = matchAllRegex();
             if (transportProtocol.includes("v4")) {
                 ipRe = ipv4Regex()
@@ -393,7 +389,6 @@ Dialog {
             if (!ip) {
                 continue
             } else if (!ipRe.test(ip)) {
-                wrongIP.isAccepted = isAccepted
                 wrongIP.ip = ip
                 wrongIP.open()
                 return
@@ -401,13 +396,14 @@ Dialog {
 
             // Get the port of the locator
             var port = discoveryServerLocatorsModel.get(i).port
-            if (port < 0) {
-                emptyPort.isAccepted = isAccepted
+            if (port === "" | parseInt(port) < 0) {
                 emptyPort.ip = ip
                 emptyPort.open()
                 return
             }
 
+            // The locator string is formatted according to the style defined in Fast DDS Statistics Backend for
+            // locators. This style is <transport_protocol>:[<ip>]:<port>.
             var locator = transportProtocol + ":[" + ip + "]:" + port
             if (i !== (discoveryServerLocatorsModel.rowCount() - 1)) {
                 locator = locator.concat(";")
@@ -418,7 +414,6 @@ Dialog {
         /////
         // Call the controller to initialize a Discovery Server monitor
         if (locator) {
-            console.log("Init monitor -> GUID: " + discoveryServerGuid.text + " | Locators: " + locators)
             controller.init_monitor(discoveryServerGuid.text, locators)
         }
     }

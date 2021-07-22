@@ -244,8 +244,8 @@ void Engine::init_monitor(
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
     backend::EntityId domain_id = backend_connection_.init_monitor(
-        discovery_server_guid_prefix,
-        discovery_server_locators);
+        utils::to_string(discovery_server_guid_prefix),
+        utils::to_string(discovery_server_locators));
 
     if (domain_id.is_valid())
     {

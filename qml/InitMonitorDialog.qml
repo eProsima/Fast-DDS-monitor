@@ -22,23 +22,13 @@ Dialog {
     id: dialogInitMonitor
     modal: false
     title: "Initialize Monitor"
-    standardButtons: Dialog.Apply | Dialog.Ok | Dialog.Cancel
+    standardButtons: Dialog.Ok | Dialog.Cancel
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
     onAccepted: {
         controller.init_monitor(simpleDiscoveryAnswer.value)
-    }
-
-    onApplied: {
-        controller.init_monitor(simpleDiscoveryAnswer.value)
-        dialogInitMonitor.open()
-    }
-
-    Component.onCompleted: {
-        standardButton(Dialog.Apply).text = qsTrId("Apply and Continue")
-        standardButton(Dialog.Ok).text = qsTrId("Apply and Close")
     }
 
     RowLayout {
