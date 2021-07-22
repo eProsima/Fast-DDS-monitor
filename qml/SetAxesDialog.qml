@@ -16,14 +16,14 @@ import QtQml 2.15
 import QtQuick 2.15
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
-import Qt.labs.calendar 1.0
+//import Qt.labs.calendar 1.0
 import QtQuick.Controls 2.15
 import QtQuick.Controls 1.4 as QCC1
 import Theme 1.0
 
 Dialog {
     id: setAxesDialog
-    title: "Rename Chart Box"
+    title: "Set Chart Axis"
     standardButtons: Dialog.Ok | Dialog.Cancel
     anchors.centerIn: Overlay.overlay
 
@@ -33,11 +33,12 @@ Dialog {
     property var yMin: 0.0
 
     ColumnLayout {
+        spacing: 20
         GroupBox {
             label: CheckBox {
                 id: checkBoxYAxis
                 checked: true
-                text: qsTr("Y Axix")
+                text: qsTr("Y Axis")
             }
 
             GridLayout {
@@ -65,11 +66,20 @@ Dialog {
             }
         }
 
+        Rectangle {
+            width: parent.width
+            height: 2
+            color: Theme.grey
+            Layout.fillWidth: true
+            Layout.leftMargin: 10
+            Layout.rightMargin: 10
+        }
+
         GroupBox {
             label: CheckBox {
                 id: checkBoxXAxis
                 checked: false
-                text: qsTr("X Axix")
+                text: qsTr("X Axis")
             }
 
             GridLayout {
