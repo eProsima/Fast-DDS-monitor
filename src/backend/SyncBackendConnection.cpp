@@ -671,7 +671,10 @@ void SyncBackendConnection::change_unit_magnitude(
 
             // Convert from ns to ns
             std::for_each(data.begin(), data.end(),
-                [](StatisticsData& point) { point.second /= 1000; });
+                    [](StatisticsData& point)
+                    {
+                        point.second /= 1000;
+                    });
             break;
 
         default:
@@ -687,14 +690,23 @@ void SyncBackendConnection::filter(
     {
         // To count units, change NaN data with 0
         std::for_each(data.begin(), data.end(),
-            [](StatisticsData& point) { if(std::isnan(point.second)) point.second = 0; });
+                [](StatisticsData& point)
+                {
+                    if (std::isnan(point.second))
+                    {
+                        point.second = 0;
+                    }
+                });
     }
     else
     {
         // To non count units, erase NaNs
         data.erase(
             std::remove_if(data.begin(), data.end(),
-                [](const StatisticsData& point) { return std::isnan(point.second); }),
+            [](const StatisticsData& point)
+            {
+                return std::isnan(point.second);
+            }),
             data.end());
     }
 }
