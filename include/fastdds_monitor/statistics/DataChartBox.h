@@ -29,7 +29,7 @@
 #include <fastdds_monitor/statistics/DataModel.h>
 
 #define Y_MAX_DEFAULT std::numeric_limits<qreal>::lowest()
-#define Y_MIN_DEFAULT std::numeric_limits<qreal>::max()
+#define Y_MIN_DEFAULT 0
 #define X_MAX_DEFAULT std::numeric_limits<quint64>::min()
 #define X_MIN_DEFAULT std::numeric_limits<quint64>::max()
 
@@ -51,7 +51,7 @@ public:
         , axisYMin_(Y_MIN_DEFAULT)
         , axisXMax_(X_MAX_DEFAULT)
         , axisXMin_(X_MIN_DEFAULT)
-        , round_axis_(true)
+        , round_axis_(false)
     {
     }
 
@@ -89,6 +89,9 @@ public:
     //! Set the new Y min axis size
     void setAxisYMin(
             qreal axisYMin);
+    //! Set the new Y as max/min if it is bigger/lower than the current one
+    void newYValue(
+            qreal y);
     //! Set the new X max axis size
     void setAxisXMax(
             quint64 axisXMax);
@@ -101,6 +104,12 @@ public:
 
     const QVector<QPointF>& get_data(
             quint64 series_index);
+
+    virtual void recalculate_y_axis();
+
+    void reset_axis(
+            bool x_axis = true,
+            bool y_axis = true);
 
 protected:
 

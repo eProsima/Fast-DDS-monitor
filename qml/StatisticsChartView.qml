@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import QtQuick 2.0
+import QtQuick 2.15
 import QtCharts 2.1
 import QtQuick.Controls 2.15
 import Theme 1.0
@@ -24,34 +24,39 @@ ChartView {
     antialiasing: true
     legend.visible: false
 
+    margins.bottom: 0
+    margins.left: 0
+    margins.right: 10
+    margins.top: 0
+
     property var mapper: []
     property var axisYItem: axisY
     property var dateTimeAxisXItem: dateTimeAxisX
     property var tooltipItem: tooltip
-    property var chartViewMouseAreaItem: chartViewMouseArea
-
-    property int axisYMin: 0
-    property int axisYMax: 10
-    property date dateTimeAxisXMin: new Date()
-    property date dateTimeAxisXMax: new Date()
+    property bool manuallySetAxes: false
 
     signal clearedChart()
 
+    Component.onCompleted: {
+        axisY.applyNiceNumbers()
+    }
+
     ValueAxis {
         id: axisY
-        min: axisYMin
-        max: axisYMax
+        min: 0
+        max: 1
+        tickCount: 5 // This does not work with nice numbers
+        minorTickCount: 4 // Sub divisions (pretty)
         titleText: dataKind + "[" + controller.get_data_kind_units(dataKind) + "]"
     }
 
     DateTimeAxis {
         id: dateTimeAxisX
-        min: dateTimeAxisXMin
-        max: dateTimeAxisXMax
-        format: "hh:mm:ss (dd.MM)"
-        labelsAngle: -45
+        min: new Date()
+        max: new Date()
+        format: "hh:mm:ss"
         labelsFont: Qt.font({pointSize: 8})
-        titleText: qsTr("Time [hh:mm:ss (dd.MM)]")
+        titleText: qsTr("Time [hh:mm:ss]")
     }
 
     ToolTip {
@@ -138,7 +143,7 @@ ChartView {
             }
 
             onExited: {
-                chartViewMouseAreaItem.cursorShape = Qt.ArrowCursor
+                chartViewMouseArea.cursorShape = Qt.ArrowCursor
             }
 
             onPressed: {
@@ -202,6 +207,10 @@ ChartView {
         }
     }
 
+    SetAxesDialog {
+        id: userResizeAxes
+    }
+
     function toMsecsSinceEpoch(date) {
         return date.getTime().valueOf();
     }
@@ -234,12 +243,49 @@ ChartView {
         running = true
     }
 
+    function setYAxis(min, max, niceNumbers = true, force = false) {
+        // If axes has been set manually and forced is not set, do not change
+        if (force || !manuallySetAxes) {
+            axisY.min = min
+            axisY.max = max
+            if (niceNumbers) {
+                axisY.applyNiceNumbers()
+            }
+        }
+    }
+
+    function setXAxis(min, max, force = false) {
+        // If axes has been set manually and forced is not set, do not change
+        if (force || !manuallySetAxes) {
+            dateTimeAxisX.min = min
+            dateTimeAxisX.max = max
+        }
+    }
+
     function xLabel() {
         return axisY.titleText
+    }
+
+    function userSetAxes() {
+        dynamicPause()
+
+        // Set actual axes
+        userResizeAxes.startTimeDate = dateTimeAxisX.min
+        userResizeAxes.endTimeDate = dateTimeAxisX.max
+        userResizeAxes.yMax = axisY.max
+        userResizeAxes.yMin = axisY.min
+
+        userResizeAxes.open()
+    }
+
+    function modifyAxes(yMax, yMin, xMax, xMin) {
+        manuallySetAxes = true
+        setYAxis(yMin, yMax, false, true)
+        setXAxis(xMin, xMax, true)
     }
 
     // Virtual functions that require implementation for Historic and Dynamic child classes:
     // - add_Series
     // - clearChart
-    // - resetChartViewZoom
+    // - resetChartViewZoom (must set manuallySetAxes to false)
 }

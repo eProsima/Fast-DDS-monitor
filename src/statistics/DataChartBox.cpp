@@ -104,10 +104,7 @@ void DataChartBox::clear_charts()
 
     series_ids_.clear();
 
-    setAxisYMax(Y_MAX_DEFAULT);
-    setAxisYMin(Y_MIN_DEFAULT);
-    setAxisXMax(X_MAX_DEFAULT);
-    setAxisXMin(X_MIN_DEFAULT);
+    reset_axis();
 }
 
 void DataChartBox::update(
@@ -120,17 +117,7 @@ void DataChartBox::update(
         for (auto point : points.second)
         {
             series_[points.first]->handleNewPoint(point);
-            if (point.ry() >= axisYMax_)
-            {
-                setAxisYMax(point.ry() + 1);
-            }
-
-            // Do not use else if because first value could be both
-            if (point.ry() <= axisYMin_)
-            {
-                setAxisYMin(point.ry() - 1);
-            }
-
+            newYValue(point.ry());
             // X is not updated to speed up the update
             // In historic, x is updated after include the points and in dynamic is updated dynamically
         }
@@ -211,17 +198,31 @@ void DataChartBox::setAxisXMin(
     axisXMin_ = axisXMin;
 }
 
+void DataChartBox::newYValue(
+        qreal y)
+{
+    if (y > axisYMax_)
+    {
+        setAxisYMax(y);
+    }
+
+    if (y < axisYMin_)
+    {
+        setAxisYMin(y);
+    }
+}
+
 void DataChartBox::newXValue(
         quint64 x)
 {
-    if (x >= axisXMax_)
+    if (x > axisXMax_)
     {
-        setAxisXMax(x + 1);
+        setAxisXMax(x);
     }
 
-    if (x <= axisXMin_)
+    if (x < axisXMin_)
     {
-        setAxisXMin(x - 1);
+        setAxisXMin(x);
     }
 }
 
@@ -239,4 +240,35 @@ const QVector<QPointF>& DataChartBox::get_data(
     // These two arguments must be created beforehand as the method requires references
     // Could be const references if QPointF had its getters as const, but it doesnt
     return series_it_->second->get_data();
+}
+
+void DataChartBox::reset_axis(
+        bool x_axis,
+        bool y_axis)
+{
+    if (x_axis)
+    {
+        setAxisXMax(X_MAX_DEFAULT);
+        setAxisXMin(X_MIN_DEFAULT);
+    }
+
+    if (y_axis)
+    {
+        setAxisYMax(Y_MAX_DEFAULT);
+        setAxisYMin(Y_MIN_DEFAULT);
+    }
+}
+
+void DataChartBox::recalculate_y_axis()
+{
+    // Reset axis to default
+    reset_axis(false, true);
+
+    // For each series set max and min values as set values
+    for (std::pair<quint64, DataModel*> series : series_)
+    {
+        std::pair<qreal, qreal> limits = series.second->limit_y_value();
+        newYValue(limits.first);
+        newYValue(limits.second);
+    }
 }

@@ -50,9 +50,10 @@ QtCharts::QVXYModelMapper* DynamicStatisticsData::add_series(
 
 quint64 DynamicStatisticsData::add_chartbox(
         QString data_kind,
-        quint64 time_to)
+        quint64 time_to,
+        quint64 window_size)
 {
-    return StatisticsData::add_chartbox(new DynamicDataChartBox(data_kind, time_to));
+    return StatisticsData::add_chartbox(new DynamicDataChartBox(data_kind, time_to, window_size));
 }
 
 UpdateParameters DynamicStatisticsData::get_update_parameters(

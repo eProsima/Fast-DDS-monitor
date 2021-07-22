@@ -31,6 +31,9 @@ Item {
         text: parent.text
         delay: 250
         visible: ma.containsMouse
+
+        topMargin: 1 // avoid the ToolTip to exceed the parent top
+
         contentItem: Text{
             color: Theme.whiteSmoke
             text: tooltip.text

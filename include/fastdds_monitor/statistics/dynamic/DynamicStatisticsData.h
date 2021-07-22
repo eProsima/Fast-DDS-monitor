@@ -63,7 +63,8 @@ public slots:
     //! Add a new internal Chartbox
     quint64 add_chartbox(
             QString data_kind,
-            quint64 time_to);
+            quint64 time_to,
+            quint64 window_size);
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H

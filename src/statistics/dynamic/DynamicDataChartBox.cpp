@@ -86,3 +86,23 @@ void DynamicDataChartBox::clear_charts()
     current_update_parameters_.target_ids.clear();
     current_update_parameters_.statistics_kinds.clear();
 }
+
+void DynamicDataChartBox::recalculate_y_axis()
+{
+    const std::lock_guard<std::recursive_mutex> lock(mutex_);
+
+    // Reset axis to default
+    reset_axis(false, true);
+
+    // Get from and to values to set the data that is being shown in that moment
+    quint64 time_from = time_to_ - window_size_;
+
+    // For each series set max and min values as set values
+    for (std::pair<quint64, DataModel*> series : series_)
+    {
+        // Note: time_to_ could be used to calculate it, as it would be the same as max time
+        std::pair<qreal, qreal> limits = series.second->limit_y_value(time_from);
+        newYValue(limits.first);
+        newYValue(limits.second);
+    }
+}
