@@ -49,7 +49,9 @@ Rectangle {
         height: parent.height
         spacing: verticalSpacing
 
-        ScrollBar.vertical: ScrollBar { }
+        ScrollBar.vertical: CustomScrollBar {
+            id: scrollBar
+        }
     }
 
     Component {

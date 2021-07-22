@@ -21,11 +21,13 @@ import QtQml.Models 2.15
 
 Rectangle {
     id: legend
-    implicitHeight: (height <= maxLegendHeigh) ? itemHeight * gridView.count : maxLegendHeigh
+
+    property int maxToShow: 3
+
+    implicitHeight: (gridView.count <= maxToShow) ? itemHeight * gridView.count : itemHeight * maxToShow
 
     property int itemWidth: legend.width
     property int itemHeight: 20
-    property int maxLegendHeigh: itemHeight*2 // * number of labels by default for first space
 
     signal seriesNameUpdated(int seriesIndex, string newSeriesName)
     signal seriesColorUpdated(int seriesIndex, color newSeriesColor)
@@ -50,7 +52,11 @@ Rectangle {
         onCountChanged: {
             var newIndex = count - 1
             positionViewAtEnd()
-            currentIndex = newIndex
+            currentIndex = newIndex // force index to be coherent when automatically scroll down
+        }
+
+        ScrollBar.vertical: CustomScrollBar {
+            id: scrollBar
         }
     }
 
@@ -201,7 +207,7 @@ Rectangle {
                            })
     }
 
-    function removeLeyend(seriesIndex) {
+    function removeLegend(seriesIndex) {
         seriesModel.remove(seriesIndex)
     }
 

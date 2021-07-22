@@ -438,7 +438,7 @@ Rectangle {
             onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
             onSeriesRemoved: {
                 statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
-                removeLeyend(seriesIndex)
+                removeLegend(seriesIndex)
                 if(isDynamic) {
                     dynamicData.delete_series(chartboxId, seriesIndex)
                     statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)

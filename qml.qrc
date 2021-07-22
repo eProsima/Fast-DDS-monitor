@@ -18,6 +18,7 @@
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
+        <file>qml/CustomScrollBar.qml</file>
         <file>qml/DoubleSpinBox.qml</file>
         <file>qml/HistoricDataKindDialog.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
