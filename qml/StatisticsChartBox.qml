@@ -204,6 +204,11 @@ Rectangle {
                             customLegend.getAllLabels())
                     }
                 }
+                MenuSeparator { }
+                Action {
+                    text: "Chart Controls"
+                    onTriggered: infoDialog.open()
+                }
             }
 
             Menu {
@@ -291,23 +296,37 @@ Rectangle {
                     width: chartViewIcons.iconSize
                     radius: chartViewIcons.iconSize/10
 
+                    color: infoMouseArea.containsMouse ? Theme.lightGrey : "transparent"
+
                     IconSVG {
                         size: chartViewIcons.innerIconSize
                         name: "info"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: "black"
+                        color: "eProsimaDarkBlue"
                     }
 
-                    InfoToolTip {
-                        text:
-                            "Controls to interact with Chart:\n" +
-                            "-Click in point: show point value\n" +
-                            "-Ctrl + click and drag: scroll axex\n" +
-                            "-Ctrl + wheel: zoom in / out\n" +
-                            "-Mayus + grab area: zoom in over the area" +
-                            (isDynamic ? "\n\nOnly available while stopped" : "")
+                    ToolTip {
+                        text: "Interactive Chart controls Info"
+                        delay: 250
+                        visible: infoMouseArea.containsMouse
+                        contentItem: Text{
+                            color: Theme.whiteSmoke
+                            text: "Interactive Chart controls Info"
+                        }
+                        background: Rectangle {
+                            color: Theme.eProsimaLightBlue
+                            border.color: Theme.eProsimaLightBlue
+                        }
+                    }
 
+                    MouseArea {
+                        id: infoMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            infoDialog.open()
+                        }
                     }
                 }
 
@@ -407,7 +426,7 @@ Rectangle {
                         name: running ? "pause" : "play"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: running ? "eProsimaLightBlue" : "green"
+                        color: "black"
                     }
 
                     MouseArea {
@@ -539,8 +558,53 @@ Rectangle {
         }
     }
 
+    Dialog {
+        id: infoDialog
+        title: "Chart Interactive Controls"
+        standardButtons: Dialog.Ok
+        anchors.centerIn: Overlay.overlay
+
+        RowLayout {
+            spacing: 20
+
+            Rectangle {
+                id: infoChartRect
+                width: 400
+                height: infoChartRectLayout.height
+                color: "transparent"
+
+                GridLayout {
+                    id: infoChartRectLayout
+                    width: parent.width
+                    columns: 2
+                    rows: 2
+                    rowSpacing: 15
+
+                    Label { text:"Click in chart point:"; font.bold: true}
+                    Label { text:"Show point value"}
+
+                    Label { text:"Ctrl + click and drag:"; font.bold: true}
+                    Label { text:"Scroll axex"}
+
+                    Label { text:"Ctrl + wheel:"; font.bold: true}
+                    Label { text:"Zoom in / out"}
+
+                    Label { text:"Mayus + grab area:"; font.bold: true}
+                    Label { text:"Zoom in over the area"}
+
+                    Label { text:"Only available while stopped"; visible: isDynamic}
+
+                }
+            }
+        }
+    }
+
     function toMsecsSinceEpoch(date) {
         return date.getTime().valueOf();
+    }
+
+    function fromMsecsSinceEpoch(milliseconds) {
+        return new Date(milliseconds);
     }
 
     function chartboxSeriesLabels() {

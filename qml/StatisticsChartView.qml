@@ -211,14 +211,6 @@ ChartView {
         id: setAxesDialog
     }
 
-    function toMsecsSinceEpoch(date) {
-        return date.getTime().valueOf();
-    }
-
-    function fromMsecsSinceEpoch(milliseconds) {
-        return new Date(milliseconds);
-    }
-
     function updateSeriesName(seriesIndex, newSeriesName) {
         series(seriesIndex).name = newSeriesName
     }
@@ -236,11 +228,11 @@ ChartView {
     }
 
     function dynamicPause(){
-        running = false
+        if (isDynamic) running = false
     }
 
     function dynamicContinue(){
-        running = true
+        if (isDynamic) running = true
     }
 
     function setYAxis(min, max, niceNumbers = true, force = false) {
