@@ -118,7 +118,8 @@ Dialog {
             yAxisMax.realValue,
             yAxisMin.realValue,
             endTimeDate,
-            startTimeDate
+            startTimeDate,
+            !checkBoxXAxis.checked
         )
     }
 

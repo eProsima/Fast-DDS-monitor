@@ -237,10 +237,12 @@ ChartView {
 
     function dynamicPause(){
         running = false
+        console.log("--------------------------- [Pause] isDynamic: " + isDynamic + " | running: " + running)
     }
 
     function dynamicContinue(){
         running = true
+        console.log("--------------------------- [Continue] isDynamic: " + isDynamic + " | running: " + running)
     }
 
     function setYAxis(min, max, niceNumbers = true, force = false) {
@@ -267,8 +269,6 @@ ChartView {
     }
 
     function userSetAxes() {
-        dynamicPause()
-
         // Set actual axes
         setAxesDialog.startTimeDate = dateTimeAxisX.min
         setAxesDialog.endTimeDate = dateTimeAxisX.max
@@ -278,7 +278,8 @@ ChartView {
         setAxesDialog.open()
     }
 
-    function modifyAxes(yMax, yMin, xMax, xMin) {
+    function modifyAxes(yMax, yMin, xMax, xMin, keepRunning) {
+        if (!keepRunning) dynamicPause();
         manuallySetAxes = true
         setYAxis(yMin, yMax, false, true)
         setXAxis(xMin, xMax, true)
