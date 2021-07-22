@@ -19,12 +19,10 @@ import QtQuick.Layouts 1.3
 import Qt.labs.calendar 1.0
 import QtQuick.Controls 2.15
 import QtQuick.Controls 1.4 as QCC1
-import QtQuick.Controls.Styles 1.4
-import QtQml.Models 2.12
 import Theme 1.0
 
 Dialog {
-    id: userResizeAxes
+    id: setAxesDialog
     title: "Rename Chart Box"
     standardButtons: Dialog.Ok | Dialog.Cancel
     anchors.centerIn: Overlay.overlay
@@ -34,48 +32,75 @@ Dialog {
     property var yMax: 0.0
     property var yMin: 0.0
 
-    GridLayout {
-        id: axisGrid
-        columns: 2
-        rows: 4
-        rowSpacing: 20
-
-        Label {
-            text: "X Axis max: "
-        }
-        Button {
-            id: endTimeCalendarButton
-            text: endTimeDate
-            onClicked: {
-                endTimeCalendarDialog.open()
+    ColumnLayout {
+        GroupBox {
+            label: CheckBox {
+                id: checkBoxYAxis
+                checked: true
+                text: qsTr("Y Axix")
             }
-            enabled: true
-        }
-        Label {
-            text: "Y Axis max: "
-        }
-        DoubleSpinBox {
-            id: yAxisMax
-            value: yMax * 100
+
+            GridLayout {
+                anchors.fill: parent
+                enabled: checkBoxYAxis.checked
+                columns: 2
+                rows: 2
+                rowSpacing: 20
+
+                Label {
+                    text: "Y Axis max: "
+                }
+                DoubleSpinBox {
+                    id: yAxisMax
+                    value: yMax * 100
+                }
+
+                Label {
+                    text: "Y Axis min: "
+                }
+                DoubleSpinBox {
+                    id: yAxisMin
+                    value: yMin * 100
+                }
+            }
         }
 
-        Label {
-            text: "X Axis min: "
-        }
-        Button {
-            id: startTimeCalendarButton
-            text: startTimeDate
-            onClicked: {
-                startTimeCalendarDialog.open()
+        GroupBox {
+            label: CheckBox {
+                id: checkBoxXAxis
+                checked: false
+                text: qsTr("X Axix")
             }
-            enabled: true
-        }
-        Label {
-            text: "Y Axis min: "
-        }
-        DoubleSpinBox {
-            id: yAxisMin
-            value: yMin * 100
+
+            GridLayout {
+                anchors.fill: parent
+                enabled: checkBoxXAxis.checked
+                columns: 2
+                rows: 2
+                rowSpacing: 20
+
+                Label {
+                    text: "X Axis max: "
+                }
+                Button {
+                    id: endTimeCalendarButton
+                    text: endTimeDate
+                    onClicked: {
+                        endTimeCalendarDialog.open()
+                    }
+                }
+
+                Label {
+                    text: "X Axis min: "
+                }
+                Button {
+                    id: startTimeCalendarButton
+                    text: startTimeDate
+                    onClicked: {
+                        startTimeCalendarDialog.open()
+                    }
+                }
+            }
         }
     }
 
@@ -88,8 +113,6 @@ Dialog {
         if (yAxisMin.realValue >= yAxisMax.realValue) {
             wrongYDialog.open()
         }
-        // startTimeDate = startTimeDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
-        // endTimeDate = endTimeDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
 
         modifyAxes(
             yAxisMax.realValue,
@@ -208,7 +231,7 @@ Dialog {
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The start timestamp entered is posterior to the end timestamp."
         onAccepted: {
-            userResizeAxes.open()
+            setAxesDialog.open()
         }
     }
 
@@ -219,7 +242,7 @@ Dialog {
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The min Y min value must be lower than the Y max value."
         onAccepted: {
-            userResizeAxes.open()
+            setAxesDialog.open()
         }
     }
 }
