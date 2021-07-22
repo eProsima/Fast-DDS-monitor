@@ -84,16 +84,8 @@ StatisticsChartView {
 
         var current_date = toMsecsSinceEpoch(new Date())
         setXAxis(
-            chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time),
-            chartView.fromMsecsSinceEpoch(current_date - delay_time))
-    }
-
-    function dynamicPause(){
-        running = false
-    }
-
-    function dynamicContinue(){
-        running = true
+            statisticsChartBox.fromMsecsSinceEpoch(current_date - timeWindow - delay_time),
+            statisticsChartBox.fromMsecsSinceEpoch(current_date - delay_time))
     }
 
     function customRemoveSeries(seriesIndex){
@@ -113,7 +105,7 @@ StatisticsChartView {
         running: true
         repeat: true
         onTriggered: {
-            var time_to = Math.round(chartView.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
+            var time_to = Math.round(statisticsChartBox.fromMsecsSinceEpoch(toMsecsSinceEpoch(new Date()) - delay_time))
             controller.update_dynamic_chartbox(chartboxId, time_to);
             if (running) {
                 setYAxis(dynamicData.axisYMin(chartboxId), dynamicData.axisYMax(chartboxId))
@@ -133,8 +125,8 @@ StatisticsChartView {
             // update X by current time
             var current_date = toMsecsSinceEpoch(new Date())
             setXAxis(
-                chartView.fromMsecsSinceEpoch(current_date - timeWindow - delay_time),
-                chartView.fromMsecsSinceEpoch(current_date - delay_time),
+                statisticsChartBox.fromMsecsSinceEpoch(current_date - timeWindow - delay_time),
+                statisticsChartBox.fromMsecsSinceEpoch(current_date - delay_time),
                 true)
         }
     }

@@ -37,9 +37,9 @@ StatisticsChartView {
                                      sourceEntityId,
                                      targetEntityId,
                                      bins,
-                                     chartView.toMsecsSinceEpoch(startTime),
+                                     toMsecsSinceEpoch(startTime),
                                      startTimeDefault,
-                                     chartView.toMsecsSinceEpoch(endTime),
+                                     toMsecsSinceEpoch(endTime),
                                      endTimeDefault,
                                      statisticKind))
 
@@ -85,8 +85,8 @@ StatisticsChartView {
         setYAxis(historicData.axisYMin(chartboxId), historicData.axisYMax(chartboxId))
 
         setXAxis(
-            chartView.fromMsecsSinceEpoch(historicData.axisXMin(chartboxId)),
-            chartView.fromMsecsSinceEpoch(historicData.axisXMax(chartboxId)))
+            statisticsChartBox.fromMsecsSinceEpoch(historicData.axisXMin(chartboxId)),
+            statisticsChartBox.fromMsecsSinceEpoch(historicData.axisXMax(chartboxId)))
     }
 
     function customRemoveSeries(seriesIndex){

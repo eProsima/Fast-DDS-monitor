@@ -22,6 +22,8 @@ import Theme 1.0
 Rectangle {
     id: statisticsChartBox
 
+    radius: statisticsChartBox.charBoxRadius
+
     property string dataKind
     property string chartTitle
     property int index
@@ -32,6 +34,8 @@ Rectangle {
     property int chartboxId: -1
     property variant currentDate: toMsecsSinceEpoch(new Date())
     property bool running: false
+
+    property int charBoxRadius: 0
 
     Component.onCompleted: {
         if (isDynamic){
@@ -64,6 +68,14 @@ Rectangle {
             Layout.fillWidth: true
             height: 25
             color: Theme.eProsimaDarkBlue
+            radius: statisticsChartBox.charBoxRadius
+
+            Rectangle {
+                height: parent.height/2
+                width: parent.width
+                anchors.bottom: parent.bottom
+                color: parent.color
+            }
 
             Label {
                 id: statisticsChartBoxLabel
@@ -192,6 +204,11 @@ Rectangle {
                             customLegend.getAllLabels())
                     }
                 }
+                MenuSeparator { }
+                Action {
+                    text: "Chart Controls"
+                    onTriggered: infoDialog.open()
+                }
             }
 
             Menu {
@@ -260,7 +277,8 @@ Rectangle {
 
                 id: chartViewIcons
 
-                property int iconSize: 25
+                property int iconSize: 30
+                property real innerIconSize: iconSize * 4/5
 
                 anchors.right: parent.right
                 anchors.top: parent.top
@@ -268,7 +286,6 @@ Rectangle {
                 anchors.topMargin: iconSize/10
 
                 width: iconSize
-                // height: parent.height
 
                 spacing: iconSize/10
 
@@ -279,23 +296,37 @@ Rectangle {
                     width: chartViewIcons.iconSize
                     radius: chartViewIcons.iconSize/10
 
+                    color: infoMouseArea.containsMouse ? Theme.lightGrey : "transparent"
+
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
+                        size: chartViewIcons.innerIconSize
                         name: "info"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "black"
                     }
 
-                    InfoToolTip {
-                        text:
-                            "Controls to interact with Chart:\n" +
-                            "-Click in point: show point value\n" +
-                            "-Ctrl + click and drag: scroll axex\n" +
-                            "-Ctrl + wheel: zoom in / out\n" +
-                            "-Mayus + grab area: zoom in over the area" +
-                            (isDynamic ? "\n\nOnly available while stopped" : "")
+                    ToolTip {
+                        text: "Interactive Chart controls Info"
+                        delay: 250
+                        visible: infoMouseArea.containsMouse
+                        contentItem: Text{
+                            color: Theme.whiteSmoke
+                            text: "Interactive Chart controls Info"
+                        }
+                        background: Rectangle {
+                            color: Theme.eProsimaLightBlue
+                            border.color: Theme.eProsimaLightBlue
+                        }
+                    }
 
+                    MouseArea {
+                        id: infoMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            infoDialog.open()
+                        }
                     }
                 }
 
@@ -309,8 +340,8 @@ Rectangle {
                     color: resizeMouseArea.containsMouse ? Theme.lightGrey : "transparent"
 
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
-                        name: "reset_zoom"
+                        size: chartViewIcons.innerIconSize
+                        name: "resize"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "black"
@@ -350,8 +381,8 @@ Rectangle {
                     color: resetMouseArea.containsMouse ? Theme.lightGrey : "transparent"
 
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
-                        name: "resize"
+                        size: chartViewIcons.innerIconSize
+                        name: "editaxis"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "black"
@@ -391,11 +422,11 @@ Rectangle {
                     visible: isDynamic
 
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
+                        size: chartViewIcons.innerIconSize
                         name: running ? "pause" : "play"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: running ? "eProsimaLightBlue" : "green"
+                        color: "black"
                     }
 
                     MouseArea {
@@ -462,6 +493,7 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         color: "transparent"
+        radius: statisticsChartBox.charBoxRadius
         border {
             width: 2
             color: Theme.eProsimaDarkBlue
@@ -526,8 +558,53 @@ Rectangle {
         }
     }
 
+    Dialog {
+        id: infoDialog
+        title: "Chart Interactive Controls"
+        standardButtons: Dialog.Ok
+        anchors.centerIn: Overlay.overlay
+
+        RowLayout {
+            spacing: 20
+
+            Rectangle {
+                id: infoChartRect
+                width: 400
+                height: infoChartRectLayout.height
+                color: "transparent"
+
+                GridLayout {
+                    id: infoChartRectLayout
+                    width: parent.width
+                    columns: 2
+                    rows: 2
+                    rowSpacing: 15
+
+                    Label { text:"Click in chart point:"; font.bold: true}
+                    Label { text:"Show point value"}
+
+                    Label { text:"Ctrl + click and drag:"; font.bold: true}
+                    Label { text:"Scroll axex"}
+
+                    Label { text:"Ctrl + wheel:"; font.bold: true}
+                    Label { text:"Zoom in / out"}
+
+                    Label { text:"Mayus + grab area:"; font.bold: true}
+                    Label { text:"Zoom in over the area"}
+
+                    Label { text:"Only available while stopped"; visible: isDynamic}
+
+                }
+            }
+        }
+    }
+
     function toMsecsSinceEpoch(date) {
         return date.getTime().valueOf();
+    }
+
+    function fromMsecsSinceEpoch(milliseconds) {
+        return new Date(milliseconds);
     }
 
     function chartboxSeriesLabels() {

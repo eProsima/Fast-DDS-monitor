@@ -91,6 +91,10 @@
         <file alias="dynamicchart_eProsimaLightBlue.svg">resources/images/icons/dynamicchart/dynamicchart_eProsimaLightBlue.svg</file>
         <file alias="dynamicchart_grey.svg">resources/images/icons/dynamicchart/dynamicchart_grey.svg</file>
         <file alias="dynamicchart_white.svg">resources/images/icons/dynamicchart/dynamicchart_white.svg</file>
+        <file alias="editaxis_black.svg">resources/images/icons/editaxis/editaxis_black.svg</file>
+        <file alias="editaxis_eProsimaLightBlue.svg">resources/images/icons/editaxis/editaxis_eProsimaLightBlue.svg</file>
+        <file alias="editaxis_grey.svg">resources/images/icons/editaxis/editaxis_grey.svg</file>
+        <file alias="editaxis_white.svg">resources/images/icons/editaxis/editaxis_white.svg</file>
         <file alias="explorer_black.svg">resources/images/icons/explorer/explorer_black.svg</file>
         <file alias="explorer_eProsimaLightBlue.svg">resources/images/icons/explorer/explorer_eProsimaLightBlue.svg</file>
         <file alias="explorer_grey.svg">resources/images/icons/explorer/explorer_grey.svg</file>
@@ -116,6 +120,8 @@
         <file alias="host_grey.svg">resources/images/icons/host/host_grey.svg</file>
         <file alias="host_white.svg">resources/images/icons/host/host_white.svg</file>
         <file alias="info_black.svg">resources/images/icons/info/info_black.svg</file>
+        <file alias="info_eProsimaLightBlue.svg">resources/images/icons/info/info_eProsimaLightBlue.svg</file>
+        <file alias="info_eProsimaDarkBlue.svg">resources/images/icons/info/info_eProsimaDarkBlue.svg</file>
         <file alias="issues_black.svg">resources/images/icons/issues/issues_black.svg</file>
         <file alias="issues_eProsimaLightBlue.svg">resources/images/icons/issues/issues_eProsimaLightBlue.svg</file>
         <file alias="issues_grey.svg">resources/images/icons/issues/issues_grey.svg</file>
@@ -133,15 +139,7 @@
         <file alias="participant_grey.svg">resources/images/icons/participant/participant_grey.svg</file>
         <file alias="participant_white.svg">resources/images/icons/participant/participant_white.svg</file>
         <file alias="pause_black.svg">resources/images/icons/pause/pause_black.svg</file>
-        <file alias="pause_eProsimaLightBlue.svg">resources/images/icons/pause/pause_eProsimaLightBlue.svg</file>
-        <file alias="pause_green.svg">resources/images/icons/pause/pause_green.svg</file>
-        <file alias="pause_grey.svg">resources/images/icons/pause/pause_grey.svg</file>
-        <file alias="pause_white.svg">resources/images/icons/pause/pause_white.svg</file>
         <file alias="play_black.svg">resources/images/icons/play/play_black.svg</file>
-        <file alias="play_eProsimaLightBlue.svg">resources/images/icons/play/play_eProsimaLightBlue.svg</file>
-        <file alias="play_green.svg">resources/images/icons/play/play_green.svg</file>
-        <file alias="play_grey.svg">resources/images/icons/play/play_grey.svg</file>
-        <file alias="play_white.svg">resources/images/icons/play/play_white.svg</file>
         <file alias="plus_black.svg">resources/images/icons/plus/plus_black.svg</file>
         <file alias="plus_eProsimaLightBlue.svg">resources/images/icons/plus/plus_eProsimaLightBlue.svg</file>
         <file alias="plus_grey.svg">resources/images/icons/plus/plus_grey.svg</file>

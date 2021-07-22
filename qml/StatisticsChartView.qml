@@ -160,6 +160,7 @@ ChartView {
                         horizontalScrollMask.x = mouseX;
                         pressedDrag = true;
                     }
+                    manuallySetAxes = true
                 }
             }
             onMouseXChanged: {
@@ -202,6 +203,7 @@ ChartView {
                     } else {
                         chartView.zoomOut()
                     }
+                    manuallySetAxes = true
                 }
             }
         }
@@ -209,14 +211,6 @@ ChartView {
 
     SetAxesDialog {
         id: setAxesDialog
-    }
-
-    function toMsecsSinceEpoch(date) {
-        return date.getTime().valueOf();
-    }
-
-    function fromMsecsSinceEpoch(milliseconds) {
-        return new Date(milliseconds);
     }
 
     function updateSeriesName(seriesIndex, newSeriesName) {
@@ -236,11 +230,11 @@ ChartView {
     }
 
     function dynamicPause(){
-        running = false
+        if (isDynamic) running = false
     }
 
     function dynamicContinue(){
-        running = true
+        if (isDynamic) running = true
     }
 
     function setYAxis(min, max, niceNumbers = true, force = false) {
