@@ -303,7 +303,7 @@ Rectangle {
                         name: "info"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: "eProsimaDarkBlue"
+                        color: "black"
                     }
 
                     ToolTip {

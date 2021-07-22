@@ -160,6 +160,7 @@ ChartView {
                         horizontalScrollMask.x = mouseX;
                         pressedDrag = true;
                     }
+                    manuallySetAxes = true
                 }
             }
             onMouseXChanged: {
@@ -202,6 +203,7 @@ ChartView {
                     } else {
                         chartView.zoomOut()
                     }
+                    manuallySetAxes = true
                 }
             }
         }
