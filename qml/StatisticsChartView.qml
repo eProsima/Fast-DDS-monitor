@@ -208,7 +208,7 @@ ChartView {
     }
 
     SetAxesDialog {
-        id: userResizeAxes
+        id: setAxesDialog
     }
 
     function toMsecsSinceEpoch(date) {
@@ -267,18 +267,20 @@ ChartView {
     }
 
     function userSetAxes() {
-        dynamicPause()
-
         // Set actual axes
-        userResizeAxes.startTimeDate = dateTimeAxisX.min
-        userResizeAxes.endTimeDate = dateTimeAxisX.max
-        userResizeAxes.yMax = axisY.max
-        userResizeAxes.yMin = axisY.min
+        setAxesDialog.startTimeDate = dateTimeAxisX.min
+        setAxesDialog.endTimeDate = dateTimeAxisX.max
+        setAxesDialog.yMax = axisY.max
+        setAxesDialog.yMin = axisY.min
 
-        userResizeAxes.open()
+        setAxesDialog.open()
     }
 
-    function modifyAxes(yMax, yMin, xMax, xMin) {
+    function modifyAxes(yMax, yMin, xMax, xMin, keepRunning) {
+        // No values set for the X-axis means that the preset values are maintained, whether it was running or not.
+        // Otherwise, if values are set for the X-axis, the dynamic chart stops setting those timestamps as the maximum
+        // and minimum time values.
+        if (!keepRunning) dynamicPause();
         manuallySetAxes = true
         setYAxis(yMin, yMax, false, true)
         setXAxis(xMin, xMax, true)
