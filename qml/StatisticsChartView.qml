@@ -237,12 +237,10 @@ ChartView {
 
     function dynamicPause(){
         running = false
-        console.log("--------------------------- [Pause] isDynamic: " + isDynamic + " | running: " + running)
     }
 
     function dynamicContinue(){
         running = true
-        console.log("--------------------------- [Continue] isDynamic: " + isDynamic + " | running: " + running)
     }
 
     function setYAxis(min, max, niceNumbers = true, force = false) {
@@ -279,6 +277,9 @@ ChartView {
     }
 
     function modifyAxes(yMax, yMin, xMax, xMin, keepRunning) {
+        // No values set for the X-axis means that the preset values are maintained, whether it was running or not.
+        // Otherwise, if values are set for the X-axis, the dynamic chart stops setting those timestamps as the maximum
+        // and minimum time values.
         if (!keepRunning) dynamicPause();
         manuallySetAxes = true
         setYAxis(yMin, yMax, false, true)
