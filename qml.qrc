@@ -91,6 +91,10 @@
         <file alias="dynamicchart_eProsimaLightBlue.svg">resources/images/icons/dynamicchart/dynamicchart_eProsimaLightBlue.svg</file>
         <file alias="dynamicchart_grey.svg">resources/images/icons/dynamicchart/dynamicchart_grey.svg</file>
         <file alias="dynamicchart_white.svg">resources/images/icons/dynamicchart/dynamicchart_white.svg</file>
+        <file alias="editaxis_black.svg">resources/images/icons/editaxis/editaxis_black.svg</file>
+        <file alias="editaxis_eProsimaLightBlue.svg">resources/images/icons/editaxis/editaxis_eProsimaLightBlue.svg</file>
+        <file alias="editaxis_grey.svg">resources/images/icons/editaxis/editaxis_grey.svg</file>
+        <file alias="editaxis_white.svg">resources/images/icons/editaxis/editaxis_white.svg</file>
         <file alias="explorer_black.svg">resources/images/icons/explorer/explorer_black.svg</file>
         <file alias="explorer_eProsimaLightBlue.svg">resources/images/icons/explorer/explorer_eProsimaLightBlue.svg</file>
         <file alias="explorer_grey.svg">resources/images/icons/explorer/explorer_grey.svg</file>

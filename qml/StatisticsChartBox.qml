@@ -22,6 +22,8 @@ import Theme 1.0
 Rectangle {
     id: statisticsChartBox
 
+    radius: statisticsChartBox.charBoxRadius
+
     property string dataKind
     property string chartTitle
     property int index
@@ -32,6 +34,8 @@ Rectangle {
     property int chartboxId: -1
     property variant currentDate: toMsecsSinceEpoch(new Date())
     property bool running: false
+
+    property int charBoxRadius: 0
 
     Component.onCompleted: {
         if (isDynamic){
@@ -64,6 +68,14 @@ Rectangle {
             Layout.fillWidth: true
             height: 25
             color: Theme.eProsimaDarkBlue
+            radius: statisticsChartBox.charBoxRadius
+
+            Rectangle {
+                height: parent.height/2
+                width: parent.width
+                anchors.bottom: parent.bottom
+                color: parent.color
+            }
 
             Label {
                 id: statisticsChartBoxLabel
@@ -260,7 +272,8 @@ Rectangle {
 
                 id: chartViewIcons
 
-                property int iconSize: 25
+                property int iconSize: 30
+                property real innerIconSize: iconSize * 4/5
 
                 anchors.right: parent.right
                 anchors.top: parent.top
@@ -268,7 +281,6 @@ Rectangle {
                 anchors.topMargin: iconSize/10
 
                 width: iconSize
-                // height: parent.height
 
                 spacing: iconSize/10
 
@@ -280,7 +292,7 @@ Rectangle {
                     radius: chartViewIcons.iconSize/10
 
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
+                        size: chartViewIcons.innerIconSize
                         name: "info"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -309,8 +321,8 @@ Rectangle {
                     color: resizeMouseArea.containsMouse ? Theme.lightGrey : "transparent"
 
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
-                        name: "reset_zoom"
+                        size: chartViewIcons.innerIconSize
+                        name: "resize"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "black"
@@ -350,8 +362,8 @@ Rectangle {
                     color: resetMouseArea.containsMouse ? Theme.lightGrey : "transparent"
 
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
-                        name: "resize"
+                        size: chartViewIcons.innerIconSize
+                        name: "editaxis"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "black"
@@ -391,7 +403,7 @@ Rectangle {
                     visible: isDynamic
 
                     IconSVG {
-                        size: chartViewIcons.iconSize*3/4
+                        size: chartViewIcons.innerIconSize
                         name: running ? "pause" : "play"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -462,6 +474,7 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         color: "transparent"
+        radius: statisticsChartBox.charBoxRadius
         border {
             width: 2
             color: Theme.eProsimaDarkBlue
