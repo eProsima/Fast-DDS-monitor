@@ -622,7 +622,7 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
 
     for (backend::StatisticsData data : statistic_data)
     {
-        if (!std::isnan(data.second))
+        if (!std::isnan(data.second)) // This should not be needed as filter is done before... But lets keep it
         {
             points.append(QPointF(
                         std::chrono::duration_cast<std::chrono::milliseconds>(data.first.time_since_epoch()).count(),
