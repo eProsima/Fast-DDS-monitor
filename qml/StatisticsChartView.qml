@@ -46,7 +46,7 @@ ChartView {
         min: 0
         max: 1
         tickCount: 5 // This does not work with nice numbers
-        minorTickCount: 5 // Sub divisions (pretty)
+        minorTickCount: 4 // Sub divisions (pretty)
         titleText: dataKind + "[" + controller.get_data_kind_units(dataKind) + "]"
     }
 
