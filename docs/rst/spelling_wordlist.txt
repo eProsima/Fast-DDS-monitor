@@ -15,8 +15,10 @@ eProsima
 gtest
 localhost
 multicast
+NaN
 Qos
 QoS
+Resizable
 subpanel
 subpanels
 Todo

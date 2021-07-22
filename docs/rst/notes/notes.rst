@@ -18,9 +18,15 @@ This release includes the following **improvements**:
 * Entity menu displayed right-clicking on them.
 * Support for Windows platforms.
 * Resizable charts in three different sizes: full screen, two chart boxes per row and three chart boxes per row.
+* Display two chart boxes in a row by default.
 * Re-nameable chart boxes.
-* Export charts data to CSV. It is possible to export a single series, a whole chartbox or all chartboxes of the
+* Export charts data to CSV. It is possible to export a single series, a whole ChartBox or all ChartBoxes of the
   monitor to a single CSV file.
+* Change the cursor shape when hovering over the legend and when action buttons are pressed over the selected chart.
+* Add information button on each ChartBox.
+* Normalize Y axis.
+* Button to interact with the ChartView.
+* Button to reset zoom.
 
 This release includes the following **bugfixes**:
 
@@ -31,12 +37,17 @@ This release includes the following **bugfixes**:
 * TreeModels refactor
   * Convert all arrays to dictionaries with the array index as the element key.
   * Fix item duplication when collapsed.
+* When receiving data from a new entity, it is added to its corresponding entity model as an additional model
+  item instead of destroying and rebuilding the entire model.
 * Avoid destroy ChartBoxes when they are out of the view.
 * Increase Y axis in historic CharBoxes so all the data is visible.
 * Refactor Historic series so all the internal data is deleted when graphics are removed.
 * Increased the number of characters for series labels.
 * Change displayed chart units for some DataKinds.
 * Add units to the statistics entity summary.
+* Charts dashboard layout scroll bar always visible.
+* Sort data from backend.
+* When receiving data of DataKinds that are measured in *counts*, the data points that are NaN are replaced by 0.
 
 #################
 Previous versions
