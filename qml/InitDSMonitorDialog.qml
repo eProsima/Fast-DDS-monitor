@@ -328,6 +328,25 @@ Dialog {
         onAccepted: initDSMonitorDialog.open()
     }
 
+    MessageDialog {
+        id: duplicatedLocators
+        title: "Duplicated Discovery Server Locators"
+        icon: StandardIcon.Warning
+        standardButtons:  StandardButton.Retry | StandardButton.Discard
+        text: ""
+        property var duplicates: []
+
+        onDuplicatesChanged: {
+            var new_text = "The following duplicate locators have been found:\n"
+            for (var i = 0; i < duplicates.length; i++) {
+                new_text = new_text.concat("    • " + duplicates[i] + "\n")
+            }
+            text = new_text
+        }
+
+        onAccepted: initDSMonitorDialog.open()
+    }
+
     /**
      * Returns an regular expression for IPv4 string matching
      */
@@ -365,7 +384,7 @@ Dialog {
 
         /////
         // Build the locators
-        var locators = ""
+        var locators = []
 
         for (var i = 0; i < discoveryServerLocatorsModel.rowCount(); i++) {
             // Get the trasnport protocol from the ComboBox
@@ -406,16 +425,25 @@ Dialog {
             // The locator string is formatted according to the style defined in Fast DDS Statistics Backend for
             // locators. This style is <transport_protocol>:[<ip>]:<port>.
             var locator = transportProtocol + ":[" + ip + "]:" + port
-            if (i !== (discoveryServerLocatorsModel.rowCount() - 1)) {
-                locator = locator.concat(";")
-            }
-            locators = locators.concat(locator)
+            locators.push(locator)
         }
 
         /////
         // Call the controller to initialize a Discovery Server monitor
-        if (locator) {
-            controller.init_monitor(discoveryServerGuid.text, locators)
+        if (locators) {
+            var duplicates = find_duplicate_in_array(locators)
+            if (duplicates) {
+                duplicatedLocators.duplicates = duplicates
+                duplicatedLocators.open()
+            }
+
+            controller.init_monitor(discoveryServerGuid.text, locators.join(';'))
         }
+    }
+
+    function find_duplicate_in_array(array){
+        const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) !== index)
+
+        return findDuplicates(array)
     }
 }
