@@ -200,7 +200,6 @@ public:
     //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
     std::vector<std::string> ds_supported_transports();
 
-
 protected:
 
     void change_unit_magnitude(
@@ -418,7 +417,7 @@ protected:
         EntityKind type,
         EntityId id,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool),
-        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible = true);
 
     /**************
@@ -498,7 +497,7 @@ protected:
         models::ListModel* model,
         EntityId id,
         bool new_entity,
-        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible);
 };
 

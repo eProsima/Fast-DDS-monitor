@@ -109,7 +109,7 @@ QStringList to_QStringList(
 {
     QStringList string_list;
     string_list.reserve(vector.size());
-    for(size_t i = 0; i < vector.size(); i++)
+    for (size_t i = 0; i < vector.size(); i++)
     {
         string_list << to_QString(vector[i]);
     }
