@@ -23,7 +23,7 @@ Dialog {
     modal: false
     title: "Initialize Discovery Server Monitor"
     standardButtons: Dialog.Ok | Dialog.Cancel | Dialog.RestoreDefaults
-    implicitWidth: 600
+    implicitWidth: 750
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
@@ -35,7 +35,7 @@ Dialog {
     onReset: {
         discoveryServerGuid.text = "44.53.00.5f.45.50.52.4f.53.49.4d.41"
         discoveryServerLocatorsModel.clear()
-        discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "127.0.0.1", "port": "11811"})
+        discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "127.0.0.1", "port": 11811})
     }
 
     Component.onCompleted: {
@@ -76,19 +76,26 @@ Dialog {
         }
         GridLayout {
             Layout.fillWidth: true
-            columns: 4
+            columns: 5
             columnSpacing: 10
 
             Label {
                 id: discoveryServerLocatorLabel
-                Layout.columnSpan: 4
+                Layout.columnSpan: parent.columns
                 text: "• Discovery Server locator(s): "
                 InfoToolTip {
-
                     text: 'Each row defines a locator\n' +
                           'for the Discovery Server.'
                 }
             }
+            Label {
+                id: discoveryServerIdxLabel
+                text: "Idx"
+                InfoToolTip {
+                    text: 'Locator index.'
+                }
+            }
+
             Label {
                 id: discoveryServerTransportProtocolLabel
                 text: "Transport Protocol"
@@ -120,7 +127,6 @@ Dialog {
             Rectangle {
                 id: discoveryServerRemoveIcon
                 Layout.fillWidth: true
-                color: "Blue"
             }
             Rectangle {
                 Layout.preferredWidth: parent.width
@@ -131,9 +137,9 @@ Dialog {
 
             Rectangle {
                 id: dsLocatorsRect
-                Layout.columnSpan: 4
+                Layout.columnSpan: parent.columns
                 Layout.fillWidth: true
-                height: 100
+                height: 66
                 color: "transparent"
 
                 ListView {
@@ -169,6 +175,11 @@ Dialog {
                             id: dsLocatorRow
                             spacing: 10
 
+                            Label {
+                                text: (index + 1) + "."
+                                Layout.preferredWidth: discoveryServerIdxLabel.width
+                            }
+
                             ComboBox {
                                 id: discoveryServerTransportProtocol
                                 model: ["UDPv4", "UDPv6", "TCPv4", "TCPv6"]
@@ -202,11 +213,11 @@ Dialog {
                                 placeholderText: "Port"
                                 selectByMouse: true
                                 Layout.preferredWidth: discoveryServerPortLabel.width
-                                text: port
+                                text: (port === 0) ? "" : port
                                 validator: IntValidator {
-                                    bottom: 0
+                                    bottom: 1
                                 }
-                                onTextEdited: port = text
+                                onTextEdited: port = isNaN(parseInt(text)) ? 0 : parseInt(text)
                             }
 
                             Rectangle {
@@ -258,7 +269,7 @@ Dialog {
             }
 
             Rectangle {
-                Layout.columnSpan: 2
+                Layout.columnSpan: 3
                 Layout.preferredWidth: 1
             }
 
@@ -268,7 +279,7 @@ Dialog {
                 Layout.alignment: Qt.AlignLeft
                 Layout.fillWidth: true
                 onClicked: {
-                    discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "", "port": -1})
+                    discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "", "port": 0})
                 }
             }
         }
@@ -285,11 +296,11 @@ Dialog {
     }
 
     MessageDialog {
-        id: emptyPort
+        id: wrongPort
         title: "Invalid Discovery Server Port"
         icon: StandardIcon.Warning
         standardButtons:  StandardButton.Retry | StandardButton.Discard
-        text: "No port has been inserted for the Discovery Server IP " + ip + ". " +
+        text: "An invalid port has been inserted for the Discovery Server IP " + ip + ". " +
               "Please fill in the ports of all network addresses."
         property string ip: ""
         onAccepted: initDSMonitorDialog.open()
@@ -374,7 +385,7 @@ Dialog {
             // Get the IP of locator
             var ip = discoveryServerLocatorsModel.get(i).ip
             if (ip === "") {
-                wrongLocator.locatorIdx = i;
+                wrongLocator.locatorIdx = i + 1;
                 wrongLocator.open()
                 return
             }
@@ -396,9 +407,9 @@ Dialog {
 
             // Get the port of the locator
             var port = discoveryServerLocatorsModel.get(i).port
-            if (port === "" | parseInt(port) < 0) {
-                emptyPort.ip = ip
-                emptyPort.open()
+            if (port <= 0) {
+                wrongPort.ip = ip
+                wrongPort.open()
                 return
             }
 
