@@ -27,8 +27,9 @@ class Engine;
 
 enum class ErrorType : int
 {
-    GENERIC = 0,        //! Generic error, just show the message
-    INIT_MONITOR = 1    //! Error in @c init_monitor. Reopen the @c init_monitor dialog
+    GENERIC = 0,            //! Generic error, just show the message
+    INIT_MONITOR = 1,       //! Error in @c init_monitor. Reopen the @c init dds monitor dialog
+    INIT_DS_MONITOR = 2     //! Error in @c init_monitor. Reopen the @c init discovery server monitor dialog
 };
 
 /**
