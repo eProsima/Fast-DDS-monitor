@@ -28,6 +28,8 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
+    property var dsTransportProtocols
+
     onAccepted: {
         initDiscoveryServer()
     }
@@ -39,6 +41,7 @@ Dialog {
     }
 
     Component.onCompleted: {
+        dsTransportProtocols = controller.ds_supported_transports()
         reset()
     }
 
@@ -182,7 +185,7 @@ Dialog {
 
                             ComboBox {
                                 id: discoveryServerTransportProtocol
-                                model: ["UDPv4", "UDPv6", "TCPv4", "TCPv6"]
+                                model: dsTransportProtocols
                                 Layout.preferredWidth: discoveryServerTransportProtocolLabel.width
                                 onActivated: transportProtocolIdx = discoveryServerTransportProtocol.currentIndex
                                 Component.onCompleted: {
@@ -367,20 +370,7 @@ Dialog {
         for (var i = 0; i < discoveryServerLocatorsModel.rowCount(); i++) {
             // Get the trasnport protocol from the ComboBox
             var transportProtocol = ""
-            switch (discoveryServerLocatorsModel.get(i).transportProtocolIdx) {
-                case 0:
-                    transportProtocol = "UDPv4"
-                    break
-                case 1:
-                    transportProtocol = "UDPv6"
-                    break
-                case 2:
-                    transportProtocol = "TCPv4"
-                    break
-                case 3:
-                    transportProtocol = "TCPv6"
-                    break
-            }
+            transportProtocol = dsTransportProtocols[discoveryServerLocatorsModel.get(i).transportProtocolIdx]
 
             // Get the IP of locator
             var ip = discoveryServerLocatorsModel.get(i).ip

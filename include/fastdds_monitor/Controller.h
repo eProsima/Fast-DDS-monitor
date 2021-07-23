@@ -190,6 +190,9 @@ public slots:
             QStringList chartbox_names,
             QStringList label_names);
 
+    //! Retrive a string list containing the transport protocols supported by the Statistics Backend Discovery Server.
+    QStringList ds_supported_transports();
+
 signals:
 
     //! Signal to show the Error Dialog

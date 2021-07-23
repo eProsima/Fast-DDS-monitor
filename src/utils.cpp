@@ -102,7 +102,19 @@ std::string double_to_string(
     {
         return "";
     }
+}
 
+QStringList to_QStringList(
+        const std::vector<std::string>& vector)
+{
+    QStringList string_list;
+    string_list.reserve(vector.size());
+    for(size_t i = 0; i < vector.size(); i++)
+    {
+        string_list << to_QString(vector[i]);
+    }
+
+    return string_list;
 }
 
 } //namespace utils

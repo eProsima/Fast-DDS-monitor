@@ -234,3 +234,8 @@ void Controller::save_csv(
         chartbox_names,
         label_names);
 }
+
+QStringList Controller::ds_supported_transports()
+{
+    return utils::to_QStringList(engine_->ds_supported_transports());
+}

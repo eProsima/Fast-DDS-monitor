@@ -197,6 +197,10 @@ public:
     std::string get_data_kind_units(
             const DataKind data_kind);
 
+    //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
+    std::vector<std::string> ds_supported_transports();
+
+
 protected:
 
     void change_unit_magnitude(

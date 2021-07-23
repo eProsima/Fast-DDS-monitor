@@ -1016,3 +1016,8 @@ void Engine::save_csv(
         qWarning() << "Error writing CSV file " << file_name;
     }
 }
+
+std::vector<std::string> Engine::ds_supported_transports()
+{
+    return backend_connection_.ds_supported_transports();
+}
