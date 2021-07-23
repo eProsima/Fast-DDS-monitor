@@ -417,7 +417,7 @@ protected:
         EntityKind type,
         EntityId id,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool),
-        ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        ListItem * (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible = true);
 
     /**************
@@ -497,7 +497,7 @@ protected:
         models::ListModel* model,
         EntityId id,
         bool new_entity,
-        ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        ListItem * (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible);
 };
 
