@@ -37,6 +37,8 @@ Rectangle {
 
     property int charBoxRadius: 0
 
+    signal fullScreen(int chartBoxIdx)
+
     Component.onCompleted: {
         if (isDynamic){
             chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow)
@@ -85,37 +87,71 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
-            Rectangle {
-                height: parent.height - parent.height/3
-                width: parent.height - parent.height/3
-                radius: parent.height - parent.height/3
+            RowLayout {
                 anchors.right: parent.right
                 anchors.rightMargin: parent.height/3
                 anchors.verticalCenter: parent.verticalCenter
-                color: "transparent"
 
-                IconSVG {
-                    name: "cross"
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: "white"
+                Rectangle {
+                    height: chartBoxTitle.height * 4/5
+                    width: chartBoxTitle.height * 4/5
+                    radius: chartBoxTitle.height * 4/5
+                    color: "transparent"
+
+                    IconSVG {
+                        name: chartsLayout.fullScreen ? "minimize" : "maximize"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "white"
+                        size: parent.width * 1/2
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            fullScreen(index)
+                        }
+                        onEntered: {
+                            parent.color = Theme.eProsimaLightBlue
+                        }
+                        onExited: {
+                            parent.color = "transparent"
+                        }
+                    }
                 }
 
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        statisticsChartBoxModel.remove(index)
-                        statisticsChartBox.destroy()
+                Rectangle {
+                    height: chartBoxTitle.height * 4/5
+                    width: chartBoxTitle.height * 4/5
+                    radius: chartBoxTitle.height * 4/5
+                    color: "transparent"
+
+                    IconSVG {
+                        name: "cross"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: "white"
+                        size: parent.width * 1/2
                     }
-                    onEntered: {
-                        parent.color = Theme.eProsimaLightBlue
-                    }
-                    onExited: {
-                        parent.color = "transparent"
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            statisticsChartBoxModel.remove(index)
+                            statisticsChartBox.destroy()
+                        }
+                        onEntered: {
+                            parent.color = Theme.eProsimaLightBlue
+                        }
+                        onExited: {
+                            parent.color = "transparent"
+                        }
                     }
                 }
             }
+
         }
 
         MenuBar {

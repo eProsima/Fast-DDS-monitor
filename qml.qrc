@@ -120,8 +120,8 @@
         <file alias="host_grey.svg">resources/images/icons/host/host_grey.svg</file>
         <file alias="host_white.svg">resources/images/icons/host/host_white.svg</file>
         <file alias="info_black.svg">resources/images/icons/info/info_black.svg</file>
-        <file alias="info_eProsimaLightBlue.svg">resources/images/icons/info/info_eProsimaLightBlue.svg</file>
         <file alias="info_eProsimaDarkBlue.svg">resources/images/icons/info/info_eProsimaDarkBlue.svg</file>
+        <file alias="info_eProsimaLightBlue.svg">resources/images/icons/info/info_eProsimaLightBlue.svg</file>
         <file alias="issues_black.svg">resources/images/icons/issues/issues_black.svg</file>
         <file alias="issues_eProsimaLightBlue.svg">resources/images/icons/issues/issues_eProsimaLightBlue.svg</file>
         <file alias="issues_grey.svg">resources/images/icons/issues/issues_grey.svg</file>
@@ -134,6 +134,14 @@
         <file alias="locator_eProsimaLightBlue.svg">resources/images/icons/locator/locator_eProsimaLightBlue.svg</file>
         <file alias="locator_grey.svg">resources/images/icons/locator/locator_grey.svg</file>
         <file alias="locator_white.svg">resources/images/icons/locator/locator_white.svg</file>
+        <file alias="maximize_black.svg">resources/images/icons/maximize/maximize_black.svg</file>
+        <file alias="maximize_eProsimaLightBlue.svg">resources/images/icons/maximize/maximize_eProsimaLightBlue.svg</file>
+        <file alias="maximize_grey.svg">resources/images/icons/maximize/maximize_grey.svg</file>
+        <file alias="maximize_white.svg">resources/images/icons/maximize/maximize_white.svg</file>
+        <file alias="minimize_black.svg">resources/images/icons/minimize/minimize_black.svg</file>
+        <file alias="minimize_eProsimaLightBlue.svg">resources/images/icons/minimize/minimize_eProsimaLightBlue.svg</file>
+        <file alias="minimize_grey.svg">resources/images/icons/minimize/minimize_grey.svg</file>
+        <file alias="minimize_white.svg">resources/images/icons/minimize/minimize_white.svg</file>
         <file alias="participant_black.svg">resources/images/icons/participant/participant_black.svg</file>
         <file alias="participant_eProsimaLightBlue.svg">resources/images/icons/participant/participant_eProsimaLightBlue.svg</file>
         <file alias="participant_grey.svg">resources/images/icons/participant/participant_grey.svg</file>

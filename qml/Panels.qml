@@ -23,6 +23,9 @@ RowLayout {
     spacing: 0
 
     property bool showLeftSidebar: true
+    // This property save the state of the left sidebar after entering the full screen mode.
+    // If is set to true, the left sidebar was opened, and false if it was closed.
+    property bool prevFullScreenLeftSidebarState: true
 
     signal lastClickedReset
     signal openCloseLeftSideBar
@@ -36,7 +39,10 @@ RowLayout {
             iconsVBar.iconClicked(0)
         }
     }
-    onChangeChartboxLayout: chartsLayout.boxesPerRow = chartsPerRow
+    onChangeChartboxLayout: {
+        chartsLayout.boxesPerRow = chartsPerRow
+        chartsLayout.exitFullScreen()
+    }
 
     IconsVBar {
         id: iconsVBar
@@ -81,6 +87,21 @@ RowLayout {
             id: chartsLayout
             SplitView.fillWidth: true
             clip: true
+
+            onFullScreenChanged: {
+                if (fullScreen) {
+                    if (showLeftSidebar) {
+                        openCloseLeftSideBar()
+                        prevFullScreenLeftSidebarState = true
+                    } else {
+                        prevFullScreenLeftSidebarState = false
+                    }
+                } else {
+                    if (!showLeftSidebar && prevFullScreenLeftSidebarState) {
+                        openCloseLeftSideBar()
+                    }
+                }
+            }
         }
     }
 

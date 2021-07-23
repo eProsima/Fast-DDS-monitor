@@ -24,10 +24,13 @@ Rectangle {
     Layout.fillHeight: true
 
     property int boxesPerRow: 2
-    property int actualBoxesPerRow: Math.min(boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)
-    property int chartBoxWidth: (gridViewWidth / actualBoxesPerRow) - (20 - 5 * actualBoxesPerRow)
+    property int actualBoxesPerRow: Math.min(fullScreen ? 1 : boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)
+    property int chartBoxWidth: fullScreen ? (gridViewWidth / actualBoxesPerRow)
+                                           : (gridViewWidth / actualBoxesPerRow) - (20 - 5 * actualBoxesPerRow)
     property int chartBoxHeight: Math.min(chartBoxWidth, height / actualBoxesPerRow)
     property int gridViewWidth: width < 1 ? 0 : width - 1
+
+    property bool fullScreen: false
 
     ListModel {
         id: statisticsChartBoxModel
@@ -45,7 +48,9 @@ Rectangle {
         signal customPressAndHold()
 
         onPressed: {
-            pressAndHoldTimer.start();
+            if (!fullScreen) {
+                pressAndHoldTimer.start();
+            }
         }
 
         onCustomPressAndHold: {
@@ -61,10 +66,12 @@ Rectangle {
         }
 
         onWheel: {
-            if (wheel.angleDelta.y > 0) {
-                scrollBar.decrease()
-            } else {
-                scrollBar.increase()
+            if (!fullScreen) {
+                if (wheel.angleDelta.y > 0) {
+                    gridViewScrollBar.decrease()
+                } else {
+                    gridViewScrollBar.increase()
+                }
             }
         }
 
@@ -99,8 +106,8 @@ Rectangle {
             }
 
             ScrollBar.vertical: ScrollBar {
-                id: scrollBar
-                visible: true
+                id: gridViewScrollBar
+                visible: !fullScreen
                 policy: ScrollBar.AlwaysOn
                 hoverEnabled: true
 
@@ -112,7 +119,7 @@ Rectangle {
                         anchors.rightMargin: 2
                         anchors.leftMargin: 2
                         radius: width / 2
-                        color: scrollBar.pressed ? Theme.eProsimaLightBlue : Theme.lightGrey
+                        color: gridViewScrollBar.pressed ? Theme.eProsimaLightBlue : Theme.lightGrey
                     }
                 }
 
@@ -121,7 +128,7 @@ Rectangle {
 
                     Rectangle {
                         anchors.fill: parent
-                        color: scrollBar.pressed ? Theme.lightGrey : Theme.grey
+                        color: gridViewScrollBar.pressed ? Theme.lightGrey : Theme.grey
                     }
                 }
             }
@@ -155,6 +162,8 @@ Rectangle {
                     width: gridView.cellWidth - 10
                     height: gridView.cellHeight - 10
                     smooth: true
+
+                    onFullScreen: chartBoxFullScreen(chartBoxIdx)
 
                     states: [
                         State {
@@ -287,6 +296,25 @@ Rectangle {
             dataKinds,
             chartboxNames,
             labelNames)
+    }
+
+    function chartBoxFullScreen(chartBoxIdx) {
+        gridView.currentIndex = chartBoxIdx
+        if (!fullScreen) {
+            for (var i = 0; i < gridView.count; i++) {
+                gridView.itemAtIndex(i).visible = (i === chartBoxIdx)
+            }
+            fullScreen = true
+        } else {
+            exitFullScreen()
+        }
+    }
+
+    function exitFullScreen() {
+        fullScreen = false;
+        for (var i = 0; i < gridView.count; i++) {
+            gridView.itemAtIndex(i).visible = true
+        }
     }
 }
 
