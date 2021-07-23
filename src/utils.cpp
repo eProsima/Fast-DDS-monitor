@@ -108,7 +108,7 @@ QStringList to_QStringList(
         const std::vector<std::string>& vector)
 {
     QStringList string_list;
-    string_list.reserve(vector.size());
+    string_list.reserve(static_cast<int>(vector.size()));
     for (size_t i = 0; i < vector.size(); i++)
     {
         string_list << to_QString(vector[i]);
