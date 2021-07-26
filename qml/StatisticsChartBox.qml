@@ -139,6 +139,7 @@ Rectangle {
                         anchors.fill: parent
                         hoverEnabled: true
                         onClicked: {
+                            chartsLayout.exitFullScreen()
                             statisticsChartBoxModel.remove(index)
                             statisticsChartBox.destroy()
                         }

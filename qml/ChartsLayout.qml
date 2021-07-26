@@ -299,7 +299,6 @@ Rectangle {
     }
 
     function chartBoxFullScreen(chartBoxIdx) {
-        gridView.currentIndex = chartBoxIdx
         if (!fullScreen) {
             for (var i = 0; i < gridView.count; i++) {
                 gridView.itemAtIndex(i).visible = (i === chartBoxIdx)
@@ -308,6 +307,7 @@ Rectangle {
         } else {
             exitFullScreen()
         }
+        gridView.currentIndex = chartBoxIdx
     }
 
     function exitFullScreen() {
@@ -315,6 +315,8 @@ Rectangle {
         for (var i = 0; i < gridView.count; i++) {
             gridView.itemAtIndex(i).visible = true
         }
+        gridView.positionViewAtBeginning()
+        gridView.currentIndex = 0
     }
 }
 
