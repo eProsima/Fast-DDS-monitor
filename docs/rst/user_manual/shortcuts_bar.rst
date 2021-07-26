@@ -17,7 +17,7 @@ The meaning of each of the icons available in the shortcut bar is explained belo
  * |dynamic_chart| - Display real-time data.
  * |refresh| - Refresh Fast DDS Monitor.
  * |clear_log| - Clear the list of logs.
- * |clear_issues| - Clear the issues pane.
+ * |clear_issues| - Clear the issues panel.
 
 This bar can be hidden (or revealed in case it is already hidden) from the menu *View->Hide/Show Shortcuts Toolbar*.
 It is also possible to configure the shortcuts displayed from *View->Customize Shortcuts Toolbar*.
