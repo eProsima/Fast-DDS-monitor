@@ -232,6 +232,7 @@ Rectangle {
     }
 
     function createHistoricChart(dataKind){
+        exitFullScreen()
         statisticsChartBoxModel.append({
                                            "dataKind": dataKind,
                                            "chartTitle": dataKind,
@@ -242,6 +243,7 @@ Rectangle {
     }
 
     function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
+        exitFullScreen()
         statisticsChartBoxModel.append({
                                            "dataKind": dataKind,
                                            "chartTitle": dataKind,
