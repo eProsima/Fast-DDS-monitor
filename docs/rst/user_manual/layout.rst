@@ -116,8 +116,8 @@ For further explanation of this entities and the interaction with them refer to 
 
 .. _info_panel_layout:
 
-Information Panel
------------------
+Monitor Status Panel
+--------------------
 This subpanel displays information regarding the last entity clicked.
 This information is divided in two categories and are shown in the different subpanel tabs.
 First, the ``info`` tab contains the general information of the last entity clicked.
@@ -201,7 +201,15 @@ For the explanation of this information refer to the section :ref:`log_panel`.
 Issues Panel
 ============
 
-This panel is not available in this version of the Fast DDS Monitor.
+This panel lists the error events of the application.
+The events that the application reacts to in the current version are:
+
+- Attempt to start monitoring a DDS Domain or a Discovery Server network that has been previously initialized.
+
+.. figure:: /rst/figures/screenshots/issues_panel.png
+    :align: center
+
+For the explanation of this information refer to the section :ref:`log_panel`.
 
 .. _main_panel_layout:
 
