@@ -47,7 +47,7 @@ ChartView {
         max: 1
         tickCount: 5 // This does not work with nice numbers
         minorTickCount: 4 // Sub divisions (pretty)
-        titleText: dataKind + "[" + controller.get_data_kind_units(dataKind) + "]"
+        titleText: dataKind + " [" + controller.get_data_kind_units(dataKind) + "]"
     }
 
     DateTimeAxis {
