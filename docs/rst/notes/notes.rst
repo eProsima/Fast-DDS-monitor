@@ -10,8 +10,8 @@ This release includes the following **improvements**:
 * Add Real-Time charts
 * Refactor sidebars
   * New left sidebar with all the DDS, physical and logical entities together with its corresponding information.
-  * Separated pane for Fast DDS Monitor status.
-  * New pane to display Issues information.
+  * Separated panel for Fast DDS Monitor status.
+  * New panel to display Issues information.
 * Possibility to change the Entity name setting an alias for it.
 * Entities not alive are marked in gray color.
 * Possibility to display/hide the not alive entities.
@@ -25,7 +25,7 @@ This release includes the following **improvements**:
 * Change the cursor shape when hovering over the legend and when action buttons are pressed over the selected chart.
 * Add information button on each ChartBox.
 * Normalize Y axis.
-* Button to interact with the ChartView.
+* Button to set axes in the ChartView.
 * Button to reset zoom.
 
 This release includes the following **bugfixes**:
