@@ -26,10 +26,29 @@ Reset zoom
 ^^^^^^^^^^
 Reset the zoom of the Chartbox to the standard one.
 The standard zoom is calculated to fit all the data that is being currently displayed.
+It is also possible to take this action by clicking on the |resize| button displayed in the same chart box.
+
+
+Set axes
+^^^^^^^^
+This menu opens a dialog pop-up for the user to set the axes of the chart.
+Changing the X-axis is disabled by default, thus maintaining the time values currently displayed on the chart.
+This allows dynamic charts to continue to update the value of the time axis, X-axis, while the Y-axis remains fixed.
+It is also possible to access this dialog by clicking on the |editaxis| button displayed in the same chart box.
+
+.. figure:: /rst/figures/screenshots/set_axes.png
+    :align: center
+
+To return to the original time axis, and allow a dynamic update of the Y-axis, simply click on the |resize| button
+located to the right of the chart.
 
 Clear chart
 ^^^^^^^^^^^
 Eliminate every data configuration displayed in the Chartbox
+
+Rename chart box
+^^^^^^^^^^^^^^^^
+Change the name of the chart box.
 
 Close chart box
 ^^^^^^^^^^^^^^^
@@ -40,6 +59,16 @@ Export to CSV
 ^^^^^^^^^^^^^
 Export the data of all series in the chart box to a CSV file.
 Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
+
+Chart Controls
+^^^^^^^^^^^^^^
+Displays an informative dialog with the key combination to execute actions on the chart.
+It is also possible to access this dialog by clicking on the |info| button displayed in the same chart box.
+
+
+.. figure:: /rst/figures/screenshots/chartbox_info.png
+    :align: center
+
 
 Series Menu
 -----------
@@ -114,5 +143,5 @@ These chartbox could be stopped at any time (or played in case they are already 
 This allows to stop the updating the axis, so zoom and move along the chart is available.
 The data presented in the chartbox will keep updating with the same time interval independently of the play status.
 
-In order to pause or continue the axis update the chartbox has an extra button in menu *Real Time* or in the top right
-of the box to pause or continue regarding the actual state.
+To pause the real time update of the time axis, click on the Real-Time menu or on the |play|/|pause| button placed on
+the right side of the chart.
