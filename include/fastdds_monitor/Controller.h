@@ -196,6 +196,9 @@ public slots:
     //! Retrive a string list containing the available statistic kinds.
     QStringList get_statistic_kinds();
 
+    //! Retrive a string list containing the available data kinds.
+    QStringList get_data_kinds();
+
 signals:
 
     //! Signal to show the Error Dialog

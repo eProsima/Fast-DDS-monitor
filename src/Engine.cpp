@@ -1026,3 +1026,8 @@ std::vector<std::string> Engine::get_statistic_kinds()
 {
     return backend_connection_.get_statistic_kinds();
 }
+
+std::vector<std::string> Engine::get_data_kinds()
+{
+    return backend_connection_.get_data_kinds();
+}

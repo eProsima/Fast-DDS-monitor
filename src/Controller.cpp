@@ -244,3 +244,8 @@ QStringList Controller::get_statistic_kinds()
 {
     return utils::to_QStringList(engine_->get_statistic_kinds());
 }
+
+QStringList Controller::get_data_kinds()
+{
+    return utils::to_QStringList(engine_->get_data_kinds());
+}

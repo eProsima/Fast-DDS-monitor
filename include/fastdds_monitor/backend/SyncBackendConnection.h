@@ -203,6 +203,9 @@ public:
     //! Retrive a string list containing the available statistic kinds.
     std::vector<std::string> get_statistic_kinds();
 
+    //! Retrive a string list containing the available data kinds.
+    std::vector<std::string> get_data_kinds();
+
 protected:
 
     void change_unit_magnitude(

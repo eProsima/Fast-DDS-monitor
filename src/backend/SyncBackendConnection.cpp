@@ -1156,7 +1156,6 @@ std::vector<std::string> SyncBackendConnection::ds_supported_transports()
 
 std::vector<std::string> SyncBackendConnection::get_statistic_kinds()
 {
-
 #ifdef DEBUG
     std::vector<std::string> statistic_kinds = {
         "NONE",
@@ -1181,6 +1180,48 @@ std::vector<std::string> SyncBackendConnection::get_statistic_kinds()
 #endif // ifdef DEBUG
 
     return statistic_kinds;
+}
+
+std::vector<std::string> SyncBackendConnection::get_data_kinds()
+{
+#ifdef DEBUG
+    std::vector<std::string> data_kinds = {
+        "FASTDDS_LATENCY",
+        "NETWORK_LATENCY",
+        "PUBLICATION_THROUGHPUT",
+        "SUBSCRIPTION_THROUGHPUT",
+        "RTPS_PACKETS_SENT",
+        "RTPS_BYTES_SENT",
+        "RTPS_PACKETS_LOST",
+        "RTPS_BYTES_LOST",
+        "RESENT_DATA",
+        "HEARTBEAT_COUNT",
+        "ACKNACK_COUNT",
+        "NACKFRAG_COUNT",
+        "GAP_COUNT",
+        "DATA_COUNT",
+        "PDP_PACKETS",
+        "EDP_PACKETS",
+        "DISCOVERED_ENTITY",
+        "SAMPLE_DATAS"
+    };
+#else
+    std::vector<std::string> data_kinds = {
+        "FASTDDS_LATENCY",
+        "PUBLICATION_THROUGHPUT",
+        "SUBSCRIPTION_THROUGHPUT",
+        "RESENT_DATA",
+        "HEARTBEAT_COUNT",
+        "ACKNACK_COUNT",
+        "NACKFRAG_COUNT",
+        "GAP_COUNT",
+        "DATA_COUNT",
+        "PDP_PACKETS",
+        "EDP_PACKETS"
+    };
+#endif // ifdef DEBUG
+
+    return data_kinds;
 }
 
 } //namespace backend
