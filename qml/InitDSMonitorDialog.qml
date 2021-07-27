@@ -430,11 +430,12 @@ Dialog {
 
         /////
         // Call the controller to initialize a Discovery Server monitor
-        if (locators) {
+        if (locators.length) {
             var duplicates = find_duplicate_in_array(locators)
-            if (duplicates) {
+            if (duplicates.length) {
                 duplicatedLocators.duplicates = duplicates
                 duplicatedLocators.open()
+                return
             }
 
             controller.init_monitor(discoveryServerGuid.text, locators.join(';'))
