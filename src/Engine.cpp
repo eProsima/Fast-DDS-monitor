@@ -1021,3 +1021,8 @@ std::vector<std::string> Engine::ds_supported_transports()
 {
     return backend_connection_.ds_supported_transports();
 }
+
+std::vector<std::string> Engine::get_statistic_kinds()
+{
+    return backend_connection_.get_statistic_kinds();
+}

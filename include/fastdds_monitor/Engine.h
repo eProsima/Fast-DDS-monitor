@@ -381,6 +381,9 @@ public:
     //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
     std::vector<std::string> ds_supported_transports();
 
+    //! Retrive a string list containing the available statistic kinds.
+    std::vector<std::string> get_statistic_kinds();
+
 signals:
 
     /**

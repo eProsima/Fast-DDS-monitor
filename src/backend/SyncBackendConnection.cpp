@@ -1154,4 +1154,33 @@ std::vector<std::string> SyncBackendConnection::ds_supported_transports()
     return std::vector<std::string>({"UDPv4", "UDPv6", "TCPv4", "TCPv6"});
 }
 
+std::vector<std::string> SyncBackendConnection::get_statistic_kinds()
+{
+
+#ifdef DEBUG
+    std::vector<std::string> statistic_kinds = {
+        "NONE",
+        "MEAN",
+        "STANDARD_DEVIATION",
+        "MAX",
+        "MIN",
+        "MEDIAN",
+        "COUNT",
+        "SUM"
+    };
+#else
+    std::vector<std::string> statistic_kinds = {
+        "NONE",
+        "MEAN",
+        "STANDARD_DEVIATION",
+        "MAX",
+        "MIN",
+        "MEDIAN",
+        "SUM"
+    };
+#endif // ifdef DEBUG
+
+    return statistic_kinds;
+}
+
 } //namespace backend
