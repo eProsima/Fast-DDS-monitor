@@ -1151,9 +1151,7 @@ std::string SyncBackendConnection::get_data_kind_units(
 
 std::vector<std::string> SyncBackendConnection::ds_supported_transports()
 {
-    std::vector<std::string> supported_transports = {"UDPv4", "UDPv6", "TCPv4", "TCPv6"};
-
-    return supported_transports;
+    return std::vector<std::string>({"UDPv4", "UDPv6", "TCPv4", "TCPv6"});
 }
 
 } //namespace backend

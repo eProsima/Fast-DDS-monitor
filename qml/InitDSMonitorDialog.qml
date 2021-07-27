@@ -72,9 +72,6 @@ Dialog {
                 implicitWidth: dialogLayout.width
                 text: "44.53.00.5f.45.50.52.4f.53.49.4d.41"
                 selectByMouse: true
-                validator: RegExpValidator {
-                    regExp: /^(([0-9a-fA-F][0-9a-fA-F]\.){11})([0-9a-fA-F][0-9a-fA-F])$/
-                }
             }
         }
         GridLayout {
@@ -293,8 +290,9 @@ Dialog {
         title: "Invalid Discovery Server IP"
         icon: StandardIcon.Warning
         standardButtons:  StandardButton.Retry | StandardButton.Discar
-        text: "The inserted Discovery Server IP " + ip + " is not a valid IP."
+        text: "The inserted Discovery Server IP " + ip + " is not a valid" + ipType +  "."
         property string ip: ""
+        property string ipType: ""
         onAccepted: initDSMonitorDialog.open()
     }
 
@@ -364,6 +362,14 @@ Dialog {
     }
 
     /**
+     * Returns an regular expression for Discovery Server GUID
+     */
+    function guidRegex() {
+        var guidRe =  /^(([0-9a-fA-F][0-9a-fA-F]\.){11})([0-9a-fA-F][0-9a-fA-F])$/
+        return guidRe
+    }
+
+    /**
      * Returns an regular expression that matches any string
      */
     function matchAllRegex() {
@@ -377,7 +383,8 @@ Dialog {
     function initDiscoveryServer() {
         /////
         // Check that Discovery Server GUID is correct
-        if (!discoveryServerGuid.acceptableInput) {
+        var guidRe = guidRegex()
+        if (!guidRe.test(discoveryServerGuid.text)) {
             wrongGuid.open()
             return
         }
@@ -401,14 +408,14 @@ Dialog {
 
             var ipRe = matchAllRegex();
             if (transportProtocol.includes("v4")) {
+                wrongIP.ipType = "IPv4"
                 ipRe = ipv4Regex()
             } else if (transportProtocol.includes("v6")) {
+                wrongIP.ipType = "IPv6"
                 ipRe = ipv6Regex()
             }
 
-            if (!ip) {
-                continue
-            } else if (!ipRe.test(ip)) {
+            if (!ipRe.test(ip)) {
                 wrongIP.ip = ip
                 wrongIP.open()
                 return
