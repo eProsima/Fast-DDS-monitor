@@ -489,7 +489,7 @@ Dialog {
                     "dd.MM.yyyy HH:mm:ss")
         }
 
-        if (startTime <= endTime) {
+        if (startTime < endTime) {
             controlPanel.addHistoricSeries(
                         dataKind,
                         (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
