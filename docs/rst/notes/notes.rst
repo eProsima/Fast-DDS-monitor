@@ -27,6 +27,8 @@ This release includes the following **improvements**:
 * Normalize Y axis.
 * Button to set axes in the ChartView.
 * Button to reset zoom.
+* Maximize and minimize chart boxes.
+* Initialize monitor in a Discovery Server network.
 
 This release includes the following **bugfixes**:
 
