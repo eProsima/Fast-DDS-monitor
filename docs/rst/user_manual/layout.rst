@@ -67,6 +67,10 @@ In order to hide the whole left sidebar, click in the ``<`` button in the upper 
 For more information about what is an entity and how they are organized refer to :ref:`entities`.
 For more information about what means to select an entity refer to :ref:`selected_entity`.
 
+.. figure:: /rst/figures/screenshots/explorer_panel.png
+    :align: center
+    :scale: 50 %
+
 .. _dds_panel_layout:
 
 DDS Panel
