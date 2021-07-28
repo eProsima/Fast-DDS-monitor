@@ -199,6 +199,10 @@ public slots:
     //! Retrive a string list containing the available data kinds.
     QStringList get_data_kinds();
 
+    //! Returns whether the data kind entered requires a target entity to be defined.
+    bool data_kind_has_target(
+            const QString& data_kind);
+
 signals:
 
     //! Signal to show the Error Dialog

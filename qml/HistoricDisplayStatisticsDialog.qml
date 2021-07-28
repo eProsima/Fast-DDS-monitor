@@ -43,12 +43,7 @@ Dialog {
         // Get the available statistic kinds from the backend
         availableStatisticKinds = controller.get_statistic_kinds()
 
-        if (dataKind == "FASTDDS_LATENCY" |
-                dataKind == "NETWORK_LATENCY" |
-                dataKind == "RTPS_PACKETS_SENT" |
-                dataKind == "RTPS_BYTES_SENT" |
-                dataKind == "RTPS_PACKETS_LOST" |
-                dataKind == "RTPS_BYTES_LOST") {
+        if (controller.data_kind_has_target(dataKind)) {
             targetExists = true
         }
 

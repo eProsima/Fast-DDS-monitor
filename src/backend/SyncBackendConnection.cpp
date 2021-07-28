@@ -1198,4 +1198,18 @@ std::vector<std::string> SyncBackendConnection::get_data_kinds()
         });
 }
 
+bool SyncBackendConnection::data_kind_has_target(
+        const DataKind& data_kind)
+{
+    for (std::pair<EntityKind, EntityKind> entity_kind_pair
+            : StatisticsBackend::get_data_supported_entity_kinds(data_kind))
+    {
+        if (entity_kind_pair.second == EntityKind::INVALID)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 } //namespace backend

@@ -1031,3 +1031,9 @@ std::vector<std::string> Engine::get_data_kinds()
 {
     return backend_connection_.get_data_kinds();
 }
+
+bool Engine::data_kind_has_target(
+        const QString& data_kind)
+{
+    return backend_connection_.data_kind_has_target(backend::string_to_data_kind(data_kind));
+}
