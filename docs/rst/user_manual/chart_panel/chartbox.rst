@@ -35,7 +35,8 @@ It is also possible to take this action by clicking on the |resize| button displ
 Set axes
 ^^^^^^^^
 This menu opens a dialog pop-up for the user to set the axes of the chart.
-Changing the X-axis (time axis) is disabled by default, thus maintaining the time values currently displayed on the chart.
+Changing the X-axis (time axis) is disabled by default, thus maintaining the time values currently displayed on the
+chart.
 This allows dynamic charts to continue to update the value of the X-axis while the Y-axis remains fixed.
 It is also possible to access this dialog by clicking on the |editaxis| button displayed in the same chart box.
 
