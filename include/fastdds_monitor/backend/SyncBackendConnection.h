@@ -210,7 +210,6 @@ public:
     bool data_kind_has_target(
             const DataKind& data_kind);
 
-
 protected:
 
     void change_unit_magnitude(
