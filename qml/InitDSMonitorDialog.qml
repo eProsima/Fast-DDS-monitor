@@ -290,7 +290,7 @@ Dialog {
         title: "Invalid Discovery Server IP"
         icon: StandardIcon.Warning
         standardButtons:  StandardButton.Retry | StandardButton.Discar
-        text: "The inserted Discovery Server IP " + ip + " is not a valid" + ipType +  "."
+        text: "The inserted Discovery Server IP " + ip + " is not a valid " + ipType +  "."
         property string ip: ""
         property string ipType: ""
         onAccepted: initDSMonitorDialog.open()
@@ -365,7 +365,7 @@ Dialog {
      * Returns an regular expression for Discovery Server GUID
      */
     function guidRegex() {
-        var guidRe =  /^(([0-9a-fA-F][0-9a-fA-F]\.){11})([0-9a-fA-F][0-9a-fA-F])$/
+        var guidRe =  /^(([0-9a-fA-F]{1,2}\.){11})([0-9a-fA-F]{1,2})$/
         return guidRe
     }
 
