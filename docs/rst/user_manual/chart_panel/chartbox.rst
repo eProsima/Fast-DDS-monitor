@@ -22,25 +22,28 @@ Chart Menu
 ----------
 In the top bar of each Chartbox there is a Menu tab *Chart* with the following buttons.
 
+.. _chartbox_chart_menu_reset_zoom:
+
 Reset zoom
 ^^^^^^^^^^
 Reset the zoom of the Chartbox to the standard one.
 The standard zoom is calculated to fit all the data that is being currently displayed.
 It is also possible to take this action by clicking on the |resize| button displayed in the same chart box.
 
+.. _chartbox_chart_menu_set_axes:
 
 Set axes
 ^^^^^^^^
 This menu opens a dialog pop-up for the user to set the axes of the chart.
-Changing the X-axis is disabled by default, thus maintaining the time values currently displayed on the chart.
-This allows dynamic charts to continue to update the value of the time axis, X-axis, while the Y-axis remains fixed.
+Changing the X-axis (time axis) is disabled by default, thus maintaining the time values currently displayed on the chart.
+This allows dynamic charts to continue to update the value of the X-axis while the Y-axis remains fixed.
 It is also possible to access this dialog by clicking on the |editaxis| button displayed in the same chart box.
 
 .. figure:: /rst/figures/screenshots/set_axes.png
     :align: center
 
-To return to the original time axis, and allow a dynamic update of the Y-axis, simply click on the |resize| button
-located to the right of the chart.
+To return to the original time axis, and allow a dynamic update of the Y-axis, simply click on the
+:ref:`chartbox_chart_menu_reset_zoom` button located to the right of the chart.
 
 Clear chart
 ^^^^^^^^^^^
@@ -144,4 +147,4 @@ This allows to stop the updating the axis, so zoom and move along the chart is a
 The data presented in the chartbox will keep updating with the same time interval independently of the play status.
 
 To pause the real time update of the time axis, click on the Real-Time menu or on the |play|/|pause| button placed on
-the right side of the chart.
+the right side of the chart, or set the axes to a specific value with the :ref:`chartbox_chart_menu_set_axes` button.
