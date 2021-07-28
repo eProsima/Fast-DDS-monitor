@@ -26,6 +26,8 @@ MessageDialog {
     onAccepted: {
         if (errorType == 1) {           // INIT_MONITOR
             dialogInitMonitor.open()
+        } else if (errorType == 2) {    // INIT_DS_MONITOR
+            dialogDSInitMonitor.open()
         }
     }
 }

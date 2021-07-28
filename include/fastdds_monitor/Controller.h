@@ -27,8 +27,9 @@ class Engine;
 
 enum class ErrorType : int
 {
-    GENERIC = 0,        //! Generic error, just show the message
-    INIT_MONITOR = 1    //! Error in @c init_monitor. Reopen the @c init_monitor dialog
+    GENERIC = 0,            //! Generic error, just show the message
+    INIT_MONITOR = 1,       //! Error in @c init_monitor. Reopen the @c init dds monitor dialog
+    INIT_DS_MONITOR = 2     //! Error in @c init_monitor. Reopen the @c init discovery server monitor dialog
 };
 
 /**
@@ -63,9 +64,10 @@ public slots:
     void init_monitor(
             int domain);
 
-    //! Slot called by init a monitor with a list of locators
+    //! Slot called when initializing a monitor for a Discovery Server network
     void init_monitor(
-            QString locators);
+            QString discovery_server_guid_prefix,
+            QString discovery_server_locators);
 
     //! Slot called when a Host entity is pressed
     void host_click(
@@ -187,6 +189,9 @@ public slots:
             QStringList data_kinds,
             QStringList chartbox_names,
             QStringList label_names);
+
+    //! Retrive a string list containing the transport protocols supported by the Statistics Backend Discovery Server.
+    QStringList ds_supported_transports();
 
 signals:
 

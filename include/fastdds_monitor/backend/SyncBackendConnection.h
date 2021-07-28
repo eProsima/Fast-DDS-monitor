@@ -91,7 +91,8 @@ public:
      * @return EntityId of the new Domain Entity created
      */
     EntityId init_monitor(
-            QString locators);
+            std::string discovery_server_guid_prefix,
+            std::string discovery_server_locators);
 
     /////
     // Information query functions
@@ -195,6 +196,9 @@ public:
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     std::string get_data_kind_units(
             const DataKind data_kind);
+
+    //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
+    std::vector<std::string> ds_supported_transports();
 
 protected:
 

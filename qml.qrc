@@ -15,6 +15,7 @@
         <file>imports/Theme/Theme.qml</file>
         <file>qml/AboutDialog.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
+        <file>qml/AdaptiveMenu.qml</file>
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
@@ -33,6 +34,7 @@
         <file>qml/IconsVBar.qml</file>
         <file>qml/IconSVG.qml</file>
         <file>qml/InfoToolTip.qml</file>
+        <file>qml/InitDSMonitorDialog.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
         <file>qml/IssuesPanel.qml</file>
         <file>qml/IssueView.qml</file>

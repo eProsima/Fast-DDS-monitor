@@ -62,6 +62,10 @@ std::string now(
 std::string double_to_string(
         const double& d);
 
+//! Cast a std::vector<std::string> to QStringList
+QStringList to_QStringList(
+        const std::vector<std::string>& vector);
+
 } //namespace utils
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_UTILS_H

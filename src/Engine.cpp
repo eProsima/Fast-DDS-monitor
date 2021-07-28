@@ -238,11 +238,14 @@ void Engine::init_monitor(
 }
 
 void Engine::init_monitor(
-        QString locators)
+        QString discovery_server_guid_prefix,
+        QString discovery_server_locators)
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
-    backend::EntityId domain_id = backend_connection_.init_monitor(locators);
+    backend::EntityId domain_id = backend_connection_.init_monitor(
+        utils::to_string(discovery_server_guid_prefix),
+        utils::to_string(discovery_server_locators));
 
     if (domain_id.is_valid())
     {
@@ -251,8 +254,10 @@ void Engine::init_monitor(
     else
     {
         process_error(
-            "Error trying to initialize monitor in Discovery Server with locators: " + utils::to_string(locators),
-            ErrorType::INIT_MONITOR);
+            "Error trying to initialize monitor in Discovery Server with GUID " +
+            utils::to_string(discovery_server_guid_prefix) +
+            " and locators " + utils::to_string(discovery_server_locators),
+            ErrorType::INIT_DS_MONITOR);
     }
 }
 
@@ -1010,4 +1015,9 @@ void Engine::save_csv(
     {
         qWarning() << "Error writing CSV file " << file_name;
     }
+}
+
+std::vector<std::string> Engine::ds_supported_transports()
+{
+    return backend_connection_.ds_supported_transports();
 }

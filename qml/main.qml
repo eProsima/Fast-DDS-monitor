@@ -79,6 +79,10 @@ ApplicationWindow {
         id: dialogInitMonitor
     }
 
+    InitDSMonitorDialog {
+        id: dialogDSInitMonitor
+    }
+
     HistoricDataKindDialog {
         id: dataKindDialog
         onCreateChart: panels.createHistoricChart(dataKind)

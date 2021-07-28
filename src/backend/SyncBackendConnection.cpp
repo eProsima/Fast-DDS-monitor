@@ -440,11 +440,14 @@ EntityId SyncBackendConnection::init_monitor(
 }
 
 EntityId SyncBackendConnection::init_monitor(
-        QString locators)
+        std::string discovery_server_guid_prefix,
+        std::string discovery_server_locators)
 {
     try
     {
-        return StatisticsBackend::init_monitor(locators.toStdString());
+        return StatisticsBackend::init_monitor(
+            discovery_server_guid_prefix,
+            discovery_server_locators);
     }
     catch (const Error& e)
     {
@@ -1144,6 +1147,11 @@ std::string SyncBackendConnection::get_data_kind_units(
         default:
             return "-";
     }
+}
+
+std::vector<std::string> SyncBackendConnection::ds_supported_transports()
+{
+    return std::vector<std::string>({"UDPv4", "UDPv6", "TCPv4", "TCPv6"});
 }
 
 } //namespace backend

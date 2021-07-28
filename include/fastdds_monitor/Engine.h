@@ -96,7 +96,8 @@ public:
      * @param domain number of the domain
      */
     void init_monitor(
-            QString locators);
+            QString discovery_server_guid_prefix,
+            QString discovery_server_locators);
 
     /////
     // PHYSICAL PARTITION
@@ -376,6 +377,9 @@ public:
             const QStringList& data_kinds,
             const QStringList& chartbox_names,
             const QStringList& label_names);
+
+    //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
+    std::vector<std::string> ds_supported_transports();
 
 signals:
 
