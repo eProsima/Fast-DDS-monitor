@@ -67,6 +67,10 @@ In order to hide the whole left sidebar, click in the ``<`` button in the upper 
 For more information about what is an entity and how they are organized refer to :ref:`entities`.
 For more information about what means to select an entity refer to :ref:`selected_entity`.
 
+.. figure:: /rst/figures/screenshots/explorer_panel.png
+    :align: center
+    :scale: 50 %
+
 .. _dds_panel_layout:
 
 DDS Panel
@@ -116,8 +120,8 @@ For further explanation of this entities and the interaction with them refer to 
 
 .. _info_panel_layout:
 
-Information Panel
------------------
+Monitor Status Panel
+--------------------
 This subpanel displays information regarding the last entity clicked.
 This information is divided in two categories and are shown in the different subpanel tabs.
 First, the ``info`` tab contains the general information of the last entity clicked.
@@ -201,7 +205,15 @@ For the explanation of this information refer to the section :ref:`log_panel`.
 Issues Panel
 ============
 
-This panel is not available in this version of the Fast DDS Monitor.
+This panel lists the error events of the application.
+The events that the application reacts to in the current version are:
+
+- Attempt to start monitoring a DDS Domain or a Discovery Server network that has been previously initialized.
+
+.. figure:: /rst/figures/screenshots/issues_panel.png
+    :align: center
+
+For the explanation of this information refer to the section :ref:`log_panel`.
 
 .. _main_panel_layout:
 
@@ -233,13 +245,20 @@ The rest of the *Chartboxes* will automatically rearrange when one of them is mo
 
 .. _create_new_series_layout:
 
-Create new Series Dialog
+Create Series Dialog
 ------------------------
 This Dialog will appear every time a new Chartbox is created, or adding a new series by the button in the Chartbox
 *Series->AddSeries*.
 
-.. figure:: /rst/figures/screenshots/create_series_dialog.png
+.. figure:: /rst/figures/screenshots/create_series_historical.png
     :align: center
+
+    Create historical series dialog
+
+.. figure:: /rst/figures/screenshots/create_series_dynamic.png
+    :align: center
+
+    Create real-time series dialog
 
 For further details on how to configure a new series refer to :ref:`historic_series` for historic data or
 :ref:`dynamic_series` for dynamic data.

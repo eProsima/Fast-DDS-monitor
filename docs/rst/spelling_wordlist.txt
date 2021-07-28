@@ -5,6 +5,7 @@ Backend
 chartbox
 CMake
 colcon
+DataKind
 datareader
 DataReader
 datawriter
@@ -16,7 +17,8 @@ localhost
 multicast
 Qos
 QoS
-Todo
 subpanel
 subpanels
+Todo
+unix
 wget

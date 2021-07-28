@@ -8,25 +8,16 @@ Application Menu
 
 This section describes the operations that can be performed in *Fast DDS Monitor* through the application menu.
 
+.. _application_menu_file:
+
 File
-====
-
-.. note::
-    In future versions, this menu will contain generic buttons as open, save, etc.
-
-Quit
-----
-Close the application.
-
-.. _edit_menu:
-
-Edit
 ====
 
 .. _init_monitor_button:
 
-Initialize New Monitor
-----------------------
+Initialize Monitor
+------------------
+
 Button to start monitoring a new DDS network.
 The entities of this network will be automatically discovered.
 Moreover, their connections, their configuration and statistical data reported by them will be built and
@@ -59,6 +50,24 @@ separated by ``;``.
 This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
+
+Export to CSV
+-------------
+
+Export all the data displayed in the current Fast DDS Monitor session to a CSV file.
+Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
+
+
+Quit
+----
+
+Close the application.
+
+.. _edit_menu:
+
+Edit
+====
+
 .. _display_historic_data_button:
 
 Display Historical Data
@@ -83,16 +92,33 @@ This button resets the entity clicked and the entities models in case there is s
 
 Clear Log
 ---------
-This button clear the callbacks log.
+This button clears the callbacks log.
 
 .. _clear_issues:
 
 Clear Issues
 ------------
-This button clear the issues log.
+This button clears the issues log.
 
 View
 ====
+
+Hide/Show Inactive entities
+---------------------------
+The user of the application can decide whether to display the currently inactive entities.
+In case they are shown, it will be possible to access the data related to them, while if they are hidden from the
+monitor, they will no longer be available in the whole application framework.
+The latter means that it will not be possible to plot charts with data relating to these entities.
+This button hides/reveals the currently inactive entities detected by the monitor.
+
+Dashboard Layout
+----------------
+Changes the size of the chart boxes displayed in the main panel of the application.
+Three mutually exclusive layout options are defined and explained below.
+
+ * |dashboard_layout_1| **Large**: A single full-screen chart is displayed.
+ * |dashboard_layout_2| **Medium**: Adjusts the chart size to show two chart boxes per row.
+ * |dashboard_layout_3| **Small**: Adjusts the chart size to show three chart boxes per row.
 
 Hide/Show Shortcuts Toolbar
 ---------------------------
@@ -117,8 +143,8 @@ Link to this documentation.
 Release Notes
 -------------
 
-.. warning::
-    Button not supported.
+Link to the `Releases <https://github.com/eProsima/Fast-DDS-monitor/releases>`_ section of the
+`GitHub Fast DDS Monitor repository`_.
 
 Join Us on Twitter
 ------------------
@@ -126,13 +152,11 @@ Link to `eProsima Twitter account <https://twitter.com/EProsima>`_.
 
 Search Feature Requests
 -----------------------
-Link to the *issues* section of the Fast DDS Monitor repository in
-`GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
+Link to the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
 
 Report Issue
 ------------
-Link to the *issues* section of the Fast DDS Monitor repository in
-`GitHub <https://github.com/eProsima/Fast-DDS-monitor/issues>`_.
+Link to the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
 
 .. todo::
     Explain the form to add an issue.
@@ -140,3 +164,6 @@ Link to the *issues* section of the Fast DDS Monitor repository in
 About
 -----
 General information of the currently running *Fast DDS Monitor* application.
+
+.. _GitHub Fast DDS Monitor repository: https://github.com/eProsima/Fast-DDS-monitor
+.. _Issues: https://github.com/eProsima/Fast-DDS-monitor/issues

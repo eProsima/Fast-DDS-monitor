@@ -1,2 +1,34 @@
 .. |FastDDSDocs| replace:: `Fast DDS Documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/>`__
 .. |DDSSpecification| replace:: `DDS specification <https://www.omg.org/spec/DDS/1.4/About-DDS/>`__
+
+.. |dashboard_layout_1| image:: /rst/../../resources/images/icons/originals/grid1.svg
+    :width: 20
+    :alt: Dashboard Layout
+
+.. |dashboard_layout_2| image:: /rst/../../resources/images/icons/originals/grid2.svg
+    :width: 20
+    :alt: Dashboard Layout
+
+.. |dashboard_layout_3| image:: /rst/../../resources/images/icons/originals/grid3.svg
+    :width: 20
+    :alt: Dashboard Layout
+
+.. |historical_chart| image:: /rst/../../resources/images/icons/originals/historicalchart.svg
+    :width: 20
+    :alt: Display Historical Data
+
+.. |dynamic_chart| image:: /rst/../../resources/images/icons/originals/dynamicchart.svg
+    :width: 20
+    :alt: Display Real-Time Data
+
+.. |refresh| image:: /rst/../../resources/images/icons/originals/refresh.svg
+    :width: 20
+    :alt: Refresh
+
+.. |clear_log| image:: /rst/../../resources/images/icons/originals/clearlog.svg
+    :width: 20
+    :alt: Clear Log
+
+.. |clear_issues| image:: /rst/../../resources/images/icons/originals/clearissues.svg
+    :width: 20
+    :alt: Clear Issues

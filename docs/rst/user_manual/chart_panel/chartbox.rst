@@ -16,6 +16,8 @@ These chartbox will be displayed in the central panel with the title of the *Dat
 In these charts it will be displayed the Series of data that the user initialize.
 For how to set a new series please refer to :ref:`create_historic_series` or :ref:`create_dynamic_series`.
 
+.. _chartbox_chart_menu:
+
 Chart Menu
 ----------
 In the top bar of each Chartbox there is a Menu tab *Chart* with the following buttons.
@@ -33,6 +35,11 @@ Close chart box
 ^^^^^^^^^^^^^^^
 Eliminate the Chartbox and every configuration in it.
 It could be removed as well pressing the ``x`` button in the top of the chart.
+
+Export to CSV
+^^^^^^^^^^^^^
+Export the data of all series in the chart box to a CSV file.
+Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
 
 Series Menu
 -----------
@@ -70,6 +77,8 @@ Zoom in/out
 Press and hold ``Ctrl`` key and scroll up to zoom in to the center of the Chartbox.
 Press and hold ``Ctrl`` key and scroll down to zoom out from the center of the Chartbox.
 
+.. _chartbox_series_configuration:
+
 Series Configuration
 --------------------
 Right clicking in the name of a series in the *Legend* will open a dialog with the available configurations for
@@ -92,6 +101,11 @@ Hide/Show series
 ^^^^^^^^^^^^^^^^
 Hide a series if it is displayed, or it reveal it if it is hide.
 Also available with left click on the name of the series in the *Legend*.
+
+Export to CSV
+^^^^^^^^^^^^^
+Export the series data to a CSV file.
+Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
 
 Dynamic chartbox
 ----------------

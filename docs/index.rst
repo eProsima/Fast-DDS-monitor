@@ -54,6 +54,7 @@
    /rst/user_manual/issues_panel
    /rst/user_manual/chart_panel_index
    /rst/user_manual/select_entity
+   /rst/user_manual/export_data
 
 
 .. _index_developer_manual:

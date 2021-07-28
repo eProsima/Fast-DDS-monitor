@@ -222,8 +222,6 @@ Click on *Change alias* to re-name the entity.
 Set the new alias that you want for this entity.
 From now on this name will be used all along the monitor.
 
-.. figure:: /rst/figures/screenshots/usage_example/alias_dialog.png
-    :align: center
 
 .. note::
 
@@ -238,7 +236,7 @@ Data Count Plot
 ---------------
 
 This section explains how to represent the data being monitored and retrieved by the DDS entities.
-First of all, click in :ref:`display_historic_data_button`.
+First of all, go to *Edit->Display Historical Data*.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 The :code:`DATA_COUNT` has been chosen for this tutorial.
 
@@ -275,15 +273,11 @@ Each points means that from that timestamp until the timestamp of next point the
 The green series reports that this data has been sent periodically by the publisher each time
 it had updated the number of data sent by 1.
 
-Here you could appreciate that the beginning of the chart is empty.
-This is because the monitor has started before the publisher, and so there are some data at the beginning of the
-time displayed that does not exist.
-
 Latency Plot
 -------------
 
 Next, you are going to see how to represent the latency between these *DomainParticipants*.
-First, click in :ref:`display_historic_data_button`.
+First, go to *File->Display Historical Data*.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 For this case, we will choose :code:`FASTDDS_LATENCY`.
 This data is called like this because it represents the time elapsed between the user call :code:`write` function
@@ -327,7 +321,7 @@ Periodic Latency Plot
 
 This section explains how to represent the FastDDS latency in real-time between the publisher and
 the subscriber.
-First of all, click in :ref:`display_dynamic_data_button`.
+First of all, click in |dynamic_chart|.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 For this case, choose :code:`FASTDDS_LATENCY`.
 Set a :code:`Time window` of 1 minute.
