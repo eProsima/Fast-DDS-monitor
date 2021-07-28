@@ -32,3 +32,23 @@
 .. |clear_issues| image:: /rst/../../resources/images/icons/originals/clearissues.svg
     :width: 20
     :alt: Clear Issues
+
+.. |resize| image:: /rst/../../resources/images/icons/originals/resize.svg
+    :width: 20
+    :alt: Reset Chart Zoom
+
+.. |info| image:: /rst/../../resources/images/icons/originals/info.svg
+    :width: 20
+    :alt: Interactive Chart Control Info
+
+.. |editaxis| image:: /rst/../../resources/images/icons/originals/editaxis.svg
+    :width: 20
+    :alt: Set Axes
+
+.. |play| image:: /rst/../../resources/images/icons/originals/play.svg
+    :width: 20
+    :alt: Enable Real-Time
+
+.. |pause| image:: /rst/../../resources/images/icons/originals/pause.svg
+    :width: 20
+    :alt: Disable Real-Time
