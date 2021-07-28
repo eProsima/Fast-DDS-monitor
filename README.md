@@ -3,7 +3,7 @@
 <a href="http://www.eprosima.com"><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSd0PDlVz1U_7MgdTe0FRIWD0Jc9_YH-gGi0ZpLkr-qgCI6ZEoJZ5GBqQ" align="left" hspace="8" vspace="2" width="100" height="100" ></a>
 
 
-[![License](https://img.shields.io/github/license/eProsima/Fast-DDS-monitor.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/github/license/eProsima/Fast-DDS-monitor.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![Releases](https://img.shields.io/github/v/release/eProsima/Fast-DDS-monitor?sort=semver)](https://github.com/eProsima/Fast-DDS-monitor/releases)
 [![Issues](https://img.shields.io/github/issues/eProsima/Fast-DDS-monitor.svg)](https://github.com/eProsima/Fast-DDS-monitor/issues)
 [![Forks](https://img.shields.io/github/forks/eProsima/Fast-DDS-monitor.svg)](https://github.com/eProsima/Fast-DDS-monitor/network/members)
