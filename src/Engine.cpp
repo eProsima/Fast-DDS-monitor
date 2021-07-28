@@ -1021,3 +1021,19 @@ std::vector<std::string> Engine::ds_supported_transports()
 {
     return backend_connection_.ds_supported_transports();
 }
+
+std::vector<std::string> Engine::get_statistic_kinds()
+{
+    return backend_connection_.get_statistic_kinds();
+}
+
+std::vector<std::string> Engine::get_data_kinds()
+{
+    return backend_connection_.get_data_kinds();
+}
+
+bool Engine::data_kind_has_target(
+        const QString& data_kind)
+{
+    return backend_connection_.data_kind_has_target(backend::string_to_data_kind(data_kind));
+}

@@ -239,3 +239,19 @@ QStringList Controller::ds_supported_transports()
 {
     return utils::to_QStringList(engine_->ds_supported_transports());
 }
+
+QStringList Controller::get_statistic_kinds()
+{
+    return utils::to_QStringList(engine_->get_statistic_kinds());
+}
+
+QStringList Controller::get_data_kinds()
+{
+    return utils::to_QStringList(engine_->get_data_kinds());
+}
+
+bool Controller::data_kind_has_target(
+        const QString& data_kind)
+{
+    return engine_->data_kind_has_target(data_kind);
+}

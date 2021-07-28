@@ -1154,4 +1154,62 @@ std::vector<std::string> SyncBackendConnection::ds_supported_transports()
     return std::vector<std::string>({"UDPv4", "UDPv6", "TCPv4", "TCPv6"});
 }
 
+std::vector<std::string> SyncBackendConnection::get_statistic_kinds()
+{
+    return std::vector<std::string>({
+            "NONE",
+            "MEAN",
+            "STANDARD_DEVIATION",
+            "MAX",
+            "MIN",
+            "MEDIAN",
+#if !defined(NDEBUG)
+            "COUNT",
+#endif // if !defined(NDEBUG)
+            "SUM"
+        });
+}
+
+std::vector<std::string> SyncBackendConnection::get_data_kinds()
+{
+    return std::vector<std::string>({
+            "FASTDDS_LATENCY",
+            "PUBLICATION_THROUGHPUT",
+            "SUBSCRIPTION_THROUGHPUT",
+            // The following data kinds are currently under development and are therefore only displayed if the monitor
+            // is compiled in Debug.
+#if !defined(NDEBUG)
+            "NETWORK_LATENCY",
+            "RTPS_PACKETS_SENT",
+            "RTPS_BYTES_SENT",
+            "RTPS_PACKETS_LOST",
+            "RTPS_BYTES_LOST",
+            "DISCOVERED_ENTITY",
+            "SAMPLE_DATAS",
+#endif // #if !defined(NDEBUG)
+            "RESENT_DATA",
+            "HEARTBEAT_COUNT",
+            "ACKNACK_COUNT",
+            "NACKFRAG_COUNT",
+            "GAP_COUNT",
+            "DATA_COUNT",
+            "PDP_PACKETS",
+            "EDP_PACKETS"
+        });
+}
+
+bool SyncBackendConnection::data_kind_has_target(
+        const DataKind& data_kind)
+{
+    for (std::pair<EntityKind, EntityKind> entity_kind_pair
+            : StatisticsBackend::get_data_supported_entity_kinds(data_kind))
+    {
+        if (entity_kind_pair.second == EntityKind::INVALID)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 } //namespace backend

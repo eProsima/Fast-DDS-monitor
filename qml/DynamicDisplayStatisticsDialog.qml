@@ -32,16 +32,14 @@ Dialog {
     y: (parent.height - height) / 2
 
     property bool targetExists: false
-
     property bool activeOk: true
+    property var availableStatisticKinds: []
 
     Component.onCompleted: {
-        if (dataKind == "FASTDDS_LATENCY" |
-                dataKind == "NETWORK_LATENCY" |
-                dataKind == "RTPS_PACKETS_SENT" |
-                dataKind == "RTPS_BYTES_SENT" |
-                dataKind == "RTPS_PACKETS_LOST" |
-                dataKind == "RTPS_BYTES_LOST") {
+        // Get the available statistic kinds from the backend
+        availableStatisticKinds = controller.get_statistic_kinds()
+
+        if (controller.data_kind_has_target(dataKind)) {
             targetExists = true
         }
 
@@ -191,15 +189,7 @@ Dialog {
         }
         AdaptiveComboBox {
             id: statisticKind
-            model: [
-                "NONE",
-                "MEAN",
-                "STANDARD_DEVIATION",
-                "MAX",
-                "MIN",
-                "MEDIAN",
-                "COUNT",
-                "SUM"]
+            model: availableStatisticKinds
 
             onActivated: {
                 activeOk = true
