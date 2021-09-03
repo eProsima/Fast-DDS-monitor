@@ -1,8 +1,6 @@
 Version v0.2.0
 ==============
 
-This release includes several updates of the user interface and configurability and multiple bug fixes.
-
 This release includes the following **improvements**:
 
 * Add ToolTips for dialog parameters
