@@ -61,6 +61,7 @@ Dialog {
 
     onAboutToShow: {
         updateAllEntities()
+        statisticKind.currentIndex = -1
     }
 
     onAccepted: {
@@ -71,6 +72,7 @@ Dialog {
             createSeries()
         }
         activeOk = true
+        statisticKind.currentIndex = -1
     }
 
     onApplied: {
@@ -81,6 +83,7 @@ Dialog {
             createSeries()
         }
         activeOk = false
+        statisticKind.currentIndex = -1
     }
 
     onClosed: activeOk = true
@@ -325,7 +328,10 @@ Dialog {
         }
         AdaptiveComboBox {
             id: statisticKind
+            displayText: currentIndex === -1 ? "Please choose a statistic..." : currentText
             model: availableStatisticKinds
+
+            Component.onCompleted: currentIndex = -1
 
             onActivated: {
                 activeOk = true
@@ -469,6 +475,15 @@ Dialog {
         onDiscard: displayStatisticsDialog.close()
     }
 
+    MessageDialog {
+        id: emptyStatisticKind
+        title: "Empty Statistic Kind"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The statistic kind field is empty. Please choose a statistic from the list."
+        onAccepted: displayStatisticsDialog.open()
+        onDiscard: displayStatisticsDialog.close()
+    }
 
     function createSeries() {
         if (!checkInputs())

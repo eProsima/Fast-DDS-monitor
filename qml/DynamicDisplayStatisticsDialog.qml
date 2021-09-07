@@ -57,6 +57,7 @@ Dialog {
 
     onAboutToShow: {
         updateAllEntities()
+        statisticKind.currentIndex = -1
     }
 
     onAccepted: {
@@ -67,6 +68,7 @@ Dialog {
             createSeries()
         }
         activeOk = true
+        statisticKind.currentIndex = -1
     }
 
     onApplied: {
@@ -77,6 +79,7 @@ Dialog {
             createSeries()
         }
         activeOk = false
+        statisticKind.currentIndex = -1
     }
 
     onClosed: activeOk = true
@@ -206,7 +209,10 @@ Dialog {
         }
         AdaptiveComboBox {
             id: statisticKind
+            displayText: currentIndex === -1 ? "Please choose a statistic..." : currentText
             model: availableStatisticKinds
+
+            Component.onCompleted: currentIndex = -1
 
             onActivated: {
                 activeOk = true
@@ -221,12 +227,8 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: {
-            dynamicDisplayStatisticsDialog.open()
-        }
-        onDiscard: {
-            dynamicDisplayStatisticsDialog.close()
-        }
+        onAccepted: dynamicDisplayStatisticsDialog.open()
+        onDiscard: dynamicDisplayStatisticsDialog.close()
     }
 
     MessageDialog {
@@ -235,6 +237,16 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
+        onAccepted: dynamicDisplayStatisticsDialog.open()
+        onDiscard: dynamicDisplayStatisticsDialog.close()
+    }
+
+    MessageDialog {
+        id: emptyStatisticKind
+        title: "Empty Statistic Kind"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The target statistic kind field is empty. Please choose a statistic from the list."
         onAccepted: dynamicDisplayStatisticsDialog.open()
         onDiscard: dynamicDisplayStatisticsDialog.close()
     }
@@ -258,6 +270,12 @@ Dialog {
             emptyTargetEntityIdDialog.open()
             return false
         }
+
+        if (statisticKind.currentIndex === -1) {
+            emptyStatisticKind.open()
+            return false
+        }
+
         return true
     }
 
@@ -282,7 +300,7 @@ Dialog {
         if (entityName.length > 20) {
             var entityName_id_str = entityName.split("<")
             return entityName.split(":")[0] + "<" + entityName_id_str[entityName_id_str.length-1]
-        }else{
+        } else {
             return entityName
         }
     }
