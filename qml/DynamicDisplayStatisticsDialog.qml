@@ -40,7 +40,7 @@ Dialog {
 
     Component.onCompleted: {
         standardButton(Dialog.Apply).text = qsTrId("Add")
-        standardButton(Dialog.Ok).text = qsTrId("Add & Close")
+        standardButton(Dialog.Ok).text = qsTrId("Add && Close")
         standardButton(Dialog.Cancel).text = qsTrId("Close")
 
         // Get the available statistic kinds from the backend
@@ -56,8 +56,12 @@ Dialog {
     }
 
     onAboutToShow: {
+        getDataDialogSourceEntityId.currentIndex = 0
+        getDataDialogTargetEntityId.currentIndex = 0
         updateAllEntities()
         statisticKind.currentIndex = -1
+        sourceEntityId.currentIndex = -1
+        targetEntityId.currentIndex = -1
     }
 
     onAccepted: {
@@ -68,7 +72,6 @@ Dialog {
             createSeries()
         }
         activeOk = true
-        statisticKind.currentIndex = -1
     }
 
     onApplied: {
@@ -141,7 +144,12 @@ Dialog {
                 id: sourceEntityId
                 textRole: "nameId"
                 valueRole: "id"
+                displayText: currentIndex === -1
+                             ? ("Please choose a " + getDataDialogSourceEntityId.currentText + "...")
+                             : currentText
                 model: entityModelFirst
+
+                Component.onCompleted: currentIndex = -1
 
                 onActivated: {
                     activeOk = true
@@ -187,7 +195,12 @@ Dialog {
                 id: targetEntityId
                 textRole: "nameId"
                 valueRole: "id"
+                displayText: currentIndex === -1
+                             ? ("Please choose a " + getDataDialogTargetEntityId.currentText + "...")
+                             : currentText
                 model: entityModelSecond
+
+                Component.onCompleted: currentIndex = -1
 
                 onActivated: {
                     activeOk = true
@@ -246,7 +259,7 @@ Dialog {
         title: "Empty Statistic Kind"
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The target statistic kind field is empty. Please choose a statistic from the list."
+        text: "The statistic kind field is empty. Please choose a statistic from the list."
         onAccepted: dynamicDisplayStatisticsDialog.open()
         onDiscard: dynamicDisplayStatisticsDialog.close()
     }

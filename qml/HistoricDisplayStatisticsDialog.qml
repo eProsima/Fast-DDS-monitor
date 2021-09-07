@@ -44,7 +44,7 @@ Dialog {
 
     Component.onCompleted: {
         standardButton(Dialog.Apply).text = qsTrId("Add")
-        standardButton(Dialog.Ok).text = qsTrId("Add & Close")
+        standardButton(Dialog.Ok).text = qsTrId("Add && Close")
         standardButton(Dialog.Cancel).text = qsTrId("Close")
 
         // Get the available statistic kinds from the backend
@@ -60,8 +60,12 @@ Dialog {
     }
 
     onAboutToShow: {
+        getDataDialogSourceEntityId.currentIndex = 0
+        getDataDialogTargetEntityId.currentIndex = 0
         updateAllEntities()
         statisticKind.currentIndex = -1
+        sourceEntityId.currentIndex = -1
+        targetEntityId.currentIndex = -1
     }
 
     onAccepted: {
@@ -145,6 +149,9 @@ Dialog {
                 id: sourceEntityId
                 textRole: "nameId"
                 valueRole: "id"
+                displayText: currentIndex === -1
+                             ? ("Please choose a " + getDataDialogSourceEntityId.currentText + "...")
+                             : currentText
                 model: entityModelFirst
 
                 onActivated: {
@@ -191,6 +198,9 @@ Dialog {
                 id: targetEntityId
                 textRole: "nameId"
                 valueRole: "id"
+                displayText: currentIndex === -1
+                             ? ("Please choose a " + getDataDialogTargetEntityId.currentText + "...")
+                             : currentText
                 model: entityModelSecond
 
                 onActivated: {
