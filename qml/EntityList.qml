@@ -89,15 +89,22 @@ Rectangle {
                             Layout.leftMargin: firstIndentation
                             color: entityLabelColor(highlight, alive)
 
-                            MouseArea {
+                            DifferClickMouseArea {
                                 anchors.fill: parent
-                                onClicked: {
+                                onDoubleClick: {
                                     if(endpointList.height === endpointList.collapseHeightFlag) {
                                         endpointList.height = 0;
                                     }
-                                    else {
+                                    else{
                                         endpointList.height = endpointList.collapseHeightFlag;
                                     }
+                                }
+                                onSingleClick: {
+                                    controller.participant_click(id)
+                                    lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
+                                }
+                                onRightClick: {
+                                    openEntitiesMenu(id, name, kind)
                                 }
                             }
                         }
@@ -107,7 +114,7 @@ Rectangle {
 
                             DifferClickMouseArea {
                                 anchors.fill: parent
-                                onSingleClick: {
+                                onDoubleClick: {
                                     if(endpointList.height === endpointList.collapseHeightFlag) {
                                         endpointList.height = 0;
                                     }
@@ -115,7 +122,7 @@ Rectangle {
                                         endpointList.height = endpointList.collapseHeightFlag;
                                     }
                                 }
-                                onDoubleClick: {
+                                onSingleClick: {
                                     controller.participant_click(id)
                                     lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
                                 }
@@ -178,27 +185,9 @@ Rectangle {
                                         Layout.leftMargin: secondIndentation
                                         color: entityLabelColor(highlight, alive)
 
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                if(locatorList.height === locatorList.collapseHeightFlag) {
-                                                    locatorList.height = 0;
-                                                    endpointList.height =
-                                                            endpointList.height - locatorList.collapseHeightFlag;
-                                                } else {
-                                                    locatorList.height = locatorList.collapseHeightFlag;
-                                                    endpointList.height = endpointList.height + locatorList.height;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    Label {
-                                        text: name
-                                        color: entityLabelColor(highlight, alive)
-
                                         DifferClickMouseArea {
                                             anchors.fill: parent
-                                            onSingleClick: {
+                                            onDoubleClick: {
                                                 if(locatorList.height === locatorList.collapseHeightFlag) {
                                                     locatorList.height = 0;
                                                     endpointList.height =
@@ -210,7 +199,34 @@ Rectangle {
                                                     endpointList.height = endpointList.height + locatorList.height;
                                                 }
                                             }
+                                            onSingleClick: {
+                                                controller.endpoint_click(id)
+                                                lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
+                                            }
+                                            onRightClick: {
+                                                openEntitiesMenu(id, name, kind)
+                                            }
+                                        }
+                                    }
+                                    Label {
+                                        text: name
+                                        color: entityLabelColor(highlight, alive)
+
+                                        DifferClickMouseArea {
+                                            anchors.fill: parent
                                             onDoubleClick: {
+                                                if(locatorList.height === locatorList.collapseHeightFlag) {
+                                                    locatorList.height = 0;
+                                                    endpointList.height =
+                                                            endpointList.height - locatorList.collapseHeightFlag;
+                                                }
+                                                else
+                                                {
+                                                    locatorList.height = locatorList.collapseHeightFlag;
+                                                    endpointList.height = endpointList.height + locatorList.height;
+                                                }
+                                            }
+                                            onSingleClick: {
                                                 controller.endpoint_click(id)
                                                 lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
                                             }
@@ -220,7 +236,6 @@ Rectangle {
                                         }
                                     }
                                 }
-
                             }
 
                             ListView {
@@ -274,6 +289,17 @@ Rectangle {
                                                     size: iconSize
                                                     Layout.leftMargin: thirdIndentation
                                                     color: entityLabelColor(highlight, alive)
+
+                                                    DifferClickMouseArea {
+                                                        anchors.fill: parent
+                                                        onSingleClick: {
+                                                            controller.locator_click(id)
+                                                            lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
+                                                        }
+                                                        onRightClick: {
+                                                            openEntitiesMenu(id, name, kind)
+                                                        }
+                                                    }
                                                 }
                                                 Label {
                                                     text: name
@@ -281,7 +307,7 @@ Rectangle {
 
                                                     DifferClickMouseArea {
                                                         anchors.fill: parent
-                                                        onDoubleClicked: {
+                                                        onSingleClick: {
                                                             controller.locator_click(id)
                                                             lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
                                                         }

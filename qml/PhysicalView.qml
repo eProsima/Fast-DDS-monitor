@@ -89,15 +89,22 @@ Rectangle {
                             Layout.leftMargin: firstIndentation
                             color: entityLabelColor(highlight, alive)
 
-                            MouseArea {
+                            DifferClickMouseArea {
                                 anchors.fill: parent
-                                onClicked: {
+                                onDoubleClick: {
                                     if(userList.height === userList.collapseHeightFlag) {
                                         userList.height = 0;
                                     }
-                                    else {
+                                    else{
                                         userList.height = userList.collapseHeightFlag;
                                     }
+                                }
+                                onSingleClick: {
+                                    controller.host_click(id)
+                                    lastClickedPhysical(hostIdx, -1, -1, name, kind)
+                                }
+                                onRightClick: {
+                                    openEntitiesMenu(id, name, kind)
                                 }
                             }
                         }
@@ -107,7 +114,7 @@ Rectangle {
 
                             DifferClickMouseArea {
                                 anchors.fill: parent
-                                onSingleClick: {
+                                onDoubleClick: {
                                     if(userList.height === userList.collapseHeightFlag) {
                                         userList.height = 0;
                                     }
@@ -115,7 +122,7 @@ Rectangle {
                                         userList.height = userList.collapseHeightFlag;
                                     }
                                 }
-                                onDoubleClick: {
+                                onSingleClick: {
                                     controller.host_click(id)
                                     lastClickedPhysical(hostIdx, -1, -1, name, kind)
                                 }
@@ -179,27 +186,9 @@ Rectangle {
                                         Layout.leftMargin: secondIndentation
                                         color: entityLabelColor(highlight, alive)
 
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                if(processList.height === processList.collapseHeightFlag) {
-                                                    processList.height = 0;
-                                                    userList.height =
-                                                            userList.height - processList.collapseHeightFlag;
-                                                } else {
-                                                    processList.height = processList.collapseHeightFlag;
-                                                    userList.height = userList.height + processList.height;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    Label {
-                                        text: name
-                                        color: entityLabelColor(highlight, alive)
-
                                         DifferClickMouseArea {
                                             anchors.fill: parent
-                                            onSingleClick: {
+                                            onDoubleClick: {
                                                 if(processList.height === processList.collapseHeightFlag) {
                                                     processList.height = 0;
                                                     userList.height =
@@ -211,7 +200,34 @@ Rectangle {
                                                     userList.height = userList.height + processList.height;
                                                 }
                                             }
+                                            onSingleClick: {
+                                                controller.user_click(id)
+                                                lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
+                                            }
+                                            onRightClick: {
+                                                openEntitiesMenu(id, name, kind)
+                                            }
+                                        }
+                                    }
+                                    Label {
+                                        text: name
+                                        color: entityLabelColor(highlight, alive)
+
+                                        DifferClickMouseArea {
+                                            anchors.fill: parent
                                             onDoubleClick: {
+                                                if(processList.height === processList.collapseHeightFlag) {
+                                                    processList.height = 0;
+                                                    userList.height =
+                                                            userList.height - processList.collapseHeightFlag;
+                                                }
+                                                else
+                                                {
+                                                    processList.height = processList.collapseHeightFlag;
+                                                    userList.height = userList.height + processList.height;
+                                                }
+                                            }
+                                            onSingleClick: {
                                                 controller.user_click(id)
                                                 lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
                                             }
@@ -275,6 +291,17 @@ Rectangle {
                                                     size: iconSize
                                                     Layout.leftMargin: thirdIndentation
                                                     color: entityLabelColor(highlight, alive)
+
+                                                    DifferClickMouseArea {
+                                                        anchors.fill: parent
+                                                        onSingleClick: {
+                                                            controller.process_click(id)
+                                                            lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
+                                                        }
+                                                        onRightClick: {
+                                                            openEntitiesMenu(id, name, kind)
+                                                        }
+                                                    }
                                                 }
                                                 Label {
                                                     text: name
@@ -282,7 +309,7 @@ Rectangle {
 
                                                     DifferClickMouseArea {
                                                         anchors.fill: parent
-                                                        onDoubleClicked: {
+                                                        onSingleClick: {
                                                             controller.process_click(id)
                                                             lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
                                                         }

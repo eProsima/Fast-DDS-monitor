@@ -96,15 +96,22 @@ Rectangle {
                             Layout.leftMargin: firstIndentation
                             color: entityLabelColor(highlight, alive)
 
-                            MouseArea {
+                            DifferClickMouseArea {
                                 anchors.fill: parent
-                                onClicked: {
+                                onDoubleClick: {
                                     if(topicList.height === topicList.collapseHeightFlag) {
                                         topicList.height = 0;
                                     }
-                                    else {
+                                    else{
                                         topicList.height = topicList.collapseHeightFlag;
                                     }
+                                }
+                                onSingleClick: {
+                                    controller.domain_click(id)
+                                    lastClickedLogical(domainIdx, -1, name, kind)
+                                }
+                                onRightClick: {
+                                    openEntitiesMenu(id, name, kind)
                                 }
                             }
                         }
@@ -114,7 +121,7 @@ Rectangle {
 
                             DifferClickMouseArea {
                                 anchors.fill: parent
-                                onSingleClick: {
+                                onDoubleClick: {
                                     if(topicList.height === topicList.collapseHeightFlag) {
                                         topicList.height = 0;
                                     }
@@ -122,7 +129,7 @@ Rectangle {
                                         topicList.height = topicList.collapseHeightFlag;
                                     }
                                 }
-                                onDoubleClick: {
+                                onSingleClick: {
                                     controller.domain_click(id)
                                     lastClickedLogical(domainIdx, -1, name, kind)
                                 }
@@ -183,6 +190,17 @@ Rectangle {
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
                                         color: entityLabelColor(highlight, alive)
+
+                                        DifferClickMouseArea {
+                                            anchors.fill: parent
+                                            onSingleClick: {
+                                                controller.domain_click(id)
+                                                lastClickedLogical(domainIdx, topicIdx, name, kind)
+                                            }
+                                            onRightClick: {
+                                                openEntitiesMenu(id, name, kind)
+                                            }
+                                        }
                                     }
                                     Label {
                                         text: name
@@ -190,7 +208,7 @@ Rectangle {
 
                                         DifferClickMouseArea {
                                             anchors.fill: parent
-                                            onDoubleClicked: {
+                                            onSingleClick: {
                                                 controller.domain_click(id)
                                                 lastClickedLogical(domainIdx, topicIdx, name, kind)
                                             }
