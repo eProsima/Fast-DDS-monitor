@@ -43,6 +43,10 @@ Dialog {
     property var availableStatisticKinds: []
 
     Component.onCompleted: {
+        standardButton(Dialog.Apply).text = qsTrId("Add")
+        standardButton(Dialog.Ok).text = qsTrId("Add & Close")
+        standardButton(Dialog.Cancel).text = qsTrId("Close")
+
         // Get the available statistic kinds from the backend
         availableStatisticKinds = controller.get_statistic_kinds()
 
@@ -56,6 +60,9 @@ Dialog {
     }
 
     onAccepted: {
+        if (!checkInputs())
+            return
+
         if (activeOk) {
             createSeries()
         }
@@ -63,9 +70,16 @@ Dialog {
     }
 
     onApplied: {
+        if (!checkInputs())
+            return
+
+        if (activeOk) {
+            createSeries()
+        }
         activeOk = false
-        createSeries()
     }
+
+    onClosed: activeOk = true
 
     GridLayout{
 
@@ -441,9 +455,8 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: {
-            displayStatisticsDialog.open()
-        }
+        onAccepted: displayStatisticsDialog.open()
+        onDiscard: displayStatisticsDialog.close()
     }
 
     MessageDialog {
@@ -452,19 +465,35 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: {
-            displayStatisticsDialog.open()
-        }
+        onAccepted: displayStatisticsDialog.open()
+        onDiscard: displayStatisticsDialog.close()
     }
 
 
     function createSeries() {
+        if (!checkInputs())
+            return
+
+        controlPanel.addHistoricSeries(
+                    dataKind,
+                    (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
+                    sourceEntityId.currentValue,
+                    (targetExists) ? targetEntityId.currentValue : '',
+                    bins.value,
+                    startTime,
+                    startTimeDefault.checked,
+                    endTime,
+                    endTimeDefault.checked,
+                    statisticKind.currentText)
+    }
+
+    function checkInputs() {
         if (sourceEntityId.currentText == "") {
             emptySourceEntityIdDialog.open()
-            return
+            return false
         } else if ((targetEntityId.currentText == "") && targetExists) {
             emptyTargetEntityIdDialog.open()
-            return
+            return false
         }
 
         var startTime = Date.fromLocaleString(
@@ -482,23 +511,11 @@ Dialog {
                     "dd.MM.yyyy HH:mm:ss")
         }
 
-        if (startTime < endTime) {
-            controlPanel.addHistoricSeries(
-                        dataKind,
-                        (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
-                        sourceEntityId.currentValue,
-                        (targetExists) ? targetEntityId.currentValue : '',
-                        bins.value,
-                        startTime,
-                        startTimeDefault.checked,
-                        endTime,
-                        endTimeDefault.checked,
-                        statisticKind.currentText)
-        } else {
-            if (!startTimeDefault.checked) {
-                wrongDatesDialog.open()
-            }
+        if (startTime >= endTime && !startTimeDefault.checked) {
+            wrongDatesDialog.open()
+            return false
         }
+        return true
     }
 
     function formatText(count, modelData) {

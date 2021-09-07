@@ -39,6 +39,10 @@ Dialog {
     property var availableStatisticKinds: []
 
     Component.onCompleted: {
+        standardButton(Dialog.Apply).text = qsTrId("Add")
+        standardButton(Dialog.Ok).text = qsTrId("Add & Close")
+        standardButton(Dialog.Cancel).text = qsTrId("Close")
+
         // Get the available statistic kinds from the backend
         availableStatisticKinds = controller.get_statistic_kinds()
 
@@ -52,6 +56,9 @@ Dialog {
     }
 
     onAccepted: {
+        if (!checkInputs())
+            return
+
         if (activeOk) {
             createSeries()
         }
@@ -59,9 +66,16 @@ Dialog {
     }
 
     onApplied: {
+        if (!checkInputs())
+            return
+
+        if (activeOk) {
+            createSeries()
+        }
         activeOk = false
-        createSeries()
     }
+
+    onClosed: activeOk = true
 
     GridLayout{
 
@@ -185,7 +199,7 @@ Dialog {
                 text: "Cumulative function that is\n" +
                       "applied to the data of each\n" +
                       "time interval.\n" +
-                      "If NONE is selected, all \n" +
+                      "If RAW DATA is selected, all \n" +
                       "available data in the last\n" +
                       "time frame is displayed.\n"
             }
@@ -210,6 +224,9 @@ Dialog {
         onAccepted: {
             dynamicDisplayStatisticsDialog.open()
         }
+        onDiscard: {
+            dynamicDisplayStatisticsDialog.close()
+        }
     }
 
     MessageDialog {
@@ -218,25 +235,30 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: {
-            dynamicDisplayStatisticsDialog.open()
-        }
+        onAccepted: dynamicDisplayStatisticsDialog.open()
+        onDiscard: dynamicDisplayStatisticsDialog.close()
     }
 
     function createSeries() {
-        if (sourceEntityId.currentText == "") {
-            emptySourceEntityIdDialog.open()
+        if (!checkInputs())
             return
-        } else if ((targetEntityId.currentText == "") && targetExists) {
-            emptyTargetEntityIdDialog.open()
-            return
-        }
 
         controlPanel.addDynamicSeries(
                     (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
                     sourceEntityId.currentValue,
                     (targetExists) ? targetEntityId.currentValue : '',
                     statisticKind.currentText)
+    }
+
+    function checkInputs() {
+        if (sourceEntityId.currentText == "") {
+            emptySourceEntityIdDialog.open()
+            return false
+        } else if ((targetEntityId.currentText == "") && targetExists) {
+            emptyTargetEntityIdDialog.open()
+            return false
+        }
+        return true
     }
 
     function formatText(count, modelData) {

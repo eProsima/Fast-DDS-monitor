@@ -1160,7 +1160,6 @@ std::vector<std::string> SyncBackendConnection::ds_supported_transports()
 std::vector<std::string> SyncBackendConnection::get_statistic_kinds()
 {
     return std::vector<std::string>({
-            "NONE",
             "MEAN",
             "STANDARD_DEVIATION",
             "MAX",
@@ -1169,7 +1168,8 @@ std::vector<std::string> SyncBackendConnection::get_statistic_kinds()
 #if !defined(NDEBUG)
             "COUNT",
 #endif // if !defined(NDEBUG)
-            "SUM"
+            "SUM",
+            "RAW DATA"
         });
 }
 
