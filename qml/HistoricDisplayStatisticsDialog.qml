@@ -59,6 +59,10 @@ Dialog {
         regenerateSeriesLabel()
     }
 
+    onAboutToShow: {
+        updateAllEntities()
+    }
+
     onAccepted: {
         if (!checkInputs())
             return
@@ -131,9 +135,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
-                    controller.update_available_entity_ids(currentText, "getDataDialogSourceEntityId")
-                    sourceEntityId.recalculateWidth()
-                    regenerateSeriesLabel()
+                    updateSources()
                 }
             }
             AdaptiveComboBox {
@@ -179,9 +181,7 @@ Dialog {
                     "Locator"]
                 onActivated:  {
                     activeOk = true
-                    controller.update_available_entity_ids(currentText, "getDataDialogDestinationEntityId")
-                    targetEntityId.recalculateWidth()
-                    regenerateSeriesLabel()
+                    updateTargets()
                 }
             }
             AdaptiveComboBox {
@@ -542,6 +542,23 @@ Dialog {
         }else{
             return entityName
         }
+    }
+
+    function updateSources() {
+        controller.update_available_entity_ids(getDataDialogSourceEntityId.currentText, "getDataDialogSourceEntityId")
+        sourceEntityId.recalculateWidth()
+        regenerateSeriesLabel()
+    }
+
+    function updateTargets() {
+        controller.update_available_entity_ids(getDataDialogTargetEntityId.currentText, "getDataDialogDestinationEntityId")
+        targetEntityId.recalculateWidth()
+        regenerateSeriesLabel()
+    }
+
+    function updateAllEntities() {
+        updateSources()
+        updateTargets()
     }
 }
 
