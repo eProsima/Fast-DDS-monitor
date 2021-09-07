@@ -16,6 +16,10 @@ MenuBar {
     signal dashboardLayoutButtonHidden
     signal changeChartboxLayout(int chartsPerRow)
     signal saveAllCSV()
+    signal explorerDDSEntitiesChanged(bool status)
+    signal explorerPhysicalChanged(bool status)
+    signal explorerLogicalChanged(bool status)
+    signal explorerEntityInfoChanged(bool status)
 
     signal leftSidebarHidden
 
@@ -188,6 +192,37 @@ MenuBar {
             text: (panels.showLeftSidebar) ? "Hide Left sidebar" : "Show Left Sidebar"
             onTriggered: leftSidebarHidden()
         }
+        AdaptiveMenu {
+            id: contextMenu
+            title: qsTr("Customize Left Sidebar")
+
+            Action {
+                id: contextMenuDDSEntities
+                text: "DDS Entities"
+                checkable: true
+                checked: true
+                onTriggered: explorerDDSEntitiesChanged(checked)
+            }
+            Action {
+                id: contextMenuPhysical
+                text: "Physical"
+                checkable: true
+                onTriggered: explorerPhysicalChanged(checked)
+            }
+            Action {
+                id: contextMenuLogical
+                text: "Logical"
+                checkable: true
+                onTriggered: explorerLogicalChanged(checked)
+            }
+            Action {
+                id: contextMenuEntityInfo
+                text: "Entity Info"
+                checkable: true
+                checked: true
+                onTriggered: explorerEntityInfoChanged(checked)
+            }
+        }
     }
 
     AdaptiveMenu {
@@ -306,5 +341,21 @@ MenuBar {
             default:
                 break
         }
+    }
+
+    function changeExplorerDDSEntities(status) {
+        contextMenuDDSEntities.checked = status
+    }
+
+    function changeExplorerPhysical(status) {
+        contextMenuPhysical.checked = status
+    }
+
+    function changeExplorerLogical(status) {
+        contextMenuLogical.checked = status
+    }
+
+    function changeExplorerEntityInfo(status) {
+        contextMenuEntityInfo.checked = status
     }
 }

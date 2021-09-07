@@ -33,6 +33,10 @@ RowLayout {
     signal lastClickedReset
     signal openCloseLeftSideBar
     signal changeChartboxLayout(int chartsPerRow)
+    signal explorerDDSEntitiesChanged(bool status)
+    signal explorerPhysicalChanged(bool status)
+    signal explorerLogicalChanged(bool status)
+    signal explorerEntityInfoChanged(bool status)
 
     onLastClickedReset: leftPanel.resetLastClicked()
     onOpenCloseLeftSideBar: {
@@ -84,6 +88,10 @@ RowLayout {
             SplitView.minimumWidth: parent.width / 6
             visible: panels.showLeftSidebar
             clip: true
+            onExplorerDDSEntitiesChanged: panels.explorerDDSEntitiesChanged(status)
+            onExplorerPhysicalChanged: panels.explorerPhysicalChanged(status)
+            onExplorerLogicalChanged: panels.explorerLogicalChanged(status)
+            onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
         }
 
         ChartsLayout {
@@ -118,6 +126,22 @@ RowLayout {
 
     function saveAllCSV() {
         chartsLayout.saveAllCSV()
+    }
+
+    function changeExplorerDDSEntities(status) {
+        leftPanel.changeExplorerDDSEntities(status)
+    }
+
+    function changeExplorerPhysical(status) {
+        leftPanel.changeExplorerPhysical(status)
+    }
+
+    function changeExplorerLogical(status) {
+        leftPanel.changeExplorerLogical(status)
+    }
+
+    function changeExplorerEntityInfo(status) {
+        leftPanel.changeExplorerEntityInfo(status)
     }
 }
 

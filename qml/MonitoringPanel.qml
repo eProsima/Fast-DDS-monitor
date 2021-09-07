@@ -28,6 +28,11 @@ ColumnLayout {
     id: monitoringPanel
     spacing: 0
 
+    signal explorerDDSEntitiesChanged(bool status)
+    signal explorerPhysicalChanged(bool status)
+    signal explorerLogicalChanged(bool status)
+    signal explorerEntityInfoChanged(bool status)
+
     Rectangle {
         Layout.fillWidth: true
         height: 20
@@ -65,26 +70,46 @@ ColumnLayout {
                     id: contextMenu
 
                     Action {
+                        id: contextMenuDDSEntities
                         text: "DDS Entities"
                         checkable: true
                         checked: true
-                        onTriggered: entityListLayout.visible = checked
+                        onTriggered: {
+                            entityListLayout.visible = checked
+                            explorerDDSEntitiesChanged(checked)
+                        }
+                        onCheckedChanged: entityListLayout.visible = checked
                     }
                     Action {
+                        id: contextMenuPhysical
                         text: "Physical"
                         checkable: true
-                        onTriggered: physicalViewLayout.visible = checked
+                        onTriggered: {
+                            physicalViewLayout.visible = checked
+                            explorerPhysicalChanged(checked)
+                        }
+                        onCheckedChanged: physicalViewLayout.visible = checked
                     }
                     Action {
+                        id: contextMenuLogical
                         text: "Logical"
                         checkable: true
-                        onTriggered: logicalViewLayout.visible = checked
+                        onTriggered: {
+                            logicalViewLayout.visible = checked
+                            explorerLogicalChanged(checked)
+                        }
+                        onCheckedChanged: logicalViewLayout.visible = checked
                     }
                     Action {
+                        id: contextMenuEntityInfo
                         text: "Entity Info"
                         checkable: true
                         checked: true
-                        onTriggered: entityInfo.visible = checked
+                        onTriggered: {
+                            entityInfo.visible = checked
+                            explorerEntityInfoChanged(checked)
+                        }
+                        onCheckedChanged: entityInfo.visible = checked
                     }
                     delegate: MenuItem {
                         id: menuItem
@@ -325,5 +350,21 @@ ColumnLayout {
         physicalView.resetLastEntityClicked()
         logicalView.resetLastEntityClicked()
         infoSelectedEntityLabel.text = "No entity selected"
+    }
+
+    function changeExplorerDDSEntities(status) {
+        contextMenuDDSEntities.checked = status
+    }
+
+    function changeExplorerPhysical(status) {
+        contextMenuPhysical.checked = status
+    }
+
+    function changeExplorerLogical(status) {
+        contextMenuLogical.checked = status
+    }
+
+    function changeExplorerEntityInfo(status) {
+        contextMenuEntityInfo.checked = status
     }
 }
