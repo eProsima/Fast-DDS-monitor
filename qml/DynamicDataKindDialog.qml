@@ -117,7 +117,7 @@ Dialog {
             RowLayout {
                 TextField {
                     id: timeWindowMinutes
-                    text: qsTr("00")
+                    text: qsTr("02")
                     placeholderText: qsTr("00")
                     selectByMouse: true
                     selectionColor: Theme.eProsimaLightBlue

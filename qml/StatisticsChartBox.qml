@@ -340,7 +340,7 @@ Rectangle {
 
                     IconSVG {
                         size: chartViewIcons.innerIconSize
-                        name: "info"
+                        name: "help"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "black"
@@ -601,8 +601,15 @@ Rectangle {
     Dialog {
         id: infoDialog
         title: "Chart Interactive Controls"
-        standardButtons: Dialog.Ok
+        standardButtons: Dialog.Ok | Dialog.Help
         anchors.centerIn: Overlay.overlay
+
+        Component.onCompleted: {
+            standardButton(Dialog.Ok).text = qsTrId("Got it!")
+            standardButton(Dialog.Help).text = qsTrId("Extra Help...")
+        }
+
+        onHelpRequested: Qt.openUrlExternally("https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/chart_panel_index.html")
 
         RowLayout {
             spacing: 20
