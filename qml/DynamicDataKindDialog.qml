@@ -38,6 +38,7 @@ Dialog {
         if (!checkInputs())
             return
 
+        var timeFrame = timeToMilliseconds()
         createChart(dataKindComboBox.currentText, timeFrame, (updatePeriod.value) * 1000)
     }
 
@@ -201,13 +202,22 @@ Dialog {
         var minutes = (timeWindowMinutes.text === "") ? 0 : parseInt(timeWindowMinutes.text)
         var seconds = (timeWindowSeconds.text === "") ? 0 : parseInt(timeWindowSeconds.text)
 
-        var timeFrame = (days*86400 + hours*3600 + minutes*60 + seconds)*1000
-        if (timeFrame === 0){
+        var timeFrame = timeToMilliseconds()
+        if (timeFrame === 0) {
             emptyTimeWindow.open()
             return false
         }
 
         return true
+    }
+
+    function timeToMilliseconds() {
+        var days = (timeWindowDays.text === "") ? 0 : parseInt(timeWindowDays.text)
+        var hours = (timeWindowHours.text === "") ? 0 : parseInt(timeWindowHours.text)
+        var minutes = (timeWindowMinutes.text === "") ? 0 : parseInt(timeWindowMinutes.text)
+        var seconds = (timeWindowSeconds.text === "") ? 0 : parseInt(timeWindowSeconds.text)
+
+        return (days*86400 + hours*3600 + minutes*60 + seconds)*1000
     }
 }
 
