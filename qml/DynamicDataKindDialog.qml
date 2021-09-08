@@ -52,6 +52,10 @@ Dialog {
         availableDataKinds = controller.get_data_kinds()
     }
 
+    onAboutToShow: {
+        dataKindComboBox.currentIndex = -1
+    }
+
     GridLayout{
 
         columns: 2
@@ -66,7 +70,12 @@ Dialog {
         }
         AdaptiveComboBox {
             id: dataKindComboBox
+            displayText: currentIndex === -1
+                         ? ("Please choose a data kind...")
+                         : currentText
             model: availableDataKinds
+
+            Component.onCompleted: currentIndex = -1
         }
 
         Label {
