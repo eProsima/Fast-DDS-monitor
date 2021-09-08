@@ -79,6 +79,27 @@ Rectangle {
                     height: hostIcon.height
                     color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            if(userList.height === userList.collapseHeightFlag) {
+                                userList.height = 0;
+                            } else {
+                                if (userList.childrenRect.height != 0) {
+                                    userList.height = userList.collapseHeightFlag;
+                                }
+                            }
+                        }
+                        onClicked: {
+                            if(mouse.button & Qt.RightButton) {
+                                openEntitiesMenu(id, name, kind)
+                            } else {
+                                controller.host_click(id)
+                                lastClickedPhysical(hostIdx, -1, -1, name, kind)
+                            }
+                        }
+                    }
+
                     RowLayout {
                         spacing: spacingIconLabel
 
@@ -88,48 +109,10 @@ Rectangle {
                             size: iconSize
                             Layout.leftMargin: firstIndentation
                             color: entityLabelColor(highlight, alive)
-
-                            DifferClickMouseArea {
-                                anchors.fill: parent
-                                onDoubleClick: {
-                                    if(userList.height === userList.collapseHeightFlag) {
-                                        userList.height = 0;
-                                    }
-                                    else{
-                                        userList.height = userList.collapseHeightFlag;
-                                    }
-                                }
-                                onSingleClick: {
-                                    controller.host_click(id)
-                                    lastClickedPhysical(hostIdx, -1, -1, name, kind)
-                                }
-                                onRightClick: {
-                                    openEntitiesMenu(id, name, kind)
-                                }
-                            }
                         }
                         Label {
                             text: name
                             color: entityLabelColor(highlight, alive)
-
-                            DifferClickMouseArea {
-                                anchors.fill: parent
-                                onDoubleClick: {
-                                    if(userList.height === userList.collapseHeightFlag) {
-                                        userList.height = 0;
-                                    }
-                                    else{
-                                        userList.height = userList.collapseHeightFlag;
-                                    }
-                                }
-                                onSingleClick: {
-                                    controller.host_click(id)
-                                    lastClickedPhysical(hostIdx, -1, -1, name, kind)
-                                }
-                                onRightClick: {
-                                    openEntitiesMenu(id, name, kind)
-                                }
-                            }
                         }
                     }
                 }
@@ -176,6 +159,30 @@ Rectangle {
                                 height: userIcon.height
                                 color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onDoubleClicked: {
+                                        if(processList.height === processList.collapseHeightFlag) {
+                                            processList.height = 0;
+                                            userList.height =
+                                                    userList.height - processList.collapseHeightFlag;
+                                        } else {
+                                            if (processList.childrenRect.height != 0) {
+                                                processList.height = processList.collapseHeightFlag;
+                                                userList.height = userList.height + processList.height;
+                                            }
+                                        }
+                                    }
+                                    onClicked: {
+                                        if(mouse.button & Qt.RightButton) {
+                                            openEntitiesMenu(id, name, kind)
+                                        } else {
+                                            controller.user_click(id)
+                                            lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
+                                        }
+                                    }
+                                }
+
                                 RowLayout {
                                     spacing: spacingIconLabel
 
@@ -185,59 +192,12 @@ Rectangle {
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
                                         color: entityLabelColor(highlight, alive)
-
-                                        DifferClickMouseArea {
-                                            anchors.fill: parent
-                                            onDoubleClick: {
-                                                if(processList.height === processList.collapseHeightFlag) {
-                                                    processList.height = 0;
-                                                    userList.height =
-                                                            userList.height - processList.collapseHeightFlag;
-                                                }
-                                                else
-                                                {
-                                                    processList.height = processList.collapseHeightFlag;
-                                                    userList.height = userList.height + processList.height;
-                                                }
-                                            }
-                                            onSingleClick: {
-                                                controller.user_click(id)
-                                                lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
-                                            }
-                                            onRightClick: {
-                                                openEntitiesMenu(id, name, kind)
-                                            }
-                                        }
                                     }
                                     Label {
                                         text: name
                                         color: entityLabelColor(highlight, alive)
-
-                                        DifferClickMouseArea {
-                                            anchors.fill: parent
-                                            onDoubleClick: {
-                                                if(processList.height === processList.collapseHeightFlag) {
-                                                    processList.height = 0;
-                                                    userList.height =
-                                                            userList.height - processList.collapseHeightFlag;
-                                                }
-                                                else
-                                                {
-                                                    processList.height = processList.collapseHeightFlag;
-                                                    userList.height = userList.height + processList.height;
-                                                }
-                                            }
-                                            onSingleClick: {
-                                                controller.user_click(id)
-                                                lastClickedPhysical(hostIdx, userIdx, -1, name, kind)
-                                            }
-                                            onRightClick: {
-                                                openEntitiesMenu(id, name, kind)
-                                            }
-                                        }
                                     }
                                 }
-
                             }
 
                             ListView {
@@ -282,6 +242,18 @@ Rectangle {
                                             height: processIcon.height
                                             color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                onClicked: {
+                                                    if(mouse.button & Qt.RightButton) {
+                                                        openEntitiesMenu(id, name, kind)
+                                                    } else {
+                                                        controller.process_click(id)
+                                                        lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
+                                                    }
+                                                }
+                                            }
+
                                             RowLayout {
                                                 spacing: spacingIconLabel
 
@@ -291,32 +263,10 @@ Rectangle {
                                                     size: iconSize
                                                     Layout.leftMargin: thirdIndentation
                                                     color: entityLabelColor(highlight, alive)
-
-                                                    DifferClickMouseArea {
-                                                        anchors.fill: parent
-                                                        onSingleClick: {
-                                                            controller.process_click(id)
-                                                            lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
-                                                        }
-                                                        onRightClick: {
-                                                            openEntitiesMenu(id, name, kind)
-                                                        }
-                                                    }
                                                 }
                                                 Label {
                                                     text: name
                                                     color: entityLabelColor(highlight, alive)
-
-                                                    DifferClickMouseArea {
-                                                        anchors.fill: parent
-                                                        onSingleClick: {
-                                                            controller.process_click(id)
-                                                            lastClickedPhysical(hostIdx, userIdx, processIdx, name, kind)
-                                                        }
-                                                        onRightClick: {
-                                                            openEntitiesMenu(id, name, kind)
-                                                        }
-                                                    }
                                                 }
                                             }
                                         }
