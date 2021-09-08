@@ -86,6 +86,27 @@ Rectangle {
                     height: domainIcon.height
                     color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            if(topicList.height === topicList.collapseHeightFlag) {
+                                topicList.height = 0;
+                            } else {
+                                if (topicList.childrenRect.height != 0) {
+                                    topicList.height = topicList.collapseHeightFlag;
+                                }
+                            }
+                        }
+                        onClicked: {
+                            if(mouse.button & Qt.RightButton) {
+                                openEntitiesMenu(id, name, kind)
+                            } else {
+                                controller.domain_click(id)
+                                lastClickedLogical(domainIdx, -1, name, kind)
+                            }
+                        }
+                    }
+
                     RowLayout {
                         spacing: spacingIconLabel
 
@@ -95,41 +116,10 @@ Rectangle {
                             size: iconSize
                             Layout.leftMargin: firstIndentation
                             color: entityLabelColor(highlight, alive)
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    if(topicList.height === topicList.collapseHeightFlag) {
-                                        topicList.height = 0;
-                                    }
-                                    else {
-                                        topicList.height = topicList.collapseHeightFlag;
-                                    }
-                                }
-                            }
                         }
                         Label {
                             text: name
                             color: entityLabelColor(highlight, alive)
-
-                            DifferClickMouseArea {
-                                anchors.fill: parent
-                                onSingleClick: {
-                                    if(topicList.height === topicList.collapseHeightFlag) {
-                                        topicList.height = 0;
-                                    }
-                                    else{
-                                        topicList.height = topicList.collapseHeightFlag;
-                                    }
-                                }
-                                onDoubleClick: {
-                                    controller.domain_click(id)
-                                    lastClickedLogical(domainIdx, -1, name, kind)
-                                }
-                                onRightClick: {
-                                    openEntitiesMenu(id, name, kind)
-                                }
-                            }
                         }
                     }
                 }
@@ -174,6 +164,18 @@ Rectangle {
                                 height: topicIcon.height
                                 color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        if(mouse.button & Qt.RightButton) {
+                                            openEntitiesMenu(id, name, kind)
+                                        } else {
+                                            controller.domain_click(id)
+                                            lastClickedLogical(domainIdx, topicIdx, name, kind)
+                                        }
+                                    }
+                                }
+
                                 RowLayout {
                                     spacing: spacingIconLabel
 
@@ -187,17 +189,6 @@ Rectangle {
                                     Label {
                                         text: name
                                         color: entityLabelColor(highlight, alive)
-
-                                        DifferClickMouseArea {
-                                            anchors.fill: parent
-                                            onDoubleClicked: {
-                                                controller.domain_click(id)
-                                                lastClickedLogical(domainIdx, topicIdx, name, kind)
-                                            }
-                                            onRightClick: {
-                                                openEntitiesMenu(id, name, kind)
-                                            }
-                                        }
                                     }
                                 }
                             }

@@ -133,7 +133,7 @@ TEST(utilsBackendTest, string_to_data_kind)
 TEST(utilsBackendTest, string_to_statistic_kind)
 {
     std::map<std::string, StatisticKind> conversionTable = {
-        {"NONE", StatisticKind::NONE},
+        {"RAW DATA", StatisticKind::NONE},
         {"MEAN", StatisticKind::MEAN},
         {"STANDARD_DEVIATION", StatisticKind::STANDARD_DEVIATION},
         {"MAX", StatisticKind::MAX},

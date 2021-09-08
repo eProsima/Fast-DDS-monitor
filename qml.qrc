@@ -184,5 +184,9 @@
         <file alias="user_eProsimaLightBlue.svg">resources/images/icons/user/user_eProsimaLightBlue.svg</file>
         <file alias="user_grey.svg">resources/images/icons/user/user_grey.svg</file>
         <file alias="user_white.svg">resources/images/icons/user/user_white.svg</file>
+        <file alias="help_black.svg">resources/images/icons/help/help_black.svg</file>
+        <file alias="help_eProsimaLightBlue.svg">resources/images/icons/help/help_eProsimaLightBlue.svg</file>
+        <file alias="help_grey.svg">resources/images/icons/help/help_grey.svg</file>
+        <file alias="help_white.svg">resources/images/icons/help/help_white.svg</file>
     </qresource>
 </RCC>

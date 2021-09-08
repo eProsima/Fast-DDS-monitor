@@ -35,21 +35,19 @@ Dialog {
     signal createChart(string dataKind, double timeWindowSeconds, int updatePeriod)
 
     onAccepted: {
-        var days = (timeWindowDays.text === "") ? 0 : parseInt(timeWindowDays.text)
-        var hours = (timeWindowHours.text === "") ? 0 : parseInt(timeWindowHours.text)
-        var minutes = (timeWindowMinutes.text === "") ? 0 : parseInt(timeWindowMinutes.text)
-        var seconds = (timeWindowSeconds.text === "") ? 0 : parseInt(timeWindowSeconds.text)
+        if (!checkInputs())
+            return
 
-        var timeFrame = (days*86400 + hours*3600 + minutes*60 + seconds)*1000
-        if (timeFrame === 0){
-            emptyTimeWindow.open()
-        } else {
-            createChart(dataKindComboBox.currentText, timeFrame, (updatePeriod.value) * 1000)
-        }
+        var timeFrame = timeToMilliseconds()
+        createChart(dataKindComboBox.currentText, timeFrame, (updatePeriod.value) * 1000)
     }
 
     Component.onCompleted: {
         availableDataKinds = controller.get_data_kinds()
+    }
+
+    onAboutToShow: {
+        dataKindComboBox.currentIndex = -1
     }
 
     GridLayout{
@@ -66,7 +64,12 @@ Dialog {
         }
         AdaptiveComboBox {
             id: dataKindComboBox
+            displayText: currentIndex === -1
+                         ? ("Please choose a data kind...")
+                         : currentText
             model: availableDataKinds
+
+            Component.onCompleted: currentIndex = -1
         }
 
         Label {
@@ -117,7 +120,7 @@ Dialog {
             RowLayout {
                 TextField {
                     id: timeWindowMinutes
-                    text: qsTr("00")
+                    text: qsTr("02")
                     placeholderText: qsTr("00")
                     selectByMouse: true
                     selectionColor: Theme.eProsimaLightBlue
@@ -174,9 +177,47 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The time window cannot be blank. Please set the time window duration."
-        onAccepted: {
-            dynamicDataKindDialog.open()
+        onAccepted: dynamicDataKindDialog.open()
+        onDiscard: dynamicDataKindDialog.close()
+    }
+
+    MessageDialog {
+        id: emptyDataKind
+        title: "Empty Data Kind"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The data kind field is empty. Please choose a data type from the list."
+        onAccepted: dynamicDataKindDialog.open()
+        onDiscard: dynamicDataKindDialog.close()
+    }
+
+    function checkInputs() {
+        if (dataKindComboBox.currentIndex === -1) {
+            emptyDataKind.open()
+            return false
         }
+
+        var days = (timeWindowDays.text === "") ? 0 : parseInt(timeWindowDays.text)
+        var hours = (timeWindowHours.text === "") ? 0 : parseInt(timeWindowHours.text)
+        var minutes = (timeWindowMinutes.text === "") ? 0 : parseInt(timeWindowMinutes.text)
+        var seconds = (timeWindowSeconds.text === "") ? 0 : parseInt(timeWindowSeconds.text)
+
+        var timeFrame = timeToMilliseconds()
+        if (timeFrame === 0) {
+            emptyTimeWindow.open()
+            return false
+        }
+
+        return true
+    }
+
+    function timeToMilliseconds() {
+        var days = (timeWindowDays.text === "") ? 0 : parseInt(timeWindowDays.text)
+        var hours = (timeWindowHours.text === "") ? 0 : parseInt(timeWindowHours.text)
+        var minutes = (timeWindowMinutes.text === "") ? 0 : parseInt(timeWindowMinutes.text)
+        var seconds = (timeWindowSeconds.text === "") ? 0 : parseInt(timeWindowSeconds.text)
+
+        return (days*86400 + hours*3600 + minutes*60 + seconds)*1000
     }
 }
 

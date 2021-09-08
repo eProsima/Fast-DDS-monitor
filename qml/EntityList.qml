@@ -79,6 +79,27 @@ Rectangle {
                     height: participantIcon.height
                     color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            if(endpointList.height === endpointList.collapseHeightFlag) {
+                                endpointList.height = 0;
+                            } else {
+                                if (endpointList.childrenRect.height != 0) {
+                                    endpointList.height = endpointList.collapseHeightFlag;
+                                }
+                            }
+                        }
+                        onClicked: {
+                            if(mouse.button & Qt.RightButton) {
+                                openEntitiesMenu(id, name, kind)
+                            } else  {
+                                controller.participant_click(id)
+                                lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
+                            }
+                        }
+                    }
+
                     RowLayout {
                         spacing: spacingIconLabel
 
@@ -88,41 +109,10 @@ Rectangle {
                             size: iconSize
                             Layout.leftMargin: firstIndentation
                             color: entityLabelColor(highlight, alive)
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    if(endpointList.height === endpointList.collapseHeightFlag) {
-                                        endpointList.height = 0;
-                                    }
-                                    else {
-                                        endpointList.height = endpointList.collapseHeightFlag;
-                                    }
-                                }
-                            }
                         }
                         Label {
                             text: name
                             color: entityLabelColor(highlight, alive)
-
-                            DifferClickMouseArea {
-                                anchors.fill: parent
-                                onSingleClick: {
-                                    if(endpointList.height === endpointList.collapseHeightFlag) {
-                                        endpointList.height = 0;
-                                    }
-                                    else{
-                                        endpointList.height = endpointList.collapseHeightFlag;
-                                    }
-                                }
-                                onDoubleClick: {
-                                    controller.participant_click(id)
-                                    lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
-                                }
-                                onRightClick: {
-                                    openEntitiesMenu(id, name, kind)
-                                }
-                            }
                         }
                     }
                 }
@@ -168,6 +158,30 @@ Rectangle {
                                 height: endpointIcon.height
                                 color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onDoubleClicked: {
+                                        if(locatorList.height === locatorList.collapseHeightFlag) {
+                                            locatorList.height = 0;
+                                            endpointList.height =
+                                                    endpointList.height - locatorList.collapseHeightFlag;
+                                        } else {
+                                            if (locatorList.childrenRect.height != 0) {
+                                                locatorList.height = locatorList.collapseHeightFlag;
+                                                endpointList.height = endpointList.height + locatorList.height;
+                                            }
+                                        }
+                                    }
+                                    onClicked: {
+                                        if(mouse.button & Qt.RightButton) {
+                                            openEntitiesMenu(id, name, kind)
+                                        } else {
+                                            controller.endpoint_click(id)
+                                            lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
+                                        }
+                                    }
+                                }
+
                                 RowLayout {
                                     spacing: spacingIconLabel
 
@@ -177,50 +191,12 @@ Rectangle {
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
                                         color: entityLabelColor(highlight, alive)
-
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                if(locatorList.height === locatorList.collapseHeightFlag) {
-                                                    locatorList.height = 0;
-                                                    endpointList.height =
-                                                            endpointList.height - locatorList.collapseHeightFlag;
-                                                } else {
-                                                    locatorList.height = locatorList.collapseHeightFlag;
-                                                    endpointList.height = endpointList.height + locatorList.height;
-                                                }
-                                            }
-                                        }
                                     }
                                     Label {
                                         text: name
                                         color: entityLabelColor(highlight, alive)
-
-                                        DifferClickMouseArea {
-                                            anchors.fill: parent
-                                            onSingleClick: {
-                                                if(locatorList.height === locatorList.collapseHeightFlag) {
-                                                    locatorList.height = 0;
-                                                    endpointList.height =
-                                                            endpointList.height - locatorList.collapseHeightFlag;
-                                                }
-                                                else
-                                                {
-                                                    locatorList.height = locatorList.collapseHeightFlag;
-                                                    endpointList.height = endpointList.height + locatorList.height;
-                                                }
-                                            }
-                                            onDoubleClick: {
-                                                controller.endpoint_click(id)
-                                                lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
-                                            }
-                                            onRightClick: {
-                                                openEntitiesMenu(id, name, kind)
-                                            }
-                                        }
                                     }
                                 }
-
                             }
 
                             ListView {
@@ -265,6 +241,18 @@ Rectangle {
                                             height: locatorIcon.height
                                             color: highlight ? Theme.eProsimaLightBlue : "transparent"
 
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                onClicked: {
+                                                    if(mouse.button & Qt.RightButton) {
+                                                        openEntitiesMenu(id, name, kind)
+                                                    } else {
+                                                        controller.locator_click(id)
+                                                        lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
+                                                    }
+                                                }
+                                            }
+
                                             RowLayout {
                                                 spacing: spacingIconLabel
 
@@ -278,17 +266,6 @@ Rectangle {
                                                 Label {
                                                     text: name
                                                     color: entityLabelColor(highlight, alive)
-
-                                                    DifferClickMouseArea {
-                                                        anchors.fill: parent
-                                                        onDoubleClicked: {
-                                                            controller.locator_click(id)
-                                                            lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
-                                                        }
-                                                        onRightClick: {
-                                                            openEntitiesMenu(id, name, kind)
-                                                        }
-                                                    }
                                                 }
                                             }
                                         }

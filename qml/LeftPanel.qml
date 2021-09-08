@@ -37,6 +37,10 @@ RowLayout {
     property variant visiblePanel: panelItem[LeftPanel.LeftSubPanel.Explorer]
 
     signal resetLastClicked()
+    signal explorerDDSEntitiesChanged(bool status)
+    signal explorerPhysicalChanged(bool status)
+    signal explorerLogicalChanged(bool status)
+    signal explorerEntityInfoChanged(bool status)
 
     onResetLastClicked: monitoringPanel.resetLastClicked()
 
@@ -44,6 +48,10 @@ RowLayout {
         id: monitoringPanel
         Layout.fillHeight: true
         visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Explorer]) ? true : false
+        onExplorerDDSEntitiesChanged: leftPanel.explorerDDSEntitiesChanged(status)
+        onExplorerPhysicalChanged: leftPanel.explorerPhysicalChanged(status)
+        onExplorerLogicalChanged: leftPanel.explorerLogicalChanged(status)
+        onExplorerEntityInfoChanged: leftPanel.explorerEntityInfoChanged(status)
     }
 
     StatusPanel {
@@ -115,5 +123,21 @@ RowLayout {
     function entityLabelColor(highlight, alive) {
         return highlight ? "white" :
                alive ? "black" : "grey"
+    }
+
+    function changeExplorerDDSEntities(status) {
+        monitoringPanel.changeExplorerDDSEntities(status)
+    }
+
+    function changeExplorerPhysical(status) {
+        monitoringPanel.changeExplorerPhysical(status)
+    }
+
+    function changeExplorerLogical(status) {
+        monitoringPanel.changeExplorerLogical(status)
+    }
+
+    function changeExplorerEntityInfo(status) {
+        monitoringPanel.changeExplorerEntityInfo(status)
     }
 }

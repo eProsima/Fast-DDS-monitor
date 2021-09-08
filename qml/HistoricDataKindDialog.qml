@@ -33,10 +33,19 @@ Dialog {
 
     signal createChart(string dataKind)
 
-    onAccepted: createChart(dataKindComboBox.currentText)
+    onAccepted: {
+        if (!checkInputs())
+            return
+
+        createChart(dataKindComboBox.currentText)
+    }
 
     Component.onCompleted: {
         availableDataKinds = controller.get_data_kinds()
+    }
+
+    onAboutToShow: {
+        dataKindComboBox.currentIndex = -1
     }
 
     RowLayout {
@@ -50,8 +59,32 @@ Dialog {
         }
         AdaptiveComboBox {
             id: dataKindComboBox
+            displayText: currentIndex === -1
+                         ? ("Please choose a data kind...")
+                         : currentText
             model: availableDataKinds
+
+            Component.onCompleted: currentIndex = -1
         }
+    }
+
+    MessageDialog {
+        id: emptyDataKind
+        title: "Empty Data Kind"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The data kind field is empty. Please choose a data type from the list."
+        onAccepted: dataKindDialog.open()
+        onDiscard: dataKindDialog.close()
+    }
+
+    function checkInputs() {
+        if (dataKindComboBox.currentIndex === -1) {
+            emptyDataKind.open()
+            return false
+        }
+
+        return true
     }
 }
 

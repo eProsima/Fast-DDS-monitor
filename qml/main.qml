@@ -65,6 +65,10 @@ ApplicationWindow {
         onSaveAllCSV: {
             panels.saveAllCSV()
         }
+        onExplorerDDSEntitiesChanged: panels.changeExplorerDDSEntities(status)
+        onExplorerPhysicalChanged: panels.changeExplorerPhysical(status)
+        onExplorerLogicalChanged: panels.changeExplorerLogical(status)
+        onExplorerEntityInfoChanged: panels.changeExplorerEntityInfo(status)
     }
 
     header: MonitorToolBar {
@@ -76,6 +80,10 @@ ApplicationWindow {
     Panels {
         id: panels
         visible: false
+        onExplorerDDSEntitiesChanged: monitorMenuBar.changeExplorerDDSEntities(status)
+        onExplorerPhysicalChanged: monitorMenuBar.changeExplorerPhysical(status)
+        onExplorerLogicalChanged: monitorMenuBar.changeExplorerLogical(status)
+        onExplorerEntityInfoChanged: monitorMenuBar.changeExplorerEntityInfo(status)
     }
 
     InitMonitorDialog {

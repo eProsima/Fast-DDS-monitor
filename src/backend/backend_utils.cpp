@@ -113,7 +113,7 @@ std::string statistic_kind_to_string(
         case StatisticKind::SUM:
             return "SUM";
         default:
-            return "NONE";
+            return "RAW DATA";
     }
 }
 
@@ -228,14 +228,14 @@ StatisticKind string_to_statistic_kind(
         const QString& statistic_kind)
 {
     static std::unordered_map<std::string, StatisticKind> const conversionTable = {
-        {"NONE", StatisticKind::NONE},
         {"MEAN", StatisticKind::MEAN},
         {"STANDARD_DEVIATION", StatisticKind::STANDARD_DEVIATION},
         {"MAX", StatisticKind::MAX},
         {"MIN", StatisticKind::MIN},
         {"MEDIAN", StatisticKind::MEDIAN},
         {"COUNT", StatisticKind::COUNT},
-        {"SUM", StatisticKind::SUM}
+        {"SUM", StatisticKind::SUM},
+        {"RAW DATA", StatisticKind::NONE}
     };
 
     auto it = conversionTable.find(utils::to_string(statistic_kind));
