@@ -1,0 +1,6 @@
+{
+    "name": "fastdds_monitor",
+    "type": "cmake",
+    "dependencies" : ["fastcdr", "fastrtps", "fastdds_statistics_backend"]
+}
+

@@ -46,6 +46,9 @@
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/utils.h>
 
+#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
+#include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
+
 namespace backend {
 
 using namespace eprosima::statistics_backend;
@@ -440,9 +443,16 @@ bool SyncBackendConnection::unset_listener()
 EntityId SyncBackendConnection::init_monitor(
         int domain)
 {
+    eprosima::fastdds::dds::DomainParticipantQos participant_qos =
+            eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->get_default_participant_qos();
+
+    participant_qos.wire_protocol().builtin.discovery_config.use_SIMPLE_EndpointDiscoveryProtocol = false;
+    participant_qos.wire_protocol().builtin.discovery_config.use_STATIC_EndpointDiscoveryProtocol = true;
+    participant_qos.wire_protocol().builtin.discovery_config.static_edp_xml_config("file://example.xml");
+
     try
     {
-        return StatisticsBackend::init_monitor(domain, nullptr, CallbackMask::all(),
+        return StatisticsBackend::init_monitor(domain, participant_qos, nullptr, CallbackMask::all(),
                        DataKindMask::none(), FASTDDS_MONITOR_APP);
     }
     catch (const Error& e)
