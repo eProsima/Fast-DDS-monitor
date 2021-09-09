@@ -23,6 +23,10 @@ repositories:
         type: git
         url: https://github.com/eProsima/IDL-Parser.git
         version: master
+    fastdds-low-bandwidth-transports:
+        type: git
+        url: https://github.com/eProsima/fastdds-low-bandwidth-transports.git
+        version: master
     fastdds_monitor:
         type: git
         url: https://github.com/eProsima/Fast-DDS-monitor.git
