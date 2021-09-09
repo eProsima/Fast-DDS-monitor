@@ -88,6 +88,8 @@ Rectangle {
 
                     MouseArea {
                         anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
                         onDoubleClicked: {
                             if(topicList.height === topicList.collapseHeightFlag) {
                                 topicList.height = 0;
@@ -166,6 +168,8 @@ Rectangle {
 
                                 MouseArea {
                                     anchors.fill: parent
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
                                             openEntitiesMenu(id, name, kind)
