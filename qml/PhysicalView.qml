@@ -81,6 +81,8 @@ Rectangle {
 
                     MouseArea {
                         anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
                         onDoubleClicked: {
                             if(userList.height === userList.collapseHeightFlag) {
                                 userList.height = 0;
@@ -161,6 +163,8 @@ Rectangle {
 
                                 MouseArea {
                                     anchors.fill: parent
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
                                     onDoubleClicked: {
                                         if(processList.height === processList.collapseHeightFlag) {
                                             processList.height = 0;
@@ -244,6 +248,8 @@ Rectangle {
 
                                             MouseArea {
                                                 anchors.fill: parent
+                                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+
                                                 onClicked: {
                                                     if(mouse.button & Qt.RightButton) {
                                                         openEntitiesMenu(id, name, kind)
