@@ -224,6 +224,7 @@ Dialog {
             id: statisticKind
             displayText: currentIndex === -1 ? "Please choose a statistic..." : currentText
             model: availableStatisticKinds
+            popup.y: height
 
             Component.onCompleted: currentIndex = -1
 
