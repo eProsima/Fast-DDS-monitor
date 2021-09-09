@@ -19,6 +19,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 ComboBox {
+    popup.y: y + height
+
     property int textWidth
     property int desiredWidth : leftPadding + textWidth + indicator.width + rightPadding
     property int maximumWidth : parent.width
@@ -27,6 +29,11 @@ ComboBox {
 
     Component.onCompleted: recalculateWidth()
     onModelChanged: recalculateWidth()
+
+    TextMetrics {
+        id: minMetrics
+        text: "---------------------------------------------------------------------"
+    }
 
     TextMetrics {
         id: popupMetrics
@@ -39,7 +46,7 @@ ComboBox {
     function recalculateWidth() {
         textMetrics.font = font
         popupMetrics.font = popup.font
-        textWidth = 0
+        textWidth = minMetrics.width
         for (var i = 0; i < count; i++){
             textMetrics.text = textAt(i)
             popupMetrics.text = textAt(i)
