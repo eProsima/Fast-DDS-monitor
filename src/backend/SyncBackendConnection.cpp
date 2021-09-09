@@ -49,6 +49,11 @@
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/qos/DomainParticipantQos.hpp>
 
+#include <fastdds/rtps/transport/UDPv4TransportDescriptor.hpp>
+#include <fastdds-low-bandwidth-transports/PayloadCompressionTransportDescriptor.hpp>
+#include <fastdds-low-bandwidth-transports/HeaderReductionTransportDescriptor.hpp>
+#include <fastdds-low-bandwidth-transports/SourceTimestampTransportDescriptor.hpp>
+
 namespace backend {
 
 using namespace eprosima::statistics_backend;
@@ -446,9 +451,35 @@ EntityId SyncBackendConnection::init_monitor(
     eprosima::fastdds::dds::DomainParticipantQos participant_qos =
             eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->get_default_participant_qos();
 
+    // Static Discovery
     participant_qos.wire_protocol().builtin.discovery_config.use_SIMPLE_EndpointDiscoveryProtocol = false;
     participant_qos.wire_protocol().builtin.discovery_config.use_STATIC_EndpointDiscoveryProtocol = true;
     participant_qos.wire_protocol().builtin.discovery_config.static_edp_xml_config("file://example.xml");
+
+    // Low Bandwidth Transports
+    auto udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
+
+    auto sourcetimestamp_transport = std::make_shared<eprosima::fastdds::rtps::SourceTimestampTransportDescriptor>(
+        udp_transport);
+    auto compress_transport =
+            std::make_shared<eprosima::fastdds::rtps::PayloadCompressionTransportDescriptor>(sourcetimestamp_transport);
+    participant_qos.properties().properties().emplace_back(eprosima::fastrtps::rtps::Property(
+                "rtps.payload_compression.compression_library",
+                "AUTOMATIC"));
+    auto header_reduction_transport = std::make_shared<eprosima::fastdds::rtps::HeaderReductionTransportDescriptor>(
+        compress_transport);
+    participant_qos.properties().properties().emplace_back(eprosima::fastrtps::rtps::Property(
+                "rtps.header_reduction.remove_version", "true"));
+    participant_qos.properties().properties().emplace_back(eprosima::fastrtps::rtps::Property(
+                "rtps.header_reduction.remove_vendor_id", "true"));
+    participant_qos.properties().properties().emplace_back(eprosima::fastrtps::rtps::Property(
+                "rtps.header_reduction.submessage.combine_id_and_flags",
+                "true"));
+    participant_qos.properties().properties().emplace_back(eprosima::fastrtps::rtps::Property(
+                "rtps.header_reduction.submessage.compress_entitiy_ids",
+                "16,16"));
+    participant_qos.transport().use_builtin_transports = false;
+    participant_qos.transport().user_transports.push_back(header_reduction_transport);
 
     try
     {

@@ -88,6 +88,7 @@ find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts QuickControls
 find_package(fastcdr REQUIRED)
 find_package(fastdds REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
+find_package(fastdds-low-bandwidth-transports REQUIRED)
 
 foreach(c Core Widgets Gui Quick Qml Charts QuickControls2 Utils)
     if(${Qt5${c}_FOUND})
