@@ -158,6 +158,10 @@ Qt 5.15
 Qt 5.15 is needed in order to build *Fast DDS Monitor*.
 To install this Qt version, refer to `Qt Downloads <https://www.qt.io/download>`_ website.
 
+.. note::
+
+    When going through the installation steps, make sure the box of component *Qt Charts* is checked.
+
 
 .. _colcon_installation:
 
@@ -190,6 +194,11 @@ Colcon installation
     .. code-block:: bash
 
         colcon build --cmake-args -DQT_PATH=<qt-installation-path>
+
+    .. note::
+
+        If compiling *Fast DDS* with colcon, the statistics module must be activated by adding the flag
+        :code:`-DFASTDDS_STATISTICS=ON`
 
 .. note::
 
