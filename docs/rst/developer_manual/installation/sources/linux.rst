@@ -259,7 +259,7 @@ Local installation
             git clone https://github.com/eProsima/Fast-DDS.git
             mkdir Fast-DDS/build
             cd Fast-DDS/build
-            cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install
+            cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install -DFASTDDS_STATISTICS=ON
             cmake --build . --target install
 
     * `Fast DDS Statistics Backend <https://github.com/eProsima/Fast-DDS-statistics-backend.git>`_

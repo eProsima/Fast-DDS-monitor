@@ -26,8 +26,8 @@ i.e. one *DomainParticipant* is related with its *User* by the relation with its
 DDS Entities
 ============
 
-These entities represent the DDS entities that manage the communication. That is, the *DomainParticipants*
-and the *DataWriters* and *DataReaders* it manages.
+These entities represent the DDS entities that manage the communication. That is, the *DomainParticipants*,
+*DataWriters* and *DataReaders* it manages.
 Each *DataReader/DataWriter* has one or more associated *Locator* entities.
 *Locators* are the network addresses through which *DataReaders/DataWriters* communicate in a DDS network.
 
@@ -108,7 +108,7 @@ making each *Domain* completely independent and unaware of others.
 This logical partition depends on the chosen discovery protocol.
 
 In case of using *Simple Discovery Protocol* (discovery protocol by default in Fast DDS) as the default discovery
-mechanism, the *Domain* will be represented by a number, and every DDS entity in that *Domain* will discover
+mechanism, the *Domain* will be represented by a number (domain ID), and every DDS entity in that *Domain* will discover
 the rest of entities deployed on the same *Domain*.
 In case of using *Discovery Server* as discovery protocol, the partition will be made by the *Discovery Server*
 or *Discovery Servers Net* to which the monitor connects. Please refer to
@@ -140,7 +140,7 @@ Physical Entities
 
 Host
 ----
-A *Host* makes reference to the physical (or logical i.e. Docker) machine where one or more DDS *Processes*
+*Host* makes reference to the physical (or logical i.e. Docker) machine where one or more DDS *Processes*
 are running.
 This entity is connected directly with the *Users* running in this *Host*.
 
@@ -148,7 +148,7 @@ This entity is connected directly with the *Users* running in this *Host*.
 
 User
 ----
-A *User* makes reference to the different users that could run in a *Host*.
+*User* makes reference to the different users that could run in a *Host*.
 
 This entity is connected directly with the *Host* it belongs to, and the running *Processes* that are being executed
 within this *User*.
@@ -157,7 +157,7 @@ within this *User*.
 
 Process
 -------
-A *Process* represents each process running an application using *Fast DDS*. Be aware that it is possible to
+*Process* represents each process running an application using *Fast DDS*. Be aware that it is possible to
 run more than one *DomainParticipant* in the same *Process*, and they do not require to be related with
 each other, not even under the same *Domain*.
 
