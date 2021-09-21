@@ -102,6 +102,11 @@ bool ListItem::alive() const
     return backend::get_info_alive(info_);
 }
 
+bool ListItem::metatraffic() const
+{
+    return backend::get_info_metatraffic(info_);
+}
+
 bool ListItem::clicked() const
 {
     return clicked_;
@@ -130,6 +135,8 @@ QVariant ListItem::data(
             return this->kind();
         case aliveRole:
             return this->alive();
+        case metatrafficRole:
+            return this->metatraffic();
         case clickedRole:
             return this->clicked();
         default:
@@ -145,6 +152,7 @@ QHash<int, QByteArray> ListItem::roleNames() const
     roles[nameRole] = "name";
     roles[kindRole] = "kind";
     roles[aliveRole] = "alive";
+    roles[metatrafficRole] = "metatraffic";
     roles[clickedRole] = "clicked";
 
     return roles;

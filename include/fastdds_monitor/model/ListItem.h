@@ -55,6 +55,7 @@ public:
         idRole = Qt::UserRole + 1,      //! Role for attribute Id
         kindRole,                       //! Role for attribute Kind
         aliveRole,                      //! Role for attribute Alive
+        metatrafficRole,                //! Role for attribute Metatraffic
         clickedRole,                    //! Role for attribute Clicked
         nameRole                        //! Role for attribute Name
         // The nameRole must always be the last one as it is used in child classes
@@ -123,6 +124,12 @@ public:
      * @return entity alive status
      */
     virtual bool alive() const;
+
+    /**
+     * @brief Entity metatraffic value getter
+     * @return entity metatraffic
+     */
+    virtual bool metatraffic() const;
 
     /**
      * @brief Getter for clicked status

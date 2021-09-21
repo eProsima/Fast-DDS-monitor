@@ -25,6 +25,8 @@ MenuBar {
 
     property bool inactive_visible: controller.inactive_visible
 
+    property bool metatraffic_visible: controller.metatraffic_visible
+
     AdaptiveMenu {
         title: qsTr("&File")
         Action {
@@ -86,6 +88,14 @@ MenuBar {
             onTriggered: {
                 inactive_visible = !inactive_visible
                 controller.change_inactive_visible()
+            }
+        }
+        MenuSeparator { }
+        Action {
+            text: metatraffic_visible ? "Hide Metatraffic" : "Show Metatraffic"
+            onTriggered: {
+                metatraffic_visible = !metatraffic_visible
+                controller.change_metatraffic_visible()
             }
         }
         MenuSeparator { }

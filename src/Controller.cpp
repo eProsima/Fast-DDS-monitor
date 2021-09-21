@@ -184,6 +184,16 @@ void Controller::change_inactive_visible()
     engine_->change_inactive_visible();
 }
 
+bool Controller::metatraffic_visible()
+{
+    return engine_->metatraffic_visible();
+}
+
+void Controller::change_metatraffic_visible()
+{
+    engine_->change_metatraffic_visible();
+}
+
 void Controller::refresh_summary()
 {
     engine_->refresh_summary();

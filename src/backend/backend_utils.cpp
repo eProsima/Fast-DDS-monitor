@@ -315,6 +315,20 @@ bool get_info_alive(
     }
 }
 
+bool get_info_metatraffic(
+        EntityInfo info)
+{
+    if (info.contains("metatraffic"))
+    {
+        return info["metatraffic"].get<bool>();
+    }
+    else
+    {
+        // In case metatraffic is not retrieved, it counts as a non-metatraffic entity
+        return false;
+    }
+}
+
 backend::EntityInfo refactor_json(
         backend::EntityInfo json_data)
 {
