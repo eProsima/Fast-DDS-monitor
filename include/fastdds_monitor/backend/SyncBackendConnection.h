@@ -443,56 +443,65 @@ public:
             models::ListModel* physical_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_user(
             models::ListModel* physical_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_process(
             models::ListModel* physical_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_domain(
             models::ListModel* logical_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_topic(
             models::ListModel* logical_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_participant(
             models::ListModel* dds_model,
             EntityId id,
             bool new_entity,
             EntityId related_entity_id,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_datawriter(
             models::ListModel* dds_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_datareader(
             models::ListModel* dds_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     bool update_locator(
             models::ListModel* dds_model,
             EntityId id,
             bool new_entity,
-            bool inactive_visible);
+            bool inactive_visible,
+            bool last_clicked);
 
     //! Set a new alias in backend
     void set_alias(
@@ -506,12 +515,18 @@ protected:
             EntityId id,
             EntityKind parent_kind);
 
+    std::vector<ListModel*> get_locator_models_(
+            models::ListModel* parent_model,
+            EntityId id,
+            EntityKind parent_kind);
+
     bool update_one_entity_in_model_(
         models::ListModel* model,
         EntityId id,
         bool new_entity,
         ListItem * (SyncBackendConnection::* create_function)(EntityId),
-        bool inactive_visible);
+        bool inactive_visible,
+        bool last_clicked);
 };
 
 } //namespace backend

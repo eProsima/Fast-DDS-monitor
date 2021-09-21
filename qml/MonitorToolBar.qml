@@ -84,7 +84,6 @@ ToolBar {
             visible: isVisibleRefresh
             onClicked: {
                 controller.refresh_click()
-                lastClickedReset()
             }
         }
 

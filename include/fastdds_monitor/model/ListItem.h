@@ -55,7 +55,10 @@ public:
         idRole = Qt::UserRole + 1,      //! Role for attribute Id
         kindRole,                       //! Role for attribute Kind
         aliveRole,                      //! Role for attribute Alive
+        clickedRole,                    //! Role for attribute Clicked
         nameRole                        //! Role for attribute Name
+                                        // The nameRole must always be the last one as it is used in child classes
+                                        // as the initial role of the enumeration)
     };
 
     //! Default QObject constructor. Used for model specification
@@ -122,6 +125,12 @@ public:
     virtual bool alive() const;
 
     /**
+     * @brief Getter for clicked status
+     * @return entity clicked status
+     */
+    virtual bool clicked() const;
+
+    /**
      * @brief Item info setter
      *
      * Set the info to the Item.
@@ -135,6 +144,19 @@ public:
             backend::EntityInfo info)
     {
         info_ = info;
+    }
+
+    /**
+     * @brief Item clicked setter
+     *
+     * Set the clicked status to the Item.
+     *
+     * @param clicked is last clicked
+     */
+    void clicked(
+            bool clicked)
+    {
+        clicked_ = clicked;
     }
 
     /**
@@ -192,6 +214,9 @@ protected:
 
     //! Backend info that contains all the needed information for this item
     backend::EntityInfo info_;
+
+    //! States whether the entity is clicked or not
+    bool clicked_;
 };
 
 } // namespace models

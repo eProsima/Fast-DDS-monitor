@@ -743,7 +743,8 @@ bool SyncBackendConnection::update_host(
         models::ListModel* physical_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Host model is already physical model
     return update_one_entity_in_model_(
@@ -751,14 +752,16 @@ bool SyncBackendConnection::update_host(
         id,
         new_entity,
         &SyncBackendConnection::create_host_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_user(
         models::ListModel* physical_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Get Host model where this user belongs
     ListModel* host_model = get_model_(physical_model, id, EntityKind::HOST);
@@ -774,14 +777,16 @@ bool SyncBackendConnection::update_user(
         id,
         new_entity,
         &SyncBackendConnection::create_user_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_process(
         models::ListModel* physical_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Get Host model where this process belongs
     ListModel* host_model = get_model_(physical_model, id, EntityKind::HOST);
@@ -806,14 +811,16 @@ bool SyncBackendConnection::update_process(
         id,
         new_entity,
         &SyncBackendConnection::create_user_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_domain(
         models::ListModel* logical_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Domain model is already logical model
     return update_one_entity_in_model_(
@@ -821,14 +828,16 @@ bool SyncBackendConnection::update_domain(
         id,
         new_entity,
         &SyncBackendConnection::create_domain_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_topic(
         models::ListModel* logical_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Get Domain model where this Topic belongs
     ListModel* domain_model = get_model_(logical_model, id, EntityKind::DOMAIN);
@@ -844,7 +853,8 @@ bool SyncBackendConnection::update_topic(
         id,
         new_entity,
         &SyncBackendConnection::create_topic_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_participant(
@@ -852,7 +862,8 @@ bool SyncBackendConnection::update_participant(
         EntityId id,
         bool new_entity,
         EntityId related_entity_id,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Check if the participant belongs to the entity context
     auto participants_related = get_entities(EntityKind::PARTICIPANT, related_entity_id);
@@ -869,14 +880,16 @@ bool SyncBackendConnection::update_participant(
         id,
         new_entity,
         &SyncBackendConnection::create_participant_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_datawriter(
         models::ListModel* dds_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Get Host model where this datawriter belongs
     ListModel* participant_model = get_model_(dds_model, id, EntityKind::PARTICIPANT);
@@ -894,14 +907,16 @@ bool SyncBackendConnection::update_datawriter(
         id,
         new_entity,
         &SyncBackendConnection::create_datawriter_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_datareader(
         models::ListModel* dds_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Get Host model where this datareader belongs
     ListModel* participant_model = get_model_(dds_model, id, EntityKind::PARTICIPANT);
@@ -919,14 +934,16 @@ bool SyncBackendConnection::update_datareader(
         id,
         new_entity,
         &SyncBackendConnection::create_datareader_data_,
-        inactive_visible);
+        inactive_visible,
+        last_clicked);
 }
 
 bool SyncBackendConnection::update_locator(
         models::ListModel* dds_model,
         EntityId id,
         bool new_entity,
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     bool res = false;
 
@@ -961,30 +978,38 @@ bool SyncBackendConnection::update_locator(
 
         // Check in DataReader and DataWriters models of this participant
         // Get DataWriter model where this locator belongs
-        ListModel* dw_model = get_model_(participant_model, id, EntityKind::DATAWRITER);
+        std::vector<ListModel*> dw_models = get_locator_models_(participant_model, id, EntityKind::DATAWRITER);
 
-        if (dw_model != nullptr)
+        for (auto dw_model : dw_models)
         {
-            res = update_one_entity_in_model_(
-                dw_model,
-                id,
-                new_entity,
-                &SyncBackendConnection::create_locator_data_,
-                inactive_visible) || res;
+            if (dw_model != nullptr)
+            {
+                res = update_one_entity_in_model_(
+                    dw_model,
+                    id,
+                    new_entity,
+                    &SyncBackendConnection::create_locator_data_,
+                    inactive_visible,
+                    last_clicked) || res;
+            }
         }
 
 
         // Get DataReader model where this locator belongs
-        ListModel* dr_model = get_model_(participant_model, id, EntityKind::DATAREADER);
+        std::vector<ListModel*> dr_models = get_locator_models_(participant_model, id, EntityKind::DATAREADER);
 
-        if (dr_model != nullptr)
+        for(auto dr_model : dr_models)
         {
-            res = update_one_entity_in_model_(
-                dr_model,
-                id,
-                new_entity,
-                &SyncBackendConnection::create_locator_data_,
-                inactive_visible) || res;
+            if (dr_model != nullptr)
+            {
+                res = update_one_entity_in_model_(
+                    dr_model,
+                    id,
+                    new_entity,
+                    &SyncBackendConnection::create_locator_data_,
+                    inactive_visible,
+                    last_clicked) || res;
+            }
         }
     }
 
@@ -1043,12 +1068,58 @@ ListModel* SyncBackendConnection::get_model_(
     return parent_sublist->submodel();
 }
 
+std::vector<ListModel*> SyncBackendConnection::get_locator_models_(
+        models::ListModel* parent_model,
+        EntityId id,
+        EntityKind parent_kind)
+{
+    std::vector<ListModel*> models;
+    std::vector<backend::EntityId> parents;
+
+    try
+    {
+        parents = get_entities(parent_kind, id);
+    }
+    catch (const std::exception& e)
+    {
+        qWarning() << "Fail getting entities: " << e.what();
+        return models;
+    }
+
+    for (backend::EntityId parent_id : parents)
+    {
+        // Once we have the host id, we get the item related to it in the physical model
+        ListItem* parent_item = parent_model->find(parent_id);
+
+        if (parent_item == nullptr)
+        {
+            // It is not an error in dds model
+            qDebug() << "Parent item of entity " << id.value() << " does not exist";
+            continue;
+        }
+
+        // Parent must be SubListedListItem so it can contain something, so this cast should not fail
+        auto parent_sublist = static_cast<SubListedListItem*>(parent_item);
+
+        if (parent_sublist == nullptr)
+        {
+            qCritical() << "Parent item was not SubListed.";
+            continue;
+        }
+
+        models.push_back(parent_sublist->submodel());
+    }
+
+    return models;
+}
+
 bool SyncBackendConnection::update_one_entity_in_model_(
         models::ListModel* model,
         EntityId id,
         bool new_entity,
         ListItem* (SyncBackendConnection::* create_function)(EntityId),
-        bool inactive_visible)
+        bool inactive_visible,
+        bool last_clicked)
 {
     // Check if element already exists
     int index = model->rowIndexFromId(id);
@@ -1101,6 +1172,7 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         else
         {
             // In case the entity must keep existing, just update its info
+            item->clicked(last_clicked);
             return update_item_info_(item);
         }
     }

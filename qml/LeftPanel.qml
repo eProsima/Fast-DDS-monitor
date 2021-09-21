@@ -36,13 +36,10 @@ RowLayout {
 
     property variant visiblePanel: panelItem[LeftPanel.LeftSubPanel.Explorer]
 
-    signal resetLastClicked()
     signal explorerDDSEntitiesChanged(bool status)
     signal explorerPhysicalChanged(bool status)
     signal explorerLogicalChanged(bool status)
     signal explorerEntityInfoChanged(bool status)
-
-    onResetLastClicked: monitoringPanel.resetLastClicked()
 
     MonitoringPanel {
         id: monitoringPanel

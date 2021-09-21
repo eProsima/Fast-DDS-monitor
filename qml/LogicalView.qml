@@ -67,7 +67,6 @@ Rectangle {
 
             property var domainId: id
             property int domainIdx: index
-            property bool highlight: false
             property var topicList: topicList
 
             ListView.onAdd: {
@@ -84,7 +83,7 @@ Rectangle {
                     id: domainHighlightRect
                     width: logicalView.width
                     height: domainIcon.height
-                    color: highlight ? Theme.eProsimaLightBlue : "transparent"
+                    color: clicked ? Theme.eProsimaLightBlue : "transparent"
 
                     MouseArea {
                         anchors.fill: parent
@@ -104,7 +103,6 @@ Rectangle {
                                 openEntitiesMenu(id, name, kind)
                             } else {
                                 controller.domain_click(id)
-                                lastClickedLogical(domainIdx, -1, name, kind)
                             }
                         }
                     }
@@ -117,11 +115,11 @@ Rectangle {
                             name: "domain"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
-                            color: entityLabelColor(highlight, alive)
+                            color: entityLabelColor(clicked, alive)
                         }
                         Label {
                             text: name
-                            color: entityLabelColor(highlight, alive)
+                            color: entityLabelColor(clicked, alive)
                         }
                     }
                 }
@@ -149,7 +147,6 @@ Rectangle {
                         height: topicListColumn.childrenRect.height
 
                         property int topicIdx: index
-                        property bool highlight: false
 
                         ListView.onAdd: {
                             if(topicList.height != 0) {
@@ -164,7 +161,7 @@ Rectangle {
                                 id: topicHighlightRect
                                 width: logicalView.width
                                 height: topicIcon.height
-                                color: highlight ? Theme.eProsimaLightBlue : "transparent"
+                                color: clicked ? Theme.eProsimaLightBlue : "transparent"
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -174,8 +171,7 @@ Rectangle {
                                         if(mouse.button & Qt.RightButton) {
                                             openEntitiesMenu(id, name, kind)
                                         } else {
-                                            controller.domain_click(id)
-                                            lastClickedLogical(domainIdx, topicIdx, name, kind)
+                                            controller.topic_click(id)
                                         }
                                     }
                                 }
@@ -188,11 +184,11 @@ Rectangle {
                                         name: "topic"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
-                                        color: entityLabelColor(highlight, alive)
+                                        color: entityLabelColor(clicked, alive)
                                     }
                                     Label {
                                         text: name
-                                        color: entityLabelColor(highlight, alive)
+                                        color: entityLabelColor(clicked, alive)
                                     }
                                 }
                             }
@@ -201,26 +197,5 @@ Rectangle {
                 }
             }
         }
-    }
-
-    function updateLastEntityClicked(domainIdx, topicIdx, update = true) {
-        if (lastClickedIdx[LogicalView.LogicalEntity.Domain] !== -1) {
-            if (lastClickedIdx[LogicalView.LogicalEntity.Topic] !== -1) {
-                domainList.itemAtIndex(lastClickedIdx[LogicalView.LogicalEntity.Domain])
-                    .topicList.itemAtIndex(lastClickedIdx[LogicalView.LogicalEntity.Topic])
-                        .highlight = !update
-            } else if (domainList.itemAtIndex(lastClickedIdx[LogicalView.LogicalEntity.Domain]) !== null) {
-                domainList.itemAtIndex(lastClickedIdx[LogicalView.LogicalEntity.Domain]).highlight = !update
-            }
-        }
-
-        if (update) {
-            lastClickedIdx = [domainIdx, topicIdx]
-            updateLastEntityClicked(domainIdx, topicIdx, false)
-        }
-    }
-
-    function resetLastEntityClicked() {
-        updateLastEntityClicked(-1, -1, true)
     }
 }

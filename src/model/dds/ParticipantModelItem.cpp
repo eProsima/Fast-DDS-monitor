@@ -37,6 +37,8 @@ QVariant ParticipantModelItem::data(
             return this->domain();
         case aliveRole:
             return this->alive();
+        case clickedRole:
+            return this->clicked();
         default:
             return QVariant();
     }

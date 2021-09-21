@@ -49,6 +49,7 @@ MenuBar {
         }
     }
     AdaptiveMenu {
+        id: editMenu
         title: qsTr("&Edit")
         Action {
             text: qsTr("&Display Historical Data")
@@ -60,10 +61,10 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
+            id: editMenuRefresh
             text: qsTr("&Refresh")
             onTriggered: {
                 controller.refresh_click()
-                lastClickedReset()
             }
         }
         Action {
@@ -87,6 +88,7 @@ MenuBar {
             onTriggered: {
                 inactive_visible = !inactive_visible
                 controller.change_inactive_visible()
+                editMenuRefresh.trigger()
             }
         }
         MenuSeparator { }

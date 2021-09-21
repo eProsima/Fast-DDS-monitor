@@ -420,23 +420,26 @@ bool Engine::fill_physical_data_()
 
 bool Engine::update_host(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
-    return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible());
+    return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible(), last_clicked);
 }
 
 bool Engine::update_user(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
-    return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible());
+    return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible(), last_clicked);
 }
 
 bool Engine::update_process(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
-    return backend_connection_.update_process(physical_model_, id, new_entity, inactive_visible());
+    return backend_connection_.update_process(physical_model_, id, new_entity, inactive_visible(), last_clicked);
 }
 
 // LOGICAL PARTITION
@@ -448,16 +451,18 @@ bool Engine::fill_logical_data_()
 
 bool Engine::update_domain(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
-    return backend_connection_.update_domain(logical_model_, id, new_entity, inactive_visible());
+    return backend_connection_.update_domain(logical_model_, id, new_entity, inactive_visible(), last_clicked);
 }
 
 bool Engine::update_topic(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
-    return backend_connection_.update_topic(logical_model_, id, new_entity, inactive_visible());
+    return backend_connection_.update_topic(logical_model_, id, new_entity, inactive_visible(), last_clicked);
 }
 
 // DDS PARTITION
@@ -482,47 +487,55 @@ bool Engine::update_dds_data(
 // Update the model with a new or updated entity
 bool Engine::update_participant(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
     return backend_connection_.update_participant(
         participants_model_,
         id,
         new_entity,
         last_physical_logical_entity_clicked_,
-        inactive_visible());
+        inactive_visible(),
+        last_clicked);
 }
 
 bool Engine::update_datawriter(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
     return backend_connection_.update_datawriter(
         participants_model_,
         id,
         new_entity,
-        inactive_visible());
+        inactive_visible(),
+        last_clicked);
 }
 
 bool Engine::update_datareader(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
     return backend_connection_.update_datareader(
         participants_model_,
         id,
         new_entity,
-        inactive_visible());
+        inactive_visible(),
+        last_clicked);
 }
 
 bool Engine::update_locator(
         const backend::EntityId& id,
-        bool new_entity /* true */)
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
     return backend_connection_.update_locator(
         participants_model_,
         id,
         new_entity,
-        inactive_visible());
+        inactive_visible(),
+        last_clicked);
 }
 
 bool Engine::entity_clicked(
@@ -533,9 +546,20 @@ bool Engine::entity_clicked(
 {
     bool res = false;
 
+
+    if ((last_entity_clicked_kind_ == backend::EntityKind::PARTICIPANT) ||
+            (last_entity_clicked_kind_ == backend::EntityKind::DATAREADER) ||
+            (last_entity_clicked_kind_ == backend::EntityKind::DATAWRITER) ||
+            (last_entity_clicked_kind_ == backend::EntityKind::LOCATOR))
+    {
+        // Unselect the previous entity clicked before clicking another one
+        update_entity_generic(last_entity_clicked_, last_entity_clicked_kind_, true, false);
+    }
+
     // Set as clicked entity
     last_entity_clicked_ = id;
     last_entity_clicked_kind_ = kind;
+    update_entity_generic(id, kind, true, true);
 
     // All Entities in Physical and Logical Models affect over the participant view
     if ((kind == backend::EntityKind::HOST) ||
@@ -555,8 +579,13 @@ bool Engine::entity_clicked(
             res = update_dds_data(id) || res;
         }
 
+
+        // Unselect the previous entity clicked before clicking another one
+        update_entity_generic(
+                last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_, true, false);
         last_physical_logical_entity_clicked_ = id;
         last_physical_logical_entity_clicked_kind_ = kind;
+        update_entity_generic(id, kind, true, true);
     }
 
     // All entities including DDS
@@ -725,50 +754,72 @@ bool Engine::read_callback_(
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
-    if (callback.is_update)
+    if (!callback.is_last_clicked)
     {
-        // Add callback of updating entity to log model
-        add_log_callback_("Update info in entity " + backend_connection_.get_name(callback.entity_id),
-                utils::now());
-    }
-    else
-    {
-        // Add callback to log model
-        add_log_callback_("New entity " + backend_connection_.get_name(callback.entity_id) + " discovered",
-                utils::now());
+        if (callback.is_update)
+        {
+            // Add callback of updating entity to log model
+            add_log_callback_("Update info in entity " + backend_connection_.get_name(callback.entity_id),
+                    utils::now());
+        }
+        else
+        {
+            // Add callback to log model
+            add_log_callback_("New entity " + backend_connection_.get_name(callback.entity_id) + " discovered",
+                    utils::now());
 
-        // Add one to the number of discovered entities
-        sum_entity_number_issue(1);
+            // Add one to the number of discovered entities
+            sum_entity_number_issue(1);
+        }
     }
 
-    switch (callback.entity_kind)
+    return update_entity_generic(
+            callback.entity_id, callback.entity_kind, callback.is_update, callback.is_last_clicked);
+}
+
+bool Engine::update_entity_generic(
+        backend::EntityId entity_id,
+        backend::EntityKind entity_kind,
+        bool is_update /* false */,
+        bool is_last_clicked /* false */)
+{
+    switch (entity_kind)
     {
         case backend::EntityKind::HOST:
-            return update_entity(callback.entity_id, &Engine::update_host, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_host, !is_update, is_last_clicked);
 
         case backend::EntityKind::USER:
-            return update_entity(callback.entity_id, &Engine::update_user, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_user, !is_update, is_last_clicked);
 
         case backend::EntityKind::PROCESS:
-            return update_entity(callback.entity_id, &Engine::update_process, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_process, !is_update, is_last_clicked);
 
         case backend::EntityKind::DOMAIN:
-            return update_entity(callback.entity_id, &Engine::update_domain, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_domain, !is_update, is_last_clicked);
 
         case backend::EntityKind::TOPIC:
-            return update_entity(callback.entity_id, &Engine::update_topic, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_topic, !is_update, is_last_clicked);
 
         case backend::EntityKind::PARTICIPANT:
-            return update_entity(callback.entity_id, &Engine::update_participant, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_participant, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAWRITER:
-            return update_entity(callback.entity_id, &Engine::update_datawriter, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_datawriter, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAREADER:
-            return update_entity(callback.entity_id, &Engine::update_datareader, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_datareader, !is_update, is_last_clicked);
 
         case backend::EntityKind::LOCATOR:
-            return update_entity(callback.entity_id, &Engine::update_locator, !callback.is_update);
+            return update_entity(
+                    entity_id, &Engine::update_locator, !is_update, is_last_clicked);
 
         default:
             qWarning() << "Update callback of an Entity with unknown EntityKind";
@@ -923,19 +974,20 @@ void Engine::set_alias(
 
 bool Engine::update_entity(
         const backend::EntityId& entity_updated,
-        bool (Engine::* update_function)(const backend::EntityId&, bool),
-        bool new_entity /* true */)
+        bool (Engine::* update_function)(const backend::EntityId&, bool, bool),
+        bool new_entity, /* true */
+        bool last_clicked /* false */)
 {
     bool res = false;
 
     // Only update the info if the updated entity is the one that is being shown
-    if (last_entity_clicked_ == entity_updated)
+    if (last_clicked)
     {
         res = fill_entity_info_(last_entity_clicked_) || res;
         res = fill_summary_(last_entity_clicked_) || res;
     }
 
-    res = (this->*update_function)(entity_updated, new_entity) || res;
+    res = (this->*update_function)(entity_updated, new_entity, last_clicked) || res;
 
     return res;
 }
