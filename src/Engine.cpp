@@ -450,7 +450,7 @@ bool Engine::update_process(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_process(physical_model_, id, new_entity, inactive_visible(),
-            metatraffic_visible(), last_clicked);
+                   metatraffic_visible(), last_clicked);
 }
 
 // LOGICAL PARTITION
