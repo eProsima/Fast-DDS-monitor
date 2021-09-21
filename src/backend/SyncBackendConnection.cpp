@@ -998,7 +998,7 @@ bool SyncBackendConnection::update_locator(
         // Get DataReader model where this locator belongs
         std::vector<ListModel*> dr_models = get_locator_models_(participant_model, id, EntityKind::DATAREADER);
 
-        for(auto dr_model : dr_models)
+        for (auto dr_model : dr_models)
         {
             if (dr_model != nullptr)
             {

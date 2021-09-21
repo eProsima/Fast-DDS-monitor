@@ -582,7 +582,7 @@ bool Engine::entity_clicked(
 
         // Unselect the previous entity clicked before clicking another one
         update_entity_generic(
-                last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_, true, false);
+            last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_, true, false);
         last_physical_logical_entity_clicked_ = id;
         last_physical_logical_entity_clicked_kind_ = kind;
         update_entity_generic(id, kind, true, true);
@@ -671,14 +671,14 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
     historic_statistics_data_->newXValue(
         chartbox_id,
         start_time_default
-            ? std::chrono::duration_cast<std::chrono::milliseconds>(initial_time_.time_since_epoch()).count()
-            : start_time);
+        ? std::chrono::duration_cast<std::chrono::milliseconds>(initial_time_.time_since_epoch()).count()
+        : start_time);
     historic_statistics_data_->newXValue(
         chartbox_id,
         end_time_default
-            ? std::chrono::duration_cast<std::chrono::milliseconds>(
+        ? std::chrono::duration_cast<std::chrono::milliseconds>(
             time_to.time_since_epoch()).count()
-            : end_time);
+        : end_time);
 
     return historic_statistics_data_->add_series(chartbox_id, points);
 }
@@ -774,7 +774,7 @@ bool Engine::read_callback_(
     }
 
     return update_entity_generic(
-            callback.entity_id, callback.entity_kind, callback.is_update, callback.is_last_clicked);
+        callback.entity_id, callback.entity_kind, callback.is_update, callback.is_last_clicked);
 }
 
 bool Engine::update_entity_generic(
@@ -787,39 +787,39 @@ bool Engine::update_entity_generic(
     {
         case backend::EntityKind::HOST:
             return update_entity(
-                    entity_id, &Engine::update_host, !is_update, is_last_clicked);
+                entity_id, &Engine::update_host, !is_update, is_last_clicked);
 
         case backend::EntityKind::USER:
             return update_entity(
-                    entity_id, &Engine::update_user, !is_update, is_last_clicked);
+                entity_id, &Engine::update_user, !is_update, is_last_clicked);
 
         case backend::EntityKind::PROCESS:
             return update_entity(
-                    entity_id, &Engine::update_process, !is_update, is_last_clicked);
+                entity_id, &Engine::update_process, !is_update, is_last_clicked);
 
         case backend::EntityKind::DOMAIN:
             return update_entity(
-                    entity_id, &Engine::update_domain, !is_update, is_last_clicked);
+                entity_id, &Engine::update_domain, !is_update, is_last_clicked);
 
         case backend::EntityKind::TOPIC:
             return update_entity(
-                    entity_id, &Engine::update_topic, !is_update, is_last_clicked);
+                entity_id, &Engine::update_topic, !is_update, is_last_clicked);
 
         case backend::EntityKind::PARTICIPANT:
             return update_entity(
-                    entity_id, &Engine::update_participant, !is_update, is_last_clicked);
+                entity_id, &Engine::update_participant, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAWRITER:
             return update_entity(
-                    entity_id, &Engine::update_datawriter, !is_update, is_last_clicked);
+                entity_id, &Engine::update_datawriter, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAREADER:
             return update_entity(
-                    entity_id, &Engine::update_datareader, !is_update, is_last_clicked);
+                entity_id, &Engine::update_datareader, !is_update, is_last_clicked);
 
         case backend::EntityKind::LOCATOR:
             return update_entity(
-                    entity_id, &Engine::update_locator, !is_update, is_last_clicked);
+                entity_id, &Engine::update_locator, !is_update, is_last_clicked);
 
         default:
             qWarning() << "Update callback of an Entity with unknown EntityKind";

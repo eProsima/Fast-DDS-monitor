@@ -57,8 +57,8 @@ public:
         aliveRole,                      //! Role for attribute Alive
         clickedRole,                    //! Role for attribute Clicked
         nameRole                        //! Role for attribute Name
-                                        // The nameRole must always be the last one as it is used in child classes
-                                        // as the initial role of the enumeration)
+        // The nameRole must always be the last one as it is used in child classes
+        // as the initial role of the enumeration)
     };
 
     //! Default QObject constructor. Used for model specification
