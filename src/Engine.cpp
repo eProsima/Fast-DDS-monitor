@@ -301,8 +301,8 @@ bool Engine::fill_entity_info_(
         EntityInfo entity_info = backend_connection_.get_info(id);
         info_model_->update(entity_info);
         info_model_->update_selected_entity(
-                utils::to_QString(entity_info["kind"]),
-                utils::to_QString(entity_info["alias"]));
+            utils::to_QString(entity_info["kind"]),
+            utils::to_QString(entity_info["alias"]));
     }
     return true;
 }

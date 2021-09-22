@@ -129,7 +129,9 @@ signals:
     void updatedData();
 
     //! Signal to inform qml the alias of the entity selected.
-    void entitySelected(QString entity_kind, QString entity_alias);
+    void entitySelected(
+            QString entity_kind,
+            QString entity_alias);
 
 protected:
 
