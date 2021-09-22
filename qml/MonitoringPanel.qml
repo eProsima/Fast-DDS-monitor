@@ -297,6 +297,15 @@ ColumnLayout {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
+
+                    Connections {
+                        target: qosModel
+                        function onEntitySelected(entityKind, entityAlias) {
+                            infoSelectedEntityLabel.text = entityKind === "INVALID" ? "No entity selected" :
+                                                           entityAlias === "" ? "No entity selected"
+                                                                              : (entityKind.toUpperCase() + ": " + entityAlias)
+                        }
+                    }
                 }
 
                 StackLayout {

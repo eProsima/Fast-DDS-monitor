@@ -111,6 +111,11 @@ public:
     void update(
             json data);
 
+    //! Update the selected entity
+    void update_selected_entity(
+            QString entity_kind,
+            QString entity_alias);
+
     //! Return the role names of the values in nodes to acces them via \c data
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
@@ -122,6 +127,9 @@ signals:
 
     //! Signal that communicate that the model has been modified
     void updatedData();
+
+    //! Signal to inform qml the alias of the entity selected.
+    void entitySelected(QString entity_kind, QString entity_alias);
 
 protected:
 

@@ -290,12 +290,19 @@ bool Engine::fill_entity_info_(
     if (id == backend::ID_ALL)
     {
         EntityInfo default_info;
-        default_info["No entity"] = "Double click over any entity to see its values";
+        default_info["No entity"] = "Click over any entity to see its values";
         info_model_->update(default_info);
+        info_model_->update_selected_entity(
+            backend::entity_kind_to_QString(backend::EntityKind::INVALID),
+            "No entity selected");
     }
     else
     {
-        info_model_->update(backend_connection_.get_info(id));
+        EntityInfo entity_info = backend_connection_.get_info(id);
+        info_model_->update(entity_info);
+        info_model_->update_selected_entity(
+                utils::to_QString(entity_info["kind"]),
+                utils::to_QString(entity_info["alias"]));
     }
     return true;
 }
