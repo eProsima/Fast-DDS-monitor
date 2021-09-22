@@ -280,7 +280,7 @@ void Engine::shared_init_monitor_(
         // This, entity_clicked must be called but do not update dds model (but reset it)
         entity_clicked(domain_id, backend::EntityKind::DOMAIN, false);
 
-        update_entity(domain_id, &Engine::update_domain);
+        update_entity(domain_id, &Engine::update_domain, true, true);
     }
 }
 

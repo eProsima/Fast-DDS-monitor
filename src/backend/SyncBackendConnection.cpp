@@ -1138,7 +1138,13 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         bool active = get_alive(id);
         if (inactive_visible || active)
         {
-            model->appendRow((this->*create_function)(id));
+            ListItem* item = (this->*create_function)(id);
+            model->appendRow(item);
+            if (last_clicked)
+            {
+                item->clicked(last_clicked);
+                item->triggerItemUpdate();
+            }
             return true;
         }
         else
