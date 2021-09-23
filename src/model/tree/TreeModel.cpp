@@ -282,11 +282,4 @@ void TreeModel::update(
     emit updatedData();
 }
 
-void TreeModel::update_selected_entity(
-        QString entity_kind,
-        QString entity_alias)
-{
-    emit entitySelected(entity_kind, entity_alias);
-}
-
 } // namespace models

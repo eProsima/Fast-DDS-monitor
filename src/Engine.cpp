@@ -68,7 +68,7 @@ QObject* Engine::enable()
     logical_model_ = new models::SubListedListModel(new models::DomainModelItem());
     fill_logical_data_();
 
-    info_model_ = new models::TreeModel();
+    info_model_ = new models::InfoModel();
     fill_first_entity_info_();
 
     summary_model_ = new models::TreeModel();
@@ -933,6 +933,11 @@ void Engine::set_alias(
         const backend::EntityKind& entity_kind)
 {
     backend_connection_.set_alias(entity_id, new_alias);
+
+    if (last_entity_clicked_ == entity_id)
+    {
+        info_model_->update_selected_entity(backend::backend_id_to_models_id(entity_id), utils::to_QString(new_alias));
+    }
 
     // Refresh specific model
     switch (entity_kind)

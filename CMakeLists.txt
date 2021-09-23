@@ -218,6 +218,7 @@ set(PROJECT_HEADERS
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/LocatorModelItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/ParticipantModelItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/EntityContainerModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/info/InfoModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/ListItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/ListModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/logical/DomainModelItem.h
@@ -250,6 +251,7 @@ set(PROJECT_SOURCES_NO_MAIN
     ${PROJECT_SOURCE_DIR}/src/io/csv.cpp
     ${PROJECT_SOURCE_DIR}/src/model/dds/EndpointModelItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/dds/ParticipantModelItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/info/InfoModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/ListItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/ListModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/logical/TopicModelItem.cpp

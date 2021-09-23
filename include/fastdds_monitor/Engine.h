@@ -36,6 +36,7 @@
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
+#include <fastdds_monitor/model/info/InfoModel.h>
 #include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
 #include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
 
@@ -576,7 +577,7 @@ protected:
     models::ListModel* logical_model_;
 
     //! Data Model for Info of the clicked entity
-    models::TreeModel* info_model_;
+    models::InfoModel* info_model_;
 
     //! Data Model for Summary of the clicked entity
     models::TreeModel* summary_model_;
