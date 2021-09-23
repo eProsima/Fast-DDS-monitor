@@ -27,7 +27,7 @@ DDS Entities
 ============
 
 These entities represent the DDS entities that manage the communication. That is, the *DomainParticipants*,
-*DataWriters* and *DataReaders* it manages.
+*DataWriters* and *DataReaders*.
 Each *DataReader/DataWriter* has one or more associated *Locator* entities.
 *Locators* are the network addresses through which *DataReaders/DataWriters* communicate in a DDS network.
 
@@ -37,7 +37,7 @@ For further information about each entity, please refer to the |DDSSpecification
 
 DomainParticipant
 -----------------
-The *DomainParticipant* is the main entity in the DDS protocol.
+*DomainParticipant* is the main entity in the DDS protocol.
 It represents a collection of *DataReaders/DataWriters*, and manage the whole DDS Discovery of other
 *DomainParticipants* and *DataReaders/DataWriters* within the DDS Domain to which it belongs.
 Refer to `DomainParticipant Fast DDS Documentation
@@ -84,7 +84,7 @@ and with the *Topic* to which it is subscribed.
 
 Locator
 -------
-This entity represents the physical address and port that a *DataReader/DataWriter* uses to send or/and receive data.
+*Locator* represents the physical address and port that a *DataReader/DataWriter* uses to send or/and receive data.
 This entity is related with the physical division of the entities, as a *Locator* belongs to a unique *Host*
 (see section :ref:`physical_entities`).
 However, the monitor treats this entity as a *DDS Entity* in order to simplify the entities' connection and improve
