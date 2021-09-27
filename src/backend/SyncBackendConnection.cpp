@@ -117,7 +117,7 @@ ListItem* SyncBackendConnection::create_locator_data_(
 bool SyncBackendConnection::update_host_item(
         ListItem* host_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     auto host_item_sublist = static_cast<SubListedListItem*>(host_item);
 
@@ -134,7 +134,7 @@ bool SyncBackendConnection::update_host_item(
 bool SyncBackendConnection::update_user_item(
         ListItem* user_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     auto user_item_sublist = static_cast<SubListedListItem*>(user_item);
 
@@ -151,7 +151,7 @@ bool SyncBackendConnection::update_user_item(
 bool SyncBackendConnection::update_process_item(
         ListItem* process_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     // Process does not have update
     static_cast<void>(process_item);
@@ -163,7 +163,7 @@ bool SyncBackendConnection::update_process_item(
 bool SyncBackendConnection::update_domain_item(
         ListItem* domain_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     auto domain_item_sublist = static_cast<SubListedListItem*>(domain_item);
 
@@ -180,7 +180,7 @@ bool SyncBackendConnection::update_domain_item(
 bool SyncBackendConnection::update_topic_item(
         ListItem* topic_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     // Process does not have update
     static_cast<void>(topic_item);
@@ -192,7 +192,7 @@ bool SyncBackendConnection::update_topic_item(
 bool SyncBackendConnection::update_participant_item(
         ListItem* participant_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     auto participant_item_sublist = static_cast<SubListedListItem*>(participant_item);
 
@@ -220,7 +220,7 @@ bool SyncBackendConnection::update_participant_item(
 bool SyncBackendConnection::update_endpoint_item(
         ListItem* endpoint_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     auto endpoint_item_sublist = static_cast<SubListedListItem*>(endpoint_item);
 
@@ -237,7 +237,7 @@ bool SyncBackendConnection::update_endpoint_item(
 bool SyncBackendConnection::update_locator_item(
         ListItem* locator_item,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     // Locator does not have update
     static_cast<void>(locator_item);
@@ -250,7 +250,7 @@ bool SyncBackendConnection::update_locator_item(
 bool SyncBackendConnection::update_physical_model(
         models::ListModel* physical_model,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     qDebug() << "Update Physical Data";
 
@@ -267,7 +267,7 @@ bool SyncBackendConnection::update_physical_model(
 bool SyncBackendConnection::update_logical_model(
         models::ListModel* logical_model,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     qDebug() << "Update Logical Data";
 
@@ -285,7 +285,7 @@ bool SyncBackendConnection::update_dds_model(
         models::ListModel* dds_model,
         EntityId id,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     qDebug() << "Update DDS Data";
 
@@ -303,7 +303,7 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(
         models::ListModel* entity_model,
         EntityKind entity_kind,
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     bool changed = false;
 
@@ -324,7 +324,7 @@ bool SyncBackendConnection::update_item_(
         ListItem* item,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     bool res = update_item_info_(item);
     return (this->*update_function)(item, inactive_visible, metatraffic_visible) || res;
@@ -346,7 +346,7 @@ bool SyncBackendConnection::update_model_(
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
         ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible, /* true */
-        bool metatraffic_visible /* true */)
+        bool metatraffic_visible /* false */)
 {
     bool changed = false;
 

@@ -49,7 +49,7 @@ Engine::Engine()
     , last_physical_logical_entity_clicked_(backend::ID_ALL)
     , last_physical_logical_entity_clicked_kind_(backend::EntityKind::INVALID)
     , inactive_visible_(true)
-    , metatraffic_visible_(true)
+    , metatraffic_visible_(false)
 {
 }
 

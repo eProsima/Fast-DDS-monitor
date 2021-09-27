@@ -23,9 +23,9 @@ MenuBar {
 
     signal leftSidebarHidden
 
-    property bool inactive_visible: controller.inactive_visible
+    property bool inactive_visible: controller.inactive_visible()
 
-    property bool metatraffic_visible: controller.metatraffic_visible
+    property bool metatraffic_visible: controller.metatraffic_visible()
 
     AdaptiveMenu {
         title: qsTr("&File")
@@ -90,7 +90,6 @@ MenuBar {
                 controller.change_inactive_visible()
             }
         }
-        MenuSeparator { }
         Action {
             text: metatraffic_visible ? "Hide Metatraffic" : "Show Metatraffic"
             onTriggered: {

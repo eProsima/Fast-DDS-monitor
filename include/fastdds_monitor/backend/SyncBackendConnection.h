@@ -203,7 +203,7 @@ public:
             models::ListModel* entity_model,
             EntityKind entity_kind,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     std::string get_data_kind_units(
@@ -257,7 +257,7 @@ public:
     bool update_physical_model(
             models::ListModel* physical_model,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the Logical model with every Logical entity in the backend
@@ -278,7 +278,7 @@ public:
     bool update_logical_model(
             models::ListModel* logical_model,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the DDS model with every DDS entity in the backend
@@ -306,7 +306,7 @@ public:
             models::ListModel* dds_model,
             EntityId id,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /////
     // Entity update functions
@@ -325,7 +325,7 @@ public:
     bool update_host_item(
             ListItem* host_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the user item and their subentities with backend information
@@ -341,7 +341,7 @@ public:
     bool update_user_item(
             ListItem* user_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the process item with backend information
@@ -354,7 +354,7 @@ public:
     bool update_process_item(
             ListItem* process_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the domain item and their subentities with backend information
@@ -370,7 +370,7 @@ public:
     bool update_domain_item(
             ListItem* domain_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the topic item with backend information
@@ -383,7 +383,7 @@ public:
     bool update_topic_item(
             ListItem* topic_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the participant item and their subentities with backend information
@@ -399,7 +399,7 @@ public:
     bool update_participant_item(
             ListItem* participant_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the datawriter or datareader item and their subentities with backend information
@@ -415,7 +415,7 @@ public:
     bool update_endpoint_item(
             ListItem* endpoint_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
     /**
      * @brief Update the topic item with backend information
@@ -428,7 +428,7 @@ public:
     bool update_locator_item(
             ListItem* locator_item,
             bool inactive_visible = true,
-            bool metatraffic_visible = true);
+            bool metatraffic_visible = false);
 
 protected:
 
@@ -436,7 +436,7 @@ protected:
         ListItem * item,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
         bool inactive_visible = true,
-        bool metatraffic_visible = true);
+        bool metatraffic_visible = false);
 
     /**
      * General method to encapsulate the common funcionality of updating the info from backend
@@ -453,7 +453,7 @@ protected:
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
         ListItem * (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible = true,
-        bool metatraffic_visible = true);
+        bool metatraffic_visible = false);
 
     /**************
      * UPDATE ONE *
