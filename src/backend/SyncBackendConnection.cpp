@@ -372,7 +372,6 @@ bool SyncBackendConnection::update_model_(
 
                 changed = update_item_(subentity_item, update_function, inactive_visible,
                                 metatraffic_visible) || changed;
-                }
             }
         }
 
