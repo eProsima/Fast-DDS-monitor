@@ -17,6 +17,7 @@ SOURCES += \
         src/main.cpp \
         src/model/dds/EndpointModelItem.cpp \
         src/model/dds/ParticipantModelItem.cpp \
+        src/model/info/InfoModel.cpp \
         src/model/ListItem.cpp \
         src/model/ListModel.cpp \
         src/model/logical/TopicModelItem.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     include/fastdds_monitor/model/dds/LocatorModelItem.h \
     include/fastdds_monitor/model/dds/ParticipantModelItem.h \
     include/fastdds_monitor/model/EntityContainerModelItem.h \
+    include/fastdds_monitor/model/info/InfoModel.h \
     include/fastdds_monitor/model/ListItem.h \
     include/fastdds_monitor/model/ListModel.h \
     include/fastdds_monitor/model/logical/DomainModelItem.h \

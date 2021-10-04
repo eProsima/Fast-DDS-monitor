@@ -308,20 +308,10 @@ bool SyncBackendConnection::update_item_(
 bool SyncBackendConnection::update_item_info_(
         ListItem* item)
 {
-    try
-    {
-        // Query for this item info and updte it
-        item->info(get_info(item->get_entity_id()));
-        item->triggerItemUpdate();
-        return true;
-    }
-    catch (const Exception& e)
-    {
-        qWarning() << "Fail updating item info: " << e.what();
-        static_cast<void>(e); // In release qWarning does not compile and so e is not used
-
-        return false;
-    }
+    // Query for this item info and updte it
+    item->info(get_info(item->get_entity_id()));
+    item->triggerItemUpdate();
+    return true;
 }
 
 bool SyncBackendConnection::update_model_(
@@ -1015,26 +1005,18 @@ ListModel* SyncBackendConnection::get_model_(
     // Look for parent id in model
     EntityId parent_id;
 
-    try
-    {
-        std::vector<backend::EntityId> parents = get_entities(parent_kind, id);
+    std::vector<backend::EntityId> parents = get_entities(parent_kind, id);
 
-        // It must be just one host
-        if (parents.size() != 1)
-        {
-            qCritical() << "Parents related with entity " << id.value() << " are expected to be 1 but are: "
-                        << parents.size();
-            return nullptr;
-        }
-        else
-        {
-            parent_id = parents[0];
-        }
-    }
-    catch (const std::exception& e)
+    // It must be just one host
+    if (parents.size() != 1)
     {
-        qWarning() << "Fail getting entities: " << e.what();
+        qCritical() << "Parents related with entity " << id.value() << " are expected to be 1 but are: "
+                    << parents.size();
         return nullptr;
+    }
+    else
+    {
+        parent_id = parents[0];
     }
 
     // Once we have the host id, we get the item related to it in the physical model
@@ -1258,11 +1240,26 @@ std::vector<std::string> SyncBackendConnection::get_data_kinds()
         });
 }
 
+std::vector<std::pair<EntityKind, EntityKind>> SyncBackendConnection::get_data_supported_entity_kinds(
+        DataKind data_kind)
+{
+    try
+    {
+        return StatisticsBackend::get_data_supported_entity_kinds(data_kind);
+    }
+    catch(const std::exception& e)
+    {
+        qWarning() << "Fail getting target entity for "
+                   << utils::to_QString(backend::data_kind_to_string(data_kind)) << "data kind: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+        return std::vector<std::pair<EntityKind, EntityKind>>();
+    }
+}
+
 bool SyncBackendConnection::data_kind_has_target(
         const DataKind& data_kind)
 {
-    for (std::pair<EntityKind, EntityKind> entity_kind_pair
-            : StatisticsBackend::get_data_supported_entity_kinds(data_kind))
+    for (std::pair<EntityKind, EntityKind> entity_kind_pair : get_data_supported_entity_kinds(data_kind))
     {
         if (entity_kind_pair.second == EntityKind::INVALID)
         {
@@ -1271,5 +1268,7 @@ bool SyncBackendConnection::data_kind_has_target(
     }
     return true;
 }
+
+
 
 } //namespace backend

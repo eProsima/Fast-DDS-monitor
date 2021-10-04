@@ -135,6 +135,10 @@ public:
             EntityKind entity_type,
             EntityId entity_id = EntityId::all());
 
+    //! Get the supported entity kinds of a given data kind
+    std::vector<std::pair<EntityKind, EntityKind>> get_data_supported_entity_kinds(
+            DataKind data_kind);
+
     /**********
     * CREATE *
     **********/
