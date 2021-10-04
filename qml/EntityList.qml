@@ -32,16 +32,12 @@ Rectangle {
         Locator
     }
 
-    property variant lastClickedIdx: [-1, -1, -1]
-
     property int verticalSpacing: 5
     property int spacingIconLabel: 8
     property int iconSize: 18
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
-
-    signal lastClickedDDSEntity(int participantIdx, int endpointIdx, int locatorIdx, string entityName, string entityKind)
 
     ListView {
         id: participantList

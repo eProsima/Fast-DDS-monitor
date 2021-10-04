@@ -761,27 +761,24 @@ bool Engine::read_callback_(
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
-    if (!callback.is_last_clicked)
+    if (callback.is_update)
     {
-        if (callback.is_update)
-        {
-            // Add callback of updating entity to log model
-            add_log_callback_("Update info in entity " + backend_connection_.get_name(callback.entity_id),
-                    utils::now());
-        }
-        else
-        {
-            // Add callback to log model
-            add_log_callback_("New entity " + backend_connection_.get_name(callback.entity_id) + " discovered",
-                    utils::now());
+        // Add callback of updating entity to log model
+        add_log_callback_("Update info in entity " + backend_connection_.get_name(callback.entity_id),
+                utils::now());
+    }
+    else
+    {
+        // Add callback to log model
+        add_log_callback_("New entity " + backend_connection_.get_name(callback.entity_id) + " discovered",
+                utils::now());
 
-            // Add one to the number of discovered entities
-            sum_entity_number_issue(1);
-        }
+        // Add one to the number of discovered entities
+        sum_entity_number_issue(1);
     }
 
     return update_entity_generic(
-        callback.entity_id, callback.entity_kind, callback.is_update, callback.is_last_clicked);
+        callback.entity_id, callback.entity_kind, callback.is_update);
 }
 
 bool Engine::update_entity_generic(

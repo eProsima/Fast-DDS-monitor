@@ -31,8 +31,6 @@ Rectangle {
         Topic
     }
 
-    property variant lastClickedIdx: [-1, -1]
-
     property variant knownDomains: []
 
     property int verticalSpacing: 5
@@ -40,8 +38,6 @@ Rectangle {
     property int iconSize: 18
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
-
-    signal lastClickedLogical(int domainIdx, int topicIdx, string entityName, string entityKind)
 
     ListView {
         id: domainList
@@ -72,7 +68,6 @@ Rectangle {
             ListView.onAdd: {
                 if (knownDomains.indexOf(id) < 0) {
                     knownDomains.push(id)
-                    lastClickedLogical(domainIdx, -1, name, kind)
                 }
             }
 

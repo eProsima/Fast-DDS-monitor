@@ -301,9 +301,8 @@ ColumnLayout {
                     Connections {
                         target: qosModel
                         function onEntitySelected(entityKind, entityAlias) {
-                            infoSelectedEntityLabel.text = entityKind === "INVALID" ? "No entity selected" :
-                                                           entityAlias === "" ? "No entity selected"
-                                                                              : (entityKind.toUpperCase() + ": " + entityAlias)
+                            infoSelectedEntityLabel.text = (entityKind === "INVALID" || entityAlias === "") ? "No entity selected"
+                                                                : (entityKind.toUpperCase() + ": " + entityAlias)
                         }
                     }
                 }

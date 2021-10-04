@@ -23,8 +23,6 @@ MenuBar {
 
     signal leftSidebarHidden
 
-    signal lastClickedReset
-
     property bool inactive_visible: controller.inactive_visible
 
     AdaptiveMenu {

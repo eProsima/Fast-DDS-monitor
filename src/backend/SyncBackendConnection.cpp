@@ -334,57 +334,48 @@ bool SyncBackendConnection::update_model_(
 {
     bool changed = false;
 
-    try
+    // For each User get all processes
+    for (auto subentity_id : get_entities(type, id))
     {
-        // For each User get all processes
-        for (auto subentity_id : StatisticsBackend::get_entities(type, id))
+        // Check if it exists already
+        int index = model->rowIndexFromId(subentity_id);
+
+        // If it does not exist, it creates it and add a Row with it
+        // If it exists it updates its info
+        if (index == -1)
         {
-            // Check if it exists already
-            int index = model->rowIndexFromId(subentity_id);
-
-            // If it does not exist, it creates it and add a Row with it
-            // If it exists it updates its info
-            if (index == -1)
+            // Only create the new entity if is alive or inactive are visible
+            if (inactive_visible || get_alive(subentity_id))
             {
-                // Only create the new entity if is alive or inactive are visible
-                if (inactive_visible || get_alive(subentity_id))
-                {
-                    // Creates the Item object and update its data
-                    model->appendRow((this->*create_function)(subentity_id));
-                    changed = true;
-                    models::ListItem* subentity_item = model->find(subentity_id);
-
-                    changed = update_item_(subentity_item, update_function, inactive_visible) || changed;
-                }
-            }
-
-            // In case this entity is inactive and inactive are not being displayed, remove ir
-            else if (!inactive_visible && !get_alive(subentity_id))
-            {
-                models::ListItem* subentity_item = model->at(index);
-
-                // Remove the row
-                model->removeRow(index);
-
-                // Remove its subentities and the object ListItem
-                delete subentity_item;
-
+                // Creates the Item object and update its data
+                model->appendRow((this->*create_function)(subentity_id));
                 changed = true;
-            }
+                models::ListItem* subentity_item = model->find(subentity_id);
 
-            // Otherwise just update the entity
-            else
-            {
-                models::ListItem* subentity_item = model->at(index);
                 changed = update_item_(subentity_item, update_function, inactive_visible) || changed;
             }
         }
-    }
-    catch (const Exception& e)
-    {
-        qWarning() << "Fail updating model: " << e.what();
-        static_cast<void>(e); // In release qWarning does not compile and so e is not used
 
+        // In case this entity is inactive and inactive are not being displayed, remove ir
+        else if (!inactive_visible && !get_alive(subentity_id))
+        {
+            models::ListItem* subentity_item = model->at(index);
+
+            // Remove the row
+            model->removeRow(index);
+
+            // Remove its subentities and the object ListItem
+            delete subentity_item;
+
+            changed = true;
+        }
+
+        // Otherwise just update the entity
+        else
+        {
+            models::ListItem* subentity_item = model->at(index);
+            changed = update_item_(subentity_item, update_function, inactive_visible) || changed;
+        }
     }
 
     return changed;
@@ -1076,19 +1067,11 @@ std::vector<ListModel*> SyncBackendConnection::get_locator_models_(
     std::vector<ListModel*> models;
     std::vector<backend::EntityId> parents;
 
-    try
-    {
-        parents = get_entities(parent_kind, id);
-    }
-    catch (const std::exception& e)
-    {
-        qWarning() << "Fail getting entities: " << e.what();
-        return models;
-    }
+    parents = get_entities(parent_kind, id);
 
     for (backend::EntityId parent_id : parents)
     {
-        // Once we have the host id, we get the item related to it in the physical model
+        // Once we have the datareader/datawriter id, we get the item related to it in the participants model
         ListItem* parent_item = parent_model->find(parent_id);
 
         if (parent_item == nullptr)
@@ -1139,12 +1122,8 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         if (inactive_visible || active)
         {
             ListItem* item = (this->*create_function)(id);
+            item->clicked(last_clicked);
             model->appendRow(item);
-            if (last_clicked)
-            {
-                item->clicked(last_clicked);
-                item->triggerItemUpdate();
-            }
             return true;
         }
         else

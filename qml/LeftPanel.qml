@@ -85,14 +85,6 @@ RowLayout {
         entitiesMenu.popup()
     }
 
-    function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
-        for(var i=0; i<viewsRepeater.count; i++){
-            viewsRepeater.itemAt(i).listStackItem.entityListItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.logicalViewItem.resetLastEntityClicked()
-            viewsRepeater.itemAt(i).listStackItem.physicalViewItem.updateLastEntityClicked(hostIdx, userIdx, processIdx)
-        }
-    }
-
     function expandAll(view, model) {
         for(var i=0; i < model.rowCount(); i++) {
             var index = model.index(i, 0)

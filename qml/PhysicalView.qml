@@ -32,16 +32,12 @@ Rectangle {
         Process
     }
 
-    property variant lastClickedIdx: [-1, -1, -1]
-
     property int verticalSpacing: 5
     property int spacingIconLabel: 8
     property int iconSize: 18
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
-
-    signal lastClickedPhysical(int hostIdx, int userIdx, int processIdx, string entityName, string entityKind)
 
     ListView {
         id: hostList

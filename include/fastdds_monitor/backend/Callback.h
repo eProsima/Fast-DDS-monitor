@@ -41,12 +41,10 @@ struct Callback
     Callback(
             backend::EntityId entity_id,
             backend::EntityKind entity_kind,
-            bool is_update = false,
-            bool is_last_clicked = false)
+            bool is_update = false)
         : entity_id(entity_id)
         , entity_kind(entity_kind)
         , is_update(is_update)
-        , is_last_clicked(is_last_clicked)
     {
     }
 
@@ -56,8 +54,6 @@ struct Callback
     backend::EntityKind entity_kind;
     //! If the callback refers to a new discovered entity or it is an update
     bool is_update;
-    //! If the callback refers to a clicked entity
-    bool is_last_clicked;
 };
 
 } // namespace backend
