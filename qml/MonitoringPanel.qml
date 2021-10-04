@@ -340,4 +340,8 @@ ColumnLayout {
     function changeExplorerEntityInfo(status) {
         contextMenuEntityInfo.checked = status
     }
+
+    function highligthRow(clicked) {
+        return clicked ? Theme.eProsimaLightBlue : "transparent"
+    }
 }

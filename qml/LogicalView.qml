@@ -83,7 +83,7 @@ Rectangle {
                     id: domainHighlightRect
                     width: logicalView.width
                     height: domainIcon.height
-                    color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                    color: highligthRow(clicked)
 
                     MouseArea {
                         anchors.fill: parent
@@ -161,7 +161,7 @@ Rectangle {
                                 id: topicHighlightRect
                                 width: logicalView.width
                                 height: topicIcon.height
-                                color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                                color: highligthRow(clicked)
 
                                 MouseArea {
                                     anchors.fill: parent

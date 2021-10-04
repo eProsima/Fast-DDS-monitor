@@ -76,7 +76,7 @@ Rectangle {
                     id: participantHighlightRect
                     width: entityList.width
                     height: participantIcon.height
-                    color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                    color: highligthRow(clicked)
 
                     MouseArea {
                         anchors.fill: parent
@@ -155,7 +155,7 @@ Rectangle {
                                 id: endpointHighlightRect
                                 width: entityList.width
                                 height: endpointIcon.height
-                                color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                                color: highligthRow(clicked)
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -238,7 +238,7 @@ Rectangle {
                                             id: locatorHighlightRect
                                             width: entityList.width
                                             height: locatorIcon.height
-                                            color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                                            color: highligthRow(clicked)
 
                                             MouseArea {
                                                 anchors.fill: parent

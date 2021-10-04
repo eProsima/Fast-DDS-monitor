@@ -76,7 +76,7 @@ Rectangle {
                     id: hostHighlightRect
                     width: physicalView.width
                     height: hostIcon.height
-                    color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                    color: highligthRow(clicked)
 
                     MouseArea {
                         anchors.fill: parent
@@ -156,7 +156,7 @@ Rectangle {
                                 id: userHighlightRect
                                 width: physicalView.width
                                 height: userIcon.height
-                                color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                                color: highligthRow(clicked)
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -239,7 +239,7 @@ Rectangle {
                                             id: processHighlightRect
                                             width: physicalView.width
                                             height: processIcon.height
-                                            color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                                            color: highligthRow(clicked)
 
                                             MouseArea {
                                                 anchors.fill: parent
