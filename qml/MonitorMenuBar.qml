@@ -88,7 +88,6 @@ MenuBar {
             onTriggered: {
                 inactive_visible = !inactive_visible
                 controller.change_inactive_visible()
-                editMenuRefresh.trigger()
             }
         }
         MenuSeparator { }
