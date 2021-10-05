@@ -1247,7 +1247,7 @@ std::vector<std::pair<EntityKind, EntityKind>> SyncBackendConnection::get_data_s
     {
         return StatisticsBackend::get_data_supported_entity_kinds(data_kind);
     }
-    catch(const std::exception& e)
+    catch (const std::exception& e)
     {
         qWarning() << "Fail getting target entity for "
                    << utils::to_QString(backend::data_kind_to_string(data_kind)) << "data kind: " << e.what();
@@ -1268,7 +1268,5 @@ bool SyncBackendConnection::data_kind_has_target(
     }
     return true;
 }
-
-
 
 } //namespace backend
