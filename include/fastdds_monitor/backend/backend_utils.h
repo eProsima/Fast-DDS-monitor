@@ -96,6 +96,10 @@ backend::StatisticKind string_to_statistic_kind(
 backend::EntityInfo refactor_json(
         backend::EntityInfo json_data);
 
+//! Serialize the timestamp of a given data value
+std::string timestamp_to_string(
+        const backend::Timestamp timestamp);
+
 } //namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_BACKENDUTILS_H
