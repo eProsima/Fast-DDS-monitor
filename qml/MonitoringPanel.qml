@@ -193,10 +193,6 @@ ColumnLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                     Layout.bottomMargin: 1
-                    onLastClickedDDSEntity: {
-                        updateLastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx)
-                        infoSelectedEntityLabel.text = entityKind + ": " + entityName
-                    }
                 }
             }
 
@@ -232,10 +228,6 @@ ColumnLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                     Layout.bottomMargin: 1
-                    onLastClickedPhysical: {
-                        updateLastClickedPhysical(hostIdx, userIdx, processIdx)
-                        infoSelectedEntityLabel.text = entityKind + ": " + entityName
-                    }
                 }
             }
 
@@ -270,10 +262,6 @@ ColumnLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                     Layout.bottomMargin: 1
-                    onLastClickedLogical: {
-                        updateLastClickedLogical(domainIdx, topicIdx)
-                        infoSelectedEntityLabel.text = entityKind + ": " + entityName
-                    }
                 }
             }
 
@@ -309,6 +297,14 @@ ColumnLayout {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
+
+                    Connections {
+                        target: qosModel
+                        function onEntitySelected(entityKind, entityAlias) {
+                            infoSelectedEntityLabel.text = (entityKind === "INVALID" || entityAlias === "") ? "No entity selected"
+                                                                : (entityKind.toUpperCase() + ": " + entityAlias)
+                        }
+                    }
                 }
 
                 StackLayout {
@@ -325,31 +321,7 @@ ColumnLayout {
                     }
                 }
             }
-
         }
-    }
-
-    function updateLastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx) {
-        entityList.updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx)
-    }
-
-    function updateLastClickedPhysical(hostIdx, userIdx, processIdx) {
-        entityList.resetLastEntityClicked()
-        logicalView.resetLastEntityClicked()
-        physicalView.updateLastEntityClicked(hostIdx, userIdx, processIdx)
-    }
-
-    function updateLastClickedLogical(domainIdx, topicIdx) {
-        entityList.resetLastEntityClicked()
-        physicalView.resetLastEntityClicked()
-        logicalView.updateLastEntityClicked(domainIdx, topicIdx)
-    }
-
-    function resetLastClicked() {
-        entityList.resetLastEntityClicked()
-        physicalView.resetLastEntityClicked()
-        logicalView.resetLastEntityClicked()
-        infoSelectedEntityLabel.text = "No entity selected"
     }
 
     function changeExplorerDDSEntities(status) {
@@ -366,5 +338,9 @@ ColumnLayout {
 
     function changeExplorerEntityInfo(status) {
         contextMenuEntityInfo.checked = status
+    }
+
+    function highligthRow(clicked) {
+        return clicked ? Theme.eProsimaLightBlue : "transparent"
     }
 }

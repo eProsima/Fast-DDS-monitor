@@ -52,7 +52,7 @@ struct Callback
     backend::EntityId entity_id;
     //! Information of the \c EntityKind the callback refers
     backend::EntityKind entity_kind;
-    //! If the calback refers to a new discovered entity or it is an update
+    //! If the callback refers to a new discovered entity or it is an update
     bool is_update;
 };
 

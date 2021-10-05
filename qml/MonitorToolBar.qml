@@ -32,7 +32,6 @@ ToolBar {
     property bool isVisibleClearIssues: false
     property bool isVisibleDashboardLayout: true
 
-    signal lastClickedReset
     signal changeChartboxLayout(int chartsPerRow)
 
     RowLayout {
@@ -84,7 +83,6 @@ ToolBar {
             visible: isVisibleRefresh
             onClicked: {
                 controller.refresh_click()
-                lastClickedReset()
             }
         }
 
@@ -114,7 +112,6 @@ ToolBar {
         context: Qt.ApplicationShortcut
         onActivated: {
             controller.refresh_click()
-            lastClickedReset()
         }
     }
 

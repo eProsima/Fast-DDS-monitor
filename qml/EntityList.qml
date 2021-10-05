@@ -32,16 +32,12 @@ Rectangle {
         Locator
     }
 
-    property variant lastClickedIdx: [-1, -1, -1]
-
     property int verticalSpacing: 5
     property int spacingIconLabel: 8
     property int iconSize: 18
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
-
-    signal lastClickedDDSEntity(int participantIdx, int endpointIdx, int locatorIdx, string entityName, string entityKind)
 
     ListView {
         id: participantList
@@ -67,7 +63,6 @@ Rectangle {
 
             property var participantId: id
             property int participantIdx: index
-            property bool highlight: false
             property var endpointList: endpointList
 
             Column {
@@ -77,7 +72,7 @@ Rectangle {
                     id: participantHighlightRect
                     width: entityList.width
                     height: participantIcon.height
-                    color: highlight ? Theme.eProsimaLightBlue : "transparent"
+                    color: highligthRow(clicked)
 
                     MouseArea {
                         anchors.fill: parent
@@ -97,7 +92,6 @@ Rectangle {
                                 openEntitiesMenu(id, name, kind)
                             } else  {
                                 controller.participant_click(id)
-                                lastClickedDDSEntity(participantIdx, -1, -1, name, kind)
                             }
                         }
                     }
@@ -110,11 +104,11 @@ Rectangle {
                             name: "participant"
                             size: iconSize
                             Layout.leftMargin: firstIndentation
-                            color: entityLabelColor(highlight, alive)
+                            color: entityLabelColor(clicked, alive)
                         }
                         Label {
                             text: name
-                            color: entityLabelColor(highlight, alive)
+                            color: entityLabelColor(clicked, alive)
                         }
                     }
                 }
@@ -142,7 +136,6 @@ Rectangle {
 
                         property var endpointId: id
                         property int endpointIdx: index
-                        property bool highlight: false
                         property var locatorList: locatorList
 
                         ListView.onAdd: {
@@ -158,7 +151,7 @@ Rectangle {
                                 id: endpointHighlightRect
                                 width: entityList.width
                                 height: endpointIcon.height
-                                color: highlight ? Theme.eProsimaLightBlue : "transparent"
+                                color: highligthRow(clicked)
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -181,7 +174,6 @@ Rectangle {
                                             openEntitiesMenu(id, name, kind)
                                         } else {
                                             controller.endpoint_click(id)
-                                            lastClickedDDSEntity(participantIdx, endpointIdx, -1, name, kind)
                                         }
                                     }
                                 }
@@ -194,11 +186,11 @@ Rectangle {
                                         name: (kind == "DataReader") ? "datareader" : "datawriter"
                                         size: iconSize
                                         Layout.leftMargin: secondIndentation
-                                        color: entityLabelColor(highlight, alive)
+                                        color: entityLabelColor(clicked, alive)
                                     }
                                     Label {
                                         text: name
-                                        color: entityLabelColor(highlight, alive)
+                                        color: entityLabelColor(clicked, alive)
                                     }
                                 }
                             }
@@ -226,7 +218,6 @@ Rectangle {
                                     height: locatorListColumn.childrenRect.height
 
                                     property int locatorIdx: index
-                                    property bool highlight: false
 
                                     ListView.onAdd: {
                                         if(locatorList.height != 0) {
@@ -243,7 +234,7 @@ Rectangle {
                                             id: locatorHighlightRect
                                             width: entityList.width
                                             height: locatorIcon.height
-                                            color: highlight ? Theme.eProsimaLightBlue : "transparent"
+                                            color: highligthRow(clicked)
 
                                             MouseArea {
                                                 anchors.fill: parent
@@ -254,7 +245,6 @@ Rectangle {
                                                         openEntitiesMenu(id, name, kind)
                                                     } else {
                                                         controller.locator_click(id)
-                                                        lastClickedDDSEntity(participantIdx, endpointIdx, locatorIdx, name, kind)
                                                     }
                                                 }
                                             }
@@ -267,11 +257,11 @@ Rectangle {
                                                     name: "locator"
                                                     size: iconSize
                                                     Layout.leftMargin: thirdIndentation
-                                                    color: entityLabelColor(highlight, alive)
+                                                    color: entityLabelColor(clicked, alive)
                                                 }
                                                 Label {
                                                     text: name
-                                                    color: entityLabelColor(highlight, alive)
+                                                    color: entityLabelColor(clicked, alive)
                                                 }
                                             }
                                         }
@@ -283,34 +273,5 @@ Rectangle {
                 }
             }
         }
-    }
-
-    function updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx, update = true) {
-        if (lastClickedIdx[EntityList.DDSEntity.Participant] !== -1) {
-            if (lastClickedIdx[EntityList.DDSEntity.Endpoint] !== -1) {
-                if (lastClickedIdx[EntityList.DDSEntity.Locator] !== -1) {
-                    participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant])
-                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Endpoint])
-                            .locatorList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Locator])
-                                .highlight = !update
-                } else {
-                    participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant])
-                        .endpointList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Endpoint])
-                            .highlight = !update
-                }
-            } else {
-                participantList.itemAtIndex(lastClickedIdx[EntityList.DDSEntity.Participant]).highlight = !update
-
-            }
-        }
-
-        if (update) {
-            lastClickedIdx = [participantIdx, endpointIdx, locatorIdx]
-            updateLastEntityClicked(participantIdx, endpointIdx, locatorIdx, false)
-        }
-    }
-
-    function resetLastEntityClicked() {
-        updateLastEntityClicked(-1, -1, -1, true)
     }
 }

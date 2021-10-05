@@ -36,6 +36,7 @@
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
+#include <fastdds_monitor/model/info/InfoModel.h>
 #include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
 #include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
 
@@ -112,7 +113,8 @@ public:
      */
     bool update_host(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /**
      * @brief Update the internal physical model with a user notification
@@ -121,7 +123,8 @@ public:
      */
     bool update_user(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /**
      * @brief Update the internal physical model with a process notification
@@ -130,7 +133,8 @@ public:
      */
     bool update_process(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /////
     // LOGICAL PARTITION
@@ -142,7 +146,8 @@ public:
      */
     bool update_domain(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /**
      * @brief Update the internal logical model with a topic notification
@@ -151,7 +156,8 @@ public:
      */
     bool update_topic(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /////
     // DDS PARTITION
@@ -167,7 +173,8 @@ public:
      */
     bool update_participant(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /**
      * @brief Update the internal dds model with a datawriter notification
@@ -180,7 +187,8 @@ public:
      */
     bool update_datawriter(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /**
      * @brief Update the internal dds model with a datareader notification
@@ -193,7 +201,8 @@ public:
      */
     bool update_datareader(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /**
      * @brief Update the internal dds model with a locator notification
@@ -206,7 +215,8 @@ public:
      */
     bool update_locator(
             const backend::EntityId& id,
-            bool new_entity = true);
+            bool new_entity = true,
+            bool last_clicked = false);
 
     /**
      * @brief Update the internal dds model with entities related with Entity referenced by \c id
@@ -241,7 +251,7 @@ public:
      * @param id Entity id of the entity clicked
      * @param kind Entity kind of the entity clicked
      * @param update_dds Update the dds model
-     * @param update_dds Reset the dds model before update it
+     * @param reset_dds Reset the dds model before update it
      * @return true if any change in any model has been done
      */
     bool entity_clicked(
@@ -346,8 +356,9 @@ public:
      */
     bool update_entity(
         const backend::EntityId& entity_updated,
-        bool (Engine::* update_function)(const backend::EntityId&, bool),
-        bool new_entity = true);
+        bool (Engine::* update_function)(const backend::EntityId&, bool, bool),
+        bool new_entity = true,
+        bool last_clicked = false);
 
     //! Change inactive visible parameter
     void change_inactive_visible();
@@ -535,6 +546,12 @@ protected:
     bool read_callback_(
             backend::Callback callback);
 
+    bool update_entity_generic(
+            backend::EntityId entity_id,
+            backend::EntityKind entity_kind,
+            bool is_update = false,
+            bool is_last_clicked = false);
+
     //! Remove all the callbacks from issue model (called in \c refresh )
     void clear_callback_log_();
 
@@ -560,7 +577,7 @@ protected:
     models::ListModel* logical_model_;
 
     //! Data Model for Info of the clicked entity
-    models::TreeModel* info_model_;
+    models::InfoModel* info_model_;
 
     //! Data Model for Summary of the clicked entity
     models::TreeModel* summary_model_;

@@ -74,6 +74,7 @@ ListItem::ListItem(
     : QObject(parent)
     , id_(id)
     , info_(info)
+    , clicked_(false)
 {
 }
 
@@ -101,6 +102,11 @@ bool ListItem::alive() const
     return backend::get_info_alive(info_);
 }
 
+bool ListItem::clicked() const
+{
+    return clicked_;
+}
+
 backend::EntityInfo ListItem::info() const
 {
     return info_;
@@ -124,6 +130,8 @@ QVariant ListItem::data(
             return this->kind();
         case aliveRole:
             return this->alive();
+        case clickedRole:
+            return this->clicked();
         default:
             return QVariant();
     }
@@ -137,6 +145,7 @@ QHash<int, QByteArray> ListItem::roleNames() const
     roles[nameRole] = "name";
     roles[kindRole] = "kind";
     roles[aliveRole] = "alive";
+    roles[clickedRole] = "clicked";
 
     return roles;
 }

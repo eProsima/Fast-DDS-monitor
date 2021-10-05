@@ -30,7 +30,6 @@ RowLayout {
     // If is set to true, the left sidebar was opened, and false if it was closed.
     property bool prevFullScreenLeftSidebarState: true
 
-    signal lastClickedReset
     signal openCloseLeftSideBar
     signal changeChartboxLayout(int chartsPerRow)
     signal explorerDDSEntitiesChanged(bool status)
@@ -38,7 +37,6 @@ RowLayout {
     signal explorerLogicalChanged(bool status)
     signal explorerEntityInfoChanged(bool status)
 
-    onLastClickedReset: leftPanel.resetLastClicked()
     onOpenCloseLeftSideBar: {
         if (panels.showLeftSidebar) {
             iconsVBar.iconClicked(iconsVBar.selected)

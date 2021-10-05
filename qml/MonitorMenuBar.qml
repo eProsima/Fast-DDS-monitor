@@ -23,8 +23,6 @@ MenuBar {
 
     signal leftSidebarHidden
 
-    signal lastClickedReset
-
     property bool inactive_visible: controller.inactive_visible
 
     AdaptiveMenu {
@@ -49,6 +47,7 @@ MenuBar {
         }
     }
     AdaptiveMenu {
+        id: editMenu
         title: qsTr("&Edit")
         Action {
             text: qsTr("&Display Historical Data")
@@ -60,10 +59,10 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
+            id: editMenuRefresh
             text: qsTr("&Refresh")
             onTriggered: {
                 controller.refresh_click()
-                lastClickedReset()
             }
         }
         Action {

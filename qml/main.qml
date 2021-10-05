@@ -57,7 +57,6 @@ ApplicationWindow {
         onDashboardLayoutButtonHidden: toolBar.isVisibleDashboardLayout = !toolBar.isVisibleDashboardLayout
         onClearIssuesButtonHidden: toolBar.isVisibleClearIssues = !toolBar.isVisibleClearIssues
         onLeftSidebarHidden: panels.openCloseLeftSideBar()
-        onLastClickedReset: panels.lastClickedReset()
         onChangeChartboxLayout: {
             panels.changeChartboxLayout(chartsPerRow)
             toolBar.changeChartboxLayoutIcon(chartsPerRow)
@@ -73,7 +72,6 @@ ApplicationWindow {
 
     header: MonitorToolBar {
         id: toolBar
-        onLastClickedReset: panels.lastClickedReset()
         onChangeChartboxLayout: monitorMenuBar.changeChartboxLayoutViewMenu(chartsPerRow)
     }
 

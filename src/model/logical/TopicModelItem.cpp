@@ -35,6 +35,8 @@ QVariant TopicModelItem::data(
             return this->type();
         case aliveRole:
             return this->alive();
+        case clickedRole:
+            return this->clicked();
         default:
             return QVariant();
     }
