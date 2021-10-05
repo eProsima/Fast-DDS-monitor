@@ -506,9 +506,9 @@ Dialog {
                     sourceEntityId.currentValue,
                     (targetExists) ? targetEntityId.currentValue : '',
                     bins.value,
-                    startTime,
+                    Date.fromLocaleString(Qt.locale(), startTimeDate, "dd.MM.yyyy HH:mm:ss"),
                     startTimeDefault.checked,
-                    endTime,
+                    Date.fromLocaleString(Qt.locale(), endTimeDate, "dd.MM.yyyy HH:mm:ss"),
                     endTimeDefault.checked,
                     statisticKind.currentText)
     }

@@ -16,6 +16,12 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 #include <sstream>      // std::ostringstream
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+#include <string>
+#include <thread>
+#include <vector>
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/model/model_types.h>
@@ -337,6 +343,25 @@ backend::EntityInfo refactor_json(
 
     // Otherwise is primitive or null and it is already correct
     return json_data;
+}
+
+std::string timestamp_to_string(
+        const backend::Timestamp timestamp)
+{
+    auto timestamp_t = std::chrono::system_clock::to_time_t(timestamp);
+    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(timestamp.time_since_epoch()).count();
+    msec %= 1000;
+    std::stringstream ss;
+
+#ifdef _WIN32
+    struct tm timestamp_tm;
+    _localtime64_s(&timestamp_tm, &timestamp_t);
+    ss << std::put_time(&timestamp_tm, "%F %T") << "." << std::setw(3) << std::setfill('0') << msec;
+#else
+    ss << std::put_time(localtime(&timestamp_t), "%F %T") << "." << std::setw(3) << std::setfill('0') << msec;
+#endif // ifdef _WIN32
+
+    return ss.str();
 }
 
 } // namespace backend

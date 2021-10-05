@@ -35,6 +35,7 @@ using EntityKind = eprosima::statistics_backend::EntityKind;
 using DataKind = eprosima::statistics_backend::DataKind;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
 using EntityInfo = eprosima::statistics_backend::Info;
+using Timestamp = eprosima::statistics_backend::Timestamp;
 
 //! Reference the ID_ALL in the project
 extern const EntityId ID_ALL;
