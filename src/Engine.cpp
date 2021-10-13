@@ -891,15 +891,25 @@ void Engine::update_dynamic_chartbox(
         return;
     }
 
-    eprosima::statistics_backend::Timestamp time_from_ =
-            backend::Timestamp(std::chrono::milliseconds(parameters.time_from)); // This value is reused for every series
 
     for (std::size_t i = 0; i < parameters.series_ids.size(); i++)
     {
         backend::StatisticKind statistics_kind_ = backend::string_to_statistic_kind(parameters.statistics_kinds[i]);
-        // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
-        // Otherwise the bins is 1 so only one data is updated
-        uint16_t bins_ = (statistics_kind_ == backend::StatisticKind::NONE) ? 0 : 1;
+
+        eprosima::statistics_backend::Timestamp time_from_ =
+                backend::Timestamp(std::chrono::milliseconds(parameters.time_from));
+
+        uint16_t bins_ = 1;
+
+        if (statistics_kind_ == backend::StatisticKind::NONE)
+        {
+            // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
+            // Otherwise the bins is 1 so only one data is updated
+            bins_ = 0;
+
+            // If the statistics_kind is NONE use always the non cumulative initial timestamp.
+            time_from_ = backend::Timestamp(std::chrono::milliseconds(parameters.non_cumulative_time_from));
+        }
 
         std::vector<backend::StatisticsData> new_points = backend_connection_.get_data(
             backend::string_to_data_kind(parameters.data_kind),
@@ -908,7 +918,7 @@ void Engine::update_dynamic_chartbox(
             bins_,                      // 0 when NONE , 1 otherwise
             statistics_kind_,
             time_from_, // New limit value
-            time_to_timestamp_);                 // Last time value taken in last call
+            time_to_timestamp_); // Last time value taken in last call
 
         // Check that get_data call has not failed
         if (new_points.empty())

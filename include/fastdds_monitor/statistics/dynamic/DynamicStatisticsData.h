@@ -67,7 +67,8 @@ public slots:
     quint64 add_chartbox(
             QString data_kind,
             quint64 time_to,
-            quint64 window_size);
+            quint64 window_size,
+            bool cumulative);
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H

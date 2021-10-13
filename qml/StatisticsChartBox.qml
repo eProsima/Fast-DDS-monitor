@@ -34,6 +34,7 @@ Rectangle {
     property bool isDynamic: false
     property variant timeWindow: -1
     property variant updatePeriod: -1
+    property bool cumulative: false
     property int chartboxId: -1
     property variant currentDate: toMsecsSinceEpoch(new Date())
     property bool running: false
@@ -44,7 +45,7 @@ Rectangle {
 
     Component.onCompleted: {
         if (isDynamic){
-            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow)
+            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow, cumulative)
             chartTitle = chartTitle + " [dynamic]"
             dynamicDisplayStatisticsDialog.open()
         } else {
@@ -293,6 +294,7 @@ Rectangle {
                 property variant timeWindow: statisticsChartBox.timeWindow
                 property variant currentDate: statisticsChartBox.currentDate
                 property variant updatePeriod: statisticsChartBox.updatePeriod
+                property bool cumulative: statisticsChartBox.cumulative
                 property variant chartboxId: statisticsChartBox.chartboxId
 
                 source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "HistoricStatisticsChartView.qml"

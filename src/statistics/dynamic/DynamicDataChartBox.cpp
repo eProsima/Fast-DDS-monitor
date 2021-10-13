@@ -74,7 +74,14 @@ void DynamicDataChartBox::update(
 UpdateParameters DynamicDataChartBox::get_update_parameters()
 {
     const std::lock_guard<std::recursive_mutex> lock(mutex_);
-    current_update_parameters_.time_from = time_to_;
+
+    if (!cumulative_)
+    {
+        current_update_parameters_.time_from = time_to_;
+    }
+
+    current_update_parameters_.non_cumulative_time_from = time_to_;
+
     return current_update_parameters_;
 }
 

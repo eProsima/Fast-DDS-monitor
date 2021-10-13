@@ -34,6 +34,7 @@ struct UpdateParameters
 {
     QString data_kind;
     quint64 time_from;
+    quint64 non_cumulative_time_from;
     std::vector<QString> source_ids;
     std::vector<QString> target_ids;
     std::vector<QString> statistics_kinds;
@@ -65,12 +66,14 @@ public:
             QString data_kind,
             quint64 time_to,
             quint64 window_size,
+            bool cumulative,
             QObject* parent = nullptr)
-        : DataChartBox(data_kind, parent)
+        : DataChartBox(data_kind, cumulative, parent)
         , time_to_(time_to)
         , window_size_(window_size)
         , current_update_parameters_({
         data_kind,
+        time_to,
         time_to,
         std::vector<QString>(),
         std::vector<QString>(),

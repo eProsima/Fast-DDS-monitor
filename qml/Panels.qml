@@ -118,8 +118,8 @@ RowLayout {
         chartsLayout.createHistoricChart(dataKind)
     }
 
-    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
-        chartsLayout.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod)
+    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, cumulative){
+        chartsLayout.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, cumulative)
     }
 
     function saveAllCSV() {
