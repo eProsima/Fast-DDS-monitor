@@ -432,7 +432,7 @@ bool Engine::update_host(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
-            last_clicked);
+                   last_clicked);
 }
 
 bool Engine::update_user(
@@ -441,7 +441,7 @@ bool Engine::update_user(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
-            last_clicked);
+                   last_clicked);
 }
 
 bool Engine::update_process(
@@ -466,7 +466,7 @@ bool Engine::update_domain(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_domain(logical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
-            last_clicked);
+                   last_clicked);
 }
 
 bool Engine::update_topic(
@@ -475,7 +475,7 @@ bool Engine::update_topic(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_topic(logical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
-            last_clicked);
+                   last_clicked);
 }
 
 // DDS PARTITION
