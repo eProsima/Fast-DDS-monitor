@@ -2,6 +2,8 @@ allocator
 Asio
 backend
 Backend
+centric
+Centric
 chartbox
 CMake
 colcon
@@ -19,6 +21,7 @@ NaN
 Qos
 QoS
 resizable
+scalable
 subpanel
 subpanels
 Todo

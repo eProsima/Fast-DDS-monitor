@@ -68,6 +68,15 @@
    /rst/developer_manual/installation/sources/linux
    /rst/developer_manual/installation/configuration/cmake_options
 
+.. _index_docker:
+
+.. toctree::
+   :caption: Docker Image
+   :maxdepth: 2
+   :numbered: 5
+   :hidden:
+
+   /rst/docker/docker
 
 .. _index_notes:
 
