@@ -43,9 +43,8 @@ Execute Fast DDS Monitor
 Intiate Fast DDS Monitor by the executable created by the installation process.
 Once into the Fast DDS Monitor window, start a monitor in domain :code:`0` (default domain).
 
-.. todo:
-
-    Add screenshot
+.. figure:: /rst/figures/screenshots/usage_example/init_domain.png
+    :align: center
 
 Execute ROS 2 demo nodes with statistics
 ----------------------------------------
@@ -79,9 +78,8 @@ Monitoring network
 
 Now you must see in the Fast DDS Monitor two new Participants.
 
-.. todo:
-
-    Add screenshot
+.. figure:: /rst/figures/screenshots/galactic_tutorial/participants.png
+    :align: center
 
 Alias
 ^^^^^
@@ -90,9 +88,8 @@ Participants in ROS 2 are called :code:`\ `.
 In order to differentiate them you could :ref:`change_alias`.
 The :code:`talker` would be the one with one writer, and the :code:`listener` with a reader.
 
-.. todo:
-
-    Add screenshot
+.. figure:: /rst/figures/screenshots/galactic_tutorial/alias.png
+    :align: center
 
 Physical data
 ^^^^^^^^^^^^^
@@ -101,6 +98,9 @@ In order to see the information about the host and the physical context where ev
 the :ref:`left_panel` and activate the :ref:`physical_panel`.
 There are shown the host, user and process of each node.
 
+.. figure:: /rst/figures/screenshots/galactic_tutorial/physical.png
+    :align: center
+
 Statistical data
 ^^^^^^^^^^^^^^^^
 
@@ -108,9 +108,8 @@ To show statistical data about the communication between the :code:`talker` and 
 Follow the steps to :ref:`tutorial_create_dynamic_series` and see this statistical data graphically in a real
 time chart.
 
-.. todo:
-
-    Add screenshot
+.. figure:: /rst/figures/screenshots/galactic_tutorial/statistics.png
+    :align: center
 
 Introspect metatraffic topics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -128,9 +127,8 @@ In order to see these topics in the monitor, click .
 Now, these topics will be shown in the logical panel, and the Readers and Writers associated to them under their
 respective Participants.
 
-.. todo:
-
-    Add screenshot
+.. figure:: /rst/figures/screenshots/galactic_tutorial/metatraffic.png
+    :align: center
 
 Video Tutorial
 ==============
