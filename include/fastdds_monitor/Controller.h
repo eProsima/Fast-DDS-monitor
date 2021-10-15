@@ -156,7 +156,7 @@ public slots:
     //! Whether metatraffic must be shown or hidden
     bool metatraffic_visible();
 
-    //! Change \c metatrafficvisible status
+    //! Change \c metatraffic_visible status
     void change_metatraffic_visible();
 
     //! Call engine to refresh summary

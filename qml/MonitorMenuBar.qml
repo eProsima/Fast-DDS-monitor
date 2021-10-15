@@ -24,7 +24,6 @@ MenuBar {
     signal leftSidebarHidden
 
     property bool inactive_visible: controller.inactive_visible()
-
     property bool metatraffic_visible: controller.metatraffic_visible()
 
     AdaptiveMenu {

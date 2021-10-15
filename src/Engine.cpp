@@ -1028,6 +1028,7 @@ void Engine::change_metatraffic_visible()
     fill_physical_data_();
     fill_logical_data_();
     fill_dds_data_();
+    refresh_engine();
 }
 
 bool Engine::inactive_visible() const

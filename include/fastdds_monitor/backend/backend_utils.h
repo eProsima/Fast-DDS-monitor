@@ -65,7 +65,7 @@ std::string get_alias(
  * @return alive status value
  */
 bool get_info_alive(
-        EntityInfo info);
+        const EntityInfo& info);
 
 /**
  * @brief Get the metatraffic value in \c EntityInfo structure (json format). True by default.
@@ -73,7 +73,7 @@ bool get_info_alive(
  * @return metatraffic value
  */
 bool get_info_metatraffic(
-        EntityInfo info);
+        const EntityInfo& info);
 
 //! Converts the \c EntityKind to QString
 QString entity_kind_to_QString(

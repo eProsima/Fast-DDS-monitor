@@ -302,7 +302,7 @@ std::string get_alias(
 }
 
 bool get_info_alive(
-        EntityInfo info)
+        const EntityInfo& info)
 {
     if (info.contains("alive"))
     {
@@ -316,7 +316,7 @@ bool get_info_alive(
 }
 
 bool get_info_metatraffic(
-        EntityInfo info)
+        const EntityInfo& info)
 {
     if (info.contains("metatraffic"))
     {
