@@ -217,7 +217,9 @@ Dialog {
                       "time interval.\n" +
                       "If RAW DATA is selected, all \n" +
                       "available data in the last\n" +
-                      "time frame is displayed.\n"
+                      "time frame is displayed and\n" +
+                      "the cumulative option is\n" +
+                      "disabled."
             }
         }
         AdaptiveComboBox {
@@ -231,6 +233,34 @@ Dialog {
             onActivated: {
                 activeOk = true
                 regenerateSeriesLabel()
+
+                if (currentText == "RAW DATA") {
+                    cumulativeLabel.enabled = false
+                    cumulative.enabled = false
+                    cumulative.checked = false
+                } else {
+                    cumulativeLabel.enabled = true
+                    cumulative.enabled = true
+                }
+            }
+        }
+
+        Label {
+            id: cumulativeLabel
+            text: qsTr("Cumulative data: ")
+            InfoToolTip {
+                text: "If checked, each data point is\n" +
+                      "calculated using as the initial \n" +
+                      "timestamp the firt available data\n" +
+                      "of the data kind, and as the final\n" +
+                      "timestamp the updated time after\n" +
+                      "the update period elapsed."
+            }
+        }
+        RowLayout {
+            CheckBox {
+                id: cumulative
+                checked: false
             }
         }
     }
@@ -273,7 +303,8 @@ Dialog {
                     (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
                     sourceEntityId.currentValue,
                     (targetExists) ? targetEntityId.currentValue : '',
-                    statisticKind.currentText)
+                    statisticKind.currentText,
+                    cumulative.checked)
     }
 
     function checkInputs() {

@@ -34,7 +34,6 @@ Rectangle {
     property bool isDynamic: false
     property variant timeWindow: -1
     property variant updatePeriod: -1
-    property bool cumulative: false
     property int chartboxId: -1
     property variant currentDate: toMsecsSinceEpoch(new Date())
     property bool running: false
@@ -45,7 +44,7 @@ Rectangle {
 
     Component.onCompleted: {
         if (isDynamic){
-            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow, cumulative)
+            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow)
             chartTitle = chartTitle + " [dynamic]"
             dynamicDisplayStatisticsDialog.open()
         } else {
@@ -178,7 +177,8 @@ Rectangle {
                 string seriesLabel,
                 string sourceEntityId,
                 string targetEntityId,
-                string statisticKind)
+                string statisticKind,
+                bool cumulative)
             signal clearChart()
             signal dynamicPause()
             signal dynamicContinue()
@@ -198,7 +198,8 @@ Rectangle {
                                     seriesLabel,
                                     sourceEntityId,
                                     targetEntityId,
-                                    statisticKind);
+                                    statisticKind,
+                                    cumulative);
             onClearChart: statisticsChartViewLoader.item.clearChart();
             onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
             onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
@@ -294,7 +295,6 @@ Rectangle {
                 property variant timeWindow: statisticsChartBox.timeWindow
                 property variant currentDate: statisticsChartBox.currentDate
                 property variant updatePeriod: statisticsChartBox.updatePeriod
-                property bool cumulative: statisticsChartBox.cumulative
                 property variant chartboxId: statisticsChartBox.chartboxId
 
                 source: (isDynamic) ? "DynamicStatisticsChartView.qml" : "HistoricStatisticsChartView.qml"

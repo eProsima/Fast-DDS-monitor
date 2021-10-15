@@ -32,14 +32,14 @@ Dialog {
 
     property var availableDataKinds: []
 
-    signal createChart(string dataKind, double timeWindowSeconds, int updatePeriod, bool cumulative)
+    signal createChart(string dataKind, double timeWindowSeconds, int updatePeriod)
 
     onAccepted: {
         if (!checkInputs())
             return
 
         var timeFrame = timeToMilliseconds()
-        createChart(dataKindComboBox.currentText, timeFrame, (updatePeriod.value) * 1000, cumulative.checked)
+        createChart(dataKindComboBox.currentText, timeFrame, (updatePeriod.value) * 1000)
     }
 
     Component.onCompleted: {
@@ -167,24 +167,6 @@ Dialog {
             }
             Label {
                 text: "seconds"
-            }
-        }
-
-        Label {
-            text: qsTr("Cumulative data: ")
-            InfoToolTip {
-                text: "If checked, each data point is\n" +
-                      "calculated using as the initial \n" +
-                      "timestamp the creation time\n" +
-                      "of the chart, and as the final\n" +
-                      "timestamp the updated time after\n" +
-                      "the update period elapsed."
-            }
-        }
-        RowLayout {
-            CheckBox {
-                id: cumulative
-                checked: false
             }
         }
     }

@@ -906,9 +906,6 @@ void Engine::update_dynamic_chartbox(
             // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
             // Otherwise the bins is 1 so only one data is updated
             bins_ = 0;
-
-            // If the statistics_kind is NONE use always the non cumulative initial timestamp.
-            time_from_ = backend::Timestamp(std::chrono::milliseconds(parameters.non_cumulative_time_from));
         }
 
         std::vector<backend::StatisticsData> new_points = backend_connection_.get_data(
@@ -917,8 +914,25 @@ void Engine::update_dynamic_chartbox(
             backend::models_id_to_backend_id(parameters.target_ids[i]),
             bins_,                      // 0 when NONE , 1 otherwise
             statistics_kind_,
-            time_from_, // New limit value
-            time_to_timestamp_); // Last time value taken in last call
+            time_from_,                 // New limit value
+            time_to_timestamp_);        // Last time value taken in last call
+
+        // As we don't know if there are data points within the last time interval, it's required to perform a get_data
+        // setting the time interval as the update period. Then we check that there are available data points to
+        // compute again another get data with the actual initial time in case the series is cumulative.
+        if ((statistics_kind_ != backend::StatisticKind::NONE) && parameters.cumulative[i] && !new_points.empty())
+        {
+            time_from_ = backend::Timestamp();
+
+            new_points = backend_connection_.get_data(
+                backend::string_to_data_kind(parameters.data_kind),
+                backend::models_id_to_backend_id(parameters.source_ids[i]),
+                backend::models_id_to_backend_id(parameters.target_ids[i]),
+                bins_,                      // 0 when NONE , 1 otherwise
+                statistics_kind_,
+                backend::Timestamp(),
+                time_to_timestamp_);        // Last time value taken in last call
+        }
 
         // Check that get_data call has not failed
         if (new_points.empty())

@@ -47,7 +47,6 @@ public:
 
     DataChartBox(
             QString data_kind,
-            bool cumulative = false,
             QObject* parent = nullptr)
         : QObject(parent)
         , data_kind_(data_kind)
@@ -56,7 +55,6 @@ public:
         , axisXMax_(X_MAX_DEFAULT)
         , axisXMin_(X_MIN_DEFAULT)
         , round_axis_(false)
-        , cumulative_(cumulative)
     {
     }
 
@@ -153,12 +151,6 @@ protected:
 
     //! Automatiacally calculate a round axis
     bool round_axis_;
-
-    /**
-     * Indicate that the statistics are calculated cumulatively, i.e. each data point is calculated with initial time
-     * as the time at which the graph is created and final time as the time of each case.
-     */
-    bool cumulative_;
 
     //! Lock internal series access while creating, deleting or updating
     mutable std::recursive_mutex mutex_;

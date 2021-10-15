@@ -60,6 +60,7 @@ public slots:
     QtCharts::QVXYModelMapper* add_series(
             quint64 chartbox_id,
             QString statistic_kind,
+            bool cumulative,
             QString source_id,
             QString target_id);
 
@@ -67,8 +68,7 @@ public slots:
     quint64 add_chartbox(
             QString data_kind,
             quint64 time_to,
-            quint64 window_size,
-            bool cumulative);
+            quint64 window_size);
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H

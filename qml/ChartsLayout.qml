@@ -159,7 +159,6 @@ Rectangle {
                     isDynamic: (dynamic) ? true : false
                     timeWindow: timeFrame
                     updatePeriod: timeUpdate
-                    cumulative: cumulativeData
                     index: model.index
                     state: "inactive"
                     anchors.centerIn: parent
@@ -242,20 +241,18 @@ Rectangle {
                                            "chartTitle": dataKind,
                                            "timeFrame": -1,
                                            "timeUpdate": -1,
-                                           "dynamic": false,
-                                           "cumulativeData": false
+                                           "dynamic": false
                                        })
     }
 
-    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, cumulative){
+    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
         exitFullScreen()
         statisticsChartBoxModel.append({
                                            "dataKind": dataKind,
                                            "chartTitle": dataKind,
                                            "timeFrame": timeWindowSeconds,
                                            "timeUpdate": updatePeriod,
-                                           "dynamic": true,
-                                           "cumulativeData": cumulative
+                                           "dynamic": true
                                        })
     }
 

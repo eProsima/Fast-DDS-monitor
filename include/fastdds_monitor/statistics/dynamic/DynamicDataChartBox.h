@@ -34,11 +34,15 @@ struct UpdateParameters
 {
     QString data_kind;
     quint64 time_from;
-    quint64 non_cumulative_time_from;
     std::vector<QString> source_ids;
     std::vector<QString> target_ids;
     std::vector<QString> statistics_kinds;
     std::vector<quint64> series_ids;
+    /**
+     * This indicates that the statistics are calculated cumulatively, i.e. each data point is calculated with initial
+     * time as the time at which the graph is created and final time as the time of each case.
+     */
+    std::vector<bool> cumulative;
 };
 
 /**
@@ -66,19 +70,18 @@ public:
             QString data_kind,
             quint64 time_to,
             quint64 window_size,
-            bool cumulative,
             QObject* parent = nullptr)
-        : DataChartBox(data_kind, cumulative, parent)
+        : DataChartBox(data_kind, parent)
         , time_to_(time_to)
         , window_size_(window_size)
         , current_update_parameters_({
         data_kind,
         time_to,
-        time_to,
         std::vector<QString>(),
         std::vector<QString>(),
         std::vector<QString>(),
-        std::vector<quint64>()})
+        std::vector<quint64>(),
+        std::vector<bool>()})
     {
     }
 
@@ -105,6 +108,7 @@ public:
      */
     QtCharts::QVXYModelMapper* add_series(
             QString statistic_kind,
+            bool cumulative,
             models::EntityId source_id,
             models::EntityId target_id = models::ID_INVALID);
 
