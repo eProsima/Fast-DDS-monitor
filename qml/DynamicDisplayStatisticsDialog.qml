@@ -24,6 +24,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls 1.4 as QCC1
 import QtQuick.Controls.Styles 1.4
 import QtQml.Models 2.12
+import Theme 1.0
 
 Dialog {
     id: dynamicDisplayStatisticsDialog
@@ -250,17 +251,125 @@ Dialog {
             text: qsTr("Cumulative data: ")
             InfoToolTip {
                 text: "If checked, each data point is\n" +
-                      "calculated using as the initial \n" +
-                      "timestamp the firt available data\n" +
-                      "of the data kind, and as the final\n" +
+                      "calculated using as the the final\n" +
                       "timestamp the updated time after\n" +
-                      "the update period elapsed."
+                      "the update period elapsed, and\n" +
+                      "the initial the final timestamp\n" +
+                      "minus the cumulative time interval.\n"
             }
         }
         RowLayout {
             CheckBox {
                 id: cumulative
                 checked: false
+                onCheckedChanged: {
+                    activeOk = true
+                }
+            }
+
+            Rectangle {
+                width: 2
+                height: cumulativeInterval.childrenRect.height + 2 * cumulativeInterval.spacing
+                color: Theme.grey
+                visible: cumulative.checked
+            }
+
+            Rectangle {
+                width: 5
+                height: cumulativeInterval.height
+                color: "transparent"
+                visible: cumulative.checked
+            }
+
+            ColumnLayout {
+                id: cumulativeInterval
+                visible: cumulative.checked
+
+                Label {
+                    id: cumulativeIntervalLabel
+                    text: qsTr("Cumulative interval: ")
+                    visible: cumulative.checked
+                    InfoToolTip {
+                        text: "Time interval to calculate the\n" +
+                              "cumulated statistic."
+                    }
+                }
+
+                RowLayout {
+                    Label {
+                        text: "From first data point: "
+                    }
+
+                    CheckBox {
+                        id: cumulativeIntervalDefault
+                        checked: true
+                        indicator.width: 20
+                        indicator.height: 20
+                        onCheckedChanged: {
+                            activeOk = true
+                        }
+                    }
+                }
+
+                GridLayout {
+                    id: cumulativeIntervalTimeDuration
+                    columns: 3
+
+                    RowLayout {
+                        TextField {
+                            id: cumulativeIntervalHours
+                            text: qsTr("00")
+                            placeholderText: qsTr("00")
+                            enabled: !cumulativeIntervalDefault.checked
+                            selectByMouse: true
+                            selectionColor: Theme.eProsimaLightBlue
+                            validator: IntValidator {
+                                bottom: 0
+                            }
+                            inputMethodHints: Qt.ImhDigitsOnly
+                        }
+                        Label {
+                            text: "Hours"
+                            enabled: !cumulativeIntervalDefault.checked
+                        }
+                    }
+                    RowLayout {
+                        TextField {
+                            id: cumulativeIntervalMinutes
+                            text: qsTr("01")
+                            placeholderText: qsTr("00")
+                            enabled: !cumulativeIntervalDefault.checked
+                            selectByMouse: true
+                            selectionColor: Theme.eProsimaLightBlue
+                            validator: IntValidator {
+                                bottom: 0
+                            }
+                            inputMethodHints: Qt.ImhDigitsOnly
+                        }
+                        Label {
+                            text: "Minutes"
+                            enabled: !cumulativeIntervalDefault.checked
+                        }
+                    }
+                    RowLayout {
+                        TextField {
+                            id: cumulativeIntervalSeconds
+                            text: qsTr("00")
+                            placeholderText: qsTr("00")
+                            enabled: !cumulativeIntervalDefault.checked
+                            selectByMouse: true
+                            selectionColor: Theme.eProsimaLightBlue
+                            validator: IntValidator {
+                                bottom: 0
+                            }
+                            inputMethodHints: Qt.ImhDigitsOnly
+                        }
+                        Label {
+                            text: "Seconds"
+                            enabled: !cumulativeIntervalDefault.checked
+                        }
+                    }
+                }
             }
         }
     }
@@ -295,6 +404,17 @@ Dialog {
         onDiscard: dynamicDisplayStatisticsDialog.close()
     }
 
+    MessageDialog {
+        id: emptyCumulativeInterval
+        title: "Empty Cumulative Interval"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The cumulative time interval is zero. " +
+              "Enter a valid time interval or check the \"From first data point\" option."
+        onAccepted: dynamicDisplayStatisticsDialog.open()
+        onDiscard: dynamicDisplayStatisticsDialog.close()
+    }
+
     function createSeries() {
         if (!checkInputs())
             return
@@ -304,7 +424,8 @@ Dialog {
                     sourceEntityId.currentValue,
                     (targetExists) ? targetEntityId.currentValue : '',
                     statisticKind.currentText,
-                    cumulative.checked)
+                    cumulative.checked,
+                    cumulativeIntervalDefault.checked ? 0 : cumulativeIntervalToSeconds())
     }
 
     function checkInputs() {
@@ -321,7 +442,23 @@ Dialog {
             return false
         }
 
+        if (cumulative.checked && !cumulativeIntervalDefault.checked) {
+            var cumulativeTimeFrame = cumulativeIntervalToSeconds()
+            if (cumulativeTimeFrame === 0) {
+                emptyCumulativeInterval.open()
+                return false
+            }
+        }
+
         return true
+    }
+
+    function cumulativeIntervalToSeconds() {
+        var hours = (cumulativeIntervalHours.text === "") ? 0 : parseInt(cumulativeIntervalHours.text)
+        var minutes = (cumulativeIntervalMinutes.text === "") ? 0 : parseInt(cumulativeIntervalMinutes.text)
+        var seconds = (cumulativeIntervalSeconds.text === "") ? 0 : parseInt(cumulativeIntervalSeconds.text)
+
+        return (hours*3600 + minutes*60 + seconds)
     }
 
     function formatText(count, modelData) {

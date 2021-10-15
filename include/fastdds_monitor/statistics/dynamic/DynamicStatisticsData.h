@@ -61,6 +61,7 @@ public slots:
             quint64 chartbox_id,
             QString statistic_kind,
             bool cumulative,
+            quint64 cumulative_interval,
             QString source_id,
             QString target_id);
 

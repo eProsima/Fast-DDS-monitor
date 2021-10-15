@@ -40,9 +40,10 @@ struct UpdateParameters
     std::vector<quint64> series_ids;
     /**
      * This indicates that the statistics are calculated cumulatively, i.e. each data point is calculated with initial
-     * time as the time at which the graph is created and final time as the time of each case.
+     * time the current timestamp minus the cumulative time interval and final time as the time of each case.
      */
     std::vector<bool> cumulative;
+    std::vector<quint64> cumulative_interval;
 };
 
 /**
@@ -81,7 +82,8 @@ public:
         std::vector<QString>(),
         std::vector<QString>(),
         std::vector<quint64>(),
-        std::vector<bool>()})
+        std::vector<bool>(),
+        std::vector<quint64>()})
     {
     }
 
@@ -109,6 +111,7 @@ public:
     QtCharts::QVXYModelMapper* add_series(
             QString statistic_kind,
             bool cumulative,
+            quint64 cumulative_interval,
             models::EntityId source_id,
             models::EntityId target_id = models::ID_INVALID);
 

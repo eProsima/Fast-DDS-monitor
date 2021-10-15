@@ -922,7 +922,19 @@ void Engine::update_dynamic_chartbox(
         // compute again another get data with the actual initial time in case the series is cumulative.
         if ((statistics_kind_ != backend::StatisticKind::NONE) && parameters.cumulative[i] && !new_points.empty())
         {
-            time_from_ = backend::Timestamp();
+            if (parameters.cumulative_interval[i] > 0)
+            {
+                time_from_ = time_to_timestamp_ -
+                        std::chrono::seconds(parameters.cumulative_interval[i]);
+            }
+            else
+            {
+                time_from_ = backend::Timestamp();
+            }
+
+            qDebug() << "Get data:" << "\n"
+                     << "   time_from: " << utils::to_QString(backend::timestamp_to_string(time_from_)) << "\n"
+                     << "   time_to: " << utils::to_QString(backend::timestamp_to_string(time_to_timestamp_));
 
             new_points = backend_connection_.get_data(
                 backend::string_to_data_kind(parameters.data_kind),
@@ -930,7 +942,7 @@ void Engine::update_dynamic_chartbox(
                 backend::models_id_to_backend_id(parameters.target_ids[i]),
                 bins_,                      // 0 when NONE , 1 otherwise
                 statistics_kind_,
-                backend::Timestamp(),
+                time_from_,
                 time_to_timestamp_);        // Last time value taken in last call
         }
 

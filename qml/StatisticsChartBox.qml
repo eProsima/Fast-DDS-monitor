@@ -178,7 +178,8 @@ Rectangle {
                 string sourceEntityId,
                 string targetEntityId,
                 string statisticKind,
-                bool cumulative)
+                bool cumulative,
+                int cumulative_interval)
             signal clearChart()
             signal dynamicPause()
             signal dynamicContinue()
@@ -199,7 +200,8 @@ Rectangle {
                                     sourceEntityId,
                                     targetEntityId,
                                     statisticKind,
-                                    cumulative);
+                                    cumulative,
+                                    cumulative_interval);
             onClearChart: statisticsChartViewLoader.item.clearChart();
             onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
             onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
