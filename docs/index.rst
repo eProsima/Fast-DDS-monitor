@@ -24,6 +24,7 @@
    Windows </rst/installation/windows.rst>
    Linux </rst/installation/linux.rst>
 
+
 .. _index_getting_started:
 
 .. toctree::
@@ -68,6 +69,18 @@
    /rst/developer_manual/installation/sources/linux
    /rst/developer_manual/installation/configuration/cmake_options
 
+
+.. _index_ros:
+
+.. toctree::
+   :caption: ROS2
+   :maxdepth: 2
+   :numbered: 5
+   :hidden:
+
+   /rst/ros/ros
+
+
 .. _index_docker:
 
 .. toctree::
@@ -77,6 +90,7 @@
    :hidden:
 
    /rst/docker/docker
+
 
 .. _index_notes:
 
