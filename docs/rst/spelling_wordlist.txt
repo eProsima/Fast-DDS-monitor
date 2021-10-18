@@ -16,6 +16,7 @@ Debian
 eProsima
 gtest
 localhost
+metatraffic
 multicast
 NaN
 Qos
