@@ -5,15 +5,14 @@ Galactic
 ########
 
 This section shows how to install and deploy some ROS 2 galactic nodes in order to monitor them with Fast DDS Monitor.
-It assumes that
 
 Installation
 ============
 
-First of all, follow the :ref:`installation_manual_linux` on this documentation to install the Fast DDS Monitor.
+First of all, follow the :ref:`installation_manual_linux` on this documentation to install Fast DDS Monitor.
 
 Fast DDS is not installed by default in the ROS 2 Galactic release.
-Thus, first step is required is to download Fast DDS and compile it with statistics.
+Thus, first required step is to download Fast DDS and compile it with statistics.
 
 Installation from sources
 -------------------------
@@ -22,7 +21,7 @@ Follow the `ROS 2 galactic installation from sources documentation
 <https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html>`_
 Fast DDS is downloaded within the rest of the packages.
 The only consideration here is to compile :code:`fastrtps` library with the Statistics Module activated.
-When compiling with colcon, add this arguments as:
+When compiling with colcon, the following arguments must be provided:
 
 .. code-block:: bash
 
@@ -40,8 +39,8 @@ We are going to recreate a simple DDS network with one :code:`talker` and one :c
 Execute Fast DDS Monitor
 ------------------------
 
-Initiate Fast DDS Monitor by the executable created by the installation process.
-Once into the Fast DDS Monitor window, start a monitor in domain :code:`0` (default domain).
+Initiate Fast DDS Monitor by running the executable file created in the installation process.
+Once Fast DDS Monitor is launched, start a monitor in domain :code:`0` (default domain).
 
 .. figure:: /rst/figures/screenshots/usage_example/init_domain.png
     :align: center
@@ -49,24 +48,24 @@ Once into the Fast DDS Monitor window, start a monitor in domain :code:`0` (defa
 Execute ROS 2 demo nodes with statistics
 ----------------------------------------
 
-To execute ROS 2 nodes with statistics two configurations must be taken into account:
+To execute ROS 2 nodes with statistics two aspects of the configuration must be taken into account:
 
-- The middleware used must be Fast DDS, set by an environmental variable.
-- To activate the report of statistic data, Fast DDS requires to use an environmental variable setting up those
-    statistic kinds that are going to be reported.
+- The middleware used must be Fast DDS, set hrough an environment variable.
+- In order to activate the publication of statistical data, Fast DDS requires an environment variable specifying those
+  kinds of statistical data to be reported.
 
 To execute each of the nodes, run the following commands in different terminals:
 
 .. code-block:: bash
 
     export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC" # add as many statistics topic as wanted
+    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC" # add as many statistics topics as wanted
     ros2 run demo_nodes_cpp listener
 
 .. code-block:: bash
 
     export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC" # add as many statistics topic as wanted
+    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC" # add as many statistics topics as wanted
     ros2 run demo_nodes_cpp talker
 
 Remember to source your `ROS 2 installation
@@ -76,7 +75,7 @@ before every ros2 command.
 Monitoring network
 ------------------
 
-Now you must see in the Fast DDS Monitor two new Participants.
+Now it could be seen in the :ref:`dds_panel_layout` two new Participants.
 
 .. figure:: /rst/figures/screenshots/galactic_tutorial/participants.png
     :align: center
@@ -84,9 +83,9 @@ Now you must see in the Fast DDS Monitor two new Participants.
 Alias
 ^^^^^
 
-Participants in ROS 2 are called :code:`\ `.
-In order to differentiate them you could :ref:`change_alias`.
-The :code:`talker` would be the one with one writer, and the :code:`listener` with a reader.
+Participants in ROS 2 are named :code:`\ ` by default.
+In order to differentiate them one could :ref:`change_alias`.
+The :code:`talker` would be the one with one writer, and the :code:`listener` the one with a reader.
 
 .. figure:: /rst/figures/screenshots/galactic_tutorial/alias.png
     :align: center
@@ -94,9 +93,9 @@ The :code:`talker` would be the one with one writer, and the :code:`listener` wi
 Physical data
 ^^^^^^^^^^^^^
 
-In order to see the information about the host and the physical context where every node is running, go to
+In order to see the information of the host and the physical context where every node is running, go to
 the :ref:`left_panel` and activate the :ref:`physical_panel`.
-There are shown the host, user and process of each node.
+There, the host, user and process of each node are displayed.
 
 .. figure:: /rst/figures/screenshots/galactic_tutorial/physical.png
     :align: center
@@ -104,9 +103,8 @@ There are shown the host, user and process of each node.
 Statistical data
 ^^^^^^^^^^^^^^^^
 
-To show statistical data about the communication between the :code:`talker` and the :code:`listener`.
-Follow the steps to :ref:`tutorial_create_dynamic_series` and see this statistical data graphically in a real
-time chart.
+To show statistical data about the communication between the :code:`talker` and the :code:`listener`,
+follow the steps to :ref:`tutorial_create_dynamic_series` and plot this statistical data in a real time chart.
 
 .. figure:: /rst/figures/screenshots/galactic_tutorial/statistics.png
     :align: center
@@ -114,17 +112,17 @@ time chart.
 Introspect metatraffic topics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Fast DDS Monitor filters by default the metatraffic topics and the endpoints related to them so the user
-can inspection its network easily.
-These topics are the ones that ROS 2 uses for discovery and configuration, such as `ros_discovery_info`.
-And those used by Fast DDS to report statistical data.
+Fast DDS Monitor filters by default the topics used for sharing metatraffic and the endpoints related to them
+so the user can inspect its network easily.
+These topics are the ones that ROS 2 uses for discovery and configuration purposes, such as :code:`ros_discovery_info`,
+as well as those used by Fast DDS to report statistical data.
 
 .. todo:
 
     Add link to metatraffic section and metatraffic show button
 
 In order to see these topics in the monitor, click .
-Now, these topics will be shown in the logical panel, and the Readers and Writers associated to them under their
+Now, these topics are shown in the logical panel, and also the Readers and Writers associated to them under their
 respective Participants.
 
 .. figure:: /rst/figures/screenshots/galactic_tutorial/metatraffic.png
@@ -133,6 +131,6 @@ respective Participants.
 Video Tutorial
 ==============
 
-There is a `video tutorial <https://www.youtube.com/watch?v=OYibnUnMIlc>`_ briefly showing the tutorial
-that has been explained in this section.
+There is a `video tutorial <https://www.youtube.com/watch?v=OYibnUnMIlc>`_ going through the steps
+described in this section.
 
