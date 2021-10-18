@@ -17,11 +17,13 @@ eProsima
 gtest
 localhost
 metatraffic
+middleware
 multicast
 NaN
 Qos
 QoS
 resizable
+ros
 scalable
 subpanel
 subpanels

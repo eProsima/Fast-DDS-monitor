@@ -21,7 +21,7 @@ Installation from sources
 Follow the `ROS 2 galactic installation from sources documentation
 <https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html>`_
 Fast DDS is downloaded within the rest of the packages.
-The only consideration here is to compile fastrtps library with the Statistics Module activated.
+The only consideration here is to compile :code:`fastrtps` library with the Statistics Module activated.
 When compiling with colcon, add this arguments as:
 
 .. code-block:: bash
@@ -40,7 +40,7 @@ We are going to recreate a simple DDS network with one :code:`talker` and one :c
 Execute Fast DDS Monitor
 ------------------------
 
-Intiate Fast DDS Monitor by the executable created by the installation process.
+Initiate Fast DDS Monitor by the executable created by the installation process.
 Once into the Fast DDS Monitor window, start a monitor in domain :code:`0` (default domain).
 
 .. figure:: /rst/figures/screenshots/usage_example/init_domain.png
