@@ -932,10 +932,6 @@ void Engine::update_dynamic_chartbox(
                 time_from_ = backend::Timestamp();
             }
 
-            qDebug() << "Get data:" << "\n"
-                     << "   time_from: " << utils::to_QString(backend::timestamp_to_string(time_from_)) << "\n"
-                     << "   time_to: " << utils::to_QString(backend::timestamp_to_string(time_to_timestamp_));
-
             new_points = backend_connection_.get_data(
                 backend::string_to_data_kind(parameters.data_kind),
                 backend::models_id_to_backend_id(parameters.source_ids[i]),
