@@ -81,6 +81,45 @@ Selecting *NONE* as Statistics kind will display every data available in the int
     The data will not be displayed at the time it arrives in any case.
     It will always appear displayed after each :ref:`update_period_parameter`.
 
+Cumulative data
+---------------
+
+This option allows the user to define the time interval for which the statistic selected in "Statistic kind" is to be
+calculated.
+That is, in case the user checks a time interval to obtain accumulated statistics data, the statistics will be applied
+to all the data collected by the monitor in that defined time interval.
+This allows the update interval of the chart and the time interval for calculating the statistics to be independent.
+
+Let's look into a simple example of monitoring the latency of a publisher and a subscriber in the Shapes Demo
+application launched with statistics enabled (a detailed example of Fast DDS Monitor monitoring a Shapes Demo
+application is shown in the following `video tutorial <https://www.youtube.com/watch?v=6ZEb0a7Ei4Y>`_).
+First, a chart is created to monitor the application latency with a time window of 5 minutes and a update period of
+5 seconds.
+Then the dialog box for creating series in the graph is opened.
+Select your host as source and target entities and the DataWriters and DataReaders you have running will be
+automatically detected.
+Select the mean as the type of statistics to be applied.
+Finally, create three series with three different types of accumulation:
+
+- **No accumulation**.
+  The average latency between publisher and subscriber in the last update period, 5 seconds in this particular case,
+  is calculated.
+- **With accumulation from the first available data point**.
+  This calculates the average latency between publisher and subscriber from the time the monitor has the first
+  available data until the current time.
+  This current instant is updated every update period, adding new points to the calculated statistic.
+- **With accumulation by setting a time interval**.
+  The average latency between publisher and subscriber is calculated from the current time minus the cumulative time
+  interval set until the current time.
+
+Below is an image of the three series created. It can be seen that the series with a longer accumulation period tends
+to have a steady latency value, being less susceptible to strong instantaneous variations of the latency measure.
+On the contrary, the series that calculates the average latency with the available data of the last 5 seconds shows a
+large variation due to the smaller number of data available for the calculation of the statistic.
+
+.. figure:: /rst/figures/screenshots/cumulative_chart.png
+    :align: center
+
 Quick explanation of the data displayed
 ---------------------------------------
 First, the application will create an empty chart where X axis represents the time between the current moment and
