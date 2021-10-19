@@ -558,6 +558,9 @@ protected:
     //! Clear issues panel information
     void clear_issue_info_();
 
+    //! Deselect last entity clicked depending on the kind of the new entity that is going to be clicked
+    bool entity_unclick_(backend::EntityKind new_entity_clicked_kind);
+
     /////
     // Variables
 

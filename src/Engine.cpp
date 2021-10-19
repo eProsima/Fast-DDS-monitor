@@ -553,20 +553,18 @@ bool Engine::entity_clicked(
 {
     bool res = false;
 
-
-    if ((last_entity_clicked_kind_ == backend::EntityKind::PARTICIPANT) ||
-            (last_entity_clicked_kind_ == backend::EntityKind::DATAREADER) ||
-            (last_entity_clicked_kind_ == backend::EntityKind::DATAWRITER) ||
-            (last_entity_clicked_kind_ == backend::EntityKind::LOCATOR))
-    {
-        // Unselect the previous entity clicked before clicking another one
-        update_entity_generic(last_entity_clicked_, last_entity_clicked_kind_, true, false);
-    }
+    // Unclick last entities clicked
+    entity_unclick_(kind);
 
     // Set as clicked entity
     last_entity_clicked_ = id;
     last_entity_clicked_kind_ = kind;
-    update_entity_generic(id, kind, true, true);
+
+    // If it is actually an entity, update it
+    if (id.is_valid_and_unique())
+    {
+        update_entity_generic(id, kind, true, true);
+    }
 
     // All Entities in Physical and Logical Models affect over the participant view
     if ((kind == backend::EntityKind::HOST) ||
@@ -576,6 +574,16 @@ bool Engine::entity_clicked(
             (kind == backend::EntityKind::TOPIC) ||
             (kind == backend::EntityKind::INVALID))
     {
+        // Select new entity
+        last_physical_logical_entity_clicked_ = id;
+        last_physical_logical_entity_clicked_kind_ = kind;
+
+        // If it is actually an entity, update it
+        if (id.is_valid_and_unique())
+        {
+            update_entity_generic(id, kind, true, true);
+        }
+
         // Reset dds model and update if needed
         if (reset_dds)
         {
@@ -586,18 +594,45 @@ bool Engine::entity_clicked(
             res = update_dds_data(id) || res;
         }
 
-
-        // Unselect the previous entity clicked before clicking another one
-        update_entity_generic(
-            last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_, true, false);
-        last_physical_logical_entity_clicked_ = id;
-        last_physical_logical_entity_clicked_kind_ = kind;
-        update_entity_generic(id, kind, true, true);
     }
 
     // All entities including DDS
     res = fill_entity_info_(id) || res;
     res = fill_summary_(id) || res;
+
+    return res;
+}
+
+bool Engine::entity_unclick_(backend::EntityKind new_entity_clicked_kind)
+{
+    bool res = false;
+
+    // Generic part
+    // In case a real entity is clicked, deselect
+    if (last_entity_clicked_.is_valid_and_unique())
+    {
+        res = res || update_entity_generic(last_entity_clicked_, last_entity_clicked_kind_, true, false);
+    }
+
+    // Logical Physical part
+    // If new entity clicked is logical or physical, unselect the logical/physical one
+    if ((new_entity_clicked_kind == backend::EntityKind::HOST) ||
+            (new_entity_clicked_kind == backend::EntityKind::USER) ||
+            (new_entity_clicked_kind == backend::EntityKind::PROCESS) ||
+            (new_entity_clicked_kind == backend::EntityKind::DOMAIN) ||
+            (new_entity_clicked_kind == backend::EntityKind::TOPIC) ||
+            (new_entity_clicked_kind == backend::EntityKind::INVALID)) // In case invalid new kind, it means reset all
+    {
+        if (last_physical_logical_entity_clicked_.is_valid_and_unique())
+        {
+            res = res ||
+                update_entity_generic(
+                    last_physical_logical_entity_clicked_,
+                    last_physical_logical_entity_clicked_kind_,
+                    true,
+                    false);
+        }
+    }
 
     return res;
 }
