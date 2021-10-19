@@ -7,8 +7,8 @@ Fast DDS Monitor with ROS 2
 Fast DDS Monitor is a useful tool for monitoring and studying a ROS 2 network.
 The automatic discovery of entities in a local network allows to easily see the different Participants that
 are running, as its Endpoints, the Topics that each one is using, and even the network interfaces they are using
-to communicate with each another.
-Additionally, you could receive statistical data from every endpoint in the network.
+to communicate with each other.
+Additionally, one could receive statistical data from every endpoint in the network.
 This data is very useful to analyze the performance and seek any possible communication problem in the network.
 
 ROS 2 relies on DDS communication protocol to communicate different nodes.

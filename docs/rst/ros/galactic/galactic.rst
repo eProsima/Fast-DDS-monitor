@@ -50,7 +50,7 @@ Execute ROS 2 demo nodes with statistics
 
 To execute ROS 2 nodes with statistics two aspects of the configuration must be taken into account:
 
-- The middleware used must be Fast DDS, set hrough an environment variable.
+- The middleware used must be Fast DDS, set through an environment variable.
 - In order to activate the publication of statistical data, Fast DDS requires an environment variable specifying those
   kinds of statistical data to be reported.
 
@@ -75,7 +75,7 @@ before every ros2 command.
 Monitoring network
 ------------------
 
-Now it could be seen in the :ref:`dds_panel_layout` two new Participants.
+Now one should see in the :ref:`dds_panel_layout` two new Participants.
 
 .. figure:: /rst/figures/screenshots/galactic_tutorial/participants.png
     :align: center
@@ -121,7 +121,7 @@ as well as those used by Fast DDS to report statistical data.
 
     Add link to metatraffic section and metatraffic show button
 
-In order to see these topics in the monitor, click .
+In order to see these topics in the monitor, click :ref:`hide_show_metatraffic`.
 Now, these topics are shown in the logical panel, and also the Readers and Writers associated to them under their
 respective Participants.
 

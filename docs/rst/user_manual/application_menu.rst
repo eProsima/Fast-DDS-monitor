@@ -111,8 +111,10 @@ monitor, they will no longer be available in the whole application framework.
 The latter means that it will not be possible to plot charts with data relating to these entities.
 This button hides/reveals the currently inactive entities detected by the monitor.
 
+.. _hide_show_metatraffic:
+
 Hide/Show Metatraffic
----------------------------
+---------------------
 Entities utilized for sharing metatraffic data are not shown by default.
 These include Fast-DDS Statistics module topics and the ones used by ROS for metatraffic data exchange, as well as the
 endpoints to which these topics are bound.
