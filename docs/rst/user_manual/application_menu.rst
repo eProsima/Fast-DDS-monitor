@@ -111,6 +111,15 @@ monitor, they will no longer be available in the whole application framework.
 The latter means that it will not be possible to plot charts with data relating to these entities.
 This button hides/reveals the currently inactive entities detected by the monitor.
 
+Hide/Show Metatraffic
+---------------------------
+Entities utilized for sharing metatraffic data are not shown by default.
+These include Fast-DDS Statistics module topics and the ones used by ROS for metatraffic data exchange, as well as the
+endpoints to which these topics are bound.
+Same as with the hide/show inactive entities feature, when metatraffic entities are hidden they are no longer available
+in the whole application framework.
+This button displays/hides the metatraffic entities detected by the monitor.
+
 Dashboard Layout
 ----------------
 Changes the size of the chart boxes displayed in the main panel of the application.

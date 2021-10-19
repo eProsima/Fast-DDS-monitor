@@ -363,8 +363,14 @@ public:
     //! Change inactive visible parameter
     void change_inactive_visible();
 
+    //! Change metatraffic visible parameter
+    void change_metatraffic_visible();
+
     //! Get if inactive entities must be visible
     bool inactive_visible() const;
+
+    //! Get if metatraffic must be visible
+    bool metatraffic_visible() const;
 
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     std::string get_data_kind_units(
@@ -647,6 +653,9 @@ protected:
 
     //! Whether the inactive entities must be visible in the model
     bool inactive_visible_;
+
+    //! Whether metatraffic must be visible in the model
+    bool metatraffic_visible_;
 
     /**
      * Protect the dds model while a new monitor is being created

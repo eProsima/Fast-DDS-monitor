@@ -302,7 +302,7 @@ std::string get_alias(
 }
 
 bool get_info_alive(
-        EntityInfo info)
+        const EntityInfo& info)
 {
     if (info.contains("alive"))
     {
@@ -312,6 +312,20 @@ bool get_info_alive(
     {
         // In case alive is not retrieved, it counts as an alive entity
         return true;
+    }
+}
+
+bool get_info_metatraffic(
+        const EntityInfo& info)
+{
+    if (info.contains("metatraffic"))
+    {
+        return info["metatraffic"].get<bool>();
+    }
+    else
+    {
+        // In case metatraffic is not retrieved, it counts as a non-metatraffic entity
+        return false;
     }
 }
 
