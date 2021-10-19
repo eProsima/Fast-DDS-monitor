@@ -107,7 +107,7 @@ Dialog {
             id: seriesLabelTextField
             placeholderText: ""
             selectByMouse: true
-            maximumLength: 50
+            maximumLength: 100
             Layout.fillWidth: true
 
             onTextEdited: activeOk = true
@@ -251,10 +251,10 @@ Dialog {
             text: qsTr("Cumulative data: ")
             InfoToolTip {
                 text: "If checked, each data point is\n" +
-                      "calculated using as the the final\n" +
+                      "calculated using as the final\n" +
                       "timestamp the updated time after\n" +
-                      "the update period elapsed, and\n" +
-                      "the initial the final timestamp\n" +
+                      "the update period has elapsed,\n" +
+                      "and as initial the final timestamp\n" +
                       "minus the cumulative time interval.\n"
             }
         }
@@ -264,6 +264,7 @@ Dialog {
                 checked: false
                 onCheckedChanged: {
                     activeOk = true
+                    regenerateSeriesLabel()
                 }
             }
 
@@ -307,6 +308,7 @@ Dialog {
                         indicator.height: 20
                         onCheckedChanged: {
                             activeOk = true
+                            regenerateSeriesLabel()
                         }
                     }
                 }
@@ -327,6 +329,7 @@ Dialog {
                                 bottom: 0
                             }
                             inputMethodHints: Qt.ImhDigitsOnly
+                            onTextChanged: regenerateSeriesLabel()
                         }
                         Label {
                             text: "Hours"
@@ -345,6 +348,7 @@ Dialog {
                                 bottom: 0
                             }
                             inputMethodHints: Qt.ImhDigitsOnly
+                            onTextChanged: regenerateSeriesLabel()
                         }
                         Label {
                             text: "Minutes"
@@ -363,6 +367,7 @@ Dialog {
                                 bottom: 0
                             }
                             inputMethodHints: Qt.ImhDigitsOnly
+                            onTextChanged: regenerateSeriesLabel()
                         }
                         Label {
                             text: "Seconds"
@@ -461,6 +466,14 @@ Dialog {
         return (hours*3600 + minutes*60 + seconds)
     }
 
+    function cumulativeIntervalToMinutes() {
+        var hours = (cumulativeIntervalHours.text === "") ? 0 : parseInt(cumulativeIntervalHours.text)
+        var minutes = (cumulativeIntervalMinutes.text === "") ? 0 : parseInt(cumulativeIntervalMinutes.text)
+        var seconds = (cumulativeIntervalSeconds.text === "") ? 0 : parseInt(cumulativeIntervalSeconds.text)
+
+        return (hours*60 + minutes + seconds/60)
+    }
+
     function formatText(count, modelData) {
         var data = count === 24 ? modelData + 1 : modelData;
         return data.toString().length < 2 ? "0" + data : data;
@@ -474,6 +487,25 @@ Dialog {
             text += "_" +
                     abbreviateEntityName(targetEntityId.currentText)
         }
+
+        if (cumulative.checked) {
+            if (cumulativeIntervalDefault.checked) {
+                text += "_" +
+                        "cumulative-default"
+            } else {
+                var cumulative_minutes = cumulativeIntervalToMinutes()
+                var cumulative_only_seconds = (cumulativeIntervalSeconds.text === "") ? 0 : parseInt(cumulativeIntervalSeconds.text)
+
+                if (Number.isInteger(cumulative_minutes)) {
+                    text += "_cumulative-" + cumulative_minutes + "min"
+                } else if (Math.floor(cumulative_minutes) == 0) {
+                    text += "_cumulative-" + cumulativeIntervalToSeconds() + "s"
+                } else {
+                    text += "_cumulative-" + Math.floor(cumulative_minutes) + "min," + cumulative_only_seconds + "s"
+                }
+            }
+        }
+
         seriesLabelTextField.placeholderText = text;
     }
 

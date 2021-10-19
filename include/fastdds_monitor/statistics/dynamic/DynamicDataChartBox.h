@@ -39,8 +39,9 @@ struct UpdateParameters
     std::vector<QString> statistics_kinds;
     std::vector<quint64> series_ids;
     /**
-     * This indicates that the statistics are calculated cumulatively, i.e. each data point is calculated with initial
-     * time the current timestamp minus the cumulative time interval and final time as the time of each case.
+     * This indicates that the statistics are calculated cumulatively, i.e. each data point is calculated with
+     * the current timestamp minus the cumulative time interval as initial time, and with the current timestamp as
+     * final time.
      */
     std::vector<bool> cumulative;
     std::vector<quint64> cumulative_interval;

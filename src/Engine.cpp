@@ -899,14 +899,9 @@ void Engine::update_dynamic_chartbox(
         eprosima::statistics_backend::Timestamp time_from_ =
                 backend::Timestamp(std::chrono::milliseconds(parameters.time_from));
 
-        uint16_t bins_ = 1;
-
-        if (statistics_kind_ == backend::StatisticKind::NONE)
-        {
-            // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
-            // Otherwise the bins is 1 so only one data is updated
-            bins_ = 0;
-        }
+        // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
+        // Otherwise the bins is 1 so only one data is updated
+        uint16_t bins_ = (statistics_kind_ == backend::StatisticKind::NONE) ? 0 : 1;
 
         std::vector<backend::StatisticsData> new_points = backend_connection_.get_data(
             backend::string_to_data_kind(parameters.data_kind),

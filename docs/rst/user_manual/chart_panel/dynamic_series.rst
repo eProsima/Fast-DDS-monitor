@@ -86,19 +86,19 @@ Cumulative data
 
 This option allows the user to define the time interval for which the statistic selected in "Statistic kind" is to be
 calculated.
-That is, in case the user checks a time interval to obtain accumulated statistics data, the statistics will be applied
+That is, in case the user selects a time interval to obtain accumulated statistics data, the statistics will be applied
 to all the data collected by the monitor in that defined time interval.
 This allows the update interval of the chart and the time interval for calculating the statistics to be independent.
 
 Let's look into a simple example of monitoring the latency of a publisher and a subscriber in the Shapes Demo
 application launched with statistics enabled (a detailed example of Fast DDS Monitor monitoring a Shapes Demo
 application is shown in the following `video tutorial <https://www.youtube.com/watch?v=6ZEb0a7Ei4Y>`_).
-First, a chart is created to monitor the application latency with a time window of 5 minutes and a update period of
+First, a chart is created to monitor the application latency with a time window of 5 minutes and an update period of
 5 seconds.
 Then the dialog box for creating series in the graph is opened.
-Select your host as source and target entities and the DataWriters and DataReaders you have running will be
+Select your host as source and target entities and the DataWriters and DataReaders running on your machine will be
 automatically detected.
-Select the mean as the type of statistics to be applied.
+Select the mean as the type of statistical measurement to be applied.
 Finally, create three series with three different types of accumulation:
 
 - **No accumulation**.
@@ -113,9 +113,9 @@ Finally, create three series with three different types of accumulation:
   interval set until the current time.
 
 Below is an image of the three series created. It can be seen that the series with a longer accumulation period tends
-to have a steady latency value, being less susceptible to strong instantaneous variations of the latency measure.
+to have a steady latency value, being less susceptible to strong but momentary latency variations.
 On the contrary, the series that calculates the average latency with the available data of the last 5 seconds shows a
-large variation due to the smaller number of data available for the calculation of the statistic.
+large variation due to the smaller number of data points available for the calculation of the statistic.
 
 .. figure:: /rst/figures/screenshots/cumulative_chart.png
     :align: center
