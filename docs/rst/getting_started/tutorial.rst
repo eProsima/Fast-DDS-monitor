@@ -208,6 +208,8 @@ are related with the topics that we are not using will remain without data.
 .. figure:: /rst/figures/screenshots/usage_example/summary.png
     :align: center
 
+.. _change_alias:
+
 Change entity alias
 ===================
 
@@ -310,6 +312,8 @@ The statistic kinds that we are going to use for this example are:
 
 It is worth mentioning that the series name, its color, the axis, and some features of the chart box could be changed
 as mention in :ref:`chartbox`.
+
+.. _tutorial_create_dynamic_series:
 
 Create Dynamic Series Chart
 ===========================
