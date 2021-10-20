@@ -63,6 +63,8 @@ Dialog {
         statisticKind.currentIndex = -1
         sourceEntityId.currentIndex = -1
         targetEntityId.currentIndex = -1
+        cumulative.checked = false
+        advanced.showAdvancedOptions = false
     }
 
     onAccepted: {
@@ -84,6 +86,7 @@ Dialog {
         }
         activeOk = false
         statisticKind.currentIndex = -1
+        cumulative.checked = false
     }
 
     onClosed: activeOk = true
@@ -246,9 +249,54 @@ Dialog {
             }
         }
 
+        RowLayout {
+            Layout.columnSpan: 2
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 2
+                color: Theme.lightGrey
+            }
+
+            Rectangle {
+                id: advanced
+                width: 100
+                height: 30
+                radius: 15
+                color: advancedMouseArea.containsMouse ? Theme.grey : "transparent"
+
+                property bool showAdvancedOptions: false
+
+                RowLayout {
+                    spacing: 5
+                    anchors.centerIn: parent
+
+                    IconSVG {
+                        id: participantIcon
+                        name: advanced.showAdvancedOptions ? "cross" : "plus"
+                        size: 12
+                        color: advancedMouseArea.containsMouse ? "white" : "grey"
+                    }
+                    Label {
+                        id: advancedLabel
+                        text: "Advanced"
+                        color: advancedMouseArea.containsMouse ? "white" : "grey"
+                    }
+                }
+
+                MouseArea {
+                    id: advancedMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: advanced.showAdvancedOptions = !advanced.showAdvancedOptions
+                }
+            }
+        }
+
         Label {
             id: cumulativeLabel
             text: qsTr("Cumulative data: ")
+            visible: advanced.showAdvancedOptions
             InfoToolTip {
                 text: "If checked, each data point is\n" +
                       "calculated using as the final\n" +
@@ -259,6 +307,8 @@ Dialog {
             }
         }
         RowLayout {
+            visible: advanced.showAdvancedOptions
+
             CheckBox {
                 id: cumulative
                 checked: false
