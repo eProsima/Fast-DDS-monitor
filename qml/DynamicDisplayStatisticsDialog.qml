@@ -501,7 +501,7 @@ Dialog {
                 } else if (Math.floor(cumulative_minutes) == 0) {
                     text += "_cumulative-" + cumulativeIntervalToSeconds() + "s"
                 } else {
-                    text += "_cumulative-" + Math.floor(cumulative_minutes) + "min," + cumulative_only_seconds + "s"
+                    text += "_cumulative-" + Math.floor(cumulative_minutes) + "min," + cumulative_only_seconds%60 + "s"
                 }
             }
         }
