@@ -689,7 +689,7 @@ bool SyncBackendConnection::data_available(
 {
     // TODO: Replace by the actual function in the backend when it is implemented.
     std::vector<StatisticsData> data = get_data(
-            data_kind, source_entity_id, target_entity_id, 1, StatisticKind::NONE, start_time, end_time);
+        data_kind, source_entity_id, target_entity_id, 1, StatisticKind::NONE, start_time, end_time);
     return !data.empty();
 }
 

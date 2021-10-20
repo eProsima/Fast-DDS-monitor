@@ -235,11 +235,11 @@ public:
      * id.
      */
     void build_source_target_entities_vectors(
-        DataKind data_kind,
-        EntityId source_entity_id,
-        EntityId target_entity_id,
-        std::vector<EntityId>& source_ids,
-        std::vector<EntityId>& target_ids);
+            DataKind data_kind,
+            EntityId source_entity_id,
+            EntityId target_entity_id,
+            std::vector<EntityId>& source_ids,
+            std::vector<EntityId>& target_ids);
 
 protected:
 
@@ -470,7 +470,7 @@ protected:
         EntityKind type,
         EntityId id,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
-        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
         bool metatraffic_visible);
 
@@ -574,7 +574,7 @@ protected:
         models::ListModel* model,
         EntityId id,
         bool new_entity,
-        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
         bool metatraffic_visible,
         bool last_clicked);

@@ -920,11 +920,11 @@ void Engine::update_dynamic_chartbox(
         else
         {
             if (backend_connection_.data_available(
-                    backend::string_to_data_kind(parameters.data_kind),
-                    backend::models_id_to_backend_id(parameters.source_ids[i]),
-                    backend::models_id_to_backend_id(parameters.target_ids[i]),
-                    time_from_,
-                    time_to_timestamp_))
+                        backend::string_to_data_kind(parameters.data_kind),
+                        backend::models_id_to_backend_id(parameters.source_ids[i]),
+                        backend::models_id_to_backend_id(parameters.target_ids[i]),
+                        time_from_,
+                        time_to_timestamp_))
             {
                 if (parameters.cumulative_interval[i] > 0)
                 {
