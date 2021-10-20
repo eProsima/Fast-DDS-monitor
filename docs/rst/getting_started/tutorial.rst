@@ -92,14 +92,14 @@ The topics that are going to be reported by this example are:
 
 * **HISTORY_LATENCY_TOPIC**: Reports the latency of the messages between the two entities.
 * **NETWORK_LATENCY_TOPIC**: Reports the network latency of the messages between the two entities.
-* **PUBLICATION_THROUGHPUT_TOPIC**: Reports the publication througput of the user's DataWriters.
-* **SUBSCRIPTION_THROUGHPUT_TOPIC**: Reports the subscription througput of the user's DataReaders.
+* **PUBLICATION_THROUGHPUT_TOPIC**: Reports the publication throughput of the user's DataWriters.
+* **SUBSCRIPTION_THROUGHPUT_TOPIC**: Reports the subscription throughput of the user's DataReaders.
 * **RTPS_SENT_TOPIC**: Reports the number of RTPS packets and bytes being sent by each DDS entity.
 * **RTPS_LOST_TOPIC**: Reports the number of RTPS packets and bytes that are being lost in the transport layer
   (dropped somewhere in between) in the communication between each DDS entity and locator.
 * **HEARTBEAT_COUNT_TOPIC**: Reports the number of heartbeat messages sent by each user’s DataWriter.
-* **ACKNACK_COUNT_TOPIC**:  Reports the number of acknack messages sent by each user’s DataReader.
-* **NACKFRAG_COUNT_TOPIC**: Reports the number of nackfrag messages sent by each user’s DataReader.
+* **ACKNACK_COUNT_TOPIC**:  Reports the number of ACKNACK messages sent by each user’s DataReader.
+* **NACKFRAG_COUNT_TOPIC**: Reports the number of NACKFRAG messages sent by each user’s DataReader.
 * **GAP_COUNT_TOPIC**: Reports the number of gap messages sent by each user’s DataWriter.
 * **DATA_COUNT_TOPIC**: the total number of user’s data messages and data fragments (in case that the message size is
   large enough to require RTPS fragmentation) that have been sent by each user’s DataWriter.
