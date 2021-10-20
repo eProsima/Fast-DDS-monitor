@@ -4,7 +4,7 @@
 Galactic
 ########
 
-This section shows how to install and deploy some ROS 2 galactic nodes in order to monitor them with Fast DDS Monitor.
+This section shows how to install and deploy some ROS 2 Galactic nodes in order to monitor them with Fast DDS Monitor.
 
 Installation
 ============
@@ -59,13 +59,25 @@ To execute each of the nodes, run the following commands in different terminals:
 .. code-block:: bash
 
     export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC" # add as many statistics topics as wanted
+
+    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;\
+    SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;RTPS_LOST_TOPIC;\
+    HEARTBEAT_COUNT_TOPIC;ACKNACK_COUNT_TOPIC;NACKFRAG_COUNT_TOPIC;\
+    GAP_COUNT_TOPIC;DATA_COUNT_TOPIC;RESENT_DATAS_TOPIC;SAMPLE_DATAS_TOPIC;\
+    PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC"
+
     ros2 run demo_nodes_cpp listener
 
 .. code-block:: bash
 
     export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;PHYSICAL_DATA_TOPIC" # add as many statistics topics as wanted
+
+    export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;\
+    SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;RTPS_LOST_TOPIC;\
+    HEARTBEAT_COUNT_TOPIC;ACKNACK_COUNT_TOPIC;NACKFRAG_COUNT_TOPIC;\
+    GAP_COUNT_TOPIC;DATA_COUNT_TOPIC;RESENT_DATAS_TOPIC;SAMPLE_DATAS_TOPIC;\
+    PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC"
+
     ros2 run demo_nodes_cpp talker
 
 Remember to source your `ROS 2 installation
@@ -84,7 +96,7 @@ Alias
 ^^^^^
 
 Participants in ROS 2 are named :code:`\ ` by default.
-In order to differentiate them one could :ref:`change_alias`.
+In order to differentiate them one could change the alias of the Participant (see :ref:`change_alias`).
 The :code:`talker` would be the one with one writer, and the :code:`listener` the one with a reader.
 
 .. figure:: /rst/figures/screenshots/galactic_tutorial/alias.png
@@ -113,15 +125,12 @@ Introspect metatraffic topics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Fast DDS Monitor filters by default the topics used for sharing metatraffic and the endpoints related to them
-so the user can inspect its network easily.
+so the user can inspect their network easily.
 These topics are the ones that ROS 2 uses for discovery and configuration purposes, such as :code:`ros_discovery_info`,
 as well as those used by Fast DDS to report statistical data.
 
-.. todo:
-
-    Add link to metatraffic section and metatraffic show button
-
-In order to see these topics in the monitor, click :ref:`hide_show_metatraffic`.
+In order to see these topics in the monitor, click *View->Show Metatraffic* menu button
+(see :ref:`hide_show_metatraffic`).
 Now, these topics are shown in the logical panel, and also the Readers and Writers associated to them under their
 respective Participants.
 

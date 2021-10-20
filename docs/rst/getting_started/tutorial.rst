@@ -47,9 +47,13 @@ This does not change the Monitor behavior, but would change the data and informa
 
     .. code-block:: bash
 
-        FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;DATA_COUNT_TOPIC;PHYSICAL_DATA_TOPIC" \
-            ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample \
-            subscriber
+        export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;\
+        SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;RTPS_LOST_TOPIC;\
+        HEARTBEAT_COUNT_TOPIC;ACKNACK_COUNT_TOPIC;NACKFRAG_COUNT_TOPIC;\
+        GAP_COUNT_TOPIC;DATA_COUNT_TOPIC;RESENT_DATAS_TOPIC;SAMPLE_DATAS_TOPIC;\
+        PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC"
+
+        ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample subscriber
 
     where :code:`subscriber` argument creates a *DomainParticipant* with a *DataReader* in the topic
     :code:`HelloWorldTopic` in *Domain* :code:`0`.
@@ -58,11 +62,13 @@ This does not change the Monitor behavior, but would change the data and informa
 
     .. code-block:: bash
 
-        FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;DATA_COUNT_TOPIC;PHYSICAL_DATA_TOPIC" \
-            ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample \
-            publisher \
-            0 \
-            500
+        export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;PUBLICATION_THROUGHPUT_TOPIC;\
+        SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;RTPS_LOST_TOPIC;\
+        HEARTBEAT_COUNT_TOPIC;ACKNACK_COUNT_TOPIC;NACKFRAG_COUNT_TOPIC;\
+        GAP_COUNT_TOPIC;DATA_COUNT_TOPIC;RESENT_DATAS_TOPIC;SAMPLE_DATAS_TOPIC;\
+        PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC"
+
+        ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample publisher 0 500
 
     where :code:`publisher` argument creates a *DomainParticipant* with a *DataWriter* in the topic
     :code:`HelloWorldTopic` in *Domain* :code:`0`.
@@ -84,13 +90,35 @@ of DDS data sent.
 
 The topics that are going to be reported by this example are:
 
-* **HISTORY_LATENCY_TOPIC**: Report the latency of the messages between the two entities.
-* **DATA_COUNT_TOPIC**: Report the number of samples sent.
-* **PHYSICAL_DATA_TOPIC**: Report the physical data of the participant.
+* **HISTORY_LATENCY_TOPIC**: Reports the latency of the messages between the two entities.
+* **NETWORK_LATENCY_TOPIC**: Reports the network latency of the messages between the two entities.
+* **PUBLICATION_THROUGHPUT_TOPIC**: Reports the publication througput of the user's DataWriters.
+* **SUBSCRIPTION_THROUGHPUT_TOPIC**: Reports the subscription througput of the user's DataReaders.
+* **RTPS_SENT_TOPIC**: Reports the number of RTPS packets and bytes being sent by each DDS entity.
+* **RTPS_LOST_TOPIC**: Reports the number of RTPS packets and bytes that are being lost in the transport layer
+  (dropped somewhere in between) in the communication between each DDS entity and locator.
+* **HEARTBEAT_COUNT_TOPIC**: Reports the number of heartbeat messages sent by each user’s DataWriter.
+* **ACKNACK_COUNT_TOPIC**:  Reports the number of acknack messages sent by each user’s DataReader.
+* **NACKFRAG_COUNT_TOPIC**: Reports the number of nackfrag messages sent by each user’s DataReader.
+* **GAP_COUNT_TOPIC**: Reports the number of gap messages sent by each user’s DataWriter.
+* **DATA_COUNT_TOPIC**: the total number of user’s data messages and data fragments (in case that the message size is
+  large enough to require RTPS fragmentation) that have been sent by each user’s DataWriter.
+* **RESENT_DATAS_TOPIC**: Reports the total number of user’s data messages and data fragments (in case that the message
+  size is large enough to require RTPS fragmentation) that have been necessary to resend by each user’s DataWriter.
+* **SAMPLE_DATAS_TOPIC**:  the number of user’s data messages (or data fragments in case that the message size is
+  large enough to require RTPS fragmentation) that have been sent by the user’s DataWriter to completely deliver a
+  single sample.
+* **PDP_PACKETS_TOPIC**: Reports the number of PDP discovery traffic RTPS packets transmitted by each DDS
+  DomainParticipant.
+* **EDP_PACKETS_TOPIC**: Reports the number of EDP discovery traffic RTPS packets transmitted by each DDS
+  DomainParticipant.
+* **DISCOVERY_TOPIC**: Reports the time when each local DomainParticipant discovers any remote DDS entity.
+* **PHYSICAL_DATA_TOPIC**: Reports the physical data of the participant.
   This will make possible to see in which hosts and context each entity is running.
 
-For further information about these topics and other that could be use, please refer to
-`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.2/fastdds/statistics/dds_layer/topic_names.html>`_.
+Please refer to
+`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.2/fastdds/statistics/dds_layer/topic_names.html>`_
+for further information about these topics.
 
 **************************
 Fast DDS Monitor Execution
