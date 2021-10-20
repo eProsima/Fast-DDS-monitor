@@ -95,7 +95,7 @@ Now one should see in the :ref:`dds_panel_layout` two new Participants.
 Alias
 ^^^^^
 
-Participants in ROS 2 are named :code:`\ ` by default.
+Participants in ROS 2 are named :code:`/ ` by default.
 In order to differentiate them one could change the alias of the Participant (see :ref:`change_alias`).
 The :code:`talker` would be the one with one writer, and the :code:`listener` the one with a reader.
 
