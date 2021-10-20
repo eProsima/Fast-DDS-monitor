@@ -134,6 +134,14 @@ public:
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
 
+    //! Returns whether data points are available.
+    bool data_available(
+            DataKind data_kind,
+            EntityId source_entity_id,
+            EntityId target_entity_id,
+            Timestamp start_time = Timestamp(),
+            Timestamp end_time = std::chrono::system_clock::now());
+
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(
             EntityKind entity_type,
@@ -221,6 +229,17 @@ public:
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(
             const DataKind& data_kind);
+
+    /*
+     * Build the source and target vectors of entities given the data kind, the source entity id and the target entity
+     * id.
+     */
+    void build_source_target_entities_vectors(
+        DataKind data_kind,
+        EntityId source_entity_id,
+        EntityId target_entity_id,
+        std::vector<EntityId>& source_ids,
+        std::vector<EntityId>& target_ids);
 
 protected:
 
