@@ -631,7 +631,8 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     std::vector<EntityId> source_ids;
     std::vector<EntityId> target_ids;
 
-    build_source_target_entities_vectors(data_kind, source_entity_id, target_entity_id, source_ids, target_ids);
+    bool two_entities_data = build_source_target_entities_vectors(
+            data_kind, source_entity_id, target_entity_id, source_ids, target_ids);
 
     if (source_ids.empty())
     {
@@ -642,7 +643,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     {
         std::vector<StatisticsData> res;
 
-        if (!target_ids.empty())
+        if (two_entities_data)
         {
             res = StatisticsBackend::get_data(
                 data_kind,
@@ -693,13 +694,14 @@ bool SyncBackendConnection::data_available(
     return !data.empty();
 }
 
-void SyncBackendConnection::build_source_target_entities_vectors(
+bool SyncBackendConnection::build_source_target_entities_vectors(
         DataKind data_kind,
         EntityId source_entity_id,
         EntityId target_entity_id,
         std::vector<EntityId>& source_ids,
         std::vector<EntityId>& target_ids)
 {
+    bool two_entities_data = false;
     source_ids.clear();
     target_ids.clear();
 
@@ -717,6 +719,7 @@ void SyncBackendConnection::build_source_target_entities_vectors(
                 // If the target entity is required but not given, the source is used
                 // This is usefule for two entities DataKinds when want to ask for all the targets for a source entity
                 // Useful for summary
+                two_entities_data = true;
                 if (!target_entity_id.is_valid())
                 {
                     target_entity_id = source_entity_id;
@@ -731,8 +734,10 @@ void SyncBackendConnection::build_source_target_entities_vectors(
         qWarning() << "Fail getting data: " << e.what();
         static_cast<void>(e); // In release qWarning does not compile and so e is not used
 
-        return;
+        return false;
     }
+
+    return two_entities_data;
 }
 
 void SyncBackendConnection::change_unit_magnitude(

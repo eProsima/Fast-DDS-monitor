@@ -233,8 +233,9 @@ public:
     /*
      * Build the source and target vectors of entities given the data kind, the source entity id and the target entity
      * id.
+     * Returns whether the data kind requires a target entity.
      */
-    void build_source_target_entities_vectors(
+    bool build_source_target_entities_vectors(
             DataKind data_kind,
             EntityId source_entity_id,
             EntityId target_entity_id,
