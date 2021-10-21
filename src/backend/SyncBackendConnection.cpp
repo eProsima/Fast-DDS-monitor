@@ -731,7 +731,8 @@ bool SyncBackendConnection::build_source_target_entities_vectors(
     }
     catch (const Exception& e)
     {
-        qWarning() << "Fail getting data: " << e.what();
+        qWarning() << "Fail getting the supported entity kinds for data kind "
+                   << utils::to_QString(backend::data_kind_to_string(data_kind)) << ": " << e.what();
         static_cast<void>(e); // In release qWarning does not compile and so e is not used
 
         return false;

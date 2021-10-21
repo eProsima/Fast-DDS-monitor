@@ -230,7 +230,7 @@ public:
     bool data_kind_has_target(
             const DataKind& data_kind);
 
-    /*
+    /**
      * Build the source and target vectors of entities given the data kind, the source entity id and the target entity
      * id.
      * Returns whether the data kind requires a target entity.
