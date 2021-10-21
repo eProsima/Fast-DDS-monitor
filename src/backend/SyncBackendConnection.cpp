@@ -632,7 +632,7 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     std::vector<EntityId> target_ids;
 
     bool two_entities_data = build_source_target_entities_vectors(
-            data_kind, source_entity_id, target_entity_id, source_ids, target_ids);
+        data_kind, source_entity_id, target_entity_id, source_ids, target_ids);
 
     if (source_ids.empty())
     {

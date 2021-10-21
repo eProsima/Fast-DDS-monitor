@@ -453,7 +453,7 @@ public:
 protected:
 
     bool update_item_(
-        ListItem * item,
+        models::ListItem* item,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
         bool inactive_visible,
         bool metatraffic_visible);
@@ -467,11 +467,11 @@ protected:
 
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
-        ListModel * model,
+        models::ListModel* model,
         EntityKind type,
         EntityId id,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
-        ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        models::ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
         bool metatraffic_visible);
 
@@ -575,7 +575,7 @@ protected:
         models::ListModel* model,
         EntityId id,
         bool new_entity,
-        ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        models::ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
         bool metatraffic_visible,
         bool last_clicked);
