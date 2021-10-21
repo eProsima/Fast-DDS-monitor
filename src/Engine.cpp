@@ -16,6 +16,7 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 #include <chrono>
+#include <sstream>
 
 #include <QDateTime>
 #include <QDebug>
@@ -891,24 +892,60 @@ void Engine::update_dynamic_chartbox(
         return;
     }
 
-    eprosima::statistics_backend::Timestamp time_from_ =
-            backend::Timestamp(std::chrono::milliseconds(parameters.time_from)); // This value is reused for every series
 
     for (std::size_t i = 0; i < parameters.series_ids.size(); i++)
     {
         backend::StatisticKind statistics_kind_ = backend::string_to_statistic_kind(parameters.statistics_kinds[i]);
+
+        eprosima::statistics_backend::Timestamp time_from_ =
+                backend::Timestamp(std::chrono::milliseconds(parameters.time_from));
+
         // If statistics_kind is NONE, then the number of bins is 0 to retrieve all the data available
         // Otherwise the bins is 1 so only one data is updated
         uint16_t bins_ = (statistics_kind_ == backend::StatisticKind::NONE) ? 0 : 1;
 
-        std::vector<backend::StatisticsData> new_points = backend_connection_.get_data(
-            backend::string_to_data_kind(parameters.data_kind),
-            backend::models_id_to_backend_id(parameters.source_ids[i]),
-            backend::models_id_to_backend_id(parameters.target_ids[i]),
-            bins_,                      // 0 when NONE , 1 otherwise
-            statistics_kind_,
-            time_from_, // New limit value
-            time_to_timestamp_);                 // Last time value taken in last call
+        std::vector<backend::StatisticsData> new_points;
+
+        if ((statistics_kind_ == backend::StatisticKind::NONE) || !parameters.cumulative[i])
+        {
+            new_points = backend_connection_.get_data(
+                backend::string_to_data_kind(parameters.data_kind),
+                backend::models_id_to_backend_id(parameters.source_ids[i]),
+                backend::models_id_to_backend_id(parameters.target_ids[i]),
+                bins_,                      // 0 when NONE , 1 otherwise
+                statistics_kind_,
+                time_from_,                 // New limit value
+                time_to_timestamp_);        // Last time value taken in last call
+        }
+        else
+        {
+            if (backend_connection_.data_available(
+                        backend::string_to_data_kind(parameters.data_kind),
+                        backend::models_id_to_backend_id(parameters.source_ids[i]),
+                        backend::models_id_to_backend_id(parameters.target_ids[i]),
+                        time_from_,
+                        time_to_timestamp_))
+            {
+                if (parameters.cumulative_interval[i] > 0)
+                {
+                    time_from_ = time_to_timestamp_ -
+                            std::chrono::seconds(parameters.cumulative_interval[i]);
+                }
+                else
+                {
+                    time_from_ = initial_time_;
+                }
+
+                new_points = backend_connection_.get_data(
+                    backend::string_to_data_kind(parameters.data_kind),
+                    backend::models_id_to_backend_id(parameters.source_ids[i]),
+                    backend::models_id_to_backend_id(parameters.target_ids[i]),
+                    bins_,                      // 0 when NONE , 1 otherwise
+                    statistics_kind_,
+                    time_from_,
+                    time_to_timestamp_);        // Last time value taken in last call
+            }
+        }
 
         // Check that get_data call has not failed
         if (new_points.empty())

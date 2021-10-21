@@ -177,7 +177,9 @@ Rectangle {
                 string seriesLabel,
                 string sourceEntityId,
                 string targetEntityId,
-                string statisticKind)
+                string statisticKind,
+                bool cumulative,
+                int cumulative_interval)
             signal clearChart()
             signal dynamicPause()
             signal dynamicContinue()
@@ -197,7 +199,9 @@ Rectangle {
                                     seriesLabel,
                                     sourceEntityId,
                                     targetEntityId,
-                                    statisticKind);
+                                    statisticKind,
+                                    cumulative,
+                                    cumulative_interval);
             onClearChart: statisticsChartViewLoader.item.clearChart();
             onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
             onDynamicPause: statisticsChartViewLoader.item.dynamicPause();

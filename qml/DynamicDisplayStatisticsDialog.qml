@@ -24,6 +24,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls 1.4 as QCC1
 import QtQuick.Controls.Styles 1.4
 import QtQml.Models 2.12
+import Theme 1.0
 
 Dialog {
     id: dynamicDisplayStatisticsDialog
@@ -62,6 +63,8 @@ Dialog {
         statisticKind.currentIndex = -1
         sourceEntityId.currentIndex = -1
         targetEntityId.currentIndex = -1
+        cumulative.checked = false
+        advanced.showAdvancedOptions = false
     }
 
     onAccepted: {
@@ -83,6 +86,7 @@ Dialog {
         }
         activeOk = false
         statisticKind.currentIndex = -1
+        cumulative.checked = false
     }
 
     onClosed: activeOk = true
@@ -106,7 +110,7 @@ Dialog {
             id: seriesLabelTextField
             placeholderText: ""
             selectByMouse: true
-            maximumLength: 20
+            maximumLength: 100
             Layout.fillWidth: true
 
             onTextEdited: activeOk = true
@@ -217,7 +221,9 @@ Dialog {
                       "time interval.\n" +
                       "If RAW DATA is selected, all \n" +
                       "available data in the last\n" +
-                      "time frame is displayed.\n"
+                      "time frame is displayed and\n" +
+                      "the cumulative option is\n" +
+                      "disabled."
             }
         }
         AdaptiveComboBox {
@@ -231,6 +237,194 @@ Dialog {
             onActivated: {
                 activeOk = true
                 regenerateSeriesLabel()
+
+                if (currentText == "RAW DATA") {
+                    cumulativeLabel.enabled = false
+                    cumulative.enabled = false
+                    cumulative.checked = false
+                } else {
+                    cumulativeLabel.enabled = true
+                    cumulative.enabled = true
+                }
+            }
+        }
+
+        RowLayout {
+            Layout.columnSpan: 2
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 2
+                color: Theme.lightGrey
+            }
+
+            Rectangle {
+                id: advanced
+                width: 100
+                height: 30
+                radius: 15
+                color: advancedMouseArea.containsMouse ? Theme.grey : "transparent"
+
+                property bool showAdvancedOptions: false
+
+                RowLayout {
+                    spacing: 5
+                    anchors.centerIn: parent
+
+                    IconSVG {
+                        id: participantIcon
+                        name: advanced.showAdvancedOptions ? "cross" : "plus"
+                        size: 12
+                        color: advancedMouseArea.containsMouse ? "white" : "grey"
+                    }
+                    Label {
+                        id: advancedLabel
+                        text: "Advanced"
+                        color: advancedMouseArea.containsMouse ? "white" : "grey"
+                    }
+                }
+
+                MouseArea {
+                    id: advancedMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: advanced.showAdvancedOptions = !advanced.showAdvancedOptions
+                }
+            }
+        }
+
+        Label {
+            id: cumulativeLabel
+            text: qsTr("Cumulative data: ")
+            visible: advanced.showAdvancedOptions
+            InfoToolTip {
+                text: "If checked, each data point is\n" +
+                      "calculated using as the final\n" +
+                      "timestamp the updated time after\n" +
+                      "the update period has elapsed,\n" +
+                      "and as initial the final timestamp\n" +
+                      "minus the cumulative time interval.\n"
+            }
+        }
+        RowLayout {
+            visible: advanced.showAdvancedOptions
+
+            CheckBox {
+                id: cumulative
+                checked: false
+                onCheckedChanged: {
+                    activeOk = true
+                    regenerateSeriesLabel()
+                }
+            }
+
+            Rectangle {
+                width: 2
+                height: cumulativeInterval.childrenRect.height + 2 * cumulativeInterval.spacing
+                color: Theme.grey
+                visible: cumulative.checked
+            }
+
+            Rectangle {
+                width: 5
+                height: cumulativeInterval.height
+                color: "transparent"
+                visible: cumulative.checked
+            }
+
+            ColumnLayout {
+                id: cumulativeInterval
+                visible: cumulative.checked
+
+                Label {
+                    id: cumulativeIntervalLabel
+                    text: qsTr("Cumulative interval: ")
+                    visible: cumulative.checked
+                    InfoToolTip {
+                        text: "Time interval to calculate the\n" +
+                              "cumulated statistic."
+                    }
+                }
+
+                RowLayout {
+                    Label {
+                        text: "From first data point: "
+                    }
+
+                    CheckBox {
+                        id: cumulativeIntervalDefault
+                        checked: true
+                        indicator.width: 20
+                        indicator.height: 20
+                        onCheckedChanged: {
+                            activeOk = true
+                            regenerateSeriesLabel()
+                        }
+                    }
+                }
+
+                GridLayout {
+                    id: cumulativeIntervalTimeDuration
+                    columns: 3
+
+                    RowLayout {
+                        TextField {
+                            id: cumulativeIntervalHours
+                            text: qsTr("00")
+                            placeholderText: qsTr("00")
+                            enabled: !cumulativeIntervalDefault.checked
+                            selectByMouse: true
+                            selectionColor: Theme.eProsimaLightBlue
+                            validator: IntValidator {
+                                bottom: 0
+                            }
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            onTextChanged: regenerateSeriesLabel()
+                        }
+                        Label {
+                            text: "Hours"
+                            enabled: !cumulativeIntervalDefault.checked
+                        }
+                    }
+                    RowLayout {
+                        TextField {
+                            id: cumulativeIntervalMinutes
+                            text: qsTr("01")
+                            placeholderText: qsTr("00")
+                            enabled: !cumulativeIntervalDefault.checked
+                            selectByMouse: true
+                            selectionColor: Theme.eProsimaLightBlue
+                            validator: IntValidator {
+                                bottom: 0
+                            }
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            onTextChanged: regenerateSeriesLabel()
+                        }
+                        Label {
+                            text: "Minutes"
+                            enabled: !cumulativeIntervalDefault.checked
+                        }
+                    }
+                    RowLayout {
+                        TextField {
+                            id: cumulativeIntervalSeconds
+                            text: qsTr("00")
+                            placeholderText: qsTr("00")
+                            enabled: !cumulativeIntervalDefault.checked
+                            selectByMouse: true
+                            selectionColor: Theme.eProsimaLightBlue
+                            validator: IntValidator {
+                                bottom: 0
+                            }
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            onTextChanged: regenerateSeriesLabel()
+                        }
+                        Label {
+                            text: "Seconds"
+                            enabled: !cumulativeIntervalDefault.checked
+                        }
+                    }
+                }
             }
         }
     }
@@ -265,6 +459,17 @@ Dialog {
         onDiscard: dynamicDisplayStatisticsDialog.close()
     }
 
+    MessageDialog {
+        id: emptyCumulativeInterval
+        title: "Empty Cumulative Interval"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The cumulative time interval is zero. " +
+              "Enter a valid time interval or check the \"From first data point\" option."
+        onAccepted: dynamicDisplayStatisticsDialog.open()
+        onDiscard: dynamicDisplayStatisticsDialog.close()
+    }
+
     function createSeries() {
         if (!checkInputs())
             return
@@ -273,7 +478,9 @@ Dialog {
                     (seriesLabelTextField.text === "") ? seriesLabelTextField.placeholderText : seriesLabelTextField.text,
                     sourceEntityId.currentValue,
                     (targetExists) ? targetEntityId.currentValue : '',
-                    statisticKind.currentText)
+                    statisticKind.currentText,
+                    cumulative.checked,
+                    cumulativeIntervalDefault.checked ? 0 : cumulativeIntervalToSeconds())
     }
 
     function checkInputs() {
@@ -290,7 +497,31 @@ Dialog {
             return false
         }
 
+        if (cumulative.checked && !cumulativeIntervalDefault.checked) {
+            var cumulativeTimeFrame = cumulativeIntervalToSeconds()
+            if (cumulativeTimeFrame === 0) {
+                emptyCumulativeInterval.open()
+                return false
+            }
+        }
+
         return true
+    }
+
+    function cumulativeIntervalToSeconds() {
+        var hours = (cumulativeIntervalHours.text === "") ? 0 : parseInt(cumulativeIntervalHours.text)
+        var minutes = (cumulativeIntervalMinutes.text === "") ? 0 : parseInt(cumulativeIntervalMinutes.text)
+        var seconds = (cumulativeIntervalSeconds.text === "") ? 0 : parseInt(cumulativeIntervalSeconds.text)
+
+        return (hours*3600 + minutes*60 + seconds)
+    }
+
+    function cumulativeIntervalToMinutes() {
+        var hours = (cumulativeIntervalHours.text === "") ? 0 : parseInt(cumulativeIntervalHours.text)
+        var minutes = (cumulativeIntervalMinutes.text === "") ? 0 : parseInt(cumulativeIntervalMinutes.text)
+        var seconds = (cumulativeIntervalSeconds.text === "") ? 0 : parseInt(cumulativeIntervalSeconds.text)
+
+        return (hours*60 + minutes + seconds/60)
     }
 
     function formatText(count, modelData) {
@@ -306,6 +537,25 @@ Dialog {
             text += "_" +
                     abbreviateEntityName(targetEntityId.currentText)
         }
+
+        if (cumulative.checked) {
+            if (cumulativeIntervalDefault.checked) {
+                text += "_" +
+                        "cumulative-default"
+            } else {
+                var cumulative_minutes = cumulativeIntervalToMinutes()
+                var cumulative_only_seconds = (cumulativeIntervalSeconds.text === "") ? 0 : parseInt(cumulativeIntervalSeconds.text)
+
+                if (Number.isInteger(cumulative_minutes)) {
+                    text += "_cumulative-" + cumulative_minutes + "min"
+                } else if (Math.floor(cumulative_minutes) == 0) {
+                    text += "_cumulative-" + cumulativeIntervalToSeconds() + "s"
+                } else {
+                    text += "_cumulative-" + Math.floor(cumulative_minutes) + "min," + cumulative_only_seconds%60 + "s"
+                }
+            }
+        }
+
         seriesLabelTextField.placeholderText = text;
     }
 

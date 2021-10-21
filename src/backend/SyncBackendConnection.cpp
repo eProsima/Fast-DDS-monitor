@@ -22,6 +22,7 @@
  */
 
 #include <iostream>
+#include <sstream>
 
 #include <QDebug>
 
@@ -624,37 +625,22 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
         EntityId target_entity_id,
         uint16_t bins,
         StatisticKind statistic_kind,
-        Timestamp start_time,
-        Timestamp end_time)
+        Timestamp start_time /* = Timestamp() */,
+        Timestamp end_time /* = std::chrono::system_clock::now() */)
 {
-    bool two_entities_data = false;
     std::vector<EntityId> source_ids;
     std::vector<EntityId> target_ids;
 
+    bool two_entities_data = build_source_target_entities_vectors(
+        data_kind, source_entity_id, target_entity_id, source_ids, target_ids);
+
+    if (source_ids.empty())
+    {
+        return std::vector<StatisticsData>();
+    }
+
     try
     {
-        for (auto kinds_supported : StatisticsBackend::get_data_supported_entity_kinds(data_kind))
-        {
-            // Get the entities of the kind required for the data type that are related with the entity source
-            auto source_ids_tmp = get_entities(kinds_supported.first, source_entity_id);
-            source_ids.insert(source_ids.end(), source_ids_tmp.begin(), source_ids_tmp.end());
-
-            // Get the entities of the kind required for the data type that are related with the entity target
-            if (kinds_supported.second != EntityKind::INVALID)
-            {
-                // If the target entity is required but not given, the source is used
-                // This is usefule for two entities DataKinds when want to ask for all the targets for a source entity
-                // Useful for summary
-                two_entities_data = true;
-                if (!target_entity_id.is_valid())
-                {
-                    target_entity_id = source_entity_id;
-                }
-                auto target_ids_tmp = get_entities(kinds_supported.second, target_entity_id);
-                target_ids.insert(target_ids.end(), target_ids_tmp.begin(), target_ids_tmp.end());
-            }
-        }
-
         std::vector<StatisticsData> res;
 
         if (two_entities_data)
@@ -693,6 +679,66 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
 
         return std::vector<StatisticsData>();
     }
+}
+
+bool SyncBackendConnection::data_available(
+        DataKind data_kind,
+        EntityId source_entity_id,
+        EntityId target_entity_id,
+        Timestamp start_time /* = Timestamp() */,
+        Timestamp end_time /* = std::chrono::system_clock::now() */)
+{
+    // TODO: Replace by the actual function in the backend when it is implemented.
+    std::vector<StatisticsData> data = get_data(
+        data_kind, source_entity_id, target_entity_id, 1, StatisticKind::NONE, start_time, end_time);
+    return !data.empty();
+}
+
+bool SyncBackendConnection::build_source_target_entities_vectors(
+        DataKind data_kind,
+        EntityId source_entity_id,
+        EntityId target_entity_id,
+        std::vector<EntityId>& source_ids,
+        std::vector<EntityId>& target_ids)
+{
+    bool two_entities_data = false;
+    source_ids.clear();
+    target_ids.clear();
+
+    try
+    {
+        for (auto kinds_supported : StatisticsBackend::get_data_supported_entity_kinds(data_kind))
+        {
+            // Get the entities of the kind required for the data type that are related with the entity source
+            auto source_ids_tmp = get_entities(kinds_supported.first, source_entity_id);
+            source_ids.insert(source_ids.end(), source_ids_tmp.begin(), source_ids_tmp.end());
+
+            // Get the entities of the kind required for the data type that are related with the entity target
+            if (kinds_supported.second != EntityKind::INVALID)
+            {
+                // If the target entity is required but not given, the source is used
+                // This is usefule for two entities DataKinds when want to ask for all the targets for a source entity
+                // Useful for summary
+                two_entities_data = true;
+                if (!target_entity_id.is_valid())
+                {
+                    target_entity_id = source_entity_id;
+                }
+                auto target_ids_tmp = get_entities(kinds_supported.second, target_entity_id);
+                target_ids.insert(target_ids.end(), target_ids_tmp.begin(), target_ids_tmp.end());
+            }
+        }
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting the supported entity kinds for data kind "
+                   << utils::to_QString(backend::data_kind_to_string(data_kind)) << ": " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
+        return false;
+    }
+
+    return two_entities_data;
 }
 
 void SyncBackendConnection::change_unit_magnitude(

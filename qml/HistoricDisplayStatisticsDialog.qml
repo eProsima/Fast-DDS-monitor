@@ -111,7 +111,7 @@ Dialog {
             id: seriesLabelTextField
             placeholderText: ""
             selectByMouse: true
-            maximumLength: 20
+            maximumLength: 50
             Layout.fillWidth: true
 
             onTextEdited: activeOk = true

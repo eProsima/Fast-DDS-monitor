@@ -24,6 +24,8 @@
 
 QtCharts::QVXYModelMapper* DynamicDataChartBox::add_series(
         QString statistic_kind,
+        bool cumulative,
+        quint64 cumulative_interval,
         models::EntityId source_id,
         models::EntityId target_id /* = ID_INVALID */)
 {
@@ -39,6 +41,8 @@ QtCharts::QVXYModelMapper* DynamicDataChartBox::add_series(
         current_update_parameters_.source_ids.push_back(source_id);
         current_update_parameters_.target_ids.push_back(target_id);
         current_update_parameters_.statistics_kinds.push_back(statistic_kind);
+        current_update_parameters_.cumulative.push_back(cumulative);
+        current_update_parameters_.cumulative_interval.push_back(cumulative_interval);
     }
 
     return new_mapper;
@@ -57,6 +61,10 @@ void DynamicDataChartBox::delete_series_by_order_index(
         current_update_parameters_.target_ids.begin() + series_order_index);
     current_update_parameters_.statistics_kinds.erase(
         current_update_parameters_.statistics_kinds.begin() + series_order_index);
+    current_update_parameters_.cumulative.erase(
+        current_update_parameters_.cumulative.begin() + series_order_index);
+    current_update_parameters_.cumulative_interval.erase(
+        current_update_parameters_.cumulative_interval.begin() + series_order_index);
 }
 
 void DynamicDataChartBox::update(
@@ -74,7 +82,9 @@ void DynamicDataChartBox::update(
 UpdateParameters DynamicDataChartBox::get_update_parameters()
 {
     const std::lock_guard<std::recursive_mutex> lock(mutex_);
+
     current_update_parameters_.time_from = time_to_;
+
     return current_update_parameters_;
 }
 
@@ -88,6 +98,8 @@ void DynamicDataChartBox::clear_charts()
     current_update_parameters_.source_ids.clear();
     current_update_parameters_.target_ids.clear();
     current_update_parameters_.statistics_kinds.clear();
+    current_update_parameters_.cumulative.clear();
+    current_update_parameters_.cumulative_interval.clear();
 }
 
 void DynamicDataChartBox::recalculate_y_axis()

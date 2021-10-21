@@ -134,6 +134,14 @@ public:
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
 
+    //! Returns whether data points are available.
+    bool data_available(
+            DataKind data_kind,
+            EntityId source_entity_id,
+            EntityId target_entity_id,
+            Timestamp start_time = Timestamp(),
+            Timestamp end_time = std::chrono::system_clock::now());
+
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(
             EntityKind entity_type,
@@ -221,6 +229,18 @@ public:
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(
             const DataKind& data_kind);
+
+    /**
+     * Build the source and target vectors of entities given the data kind, the source entity id and the target entity
+     * id.
+     * Returns whether the data kind requires a target entity.
+     */
+    bool build_source_target_entities_vectors(
+            DataKind data_kind,
+            EntityId source_entity_id,
+            EntityId target_entity_id,
+            std::vector<EntityId>& source_ids,
+            std::vector<EntityId>& target_ids);
 
 protected:
 
@@ -433,7 +453,7 @@ public:
 protected:
 
     bool update_item_(
-        ListItem * item,
+        models::ListItem* item,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
         bool inactive_visible,
         bool metatraffic_visible);
@@ -447,11 +467,11 @@ protected:
 
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
-        ListModel * model,
+        models::ListModel* model,
         EntityKind type,
         EntityId id,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
-        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        models::ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
         bool metatraffic_visible);
 
@@ -555,7 +575,7 @@ protected:
         models::ListModel* model,
         EntityId id,
         bool new_entity,
-        ListItem * (SyncBackendConnection::* create_function)(EntityId),
+        models::ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
         bool metatraffic_visible,
         bool last_clicked);
