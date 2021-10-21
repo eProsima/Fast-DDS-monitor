@@ -18,6 +18,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import Theme 1.0
 
 /*
     Dialog to set a new alias name for an Entity.
@@ -36,15 +37,22 @@ Dialog {
     property var entityKind: ""
     property int maximumNameLength: 50
 
+    onAboutToShow: {
+        newSeriesNameTextField.text = ""
+    }
+
     GridLayout {
         columns: 2
         rowSpacing: 20
         Label {
             text: "Current entity alias: "
         }
-        Label {
+        TextEdit {
             text: currentAlias
+            readOnly: true
+            selectByMouse: true
             font.italic: true
+            selectionColor: Theme.eProsimaLightBlue
         }
         Label {
             text: "New entity alias: "
