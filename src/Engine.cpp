@@ -44,8 +44,8 @@ using EntityInfo = backend::EntityInfo;
 
 Engine::Engine()
     : enabled_(false)
-    , last_entity_clicked_(backend::ID_ALL)
-    , last_entity_clicked_kind_(backend::EntityKind::INVALID)
+    , last_dds_entity_clicked_(backend::ID_ALL)
+    , last_dds_entity_clicked_kind_(backend::EntityKind::INVALID)
     , last_physical_logical_entity_clicked_(backend::ID_ALL)
     , last_physical_logical_entity_clicked_kind_(backend::EntityKind::INVALID)
     , inactive_visible_(true)
@@ -553,36 +553,51 @@ bool Engine::entity_clicked(
 {
     bool res = false;
 
-    // Unclick last entities clicked
-    entity_unclick_(kind);
-
-    // Set as clicked entity
-    last_entity_clicked_ = id;
-    last_entity_clicked_kind_ = kind;
-
-    // If it is actually an entity, update it
-    if (id.is_valid_and_unique())
+    switch (kind)
     {
+    case backend::EntityKind::PARTICIPANT:
+    case backend::EntityKind::DATAREADER:
+    case backend::EntityKind::DATAWRITER:
+    case backend::EntityKind::LOCATOR:
+
+        // In case the new entity is the same already clicked, skip
+        if (id == last_dds_entity_clicked_)
+        {
+            return false;
+        }
+
+        // Unclick last entity
+        res = entity_dds_unclick_() || res;
+
+        // Set as clicked entity
+        last_dds_entity_clicked_ = id;
+        last_dds_entity_clicked_kind_ = kind;
+
         update_entity_generic(id, kind, true, true);
-    }
 
-    // All Entities in Physical and Logical Models affect over the participant view
-    if ((kind == backend::EntityKind::HOST) ||
-            (kind == backend::EntityKind::USER) ||
-            (kind == backend::EntityKind::PROCESS) ||
-            (kind == backend::EntityKind::DOMAIN) ||
-            (kind == backend::EntityKind::TOPIC) ||
-            (kind == backend::EntityKind::INVALID))
-    {
-        // Select new entity
+        break;
+
+    case backend::EntityKind::HOST:
+    case backend::EntityKind::USER:
+    case backend::EntityKind::PROCESS:
+    case backend::EntityKind::DOMAIN:
+    case backend::EntityKind::TOPIC:
+
+        // In case the new entity is the same already clicked, skip
+        if (id == last_physical_logical_entity_clicked_)
+        {
+            return false;
+        }
+
+        // Unclick last entity
+        entity_physical_logical_unclick_();
+
+        // Update new entity
+        update_entity_generic(id, kind, true, true);
+
+        // Set as clicked entity
         last_physical_logical_entity_clicked_ = id;
         last_physical_logical_entity_clicked_kind_ = kind;
-
-        // If it is actually an entity, update it
-        if (id.is_valid_and_unique())
-        {
-            update_entity_generic(id, kind, true, true);
-        }
 
         // Reset dds model and update if needed
         if (reset_dds)
@@ -594,45 +609,73 @@ bool Engine::entity_clicked(
             res = update_dds_data(id) || res;
         }
 
+        break;
+
+    case backend::EntityKind::INVALID:
+
+        // In case the new entity is the same already clicked, skip
+        if (last_physical_logical_entity_clicked_kind_ == backend::EntityKind::INVALID)
+        {
+            return false;
+        }
+
+        // Unclick all
+        entity_unclick_();
+
+        // Set as clicked entity
+        last_dds_entity_clicked_ = id;
+        last_dds_entity_clicked_kind_ = kind;
+        last_physical_logical_entity_clicked_ = id;
+        last_physical_logical_entity_clicked_kind_ = kind;
+
+        // Reset dds model and update if needed
+        if (reset_dds)
+        {
+            reset_dds_data();
+        }
+        if (update_dds)
+        {
+            res = update_dds_data(id) || res;
+        }
+
+        break;
+
+    default:
+        break;
     }
 
-    // All entities including DDS
+    // All entities
     res = fill_entity_info_(id) || res;
     res = fill_summary_(id) || res;
 
     return res;
 }
 
-bool Engine::entity_unclick_(backend::EntityKind new_entity_clicked_kind)
+bool Engine::entity_dds_unclick_()
+{
+    if (last_dds_entity_clicked_.is_valid_and_unique())
+    {
+        return update_entity_generic(last_dds_entity_clicked_, last_dds_entity_clicked_kind_, true, false);
+    }
+    return false;
+}
+
+bool Engine::entity_physical_logical_unclick_()
+{
+    if (last_physical_logical_entity_clicked_.is_valid_and_unique())
+    {
+        return update_entity_generic(last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_, true, false);
+    }
+    return false;
+}
+
+bool Engine::entity_unclick_()
 {
     bool res = false;
 
-    // Generic part
-    // In case a real entity is clicked, deselect
-    if (last_entity_clicked_.is_valid_and_unique())
-    {
-        res = res || update_entity_generic(last_entity_clicked_, last_entity_clicked_kind_, true, false);
-    }
-
-    // Logical Physical part
-    // If new entity clicked is logical or physical, unselect the logical/physical one
-    if ((new_entity_clicked_kind == backend::EntityKind::HOST) ||
-            (new_entity_clicked_kind == backend::EntityKind::USER) ||
-            (new_entity_clicked_kind == backend::EntityKind::PROCESS) ||
-            (new_entity_clicked_kind == backend::EntityKind::DOMAIN) ||
-            (new_entity_clicked_kind == backend::EntityKind::TOPIC) ||
-            (new_entity_clicked_kind == backend::EntityKind::INVALID)) // In case invalid new kind, it means reset all
-    {
-        if (last_physical_logical_entity_clicked_.is_valid_and_unique())
-        {
-            res = res ||
-                update_entity_generic(
-                    last_physical_logical_entity_clicked_,
-                    last_physical_logical_entity_clicked_kind_,
-                    true,
-                    false);
-        }
-    }
+    // Need to be separated because || does not compute second if first value is true
+    res = entity_dds_unclick_() || res;
+    res = entity_physical_logical_unclick_() || res;
 
     return res;
 }
@@ -868,7 +911,7 @@ bool Engine::update_entity_generic(
 
 void Engine::refresh_summary()
 {
-    fill_summary_(last_entity_clicked_);
+    fill_summary_(last_dds_entity_clicked_);
 }
 
 void Engine::process_error(
@@ -966,7 +1009,7 @@ void Engine::set_alias(
 {
     backend_connection_.set_alias(entity_id, new_alias);
 
-    if (last_entity_clicked_ == entity_id)
+    if (last_dds_entity_clicked_ == entity_id)
     {
         info_model_->update_selected_entity(backend::backend_id_to_models_id(entity_id), utils::to_QString(new_alias));
     }
@@ -1027,8 +1070,8 @@ bool Engine::update_entity(
     // Only update the info if the updated entity is the one that is being shown
     if (last_clicked)
     {
-        res = fill_entity_info_(last_entity_clicked_) || res;
-        res = fill_summary_(last_entity_clicked_) || res;
+        res = fill_entity_info_(last_dds_entity_clicked_) || res;
+        res = fill_summary_(last_dds_entity_clicked_) || res;
     }
 
     res = (this->*update_function)(entity_updated, new_entity, last_clicked) || res;

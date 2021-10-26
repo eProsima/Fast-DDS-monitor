@@ -546,6 +546,7 @@ protected:
     bool read_callback_(
             backend::Callback callback);
 
+    //! Common method to demultiplex to update functions regarding on the entity kind
     bool update_entity_generic(
             backend::EntityId entity_id,
             backend::EntityKind entity_kind,
@@ -559,7 +560,11 @@ protected:
     void clear_issue_info_();
 
     //! Deselect last entity clicked depending on the kind of the new entity that is going to be clicked
-    bool entity_unclick_(backend::EntityKind new_entity_clicked_kind);
+    bool entity_dds_unclick_();
+
+    bool entity_physical_logical_unclick_();
+
+    bool entity_unclick_();
 
     /////
     // Variables
@@ -610,10 +615,10 @@ protected:
     models::ListModel* destination_entity_id_model_;
 
     //! Id of the last Entity clicked or \c ID_ALL
-    backend::EntityId last_entity_clicked_;
+    backend::EntityId last_dds_entity_clicked_;
 
     //! Kind of the last Entity clicked or \c INVALID
-    backend::EntityKind last_entity_clicked_kind_;
+    backend::EntityKind last_dds_entity_clicked_kind_;
 
     //! Id of the last Entity clicked in physical or logical or \c ID_ALL
     backend::EntityId last_physical_logical_entity_clicked_;
