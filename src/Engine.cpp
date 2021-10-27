@@ -684,10 +684,10 @@ bool Engine::entity_physical_logical_unclick_()
     if (last_physical_logical_entity_clicked_.is_valid_and_unique())
     {
         bool res = update_entity_generic(
-                last_physical_logical_entity_clicked_,
-                last_physical_logical_entity_clicked_kind_,
-                true,
-                false);
+            last_physical_logical_entity_clicked_,
+            last_physical_logical_entity_clicked_kind_,
+            true,
+            false);
 
         last_physical_logical_entity_clicked_ = backend::ID_ALL;
         last_physical_logical_entity_clicked_kind_ = backend::EntityKind::INVALID;
