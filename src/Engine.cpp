@@ -555,93 +555,93 @@ bool Engine::entity_clicked(
 
     switch (kind)
     {
-    case backend::EntityKind::PARTICIPANT:
-    case backend::EntityKind::DATAREADER:
-    case backend::EntityKind::DATAWRITER:
-    case backend::EntityKind::LOCATOR:
+        case backend::EntityKind::PARTICIPANT:
+        case backend::EntityKind::DATAREADER:
+        case backend::EntityKind::DATAWRITER:
+        case backend::EntityKind::LOCATOR:
 
-        // In case the new entity is the same already clicked, skip
-        if (id == last_dds_entity_clicked_)
-        {
+            // In case the new entity is the same already clicked, skip
+            if (id == last_dds_entity_clicked_)
+            {
+                break;
+            }
+
+            // Unclick last entity
+            res = entity_dds_unclick_() || res;
+
+            // Set as clicked entity
+            last_dds_entity_clicked_ = id;
+            last_dds_entity_clicked_kind_ = kind;
+
+            update_entity_generic(id, kind, true, true);
+
             break;
-        }
 
-        // Unclick last entity
-        res = entity_dds_unclick_() || res;
+        case backend::EntityKind::HOST:
+        case backend::EntityKind::USER:
+        case backend::EntityKind::PROCESS:
+        case backend::EntityKind::DOMAIN:
+        case backend::EntityKind::TOPIC:
 
-        // Set as clicked entity
-        last_dds_entity_clicked_ = id;
-        last_dds_entity_clicked_kind_ = kind;
+            // In case the new entity is the same already clicked, skip
+            if (id == last_physical_logical_entity_clicked_)
+            {
+                break;
+            }
 
-        update_entity_generic(id, kind, true, true);
+            // Unclick last entity
+            entity_physical_logical_unclick_();
 
-        break;
+            // Update new entity
+            update_entity_generic(id, kind, true, true);
 
-    case backend::EntityKind::HOST:
-    case backend::EntityKind::USER:
-    case backend::EntityKind::PROCESS:
-    case backend::EntityKind::DOMAIN:
-    case backend::EntityKind::TOPIC:
+            // Set as clicked entity
+            last_physical_logical_entity_clicked_ = id;
+            last_physical_logical_entity_clicked_kind_ = kind;
 
-        // In case the new entity is the same already clicked, skip
-        if (id == last_physical_logical_entity_clicked_)
-        {
+            // Reset dds model and update if needed
+            if (reset_dds)
+            {
+                reset_dds_data();
+            }
+            if (update_dds)
+            {
+                res = update_dds_data(id) || res;
+            }
+
             break;
-        }
 
-        // Unclick last entity
-        entity_physical_logical_unclick_();
+        case backend::EntityKind::INVALID:
 
-        // Update new entity
-        update_entity_generic(id, kind, true, true);
+            // In case the new entity is the same already clicked, skip
+            if (last_physical_logical_entity_clicked_kind_ == backend::EntityKind::INVALID)
+            {
+                return false;
+            }
 
-        // Set as clicked entity
-        last_physical_logical_entity_clicked_ = id;
-        last_physical_logical_entity_clicked_kind_ = kind;
+            // Unclick all
+            entity_unclick_();
 
-        // Reset dds model and update if needed
-        if (reset_dds)
-        {
-            reset_dds_data();
-        }
-        if (update_dds)
-        {
-            res = update_dds_data(id) || res;
-        }
+            // Set as clicked entity
+            last_dds_entity_clicked_ = id;
+            last_dds_entity_clicked_kind_ = kind;
+            last_physical_logical_entity_clicked_ = id;
+            last_physical_logical_entity_clicked_kind_ = kind;
 
-        break;
+            // Reset dds model and update if needed
+            if (reset_dds)
+            {
+                reset_dds_data();
+            }
+            if (update_dds)
+            {
+                res = update_dds_data(id) || res;
+            }
 
-    case backend::EntityKind::INVALID:
+            break;
 
-        // In case the new entity is the same already clicked, skip
-        if (last_physical_logical_entity_clicked_kind_ == backend::EntityKind::INVALID)
-        {
-            return false;
-        }
-
-        // Unclick all
-        entity_unclick_();
-
-        // Set as clicked entity
-        last_dds_entity_clicked_ = id;
-        last_dds_entity_clicked_kind_ = kind;
-        last_physical_logical_entity_clicked_ = id;
-        last_physical_logical_entity_clicked_kind_ = kind;
-
-        // Reset dds model and update if needed
-        if (reset_dds)
-        {
-            reset_dds_data();
-        }
-        if (update_dds)
-        {
-            res = update_dds_data(id) || res;
-        }
-
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 
     // All entities
@@ -664,7 +664,8 @@ bool Engine::entity_physical_logical_unclick_()
 {
     if (last_physical_logical_entity_clicked_.is_valid_and_unique())
     {
-        return update_entity_generic(last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_, true, false);
+        return update_entity_generic(last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_,
+                       true, false);
     }
     return false;
 }
