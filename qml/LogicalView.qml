@@ -138,7 +138,7 @@ Rectangle {
 
                     Item {
                         id: topicItem
-                        width: parent.width
+                        width: topicListColumn.width
                         height: topicListColumn.childrenRect.height
 
                         property int topicIdx: index
