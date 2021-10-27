@@ -603,6 +603,9 @@ bool Engine::entity_clicked(
             // Unclick last entity
             entity_physical_logical_unclick_();
 
+            // When unselecting a physical or logical, unselect as well dds
+            entity_dds_unclick_();
+
             // Update new entity
             update_entity_generic(id, kind, true, true);
 
@@ -675,8 +678,11 @@ bool Engine::entity_physical_logical_unclick_()
 {
     if (last_physical_logical_entity_clicked_.is_valid_and_unique())
     {
-        return update_entity_generic(last_physical_logical_entity_clicked_, last_physical_logical_entity_clicked_kind_,
-                       true, false);
+        return update_entity_generic(
+            last_physical_logical_entity_clicked_,
+            last_physical_logical_entity_clicked_kind_,
+            true,
+            false);
     }
     return false;
 }
