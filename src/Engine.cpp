@@ -278,9 +278,9 @@ void Engine::shared_init_monitor_(
         // If the dds model is updated with this model, the callbacks will refer to new entities but they
         // will be already in the model as the model will call backend to update it completly
         // This, entity_clicked must be called but do not update dds model (but reset it)
-        entity_clicked(domain_id, backend::EntityKind::DOMAIN, false);
+        update_entity(domain_id, &Engine::update_domain, true, false);
 
-        update_entity(domain_id, &Engine::update_domain, true, true);
+        entity_clicked(domain_id, backend::EntityKind::DOMAIN, false);
     }
 }
 
@@ -563,7 +563,7 @@ bool Engine::entity_clicked(
         // In case the new entity is the same already clicked, skip
         if (id == last_dds_entity_clicked_)
         {
-            return false;
+            break;
         }
 
         // Unclick last entity
@@ -586,7 +586,7 @@ bool Engine::entity_clicked(
         // In case the new entity is the same already clicked, skip
         if (id == last_physical_logical_entity_clicked_)
         {
-            return false;
+            break;
         }
 
         // Unclick last entity

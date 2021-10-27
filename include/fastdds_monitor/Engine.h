@@ -546,7 +546,7 @@ protected:
     bool read_callback_(
             backend::Callback callback);
 
-    //! Common method to demultiplex to update functions regarding on the entity kind
+    //! Common method to demultiplex to update functions depending on the entity kind
     bool update_entity_generic(
             backend::EntityId entity_id,
             backend::EntityKind entity_kind,
@@ -559,11 +559,13 @@ protected:
     //! Clear issues panel information
     void clear_issue_info_();
 
-    //! Deselect last entity clicked depending on the kind of the new entity that is going to be clicked
+    //! Deselect last dds entity clicked
     bool entity_dds_unclick_();
 
+    //! Deselect last physical or logical entity clicked
     bool entity_physical_logical_unclick_();
 
+    //! Deselect last entities clicked of all kinds
     bool entity_unclick_();
 
     /////
