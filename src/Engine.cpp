@@ -584,7 +584,7 @@ bool Engine::entity_clicked(
             last_dds_entity_clicked_ = id;
             last_dds_entity_clicked_kind_ = kind;
 
-            update_entity_generic(id, kind, true, true);
+            res = update_entity_generic(id, kind, true, true) || res;
 
             break;
 
@@ -601,13 +601,13 @@ bool Engine::entity_clicked(
             }
 
             // Unclick last entity
-            entity_physical_logical_unclick_();
+            res = entity_physical_logical_unclick_() || res;
 
-            // When unselecting a physical or logical, unselect as well dds
-            entity_dds_unclick_();
+            // In physical and logical case, unclick also dds entity
+            res = entity_dds_unclick_() || res;
 
             // Update new entity
-            update_entity_generic(id, kind, true, true);
+            res = update_entity_generic(id, kind, true, true) || res;
 
             // Set as clicked entity
             last_physical_logical_entity_clicked_ = id;
@@ -634,7 +634,7 @@ bool Engine::entity_clicked(
             }
 
             // Unclick all
-            entity_unclick_();
+            res = entity_unclick_() || res;
 
             // Set as clicked entity
             last_dds_entity_clicked_ = id;
@@ -669,7 +669,12 @@ bool Engine::entity_dds_unclick_()
 {
     if (last_dds_entity_clicked_.is_valid_and_unique())
     {
-        return update_entity_generic(last_dds_entity_clicked_, last_dds_entity_clicked_kind_, true, false);
+        bool res = update_entity_generic(last_dds_entity_clicked_, last_dds_entity_clicked_kind_, true, false);
+
+        last_dds_entity_clicked_ = backend::ID_ALL;
+        last_dds_entity_clicked_kind_ = backend::EntityKind::INVALID;
+
+        return res;
     }
     return false;
 }
@@ -678,11 +683,16 @@ bool Engine::entity_physical_logical_unclick_()
 {
     if (last_physical_logical_entity_clicked_.is_valid_and_unique())
     {
-        return update_entity_generic(
-            last_physical_logical_entity_clicked_,
-            last_physical_logical_entity_clicked_kind_,
-            true,
-            false);
+        bool res = update_entity_generic(
+                last_physical_logical_entity_clicked_,
+                last_physical_logical_entity_clicked_kind_,
+                true,
+                false);
+
+        last_physical_logical_entity_clicked_ = backend::ID_ALL;
+        last_physical_logical_entity_clicked_kind_ = backend::EntityKind::INVALID;
+
+        return res;
     }
     return false;
 }
