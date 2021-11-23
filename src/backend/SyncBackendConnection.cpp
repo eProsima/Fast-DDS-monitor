@@ -1344,7 +1344,7 @@ std::vector<std::string> SyncBackendConnection::get_data_kinds()
             "RTPS_BYTES_SENT",
             "RTPS_PACKETS_LOST",
             "RTPS_BYTES_LOST",
-            "DISCOVERED_ENTITY",
+            "DISCOVERY_TIME",
             "SAMPLE_DATAS",
 #endif // #if !defined(NDEBUG)
             "RESENT_DATA",
