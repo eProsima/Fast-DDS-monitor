@@ -204,14 +204,27 @@ void DataChartBox::setAxisXMin(
 void DataChartBox::newYValue(
         qreal y)
 {
-    if (y > axisYMax_)
+    if (y != 0)
     {
-        setAxisYMax(y);
-    }
+        if (axisYMax_ == Y_MAX_DEFAULT)
+        {
+            setAxisYMax(0);
+        }
 
-    if (y < axisYMin_)
-    {
-        setAxisYMin(y);
+        if (axisYMin_ == Y_MIN_DEFAULT)
+        {
+            setAxisYMin(0);
+        }
+
+        if (y > axisYMax_)
+        {
+            setAxisYMax(y);
+        }
+
+        if (y < axisYMin_)
+        {
+            setAxisYMin(y);
+        }
     }
 }
 
