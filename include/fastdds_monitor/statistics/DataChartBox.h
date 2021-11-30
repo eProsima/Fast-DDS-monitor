@@ -32,7 +32,7 @@
 #include <fastdds_monitor/statistics/DataModel.h>
 
 #define Y_MAX_DEFAULT std::numeric_limits<qreal>::lowest()
-#define Y_MIN_DEFAULT 0
+#define Y_MIN_DEFAULT std::numeric_limits<qreal>::max()
 #define X_MAX_DEFAULT std::numeric_limits<quint64>::min()
 #define X_MIN_DEFAULT std::numeric_limits<quint64>::max()
 
