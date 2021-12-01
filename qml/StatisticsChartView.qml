@@ -42,6 +42,10 @@ ChartView {
 
     Component.onCompleted: {
         axisY.applyNiceNumbers()
+        // This series is only used to print the axis
+        chartView.createSeries(ChartView.SeriesTypeLine, "__initialSeries__", dateTimeAxisXItem, axisYItem);
+        removeAllSeries()
+        zoomReset()
     }
 
     ValueAxis {
@@ -55,7 +59,11 @@ ChartView {
 
     DateTimeAxis {
         id: dateTimeAxisX
-        min: new Date()
+        min: {
+            var d = new Date()
+            d.setHours(d.getHours() - 1)
+            return d
+        }
         max: new Date()
         format: "hh:mm:ss"
         labelsFont: Qt.font({pointSize: 8})
