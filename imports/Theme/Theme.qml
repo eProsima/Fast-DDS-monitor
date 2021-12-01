@@ -11,6 +11,7 @@ QtObject {
 
     readonly property color grey: "#808080"
     readonly property color lightGrey: "#d3d3d3"
+    readonly property color x11Grey: "#BEBEBE"
     readonly property color whiteSmoke: "#f5f5f5"
 
     // readonly property int smallSize: 10

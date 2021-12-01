@@ -63,6 +63,8 @@
         <file alias="eprosima_logo_horizontal.png">resources/images/eprosima_logo_horizontal.png</file>
         <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
         <file alias="fastdds-monitor-logo.png">resources/images/fastdds-monitor-logo.png</file>
+        <file alias="monitor_by_eprosima.svg">resources/images/monitor_by_eprosima.svg</file>
+        <file alias="graphs.svg">resources/images/graphs.svg</file>
     </qresource>
     <qresource prefix="/resources/images/icons">
         <file alias="clearissues_black.svg">resources/images/icons/clearissues/clearissues_black.svg</file>
