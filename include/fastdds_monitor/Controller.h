@@ -219,7 +219,7 @@ signals:
             QString error_msg,
             int error_type);
 
-     //! Signal to inform qml that a new monitor has been initialized
+    //! Signal to inform qml that a new monitor has been initialized
     void monitorInitialized();
 
 protected:
