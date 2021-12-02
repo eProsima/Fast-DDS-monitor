@@ -276,8 +276,8 @@ Rectangle {
                     font.pointSize: 20
                     font.bold: true
                     color: Theme.x11Grey
-                    text: mainApplicationView.monitors == 0 ? "Ups... no initilized monitors yet"
-                                                            : "Ups... no data charts yet"
+                    text: mainApplicationView.monitors == 0 ? "Oops... no initialized monitors yet"
+                                                            : "Oops... no data charts to display"
                 }
             }
 
