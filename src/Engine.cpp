@@ -283,6 +283,8 @@ void Engine::shared_init_monitor_(
         update_entity(domain_id, &Engine::update_domain, true, false);
 
         entity_clicked(domain_id, backend::EntityKind::DOMAIN, false);
+
+        emit controller_->monitorInitialized();
     }
 }
 

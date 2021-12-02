@@ -33,6 +33,9 @@ ApplicationWindow {
 
     signal startMonitoring
 
+    // This property holds the current number of initialized monitors
+    property int monitors: 0
+
     onStartMonitoring: {
         mainStartView.visible = false
         monitorMenuBar.visible = true
@@ -117,6 +120,14 @@ ApplicationWindow {
             errorDialog.text = errorMsg
             errorDialog.errorType = errorType
             errorDialog.open()
+        }
+    }
+
+    // Creates a connection between Controller::monitorInitialized() signal and qml
+    Connections {
+        target: controller
+        function onMonitorInitialized() {
+            monitors++
         }
     }
 }

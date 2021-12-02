@@ -23,7 +23,7 @@ import Theme 1.0
 
 Dialog {
     id: dialogInitMonitor
-    modal: false
+    modal: true
     title: "Initialize Monitor"
     standardButtons: Dialog.Ok | Dialog.Cancel
 

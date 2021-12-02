@@ -230,6 +230,96 @@ Rectangle {
         }
     }
 
+    Rectangle {
+        id: emptyScreen
+        width: parent.width / 1.5
+        height: parent.height / 1.5
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        visible: statisticsChartBoxModel.count == 0
+
+        ColumnLayout{
+            anchors.fill: parent
+
+            Rectangle {
+                Layout.preferredWidth: emptyScreen.width * 3/5
+                Layout.preferredHeight: emptyScreen.height * 3/5
+                Layout.alignment: Qt.AlignCenter
+                color: "transparent"
+
+                Image {
+                    id: emptyScreenImage
+                    source: "/resources/images/graphs.svg"
+                    sourceSize.width: parent.width - 5
+                    sourceSize.height: parent.height - 5
+                    anchors.centerIn: parent
+                    opacity: 0.9
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: emptyScreen.height * 0.5/5
+                Layout.alignment: Qt.AlignCenter
+                color: "transparent"
+
+                Text {
+                    id: emptyScreenLabel
+                    width: parent.width
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    fontSizeMode: Text.Fit
+                    minimumPixelSize: 10
+                    font.pointSize: 20
+                    font.bold: true
+                    color: Theme.x11Grey
+                    text: mainApplicationView.monitors == 0 ? "Oops... no initialized monitors yet"
+                                                            : "Oops... no data charts to display"
+                }
+            }
+
+            Rectangle {
+                id: emptyScreenButton
+                Layout.preferredWidth: emptyScreen.width * 2/5
+                Layout.preferredHeight: emptyScreen.height * 0.5/5
+                Layout.alignment: Qt.AlignCenter
+                radius: height
+                color: Theme.x11Grey
+                border.color: Theme.grey
+                border.width: emptyScreenButtonMouseArea.containsMouse ? 3 : 0
+
+                Text {
+                    font.bold: emptyScreenButtonMouseArea.containsMouse
+                    font.pointSize: 15
+                    color: Theme.whiteSmoke
+                    anchors.centerIn: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    text: mainApplicationView.monitors == 0 ? "Initilialize monitor"
+                                                            : "Create new chart"
+                }
+
+                MouseArea {
+                    id: emptyScreenButtonMouseArea
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+
+                    onClicked: {
+                        if (mainApplicationView.monitors == 0) {
+                            dialogInitMonitor.open()
+                        } else {
+                            dynamicDataKindDialog.open()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     ExportCSVFileDialog {
         id: csvDialog
     }
