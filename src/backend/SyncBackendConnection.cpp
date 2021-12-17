@@ -1269,9 +1269,17 @@ std::string SyncBackendConnection::get_data_kind_units(
     switch (data_kind)
     {
         case DataKind::FASTDDS_LATENCY:
+#ifdef _WIN32
+            return "us";
+#else
             return "\u00b5s";
+#endif // ifdef _WIN32
         case DataKind::NETWORK_LATENCY:
+#ifdef _WIN32
+            return "us";
+#else
             return "\u00b5s";
+#endif // ifdef _WIN32
         case DataKind::PUBLICATION_THROUGHPUT:
             return "B/s";
         case DataKind::SUBSCRIPTION_THROUGHPUT:
