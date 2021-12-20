@@ -13,7 +13,7 @@ This release includes the following **improvements**:
 
 * Application background
 * Move last clicked logic from QML to C++.
-* Blank text when open change alias dialog.
+* Blank text when open "*change alias*" dialog.
 * Documentation improvement:
 
     * Fast DDS Suite documentation.
