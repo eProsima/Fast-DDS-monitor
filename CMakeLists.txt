@@ -191,6 +191,9 @@ add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${Qt5Quick_DEFINI
 # Thus, if this file is required in subdirectories, this 4 instructions below must be added in the same
 # CMakeList of the executable (Use different name for QT_RESOURCES variable)
 
+# Set the app icon resource file for windows
+set(APP_ICON_RESOURCE_WINDOWS ${CMAKE_CURRENT_SOURCE_DIR}/resources/fastdds_monitor.rc)
+
 # Set the qml.qrc file containing the QML and other resources of the application
 qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
 
@@ -281,7 +284,7 @@ ${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/config.h)
 
 # Avoid launch command prompt when running the executable (.exe) from file explorer
 if(MSVC OR MSVC_IDE)
-    add_executable(${PROJECT_NAME} WIN32 ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
+    add_executable(${PROJECT_NAME} WIN32 ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES} ${APP_ICON_RESOURCE_WINDOWS})
 else()
     add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${QT_RESOURCES})
 endif()
