@@ -65,7 +65,7 @@ TEST(utilsTest, now_format)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
             std::string date = now(false);
-            ASSERT_EQ(date.size(), 19);
+            ASSERT_EQ(date.size(), 19u);
             for (int j = 0; j < 19; ++j)
             {
                 switch (j)
@@ -99,7 +99,7 @@ TEST(utilsTest, now_format)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
             std::string date = now();
-            ASSERT_EQ(date.size(), 23);
+            ASSERT_EQ(date.size(), 23u);
             for (int j = 0; j < 19; ++j)
             {
                 switch (j)
