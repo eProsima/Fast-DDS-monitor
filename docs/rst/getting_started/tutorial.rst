@@ -16,18 +16,22 @@ Fast DDS with Statistics module
 In order to show the *Fast DDS Monitor* running and monitoring a real DDS network, this tutorial uses a *Fast DDS*
 example to create a simple and understandable DDS network.
 The example proposed by this tutorial is using :code:`DDSHelloWorldExample` of *Fast DDS* repository.
-Be aware that the statistics module is not compiled and used by default by *Fast DDS* but it has to be specifically
-configured to send statistical data of an specific entity.
+**Be aware that the statistics module is not compiled and used by default by Fast DDS but it has to be specifically
+configured to send statistical data of an specific entity.**
 
 In order to execute this minimum DDS scenario where each entity publish its statistical data, follow these steps:
 
-#. Compile *Fast DDS* library with CMake option :code:`FASTDDS_STATISTICS` to activate the statistics module.
-#. Compile *Fast DDS* library with CMake option :code:`COMPILE_EXAMPLES` to build the examples.
-#. Have a working environment with *Fast DDS*, *Fast DDS Statistics Backend* and *Fast DDS Monitor* built.
-#. Use the environment variable :code:`FASTDDS_STATISTICS` to activate the statistics writers in the DDS execution.
+#. Compile *Fast DDS* library with CMake option :code:`FASTDDS_STATISTICS` to activate the statistics module
+   (:code:`FASTDDS_STATISTICS=ON`).
+#. Compile *Fast DDS* library with CMake option :code:`COMPILE_EXAMPLES` to build the examples
+   (:code:`COMPILE_EXAMPLES=ON`).
+#. Have *Fast DDS Monitor* installed or a working environment with *Fast DDS*, *Fast DDS Statistics Backend* and
+   *Fast DDS Monitor* built.
+#. Use the environment variable :code:`FASTDDS_STATISTICS` to activate the statistics writers in the DDS execution (see
+   following section).
 
 For further information about the Statistics configuration, please refer to
-`Fast DDS statistics module <https://fast-dds.docs.eprosima.com/en/v2.3.2/fastdds/statistics/statistics.html>`_.
+`Fast DDS statistics module <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/statistics.html>`_.
 For further information about installation of the Monitor and its dependencies, please refer to the documentation
 section :ref:`installation_manual_linux` or :ref:`developer_manual_installation_sources_linux`.
 
@@ -117,7 +121,7 @@ The topics that are going to be reported by this example are:
   This will make possible to see in which hosts and context each entity is running.
 
 Please refer to
-`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.2/fastdds/statistics/dds_layer/topic_names.html>`_
+`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/topic_names.html>`_
 for further information about these topics.
 
 **************************
@@ -188,7 +192,7 @@ Now, you have a *DomainParticipant* called :code:`Participant_sub`, that holds a
 This *DataReader* has a locator, which will be the *Shared Memory Transport* locator.
 That is because the Monitor and the *DomainParticipant* are running in the same host, and so they communicate using
 the `Shared Memory Transport (SHM) protocol
-<https://fast-dds.docs.eprosima.com/en/v2.3.3/fastdds/transport/shared_memory/shared_memory.html>`_.
+<https://fast-dds.docs.eprosima.com/en/latest/fastdds/transport/shared_memory/shared_memory.html>`_.
 
 You should be able to see as well that now *Host* exists, with a *User* and a *Process* where :code:`Participant_sub`
 is running.

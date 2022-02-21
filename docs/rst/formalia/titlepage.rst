@@ -32,7 +32,7 @@ are running.
    configuration and physical deployment.
 #. **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
 
-.. note::
+.. warning::
 
     In order to monitor a DDS network deployed using *Fast DDS* library, compiling the latter with statistics and
     explicitly activating the statistics module is required. See :ref:`Example of Usage <start_tutorial>` for a

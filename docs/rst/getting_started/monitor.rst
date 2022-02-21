@@ -69,7 +69,7 @@ one in an external network in address ``8.8.8.8:12345``.
     "127.0.0.1:11811;192.168.1.2:12000;8.8.8.8:12345"
 
 In order to clarify how to set this parameter, please visit the
-`Discovery Server CLI tutorial <https://fast-dds.docs.eprosima.com/en/v2.3.0/fastddscli/cli/cli.html#discovery>`_.
+`Discovery Server CLI tutorial <https://fast-dds.docs.eprosima.com/en/latest/fastddscli/cli/cli.html#discovery>`_.
 The parameter of the Discovery Server *Init New Monitor* button in this application will be used equally as the input
 to the CLI command.
 
