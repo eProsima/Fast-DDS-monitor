@@ -9,6 +9,8 @@ Example of usage
 This example will show how to monitoring a DDS network using *Fast DDS Monitor* and how to understand the different
 application features and configurations.
 
+.. _fastdds-with-statistics:
+
 *******************************
 Fast DDS with Statistics module
 *******************************
@@ -22,9 +24,9 @@ configured to send statistical data of an specific entity.**
 In order to execute this minimum DDS scenario where each entity publish its statistical data, follow these steps:
 
 #. Compile *Fast DDS* library with CMake option :code:`FASTDDS_STATISTICS` to activate the statistics module
-   (:code:`FASTDDS_STATISTICS=ON`).
+   (:code:`-DFASTDDS_STATISTICS=ON`).
 #. Compile *Fast DDS* library with CMake option :code:`COMPILE_EXAMPLES` to build the examples
-   (:code:`COMPILE_EXAMPLES=ON`).
+   (:code:`-DCOMPILE_EXAMPLES=ON`).
 #. Have *Fast DDS Monitor* installed or a working environment with *Fast DDS*, *Fast DDS Statistics Backend* and
    *Fast DDS Monitor* built.
 #. Use the environment variable :code:`FASTDDS_STATISTICS` to activate the statistics writers in the DDS execution (see

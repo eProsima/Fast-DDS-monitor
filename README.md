@@ -37,8 +37,8 @@ are running.
 **NOTE**
 
 In order to monitor a DDS network deployed using *Fast DDS* library, compiling the latter with statistics and
-explicitly activating the statistics module is required. See [Example of Usage](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/tutorial.html)
-for a complete walkthrough example showing how to fulfill these requirements.
+explicitly activating the statistics module is required. See [Fast DDS with Statistics module](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/tutorial.html#fastdds-with-statistics)
+for more details.
 
 ---
 
