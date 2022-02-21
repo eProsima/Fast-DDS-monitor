@@ -112,7 +112,7 @@ mechanism, the *Domain* will be represented by a number (domain ID), and every D
 the rest of entities deployed on the same *Domain*.
 In case of using *Discovery Server* as discovery protocol, the partition will be made by the *Discovery Server*
 or *Discovery Servers Net* to which the monitor connects. Please refer to
-`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/fastdds/discovery/discovery_server.html>`_ for
+`Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/discovery/discovery_server.html>`_ for
 more information about this feature.
 Each entity connected to a *Discovery Server* on the same network will know all other entities with which it needs to
 communicate.

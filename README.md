@@ -32,3 +32,22 @@ are running.
 * **Introspection**: easily navigate through the deployed and active DDS entities being able to inspect their
    configuration and physical deployment.
 * **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
+
+---
+**NOTE**
+
+In order to monitor a DDS network deployed using *Fast DDS* library, compiling the latter with statistics and
+explicitly activating the statistics module is required. See [Fast DDS with Statistics module](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/tutorial.html#fastdds-with-statistics)
+for more details.
+
+---
+
+## Documentation
+
+You can access the documentation online, which is hosted on [Read the Docs](https://fast-dds-monitor.readthedocs.io/en/latest/index.html).
+
+* [Installation Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/installation/linux.html)
+* [Getting Started](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/entities.html)
+* [User Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html)
+* [Developer Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/developer_manual/installation/sources/linux.html)
+* [Release Notes](https://fast-dds-monitor.readthedocs.io/en/latest/rst/notes/notes.html)
