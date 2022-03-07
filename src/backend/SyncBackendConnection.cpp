@@ -28,6 +28,7 @@
 
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
 #include <fastdds_statistics_backend/exception/Exception.hpp>
+#include <fastdds_statistics_backend/listener/CallbackMask.hpp>
 
 #include <fastdds_monitor/backend/backend_utils.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
@@ -409,7 +410,7 @@ bool SyncBackendConnection::set_listener(
 {
     try
     {
-        StatisticsBackend::set_physical_listener(listener);
+        StatisticsBackend::set_physical_listener(listener, CallbackMask());
         return true;
     }
     catch (const Exception& e)
