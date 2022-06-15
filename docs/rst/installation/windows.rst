@@ -22,7 +22,8 @@ in the following image.
 
 
 Follow the installation steps until the installation process is complete.
-You should end up at the next window from which you can run *Fast DDS Monitor* directly after installation.
+A window as the one shown below should be visible on screen after installation, from which you may directly run the
+*Fast DDS Monitor* application.
 
 .. figure:: /rst/figures/windows_installer_run.png
     :align: center
