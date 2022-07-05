@@ -15,6 +15,7 @@ DataWriter
 Debian
 eProsima
 gtest
+GTest
 localhost
 metatraffic
 middleware
