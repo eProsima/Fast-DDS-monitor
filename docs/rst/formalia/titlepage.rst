@@ -38,6 +38,13 @@ are running.
     explicitly activating the statistics module is required. See :ref:`Fast DDS with Statistics module <fastdds-with-statistics>`
     for more details.
 
+.. warning::
+
+    In case statistical data are not correctly received: only few data arrive or even none,
+    configure the network endpoints publishing statistics data with a less restrictive constraints so
+    the amount of data published does not collapse the communication.
+    Please check the following `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/qos.html?highlight=Troubleshooting#statistics-qos-troubleshooting>`_ for more details.
+
 ###############################
 Contacts and Commercial support
 ###############################
