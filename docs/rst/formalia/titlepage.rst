@@ -40,10 +40,12 @@ are running.
 
 .. warning::
 
-    In case statistical data are not correctly received: only few data arrive or even none,
-    configure the network endpoints publishing statistics data with a less restrictive constraints so
-    the amount of data published does not collapse the communication.
-    Please check the following `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/qos.html?highlight=Troubleshooting#statistics-qos-troubleshooting>`_ for more details.
+    If Fast DDS has been compiled with statistics and they are explicitly enabled and
+    statistical data are not correctly received, only few data arrive or even none,
+    configure the Fast DDS endpoints publishing statistics data with a less restrictive memory constraints.
+    Please check the following
+    `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/qos.html#statistics-qos-troubleshooting>`_
+    for more details on how to do this.
 
 ###############################
 Contacts and Commercial support
