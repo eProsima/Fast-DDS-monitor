@@ -44,7 +44,7 @@ are running.
     statistical data are not correctly received, only few data arrive or even none,
     configure the Fast DDS endpoints publishing statistics data with a less restrictive memory constraints.
     Please check the following
-    `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/qos.html#statistics-qos-troubleshooting>`_
+    `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/troubleshooting.html#troubleshooting>`_
     for more details on how to do this.
 
 ###############################
