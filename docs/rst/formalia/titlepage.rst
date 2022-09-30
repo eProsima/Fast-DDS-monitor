@@ -38,6 +38,15 @@ are running.
     explicitly activating the statistics module is required. See :ref:`Fast DDS with Statistics module <fastdds-with-statistics>`
     for more details.
 
+.. warning::
+
+    If Fast DDS has been compiled with statistics and they are explicitly enabled and
+    statistical data are not correctly received, only few data arrive or even none,
+    configure the Fast DDS endpoints publishing statistics data with a less restrictive memory constraints.
+    Please check the following
+    `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/qos.html#statistics-qos-troubleshooting>`_
+    for more details on how to do this.
+
 ###############################
 Contacts and Commercial support
 ###############################
