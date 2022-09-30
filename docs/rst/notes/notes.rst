@@ -1,26 +1,29 @@
 .. _release_notes:
 
 ##############
-Version v1.2.0
+Version v1.2.1
 ##############
 
 This release includes the following new **documentation sections**:
 
-* Windows installation guide.
+* Guide to solve the non-reception of statistics data after enabling them.
 
-This release includes the following new **minor features**:
+This release includes the following new **internal changes**:
 
-* Windows app icon.
-* Support GTest new version.
+* Upgrade
+  `Fast DDS v2.7.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.7.0>`_ to
+  `Fast DDS v2.8.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.8.0>`_.
+* Upgrade
+  `Fast DDS Statistics Backend v2.7.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v0.7.0>`_
+  to
+  `Fast DDS Statistics Backend v2.7.1 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v0.7.1>`_.
 
-This release includes the following **bugfixes**:
-
-* Fixes included in Fast DDS Statistics Backend v1.2.0.
 
 #################
 Previous versions
 #################
 
+.. include:: previous_versions/v1.2.0.rst
 .. include:: previous_versions/v1.1.0.rst
 .. include:: previous_versions/v1.0.0.rst
 .. include:: previous_versions/v0.2.0.rst

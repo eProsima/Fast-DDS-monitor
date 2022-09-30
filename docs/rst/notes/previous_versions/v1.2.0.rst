@@ -1,0 +1,15 @@
+Version v1.2.0
+==============
+
+This release includes the following new **documentation sections**:
+
+* Windows installation guide.
+
+This release includes the following new **minor features**:
+
+* Windows app icon.
+* Support GTest new version.
+
+This release includes the following **bugfixes**:
+
+* Fixes included in Fast DDS Statistics Backend v1.2.0.
