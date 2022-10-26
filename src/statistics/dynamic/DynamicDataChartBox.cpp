@@ -116,7 +116,7 @@ void DynamicDataChartBox::recalculate_y_axis()
     for (std::pair<quint64, DataModel*> series : series_)
     {
         // Check only the models with values
-        if(series.second->get_size())
+        if (series.second->get_size())
         {
             // Note: time_to_ could be used to calculate it, as it would be the same as max time
             std::pair<qreal, qreal> limits = series.second->limit_y_value(time_from);
