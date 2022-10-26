@@ -72,6 +72,8 @@ public:
 
     const QVector<QPointF>& get_data() const;
 
+    size_t get_size() const;
+    
     std::pair<qreal, qreal> limit_y_value(
             const quint64 from = 0,
             const quint64 to = std::numeric_limits<quint64>::max()) const;

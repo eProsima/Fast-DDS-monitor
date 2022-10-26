@@ -206,16 +206,6 @@ void DataChartBox::newYValue(
 {
     if (y != 0)
     {
-        if (axisYMax_ == Y_MAX_DEFAULT)
-        {
-            setAxisYMax(0);
-        }
-
-        if (axisYMin_ == Y_MIN_DEFAULT)
-        {
-            setAxisYMin(0);
-        }
-
         if (y > axisYMax_)
         {
             setAxisYMax(y);
@@ -225,6 +215,18 @@ void DataChartBox::newYValue(
         {
             setAxisYMin(y);
         }
+
+        // if (axisYMin_ == 0 && axisYMax_ != y)
+        // {
+        //     std::cout << "entra en 0" << std::endl;
+        //     setAxisYMin(y);
+        // }
+
+        // // Have to be differents to plot values
+        // if (axisYMax_ == axisYMin_)
+        // {
+        //     setAxisYMin(0);
+        // }
     }
 }
 
@@ -283,8 +285,12 @@ void DataChartBox::recalculate_y_axis()
     // For each series set max and min values as set values
     for (std::pair<quint64, DataModel*> series : series_)
     {
-        std::pair<qreal, qreal> limits = series.second->limit_y_value();
-        newYValue(limits.first);
-        newYValue(limits.second);
+        // Check only the models with values
+        if(series.second->get_size())
+        {
+            std::pair<qreal, qreal> limits = series.second->limit_y_value();
+            newYValue(limits.first);
+            newYValue(limits.second);
+        }
     }
 }

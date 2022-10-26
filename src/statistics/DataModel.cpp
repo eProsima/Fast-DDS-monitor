@@ -86,6 +86,11 @@ const QVector<QPointF>& DataModel::get_data() const
     return m_data_;
 }
 
+size_t DataModel::get_size() const
+{
+    return m_data_.size();
+}
+
 std::pair<qreal, qreal> DataModel::limit_y_value(
         const quint64 from /* = 0 */,
         const quint64 to /* = std::numeric_limits<quint64>::max() */) const
