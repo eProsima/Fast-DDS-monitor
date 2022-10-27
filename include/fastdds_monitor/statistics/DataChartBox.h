@@ -86,18 +86,6 @@ public:
     //! Get X min axis size
     quint64 axisXMin() const;
 
-    //! Get max qreal possible number
-    qreal getMaxReal();
-
-    //! Get max qreal possible number
-    qreal getMinReal();
-
-    //! Get max quint64 possible number
-    quint64 getMaxUint();
-
-    //! Get max quint64 possible number
-    quint64 getMinUint();
-
     //! Set the new Y max axis size
     void setAxisYMax(
             qreal axisYMax);

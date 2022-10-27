@@ -23,6 +23,7 @@
 #define _EPROSIMA_FASTDDS_MONITOR_STATISTICS_STATISTICSDATA_H
 
 #include <atomic>
+#include <limits>
 
 #include <QtCore/QObject>
 #include <fastdds_monitor/statistics/DataChartBox.h>
@@ -111,6 +112,18 @@ public slots:
 
     void recalculate_y_axis(
             quint64 chartbox_id);
+
+    //! Get max qreal possible number
+    qreal getMaxReal();
+
+    //! Get max qreal possible number
+    qreal getMinReal();
+
+    //! Get max quint64 possible number
+    quint64 getMaxUint();
+
+    //! Get max quint64 possible number
+    quint64 getMinUint();
 
 protected:
 

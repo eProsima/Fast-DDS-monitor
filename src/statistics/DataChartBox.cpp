@@ -147,26 +147,6 @@ quint64 DataChartBox::axisXMin() const
     return axisXMin_;
 }
 
-qreal DataChartBox::getMaxReal()
-{
-    return std::numeric_limits<qreal>::max();
-}
-
-qreal DataChartBox::getMinReal()
-{
-    return std::numeric_limits<qreal>::lowest();
-}
-
-quint64 DataChartBox::getMaxUint()
-{
-    return std::numeric_limits<quint64>::max();
-}
-
-quint64 DataChartBox::getMinUint()
-{
-    return std::numeric_limits<quint64>::min();
-}
-
 void DataChartBox::setAxisYMax(
         qreal axisYMax)
 {
