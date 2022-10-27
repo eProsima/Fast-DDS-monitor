@@ -129,38 +129,42 @@ void DataChartBox::update(
 
 qreal DataChartBox::axisYMax() const
 {
-    if (axisYMax_ == Y_MAX_DEFAULT)
-    {
-        return 1;
-    }
     return axisYMax_;
 }
 
 qreal DataChartBox::axisYMin() const
 {
-    if (axisYMin_ == Y_MIN_DEFAULT)
-    {
-        return 0;
-    }
     return axisYMin_;
 }
 
 quint64 DataChartBox::axisXMax() const
 {
-    if (axisXMax_ == X_MAX_DEFAULT)
-    {
-        return 1;
-    }
     return axisXMax_;
 }
 
 quint64 DataChartBox::axisXMin() const
 {
-    if (axisXMin_ == X_MIN_DEFAULT)
-    {
-        return 0;
-    }
     return axisXMin_;
+}
+
+qreal DataChartBox::getMaxReal()
+{
+    return std::numeric_limits<qreal>::max();
+}
+
+qreal DataChartBox::getMinReal()
+{
+    return std::numeric_limits<qreal>::lowest();
+}
+
+quint64 DataChartBox::getMaxUint()
+{
+    return std::numeric_limits<quint64>::max();
+}
+
+quint64 DataChartBox::getMinUint()
+{
+    return std::numeric_limits<quint64>::min();
 }
 
 void DataChartBox::setAxisYMax(
@@ -215,18 +219,6 @@ void DataChartBox::newYValue(
         {
             setAxisYMin(y);
         }
-
-        // if (axisYMin_ == 0 && axisYMax_ != y)
-        // {
-        //     std::cout << "entra en 0" << std::endl;
-        //     setAxisYMin(y);
-        // }
-
-        // // Have to be differents to plot values
-        // if (axisYMax_ == axisYMin_)
-        // {
-        //     setAxisYMin(0);
-        // }
     }
 }
 

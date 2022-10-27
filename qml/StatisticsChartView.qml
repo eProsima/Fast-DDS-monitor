@@ -38,6 +38,12 @@ ChartView {
     property var tooltipItem: tooltip
     property bool manuallySetAxes: false
 
+    // intValdiator: IntValidator {}
+    property real y_MAX_DEFAULT: dynamicData.getMinReal()
+    property real y_MIN_DEFAULT: dynamicData.getMaxReal()
+    property real x_MAX_DEFAULT: dynamicData.getMinUint()
+    property real x_MIN_DEFAULT: dynamicData.getMaxUint()
+
     signal clearedChart()
 
     Component.onCompleted: {
@@ -251,8 +257,28 @@ ChartView {
     function setYAxis(min, max, niceNumbers = true, force = false) {
         // If axes has been set manually and forced is not set, do not change
         if (force || !manuallySetAxes) {
-            axisY.min = min
-            axisY.max = max
+            if (min == y_MIN_DEFAULT || min == y_MAX_DEFAULT) 
+            {
+                axisY.min = 0
+            }
+            else
+            {
+
+                axisY.min = min
+            }
+            if (max == y_MIN_DEFAULT || max == y_MAX_DEFAULT) 
+            {
+                axisY.max = 1
+            }
+            else
+            {
+                axisY.max = max
+            }
+            if (min == max) 
+            {
+                axisY.min = min - 1
+                axisY.max = max + 1
+            }
             if (niceNumbers) {
                 axisY.applyNiceNumbers()
             }
@@ -262,8 +288,22 @@ ChartView {
     function setXAxis(min, max, force = false) {
         // If axes has been set manually and forced is not set, do not change
         if (force || !manuallySetAxes) {
-            dateTimeAxisX.min = min
-            dateTimeAxisX.max = max
+            if (min == x_MIN_DEFAULT || min == x_MAX_DEFAULT) 
+            {
+                dateTimeAxisX.min = 0
+            }
+            else
+            {
+                dateTimeAxisX.min = min
+            }
+            if (max == x_MIN_DEFAULT || max == x_MAX_DEFAULT) 
+            {
+                dateTimeAxisX.max = 1
+            }
+            else
+            {
+                dateTimeAxisX.max = max
+            }
         }
     }
 
