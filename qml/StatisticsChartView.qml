@@ -274,10 +274,15 @@ ChartView {
             {
                 axisY.max = max
             }
-            if (min == max) 
+            if (axisY.min == axisY.max) 
             {
                 axisY.min = min - 1
                 axisY.max = max + 1
+            }
+            if (axisY.min > axisY.max) 
+            {
+                axisY.min = max
+                axisY.max = min
             }
             if (niceNumbers) {
                 axisY.applyNiceNumbers()
