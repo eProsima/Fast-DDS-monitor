@@ -26,6 +26,8 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
+#include <limits>
+
 #include <fastdds_monitor/statistics/StatisticsData.h>
 #include <fastdds_monitor/utils.h>
 
@@ -225,22 +227,22 @@ void StatisticsData::recalculate_y_axis(
     it->second->recalculate_y_axis();
 }
 
-qreal StatisticsData::getMaxReal()
+qreal StatisticsData::get_max_real()
 {
     return std::numeric_limits<qreal>::max();
 }
 
-qreal StatisticsData::getMinReal()
+qreal StatisticsData::get_min_real()
 {
     return std::numeric_limits<qreal>::lowest();
 }
 
-quint64 StatisticsData::getMaxUint()
+quint64 StatisticsData::get_max_uint()
 {
     return std::numeric_limits<quint64>::max();
 }
 
-quint64 StatisticsData::getMinUint()
+quint64 StatisticsData::get_min_uint()
 {
     return std::numeric_limits<quint64>::min();
 }

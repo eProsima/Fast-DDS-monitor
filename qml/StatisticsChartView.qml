@@ -39,10 +39,10 @@ ChartView {
     property bool manuallySetAxes: false
 
     // intValdiator: IntValidator {}
-    property real y_MAX_DEFAULT: dynamicData.getMinReal()
-    property real y_MIN_DEFAULT: dynamicData.getMaxReal()
-    property real x_MAX_DEFAULT: dynamicData.getMinUint()
-    property real x_MIN_DEFAULT: dynamicData.getMaxUint()
+    property real y_MAX_DEFAULT: dynamicData.get_min_real()
+    property real y_MIN_DEFAULT: dynamicData.get_max_real()
+    property real x_MAX_DEFAULT: dynamicData.get_min_uint()
+    property real x_MIN_DEFAULT: dynamicData.get_max_uint()
 
     signal clearedChart()
 
@@ -257,33 +257,9 @@ ChartView {
     function setYAxis(min, max, niceNumbers = true, force = false) {
         // If axes has been set manually and forced is not set, do not change
         if (force || !manuallySetAxes) {
-            if (min == y_MIN_DEFAULT || min == y_MAX_DEFAULT) 
-            {
-                axisY.min = 0
-            }
-            else
-            {
-
-                axisY.min = min
-            }
-            if (max == y_MIN_DEFAULT || max == y_MAX_DEFAULT) 
-            {
-                axisY.max = 1
-            }
-            else
-            {
-                axisY.max = max
-            }
-            if (axisY.min == axisY.max) 
-            {
-                axisY.min = min - 1
-                axisY.max = max + 1
-            }
-            if (axisY.min > axisY.max) 
-            {
-                axisY.min = max
-                axisY.max = min
-            }
+            var axesLimits = checkAxes(min, max)
+            axisY.min = axesLimits.min
+            axisY.max = axesLimits.max
             if (niceNumbers) {
                 axisY.applyNiceNumbers()
             }
@@ -293,22 +269,43 @@ ChartView {
     function setXAxis(min, max, force = false) {
         // If axes has been set manually and forced is not set, do not change
         if (force || !manuallySetAxes) {
-            if (min == x_MIN_DEFAULT || min == x_MAX_DEFAULT) 
-            {
-                dateTimeAxisX.min = 0
-            }
-            else
-            {
-                dateTimeAxisX.min = min
-            }
-            if (max == x_MIN_DEFAULT || max == x_MAX_DEFAULT) 
-            {
-                dateTimeAxisX.max = 1
-            }
-            else
-            {
-                dateTimeAxisX.max = max
-            }
+            var axesLimits = checkAxes(min, max)
+            dateTimeAxisX.min = axesLimits.min
+            dateTimeAxisX.max = axesLimits.max
+        }
+    }
+
+    function checkAxes(min, max) {
+        var axisMin, axisMax
+        if (min == y_MIN_DEFAULT || min == y_MAX_DEFAULT) 
+        {
+            axisMin = 0
+        }
+        else
+        {
+            axisMin = min
+        }
+        if (max == y_MIN_DEFAULT || max == y_MAX_DEFAULT) 
+        {
+            axisMax = 1
+        }
+        else
+        {
+            axisMax = max
+        }
+        if (axisMin == axisMax) 
+        {
+            axisMin = min - 1
+            axisMax = max + 1
+        }
+        else if (axisMin > axisMax) 
+        {
+            axisMin = max
+            axisMax = min
+        }
+        return  {
+            min: axisMin,
+            max: axisMax
         }
     }
 
