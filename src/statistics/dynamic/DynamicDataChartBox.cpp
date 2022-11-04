@@ -115,9 +115,13 @@ void DynamicDataChartBox::recalculate_y_axis()
     // For each series set max and min values as set values
     for (std::pair<quint64, DataModel*> series : series_)
     {
-        // Note: time_to_ could be used to calculate it, as it would be the same as max time
-        std::pair<qreal, qreal> limits = series.second->limit_y_value(time_from);
-        newYValue(limits.first);
-        newYValue(limits.second);
+        // Check only the models with values
+        if (series.second->get_size())
+        {
+            // Note: time_to_ could be used to calculate it, as it would be the same as max time
+            std::pair<qreal, qreal> limits = series.second->limit_y_value(time_from);
+            newYValue(limits.first);
+            newYValue(limits.second);
+        }
     }
 }

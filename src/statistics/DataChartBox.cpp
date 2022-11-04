@@ -129,37 +129,21 @@ void DataChartBox::update(
 
 qreal DataChartBox::axisYMax() const
 {
-    if (axisYMax_ == Y_MAX_DEFAULT)
-    {
-        return 1;
-    }
     return axisYMax_;
 }
 
 qreal DataChartBox::axisYMin() const
 {
-    if (axisYMin_ == Y_MIN_DEFAULT)
-    {
-        return 0;
-    }
     return axisYMin_;
 }
 
 quint64 DataChartBox::axisXMax() const
 {
-    if (axisXMax_ == X_MAX_DEFAULT)
-    {
-        return 1;
-    }
     return axisXMax_;
 }
 
 quint64 DataChartBox::axisXMin() const
 {
-    if (axisXMin_ == X_MIN_DEFAULT)
-    {
-        return 0;
-    }
     return axisXMin_;
 }
 
@@ -204,27 +188,14 @@ void DataChartBox::setAxisXMin(
 void DataChartBox::newYValue(
         qreal y)
 {
-    if (y != 0)
+    if (y > axisYMax_)
     {
-        if (axisYMax_ == Y_MAX_DEFAULT)
-        {
-            setAxisYMax(0);
-        }
+        setAxisYMax(y);
+    }
 
-        if (axisYMin_ == Y_MIN_DEFAULT)
-        {
-            setAxisYMin(0);
-        }
-
-        if (y > axisYMax_)
-        {
-            setAxisYMax(y);
-        }
-
-        if (y < axisYMin_)
-        {
-            setAxisYMin(y);
-        }
+    if (y < axisYMin_)
+    {
+        setAxisYMin(y);
     }
 }
 
@@ -283,8 +254,12 @@ void DataChartBox::recalculate_y_axis()
     // For each series set max and min values as set values
     for (std::pair<quint64, DataModel*> series : series_)
     {
-        std::pair<qreal, qreal> limits = series.second->limit_y_value();
-        newYValue(limits.first);
-        newYValue(limits.second);
+        // Check only the models with values
+        if (series.second->get_size())
+        {
+            std::pair<qreal, qreal> limits = series.second->limit_y_value();
+            newYValue(limits.first);
+            newYValue(limits.second);
+        }
     }
 }
