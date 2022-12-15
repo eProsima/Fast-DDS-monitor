@@ -8,6 +8,17 @@ This release includes the following **bug fixes**:
 
 * Fix error in y-axis resize that went to infinite.
 
+This release includes the following new **internal changes**:
+
+* Upgrade
+  `Fast DDS v2.8.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.8.0>`_
+  to
+  `Fast DDS v2.9.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.9.0>`_.
+
+* Upgrade
+  `Fast DDS Statistics Backend v0.7.1 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v0.7.1>`_.
+  to
+  `Fast DDS Statistics Backend v0.8.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v0.8.0>`_.
 
 #################
 Previous versions
