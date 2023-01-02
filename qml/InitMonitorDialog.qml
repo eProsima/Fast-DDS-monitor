@@ -44,7 +44,7 @@ Dialog {
             editable: true
             value: 0
             from: 0
-            to: 999
+            to: 232
             Layout.alignment: Qt.AlignTop
             Keys.onReturnPressed: dialogInitMonitor.accept()
         }
