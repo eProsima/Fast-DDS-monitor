@@ -112,17 +112,6 @@ public slots:
     void recalculate_y_axis(
             quint64 chartbox_id);
 
-    //! Get max qreal possible number
-    static qreal get_max_real();
-
-    //! Get max qreal possible number
-    static qreal get_min_real();
-
-    //! Get max quint64 possible number
-    static quint64 get_max_uint();
-
-    //! Get max quint64 possible number
-    static quint64 get_min_uint();
 
 protected:
 

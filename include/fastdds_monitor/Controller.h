@@ -113,6 +113,18 @@ public slots:
             QString entity_kind,
             QString entity_model_id);
 
+    //! Get max qreal possible number
+    static qreal get_max_real();
+
+    //! Get max qreal possible number
+    static qreal get_min_real();
+
+    //! Get max quint64 possible number
+    static quint64 get_max_uint();
+
+    //! Get max quint64 possible number
+    static quint64 get_min_uint();
+
     //! Slot called when chart is to be built
     QtCharts::QVXYModelMapper* add_statistics_data(
             quint64 chartbox_id,

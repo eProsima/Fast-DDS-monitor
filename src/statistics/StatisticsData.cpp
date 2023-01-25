@@ -226,23 +226,3 @@ void StatisticsData::recalculate_y_axis(
 
     it->second->recalculate_y_axis();
 }
-
-qreal StatisticsData::get_max_real()
-{
-    return std::numeric_limits<qreal>::max();
-}
-
-qreal StatisticsData::get_min_real()
-{
-    return std::numeric_limits<qreal>::lowest();
-}
-
-quint64 StatisticsData::get_max_uint()
-{
-    return std::numeric_limits<quint64>::max();
-}
-
-quint64 StatisticsData::get_min_uint()
-{
-    return std::numeric_limits<quint64>::min();
-}
