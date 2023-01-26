@@ -111,6 +111,26 @@ void Controller::clear_issues()
     engine_->clear_issues();
 }
 
+qreal Controller::get_max_real()
+{
+    return std::numeric_limits<qreal>::max();
+}
+
+qreal Controller::get_min_real()
+{
+    return std::numeric_limits<qreal>::lowest();
+}
+
+quint64 Controller::get_max_uint()
+{
+    return std::numeric_limits<quint64>::max();
+}
+
+quint64 Controller::get_min_uint()
+{
+    return std::numeric_limits<quint64>::min();
+}
+
 QtCharts::QVXYModelMapper* Controller::add_statistics_data(
         quint64 chartbox_id,
         QString data_kind,

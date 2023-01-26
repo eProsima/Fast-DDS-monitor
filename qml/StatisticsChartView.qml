@@ -38,11 +38,10 @@ ChartView {
     property var tooltipItem: tooltip
     property bool manuallySetAxes: false
 
-    // intValdiator: IntValidator {}
-    property real y_MAX_DEFAULT: dynamicData.get_min_real()
-    property real y_MIN_DEFAULT: dynamicData.get_max_real()
-    property real x_MAX_DEFAULT: dynamicData.get_min_uint()
-    property real x_MIN_DEFAULT: dynamicData.get_max_uint()
+    property real y_MAX_DEFAULT: controller.get_min_real()
+    property real y_MIN_DEFAULT: controller.get_max_real()
+    property real x_MAX_DEFAULT: controller.get_min_uint()
+    property real x_MIN_DEFAULT: controller.get_max_uint()
 
     signal clearedChart()
 
@@ -277,7 +276,7 @@ ChartView {
 
     function checkAxes(min, max) {
         var axisMin, axisMax
-        if (min == y_MIN_DEFAULT || min == y_MAX_DEFAULT) 
+        if (min == y_MIN_DEFAULT || min == y_MAX_DEFAULT)
         {
             axisMin = 0
         }
@@ -285,7 +284,7 @@ ChartView {
         {
             axisMin = min
         }
-        if (max == y_MIN_DEFAULT || max == y_MAX_DEFAULT) 
+        if (max == y_MIN_DEFAULT || max == y_MAX_DEFAULT)
         {
             axisMax = 1
         }
@@ -293,12 +292,12 @@ ChartView {
         {
             axisMax = max
         }
-        if (axisMin == axisMax) 
+        if (axisMin == axisMax)
         {
             axisMin = min - 1
             axisMax = max + 1
         }
-        else if (axisMin > axisMax) 
+        else if (axisMin > axisMax)
         {
             axisMin = max
             axisMax = min
