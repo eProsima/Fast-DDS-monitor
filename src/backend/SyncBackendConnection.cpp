@@ -688,6 +688,11 @@ void SyncBackendConnection::dump(
     return StatisticsBackend::dump_database(file, clear);
 }
 
+void SyncBackendConnection::clear_entities()
+{
+    return StatisticsBackend::clear_inactive_entities();
+}
+
 bool SyncBackendConnection::data_available(
         DataKind data_kind,
         EntityId source_entity_id,

@@ -102,6 +102,9 @@ public slots:
     //! Slot called when refresh button is pressed
     void refresh_click();
 
+    //! Slot to remove all inactive entities from database.
+    void clear_entities();
+
     //! Slot to clear the monitor logging information
     void clear_log();
 

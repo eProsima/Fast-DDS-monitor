@@ -305,6 +305,11 @@ public:
     void refresh_engine();
 
     /**
+     * @brief Erase the inactive entities from database.
+     */
+    void clear_entities();
+
+    /**
      * @brief Erase the callback log list
      */
     void clear_log();

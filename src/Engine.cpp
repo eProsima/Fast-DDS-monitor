@@ -805,6 +805,11 @@ void Engine::refresh_engine()
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
 }
 
+void Engine::clear_entities()
+{
+    backend_connection_.clear_entities();
+}
+
 void Engine::clear_log()
 {
     clear_callback_log_();

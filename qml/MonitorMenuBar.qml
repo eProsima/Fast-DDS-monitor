@@ -70,7 +70,9 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: qsTr("Clear inactive entities")
-            onTriggered: clearEntitiesDialog.open()
+            onTriggered: {
+                controller.clear_entities()
+            }
         }
         MenuSeparator { }
         Action {

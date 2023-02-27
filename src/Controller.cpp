@@ -101,6 +101,11 @@ void Controller::refresh_click()
     engine_->refresh_engine();
 }
 
+void Controller::clear_entities()
+{
+    engine_->clear_entities();
+}
+
 void Controller::clear_log()
 {
     engine_->clear_log();

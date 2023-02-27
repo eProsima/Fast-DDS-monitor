@@ -156,6 +156,9 @@ public:
     std::vector<std::pair<EntityKind, EntityKind>> get_data_supported_entity_kinds(
             DataKind data_kind);
 
+    //! Remove all inactive entities from database.
+    void clear_entities();
+
     /**********
     * CREATE *
     **********/
