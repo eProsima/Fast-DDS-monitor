@@ -95,6 +95,10 @@ ApplicationWindow {
         id: dialogDSInitMonitor
     }
 
+    DumpFileDialog {
+        id: dumpDialog
+    }
+
     HistoricDataKindDialog {
         id: dataKindDialog
         onCreateChart: panels.createHistoricChart(dataKind)

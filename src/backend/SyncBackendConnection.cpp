@@ -681,6 +681,12 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     }
 }
 
+void SyncBackendConnection::dump(
+        const std::string file)
+{
+    return StatisticsBackend::dump_database(file, true);
+}
+
 bool SyncBackendConnection::data_available(
         DataKind data_kind,
         EntityId source_entity_id,

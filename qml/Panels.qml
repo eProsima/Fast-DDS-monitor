@@ -142,5 +142,3 @@ RowLayout {
         leftPanel.changeExplorerEntityInfo(status)
     }
 }
-
-

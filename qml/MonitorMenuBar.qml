@@ -43,6 +43,11 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
+            text: qsTr("Dump database")
+            onTriggered: dumpDialog.open()
+        }
+        MenuSeparator { }
+        Action {
             text: qsTr("&Quit")
             onTriggered: Qt.quit()
         }

@@ -268,6 +268,13 @@ void Controller::save_csv(
         label_names);
 }
 
+void Controller::dump(
+        QString file_name)
+{
+    engine_->dump(
+        file_name);
+}
+
 QStringList Controller::ds_supported_transports()
 {
     return utils::to_QStringList(engine_->ds_supported_transports());

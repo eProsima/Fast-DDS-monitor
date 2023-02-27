@@ -211,6 +211,14 @@ public slots:
             QStringList chartbox_names,
             QStringList label_names);
 
+    /**
+     * @brief Dump Fast DDS Statistics Backend's database to a file.
+     *
+     * @param file_name The name of the file where the database is dumped.
+     */
+    void dump(
+            QString file_name);
+
     //! Retrive a string list containing the transport protocols supported by the Statistics Backend Discovery Server.
     QStringList ds_supported_transports();
 

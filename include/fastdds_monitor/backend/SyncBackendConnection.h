@@ -134,6 +134,10 @@ public:
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
 
+    //! Dump Backend's database to a file
+    void dump(
+        const std::string file);
+
     //! Returns whether data points are available.
     bool data_available(
             DataKind data_kind,

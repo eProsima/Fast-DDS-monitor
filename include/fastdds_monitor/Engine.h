@@ -398,6 +398,14 @@ public:
             const QStringList& chartbox_names,
             const QStringList& label_names);
 
+    /**
+     * @brief Dump Fast DDS Statistics Backend's database to a file.
+     *
+     * @param file_name The name of the file where the database is dumped.
+     */
+    void dump(
+            const QString& file_name);
+
     //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
     std::vector<std::string> ds_supported_transports();
 
