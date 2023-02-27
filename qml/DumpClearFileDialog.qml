@@ -20,8 +20,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Dialogs 1.3
 
 FileDialog {
-    id: dumpDialog
-    title: qsTr("Dump database")
+    id: dumpClearDialog
+    title: qsTr("Dump and clear")
     folder: shortcuts.documents
     selectMultiple: false
     selectExisting: false
@@ -31,7 +31,7 @@ FileDialog {
 
     onAccepted: {
         controller.dump(
-            dumpDialog.fileUrl,
-            false)
+            dumpClearDialog.fileUrl,
+            true)
     }
 }

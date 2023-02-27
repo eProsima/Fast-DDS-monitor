@@ -43,8 +43,12 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
-            text: qsTr("Dump database")
+            text: qsTr("Dump")
             onTriggered: dumpDialog.open()
+        }
+        Action {
+            text: qsTr("Dump and clear")
+            onTriggered: dumpClearDialog.open()
         }
         MenuSeparator { }
         Action {
@@ -62,6 +66,11 @@ MenuBar {
         Action {
             text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
+        }
+        MenuSeparator { }
+        Action {
+            text: qsTr("Clear inactive entities")
+            onTriggered: clearEntitiesDialog.open()
         }
         MenuSeparator { }
         Action {

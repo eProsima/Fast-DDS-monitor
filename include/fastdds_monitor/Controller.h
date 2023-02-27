@@ -215,9 +215,11 @@ public slots:
      * @brief Dump Fast DDS Statistics Backend's database to a file.
      *
      * @param file_name The name of the file where the database is dumped.
+     * @param clear If true, clear all the statistics data of all entities.
      */
     void dump(
-            QString file_name);
+            QString file_name,
+            bool clear);
 
     //! Retrive a string list containing the transport protocols supported by the Statistics Backend Discovery Server.
     QStringList ds_supported_transports();

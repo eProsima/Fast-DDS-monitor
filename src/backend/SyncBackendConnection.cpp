@@ -682,9 +682,10 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
 }
 
 void SyncBackendConnection::dump(
-        const std::string file)
+        const std::string file,
+        bool clear)
 {
-    return StatisticsBackend::dump_database(file, true);
+    return StatisticsBackend::dump_database(file, clear);
 }
 
 bool SyncBackendConnection::data_available(

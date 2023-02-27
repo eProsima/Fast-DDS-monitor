@@ -1243,10 +1243,11 @@ void Engine::save_csv(
 }
 
 void Engine::dump(
-        const QString& file_name)
+        const QString& file_name,
+        bool clear)
 {
     std::string file = utils::to_string(file_name).substr(7);   // file_name without file://
-    backend_connection_.dump(file);
+    backend_connection_.dump(file, clear);
 }
 
 std::vector<std::string> Engine::ds_supported_transports()

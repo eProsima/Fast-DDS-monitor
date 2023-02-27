@@ -269,10 +269,12 @@ void Controller::save_csv(
 }
 
 void Controller::dump(
-        QString file_name)
+        QString file_name,
+        bool clear)
 {
     engine_->dump(
-        file_name);
+        file_name,
+        clear);
 }
 
 QStringList Controller::ds_supported_transports()

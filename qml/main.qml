@@ -99,6 +99,10 @@ ApplicationWindow {
         id: dumpDialog
     }
 
+    DumpClearFileDialog {
+        id: dumpClearDialog
+    }
+
     HistoricDataKindDialog {
         id: dataKindDialog
         onCreateChart: panels.createHistoricChart(dataKind)

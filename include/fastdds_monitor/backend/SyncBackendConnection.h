@@ -136,7 +136,8 @@ public:
 
     //! Dump Backend's database to a file
     void dump(
-        const std::string file);
+        const std::string file,
+        bool clear);
 
     //! Returns whether data points are available.
     bool data_available(
