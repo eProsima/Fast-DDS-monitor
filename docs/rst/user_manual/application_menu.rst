@@ -57,6 +57,20 @@ Export to CSV
 Export all the data displayed in the current Fast DDS Monitor session to a CSV file.
 Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
 
+.. _dump_button:
+
+Dump
+----
+
+Dump the information from the database to a JSON file.
+Please refer to section :ref:`export_data` for more information on the format of the generated JSON file.
+
+.. _dump_clear_button:
+
+Dump and clear
+--------------
+
+Same as the previous one but clearing the the statistics data of all the entities.
 
 Quit
 ----
@@ -81,6 +95,13 @@ Display Dynamic Data
 --------------------
 Create a new dynamic *Chartbox* in the central panel.
 To know how to configure a dynamic *Chartbox*, please refer to the section :ref:`dynamic_series`.
+
+.. _clear_inactive_entities:
+
+Clear inactive entities
+-----------------------
+
+This button remove all the inactive entities from the database.
 
 .. _refresh_button:
 

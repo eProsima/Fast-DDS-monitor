@@ -26,8 +26,8 @@ FileDialog {
     selectMultiple: false
     selectExisting: false
     selectFolder: false
-    defaultSuffix: ".csv"
-    nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
+    defaultSuffix: ".json"
+    nameFilters: [ "JSON files (*.json)", "All files (*)" ]
 
     onAccepted: {
         controller.dump(
