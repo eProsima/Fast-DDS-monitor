@@ -48,7 +48,7 @@ MenuBar {
         }
         Action {
             text: qsTr("Dump and clear")
-            onTriggered: dumpClearDialog.open()
+            onTriggered: dumpDialogClear.open()
         }
         MenuSeparator { }
         Action {

@@ -97,10 +97,12 @@ ApplicationWindow {
 
     DumpFileDialog {
         id: dumpDialog
+        clear: false
     }
 
-    DumpClearFileDialog {
-        id: dumpClearDialog
+    DumpFileDialog {
+        id: dumpDialogClear
+        clear: true
     }
 
     HistoricDataKindDialog {

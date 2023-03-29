@@ -70,7 +70,7 @@ Please refer to section :ref:`export_data` for more information on the format of
 Dump and clear
 --------------
 
-Same as the previous one but clearing the the statistics data of all the entities.
+Same as the previous one but clearing the statistics data of all the entities.
 
 Quit
 ----

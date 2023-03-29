@@ -120,4 +120,21 @@ QStringList to_QStringList(
     return string_list;
 }
 
+std::string erase_substr(
+    std::string substring,
+    const QString& file_name)
+{
+    std::string file = to_string(file_name);
+    // Check if QML format and erase first substring dependeing on SO
+    if (file.rfind(substring, 0) == 0)
+    {
+#ifdef _WIN32
+        file.erase(0, 8);
+#else
+        file.erase(0, 7);
+#endif // ifdef _WIN32
+    }
+    return file;
+}
+
 } //namespace utils

@@ -20,7 +20,6 @@ import QtQuick.Controls 2.15
 import QtQuick.Dialogs 1.3
 
 FileDialog {
-    id: dumpDialog
     title: qsTr("Dump database")
     folder: shortcuts.documents
     selectMultiple: false
@@ -29,9 +28,18 @@ FileDialog {
     defaultSuffix: ".json"
     nameFilters: [ "JSON files (*.json)", "All files (*)" ]
 
+    property bool clear
+
     onAccepted: {
-        controller.dump(
-            dumpDialog.fileUrl,
-            false)
+        if (clear) {
+            controller.dump(
+                dumpDialogClear.fileUrl,
+                true)
+        } else {
+            controller.dump(
+                dumpDialog.fileUrl,
+                false)
+        }
     }
+
 }

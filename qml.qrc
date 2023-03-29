@@ -24,7 +24,6 @@
         <file>qml/HistoricDataKindDialog.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
         <file>qml/HistoricDisplayStatisticsDialog.qml</file>
-        <file>qml/DumpClearFileDialog.qml</file>
         <file>qml/DumpFileDialog.qml</file>
         <file>qml/DynamicDataKindDialog.qml</file>
         <file>qml/DynamicDisplayStatisticsDialog.qml</file>

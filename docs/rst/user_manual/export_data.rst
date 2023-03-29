@@ -53,9 +53,9 @@ The monitor gives you the option to dump the data from the database to a JSON fi
 Thus the monitor provides the user two options:
 
   * Dump.
-    Explained in section :ref:`_dump_button`.
+    Explained in section :ref:`dump_button`.
   * Dump and clear.
-    Explained in section :ref:`_dump_clear_button`.
+    Explained in section :ref:`dump_clear_button`.
 
 Format of the JSON file
 -----------------------

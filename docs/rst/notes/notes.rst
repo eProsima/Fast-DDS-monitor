@@ -1,5 +1,11 @@
 .. _release_notes:
 
+#####
+Notes
+#####
+
+.. include:: forthcoming_version.rst
+
 ##############
 Version v1.3.0
 ##############
