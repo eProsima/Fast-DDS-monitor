@@ -34,7 +34,7 @@ bool HandlerCSV::write_series_to_csv(
 {
     /////
     // CREATE FILE NAME
-    std::string file_name_ = utils::erase_substr("file:///", file_name);
+    std::string file_name_ = utils::erase_substr("file://", file_name);
 
     /////
     // CREATE CSV DATA

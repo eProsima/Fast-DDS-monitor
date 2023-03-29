@@ -122,9 +122,9 @@ QStringList to_QStringList(
 
 std::string erase_substr(
         std::string substring,
-        const QString& file_name)
+        const QString& st)
 {
-    std::string file = to_string(file_name);
+    std::string file = to_string(st);
     // Check if QML format and erase first substring dependeing on SO
     if (file.rfind(substring, 0) == 0)
     {
