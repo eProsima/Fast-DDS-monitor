@@ -121,7 +121,6 @@ QStringList to_QStringList(
 }
 
 std::string erase_file_substr(
-        std::string substring,
         const QString& st)
 {
     std::string file = to_string(st);

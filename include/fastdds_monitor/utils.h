@@ -71,7 +71,6 @@ QStringList to_QStringList(
 
 //! Cast a QString to std string removing "file://" from the string
 std::string erase_file_substr(
-        std::string substring,
         const QString& file_name);
 } //namespace utils
 
