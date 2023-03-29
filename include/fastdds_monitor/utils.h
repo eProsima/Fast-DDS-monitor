@@ -70,8 +70,8 @@ QStringList to_QStringList(
         const std::vector<std::string>& vector);
 
 std::string erase_substr(
-    std::string substring,
-    const QString& file_name);
+        std::string substring,
+        const QString& file_name);
 } //namespace utils
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_UTILS_H

@@ -121,8 +121,8 @@ QStringList to_QStringList(
 }
 
 std::string erase_substr(
-    std::string substring,
-    const QString& file_name)
+        std::string substring,
+        const QString& file_name)
 {
     std::string file = to_string(file_name);
     // Check if QML format and erase first substring dependeing on SO
