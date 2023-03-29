@@ -120,13 +120,13 @@ QStringList to_QStringList(
     return string_list;
 }
 
-std::string erase_substr(
+std::string erase_file_substr(
         std::string substring,
         const QString& st)
 {
     std::string file = to_string(st);
     // Check if QML format and erase first substring dependeing on SO
-    if (file.rfind(substring, 0) == 0)
+    if (file.rfind("file://", 0) == 0)
     {
 #ifdef _WIN32
         file.erase(0, 8);

@@ -1251,7 +1251,7 @@ void Engine::dump(
         const QString& file_name,
         bool clear)
 {
-    std::string file = utils::erase_substr("file://", file_name);   // file_name without file://
+    std::string file = utils::erase_file_substr(file_name);   // file_name without file://
     backend_connection_.dump(file, clear);
 }
 
