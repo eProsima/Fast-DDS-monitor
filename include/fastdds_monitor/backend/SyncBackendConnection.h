@@ -134,6 +134,11 @@ public:
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
 
+    //! Dump Backend's database to a file
+    void dump(
+            const std::string file,
+            bool clear);
+
     //! Returns whether data points are available.
     bool data_available(
             DataKind data_kind,
@@ -150,6 +155,9 @@ public:
     //! Get the supported entity kinds of a given data kind
     std::vector<std::pair<EntityKind, EntityKind>> get_data_supported_entity_kinds(
             DataKind data_kind);
+
+    //! Remove all inactive entities from database.
+    void clear_entities();
 
     /**********
     * CREATE *

@@ -69,6 +69,9 @@ std::string double_to_string(
 QStringList to_QStringList(
         const std::vector<std::string>& vector);
 
+//! Cast a QString to std string removing "file://" from the string
+std::string erase_file_substr(
+        const QString& file_name);
 } //namespace utils
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_UTILS_H

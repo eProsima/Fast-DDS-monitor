@@ -305,6 +305,11 @@ public:
     void refresh_engine();
 
     /**
+     * @brief Erase the inactive entities from database.
+     */
+    void clear_entities();
+
+    /**
      * @brief Erase the callback log list
      */
     void clear_log();
@@ -397,6 +402,16 @@ public:
             const QStringList& data_kinds,
             const QStringList& chartbox_names,
             const QStringList& label_names);
+
+    /**
+     * @brief Dump Fast DDS Statistics Backend's database to a file.
+     *
+     * @param file_name The name of the file where the database is dumped.
+     * @param clear If true, clear all the statistics data of all entities.
+     */
+    void dump(
+            const QString& file_name,
+            bool clear);
 
     //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
     std::vector<std::string> ds_supported_transports();

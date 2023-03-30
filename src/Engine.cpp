@@ -805,6 +805,11 @@ void Engine::refresh_engine()
     entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID);
 }
 
+void Engine::clear_entities()
+{
+    backend_connection_.clear_entities();
+}
+
 void Engine::clear_log()
 {
     clear_callback_log_();
@@ -1240,6 +1245,14 @@ void Engine::save_csv(
     {
         qWarning() << "Error writing CSV file " << file_name;
     }
+}
+
+void Engine::dump(
+        const QString& file_name,
+        bool clear)
+{
+    std::string file = utils::erase_file_substr(file_name);   // file_name without file://
+    backend_connection_.dump(file, clear);
 }
 
 std::vector<std::string> Engine::ds_supported_transports()

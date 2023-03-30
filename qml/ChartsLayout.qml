@@ -414,4 +414,3 @@ Rectangle {
         gridView.currentIndex = 0
     }
 }
-

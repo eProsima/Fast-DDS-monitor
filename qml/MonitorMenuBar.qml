@@ -43,6 +43,15 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
+            text: qsTr("Dump")
+            onTriggered: dumpDialog.open()
+        }
+        Action {
+            text: qsTr("Dump and clear")
+            onTriggered: dumpDialogClear.open()
+        }
+        MenuSeparator { }
+        Action {
             text: qsTr("&Quit")
             onTriggered: Qt.quit()
         }
@@ -57,6 +66,13 @@ MenuBar {
         Action {
             text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
+        }
+        MenuSeparator { }
+        Action {
+            text: qsTr("Clear inactive entities")
+            onTriggered: {
+                controller.clear_entities()
+            }
         }
         MenuSeparator { }
         Action {

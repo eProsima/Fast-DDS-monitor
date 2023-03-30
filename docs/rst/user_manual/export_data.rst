@@ -44,3 +44,44 @@ This section presents a table with the format of the CSV file containing the exp
         - <Series name>
     *   - <unix_time>
         - <data_value>
+
+Export database in a JSON file
+==============================
+
+The monitor gives you the option to dump the data from the database to a JSON file.
+
+Thus the monitor provides the user two options:
+
+  * Dump.
+    Explained in section :ref:`dump_button`.
+  * Dump and clear.
+    Explained in section :ref:`dump_clear_button`.
+
+Format of the JSON file
+-----------------------
+
+This section presents a JSON with the format of the JSON file containing the exported data.
+
+.. code-block:: json
+
+    {
+        "datareaders":{},
+        "datawriters":{},
+        "domains": {
+            "0": {
+                "alias":"0",
+                "alive":true,
+                "metatraffic":false
+                "name":"0",
+                "participants":[],
+                "topics":[]
+            }
+        },
+        "hosts":{},
+        "locators":{},
+        "participants":{},
+        "processes":{},
+        "topics":{},
+        "users":{},
+        "users":{},
+    }

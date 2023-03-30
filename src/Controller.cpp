@@ -101,6 +101,11 @@ void Controller::refresh_click()
     engine_->refresh_engine();
 }
 
+void Controller::clear_entities()
+{
+    engine_->clear_entities();
+}
+
 void Controller::clear_log()
 {
     engine_->clear_log();
@@ -266,6 +271,15 @@ void Controller::save_csv(
         data_kinds,
         chartbox_names,
         label_names);
+}
+
+void Controller::dump(
+        QString file_name,
+        bool clear)
+{
+    engine_->dump(
+        file_name,
+        clear);
 }
 
 QStringList Controller::ds_supported_transports()

@@ -34,17 +34,7 @@ bool HandlerCSV::write_series_to_csv(
 {
     /////
     // CREATE FILE NAME
-    std::string file_name_ = utils::to_string(file_name);
-
-    // Check if QML format and erase first substring dependeing on SO
-    if (file_name_.rfind("file:///", 0) == 0)
-    {
-#ifdef _WIN32
-        file_name_.erase(0, 8);
-#else
-        file_name_.erase(0, 7);
-#endif // ifdef _WIN32
-    }
+    std::string file_name_ = utils::erase_file_substr(file_name);
 
     /////
     // CREATE CSV DATA
