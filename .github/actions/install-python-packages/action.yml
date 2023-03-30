@@ -16,5 +16,5 @@ runs:
           vcstool \
           GitPython \
           setuptools \
-          gcovr
+          gcovr==5
       shell: bash
