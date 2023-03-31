@@ -51,6 +51,7 @@
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
         <file>qml/QosView.qml</file>
+        <file>qml/ScheduleClearDialog.qml</file>
         <file>qml/SetAxesDialog.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/HistoricStatisticsChartView.qml</file>

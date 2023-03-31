@@ -1,0 +1,124 @@
+// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+//
+// This file is part of eProsima Fast DDS Monitor.
+//
+// eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+
+import QtQuick 2.0
+import QtQuick.Dialogs 1.2
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import Theme 1.0
+
+Dialog {
+    id: scheduleClear
+    modal: false
+    title: "Remove old data"
+    standardButtons: Dialog.Ok | Dialog.Cancel
+
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
+
+    property bool deleteEntities: false
+    property bool deleteData: false
+
+    signal createChart(bool entities, bool data, int updateData, int updateClear)
+
+    onAccepted: {
+        // call function!! here
+        createChart(deleteEntities, deleteData, updatePeriodData.value, updatePeriodClear.value)
+    }
+
+    GridLayout{
+
+        columns: 2
+        rowSpacing: 20
+
+        Label {
+            text: "Delete entities"
+            InfoToolTip {
+                text: "Remove all the inactive entities\n" +
+                      "from the database."
+            }
+        }
+        CheckBox {
+            id: entities
+            checked: false
+            indicator.width: 20
+            indicator.height: 20
+            onCheckedChanged: {
+                if (checked) {
+                    deleteEntities = true
+
+                } else {
+                    deleteEntities = false
+                }
+            }
+        }
+
+        Label {
+            text: "Delete data"
+            InfoToolTip {
+                text: "Clear the statistics data \n" +
+                      "of all the entities."
+            }
+        }
+        RowLayout {
+            id: data
+            CheckBox {
+                id: dataCheck
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckedChanged: {
+                    if (checked) {
+                        deleteData = true
+
+                    } else {
+                        deleteData = false
+                    }
+                }
+            }
+            RowLayout {
+                SpinBox {
+                    id: updatePeriodData
+                    editable: true
+                    from: 1
+                    value: 5
+                }
+                Label {
+                    text: "seconds"
+                }
+            }
+        }
+
+        Label {
+            text: qsTr("Update period: ")
+            InfoToolTip {
+                text: "Period to update clear\n"
+            }
+        }
+        RowLayout {
+            SpinBox {
+                id: updatePeriodClear
+                editable: true
+                from: 1
+                value: 5
+            }
+            Label {
+                text: "seconds"
+            }
+        }
+    }
+}

@@ -69,6 +69,13 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
+            text: qsTr("Schedule clear")
+            onTriggered: {
+                scheduleClear.open()
+            }
+        }
+        MenuSeparator { }
+        Action {
             text: qsTr("Clear inactive entities")
             onTriggered: {
                 controller.clear_entities()

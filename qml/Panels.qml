@@ -122,6 +122,10 @@ RowLayout {
         chartsLayout.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod)
     }
 
+    function createScheduleClear(entities, data, updateData, updateClear){
+        chartsLayout.createScheduleClear(entities, data, updateData, updateClear)
+    }
+
     function saveAllCSV() {
         chartsLayout.saveAllCSV()
     }
