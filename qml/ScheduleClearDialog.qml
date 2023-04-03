@@ -103,8 +103,9 @@ Dialog {
             text: "Time offset: "
             enabled: deleteData
             InfoToolTip {
-                text: "Maximum time to stop \n" +
-                      "removing data."
+                text: "Time offset from current \n" +
+                      "time from which to delete \n" +
+                      "old data. "
             }
         }
         GridLayout {
@@ -131,7 +132,7 @@ Dialog {
             RowLayout {
                 TextField {
                     id: updatePeriodClearDataMinutes
-                    text: qsTr("01")
+                    text: qsTr("05")
                     placeholderText: qsTr("00")
                     selectByMouse: true
                     selectionColor: Theme.eProsimaLightBlue
@@ -175,7 +176,7 @@ Dialog {
         Label {
             text: qsTr("Delete interval: ")
             InfoToolTip {
-                text: "Interval between deletes. \n"
+                text: "Interval between deletes. "
             }
         }
         GridLayout {
@@ -201,7 +202,7 @@ Dialog {
             RowLayout {
                 TextField {
                     id: updatePeriodClearMinutes
-                    text: qsTr("01")
+                    text: qsTr("05")
                     placeholderText: qsTr("00")
                     selectByMouse: true
                     selectionColor: Theme.eProsimaLightBlue
