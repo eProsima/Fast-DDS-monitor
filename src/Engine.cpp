@@ -810,6 +810,14 @@ void Engine::clear_entities()
     backend_connection_.clear_entities();
 }
 
+void Engine::clear_statistics_data(
+    quint64 time_to)
+{
+    // Get time into Timestamp
+    backend::Timestamp time_to_timestamp_ = backend::Timestamp(std::chrono::milliseconds(time_to));
+    backend_connection_.clear_statistics_data(time_to_timestamp_);
+}
+
 void Engine::clear_log()
 {
     clear_callback_log_();

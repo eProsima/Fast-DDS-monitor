@@ -33,12 +33,11 @@ Dialog {
     property bool deleteEntities: false
     property bool deleteData: false
 
-    signal createChart(bool entities, bool data, int updateData, int updateClear)
+    // signal createChart(bool entities, bool data, int updateData, int updateClear)
 
-    onAccepted: {
-        // call function!! here
-        createChart(deleteEntities, deleteData, updatePeriodData.value, updatePeriodClear.value)
-    }
+    // onAccepted: {
+
+    // }
 
     GridLayout{
 
@@ -90,15 +89,57 @@ Dialog {
                     }
                 }
             }
-            RowLayout {
-                SpinBox {
-                    id: updatePeriodData
-                    editable: true
-                    from: 1
-                    value: 5
+            GridLayout {
+                id: updatePeriodClearData
+                columns: 3
+
+                RowLayout {
+                    TextField {
+                        id: updatePeriodClearDataHours
+                        text: qsTr("00")
+                        placeholderText: qsTr("00")
+                        selectByMouse: true
+                        selectionColor: Theme.eProsimaLightBlue
+                        validator: IntValidator {
+                            bottom: 0
+                        }
+                        inputMethodHints: Qt.ImhDigitsOnly
+                    }
+                    Label {
+                        text: "Hours"
+                    }
                 }
-                Label {
-                    text: "seconds"
+                RowLayout {
+                    TextField {
+                        id: updatePeriodClearDataMinutes
+                        text: qsTr("01")
+                        placeholderText: qsTr("00")
+                        selectByMouse: true
+                        selectionColor: Theme.eProsimaLightBlue
+                        validator: IntValidator {
+                            bottom: 0
+                        }
+                        inputMethodHints: Qt.ImhDigitsOnly
+                    }
+                    Label {
+                        text: "Minutes"
+                    }
+                }
+                RowLayout {
+                    TextField {
+                        id: updatePeriodClearDataSeconds
+                        text: qsTr("00")
+                        placeholderText: qsTr("00")
+                        selectByMouse: true
+                        selectionColor: Theme.eProsimaLightBlue
+                        validator: IntValidator {
+                            bottom: 0
+                        }
+                        inputMethodHints: Qt.ImhDigitsOnly
+                    }
+                    Label {
+                        text: "Seconds"
+                    }
                 }
             }
         }
@@ -109,16 +150,101 @@ Dialog {
                 text: "Period to update clear\n"
             }
         }
-        RowLayout {
-            SpinBox {
-                id: updatePeriodClear
-                editable: true
-                from: 1
-                value: 5
+        // RowLayout {
+        //     SpinBox {
+        //         id: updatePeriodClear
+        //         editable: true
+        //         from: 1
+        //         value: 5
+        //     }
+        //     Label {
+        //         text: "seconds"
+        //     }
+        // }
+        GridLayout {
+            id: updatePeriodClear
+            columns: 3
+
+            RowLayout {
+                TextField {
+                    id: updatePeriodClearHours
+                    text: qsTr("00")
+                    placeholderText: qsTr("00")
+                    selectByMouse: true
+                    selectionColor: Theme.eProsimaLightBlue
+                    validator: IntValidator {
+                        bottom: 0
+                    }
+                    inputMethodHints: Qt.ImhDigitsOnly
+                }
+                Label {
+                    text: "Hours"
+                }
             }
-            Label {
-                text: "seconds"
+            RowLayout {
+                TextField {
+                    id: updatePeriodClearMinutes
+                    text: qsTr("01")
+                    placeholderText: qsTr("00")
+                    selectByMouse: true
+                    selectionColor: Theme.eProsimaLightBlue
+                    validator: IntValidator {
+                        bottom: 0
+                    }
+                    inputMethodHints: Qt.ImhDigitsOnly
+                }
+                Label {
+                    text: "Minutes"
+                }
+            }
+            RowLayout {
+                TextField {
+                    id: updatePeriodClearSeconds
+                    text: qsTr("00")
+                    placeholderText: qsTr("00")
+                    selectByMouse: true
+                    selectionColor: Theme.eProsimaLightBlue
+                    validator: IntValidator {
+                        bottom: 0
+                    }
+                    inputMethodHints: Qt.ImhDigitsOnly
+                }
+                Label {
+                    text: "Seconds"
+                }
             }
         }
     }
+
+    function updatePeriodClearToSeconds() {
+        var hours = (updatePeriodClearHours.text === "") ? 0 : parseInt(updatePeriodClearHours.text)
+        var minutes = (updatePeriodClearMinutes.text === "") ? 0 : parseInt(updatePeriodClearMinutes.text)
+        var seconds = (updatePeriodClearSeconds.text === "") ? 0 : parseInt(updatePeriodClearSeconds.text)
+
+        return (hours*3600 + minutes*60 + seconds)
+    }
+
+    function updatePeriodClearDataToSeconds() {
+        var hours = (updatePeriodClearDataHours.text === "") ? 0 : parseInt(updatePeriodClearDataHours.text)
+        var minutes = (updatePeriodClearDataMinutes.text === "") ? 0 : parseInt(updatePeriodClearDataMinutes.text)
+        var seconds = (updatePeriodClearDataSeconds.text === "") ? 0 : parseInt(updatePeriodClearDataSeconds.text)
+
+        return (hours*3600 + minutes*60 + seconds)
+    }
+
+    Timer {
+        id:  refreshTimer
+        interval: updatePeriodClearToSeconds()
+        running: true
+        repeat: true
+        onTriggered: {
+            if (deleteEntities) {
+                controller.clear_entities()
+            }
+            if (deleteData) {
+                controller.clear_statistics_data(updatePeriodClearDataToSeconds())
+            }
+        }
+    }
+
 }

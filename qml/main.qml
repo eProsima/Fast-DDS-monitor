@@ -117,7 +117,7 @@ ApplicationWindow {
 
     ScheduleClearDialog {
         id: scheduleClear
-        onCreateChart: panels.createScheduleClear(entities, data, updateData, updateClear)
+        // onCreateChart: panels.createScheduleClear(entities, data, updateData, updateClear)
     }
 
     AboutDialog {

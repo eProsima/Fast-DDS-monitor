@@ -106,6 +106,12 @@ void Controller::clear_entities()
     engine_->clear_entities();
 }
 
+void Controller::clear_statistics_data(
+    quint64 time_to)
+{
+    engine_->clear_statistics_data(time_to);
+}
+
 void Controller::clear_log()
 {
     engine_->clear_log();

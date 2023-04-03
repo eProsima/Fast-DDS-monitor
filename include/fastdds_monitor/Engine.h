@@ -310,6 +310,11 @@ public:
     void clear_entities();
 
     /**
+     * @brief Erase the
+     */
+    void clear_statistics_data(quint64 time_to);
+
+    /**
      * @brief Erase the callback log list
      */
     void clear_log();

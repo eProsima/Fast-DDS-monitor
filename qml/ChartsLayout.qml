@@ -346,18 +346,6 @@ Rectangle {
                                        })
     }
 
-    function createScheduleClear(entities, data, updateData, updateClear){
-        exitFullScreen()
-        // statisticsChartBoxModel.append({
-        //                                    "dataKind": dataKind,
-        //                                    "chartTitle": dataKind,
-        //                                    "timeFrame": timeWindowSeconds,
-        //                                    "timeUpdate": updatePeriod,
-        //                                    "dynamic": true
-        //                                })
-    }
-
-
     function calculateGridViewWidth(){
         mouseArea.width = (chartBoxWidth - 10) * actualBoxesPerRow
     }
