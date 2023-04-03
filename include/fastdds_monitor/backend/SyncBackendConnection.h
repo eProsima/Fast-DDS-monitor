@@ -159,8 +159,9 @@ public:
     //! Remove all inactive entities from database.
     void clear_entities();
 
-    //! Remove
-    void clear_statistics_data(Timestamp time_to);
+    //! TODO
+    void clear_statistics_data(
+            Timestamp time_to);
 
     /**********
     * CREATE *

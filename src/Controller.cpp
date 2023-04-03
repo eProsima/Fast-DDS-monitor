@@ -107,7 +107,7 @@ void Controller::clear_entities()
 }
 
 void Controller::clear_statistics_data(
-    quint64 time_to)
+        quint64 time_to)
 {
     engine_->clear_statistics_data(time_to);
 }
