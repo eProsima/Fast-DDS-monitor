@@ -694,7 +694,7 @@ void SyncBackendConnection::clear_entities()
 }
 
 void SyncBackendConnection::clear_statistics_data(
-        Timestamp time_to)
+        Timestamp time_to /* = the_end_of_time() */)
 {
     return StatisticsBackend::clear_statistics_data(time_to);
 }

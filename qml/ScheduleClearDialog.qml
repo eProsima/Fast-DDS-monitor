@@ -37,13 +37,17 @@ Dialog {
         refreshTimer.start()
     }
 
+    onAboutToShow: {
+        refreshTimer.stop()
+    }
+
     GridLayout{
 
         columns: 2
         rowSpacing: 20
 
         Label {
-            text: "Delete entities"
+            text: "Delete entities: "
             InfoToolTip {
                 text: "Remove all the inactive entities\n" +
                       "from the database."
@@ -64,88 +68,114 @@ Dialog {
             }
         }
 
+        RowLayout {
+            Layout.columnSpan: 2
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 2
+                color: Theme.lightGrey
+            }
+        }
+
         Label {
-            text: "Delete data"
+            text: "Delete data: "
             InfoToolTip {
                 text: "Clear the statistics data \n" +
                       "of all the entities."
             }
         }
-        RowLayout {
-            id: data
-            CheckBox {
-                id: dataCheck
-                checked: false
-                indicator.width: 20
-                indicator.height: 20
-                onCheckedChanged: {
-                    if (checked) {
-                        deleteData = true
+        CheckBox {
+            id: dataCheck
+            checked: false
+            indicator.width: 20
+            indicator.height: 20
+            onCheckedChanged: {
+                if (checked) {
+                    deleteData = true
 
-                    } else {
-                        deleteData = false
-                    }
+                } else {
+                    deleteData = false
                 }
             }
-            GridLayout {
-                id: updatePeriodClearData
-                columns: 3
+        }
+        Label {
+            text: "Time offset: "
+            enabled: deleteData
+            InfoToolTip {
+                text: "Maximum time to stop \n" +
+                      "removing data."
+            }
+        }
+        GridLayout {
+            id: updatePeriodClearData
+            enabled: deleteData
+            columns: 3
 
-                RowLayout {
-                    TextField {
-                        id: updatePeriodClearDataHours
-                        text: qsTr("00")
-                        placeholderText: qsTr("00")
-                        selectByMouse: true
-                        selectionColor: Theme.eProsimaLightBlue
-                        validator: IntValidator {
-                            bottom: 0
-                        }
-                        inputMethodHints: Qt.ImhDigitsOnly
+            RowLayout {
+                TextField {
+                    id: updatePeriodClearDataHours
+                    text: qsTr("00")
+                    placeholderText: qsTr("00")
+                    selectByMouse: true
+                    selectionColor: Theme.eProsimaLightBlue
+                    validator: IntValidator {
+                        bottom: 0
                     }
-                    Label {
-                        text: "Hours"
-                    }
+                    inputMethodHints: Qt.ImhDigitsOnly
                 }
-                RowLayout {
-                    TextField {
-                        id: updatePeriodClearDataMinutes
-                        text: qsTr("01")
-                        placeholderText: qsTr("00")
-                        selectByMouse: true
-                        selectionColor: Theme.eProsimaLightBlue
-                        validator: IntValidator {
-                            bottom: 0
-                        }
-                        inputMethodHints: Qt.ImhDigitsOnly
-                    }
-                    Label {
-                        text: "Minutes"
-                    }
+                Label {
+                    text: "Hours"
                 }
-                RowLayout {
-                    TextField {
-                        id: updatePeriodClearDataSeconds
-                        text: qsTr("00")
-                        placeholderText: qsTr("00")
-                        selectByMouse: true
-                        selectionColor: Theme.eProsimaLightBlue
-                        validator: IntValidator {
-                            bottom: 0
-                        }
-                        inputMethodHints: Qt.ImhDigitsOnly
+            }
+            RowLayout {
+                TextField {
+                    id: updatePeriodClearDataMinutes
+                    text: qsTr("01")
+                    placeholderText: qsTr("00")
+                    selectByMouse: true
+                    selectionColor: Theme.eProsimaLightBlue
+                    validator: IntValidator {
+                        bottom: 0
                     }
-                    Label {
-                        text: "Seconds"
+                    inputMethodHints: Qt.ImhDigitsOnly
+                }
+                Label {
+                    text: "Minutes"
+                }
+            }
+            RowLayout {
+                TextField {
+                    id: updatePeriodClearDataSeconds
+                    text: qsTr("00")
+                    placeholderText: qsTr("00")
+                    selectByMouse: true
+                    selectionColor: Theme.eProsimaLightBlue
+                    validator: IntValidator {
+                        bottom: 0
                     }
+                    inputMethodHints: Qt.ImhDigitsOnly
+                }
+                Label {
+                    text: "Seconds"
                 }
             }
         }
 
+        RowLayout {
+            Layout.columnSpan: 2
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 2
+                color: Theme.lightGrey
+            }
+        }
+
         Label {
-            text: qsTr("Update period: ")
+            text: qsTr("Delete interval: ")
             InfoToolTip {
-                text: "Period to update clear\n"
+                text: "Interval between deletes. \n"
             }
         }
         GridLayout {

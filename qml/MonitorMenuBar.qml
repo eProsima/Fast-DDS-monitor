@@ -69,16 +69,22 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
-            text: qsTr("Schedule clear")
-            onTriggered: {
-                scheduleClear.open()
-            }
-        }
-        MenuSeparator { }
-        Action {
-            text: qsTr("Clear inactive entities")
+            text: qsTr("Delete inactive entities")
             onTriggered: {
                 controller.clear_entities()
+            }
+        }
+        Action {
+            text: qsTr("Delete statistics data")
+            onTriggered: {
+                controller.clear_statistics_data()
+            }
+        }
+        Action {
+            text: qsTr("Schedule delete")
+            onTriggered: {
+                // scheduleClear.onTriggered = true
+                scheduleClear.open()
             }
         }
         MenuSeparator { }

@@ -310,10 +310,10 @@ public:
     void clear_entities();
 
     /**
-     * @brief TODO
+     * @brief Clear all statistics data of all entities received before a time given.
      */
     void clear_statistics_data(
-            quint64 time_to);
+            quint64 time_to = 0);
 
     /**
      * @brief Erase the callback log list

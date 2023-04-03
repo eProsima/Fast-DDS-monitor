@@ -813,9 +813,16 @@ void Engine::clear_entities()
 void Engine::clear_statistics_data(
         quint64 time_to)
 {
-    // Get time into Timestamp
-    backend::Timestamp time_to_timestamp_ = backend::Timestamp(std::chrono::milliseconds(time_to));
-    backend_connection_.clear_statistics_data(time_to_timestamp_);
+    if (time_to == 0)
+    {
+        backend_connection_.clear_statistics_data();
+    }
+    else
+    {
+        // Get time into Timestamp
+        backend::Timestamp time_to_timestamp_ = backend::Timestamp(std::chrono::milliseconds(time_to));
+        backend_connection_.clear_statistics_data(time_to_timestamp_);
+    }
 }
 
 void Engine::clear_log()

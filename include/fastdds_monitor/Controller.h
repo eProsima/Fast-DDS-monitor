@@ -105,9 +105,9 @@ public slots:
     //! Slot to remove all inactive entities from database.
     void clear_entities();
 
-    //! TODO
+    //! Clear all statistics data of all entities received before a time given.
     void clear_statistics_data(
-            quint64 time);
+            quint64 time = 0);
 
     //! Slot to clear the monitor logging information
     void clear_log();
