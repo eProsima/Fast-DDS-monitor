@@ -33,11 +33,9 @@ Dialog {
     property bool deleteEntities: false
     property bool deleteData: false
 
-    // signal createChart(bool entities, bool data, int updateData, int updateClear)
-
-    // onAccepted: {
-
-    // }
+    onAccepted: {
+        refreshTimer.start()
+    }
 
     GridLayout{
 
@@ -150,17 +148,6 @@ Dialog {
                 text: "Period to update clear\n"
             }
         }
-        // RowLayout {
-        //     SpinBox {
-        //         id: updatePeriodClear
-        //         editable: true
-        //         from: 1
-        //         value: 5
-        //     }
-        //     Label {
-        //         text: "seconds"
-        //     }
-        // }
         GridLayout {
             id: updatePeriodClear
             columns: 3
@@ -216,12 +203,12 @@ Dialog {
         }
     }
 
-    function updatePeriodClearToSeconds() {
+    function updatePeriodClearToMilliseconds() {
         var hours = (updatePeriodClearHours.text === "") ? 0 : parseInt(updatePeriodClearHours.text)
         var minutes = (updatePeriodClearMinutes.text === "") ? 0 : parseInt(updatePeriodClearMinutes.text)
         var seconds = (updatePeriodClearSeconds.text === "") ? 0 : parseInt(updatePeriodClearSeconds.text)
 
-        return (hours*3600 + minutes*60 + seconds)
+        return ((hours*3600 + minutes*60 + seconds)*1000)
     }
 
     function updatePeriodClearDataToSeconds() {
@@ -234,8 +221,8 @@ Dialog {
 
     Timer {
         id:  refreshTimer
-        interval: updatePeriodClearToSeconds()
-        running: true
+        interval: updatePeriodClearToMilliseconds()
+        running: false
         repeat: true
         onTriggered: {
             if (deleteEntities) {
