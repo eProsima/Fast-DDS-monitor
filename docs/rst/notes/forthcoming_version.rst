@@ -9,3 +9,5 @@ Forthcoming Version
 * Delete the statistics data of all the entities.
 
 * Schedule remove old data every ``x`` sec.
+
+* Support limit of data points in dynamic data series.

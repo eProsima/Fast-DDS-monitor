@@ -146,6 +146,7 @@ Rectangle {
                     onTriggered: seriesToCSV(index, seriesModel.get(index).seriesName)
                 }
                 MenuItem {
+                    // TODO this should not be shown in historic series
                     text: "Set max data points"
                     onTriggered: setMaxPoints(index, maxPoints)
                 }
