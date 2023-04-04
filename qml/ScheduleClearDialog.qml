@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // This file is part of eProsima Fast DDS Monitor.
 //
@@ -24,8 +24,8 @@ import Theme 1.0
 Dialog {
     id: scheduleClear
     modal: false
-    title: "Remove old data"
-    standardButtons: Dialog.Ok | Dialog.Cancel
+    title: "Remove Scheduler"
+    standardButtons: Dialog.Ok | Dialog.Help | Dialog.Cancel
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
@@ -41,6 +41,13 @@ Dialog {
         refreshTimer.stop()
     }
 
+    onHelpRequested: {
+        infoDialog.open()
+    }
+
+    property int iconSize: 30
+    property real innerIconSize: iconSize * 4/5
+
     GridLayout{
 
         columns: 2
@@ -49,7 +56,7 @@ Dialog {
         Label {
             text: "Delete entities: "
             InfoToolTip {
-                text: "Remove all the inactive entities\n" +
+                text: "Remove inactive entities\n" +
                       "from the database."
             }
         }
@@ -81,8 +88,8 @@ Dialog {
         Label {
             text: "Delete data: "
             InfoToolTip {
-                text: "Clear the statistics data \n" +
-                      "of all the entities."
+                text: "Only keep the statistics data \n" +
+                      "of this last period of time."
             }
         }
         CheckBox {
@@ -103,9 +110,7 @@ Dialog {
             text: "Time offset: "
             enabled: deleteData
             InfoToolTip {
-                text: "Time offset from current \n" +
-                      "time from which to delete \n" +
-                      "old data. "
+                text: "Period of time to keep."
             }
         }
         GridLayout {
@@ -176,7 +181,7 @@ Dialog {
         Label {
             text: qsTr("Delete interval: ")
             InfoToolTip {
-                text: "Interval between deletes. "
+                text: "Period to activate deletes."
             }
         }
         GridLayout {
@@ -253,7 +258,6 @@ Dialog {
     Timer {
         id:  refreshTimer
         interval: updatePeriodClearToMilliseconds()
-        running: false
         repeat: true
         onTriggered: {
             if (deleteEntities) {
@@ -265,4 +269,85 @@ Dialog {
         }
     }
 
+    Dialog {
+        id: infoDialog
+        title: "Help"
+        standardButtons: Dialog.Ok
+        anchors.centerIn: Overlay.overlay
+
+        Component.onCompleted: {
+            standardButton(Dialog.Ok).text = qsTrId("Got it!")
+        }
+
+        RowLayout {
+            spacing: 20
+
+            Rectangle {
+                id: infoChartRect
+                width: 400
+                height: infoChartRectLayout.height
+                color: "transparent"
+
+                GridLayout {
+                    id: infoChartRectLayout
+                    width: parent.width
+                    columns: 2
+                    rows: 5
+                    rowSpacing: 15
+
+                    RowLayout {
+                        Layout.columnSpan: 2
+
+                        Label { text:"Create a scheduler to remove old data and/or inactive\n" +
+                                        " entities at a specified interval."}
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 2
+
+                        Rectangle {
+                            Layout.fillWidth: true
+                            height: 2
+                            color: Theme.lightGrey
+                        }
+                    }
+
+                    Label { text:"Delete entities:"; font.bold: true}
+                    Label { text:"Remove inactive entities from the\n" +
+                                    "database."}
+
+                    RowLayout {
+                        Layout.columnSpan: 2
+
+                        Rectangle {
+                            Layout.fillWidth: true
+                            height: 2
+                            color: Theme.lightGrey
+                        }
+                    }
+
+                    Label { text:"Delete data:"; font.bold: true}
+                    Label { text:"Delete statistics data of all the\n" +
+                                    "entities."}
+
+                    Label { text:"Time offset:"; font.bold: true}
+                    Label { text:"Specific period of time to keep data."}
+
+                    RowLayout {
+                        Layout.columnSpan: 2
+
+                        Rectangle {
+                            Layout.fillWidth: true
+                            height: 2
+                            color: Theme.lightGrey
+                        }
+                    }
+
+                    Label { text:"Delete interval:"; font.bold: true}
+                    Label { text:"Specific interval between deletes."}
+
+                }
+            }
+        }
+    }
 }
