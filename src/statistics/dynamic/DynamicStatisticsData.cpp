@@ -40,7 +40,8 @@ QtCharts::QVXYModelMapper* DynamicStatisticsData::add_series(
         bool cumulative,
         quint64 cumulative_interval,
         QString source_id,
-        QString target_id)
+        QString target_id,
+        quint64 max_points)
 {
     qDebug() << "Adding dynamic serie to chartbox id: " << chartbox_id;
 
@@ -50,15 +51,16 @@ QtCharts::QVXYModelMapper* DynamicStatisticsData::add_series(
 
     DynamicDataChartBox* d_chartbox = dynamic_cast<DynamicDataChartBox*>(it->second);
 
-    return d_chartbox->add_series(statistic_kind, cumulative, cumulative_interval, source_id, target_id);
+    return d_chartbox->add_series(statistic_kind, cumulative, cumulative_interval, source_id, target_id, max_points);
 }
 
 quint64 DynamicStatisticsData::add_chartbox(
         QString data_kind,
         quint64 time_to,
-        quint64 window_size)
+        quint64 window_size,
+        quint64 max_points)
 {
-    return StatisticsData::add_chartbox(new DynamicDataChartBox(data_kind, time_to, window_size));
+    return StatisticsData::add_chartbox(new DynamicDataChartBox(data_kind, time_to, window_size, max_points));
 }
 
 UpdateParameters DynamicStatisticsData::get_update_parameters(

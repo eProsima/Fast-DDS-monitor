@@ -47,6 +47,7 @@ public:
 
     DataChartBox(
             QString data_kind,
+            quint64 max_points = 0,
             QObject* parent = nullptr)
         : QObject(parent)
         , data_kind_(data_kind)
@@ -55,6 +56,7 @@ public:
         , axisXMax_(X_MAX_DEFAULT)
         , axisXMin_(X_MIN_DEFAULT)
         , round_axis_(false)
+        , max_points_(max_points)
     {
     }
 
@@ -114,6 +116,10 @@ public:
             bool x_axis = true,
             bool y_axis = true);
 
+    void set_max_points(
+        quint64 series_order_index,
+        quint64 max_points);
+
 protected:
 
     /**
@@ -157,6 +163,8 @@ protected:
 
     //! Unique id of the new chartbox to add
     static std::atomic<quint64> last_id_;
+
+    quint64 max_points_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DATACHARTBOX_H

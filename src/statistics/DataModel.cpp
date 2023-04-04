@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
+#include <iostream>
 #include <QDebug>
 
 #include <fastdds_monitor/statistics/DataModel.h>
@@ -79,6 +80,17 @@ void DataModel::addNewPoint(
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_data_.push_back(point);
     endInsertRows();
+
+    // Remove last point in case it is required
+    if (0u != max_points_)
+    {
+        while(get_size() > max_points_)
+        {
+            beginRemoveRows(QModelIndex(), 0, 0);
+            m_data_.pop_front();
+            endRemoveRows();
+        }
+    }
 }
 
 const QVector<QPointF>& DataModel::get_data() const
@@ -116,4 +128,10 @@ std::pair<qreal, qreal> DataModel::limit_y_value(
     }
 
     return std::make_pair(min_val, max_val);
+}
+
+void DataModel::set_max_points(
+        quint64 max_points)
+{
+    max_points_ = max_points;
 }

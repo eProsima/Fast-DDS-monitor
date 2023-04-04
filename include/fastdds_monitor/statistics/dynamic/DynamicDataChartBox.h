@@ -72,8 +72,9 @@ public:
             QString data_kind,
             quint64 time_to,
             quint64 window_size,
+            quint64 max_points = 0,
             QObject* parent = nullptr)
-        : DataChartBox(data_kind, parent)
+        : DataChartBox(data_kind, max_points, parent)
         , time_to_(time_to)
         , window_size_(window_size)
         , current_update_parameters_({
@@ -114,7 +115,8 @@ public:
             bool cumulative,
             quint64 cumulative_interval,
             models::EntityId source_id,
-            models::EntityId target_id = models::ID_INVALID);
+            models::EntityId target_id,
+            quint64 max_points);
 
     //! Eliminate all series
     void clear_charts() override;
@@ -125,6 +127,10 @@ public:
 
 
     void recalculate_y_axis() override;
+
+    void set_max_points(
+            quint64 series_index,
+            quint64 max_points);
 
 protected:
 

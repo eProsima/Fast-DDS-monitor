@@ -35,6 +35,7 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
+    property int parentMaxPoints: 0
     property bool targetExists: false
     property bool activeOk: true
     property var availableStatisticKinds: []
@@ -46,6 +47,7 @@ Dialog {
 
         // Get the available statistic kinds from the backend
         availableStatisticKinds = controller.get_statistic_kinds()
+        parentMaxPoints = maxPoints
 
         if (controller.data_kind_has_target(dataKind)) {
             targetExists = true
@@ -427,6 +429,30 @@ Dialog {
                 }
             }
         }
+
+        Label {
+            id: maxPointsLabel
+            text: qsTr("Maximum data points")
+            visible: advanced.showAdvancedOptions
+            InfoToolTip {
+                text: "To avoid memory exhaustation\n" +
+                      "set a maximum number of points.\n" +
+                      "When maximum number reached, old\n" +
+                      "points would be deleted when new\n" +
+                      "are printed [0 for no maximum]."
+            }
+        }
+        RowLayout {
+            visible: advanced.showAdvancedOptions
+
+            SpinBox {
+                id: maxPointsSpinBox
+                editable: true
+                from: 0
+                to: 999999
+                value: parentMaxPoints
+            }
+        }
     }
 
     MessageDialog {
@@ -480,7 +506,8 @@ Dialog {
                     (targetExists) ? targetEntityId.currentValue : '',
                     statisticKind.currentText,
                     cumulative.checked,
-                    cumulativeIntervalDefault.checked ? 0 : cumulativeIntervalToSeconds())
+                    cumulativeIntervalDefault.checked ? 0 : cumulativeIntervalToSeconds(),
+                    maxPointsSpinBox.value)
     }
 
     function checkInputs() {
@@ -586,5 +613,3 @@ Dialog {
         updateTargets()
     }
 }
-
-

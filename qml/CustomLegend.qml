@@ -38,6 +38,7 @@ Rectangle {
     signal seriesDisplayed(int seriesIndex)
     signal seriesRemoved(int seriesIndex)
     signal seriesToCSV(int seriesIndex, string seriesLabel)
+    signal setMaxPoints(int seriesIndex, int currentSize)
 
     ListModel {
         id: seriesModel
@@ -143,6 +144,10 @@ Rectangle {
                 MenuItem {
                     text: "Export to CSV"
                     onTriggered: seriesToCSV(index, seriesModel.get(index).seriesName)
+                }
+                MenuItem {
+                    text: "Set max data points"
+                    onTriggered: setMaxPoints(index, maxPoints)
                 }
             }
 

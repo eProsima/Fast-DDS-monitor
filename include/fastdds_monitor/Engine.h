@@ -432,6 +432,11 @@ public:
     bool data_kind_has_target(
             const QString& data_kind);
 
+    void change_max_points(
+            quint64 chartbox_id,
+            quint64 series_id,
+            quint64 new_max_point);
+
 signals:
 
     /**

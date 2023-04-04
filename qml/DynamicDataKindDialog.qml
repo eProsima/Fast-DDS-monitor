@@ -32,14 +32,18 @@ Dialog {
 
     property var availableDataKinds: []
 
-    signal createChart(string dataKind, double timeWindowSeconds, int updatePeriod)
+    signal createChart(string dataKind, double timeWindowSeconds, int updatePeriod, int maxPoints)
 
     onAccepted: {
         if (!checkInputs())
             return
 
         var timeFrame = timeToMilliseconds()
-        createChart(dataKindComboBox.currentText, timeFrame, (updatePeriod.value) * 1000)
+        createChart(
+            dataKindComboBox.currentText,
+            timeFrame,
+            (updatePeriod.value) * 1000,
+            maxPoints.value)
     }
 
     Component.onCompleted: {
@@ -169,6 +173,74 @@ Dialog {
                 text: "seconds"
             }
         }
+
+        RowLayout {
+            Layout.columnSpan: 2
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 2
+                color: Theme.lightGrey
+            }
+
+            Rectangle {
+                id: advanced
+                width: 100
+                height: 30
+                radius: 15
+                color: advancedMouseArea.containsMouse ? Theme.grey : "transparent"
+
+                property bool showAdvancedOptions: false
+
+                RowLayout {
+                    spacing: 5
+                    anchors.centerIn: parent
+
+                    IconSVG {
+                        id: participantIcon
+                        name: advanced.showAdvancedOptions ? "cross" : "plus"
+                        size: 12
+                        color: advancedMouseArea.containsMouse ? "white" : "grey"
+                    }
+                    Label {
+                        id: advancedLabel
+                        text: "Advanced"
+                        color: advancedMouseArea.containsMouse ? "white" : "grey"
+                    }
+                }
+
+                MouseArea {
+                    id: advancedMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: advanced.showAdvancedOptions = !advanced.showAdvancedOptions
+                }
+            }
+        }
+
+        Label {
+            id: maxPointsLabel
+            text: qsTr("Maximum data points")
+            visible: advanced.showAdvancedOptions
+            InfoToolTip {
+                text: "To avoid memory exhaustation\n" +
+                      "set a maximum number of points.\n" +
+                      "When maximum number reached, old\n" +
+                      "points would be deleted when new\n" +
+                      "are printed [0 for no maximum]."
+            }
+        }
+        RowLayout {
+            visible: advanced.showAdvancedOptions
+
+            SpinBox {
+                id: maxPoints
+                editable: true
+                from: 0
+                to: 999999
+                value: 0
+            }
+        }
     }
 
     MessageDialog {
@@ -220,5 +292,3 @@ Dialog {
         return (days*86400 + hours*3600 + minutes*60 + seconds)*1000
     }
 }
-
-

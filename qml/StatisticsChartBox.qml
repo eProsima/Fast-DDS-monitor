@@ -37,6 +37,7 @@ Rectangle {
     property int chartboxId: -1
     property variant currentDate: toMsecsSinceEpoch(new Date())
     property bool running: false
+    property int maxPoints: 0
 
     property int charBoxRadius: 0
 
@@ -44,7 +45,7 @@ Rectangle {
 
     Component.onCompleted: {
         if (isDynamic){
-            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow)
+            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow, maxPoints)
             chartTitle = chartTitle + " [dynamic]"
             dynamicDisplayStatisticsDialog.open()
         } else {
@@ -179,7 +180,8 @@ Rectangle {
                 string targetEntityId,
                 string statisticKind,
                 bool cumulative,
-                int cumulative_interval)
+                int cumulative_interval,
+                int maxPoints)
             signal clearChart()
             signal dynamicPause()
             signal dynamicContinue()
@@ -201,7 +203,8 @@ Rectangle {
                                     targetEntityId,
                                     statisticKind,
                                     cumulative,
-                                    cumulative_interval);
+                                    cumulative_interval,
+                                    maxPoints);
             onClearChart: statisticsChartViewLoader.item.clearChart();
             onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
             onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
@@ -530,6 +533,10 @@ Rectangle {
                     [dataKind],
                     [chartTitle],
                     [seriesLabel])
+            }
+            onSetMaxPoints: {
+                // Export one series as CSV
+                seriesSetMaxPoints(chartboxId, seriesIndex, maxPoints)
             }
         }
     }

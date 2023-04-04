@@ -263,3 +263,22 @@ void DataChartBox::recalculate_y_axis()
         }
     }
 }
+
+void DataChartBox::set_max_points(
+        quint64 series_order_index,
+        quint64 max_points)
+{
+    const std::lock_guard<std::recursive_mutex> lock(mutex_);
+
+    qDebug() << "Setting max points " << max_points << " to series " << series_order_index;
+
+    if (series_order_index >= series_ids_.size())
+    {
+        qCritical() << "Error deleting series. Series does not exist in Chartbox. Probably race condition problem!";
+    }
+    else
+    {
+        // This is the index that this chartbox internally handles regarding the currently deleting series
+        series_[series_ids_[series_order_index]]->set_max_points(max_points);
+    }
+}

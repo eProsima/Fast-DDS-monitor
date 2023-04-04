@@ -112,6 +112,11 @@ public slots:
     void recalculate_y_axis(
             quint64 chartbox_id);
 
+    void set_max_points(
+            quint64 chartbox_id,
+            quint64 series_index,
+            quint64 max_points);
+
 protected:
 
     /**

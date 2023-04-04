@@ -1205,6 +1205,14 @@ std::string Engine::get_data_kind_units(
     return backend_connection_.get_data_kind_units(backend::string_to_data_kind(data_kind));
 }
 
+void Engine::change_max_points(
+        quint64 chartbox_id,
+        quint64 series_id,
+        quint64 new_max_point)
+{
+    return dynamic_statistics_data_->set_max_points(chartbox_id, series_id, new_max_point);
+}
+
 void Engine::save_csv(
         const QString& file_name,
         const QList<quint64>& chartbox_ids,

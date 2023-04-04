@@ -165,6 +165,7 @@ Rectangle {
                     width: gridView.cellWidth - 10
                     height: gridView.cellHeight - 10
                     smooth: true
+                    maxPoints: model.maxPoints
 
                     onFullScreen: chartBoxFullScreen(chartBoxIdx)
 
@@ -335,13 +336,14 @@ Rectangle {
                                        })
     }
 
-    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod){
+    function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints){
         exitFullScreen()
         statisticsChartBoxModel.append({
                                            "dataKind": dataKind,
                                            "chartTitle": dataKind,
                                            "timeFrame": timeWindowSeconds,
                                            "timeUpdate": updatePeriod,
+                                           "maxPoints": maxPoints,
                                            "dynamic": true
                                        })
     }
@@ -363,6 +365,17 @@ Rectangle {
         csvDialog.chartboxNames = chartboxNames
         csvDialog.labelNames = labelNames
         csvDialog.open()
+    }
+
+    function seriesSetMaxPoints(
+            chartboxId,
+            seriesId,
+            currentSize)
+    {
+        seriesSetMaxPointsDialog.chartboxId = chartboxId
+        seriesSetMaxPointsDialog.seriesId = seriesId
+        seriesSetMaxPointsDialog.currentSize = currentSize
+        seriesSetMaxPointsDialog.open()
     }
 
     function saveAllCSV() {

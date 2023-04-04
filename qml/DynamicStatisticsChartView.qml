@@ -40,10 +40,11 @@ StatisticsChartView {
             targetEntityId,
             statisticKind,
             cumulative,
-            cumulative_interval) {
+            cumulative_interval,
+            maxPoints) {
 
         // Call DynamicChartBox add_series that creates a series and a related mapper and returns the mapper
-        mapper.push(dynamicData.add_series(chartboxId, statisticKind, cumulative, cumulative_interval, sourceEntityId, targetEntityId))
+        mapper.push(dynamicData.add_series(chartboxId, statisticKind, cumulative, cumulative_interval, sourceEntityId, targetEntityId, maxPoints))
         // Create a new QAbstractSeries with index chartView.count (this index varies with deletion of series)
         var new_series = chartView.createSeries(ChartView.SeriesTypeLine, seriesLabel, dateTimeAxisXItem, axisYItem);
 
