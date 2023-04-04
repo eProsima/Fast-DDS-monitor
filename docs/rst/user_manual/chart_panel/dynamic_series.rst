@@ -95,7 +95,8 @@ Maximum data points
 This parameter limits the number of data points that will be showed for this specific series.
 Data points will be added dynamically to the series.
 This can, at some point, generate an efficiency problem due to memory exhaustion.
-In order to avoid this, this parameter will limit the number of data points, removing the old data as new ones are being added.
+In order to avoid this, this parameter will limit the number of data points,
+removing the old data as new ones are being added.
 Use value ``0`` for not limited series.
 
 This value can be changed by series at any time in the series menu.
