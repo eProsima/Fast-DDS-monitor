@@ -118,8 +118,8 @@ public:
 
     //! Set the max number of data points allowed in a specific DataModel
     void set_max_points(
-        quint64 series_order_index,
-        quint64 max_points);
+            quint64 series_order_index,
+            quint64 max_points);
 
 protected:
 

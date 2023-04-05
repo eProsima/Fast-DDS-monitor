@@ -84,7 +84,7 @@ void DataModel::addNewPoint(
     // Remove last point in case it is required
     if (0u != max_points_)
     {
-        while(get_size() > max_points_)
+        while (get_size() > max_points_)
         {
             beginRemoveRows(QModelIndex(), 0, 0);
             m_data_.pop_front();

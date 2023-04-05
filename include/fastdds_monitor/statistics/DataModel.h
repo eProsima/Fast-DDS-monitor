@@ -39,7 +39,8 @@ class DataModel : public QAbstractTableModel
 public:
 
     //! Default costructor. Connects \c newPointAdded with this same object \c addNewPoint
-    DataModel(quint64 max_points = 0)
+    DataModel(
+            quint64 max_points = 0)
         : max_points_(max_points)
     {
         QObject::connect(this, &DataModel::newPointAdded, this, &DataModel::addNewPoint,
@@ -86,7 +87,7 @@ public:
 
     //! Set the max number of data points allowed
     void set_max_points(
-        quint64 max_points);
+            quint64 max_points);
 
 signals:
 
