@@ -808,6 +808,8 @@ void Engine::refresh_engine()
 void Engine::clear_entities()
 {
     backend_connection_.clear_entities();
+    // TODO in case the entity still exist after clearing entities, clicked again
+    refresh_engine();
 }
 
 void Engine::clear_statistics_data(
@@ -821,7 +823,7 @@ void Engine::clear_statistics_data(
     {
         // Get time into Timestamp
         auto now = std::chrono::system_clock::now();
-        backend::Timestamp time_to_timestamp_ = backend::Timestamp(now-std::chrono::milliseconds(time_to));
+        backend::Timestamp time_to_timestamp_ = backend::Timestamp(now-std::chrono::seconds(time_to));
         backend_connection_.clear_statistics_data(time_to_timestamp_);
     }
 }
@@ -964,6 +966,7 @@ bool Engine::update_entity_generic(
 
 void Engine::refresh_summary()
 {
+    // TODO check what is happening when 2 refreshes are done
     fill_summary_(last_dds_entity_clicked_);
 }
 
