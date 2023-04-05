@@ -50,7 +50,7 @@ Each of the series inside the chartbox will be updated with the new data collect
 
 Maximum data points
 -------------------
-This parameter set the default for the maximum amount of data points that the series in this charbox will have.
+This parameter set the default for the maximum amount of data points that the series in this chartbox will have.
 Check series :ref:`series_maximum_data_points` section for more information.
 
 Clicking `OK` will create a new chartbox referring the *DataKind* chosen that will hold dynamic series.

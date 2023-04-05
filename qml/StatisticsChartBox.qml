@@ -25,7 +25,7 @@ import Theme 1.0
 Rectangle {
     id: statisticsChartBox
 
-    radius: statisticsChartBox.charBoxRadius
+    radius: statisticsChartBox.chartBoxRadius
 
     property string dataKind
     property string chartTitle
@@ -39,7 +39,7 @@ Rectangle {
     property bool running: false
     property int maxPoints: 0
 
-    property int charBoxRadius: 0
+    property int chartBoxRadius: 0
 
     signal fullScreen(int chartBoxIdx)
 
@@ -74,7 +74,7 @@ Rectangle {
             Layout.fillWidth: true
             height: 25
             color: Theme.eProsimaDarkBlue
-            radius: statisticsChartBox.charBoxRadius
+            radius: statisticsChartBox.chartBoxRadius
 
             Rectangle {
                 height: parent.height/2
@@ -544,7 +544,7 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         color: "transparent"
-        radius: statisticsChartBox.charBoxRadius
+        radius: statisticsChartBox.chartBoxRadius
         border {
             width: 2
             color: Theme.eProsimaDarkBlue
