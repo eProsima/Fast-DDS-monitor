@@ -22,6 +22,9 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DATAMODEL_H
 #define _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DATAMODEL_H
 
+#include <limits>
+#include <iostream>
+
 #include <QAbstractTableModel>
 #include <QtCore/QObject>
 #include <QPointF>
@@ -36,15 +39,19 @@ class DataModel : public QAbstractTableModel
 public:
 
     //! Default costructor. Connects \c newPointAdded with this same object \c addNewPoint
-    DataModel()
+    DataModel(
+            quint64 max_points = 0)
+        : max_points_(max_points)
     {
         QObject::connect(this, &DataModel::newPointAdded, this, &DataModel::addNewPoint,
                 Qt::QueuedConnection);
     }
 
     DataModel(
-            QVector<QPointF> data)
+            QVector<QPointF> data,
+            quint64 max_points = 0)
         : m_data_(data)
+        , max_points_(max_points)
     {
         QObject::connect(this, &DataModel::newPointAdded, this, &DataModel::addNewPoint,
                 Qt::QueuedConnection);
@@ -78,6 +85,10 @@ public:
             const quint64 from = 0,
             const quint64 to = std::numeric_limits<quint64>::max()) const;
 
+    //! Set the max number of data points allowed
+    void set_max_points(
+            quint64 max_points);
+
 signals:
 
     //! Signal to notify a new point must be added
@@ -92,6 +103,8 @@ protected:
 
     //! Vector of points (not sorted)
     QVector<QPointF> m_data_;
+
+    quint64 max_points_ = 0;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DATAMODEL_H

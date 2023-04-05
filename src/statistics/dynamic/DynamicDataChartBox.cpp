@@ -27,13 +27,14 @@ QtCharts::QVXYModelMapper* DynamicDataChartBox::add_series(
         bool cumulative,
         quint64 cumulative_interval,
         models::EntityId source_id,
-        models::EntityId target_id /* = ID_INVALID */)
+        models::EntityId target_id,
+        quint64 max_points)
 {
     const std::lock_guard<std::recursive_mutex> lock(mutex_);
 
     quint64 new_id;
 
-    auto new_mapper = DataChartBox::add_series(new DataModel(), new_id);
+    auto new_mapper = DataChartBox::add_series(new DataModel(max_points), new_id);
 
     if (new_mapper)
     {

@@ -63,13 +63,15 @@ public slots:
             bool cumulative,
             quint64 cumulative_interval,
             QString source_id,
-            QString target_id);
+            QString target_id,
+            quint64 max_points);
 
     //! Add a new internal Chartbox
     quint64 add_chartbox(
             QString data_kind,
             quint64 time_to,
-            quint64 window_size);
+            quint64 window_size,
+            quint64 max_points);
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_STATISTICS_DYNAMIC_DYNAMICDATA_H

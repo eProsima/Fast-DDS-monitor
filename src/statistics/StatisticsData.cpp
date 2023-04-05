@@ -226,3 +226,15 @@ void StatisticsData::recalculate_y_axis(
 
     it->second->recalculate_y_axis();
 }
+
+void StatisticsData::set_max_points(
+        quint64 chartbox_id,
+        quint64 series_index,
+        quint64 max_points)
+{
+    auto it = chartboxes_.find(chartbox_id);
+
+    assert(it != chartboxes_.end());
+
+    it->second->set_max_points(series_index, max_points);
+}

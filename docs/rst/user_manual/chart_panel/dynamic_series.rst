@@ -46,6 +46,13 @@ Update period
 This parameter refers to the time elapsed between two updates of the chartbox series.
 Each of the series inside the chartbox will be updated with the new data collected every `Update period` seconds.
 
+.. _chart_panel_maximum_data_points:
+
+Maximum data points
+-------------------
+This parameter set the default for the maximum amount of data points that the series in this chartbox will have.
+Check series :ref:`series_maximum_data_points` section for more information.
+
 Clicking `OK` will create a new chartbox referring the *DataKind* chosen that will hold dynamic series.
 
 Create Dynamic Series Dialog
@@ -80,6 +87,20 @@ Selecting *NONE* as Statistics kind will display every data available in the int
 
     The data will not be displayed at the time it arrives in any case.
     It will always appear displayed after each :ref:`update_period_parameter`.
+
+.. _series_maximum_data_points:
+
+Maximum data points
+-------------------
+This parameter limits the number of data points that will be showed for this specific series.
+Data points will be added dynamically to the series.
+This can, at some point, generate an efficiency problem due to memory exhaustion.
+In order to avoid this, this parameter will limit the number of data points,
+removing the old data as new ones are being added.
+Use value ``0`` for not limited series.
+
+This value can be changed by series at any time in the series menu.
+
 
 Cumulative data
 ---------------

@@ -25,7 +25,7 @@ import Theme 1.0
 Rectangle {
     id: statisticsChartBox
 
-    radius: statisticsChartBox.charBoxRadius
+    radius: statisticsChartBox.chartBoxRadius
 
     property string dataKind
     property string chartTitle
@@ -37,14 +37,15 @@ Rectangle {
     property int chartboxId: -1
     property variant currentDate: toMsecsSinceEpoch(new Date())
     property bool running: false
+    property int maxPoints: 0
 
-    property int charBoxRadius: 0
+    property int chartBoxRadius: 0
 
     signal fullScreen(int chartBoxIdx)
 
     Component.onCompleted: {
         if (isDynamic){
-            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow)
+            chartboxId = dynamicData.add_chartbox(dataKind, currentDate, timeWindow, maxPoints)
             chartTitle = chartTitle + " [dynamic]"
             dynamicDisplayStatisticsDialog.open()
         } else {
@@ -73,7 +74,7 @@ Rectangle {
             Layout.fillWidth: true
             height: 25
             color: Theme.eProsimaDarkBlue
-            radius: statisticsChartBox.charBoxRadius
+            radius: statisticsChartBox.chartBoxRadius
 
             Rectangle {
                 height: parent.height/2
@@ -179,7 +180,8 @@ Rectangle {
                 string targetEntityId,
                 string statisticKind,
                 bool cumulative,
-                int cumulative_interval)
+                int cumulative_interval,
+                int maxPoints)
             signal clearChart()
             signal dynamicPause()
             signal dynamicContinue()
@@ -201,7 +203,8 @@ Rectangle {
                                     targetEntityId,
                                     statisticKind,
                                     cumulative,
-                                    cumulative_interval);
+                                    cumulative_interval,
+                                    maxPoints);
             onClearChart: statisticsChartViewLoader.item.clearChart();
             onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
             onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
@@ -531,13 +534,17 @@ Rectangle {
                     [chartTitle],
                     [seriesLabel])
             }
+            onSetMaxPoints: {
+                // Export one series as CSV
+                seriesSetMaxPoints(chartboxId, seriesIndex, maxPoints)
+            }
         }
     }
 
     Rectangle {
         anchors.fill: parent
         color: "transparent"
-        radius: statisticsChartBox.charBoxRadius
+        radius: statisticsChartBox.chartBoxRadius
         border {
             width: 2
             color: Theme.eProsimaDarkBlue

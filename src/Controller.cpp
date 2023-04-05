@@ -308,3 +308,11 @@ bool Controller::data_kind_has_target(
 {
     return engine_->data_kind_has_target(data_kind);
 }
+
+void Controller::change_max_points(
+        quint64 chartbox_id,
+        quint64 series_id,
+        quint64 new_max_point)
+{
+    return engine_->change_max_points(chartbox_id, series_id, new_max_point);
+}

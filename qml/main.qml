@@ -112,7 +112,7 @@ ApplicationWindow {
 
     DynamicDataKindDialog {
         id: dynamicDataKindDialog
-        onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod)
+        onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
     }
 
     ScheduleClearDialog {
@@ -125,6 +125,10 @@ ApplicationWindow {
 
     ErrorDialog {
         id: errorDialog
+    }
+
+    SeriesSetMaxPointsDialog {
+        id: seriesSetMaxPointsDialog
     }
 
     // Creates a connection between Controller::error(QString, int) signal and ErrorDialog
