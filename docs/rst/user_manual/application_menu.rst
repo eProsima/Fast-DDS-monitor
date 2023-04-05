@@ -99,7 +99,7 @@ To know how to configure a dynamic *Chartbox*, please refer to the section :ref:
 .. _clear_inactive_entities:
 
 Delete inactive entities
------------------------
+------------------------
 
 This button remove all the inactive entities from the database.
 
