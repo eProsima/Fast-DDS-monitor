@@ -84,6 +84,7 @@ public:
             const quint64 from = 0,
             const quint64 to = std::numeric_limits<quint64>::max()) const;
 
+    //! Set the max number of data points allowed
     void set_max_points(
         quint64 max_points);
 

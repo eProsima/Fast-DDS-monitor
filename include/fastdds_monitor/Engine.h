@@ -432,6 +432,7 @@ public:
     bool data_kind_has_target(
             const QString& data_kind);
 
+    //! Change the max number of points allowed in a specific DataModel
     void change_max_points(
             quint64 chartbox_id,
             quint64 series_id,
