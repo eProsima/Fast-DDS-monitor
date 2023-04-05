@@ -823,7 +823,7 @@ void Engine::clear_statistics_data(
     {
         // Get time into Timestamp
         auto now = std::chrono::system_clock::now();
-        backend::Timestamp time_to_timestamp_ = backend::Timestamp(now-std::chrono::seconds(time_to));
+        backend::Timestamp time_to_timestamp_ = backend::Timestamp(now - std::chrono::seconds(time_to));
         backend_connection_.clear_statistics_data(time_to_timestamp_);
     }
 }
