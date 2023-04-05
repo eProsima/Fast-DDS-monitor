@@ -98,10 +98,24 @@ To know how to configure a dynamic *Chartbox*, please refer to the section :ref:
 
 .. _clear_inactive_entities:
 
-Clear inactive entities
------------------------
+Delete inactive entities
+------------------------
 
 This button remove all the inactive entities from the database.
+
+.. _delete_statistics_data:
+
+Delete statistics data
+----------------------
+
+This button clear the statistics data of all the entities.
+
+.. _schedule_delete:
+
+Schedule Delete
+---------------
+
+Creates a schedule to remove old data and/or inactive entities at a specified interval.
 
 .. _refresh_button:
 

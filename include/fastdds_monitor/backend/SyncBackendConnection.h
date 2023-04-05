@@ -159,6 +159,10 @@ public:
     //! Remove all inactive entities from database.
     void clear_entities();
 
+    //! Clear all statistics data of all entities received before a time given.
+    void clear_statistics_data(
+            Timestamp time_to = the_end_of_time());
+
     /**********
     * CREATE *
     **********/

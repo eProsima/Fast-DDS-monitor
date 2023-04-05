@@ -115,6 +115,10 @@ ApplicationWindow {
         onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod)
     }
 
+    ScheduleClearDialog {
+        id: scheduleClear
+    }
+
     AboutDialog {
         id: aboutDialog
     }

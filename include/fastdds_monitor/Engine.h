@@ -310,6 +310,12 @@ public:
     void clear_entities();
 
     /**
+     * @brief Clear all statistics data of all entities received before a time given.
+     */
+    void clear_statistics_data(
+            quint64 time_to = 0);
+
+    /**
      * @brief Erase the callback log list
      */
     void clear_log();

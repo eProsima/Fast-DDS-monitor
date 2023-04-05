@@ -693,6 +693,12 @@ void SyncBackendConnection::clear_entities()
     return StatisticsBackend::clear_inactive_entities();
 }
 
+void SyncBackendConnection::clear_statistics_data(
+        Timestamp time_to /* = the_end_of_time() */)
+{
+    return StatisticsBackend::clear_statistics_data(time_to);
+}
+
 bool SyncBackendConnection::data_available(
         DataKind data_kind,
         EntityId source_entity_id,
