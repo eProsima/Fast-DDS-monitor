@@ -699,6 +699,12 @@ void SyncBackendConnection::clear_statistics_data(
     return StatisticsBackend::clear_statistics_data(time_to);
 }
 
+bool SyncBackendConnection::entity_exists(
+        EntityId entity_id)
+{
+    return !get_info(entity_id).empty();
+}
+
 bool SyncBackendConnection::data_available(
         DataKind data_kind,
         EntityId source_entity_id,

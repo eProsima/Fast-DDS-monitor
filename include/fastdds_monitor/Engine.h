@@ -23,6 +23,7 @@
 #define _EPROSIMA_FASTDDS_MONITOR_ENGINE_H
 
 #include <atomic>
+#include <tuple>
 
 #include <QQmlApplicationEngine>
 #include <QQueue>
@@ -39,6 +40,48 @@
 #include <fastdds_monitor/model/info/InfoModel.h>
 #include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
 #include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
+
+struct EntityClicked
+{
+    backend::EntityId id = backend::ID_ALL;
+    backend::EntityKind kind = backend::EntityKind::INVALID;
+    bool is_set() const;
+    EntityClicked reset();
+    EntityClicked set(backend::EntityId clicked_entity, backend::EntityKind clicked_kind);
+};
+
+/**
+ * @brief This data struct collects the entities currently clicked and add some logic methods regarding
+ * the status of clicked entities.
+ * It simplifies Engine by joining a lot of logic that was distributed in many places.
+ */
+struct EntitiesClicked
+{
+    enum class EntityKindClicked
+    {
+        all,
+        dds,
+        logical_physical
+    };
+
+    //! Id of the last Entity clicked or \c ID_ALL
+    EntityClicked dds;
+
+    //! Id of the last Entity clicked in physical or logical or \c ID_ALL
+    EntityClicked physical_logical;
+
+    bool is_dds_clicked() const;
+
+    std::tuple<
+        EntityKindClicked,
+        EntityClicked,
+        EntityClicked>
+    click(backend::EntityId clicked_entity, backend::EntityKind clicked_kind);
+
+    std::pair<EntityClicked, EntityClicked> unclick();
+
+    EntityClicked unclick_dds();
+};
 
 /**
  * Main class that connects the View (QML), the models (Controller) and the backend (Listener + SyncBackendConnection)
@@ -233,10 +276,14 @@ public:
     bool update_dds_data(
             const backend::EntityId& id);
 
-    /**
-     * @brief Clear the internal dds model
-     */
+    //! Clear all internal models
+    void reset_all_data();
+    // Clear the internal dds model
     void reset_dds_data();
+    // Clear the internal logic model
+    void reset_logic_data();
+    // Clear the internal physical model
+    void reset_physical_data();
 
     /////
     // ON CLICKED
@@ -302,7 +349,8 @@ public:
      * Refresh all the models with the new configuration.
      * Erase the callback issue list.
      */
-    void refresh_engine();
+    void refresh_engine(
+        bool maintain_clicked = false);
 
     /**
      * @brief Erase the inactive entities from database.
@@ -592,15 +640,6 @@ protected:
     //! Clear issues panel information
     void clear_issue_info_();
 
-    //! Deselect last dds entity clicked
-    bool entity_dds_unclick_();
-
-    //! Deselect last physical or logical entity clicked
-    bool entity_physical_logical_unclick_();
-
-    //! Deselect last entities clicked of all kinds
-    bool entity_unclick_();
-
     /////
     // Variables
 
@@ -649,17 +688,8 @@ protected:
     //! TODO
     models::ListModel* destination_entity_id_model_;
 
-    //! Id of the last Entity clicked or \c ID_ALL
-    backend::EntityId last_dds_entity_clicked_;
-
-    //! Kind of the last Entity clicked or \c INVALID
-    backend::EntityKind last_dds_entity_clicked_kind_;
-
-    //! Id of the last Entity clicked in physical or logical or \c ID_ALL
-    backend::EntityId last_physical_logical_entity_clicked_;
-
-    //! Kind of the last Entity clicked in physical or logical or \c INVALID
-    backend::EntityKind last_physical_logical_entity_clicked_kind_;
+    //! Ids of the last Entity clicked
+    EntitiesClicked last_entities_clicked_;
 
     //! QML connected object to handler the static series created
     HistoricStatisticsData* historic_statistics_data_;
