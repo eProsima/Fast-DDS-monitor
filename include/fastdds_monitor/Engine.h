@@ -70,6 +70,8 @@ struct EntitiesClicked
     //! Id of the last Entity clicked in physical or logical or \c ID_ALL
     EntityClicked physical_logical;
 
+    bool is_physical_logical_clicked() const;
+
     bool is_dds_clicked() const;
 
     std::tuple<

@@ -749,13 +749,14 @@ void Engine::refresh_engine(
 
     if (!maintain_clicked)
     {
-        entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID, true, false);
         qDebug() << "Do not keep old clicked in refresh";
+        entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID, true, false);
     }
     else
     {
-        // Check that entity still exist
-        if (backend_connection_.entity_exists(old_entities_clicked.physical_logical.id))
+        // Check that physical/logical entity still exist
+        if (old_entities_clicked.is_physical_logical_clicked() &&
+            backend_connection_.entity_exists(old_entities_clicked.physical_logical.id))
         {
             qDebug() << "Keep old clicked in refresh and setting old entity";
 
@@ -765,19 +766,25 @@ void Engine::refresh_engine(
                 old_entities_clicked.physical_logical.kind,
                 true,
                 false);
+        }
+        else
+        {
+            qDebug() << "Clicking all";
+            entity_clicked(backend::ID_ALL, backend::EntityKind::INVALID, true, false);
+        }
 
-            // Check that DDS entity still exist
-            if (old_entities_clicked.is_dds_clicked() && backend_connection_.entity_exists(old_entities_clicked.dds.id))
-            {
-                qDebug() << "Keep old clicked in refresh and setting old DDS entity";
+        // Check that dds entity still exist
+        if (old_entities_clicked.is_dds_clicked() &&
+            backend_connection_.entity_exists(old_entities_clicked.dds.id))
+        {
+            qDebug() << "Keep old clicked in refresh and setting old DDS entity";
 
-                // Click first the logical physical
-                entity_clicked(
-                    old_entities_clicked.dds.id,
-                    old_entities_clicked.dds.kind,
-                    true,
-                    false);
-            }
+            // Click first the logical physical
+            entity_clicked(
+                old_entities_clicked.dds.id,
+                old_entities_clicked.dds.kind,
+                true,
+                false);
         }
     }
 }
@@ -1292,6 +1299,11 @@ EntityClicked EntityClicked::reset()
 bool EntitiesClicked::is_dds_clicked() const
 {
     return dds.is_set();
+}
+
+bool EntitiesClicked::is_physical_logical_clicked() const
+{
+    return physical_logical.is_set();
 }
 
 EntityClicked EntityClicked::set(backend::EntityId clicked_entity, backend::EntityKind clicked_kind)
