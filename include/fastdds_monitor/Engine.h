@@ -47,7 +47,9 @@ struct EntityClicked
     backend::EntityKind kind = backend::EntityKind::INVALID;
     bool is_set() const;
     EntityClicked reset();
-    EntityClicked set(backend::EntityId clicked_entity, backend::EntityKind clicked_kind);
+    EntityClicked set(
+            backend::EntityId clicked_entity,
+            backend::EntityKind clicked_kind);
 };
 
 /**
@@ -78,7 +80,9 @@ struct EntitiesClicked
         EntityKindClicked,
         EntityClicked,
         EntityClicked>
-    click(backend::EntityId clicked_entity, backend::EntityKind clicked_kind);
+    click(
+            backend::EntityId clicked_entity,
+            backend::EntityKind clicked_kind);
 
     std::pair<EntityClicked, EntityClicked> unclick();
 
@@ -352,7 +356,7 @@ public:
      * Erase the callback issue list.
      */
     void refresh_engine(
-        bool maintain_clicked = false);
+            bool maintain_clicked = false);
 
     /**
      * @brief Erase the inactive entities from database.

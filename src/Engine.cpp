@@ -756,7 +756,7 @@ void Engine::refresh_engine(
     {
         // Check that physical/logical entity still exist
         if (old_entities_clicked.is_physical_logical_clicked() &&
-            backend_connection_.entity_exists(old_entities_clicked.physical_logical.id))
+                backend_connection_.entity_exists(old_entities_clicked.physical_logical.id))
         {
             qDebug() << "Keep old clicked in refresh and setting old entity";
 
@@ -775,7 +775,7 @@ void Engine::refresh_engine(
 
         // Check that dds entity still exist
         if (old_entities_clicked.is_dds_clicked() &&
-            backend_connection_.entity_exists(old_entities_clicked.dds.id))
+                backend_connection_.entity_exists(old_entities_clicked.dds.id))
         {
             qDebug() << "Keep old clicked in refresh and setting old DDS entity";
 
@@ -1306,7 +1306,9 @@ bool EntitiesClicked::is_physical_logical_clicked() const
     return physical_logical.is_set();
 }
 
-EntityClicked EntityClicked::set(backend::EntityId clicked_entity, backend::EntityKind clicked_kind)
+EntityClicked EntityClicked::set(
+        backend::EntityId clicked_entity,
+        backend::EntityKind clicked_kind)
 {
     EntityClicked old = *this;
     id = clicked_entity;
@@ -1315,14 +1317,16 @@ EntityClicked EntityClicked::set(backend::EntityId clicked_entity, backend::Enti
 }
 
 std::tuple<
-        EntitiesClicked::EntityKindClicked,
-        EntityClicked,
-        EntityClicked>
-EntitiesClicked::click(backend::EntityId clicked_entity, backend::EntityKind clicked_kind)
+    EntitiesClicked::EntityKindClicked,
+    EntityClicked,
+    EntityClicked>
+EntitiesClicked::click(
+        backend::EntityId clicked_entity,
+        backend::EntityKind clicked_kind)
 {
     std::tuple<EntitiesClicked::EntityKindClicked, EntityClicked, EntityClicked> result;
 
-    switch(clicked_kind)
+    switch (clicked_kind)
     {
         case backend::EntityKind::HOST:
         case backend::EntityKind::USER:

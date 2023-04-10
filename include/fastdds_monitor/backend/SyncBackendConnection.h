@@ -167,7 +167,7 @@ public:
     * CREATE *
     **********/
 
-   bool entity_exists(
+    bool entity_exists(
             EntityId entity_id);
 
 protected:
