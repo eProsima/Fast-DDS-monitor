@@ -284,11 +284,11 @@ public:
 
     //! Clear all internal models
     void reset_all_data();
-    // Clear the internal dds model
+    //! Clear the internal dds model
     void reset_dds_data();
-    // Clear the internal logic model
+    //! Clear the internal logic model
     void reset_logic_data();
-    // Clear the internal physical model
+    //! Clear the internal physical model
     void reset_physical_data();
 
     /////
@@ -354,6 +354,9 @@ public:
      * Erase the last entity clicked, and set it as \c ID_ALL so the info shown does nor reference any single entity.
      * Refresh all the models with the new configuration.
      * Erase the callback issue list.
+     *
+     * @param maintain_clicked whether the entities currently clicked must be maintained (in case still exist)
+     * after the refresh and refill of every model.
      */
     void refresh_engine(
             bool maintain_clicked = false);
