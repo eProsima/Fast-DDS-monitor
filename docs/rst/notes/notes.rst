@@ -17,7 +17,7 @@ This release includes the following **features**:
 * Button to dump the information from the database to a JSON file.
 * Button to remove inactive entities from the database.
 * Button to clear the statistical data of all the entities.
-* Buttton to schedule the removal of old data every ``x`` seconds.
+* Button to schedule the removal of old data every ``x`` seconds.
 * Support for limiting data points in dynamic data series.
 
 #################
