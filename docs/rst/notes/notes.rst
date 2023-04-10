@@ -14,11 +14,11 @@ Version v1.4.0
 
 This release includes the following **features**:
 
-* Dump the information from the database to a JSON file.
-* Remove inactive entities from the database.
-* Delete the statistics data of all the entities.
-* Schedule remove old data every ``x`` sec.
-* Support limit of data points in dynamic data series.
+* Button to dump the information from the database to a JSON file.
+* Button to remove inactive entities from the database.
+* Button to clear the statistical data of all the entities.
+* Buttton to schedule the removal of old data every ``x`` seconds.
+* Support for limiting data points in dynamic data series.
 
 #################
 Previous versions
