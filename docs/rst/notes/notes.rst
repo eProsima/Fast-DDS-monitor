@@ -4,9 +4,7 @@
 Notes
 #####
 
-..
-    TODO uncomment when there are forthcoming notes
-    .. include:: forthcoming_version.rst
+.. include:: forthcoming_version.rst
 
 ##############
 Version v1.4.0

@@ -115,7 +115,7 @@ This button clear the statistics data of all the entities.
 Schedule Delete
 ---------------
 
-Creates a schedule to remove old data and/or inactive entities at a specified interval.
+Creates a schedule to dump the database to a file, remove old data and/or remove inactive entities at a specified interval.
 
 .. _refresh_button:
 
