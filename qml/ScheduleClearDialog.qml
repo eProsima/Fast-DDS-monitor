@@ -57,9 +57,9 @@ Dialog {
 
 
         Label {
-            text: "Dump"
+            text: "Save"
             InfoToolTip {
-                text: "Dump database to a file."
+                text: "Save database to a file."
             }
         }
         CheckBox {
@@ -81,21 +81,28 @@ Dialog {
             text: "Select path:"
             enabled: dumpOn
             InfoToolTip {
-                text: "Path to save the dump \n"+
-                        "file."
+                text: "Path to save the file."
             }
         }
-        Button {
-            text: "Choose"
-            enabled: dumpOn
-            onClicked: {
-                var dialog = Qt.createQmlObject('import QtQuick.Dialogs 1.2; FileDialog { selectFolder: true }', parent, "Folder Dialog");
-                dialog.accepted.connect(function() {
-                    file_name = dialog.folder + "/"
-                });
-                dialog.open();
+        RowLayout {
+            Label {
+                enabled: dumpOn
+                text: file_name.substring(7)    // file_name without file://
+            }
+
+            Button {
+                text: "Search"
+                enabled: dumpOn
+                onClicked: {
+                    var dialog = Qt.createQmlObject('import QtQuick.Dialogs 1.2; FileDialog { selectFolder: true }', parent, "Folder Dialog");
+                    dialog.accepted.connect(function() {
+                        file_name = dialog.folder + "/"
+                    });
+                    dialog.open();
+                }
             }
         }
+
 
         Label {
             text: "File name:"
