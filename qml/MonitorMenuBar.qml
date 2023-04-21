@@ -81,9 +81,8 @@ MenuBar {
             }
         }
         Action {
-            text: qsTr("Schedule delete")
+            text: qsTr("Scheduler Configuration")
             onTriggered: {
-                // scheduleClear.onTriggered = true
                 scheduleClear.open()
             }
         }

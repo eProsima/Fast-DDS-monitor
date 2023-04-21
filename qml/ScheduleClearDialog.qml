@@ -24,7 +24,7 @@ import Theme 1.0
 Dialog {
     id: scheduleClear
     modal: false
-    title: "Remove Scheduler"
+    title: "Scheduler Configuration"
     standardButtons: Dialog.Ok | Dialog.Help | Dialog.Cancel
 
     x: (parent.width - width) / 2
