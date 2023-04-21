@@ -24,12 +24,14 @@ import Theme 1.0
 Dialog {
     id: scheduleClear
     modal: false
-    title: "Remove Scheduler"
+    title: "Scheduler Configuration"
     standardButtons: Dialog.Ok | Dialog.Help | Dialog.Cancel
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
+    property bool dumpOn: false
+    property string file_name: ""
     property bool deleteEntities: false
     property bool deleteData: false
 
@@ -52,6 +54,85 @@ Dialog {
 
         columns: 2
         rowSpacing: 20
+
+
+        Label {
+            text: "Save"
+            InfoToolTip {
+                text: "Save database to a file."
+            }
+        }
+        CheckBox {
+            id: dump
+            checked: false
+            indicator.width: 20
+            indicator.height: 20
+            onCheckedChanged: {
+                if (checked) {
+                    dumpOn = true
+
+                } else {
+                    dumpOn = false
+                }
+            }
+        }
+
+        Label {
+            text: "Select path:"
+            enabled: dumpOn
+            InfoToolTip {
+                text: "Path to save the file."
+            }
+        }
+        RowLayout {
+            Label {
+                enabled: dumpOn
+                text: file_name.substring(7)    // file_name without file://
+            }
+
+            Button {
+                text: "Search"
+                enabled: dumpOn
+                onClicked: {
+                    var dialog = Qt.createQmlObject('import QtQuick.Dialogs 1.2; FileDialog { selectFolder: true }', parent, "Folder Dialog");
+                    dialog.accepted.connect(function() {
+                        file_name = dialog.folder + "/"
+                    });
+                    dialog.open();
+                }
+            }
+        }
+
+
+        Label {
+            text: "File name:"
+            enabled: dumpOn
+            InfoToolTip {
+                text: "Name of the file to which\n"+
+                        "the database will be\n"+
+                        "dumped, in the format\n"+
+                        "name_yyyy-MM-dd_hh-mm-ss.json."
+            }
+        }
+        TextField {
+            id: fileName
+            enabled: dumpOn
+            Layout.fillWidth: true
+            text: "dump_file"
+            placeholderText: "dump_file"
+            selectByMouse: true
+            selectionColor: Theme.eProsimaLightBlue
+        }
+
+        RowLayout {
+            Layout.columnSpan: 2
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 2
+                color: Theme.lightGrey
+            }
+        }
 
         Label {
             text: "Delete entities: "
@@ -255,11 +336,22 @@ Dialog {
         return (hours*3600 + minutes*60 + seconds)
     }
 
+    function get_timestamp() {
+        return new Date().toLocaleString(Qt.locale("es_ES"), "yyyy-MM-dd_hh-mm-ss");
+    }
+
     Timer {
         id:  refreshTimer
         interval: updatePeriodClearToMilliseconds()
         repeat: true
         onTriggered: {
+            if (dumpOn) {
+                var name = file_name+fileName.text+"_"+get_timestamp()+".json"
+                // console.log("Selected name: " + name);
+                controller.dump(
+                    name,
+                    false)
+            }
             if (deleteEntities) {
                 controller.clear_entities()
             }
