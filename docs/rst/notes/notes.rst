@@ -1,27 +1,21 @@
 .. _release_notes:
 
-#####
-Notes
-#####
-
-.. include:: forthcoming_version.rst
+.. TODO uncomment when there are forthcoming notes
+.. .. include:: forthcoming_version.rst
 
 ##############
-Version v1.4.0
+Version v1.5.0
 ##############
 
 This release includes the following **features**:
 
-* Button to dump the information from the database to a JSON file.
-* Button to remove inactive entities from the database.
-* Button to clear the statistical data of all the entities.
-* Button to schedule the removal of old data every ``x`` seconds.
-* Support for limiting data points in dynamic data series.
+    * Schedule dump the information from the database to a JSON file.
 
 #################
 Previous versions
 #################
 
+.. include:: previous_versions/v1.4.0.rst
 .. include:: previous_versions/v1.3.0.rst
 .. include:: previous_versions/v1.2.1.rst
 .. include:: previous_versions/v1.2.0.rst
