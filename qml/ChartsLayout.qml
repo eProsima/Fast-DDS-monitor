@@ -332,6 +332,7 @@ Rectangle {
                                            "chartTitle": dataKind,
                                            "timeFrame": -1,
                                            "timeUpdate": -1,
+                                           "maxPoints": -1,
                                            "dynamic": false
                                        })
     }
