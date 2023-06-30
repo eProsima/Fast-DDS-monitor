@@ -3,7 +3,7 @@
 <package format="3">
   <name>fastdds_monitor</name>
   <!-->There must be a release. Update version accordingly<-->
-  <version>1.4.0</version>
+  <version>1.5.0</version>
   <description>
     Qt application written in C++ that plot the data from the Fast DDS Statistics Backend.
   </description>
