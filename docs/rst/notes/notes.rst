@@ -9,7 +9,7 @@ Version v1.5.0
 
 This release includes the following **features**:
 
-    * Schedule dump the information from the database to a JSON file.
+    * Schedule the dump of the database information to a JSON file.
 
 This release includes the following **dependencies update**:
 
