@@ -9,7 +9,7 @@
 [![Forks](https://img.shields.io/github/forks/eProsima/Fast-DDS-monitor.svg)](https://github.com/eProsima/Fast-DDS-monitor/network/members)
 [![Stars](https://img.shields.io/github/stars/eProsima/Fast-DDS-monitor.svg)](https://github.com/eProsima/Fast-RTPS/stargazers)
 [![test](https://github.com/eProsima/Fast-DDS-monitor/actions/workflows/test.yml/badge.svg)](https://github.com/eProsima/Fast-DDS-monitor/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/eProsima/Fast-DDS-monitor/branch/main/graph/badge.svg?token=6NA5PVA9QL)](https://codecov.io/gh/eProsima/Fast-DDS-monitor)
+[![codecov](https://codecov.io/gh/eProsima/Fast-DDS-monitor/branch/v1.5.0/graph/badge.svg?token=6NA5PVA9QL)](https://codecov.io/gh/eProsima/Fast-DDS-monitor)
 [![Documentation Status](https://readthedocs.org/projects/fast-dds-monitor/badge/?version=latest)](https://fast-dds-monitor.readthedocs.io/en/latest/)
 
 *eProsima Fast DDS Monitor* is a graphical desktop application aimed at monitoring DDS environments deployed using the
