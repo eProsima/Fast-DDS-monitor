@@ -274,7 +274,7 @@ bool SyncBackendConnection::update_logical_model(
 
     return update_model_(
         logical_model,
-        EntityKind::DOMAIN,
+        EntityKind::DOMAIN_ENTITY,
         ID_ALL,
         &SyncBackendConnection::update_domain_item,
         &SyncBackendConnection::create_domain_data_,
@@ -948,7 +948,7 @@ bool SyncBackendConnection::update_topic(
         bool last_clicked)
 {
     // Get Domain model where this Topic belongs
-    ListModel* domain_model = get_model_(logical_model, id, EntityKind::DOMAIN);
+    ListModel* domain_model = get_model_(logical_model, id, EntityKind::DOMAIN_ENTITY);
 
     if (domain_model == nullptr)
     {

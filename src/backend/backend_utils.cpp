@@ -82,7 +82,7 @@ QString entity_kind_to_QString(
             return "User";
         case EntityKind::PROCESS:
             return "Process";
-        case EntityKind::DOMAIN:
+        case EntityKind::DOMAIN_ENTITY:
             return "Domain";
         case EntityKind::TOPIC:
             return "Topic";
@@ -176,7 +176,7 @@ EntityKind string_to_entity_kind(
         {"Host", EntityKind::HOST},
         {"User", EntityKind::USER},
         {"Process", EntityKind::PROCESS},
-        {"Domain", EntityKind::DOMAIN},
+        {"Domain", EntityKind::DOMAIN_ENTITY},
         {"Topic", EntityKind::TOPIC},
         {"DomainParticipant", EntityKind::PARTICIPANT},
         {"DataWriter", EntityKind::DATAWRITER},
