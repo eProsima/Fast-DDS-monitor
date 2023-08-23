@@ -45,8 +45,8 @@ RowLayout {
         }
     }
     onChangeChartboxLayout: {
-        chartsLayout.boxesPerRow = chartsPerRow
-        chartsLayout.exitFullScreen()
+        tabs.chartsLayout_boxesPerRow(chartsPerRow)
+        tabs.chartsLayout_exitFullScreen()
     }
 
     IconsVBar {
@@ -92,8 +92,8 @@ RowLayout {
             onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
         }
 
-        ChartsLayout {
-            id: chartsLayout
+        TabLayout {
+            id: tabs
             SplitView.fillWidth: true
             clip: true
 
@@ -115,19 +115,19 @@ RowLayout {
     }
 
     function createHistoricChart(dataKind){
-        chartsLayout.createHistoricChart(dataKind)
+        tabs.chartsLayout_createHistoricChart(dataKind)
     }
 
     function createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints){
-        chartsLayout.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
+        tabs.chartsLayout_createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
     }
 
     function createScheduleClear(entities, data, updateData, updateClear){
-        chartsLayout.createScheduleClear(entities, data, updateData, updateClear)
+        tabs.chartsLayout_createScheduleClear(entities, data, updateData, updateClear)
     }
 
     function saveAllCSV() {
-        chartsLayout.saveAllCSV()
+        tabs.chartsLayout_saveAllCSV()
     }
 
     function changeExplorerDDSEntities(status) {
