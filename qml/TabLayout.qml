@@ -32,7 +32,7 @@ Item {
     property bool disable_chart_selection: false                            // flag to disable multiple chart view tabs
 
     // Read only  design properties
-    readonly property int max_tabs_: 6
+    readonly property int min_tab_size_: 120
     readonly property int tabs_margins_: 15
     readonly property int tab_icons_size_: 16
     readonly property string selected_tab_color_: "#ffffff"
@@ -61,9 +61,9 @@ Item {
             // tab design
             delegate: Rectangle {
                 id: delegated_rect
-                width: tabLayout.tab_model_.length < 5 ? 200 : tabLayout.tab_model_.length <= max_tabs_ -1
-                    ? (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length
-                    : tabLayout.width / tabLayout.tab_model_.length; height: 36
+                height: 36
+                width: ((tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length) > 200
+                    || remain_width_rect.width > 0 ? 180 : (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length
                 color: current_ == modelData["idx"] ? selected_tab_color_ : not_selected_tab_color_
                 property string shadow_color: current_ == modelData["idx"] ? selected_shadow_tab_color_ : not_selected_shadow_tab_color_
                 gradient: Gradient {
@@ -77,9 +77,21 @@ Item {
                     horizontalAlignment: Qt.AlignLeft; verticalAlignment: Qt.AlignVCenter
                     anchors.left: parent.left
                     anchors.leftMargin: tabs_margins_
+                    anchors.right: close_icon.visible ? close_icon.left : parent.right
+                    anchors.rightMargin: tabs_margins_
                     anchors.verticalCenter: parent.verticalCenter
                     text: modelData["title"]
                     elide: Text.ElideRight
+                }
+                // close tab icon
+                IconSVG {
+                    id: close_icon
+                    visible: modelData["idx"] == current_ ? true : parent.width > min_tab_size_
+                    anchors.right: parent.right
+                    anchors.rightMargin: tabs_margins_
+                    anchors.verticalCenter: parent.verticalCenter
+                    name: "cross"
+                    size: tab_icons_size_
                 }
                 // tab selection action
                 MouseArea {
@@ -89,21 +101,21 @@ Item {
                         refresh_layout(modelData["idx"])
                     }
                 }
-                // close tab icon
-                IconSVG {
-                    id: close_icon
-                    anchors.right: parent.right
-                    anchors.rightMargin: tabs_margins_
-                    anchors.verticalCenter: parent.verticalCenter
-                    name: "cross"
-                    size: tab_icons_size_
-                }
                 // close tab action
                 MouseArea {
                     anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.right: parent.right
                     anchors.left: close_icon.left; anchors.leftMargin: - tabs_margins_
                     onClicked: {
-                        tabLayout.remove_idx(modelData["idx"])
+                        // act as close is close icon shown (same expression as in close_icon visible attribute)
+                        if (modelData["idx"] == current_ || parent.width > min_tab_size_)
+                        {
+                            remove_idx(modelData["idx"])
+                        }
+                        // if not, act as open tab action
+                        else
+                        {
+                            refresh_layout(modelData["idx"])
+                        }
                     }
                 }
             }
@@ -111,8 +123,7 @@ Item {
         // Add new tab button
         Rectangle {
             id: add_new_tab_button
-            visible: tabLayout.tab_model_.length < max_tabs_ -1
-            width: 80; height: 36;
+            width: 50; height: 36;
             color: not_selected_tab_color_
             gradient: Gradient {
                 orientation: Gradient.Horizontal
@@ -136,6 +147,7 @@ Item {
         }
         // remain space in tab bar handled by this component
         Rectangle {
+            id: remain_width_rect
             width: tabLayout.width - (add_new_tab_button.x + add_new_tab_button.width); height: 36
             color: not_selected_tab_color_
 
