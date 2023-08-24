@@ -206,14 +206,14 @@ Item {
                             Button {
                                 width: 400; height: 400
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: "Topic View"
+                                text: "Domain View"
                                 onClicked: {
-                                    tabLayout.tab_model_[current_]["title"]="Topic View"
+                                    tabLayout.tab_model_[current_]["title"]="Domain View"
                                     if (stack.deep > 1)
                                     {
                                         stack.pop()
                                     }
-                                    stack.push(topicViewLayout)
+                                    stack.push(domainViewLayout)
                                     refresh_layout(current_)
                                 }
                             }
@@ -225,11 +225,11 @@ Item {
     }
 
     Component {
-        id: topicViewLayout
+        id: domainViewLayout
 
         Rectangle{
             Text{
-                text: "Here would be the topic view"
+                text: "Here would be the domain view"
             }
         }
     }
