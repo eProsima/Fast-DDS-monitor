@@ -32,6 +32,7 @@ Item {
     property bool disable_chart_selection: false                            // flag to disable multiple chart view tabs
 
     // Read only  design properties
+    readonly property int max_tabs_: 15
     readonly property int min_tab_size_: 120
     readonly property int tabs_margins_: 15
     readonly property int tab_icons_size_: 16
@@ -123,6 +124,7 @@ Item {
         // Add new tab button
         Rectangle {
             id: add_new_tab_button
+            visible: tabLayout.tab_model_.length < max_tabs_
             width: 50; height: 36;
             color: not_selected_tab_color_
             gradient: Gradient {
@@ -141,7 +143,8 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    tabLayout.create_new_tab()
+                    if (tabLayout.tab_model_.length < max_tabs_)
+                        tabLayout.create_new_tab()
                 }
             }
         }
@@ -177,7 +180,9 @@ Item {
             StackView {
                 id: stack
                 initialItem: view_selector
-                //anchors.fill: parent
+
+                // override push transition to none
+                pushEnter: Transition {}
 
                 // menu that allows the selection of the view, and changes the stack if necessary
                 Component {
