@@ -130,12 +130,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    var idx = tabLayout.tab_model_.length
-                    tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
-                    var new_stack = stack_component.createObject(null, {"id": last_index_})
-                    last_index_++
-                    stack_layout.children.push(new_stack)
-                    refresh_layout(idx)
+                    tabLayout.create_new_tab()
                 }
             }
         }
@@ -234,6 +229,17 @@ Item {
         }
     }
 
+    function create_new_tab()
+    {
+        var idx = tabLayout.tab_model_.length
+        tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
+        var new_stack = stack_component.createObject(null, {"id": last_index_})
+        last_index_++
+        stack_layout.children.push(new_stack)
+        refresh_layout(idx)
+        stack_layout.currentIndex = tabLayout.tab_model_[idx]["stack_id"]
+    }
+
     // the given idx update current tab displayed (if != current)
     function refresh_layout(idx)
     {
@@ -253,10 +259,11 @@ Item {
     // remove tab and all contained components
     function remove_idx(idx)
     {
-        // DO NOT remove tab if it is the last tab
+        var should_add_new_tab = false
+        // add new tab if closing the last opened tab
         if (tabLayout.tab_model_.length <= 1)
         {
-            return
+            should_add_new_tab = true
         }
 
         var i, idx_prev
@@ -294,28 +301,37 @@ Item {
             tabLayout.tab_model_.pop(idx_prev)
         }
 
-        // reset the focus to the new "current" tab
-        var new_current = current_
-        if (idx == current_)
+        // if last tab closed
+        if (should_add_new_tab)
         {
-            if (idx -1 >= 1)
+            create_new_tab()
+        }
+        // reset the focus to the new "current" tab
+        else
+        {
+            var new_current = current_
+            if (idx == current_)
             {
-                new_current = idx -1
+                if (idx -1 >= 1)
+                {
+                    new_current = idx -1
+                }
+                else
+                {
+                    new_current = 0
+                }
             }
             else
             {
-                new_current = 0
+                if (current_ == tabLayout.tab_model_.length)
+                {
+                    new_current = current_ -1
+                }
             }
+
+            // perform changes in the view
+            refresh_layout(new_current)
         }
-        else
-        {
-            if (current_ == tabLayout.tab_model_.length)
-            {
-                new_current = current_ -1
-            }
-        }
-        // perform changes in the view
-        refresh_layout(new_current)
     }
 
     // Inherited ChartsLayout functions
