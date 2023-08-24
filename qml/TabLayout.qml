@@ -63,8 +63,10 @@ Item {
             delegate: Rectangle {
                 id: delegated_rect
                 height: 36
-                width: ((tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length) > 200
-                    || remain_width_rect.width > 0 ? 180 : (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length
+                width: tabLayout.tab_model_.length == max_tabs_ ? tabLayout.width / tabLayout.tab_model_.length
+                    : ((tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length) > 200
+                    || remain_width_rect.width > 0 ? 180
+                    : (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length
                 color: current_ == modelData["idx"] ? selected_tab_color_ : not_selected_tab_color_
                 property string shadow_color: current_ == modelData["idx"] ? selected_shadow_tab_color_ : not_selected_shadow_tab_color_
                 gradient: Gradient {
