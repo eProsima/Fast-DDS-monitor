@@ -31,7 +31,7 @@ Item {
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection: false                            // flag to disable multiple chart view tabs
 
-    // Read only  design properties
+    // Read only design properties
     readonly property int max_tabs_: 15
     readonly property int max_tab_size_: 180
     readonly property int min_tab_size_: 120
@@ -52,10 +52,20 @@ Item {
     }
 
     ChartsLayout {
+        z: 1
         id: chartsLayout
         anchors.fill: stack_layout
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
+        }
+    }
+
+    Component {
+        id: domainGraphLayout_component
+
+        DomainGraphLayout
+        {
+            id: domainGraphLayout
         }
     }
 
@@ -143,6 +153,7 @@ Item {
     // Add new tab button
     Rectangle {
         id: add_new_tab_button
+        z: 99
         visible: tabLayout.tab_model_.length < max_tabs_
         anchors.right: remain_width_rect.left
         anchors.verticalCenter: tab_list.verticalCenter
@@ -175,6 +186,7 @@ Item {
     // remain space in tab bar handled by this component
     Rectangle {
         id: remain_width_rect
+        z: 98
         width: tabLayout.width - add_new_tab_button.width - tab_list.width; height: tabs_height_
         anchors.right: tabLayout.right
         anchors.verticalCenter: tab_list.verticalCenter
@@ -253,23 +265,15 @@ Item {
                                     {
                                         stack.pop()
                                     }
-                                    stack.push(domainViewLayout)
+                                    var new_domain_graph = domainGraphLayout_component.createObject(null,
+                                        {"id": tabLayout.tab_model_[current_]["stack_id"]})
+                                    stack.push(new_domain_graph)
                                     refresh_layout(current_)
                                 }
                             }
                         }
                     }
                 }
-            }
-        }
-    }
-
-    Component {
-        id: domainViewLayout
-
-        Rectangle{
-            Text{
-                text: "Here would be the domain view"
             }
         }
     }

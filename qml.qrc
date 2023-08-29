@@ -21,6 +21,7 @@
         <file>qml/CustomLegend.qml</file>
         <file>qml/CustomScrollBar.qml</file>
         <file>qml/DifferClickMouseArea.qml</file>
+        <file>qml/DomainGraphLayout.qml</file>
         <file>qml/DoubleSpinBox.qml</file>
         <file>qml/DumpFileDialog.qml</file>
         <file>qml/DynamicDataKindDialog.qml</file>
@@ -30,6 +31,7 @@
         <file>qml/EntityList.qml</file>
         <file>qml/ErrorDialog.qml</file>
         <file>qml/ExportCSVFileDialog.qml</file>
+        <file>qml/GraphConnection.qml</file>
         <file>qml/HistoricDataKindDialog.qml</file>
         <file>qml/HistoricDisplayStatisticsDialog.qml</file>
         <file>qml/HistoricStatisticsChartView.qml</file>
