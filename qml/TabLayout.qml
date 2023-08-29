@@ -30,8 +30,9 @@ Item {
     property int last_index_: 1                                             // force unique idx on QML components
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection: false                            // flag to disable multiple chart view tabs
+    signal open_domain_view(int entity_id, int domain_id)
 
-    // Read only  design properties
+    // Read only design properties
     readonly property int max_tabs_: 15
     readonly property int max_tab_size_: 180
     readonly property int min_tab_size_: 120
@@ -52,10 +53,25 @@ Item {
     }
 
     ChartsLayout {
+        z: 1
+        visible: disable_chart_selection
         id: chartsLayout
         anchors.fill: stack_layout
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
+        }
+    }
+
+    Component {
+        id: domainGraphLayout_component
+
+        DomainGraphLayout
+        {
+            id: domainGraphLayout
+
+            onUpdate_tab_name: {
+                tabLayout.tab_model_[current_]["title"] = new_name
+            }
         }
     }
 
@@ -143,6 +159,7 @@ Item {
     // Add new tab button
     Rectangle {
         id: add_new_tab_button
+        z: 99
         visible: tabLayout.tab_model_.length < max_tabs_
         anchors.right: remain_width_rect.left
         anchors.verticalCenter: tab_list.verticalCenter
@@ -175,6 +192,7 @@ Item {
     // remain space in tab bar handled by this component
     Rectangle {
         id: remain_width_rect
+        z: 98
         width: tabLayout.width - add_new_tab_button.width - tab_list.width; height: tabs_height_
         anchors.right: tabLayout.right
         anchors.verticalCenter: tab_list.verticalCenter
@@ -248,14 +266,25 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: "Domain View"
                                 onClicked: {
-                                    tabLayout.tab_model_[current_]["title"]="Domain View"
-                                    if (stack.deep > 1)
-                                    {
-                                        stack.pop()
-                                    }
-                                    stack.push(domainViewLayout)
-                                    refresh_layout(current_)
+                                    domain_id_dialog.open()
                                 }
+                            }
+                        }
+
+                        Connections {
+                            target: tabLayout
+
+                            function onOpen_domain_view(entity_id, domain_id) {
+                                if (stack.deep > 1)
+                                {
+                                    stack.pop()
+                                }
+
+                                var new_domain_graph = domainGraphLayout_component.createObject(null,
+                                    {"id": tabLayout.tab_model_[current_]["stack_id"],
+                                    "entity_id":entity_id , "domain_id":domain_id })
+                                stack.push(new_domain_graph)
+                                refresh_layout(current_)
                             }
                         }
                     }
@@ -264,13 +293,65 @@ Item {
         }
     }
 
-    Component {
-        id: domainViewLayout
+    Dialog {
+        id: domain_id_dialog
 
-        Rectangle{
-            Text{
-                text: "Here would be the domain view"
+        property bool enable_ok_button: false       // disable OK button until user selects domain id
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+
+        width: 300
+
+        modal: true
+        title: "Select DDS Domain"
+
+        footer: DialogButtonBox {
+            id: buttons
+            standardButtons: Dialog.Ok | Dialog.Cancel
+        }
+
+        Component.onCompleted: {
+            controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
+        }
+
+        onAboutToShow: {
+            custom_combobox.currentIndex = -1
+            controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
+            custom_combobox.recalculateWidth()
+            enable_ok_button = false
+            buttons.standardButton(Dialog.Ok).enabled = false
+        }
+
+        onEnable_ok_buttonChanged: {
+            buttons.standardButton(Dialog.Ok).enabled = domain_id_dialog.enable_ok_button
+        }
+
+        AdaptiveComboBox {
+            id: custom_combobox
+            textRole: "nameId"
+            valueRole: "id"
+            displayText: currentIndex === -1
+                            ? ("Please choose a Domain ID")
+                            : currentText
+            model: entityModelFirst
+
+            Component.onCompleted:
+            {
+                controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
+                currentIndex = -1
+                custom_combobox.recalculateWidth()
             }
+
+            onActivated: {
+                domain_id_dialog.enable_ok_button = true
+                custom_combobox.recalculateWidth()
+            }
+        }
+
+        onAccepted:
+        {
+            open_domain_view(0, 0)
         }
     }
 
