@@ -339,6 +339,8 @@ Item {
                 {
                     new_current = 0
                 }
+                // move to the idx tab in the stack
+                stack_layout.currentIndex = tabLayout.tab_model_[new_current]["stack_id"]
             }
             else
             {
@@ -347,7 +349,6 @@ Item {
                     new_current = current_ -1
                 }
             }
-
             // perform changes in the view
             refresh_layout(new_current)
         }
