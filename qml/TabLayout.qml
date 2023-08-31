@@ -43,17 +43,19 @@ Item {
 
     // initialize first element in the tab
     Component.onCompleted:{
-        var new_stack = stack_component.createObject(null, {"id": 0})
+        var new_stack = stack_component.createObject(null, {"id": 0, "anchors.fill": "parent"})
         stack_layout.children.push(new_stack)
         refresh_layout(current_)
     }
 
     ChartsLayout {
         id: chartsLayout
+        anchors.fill: stack_layout
     }
 
     Row {
         id: header
+        z: 100 // z is the front-back order. The tab bar must always be on top of any stackview component
         // tab repeater with tab selection and tab deletion
         Repeater {
             id: tabRepeater
@@ -172,6 +174,7 @@ Item {
     // stack layout (where idx referred to the tab, which would contain different views)
     StackLayout {
         id: stack_layout
+        z: 1 // z is the front-back order. The tab bar must always be on top of any stackview component
         width: tabLayout.width
         anchors.top: header.bottom; anchors.bottom: tabLayout.bottom
 
@@ -181,6 +184,7 @@ Item {
             // view with the different views available in a tab
             StackView {
                 id: stack
+                anchors.fill: parent
                 initialItem: view_selector
 
                 // override push transition to none
@@ -252,7 +256,7 @@ Item {
     {
         var idx = tabLayout.tab_model_.length
         tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
-        var new_stack = stack_component.createObject(null, {"id": last_index_})
+        var new_stack = stack_component.createObject(null, {"id": last_index_, "anchors.fill": "parent"})
         last_index_++
         stack_layout.children.push(new_stack)
         refresh_layout(idx)
