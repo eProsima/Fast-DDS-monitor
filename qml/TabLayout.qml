@@ -33,9 +33,12 @@ Item {
 
     // Read only  design properties
     readonly property int max_tabs_: 15
+    readonly property int max_tab_size_: 180
     readonly property int min_tab_size_: 120
+    readonly property int tabs_height_: 36
     readonly property int tabs_margins_: 15
     readonly property int tab_icons_size_: 16
+    readonly property int add_tab_width_: 50
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
     readonly property string not_selected_tab_color_: "#f0f0f0"
@@ -53,130 +56,145 @@ Item {
         anchors.fill: stack_layout
     }
 
-    Row {
-        id: header
-        z: 100 // z is the front-back order. The tab bar must always be on top of any stackview component
-        // tab repeater with tab selection and tab deletion
-        Repeater {
-            id: tabRepeater
-            model: tabLayout.tab_model_
+    ListView {
+        id: tab_list
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: contentWidth
+        height: tabs_height_
+        z: 100 // z is the front-back order. The tab bar must always be on top of any StackView component
+        orientation: ListView.Horizontal
+        model: tabLayout.tab_model_
 
-            // tab design
-            delegate: Rectangle {
-                id: delegated_rect
-                height: 36
-                width: tabLayout.tab_model_.length == max_tabs_ ? tabLayout.width / tabLayout.tab_model_.length
-                    : ((tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length) > 200
-                    || remain_width_rect.width > 0 ? 180
+        // tab design
+        delegate: Rectangle {
+            id: delegated_rect
+            height: tabs_height_
+            width: tabLayout.tab_model_.length == max_tabs_
+                ? tabLayout.width / tabLayout.tab_model_.length < tab_icons_size_+ (4*tabs_margins_)
+                    ? current_ == modelData["idx"] ? tab_icons_size_+ (2 * tabs_margins_)
+                    : tabLayout.width / tabLayout.tab_model_.length : tabLayout.width / tabLayout.tab_model_.length
+                : (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length > max_tab_size_ ? max_tab_size_
+                    : (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length < tab_icons_size_+ (4*tabs_margins_)
+                        ? current_ == modelData["idx"] ? tab_icons_size_+ (2 * tabs_margins_)
+                        : (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length
                     : (tabLayout.width - add_new_tab_button.width) / tabLayout.tab_model_.length
-                color: current_ == modelData["idx"] ? selected_tab_color_ : not_selected_tab_color_
-                property string shadow_color: current_ == modelData["idx"] ? selected_shadow_tab_color_ : not_selected_shadow_tab_color_
-                gradient: Gradient {
-                    orientation: Gradient.Horizontal
-                    GradientStop { position: 0.0; color: modelData["idx"] == 0 || current_ == modelData["idx"] ? delegated_rect.color : shadow_color}
-                    GradientStop { position: 0.04; color: delegated_rect.color }
-                    GradientStop { position: 0.96; color: delegated_rect.color }
-                    GradientStop { position: 1.0; color: current_ == modelData["idx"] + 1 ? shadow_color : delegated_rect.color}
-                }
-                Text {
-                    horizontalAlignment: Qt.AlignLeft; verticalAlignment: Qt.AlignVCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: tabs_margins_
-                    anchors.right: close_icon.visible ? close_icon.left : parent.right
-                    anchors.rightMargin: tabs_margins_
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: modelData["title"]
-                    elide: Text.ElideRight
-                }
-                // close tab icon
-                IconSVG {
-                    id: close_icon
-                    visible: modelData["idx"] == current_ ? true : parent.width > min_tab_size_
-                    anchors.right: parent.right
-                    anchors.rightMargin: tabs_margins_
-                    anchors.verticalCenter: parent.verticalCenter
-                    name: "cross"
-                    size: tab_icons_size_
-                }
-                // tab selection action
-                MouseArea {
-                    anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.left: parent.left;
-                    anchors.right: close_icon.left; anchors.rightMargin: - tabs_margins_
-                    onClicked: {
-                        refresh_layout(modelData["idx"])
-                    }
-                }
-                // close tab action
-                MouseArea {
-                    anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.right: parent.right
-                    anchors.left: close_icon.left; anchors.leftMargin: - tabs_margins_
-                    onClicked: {
-                        // act as close is close icon shown (same expression as in close_icon visible attribute)
-                        if (modelData["idx"] == current_ || parent.width > min_tab_size_)
-                        {
-                            remove_idx(modelData["idx"])
-                        }
-                        // if not, act as open tab action
-                        else
-                        {
-                            refresh_layout(modelData["idx"])
-                        }
-                    }
-                }
-            }
-        }
-        // Add new tab button
-        Rectangle {
-            id: add_new_tab_button
-            visible: tabLayout.tab_model_.length < max_tabs_
-            width: 50; height: 36;
-            color: not_selected_tab_color_
+            color: current_ == modelData["idx"] ? selected_tab_color_ : not_selected_tab_color_
+            property string shadow_color: current_ == modelData["idx"] ? selected_shadow_tab_color_ : not_selected_shadow_tab_color_
             gradient: Gradient {
                 orientation: Gradient.Horizontal
-                GradientStop { position: 0.0; color:  not_selected_shadow_tab_color_}
-                GradientStop { position: 0.08; color: add_new_tab_button.color }
-                GradientStop { position: 1.0; color: add_new_tab_button.color }
+                GradientStop { position: 0.0; color: modelData["idx"] == 0 || current_ == modelData["idx"] ? delegated_rect.color : shadow_color}
+                GradientStop { position: 0.04; color: delegated_rect.color }
+                GradientStop { position: 0.96; color: delegated_rect.color }
+                GradientStop { position: 1.0; color: current_ == modelData["idx"] + 1 ? shadow_color : delegated_rect.color}
             }
-            // add new tab icon
+            Text {
+                horizontalAlignment: Qt.AlignLeft; verticalAlignment: Qt.AlignVCenter
+                anchors.left: parent.left
+                anchors.leftMargin: tabs_margins_
+                anchors.right: close_icon.visible ? close_icon.left : parent.right
+                anchors.rightMargin: tabs_margins_
+                anchors.verticalCenter: parent.verticalCenter
+                text:  modelData["title"]
+                elide: Text.ElideRight
+            }
+            // close tab icon
             IconSVG {
-                anchors.centerIn: parent
-                name: "plus"
+                id: close_icon
+                visible: modelData["idx"] == current_ ? true : parent.width > min_tab_size_
+                anchors.right: parent.right
+                anchors.rightMargin: tabs_margins_
+                anchors.verticalCenter: parent.verticalCenter
+                name: "cross"
                 size: tab_icons_size_
             }
-            // add new tab action
+            // tab selection action
             MouseArea {
-                anchors.fill: parent
+                anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.left: parent.left;
+                anchors.right: close_icon.left; anchors.rightMargin: - tabs_margins_
                 onClicked: {
-                    if (tabLayout.tab_model_.length < max_tabs_)
-                        tabLayout.create_new_tab()
+                    refresh_layout(modelData["idx"])
                 }
             }
-        }
-        // remain space in tab bar handled by this component
-        Rectangle {
-            id: remain_width_rect
-            width: tabLayout.width - (add_new_tab_button.x + add_new_tab_button.width); height: 36
-            color: not_selected_tab_color_
-
-            Rectangle {
-                width: parent.width >= 80 ? 80 : parent.width; height: parent.height
-                color: parent.color
-                gradient: Gradient {
-                orientation: Gradient.Horizontal
-                    GradientStop { position: 0.0; color:  not_selected_shadow_tab_color_}
-                    GradientStop { position: 0.08; color: not_selected_tab_color_ }
-                    GradientStop { position: 1.0; color: not_selected_tab_color_ }
+            // close tab action
+            MouseArea {
+                anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.right: parent.right
+                anchors.left: close_icon.left; anchors.leftMargin: - tabs_margins_
+                onClicked: {
+                    // act as close is close icon shown (same expression as in close_icon visible attribute)
+                    if (modelData["idx"] == current_ || parent.width > min_tab_size_)
+                    {
+                        remove_idx(modelData["idx"])
+                    }
+                    // if not, act as open tab action
+                    else
+                    {
+                        refresh_layout(modelData["idx"])
+                    }
                 }
             }
         }
     }
+
+    // Add new tab button
+    Rectangle {
+        id: add_new_tab_button
+        visible: tabLayout.tab_model_.length < max_tabs_
+        anchors.right: remain_width_rect.left
+        anchors.verticalCenter: tab_list.verticalCenter
+        height: tabs_height_
+        width: tabLayout.tab_model_.length == max_tabs_ ? 0 : add_tab_width_
+        color: not_selected_tab_color_
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop { position: 0.0; color:  not_selected_shadow_tab_color_}
+            GradientStop { position: 0.08; color: add_new_tab_button.color }
+            GradientStop { position: 1.0; color: add_new_tab_button.color }
+        }
+        // add new tab icon
+        IconSVG {
+            visible: tabLayout.tab_model_.length < max_tabs_
+            anchors.centerIn: parent
+            name: "plus"
+            size: tab_icons_size_
+        }
+        // add new tab action
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (tabLayout.tab_model_.length < max_tabs_)
+                    tabLayout.create_new_tab()
+            }
+        }
+    }
+
+    // remain space in tab bar handled by this component
+    Rectangle {
+        id: remain_width_rect
+        width: tabLayout.width - add_new_tab_button.width - tab_list.width; height: tabs_height_
+        anchors.right: tabLayout.right
+        anchors.verticalCenter: tab_list.verticalCenter
+        color: not_selected_tab_color_
+
+        Rectangle {
+            width: parent.width >= 80 ? 80 : parent.width; height: parent.height
+            color: parent.color
+            gradient: Gradient {
+            orientation: Gradient.Horizontal
+                GradientStop { position: 0.0; color:  not_selected_shadow_tab_color_}
+                GradientStop { position: 0.08; color: not_selected_tab_color_ }
+                GradientStop { position: 1.0; color: not_selected_tab_color_ }
+            }
+        }
+    }
+
 
     // stack layout (where idx referred to the tab, which would contain different views)
     StackLayout {
         id: stack_layout
         z: 1 // z is the front-back order. The tab bar must always be on top of any stackview component
         width: tabLayout.width
-        anchors.top: header.bottom; anchors.bottom: tabLayout.bottom
+        anchors.top: tab_list.bottom; anchors.bottom: tabLayout.bottom
 
         Component {
             id: stack_component
@@ -276,7 +294,7 @@ Item {
             refresh_layout(current_)
         }
         // update idx model
-        tabRepeater.model = tabLayout.tab_model_
+        tab_list.model = tabLayout.tab_model_
     }
 
     // remove tab and all contained components
