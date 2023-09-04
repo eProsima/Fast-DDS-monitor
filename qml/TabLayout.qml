@@ -65,6 +65,7 @@ Item {
         z: 100 // z is the front-back order. The tab bar must always be on top of any StackView component
         orientation: ListView.Horizontal
         model: tabLayout.tab_model_
+        interactive: false
 
         // tab design
         delegate: Rectangle {
