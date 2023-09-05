@@ -54,6 +54,9 @@ Item {
     ChartsLayout {
         id: chartsLayout
         anchors.fill: stack_layout
+        onFullScreenChanged: {
+            tabLayout.fullScreen = fullScreen
+        }
     }
 
     ListView {
