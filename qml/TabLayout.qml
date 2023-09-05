@@ -53,6 +53,7 @@ Item {
 
     ChartsLayout {
         z: 1
+        visible: disable_chart_selection
         id: chartsLayout
         anchors.fill: stack_layout
         onFullScreenChanged: {

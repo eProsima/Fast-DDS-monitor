@@ -19,6 +19,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import Theme 1.0
+
 Item
 {
     id: domainGraphLayout
@@ -27,8 +29,8 @@ Item
     property var model: {}
 
     // Private properties
-    property var topic_locations: {}
-    property var endpoint_topic_connections: {}
+    property var topic_locations_: {}
+    property var endpoint_topic_connections_: {}
     property int max_host_width_: 0
     property int max_user_width_: 0
     property int max_process_width_: 0
@@ -45,18 +47,23 @@ Item
     signal hosts_updated()
 
     // Read only design properties
-    readonly property int spacingIconLabel: 8
-    readonly property int iconSize: 18
-    readonly property int firstIndentation: 5
-    readonly property int elementsSpacing: 12
-    readonly property int connection_thickness: 10
-    readonly property string topicColor: "grey"
-    readonly property string hostColor: "green"
-    readonly property string userColor: "blue"
-    readonly property string processColor: "red"
-    readonly property string participantColor: "yellow"
-    readonly property string readerColor: "orange"
-    readonly property string writerColor: "purple"
+    readonly property int connection_thickness_: 8
+    readonly property int elements_spacing_: 12
+    readonly property int endpoint_height_: 40
+    readonly property int first_indentation_: 5
+    readonly property int icon_size_: 18
+    readonly property int label_height_: 35
+    readonly property int spacing_icon_label_: 8
+    readonly property int scrollbar_min_size_: 8
+    readonly property int scrollbar_max_size_: 12
+    readonly property int topic_thickness_: 10
+    readonly property string topic_color_: Theme.grey
+    readonly property string host_color_: Theme.darkGrey
+    readonly property string user_color_: Theme.eProsimaLightBlue
+    readonly property string process_color_: Theme.eProsimaDarkBlue
+    readonly property string participant_color_: Theme.vulcanexusBlue
+    readonly property string reader_color_: Theme.eProsimaYellow
+    readonly property string writer_color_: Theme.eProsimaGreen
 
     Component.onCompleted:
     {
@@ -64,121 +71,308 @@ Item
         resize_elements()
     }
 
-    Connections {
-        target: domainGraphLayout
+    Flickable {
+        id: topicView
+        anchors.top: parent.top; anchors.bottom: parent.bottom
+        anchors.left: parent.left; anchors.leftMargin: max_host_width_ + elements_spacing_;
+        width: parent.width - max_host_width_ - elements_spacing_
+        flickableDirection: Flickable.HorizontalFlick
+        boundsBehavior: Flickable.StopAtBounds
 
-        function onHosts_updated()
+        contentWidth: topicsList.contentWidth + 100
+        contentHeight: parent.height
+
+        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOff }
+        ScrollBar.horizontal: ScrollBar {
+            id: horizontal_bar
+            anchors.left: parent.left;
+            anchors.bottom: parent.bottom
+            policy: ScrollBar.AlwaysOn
+            hoverEnabled: true
+
+            contentItem: Item {
+                implicitHeight: scrollbar_min_size_
+
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.rightMargin: scrollbar_max_size_
+                    anchors.leftMargin: 1
+                    anchors.topMargin: 2
+                    anchors.bottomMargin: 2
+                    radius: height / 2
+                    color: horizontal_bar.pressed ? Theme.eProsimaLightBlue : Theme.lightGrey
+                }
+            }
+
+            background: Item {
+                implicitHeight: scrollbar_max_size_
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: horizontal_bar.pressed ? Theme.lightGrey : Theme.grey
+                }
+            }
+        }
+
+        ListView
         {
-            domainGraphLayout.create_connections()
+            id: topicsList
+            model: domainGraphLayout.model["topics"]
+            anchors.left: parent.left; anchors.leftMargin: 2 * elements_spacing_
+            anchors.top: parent.top; anchors.topMargin: elements_spacing_;
+            anchors.bottom: parent.bottom;  anchors.bottomMargin: scrollbar_max_size_+ elements_spacing_
+            contentWidth: contentItem.childrenRect.width
+            spacing: elements_spacing_
+            orientation: ListView.Horizontal
+            interactive: false
+
+            Connections
+            {
+                target: domainGraphLayout
+
+                function onResize_elements()
+                {
+                    topicsList.onCountChanged()
+                }
+            }
+
+            onCountChanged:
+            {
+                var listViewHeight = 0
+                var listViewWidth = 0
+
+                // iterate over each element in the list item
+                for (var i = 0; i < topicsList.visibleChildren.length; i++) {
+                    listViewHeight = topicsList.visibleChildren[i].height
+                    listViewWidth += topicsList.visibleChildren[i].width
+                }
+
+                for (var c = 0; c < topicsList.count; c++)
+                {
+                    topicsList.currentIndex = c
+                    var globalCoordinates = topicsList.currentItem.mapToItem(mainSpace, 0, 0)
+                    topic_locations_[topicsList.currentItem.topic_id] = {
+                        "id": topicsList.currentItem.topic_id,
+                        "x" : globalCoordinates.x + (topicsList.currentItem.width/2)
+                    }
+                }
+                topicsList.height = listViewHeight
+                topicsList.width = listViewWidth + 10* elements_spacing_
+                topics_updated()
+            }
+
+            delegate: Rectangle
+            {
+                property string topic_id: modelData["id"]
+                implicitWidth: topic_tag.implicitWidth
+                height: topicsList.height
+                color: "transparent"
+
+                Rectangle
+                {
+                    id: topic_tag
+                    implicitWidth: topicRowLayout.implicitWidth
+                    height: label_height_
+                    color: topic_color_
+
+                    RowLayout {
+                        id: topicRowLayout
+                        spacing: spacing_icon_label_
+                        anchors.centerIn: parent
+
+                        IconSVG {
+                            name: "topic"
+                            size: icon_size_
+                            Layout.leftMargin: first_indentation_
+                        }
+                        Label {
+                            text: modelData["alias"]
+                            Layout.rightMargin: first_indentation_
+                        }
+                    }
+                }
+
+                Rectangle
+                {
+                    id: topic_down_bar
+                    anchors.top: topic_tag.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: topic_tag.horizontalCenter
+                    width: topic_thickness_
+                    color: topic_color_
+                }
+            }
+        }
+
+        Flickable
+        {
+            id: topicSpace
+            anchors.top: parent.top; anchors.topMargin: label_height_ + 2* elements_spacing_
+            anchors.left: parent.left
+            width: parent.width
+            height: parent.height - (label_height_ + 2* elements_spacing_)
+            interactive: false
+            clip: true
+
+            contentWidth: topicsList.contentWidth + 100
+            contentHeight: mainView.contentHeight
+            Rectangle {id: topic_connections; anchors.fill:parent; color: "transparent" }
+
+
+            ScrollBar.vertical: ScrollBar{
+                id: custom_bar
+
+                Connections {
+                    target: vertical_bar
+
+                    function onPositionChanged(){
+                        custom_bar.position = vertical_bar.position
+                    }
+                }
+            }
+
+
+        }
+
+        Connections
+        {
+            target: domainGraphLayout
+
+            function onTopics_updated()
+            {
+                topicView.create_connections()
+            }
+
+            function onEndpoints_updated()
+            {
+                topicView.create_connections()
+            }
+
+            function onParticipants_updated()
+            {
+                topicView.create_connections()
+            }
+
+            function onProcesses_updated()
+            {
+                topicView.create_connections()
+            }
+
+            function onUsers_updated()
+            {
+                topicView.create_connections()
+            }
+
+            function onHosts_updated()
+            {
+                topicView.create_connections()
+            }
+        }
+
+        function create_connections()
+        {
+            for (var key in endpoint_topic_connections_)
+            {
+                var topic_id = endpoint_topic_connections_[key]["destination_id"]
+                if (topic_locations_[topic_id] != undefined)
+                {
+                    //console.log(key)
+                    //console.log(endpoint_topic_connections_[key]["y"])
+                    var destination_x = topic_locations_[topic_id]["x"]
+                    var input = {"x": 0
+                        ,"left_to_right": endpoint_topic_connections_[key]["left_to_right"]
+                        ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
+                        ,"width": destination_x - endpoint_topic_connections_[key]["x"] - 4*elements_spacing_ - topic_thickness_/2
+                        ,"height":connection_thickness_, "z":200
+                        ,"arrow_color": topic_color_, "background_color": background_color.color }
+                    var connection_bar = arrow_component.createObject(topic_connections, input)
+                }
+            }
         }
     }
 
     Flickable {
         id: mainView
-        anchors.fill: parent
+        anchors.left: parent.left ; anchors.top: parent.top; anchors.bottom: parent.bottom
+        width: max_host_width_ + elements_spacing_
+        anchors.topMargin: 2* elements_spacing_ + label_height_
+        flickableDirection: Flickable.VerticalFlick
+        boundsBehavior: Flickable.StopAtBounds
+        z: 10
 
         contentWidth: mainSpace.width
         contentHeight: mainSpace.height
 
-        ScrollBar.horizontal: ScrollBar { id: horizontal_bar; active: vertical_bar.active }
-        ScrollBar.vertical: ScrollBar { id: vertical_bar; active: horizontal_bar.active }
+        ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AlwaysOff }
+        ScrollBar.vertical: ScrollBar {
+            id: vertical_bar
+            policy: ScrollBar.AlwaysOn
+            anchors.top: parent.top;        anchors.topMargin: -elements_spacing_
+            anchors.right: parent.right;    anchors.rightMargin: parent.width - domainGraphLayout.width
+            hoverEnabled: true
+            z: 20
+
+            contentItem: Item {
+                implicitWidth: scrollbar_min_size_
+
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.topMargin: 1
+                    anchors.rightMargin: 2
+                    anchors.leftMargin: 2
+                    radius: width / 2
+                    color: vertical_bar.pressed ? Theme.eProsimaLightBlue : Theme.lightGrey
+                }
+            }
+
+            background: Item {
+                implicitWidth: scrollbar_max_size_
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: vertical_bar.pressed ? Theme.lightGrey : Theme.grey
+                }
+            }
+
+            Rectangle {
+                anchors.top: parent.top
+                height: 1
+                width: parent.width
+                color: vertical_bar.pressed ? Theme.lightGrey : Theme.grey
+            }
+        }
+
 
         Rectangle
         {
             id: mainSpace
+            anchors.top: parent.top
 
-            width: hostsList.width + topicsList.width
-            height: hostsList.height
+            width: hostsList.width
+            height: hostsList.height < domainGraphLayout.height ? domainGraphLayout.height : hostsList.height
 
-            ListView
-            {
-                id: topicsList
-                model: domainGraphLayout.model["topics"]
-                anchors.left: hostsList.right; anchors.leftMargin: 5*elementsSpacing; /*anchors.right: parent.right*/
-                anchors.top: parent.top; anchors.topMargin: elementsSpacing; anchors.bottom: parent.bottom
-                contentWidth: contentItem.childrenRect.width
-                spacing: elementsSpacing
-                orientation: ListView.Horizontal
-                interactive: false
+            Rectangle {
+                id: background_color
+                anchors.fill: parent
+                color: "white"
+            }
 
-                Connections
-                {
-                    target: domainGraphLayout
+            Component {
+                id: arrow_component
+                GraphConnection{
 
-                    function onResize_elements()
-                    {
-                        topicsList.onCountChanged()
-                    }
-                }
-
-                onCountChanged:
-                {
-                    var listViewHeight = 0
-                    var listViewWidth = 0
-
-                    // iterate over each element in the list item
-                    for (var i = 0; i < topicsList.visibleChildren.length; i++) {
-                        listViewHeight = topicsList.visibleChildren[i].height
-                        listViewWidth += topicsList.visibleChildren[i].width
-                    }
-
-                    topicsList.height = listViewHeight
-                    topicsList.width = listViewWidth + 10* elementsSpacing
-                    topics_updated()
-                }
-
-                delegate: Rectangle
-                {
-                    implicitWidth: topic_tag.implicitWidth
-                    height: parent.height
-
-                    Rectangle
-                    {
-                        id: topic_tag
-                        implicitWidth: topicRowLayout.implicitWidth
-                        height: 35
-                        color: topicColor
-
-                        RowLayout {
-                            id: topicRowLayout
-                            spacing: spacingIconLabel
-                            anchors.centerIn: parent
-
-                            IconSVG {
-                                name: "topic"
-                                size: iconSize
-                                Layout.leftMargin: firstIndentation
-                            }
-                            Label {
-                                text: modelData["alias"]
-                                Layout.rightMargin: firstIndentation
-                            }
-                        }
-                    }
-
-                    Rectangle
-                    {
-                        id: topic_down_bar
-                        anchors.top: topic_tag.bottom
-                        anchors.bottom: parent.bottom
-                        anchors.horizontalCenter: topic_tag.horizontalCenter
-                        width: 10
-                        color: topicColor
-                        Component.onCompleted:
-                        {
-                            topic_locations[modelData["id"]] = {"x" : topic_down_bar.x}
-                        }
-                    }
                 }
             }
+
             ListView
             {
                 id: hostsList
                 model: domainGraphLayout.model["hosts"]
-                anchors.top: parent.top; anchors.topMargin: elementsSpacing
-                anchors.left: parent.left; anchors.leftMargin: elementsSpacing
+                anchors.top: parent.top
+                anchors.left: parent.left; anchors.leftMargin: elements_spacing_
                 interactive: false
-                spacing: elementsSpacing
+                spacing: elements_spacing_
+                z: 20
 
                 Connections
                 {
@@ -197,7 +391,7 @@ Item
 
                     // iterate over each element in the list item
                     for (var i = 0; i < hostsList.visibleChildren.length; i++) {
-                        listViewHeight += hostsList.visibleChildren[i].height + elementsSpacing
+                        listViewHeight += hostsList.visibleChildren[i].height + elements_spacing_
                         var min_width = hostsList.visibleChildren[i].width
                         for (var j = 0; j < hostsList.visibleChildren[i].visibleChildren.length; j++)
                         {
@@ -205,11 +399,11 @@ Item
                         }
                         listViewWidth  = Math.max(listViewWidth, min_width)
                         max_host_width_ = Math.max(max_host_width_, listViewWidth)
-                        max_host_width_ = Math.max(max_host_width_, (2*elementsSpacing)+max_user_width_)
+                        max_host_width_ = Math.max(max_host_width_, (2*elements_spacing_)+max_user_width_)
                         hostsList.visibleChildren[i].width = max_host_width_
                     }
 
-                    hostsList.height = listViewHeight + elementsSpacing
+                    hostsList.height = listViewHeight + elements_spacing_
                     hostsList.width = max_host_width_
                     hosts_updated()
                 }
@@ -217,23 +411,31 @@ Item
                 delegate: Item
                 {
                     height: host_tag.height + usersList.height
-                    width: max_host_width_ == 0 ? host_tag.implicitWidth : max_host_width_
+                    width: hostRowLayout.implicitWidth > max_host_width_
+                        ? hostRowLayout.implicitWidth
+                        : max_host_width_ == 0
+                            ? hostRowLayout.implicitWidth
+                            : max_host_width_
 
                     Rectangle
                     {
                         id: host_background
                         height: parent.height
                         width: parent.width
-                        color: hostColor
+                        color: host_color_
                     }
 
                     Rectangle
                     {
                         id: host_tag
                         anchors.horizontalCenter: parent.horizontalCenter
-                        implicitWidth: max_host_width_ == 0 ? hostRowLayout.implicitWidth : max_host_width_
-                        height: 35
-                        color: hostColor
+                        implicitWidth: hostRowLayout.implicitWidth > max_host_width_
+                            ? hostRowLayout.implicitWidth
+                            : max_host_width_ == 0
+                                ? hostRowLayout.implicitWidth
+                                : max_host_width_
+                        height: label_height_
+                        color: host_color_
 
                         RowLayout {
                             id: hostRowLayout
@@ -242,17 +444,20 @@ Item
                             IconSVG {
                                 visible: modelData["status"] != "ok"
                                 name: "issues"
-                                size: iconSize
-                                Layout.leftMargin: firstIndentation
+                                color: "white"
+                                size: icon_size_
+                                Layout.leftMargin: first_indentation_
                             }
                             IconSVG {
-                                name: "process"
-                                size: iconSize
-                                Layout.leftMargin: modelData["status"] != "ok" ? 0 : firstIndentation
+                                name: "host"
+                                color: "white"
+                                size: icon_size_
+                                Layout.leftMargin: modelData["status"] != "ok" ? 0 : first_indentation_
                             }
                             Label {
                                 text: modelData["alias"]
-                                Layout.rightMargin: firstIndentation
+                                Layout.rightMargin: first_indentation_
+                                color: "white"
                             }
                         }
                         Rectangle {
@@ -269,11 +474,11 @@ Item
                     {
                         id: usersList
                         model: modelData["users"]
-                        anchors.top: host_tag.bottom; anchors.topMargin: elementsSpacing
-                        anchors.left: parent.left; anchors.leftMargin: elementsSpacing
-                        anchors.right: parent.right; anchors.rightMargin: elementsSpacing
+                        anchors.top: host_tag.bottom; anchors.topMargin: elements_spacing_
+                        anchors.left: parent.left; anchors.leftMargin: elements_spacing_
+                        anchors.right: parent.right; anchors.rightMargin: elements_spacing_
                         interactive: false
-                        spacing: elementsSpacing
+                        spacing: elements_spacing_
 
                         Connections
                         {
@@ -292,7 +497,7 @@ Item
 
                             // iterate over each element in the list item
                             for (var i = 0; i < usersList.visibleChildren.length; i++) {
-                                listViewHeight += usersList.visibleChildren[i].height + elementsSpacing
+                                listViewHeight += usersList.visibleChildren[i].height + elements_spacing_
                                 var min_width = usersList.visibleChildren[i].width
                                 for (var j = 0; j < usersList.visibleChildren[i].visibleChildren.length; j++)
                                 {
@@ -300,11 +505,11 @@ Item
                                 }
                                 listViewWidth  = Math.max(listViewWidth, min_width)
                                 max_user_width_ = Math.max(max_user_width_, listViewWidth)
-                                max_user_width_ = Math.max(max_user_width_, (2*elementsSpacing)+max_process_width_)
+                                max_user_width_ = Math.max(max_user_width_, (2*elements_spacing_)+max_process_width_)
                                 usersList.visibleChildren[i].width = max_user_width_
                             }
 
-                            usersList.height = listViewHeight + elementsSpacing
+                            usersList.height = listViewHeight + elements_spacing_
                             usersList.width = max_user_width_
                             users_updated()
                         }
@@ -312,14 +517,18 @@ Item
                         delegate: Item
                         {
                             height: user_tag.height + processesList.height
-                            width: max_user_width_ == 0 ? user_tag.implicitWidth : max_user_width_
+                            width: userRowLayout.implicitWidth > max_user_width_
+                                ? userRowLayout.implicitWidth
+                                : max_user_width_ == 0
+                                    ? userRowLayout.implicitWidth
+                                    : max_user_width_
 
                             Rectangle
                             {
                                 id: user_background
                                 height: parent.height
                                 width: parent.width
-                                color: userColor
+                                color: user_color_
                             }
 
                             Rectangle
@@ -327,9 +536,13 @@ Item
                                 id: user_tag
                                 anchors.top: parent.top
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                implicitWidth: max_user_width_ == 0 ? userRowLayout.implicitWidth : max_user_width_
-                                height: 35
-                                color: userColor
+                                implicitWidth: userRowLayout.implicitWidth > max_user_width_
+                                    ? userRowLayout.implicitWidth
+                                    : max_user_width_ == 0
+                                        ? userRowLayout.implicitWidth
+                                        : max_user_width_
+                                height: label_height_
+                                color: user_color_
 
                                 RowLayout {
                                     id: userRowLayout
@@ -338,17 +551,17 @@ Item
                                     IconSVG {
                                         visible: modelData["status"] != "ok"
                                         name: "issues"
-                                        size: iconSize
-                                        Layout.leftMargin: firstIndentation
+                                        size: icon_size_
+                                        Layout.leftMargin: first_indentation_
                                     }
                                     IconSVG {
-                                        name: "process"
-                                        size: iconSize
-                                        Layout.leftMargin: modelData["status"] != "ok" ? 0 : firstIndentation
+                                        name: "user"
+                                        size: icon_size_
+                                        Layout.leftMargin: modelData["status"] != "ok" ? 0 : first_indentation_
                                     }
                                     Label {
                                         text: modelData["alias"]
-                                        Layout.rightMargin: firstIndentation
+                                        Layout.rightMargin: first_indentation_
                                     }
                                 }
                                 Rectangle {
@@ -365,11 +578,11 @@ Item
                             {
                                 id: processesList
                                 model: modelData["processes"]
-                                anchors.top: user_tag.bottom; anchors.topMargin: elementsSpacing
-                                anchors.left: parent.left; anchors.leftMargin: elementsSpacing
-                                anchors.right: parent.right; anchors.rightMargin: elementsSpacing
+                                anchors.top: user_tag.bottom; anchors.topMargin: elements_spacing_
+                                anchors.left: parent.left; anchors.leftMargin: elements_spacing_
+                                anchors.right: parent.right; anchors.rightMargin: elements_spacing_
                                 interactive: false
-                                spacing: elementsSpacing
+                                spacing: elements_spacing_
 
                                 Connections
                                 {
@@ -388,7 +601,7 @@ Item
 
                                     // iterate over each element in the list item
                                     for (var i = 0; i < processesList.visibleChildren.length; i++) {
-                                        listViewHeight += processesList.visibleChildren[i].height + elementsSpacing
+                                        listViewHeight += processesList.visibleChildren[i].height + elements_spacing_
                                         var min_width = processesList.visibleChildren[i].width
                                         for (var j = 0; j < processesList.visibleChildren[i].visibleChildren.length; j++)
                                         {
@@ -396,11 +609,11 @@ Item
                                         }
                                         listViewWidth  = Math.max(listViewWidth, min_width)
                                         max_process_width_ = Math.max(max_process_width_, listViewWidth)
-                                        max_process_width_ = Math.max(max_process_width_, (2*elementsSpacing)+max_participant_width_)
+                                        max_process_width_ = Math.max(max_process_width_, (2*elements_spacing_)+max_participant_width_)
                                         processesList.visibleChildren[i].width = max_process_width_
                                     }
 
-                                    processesList.height = listViewHeight + elementsSpacing
+                                    processesList.height = listViewHeight + elements_spacing_
                                     processesList.width = max_process_width_
                                     processes_updated()
                                 }
@@ -408,14 +621,18 @@ Item
                                 delegate: Item
                                 {
                                     height: process_tag.height + participantsList.height
-                                    width: max_process_width_ == 0 ? process_tag.implicitWidth : max_process_width_
+                                    width: processRowLayout.implicitWidth > max_process_width_
+                                        ? processRowLayout.implicitWidth
+                                        : max_process_width_ == 0
+                                            ? processRowLayout.implicitWidth
+                                            : max_process_width_
 
                                     Rectangle
                                     {
                                         id: process_background
                                         height: parent.height
                                         width: parent.width
-                                        color: processColor
+                                        color: process_color_
                                     }
 
                                     Rectangle
@@ -423,9 +640,13 @@ Item
                                         id: process_tag
                                         anchors.top: parent.top
                                         anchors.horizontalCenter: parent.horizontalCenter
-                                        implicitWidth: max_process_width_ == 0 ? processRowLayout.implicitWidth : max_process_width_
-                                        height: 35
-                                        color: processColor
+                                        implicitWidth: processRowLayout.implicitWidth > max_process_width_
+                                            ? processRowLayout.implicitWidth
+                                            : max_process_width_ == 0
+                                                ? processRowLayout.implicitWidth
+                                                : max_process_width_
+                                        height: label_height_
+                                        color: process_color_
 
                                         RowLayout {
                                             id: processRowLayout
@@ -434,17 +655,20 @@ Item
                                             IconSVG {
                                                 visible: modelData["status"] != "ok"
                                                 name: "issues"
-                                                size: iconSize
-                                                Layout.leftMargin: firstIndentation
+                                                color: "white"
+                                                size: icon_size_
+                                                Layout.leftMargin: first_indentation_
                                             }
                                             IconSVG {
                                                 name: "process"
-                                                size: iconSize
-                                                Layout.leftMargin: modelData["status"] != "ok" ? 0 : firstIndentation
+                                                color: "white"
+                                                size: icon_size_
+                                                Layout.leftMargin: modelData["status"] != "ok" ? 0 : first_indentation_
                                             }
                                             Label {
                                                 text: modelData["alias"]
-                                                Layout.rightMargin: firstIndentation
+                                                Layout.rightMargin: first_indentation_
+                                                color: "white"
                                             }
                                         }
                                         Rectangle {
@@ -460,11 +684,11 @@ Item
                                     {
                                         id: participantsList
                                         model: modelData["participants"]
-                                        anchors.top: process_tag.bottom; anchors.topMargin: elementsSpacing
-                                        anchors.left: parent.left; anchors.leftMargin: elementsSpacing
-                                        anchors.right: parent.right; anchors.rightMargin: elementsSpacing
+                                        anchors.top: process_tag.bottom; anchors.topMargin: elements_spacing_
+                                        anchors.left: parent.left; anchors.leftMargin: elements_spacing_
+                                        anchors.right: parent.right; anchors.rightMargin: elements_spacing_
                                         interactive: false
-                                        spacing: elementsSpacing
+                                        spacing: elements_spacing_
 
                                         Connections
                                         {
@@ -483,7 +707,7 @@ Item
 
                                             // iterate over each element in the list item
                                             for (var i = 0; i < participantsList.visibleChildren.length; i++) {
-                                                listViewHeight += participantsList.visibleChildren[i].height + elementsSpacing
+                                                listViewHeight += participantsList.visibleChildren[i].height + elements_spacing_
                                                 var min_width = participantsList.visibleChildren[i].width
                                                 for (var j = 0; j < participantsList.visibleChildren[i].visibleChildren.length; j++)
                                                 {
@@ -491,11 +715,11 @@ Item
                                                 }
                                                 listViewWidth  = Math.max(listViewWidth, min_width)
                                                 max_participant_width_ = Math.max(max_participant_width_, listViewWidth)
-                                                max_participant_width_ = Math.max(max_participant_width_, (2*elementsSpacing)+max_endpoint_width_)
+                                                max_participant_width_ = Math.max(max_participant_width_, (2*elements_spacing_)+max_endpoint_width_)
                                                 participantsList.visibleChildren[i].width = max_participant_width_
                                             }
 
-                                            participantsList.height = listViewHeight + elementsSpacing
+                                            participantsList.height = listViewHeight + elements_spacing_
                                             participantsList.width = max_participant_width_
                                             participants_updated()
                                         }
@@ -503,23 +727,31 @@ Item
                                         delegate: Item
                                         {
                                             height: participant_tag.height + endpointsList.height
-                                            width: max_participant_width_ == 0 ? participant_tag.implicitWidth : max_participant_width_
+                                            width: participantRowLayout.implicitWidth > max_participant_width_
+                                                ? participantRowLayout.implicitWidth
+                                                : max_participant_width_ == 0
+                                                    ? participantRowLayout.implicitWidth
+                                                    : max_participant_width_
 
                                             Rectangle
                                             {
                                                 id: participant_background
                                                 height: parent.height
                                                 width: parent.width
-                                                color: participantColor
+                                                color: participant_color_
                                             }
                                             Rectangle
                                             {
                                                 id: participant_tag
                                                 anchors.top: parent.top
                                                 anchors.horizontalCenter: parent.horizontalCenter
-                                                implicitWidth: max_participant_width_ == 0 ? participantRowLayout.implicitWidth : max_participant_width_
-                                                height: 35
-                                                color: participantColor
+                                                implicitWidth: participantRowLayout.implicitWidth > max_participant_width_
+                                                    ? participantRowLayout.implicitWidth
+                                                    : max_participant_width_ == 0
+                                                        ? participantRowLayout.implicitWidth
+                                                        : max_participant_width_
+                                                height: label_height_
+                                                color: participant_color_
 
                                                 RowLayout {
                                                     id: participantRowLayout
@@ -528,16 +760,16 @@ Item
                                                     IconSVG {
                                                         visible: modelData["status"] != "ok"
                                                         name: "issues"
-                                                        size: modelData["status"] != "ok"? iconSize : 0
-                                                        Layout.leftMargin: modelData["status"] != "ok" ? firstIndentation : 0
+                                                        size: modelData["status"] != "ok"? icon_size_ : 0
+                                                        Layout.leftMargin: modelData["status"] != "ok" ? first_indentation_ : 0
                                                     }
                                                     IconSVG {
                                                         name: modelData["kind"]
-                                                        size: iconSize
+                                                        size: icon_size_
                                                     }
                                                     Label {
                                                         text: modelData["alias"]
-                                                        Layout.rightMargin: spacingIconLabel + firstIndentation
+                                                        Layout.rightMargin: spacing_icon_label_ + first_indentation_
                                                     }
                                                 }
                                                 Rectangle {
@@ -554,11 +786,11 @@ Item
                                             {
                                                 id: endpointsList
                                                 model: modelData["endpoints"]
-                                                anchors.top: participant_tag.bottom; anchors.topMargin: elementsSpacing
-                                                anchors.left: parent.left; anchors.leftMargin: elementsSpacing
-                                                anchors.right: parent.right; anchors.rightMargin: elementsSpacing
+                                                anchors.top: participant_tag.bottom; anchors.topMargin: elements_spacing_
+                                                anchors.left: parent.left; anchors.leftMargin: elements_spacing_
+                                                anchors.right: parent.right; anchors.rightMargin: elements_spacing_
                                                 interactive: false
-                                                spacing: elementsSpacing
+                                                spacing: elements_spacing_
 
                                                 Connections
                                                 {
@@ -576,7 +808,7 @@ Item
 
                                                     // iterate over each element in the list item
                                                     for (var i = 0; i < endpointsList.visibleChildren.length; i++) {
-                                                        listViewHeight += endpointsList.visibleChildren[i].height + elementsSpacing
+                                                        listViewHeight += endpointsList.visibleChildren[i].height + elements_spacing_
                                                         var min_width = endpointsList.visibleChildren[i].width
                                                         for (var j = 0; j < endpointsList.visibleChildren[i].visibleChildren.length; j++)
                                                         {
@@ -584,10 +816,15 @@ Item
                                                         }
                                                         max_endpoint_width_ = Math.max(max_endpoint_width_, min_width)
                                                         endpointsList.visibleChildren[i].width = max_endpoint_width_
-                                                        endpointsList.visibleChildren[i].record_connection = true
                                                     }
 
-                                                    endpointsList.height = listViewHeight + elementsSpacing
+                                                    for (var c = 0; c < endpointsList.count; c++)
+                                                    {
+                                                        endpointsList.currentIndex = c
+                                                        endpointsList.currentItem.record_connection()
+                                                    }
+
+                                                    endpointsList.height = listViewHeight + elements_spacing_
                                                     endpointsList.width = max_endpoint_width_
                                                     endpoints_updated()
                                                 }
@@ -595,47 +832,23 @@ Item
                                                 delegate: Item
                                                 {
                                                     id: endpointComponent
-                                                    property bool record_connection: false
-                                                    width: max_endpoint_width_ == 0 ? endpoint_tag.implicitWidth : max_endpoint_width_
-                                                    height: 40
+                                                    width: endpointRowLayout.implicitWidth > max_endpoint_width_
+                                                        ? endpointRowLayout.implicitWidth
+                                                        : max_endpoint_width_ == 0
+                                                            ? endpointRowLayout.implicitWidth
+                                                            : max_endpoint_width_
+                                                    height: endpoint_height_
 
-                                                    onRecord_connectionChanged:
+                                                    function record_connection()
                                                     {
-                                                        if (record_connection == true)
-                                                        {
-                                                            var src_x = endpointComponent.x + endpointComponent.width
-                                                            var src_y = endpointComponent.y + (endpointComponent.height / 2)
-                                                            var left_to_right = modelData["kind"] == "datareader"
-                                                            endpoint_topic_connections.modelData["id"] = {
-                                                                "id": modelData["id"], "left_to_right":left_to_right,
-                                                                "x":src_x, "y":src_x, "destination_id":modelData["topic"]}
-                                                            record_connection = false
-                                                            console.log(JSON.stringify(endpoint_topic_connections, null, 2))
-                                                        }
-                                                    }
+                                                        var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
+                                                        var src_x = globalCoordinates.x + endpointComponent.width
+                                                        var src_y = globalCoordinates.y + (endpointComponent.height / 2)
+                                                        var left_to_right = modelData["kind"] == "datareader"
 
-                                                    Connections
-                                                    {
-                                                        target: domainGraphLayout
-
-                                                        function onHosts_updated()
-                                                        {
-                                                            var i = 0;
-                                                            for (i = 0; i < endpoint_topic_connections.length; i++)
-                                                            {
-                                                                if (connection[i]["id"] == modelData["id"])
-                                                                {
-                                                                    var topic_id = endpoint_topic_connections[i]["destination_id"]
-                                                                    var destination_x = topic_locations[topic_id]["x"]
-                                                                    var conn_bar_comp = Qt.createComponent("GraphConnection.qml")
-                                                                    var connection_bar = conn_bar_comp.createObject(null,
-                                                                        {"x": endpoint_topic_connections[i]["x"]
-                                                                        ,"left_to_right": endpoint_topic_connections[i]["left_to_right"]
-                                                                        ,"y": endpoint_topic_connections[i]["y"] - (connection_thickness / 2)
-                                                                        ,"width":200//destination_x - endpoint_topic_connections[i]["x"]
-                                                                        ,"height":connection_thickness})
-                                                                }
-                                                            }
+                                                        endpoint_topic_connections_[modelData["id"]] = {
+                                                            "id":  modelData["id"], "left_to_right": left_to_right,
+                                                            "x": src_x, "y": src_y, "destination_id": modelData["topic"]
                                                         }
                                                     }
 
@@ -643,16 +856,20 @@ Item
                                                     {
                                                         id: endpoint_background
                                                         width: parent.width
-                                                        height: 40
-                                                        color: modelData["kind"] == "datareader" ? readerColor : writerColor
+                                                        height: endpoint_height_
+                                                        color: modelData["kind"] == "datareader" ? reader_color_ : writer_color_
                                                     }
                                                     Rectangle
                                                     {
                                                         id: endpoint_tag
                                                         anchors.top: parent.top
                                                         anchors.horizontalCenter: parent.horizontalCenter
-                                                        implicitWidth: max_endpoint_width_ == 0 ? endpointRowLayout.implicitWidth : max_endpoint_width_
-                                                        height: 40
+                                                        implicitWidth: endpointRowLayout.implicitWidth > max_endpoint_width_
+                                                            ? endpointRowLayout.implicitWidth
+                                                            : max_endpoint_width_ == 0
+                                                                ? endpointRowLayout.implicitWidth
+                                                                : max_endpoint_width_
+                                                        height: endpoint_height_
                                                         color: endpoint_background.color
 
                                                         RowLayout {
@@ -662,16 +879,16 @@ Item
                                                             IconSVG {
                                                                 visible: modelData["status"] != "ok"
                                                                 name: "issues"
-                                                                size: modelData["status"] != "ok"? iconSize : 0
-                                                                Layout.leftMargin: modelData["status"] != "ok" ? firstIndentation : 0
+                                                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                                                Layout.leftMargin: modelData["status"] != "ok" ? first_indentation_ : 0
                                                             }
                                                             IconSVG {
                                                                 name: modelData["kind"]
-                                                                size: iconSize
+                                                                size: icon_size_
                                                             }
                                                             Label {
                                                                 text: modelData["alias"]
-                                                                Layout.rightMargin: spacingIconLabel + firstIndentation
+                                                                Layout.rightMargin: spacing_icon_label_ + first_indentation_
                                                             }
                                                         }
                                                     }
@@ -693,15 +910,89 @@ Item
                     }
                 }
             }
+
+            Connections
+            {
+                target: domainGraphLayout
+
+                function onTopics_updated()
+                {
+                    mainSpace.create_connections()
+                }
+
+                function onEndpoints_updated()
+                {
+                    mainSpace.create_connections()
+                }
+
+                function onParticipants_updated()
+                {
+                    mainSpace.create_connections()
+                }
+
+                function onProcesses_updated()
+                {
+                    mainSpace.create_connections()
+                }
+
+                function onUsers_updated()
+                {
+                    mainSpace.create_connections()
+                }
+
+                function onHosts_updated()
+                {
+                    mainSpace.create_connections()
+                }
+            }
+
+            function create_connections()
+            {
+                for (var key in endpoint_topic_connections_)
+                {
+                    var topic_id = endpoint_topic_connections_[key]["destination_id"]
+                    if (topic_locations_[topic_id] != undefined)
+                    {
+                        //console.log(key)
+                        //console.log(endpoint_topic_connections_[key]["y"])
+                        var destination_x = topic_locations_[topic_id]["x"]
+                        var input = {"x": endpoint_topic_connections_[key]["x"]
+                            ,"left_to_right": endpoint_topic_connections_[key]["left_to_right"]
+                            ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
+                            ,"width": 4*elements_spacing_
+                            ,"height":connection_thickness_, "z":200
+                            ,"arrow_color": topic_color_, "background_color": background_color.color }
+                        var connection_bar = arrow_component.createObject(mainSpace, input)
+                    }
+                }
+            }
         }
+    }
+
+    Rectangle {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        height: 2* elements_spacing_ + label_height_
+        width: max_host_width_ + elements_spacing_
+        color: "white"
+        z: 12
+    }
+
+    Rectangle {
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        height: elements_spacing_
+        width: max_host_width_ + elements_spacing_
+        color: "white"
+        z: 14
     }
 
 
     function load_model()
     {
         // clear internal models
-        topic_locations = {}
-        endpoint_topic_connections = {}
+        topic_locations_ = {}
+        endpoint_topic_connections_ = {}
 
         // this is implemented in this function to avoid this huge code pasting at the beginning of the file
         model = {
@@ -718,6 +1009,46 @@ Item
                     "id": 26,
                     "kind": "topic",
                     "alias": "topic_alias_26"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
+                },
+                {
+                    "id": 27,
+                    "kind": "topic",
+                    "alias": "topic_alias_27"
                 },
             ],
             "hosts":
@@ -798,7 +1129,7 @@ Item
                                             ]
                                         }
                                     ]
-                                }/*,
+                                },
                                 {
                                     "id": 12,
                                     "kind": "process",
@@ -824,52 +1155,91 @@ Item
                                             ]
                                         }
                                     ]
-                                }*/
+                                }
+                            ]
+                        },
+                        {
+                            "id": 19,
+                            "kind": "user",
+                            "alias": "user_alias_19",
+                            "status": "error",
+                            "processes":
+                            [
+                                {
+                                    "id": 20,
+                                    "kind": "process",
+                                    "alias": "process_alias_20",
+                                    "pid": "9520",
+                                    "status": "error",
+                                    "participants":
+                                    [
+                                        {
+                                            "id": 21,
+                                            "kind": "participant",
+                                            "alias": "participant_alias_21",
+                                            "status": "error",
+                                            "endpoints":
+                                            [
+                                                {
+                                                    "id": 22,
+                                                    "kind": "datawriter",
+                                                    "alias": "datawriter_alias_22",
+                                                    "status": "warning",
+                                                    "topic": 27
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 23,
+                    "kind": "host",
+                    "alias": "host_alias_23",
+                    "status": "error",
+                    "users":
+                    [
+                        {
+                            "id": 24,
+                            "kind": "user",
+                            "alias": "user_alias_24",
+                            "status": "error",
+                            "processes":
+                            [
+                                {
+                                    "id": 28,
+                                    "kind": "process",
+                                    "alias": "process_alias_28",
+                                    "pid": "9528",
+                                    "status": "error",
+                                    "participants":
+                                    [
+                                        {
+                                            "id": 29,
+                                            "kind": "participant",
+                                            "alias": "participant_alias_29",
+                                            "status": "error",
+                                            "endpoints":
+                                            [
+                                                {
+                                                    "id": 30,
+                                                    "kind": "datareader",
+                                                    "alias": "datareader_alias_30",
+                                                    "status": "warning",
+                                                    "topic": 27
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
                             ]
                         }
                     ]
                 }
             ]
         }
-    }
-
-    function create_connections()
-    {
-        var i = 0;
-        console.log(endpoint_topic_connections.count)
-        console.log(endpoint_topic_connections.size)
-        console.log(endpoint_topic_connections.length)
-        console.log("-----")
-        for (i = 0; i < endpoint_topic_connections.length; i++)
-        {
-            var connection_bar = Qt.createComponent("GraphConnection.qml", mainView)
-            connection_bar.left_to_right = endpoint_topic_connections[i]["left_to_right"]
-            connection_bar.x = endpoint_topic_connections[i]["x"]
-            connection_bar.y = endpoint_topic_connections[i]["y"] - (connection_bar.thickness / 2)
-            connection_bar.height = connection_bar.thickness
-            var topic_id = endpoint_topic_connections[i]["destination_id"]
-            var destination_x = topic_locations[topic_id]["x"]
-            connection_bar.width = destination_x - endpoint_topic_connections[i]["x"]
-            console.log(connection_bar.left_to_right)
-            console.log(connection_bar.x)
-            console.log(connection_bar.y)
-            console.log(connection_bar.width)
-            console.log(connection_bar.height)
-            console.log("----")
-        }
-
-        /*connection.x = src_x
-        connection.y = src_y - (connection.thickness / 2)
-        console.log(topic_id)
-        console.log("-")
-        console.log(JSON.stringify(topic_locations[topic_id], null, 2))
-        console.log("-")
-        console.log(topic_locations[topic_id])
-        console.log("-")
-        console.log(JSON.stringify(topic_locations[topic_id]["x"], null, 2))
-        console.log("-")
-        console.log(topic_locations[topic_id]["x"])
-        console.log("-------------")
-        connection.width = topic_locations[topic_id]["x"] - src_x*/
     }
 }
