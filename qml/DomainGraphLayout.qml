@@ -88,6 +88,7 @@ Item
             anchors.left: parent.left;
             anchors.bottom: parent.bottom
             policy: ScrollBar.AlwaysOn
+            visible: topicView.contentWidth > topicView.width
             hoverEnabled: true
 
             contentItem: Item {
@@ -190,6 +191,14 @@ Item
                             Layout.rightMargin: first_indentation_
                         }
                     }
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            console.log(modelData["alias"] + " clicked!")
+                        }
+                    }
                 }
 
                 Rectangle
@@ -221,6 +230,7 @@ Item
 
             ScrollBar.vertical: ScrollBar{
                 id: custom_bar
+                width: 0
 
                 Connections {
                     target: vertical_bar
@@ -231,6 +241,29 @@ Item
                 }
             }
 
+            MouseArea {
+                anchors.fill: parent
+
+                onWheel: {
+                    if (wheel.angleDelta.y > 0) {
+                        topicView.contentX -= 30// topicView.scrollSpeed;
+                        if (topicView.contentX < 0) {
+                            topicView.contentX = 0;
+                        }
+                    } else {
+                        topicView.contentX += 30// topicView.scrollSpeed;
+                        if (topicView.contentX + topicView.width > topicView.contentWidth) {
+                            topicView.contentX = topicView.contentWidth -  topicView.width;
+                        }
+                    }
+                }
+                onClicked: mouse.accepted = false;
+                onPressed: mouse.accepted = false;
+                onReleased: mouse.accepted = false;
+                onDoubleClicked: mouse.accepted = false;
+                onPositionChanged: mouse.accepted = false;
+                onPressAndHold: mouse.accepted = false;
+            }
 
         }
 
@@ -283,7 +316,7 @@ Item
                         ,"left_to_right": endpoint_topic_connections_[key]["left_to_right"]
                         ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
                         ,"width": destination_x - endpoint_topic_connections_[key]["x"] - 4*elements_spacing_ - topic_thickness_/2
-                        ,"height":connection_thickness_, "z":200
+                        ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
                         ,"arrow_color": topic_color_, "background_color": background_color.color }
                     var connection_bar = arrow_component.createObject(topic_connections, input)
                 }
@@ -307,6 +340,7 @@ Item
         ScrollBar.vertical: ScrollBar {
             id: vertical_bar
             policy: ScrollBar.AlwaysOn
+            visible: mainView.contentHeight > mainView.height
             anchors.top: parent.top;        anchors.topMargin: -elements_spacing_
             anchors.right: parent.right;    anchors.rightMargin: parent.width - domainGraphLayout.width
             hoverEnabled: true
@@ -349,7 +383,8 @@ Item
             anchors.top: parent.top
 
             width: hostsList.width
-            height: hostsList.height < domainGraphLayout.height ? domainGraphLayout.height : hostsList.height
+            height: hostsList.height < domainGraphLayout.height - (label_height_ + 2*elements_spacing_)
+                ? domainGraphLayout.height - (label_height_ + 2*elements_spacing_) : hostsList.height
 
             Rectangle {
                 id: background_color
@@ -468,6 +503,14 @@ Item
                             width: max_host_width_ - host_tag.implicitWidth
                             color: host_background.color
                         }
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                console.log(modelData["alias"] + " clicked!")
+                            }
+                        }
                     }
 
                     ListView
@@ -571,6 +614,14 @@ Item
                                     height: user_tag.height
                                     width: max_user_width_ - user_tag.implicitWidth
                                     color: user_background.color
+                                }
+                                MouseArea
+                                {
+                                    anchors.fill: parent
+                                    onClicked:
+                                    {
+                                        console.log(modelData["alias"] + " clicked!")
+                                    }
                                 }
                             }
 
@@ -679,6 +730,14 @@ Item
                                             width: max_process_width_ - process_tag.implicitWidth
                                             color: process_background.color
                                         }
+                                        MouseArea
+                                        {
+                                            anchors.fill: parent
+                                            onClicked:
+                                            {
+                                                console.log(modelData["alias"] + " clicked!")
+                                            }
+                                        }
                                     }
                                     ListView
                                     {
@@ -779,6 +838,14 @@ Item
                                                     height: participant_tag.height
                                                     width: max_participant_width_ - participant_tag.implicitWidth
                                                     color: participant_background.color
+                                                }
+                                                MouseArea
+                                                {
+                                                    anchors.fill: parent
+                                                    onClicked:
+                                                    {
+                                                        console.log(modelData["alias"] + " clicked!")
+                                                    }
                                                 }
                                             }
 
@@ -891,6 +958,14 @@ Item
                                                                 Layout.rightMargin: spacing_icon_label_ + first_indentation_
                                                             }
                                                         }
+                                                        MouseArea
+                                                        {
+                                                            anchors.fill: parent
+                                                            onClicked:
+                                                            {
+                                                                console.log(modelData["alias"] + " clicked!")
+                                                            }
+                                                        }
                                                     }
                                                     Rectangle {
                                                         visible: endpoint_tag.implicitWidth < max_endpoint_width_
@@ -988,258 +1063,231 @@ Item
     }
 
 
-    function load_model()
+    function load_model(new_model)
     {
         // clear internal models
         topic_locations_ = {}
         endpoint_topic_connections_ = {}
 
-        // this is implemented in this function to avoid this huge code pasting at the beginning of the file
-        model = {
+        new_model = {
             "kind": "domain_view",
             "domain": 0,
             "topics":
-            [
+            {
+                "25":
                 {
-                    "id": 25,
                     "kind": "topic",
                     "alias": "topic_alias_25"
                 },
+                "26":
                 {
-                    "id": 26,
                     "kind": "topic",
                     "alias": "topic_alias_26"
                 },
+                "27":
                 {
-                    "id": 27,
                     "kind": "topic",
                     "alias": "topic_alias_27"
                 },
+                "28":
                 {
-                    "id": 27,
                     "kind": "topic",
-                    "alias": "topic_alias_27"
+                    "alias": "topic_alias_28"
                 },
+                "29":
                 {
-                    "id": 27,
                     "kind": "topic",
-                    "alias": "topic_alias_27"
+                    "alias": "topic_alias_29"
                 },
+                "30":
                 {
-                    "id": 27,
                     "kind": "topic",
-                    "alias": "topic_alias_27"
-                },
-                {
-                    "id": 27,
-                    "kind": "topic",
-                    "alias": "topic_alias_27"
-                },
-                {
-                    "id": 27,
-                    "kind": "topic",
-                    "alias": "topic_alias_27"
-                },
-                {
-                    "id": 27,
-                    "kind": "topic",
-                    "alias": "topic_alias_27"
-                },
-                {
-                    "id": 27,
-                    "kind": "topic",
-                    "alias": "topic_alias_27"
-                },
-            ],
+                    "alias": "topic_alias_30"
+                }
+            },
             "hosts":
-            [
+            {
+                "1":
                 {
-                    "id": 1,
                     "kind": "host",
                     "alias": "host_alias_1",
                     "status": "error",
                     "users":
-                    [
+                    {
+                        "3":
                         {
-                            "id": 3,
                             "kind": "user",
                             "alias": "user_alias_3",
                             "status": "error",
                             "processes":
-                            [
+                            {
+                                "6":
                                 {
-                                    "id": 6,
                                     "kind": "process",
                                     "alias": "process_alias_6",
                                     "pid": "9506",
                                     "status": "error",
                                     "participants":
-                                    [
+                                    {
+                                        "10":
                                         {
-                                            "id": 10,
                                             "kind": "participant",
                                             "alias": "participant_alias_10",
                                             "status": "error",
+                                            "app_id": "",
+                                            "app_metadata": "",
                                             "endpoints":
-                                            [
+                                            {
+                                                "15":
                                                 {
-                                                    "id": 15,
                                                     "kind": "datareader",
                                                     "alias": "datareader_alias_15",
                                                     "status": "warning",
                                                     "topic": 25
                                                 },
+                                                "16":
                                                 {
-                                                    "id": 16,
                                                     "kind": "datawriter",
                                                     "alias": "datawriter_alias_16",
                                                     "status": "error",
                                                     "topic": 26
                                                 }
-                                            ]
+                                            }
                                         },
+                                        "11":
                                         {
-                                            "id": 11,
                                             "kind": "participant",
                                             "alias": "participant_alias_11",
                                             "status": "ok",
+                                            "app_id": "",
+                                            "app_metadata": "",
                                             "endpoints":
-                                            [
+                                            {
+                                                "17":
                                                 {
-                                                    "id": 17,
                                                     "kind": "datareader",
                                                     "alias": "datareader_alias_17",
                                                     "status": "ok",
                                                     "topic": 25
                                                 },
+                                                "18":
                                                 {
-                                                    "id": 18,
                                                     "kind": "datawriter",
                                                     "alias": "datawriter_alias_18",
                                                     "status": "ok",
                                                     "topic": 26
-                                                }/*,
-                                                {
-                                                    "id": 19,
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_19",
-                                                    "status": "ok",
-                                                    "topic": 26
-                                                }*/
-                                            ]
+                                                }
+                                            }
                                         }
-                                    ]
+                                    }
                                 },
+                                "7":
                                 {
-                                    "id": 12,
                                     "kind": "process",
-                                    "alias": "process_alias_12",
-                                    "pid": "9512",
-                                    "status": "warning",
+                                    "alias": "process_alias_7",
+                                    "pid": "9507",
+                                    "status": "ok",
                                     "participants":
-                                    [
+                                    {
+                                        "8":
                                         {
-                                            "id": 13,
                                             "kind": "participant",
-                                            "alias": "participant_alias_13",
-                                            "status": "warning",
+                                            "alias": "participant_alias_8",
+                                            "status": "ok",
+                                            "app_id": "",
+                                            "app_metadata": "",
                                             "endpoints":
-                                            [
+                                            {
+                                                "9":
                                                 {
-                                                    "id": 14,
                                                     "kind": "datareader",
-                                                    "alias": "datareader_alias_14",
-                                                    "status": "warning",
-                                                    "topic": 25
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "id": 19,
-                            "kind": "user",
-                            "alias": "user_alias_19",
-                            "status": "error",
-                            "processes":
-                            [
-                                {
-                                    "id": 20,
-                                    "kind": "process",
-                                    "alias": "process_alias_20",
-                                    "pid": "9520",
-                                    "status": "error",
-                                    "participants":
-                                    [
-                                        {
-                                            "id": 21,
-                                            "kind": "participant",
-                                            "alias": "participant_alias_21",
-                                            "status": "error",
-                                            "endpoints":
-                                            [
-                                                {
-                                                    "id": 22,
-                                                    "kind": "datawriter",
-                                                    "alias": "datawriter_alias_22",
-                                                    "status": "warning",
+                                                    "alias": "datareader_alias_9",
+                                                    "status": "ok",
                                                     "topic": 27
                                                 }
-                                            ]
+                                            }
                                         }
-                                    ]
+                                    }
                                 }
-                            ]
+                            }
                         }
-                    ]
-                },
-                {
-                    "id": 23,
-                    "kind": "host",
-                    "alias": "host_alias_23",
-                    "status": "error",
-                    "users":
-                    [
-                        {
-                            "id": 24,
-                            "kind": "user",
-                            "alias": "user_alias_24",
-                            "status": "error",
-                            "processes":
-                            [
-                                {
-                                    "id": 28,
-                                    "kind": "process",
-                                    "alias": "process_alias_28",
-                                    "pid": "9528",
-                                    "status": "error",
-                                    "participants":
-                                    [
-                                        {
-                                            "id": 29,
-                                            "kind": "participant",
-                                            "alias": "participant_alias_29",
-                                            "status": "error",
-                                            "endpoints":
-                                            [
-                                                {
-                                                    "id": 30,
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_30",
-                                                    "status": "warning",
-                                                    "topic": 27
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
+                    }
                 }
-            ]
+            }
+        }
+
+        // transform indexed model to array model (arrays required for the listviews)
+        var loaded_topics = []
+        for (var topic in new_model["topics"])
+        {
+            loaded_topics[loaded_topics.length] = {
+                "id":topic,
+                "kind":new_model["topics"][topic]["kind"],
+                "alias":new_model["topics"][topic]["alias"],}
+        }
+        var loaded_hosts = []
+        for (var host in new_model["hosts"])
+        {
+            var loaded_users = []
+            for (var user in new_model["hosts"][host]["users"])
+            {
+                var loaded_processes = []
+                for (var process in new_model["hosts"][host]["users"][user]["processes"])
+                {
+                    var loaded_participants = []
+                    for (var participant in new_model["hosts"][host]["users"][user]["processes"][process]["participants"])
+                    {
+                        var loaded_endpoints = []
+                        for (var endpoint in new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
+                        {
+                            loaded_endpoints[loaded_endpoints.length] = {
+                                "id":endpoint,
+                                "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"],
+                                "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
+                                "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
+                                "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"]
+                            }
+                        }
+                        loaded_participants[loaded_participants.length] = {
+                            "id":participant,
+                            "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["kind"],
+                            "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
+                            "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
+                            "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
+                            "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
+                            "endpoints":loaded_endpoints
+                        }
+                    }
+                    loaded_processes[loaded_processes.length] = {
+                        "id":process,
+                        "kind":new_model["hosts"][host]["users"][user]["processes"][process]["kind"],
+                        "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
+                        "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
+                        "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
+                        "participants":loaded_participants
+                    }
+                }
+                loaded_users[loaded_users.length] = {
+                    "id":user,
+                    "kind":new_model["hosts"][host]["users"][user]["kind"],
+                    "alias":new_model["hosts"][host]["users"][user]["alias"],
+                    "status":new_model["hosts"][host]["users"][user]["status"],
+                    "processes":loaded_processes
+                }
+            }
+            loaded_hosts[loaded_hosts.length] = {
+                "id":host,
+                "kind":new_model["hosts"][host]["kind"],
+                "alias":new_model["hosts"][host]["alias"],
+                "status":new_model["hosts"][host]["status"],
+                "users":loaded_users
+            }
+        }
+        model = {
+            "kind": new_model["kind"],
+            "domain": new_model["domain"],
+            "topics": loaded_topics,
+            "hosts": loaded_hosts,
         }
     }
 }
