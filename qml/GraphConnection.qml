@@ -50,7 +50,7 @@ Item {
                 var ctx = left_canvas.getContext('2d')
 
                 ctx.strokeStyle = arrow_color
-                ctx.lineWidth = left_canvas.width * 0.05
+                ctx.lineWidth = left_canvas.width * 0.1
                 ctx.beginPath()
                 ctx.moveTo(left_canvas.width, left_canvas.height * 0.05)
                 ctx.lineTo(0, left_canvas.height / 2)
@@ -82,7 +82,7 @@ Item {
                 var ctx = right_canvas.getContext('2d')
 
                 ctx.strokeStyle = arrow_color
-                ctx.lineWidth = right_canvas.width * 0.05
+                ctx.lineWidth = right_canvas.width * 0.1
                 ctx.beginPath()
                 ctx.moveTo(0, right_canvas.height * 0.05)
                 ctx.lineTo(right_canvas.width, right_canvas.height / 2)

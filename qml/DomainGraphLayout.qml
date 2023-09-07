@@ -49,6 +49,7 @@ Item
     signal hosts_updated()
 
     // Read only design properties
+    readonly property int radius_: 10
     readonly property int connection_thickness_: 5
     readonly property int elements_spacing_: 12
     readonly property int endpoint_height_: 40
@@ -171,12 +172,14 @@ Item
                 height: topicsList.height
                 color: "transparent"
 
+
                 Rectangle
                 {
                     id: topic_tag
                     implicitWidth: topicRowLayout.implicitWidth
                     height: label_height_
                     color: topic_color_
+                    radius: radius_
 
                     RowLayout {
                         id: topicRowLayout
@@ -468,6 +471,7 @@ Item
                         height: parent.height
                         width: parent.width
                         color: host_color_
+                        radius: radius_
                     }
 
                     Rectangle
@@ -481,6 +485,7 @@ Item
                                 : max_host_width_
                         height: label_height_
                         color: host_color_
+                        radius: radius_
 
                         RowLayout {
                             id: hostRowLayout
@@ -512,6 +517,7 @@ Item
                             height: host_tag.height
                             width: max_host_width_ - host_tag.implicitWidth
                             color: host_background.color
+                            radius: radius_
                         }
                         MouseArea
                         {
@@ -583,6 +589,7 @@ Item
                                 height: parent.height
                                 width: parent.width
                                 color: user_color_
+                                radius: radius_
                             }
 
                             Rectangle
@@ -597,6 +604,7 @@ Item
                                         : max_user_width_
                                 height: label_height_
                                 color: user_color_
+                                radius: radius_
 
                                 RowLayout {
                                     id: userRowLayout
@@ -628,6 +636,7 @@ Item
                                     height: user_tag.height
                                     width: max_user_width_ - user_tag.implicitWidth
                                     color: user_background.color
+                                    radius: radius_
                                 }
                                 MouseArea
                                 {
@@ -698,6 +707,7 @@ Item
                                         height: parent.height
                                         width: parent.width
                                         color: process_color_
+                                        radius: radius_
                                     }
 
                                     Rectangle
@@ -712,6 +722,7 @@ Item
                                                 : max_process_width_
                                         height: label_height_
                                         color: process_color_
+                                        radius: radius_
 
                                         RowLayout {
                                             id: processRowLayout
@@ -743,6 +754,7 @@ Item
                                             height: process_tag.height
                                             width: max_process_width_ - process_tag.implicitWidth
                                             color: process_background.color
+                                            radius: radius_
                                         }
                                         MouseArea
                                         {
@@ -812,6 +824,7 @@ Item
                                                 height: parent.height
                                                 width: parent.width
                                                 color: participant_color_
+                                                radius: radius_
                                             }
                                             Rectangle
                                             {
@@ -825,6 +838,7 @@ Item
                                                         : max_participant_width_
                                                 height: label_height_
                                                 color: participant_color_
+                                                radius: radius_
 
                                                 RowLayout {
                                                     id: participantRowLayout
@@ -852,6 +866,7 @@ Item
                                                     height: participant_tag.height
                                                     width: max_participant_width_ - participant_tag.implicitWidth
                                                     color: participant_background.color
+                                                    radius: radius_
                                                 }
                                                 MouseArea
                                                 {
@@ -943,6 +958,7 @@ Item
                                                         width: parent.width
                                                         height: endpoint_height_
                                                         color: modelData["kind"] == "datareader" ? reader_color_ : writer_color_
+                                                        radius: radius_
                                                     }
                                                     Rectangle
                                                     {
@@ -956,6 +972,7 @@ Item
                                                                 : max_endpoint_width_
                                                         height: endpoint_height_
                                                         color: endpoint_background.color
+                                                        radius: radius_
 
                                                         RowLayout {
                                                             id: endpointRowLayout
@@ -992,6 +1009,7 @@ Item
                                                         height: endpoint_tag.height
                                                         width: max_endpoint_width_ - endpoint_tag.implicitWidth
                                                         color: endpoint_background.color
+                                                        radius: radius_
                                                     }
                                                 }
                                             }
