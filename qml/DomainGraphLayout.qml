@@ -955,8 +955,7 @@ Item
                                                     {
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
                                                         var src_x = globalCoordinates.x + endpointComponent.width
-                                                        var src_y = globalCoordinates.y + (endpointComponent.height / 2)
-                                                        //    - (label_height_ + 2* elements_spacing_)
+                                                        var src_y = modelData["accum_y"] + (endpointComponent.height / 2)
                                                         var left_direction = modelData["kind"] == "datareader"
                                                         var right_direction = modelData["kind"] == "datawriter"
 
@@ -1418,18 +1417,23 @@ Item
                 "kind":new_model["topics"][topic]["kind"],
                 "alias":new_model["topics"][topic]["alias"],}
         }
+        var accum_y = 0
         var new_hosts = []
         for (var host in new_model["hosts"])
         {
+            accum_y += label_height_ + elements_spacing_
             var new_users = []
             for (var user in new_model["hosts"][host]["users"])
             {
+                accum_y += label_height_ + elements_spacing_
                 var new_processes = []
                 for (var process in new_model["hosts"][host]["users"][user]["processes"])
                 {
+                    accum_y += label_height_ + elements_spacing_
                     var new_participants = []
                     for (var participant in new_model["hosts"][host]["users"][user]["processes"][process]["participants"])
                     {
+                        accum_y += label_height_ + elements_spacing_
                         var new_endpoints = []
                         for (var endpoint in new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
                         {
@@ -1438,8 +1442,10 @@ Item
                                 "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"],
                                 "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
                                 "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
-                                "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"]
+                                "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
+                                "accum_y":accum_y
                             }
+                            accum_y += endpoint_height_ + elements_spacing_
                         }
                         new_participants[new_participants.length] = {
                             "id":participant,
@@ -1450,6 +1456,7 @@ Item
                             "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
                             "endpoints":new_endpoints
                         }
+                        accum_y += elements_spacing_
                     }
                     new_processes[new_processes.length] = {
                         "id":process,
@@ -1459,6 +1466,7 @@ Item
                         "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
                         "participants":new_participants
                     }
+                    accum_y += elements_spacing_
                 }
                 new_users[new_users.length] = {
                     "id":user,
@@ -1467,6 +1475,7 @@ Item
                     "status":new_model["hosts"][host]["users"][user]["status"],
                     "processes":new_processes
                 }
+                accum_y += elements_spacing_
             }
             new_hosts[new_hosts.length] = {
                 "id":host,
@@ -1475,6 +1484,7 @@ Item
                 "status":new_model["hosts"][host]["status"],
                 "users":new_users
             }
+            accum_y += elements_spacing_
         }
         model = {
             "kind": new_model["kind"],
