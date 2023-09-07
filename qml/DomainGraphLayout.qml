@@ -36,6 +36,8 @@ Item
     property int max_process_width_: 0
     property int max_participant_width_: 0
     property int max_endpoint_width_: 0
+    property var entity_painted_: []
+    property var topic_painted_: []
 
     // Private signals
     signal resize_elements()
@@ -47,7 +49,7 @@ Item
     signal hosts_updated()
 
     // Read only design properties
-    readonly property int connection_thickness_: 8
+    readonly property int connection_thickness_: 5
     readonly property int elements_spacing_: 12
     readonly property int endpoint_height_: 40
     readonly property int first_indentation_: 5
@@ -183,12 +185,14 @@ Item
 
                         IconSVG {
                             name: "topic"
+                            color: "white"
                             size: icon_size_
                             Layout.leftMargin: first_indentation_
                         }
                         Label {
                             text: modelData["alias"]
                             Layout.rightMargin: first_indentation_
+                            color: "white"
                         }
                     }
                     MouseArea
@@ -309,16 +313,20 @@ Item
                 var topic_id = endpoint_topic_connections_[key]["destination_id"]
                 if (topic_locations_[topic_id] != undefined)
                 {
-                    //console.log(key)
-                    //console.log(endpoint_topic_connections_[key]["y"])
-                    var destination_x = topic_locations_[topic_id]["x"]
-                    var input = {"x": 0
-                        ,"left_to_right": endpoint_topic_connections_[key]["left_to_right"]
-                        ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
-                        ,"width": destination_x - endpoint_topic_connections_[key]["x"] - 4*elements_spacing_ - topic_thickness_/2
-                        ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
-                        ,"arrow_color": topic_color_, "background_color": background_color.color }
-                    var connection_bar = arrow_component.createObject(topic_connections, input)
+                    if (!topic_painted_.includes(key))
+                    {
+                        //console.log(key)
+                        //console.log(endpoint_topic_connections_[key]["y"])
+                        var destination_x = topic_locations_[topic_id]["x"]
+                        var input = {"x": 0
+                            ,"right_direction": endpoint_topic_connections_[key]["right_direction"]
+                            ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
+                            ,"width": destination_x - endpoint_topic_connections_[key]["x"] - 4*elements_spacing_
+                            ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
+                            ,"arrow_color": topic_color_, "background_color": background_color.color }
+                        var connection_bar = arrow_component.createObject(topic_connections, input)
+                        topic_painted_[topic_painted_.length] = key;
+                    }
                 }
             }
         }
@@ -425,6 +433,8 @@ Item
                     var listViewWidth = 0
 
                     // iterate over each element in the list item
+                    console.log("hosts length: " + hostsList.visibleChildren.length)
+                    console.log(hostsList.visibleChildren[0].height)
                     for (var i = 0; i < hostsList.visibleChildren.length; i++) {
                         listViewHeight += hostsList.visibleChildren[i].height + elements_spacing_
                         var min_width = hostsList.visibleChildren[i].width
@@ -555,6 +565,7 @@ Item
                             usersList.height = listViewHeight + elements_spacing_
                             usersList.width = max_user_width_
                             users_updated()
+                            console.log(usersList.height)
                         }
 
                         delegate: Item
@@ -594,17 +605,20 @@ Item
                                     IconSVG {
                                         visible: modelData["status"] != "ok"
                                         name: "issues"
+                                        color: "white"
                                         size: icon_size_
                                         Layout.leftMargin: first_indentation_
                                     }
                                     IconSVG {
                                         name: "user"
+                                        color: "white"
                                         size: icon_size_
                                         Layout.leftMargin: modelData["status"] != "ok" ? 0 : first_indentation_
                                     }
                                     Label {
                                         text: modelData["alias"]
                                         Layout.rightMargin: first_indentation_
+                                        color: "white"
                                     }
                                 }
                                 Rectangle {
@@ -875,7 +889,7 @@ Item
 
                                                     // iterate over each element in the list item
                                                     for (var i = 0; i < endpointsList.visibleChildren.length; i++) {
-                                                        listViewHeight += endpointsList.visibleChildren[i].height + elements_spacing_
+                                                        //listViewHeight += endpointsList.visibleChildren[i].height + elements_spacing_
                                                         var min_width = endpointsList.visibleChildren[i].width
                                                         for (var j = 0; j < endpointsList.visibleChildren[i].visibleChildren.length; j++)
                                                         {
@@ -889,6 +903,7 @@ Item
                                                     {
                                                         endpointsList.currentIndex = c
                                                         endpointsList.currentItem.record_connection()
+                                                        listViewHeight += endpointsList.currentItem.height + elements_spacing_
                                                     }
 
                                                     endpointsList.height = listViewHeight + elements_spacing_
@@ -911,11 +926,14 @@ Item
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
                                                         var src_x = globalCoordinates.x + endpointComponent.width
                                                         var src_y = globalCoordinates.y + (endpointComponent.height / 2)
-                                                        var left_to_right = modelData["kind"] == "datareader"
+                                                        //    - (label_height_ + 2* elements_spacing_)
+                                                        var left_direction = modelData["kind"] == "datareader"
+                                                        var right_direction = modelData["kind"] == "datawriter"
 
                                                         endpoint_topic_connections_[modelData["id"]] = {
-                                                            "id":  modelData["id"], "left_to_right": left_to_right,
-                                                            "x": src_x, "y": src_y, "destination_id": modelData["topic"]
+                                                            "id":  modelData["id"], "left_direction": left_direction,
+                                                            "right_direction": right_direction, "x": src_x, "y": src_y,
+                                                            "destination_id": modelData["topic"]
                                                         }
                                                     }
 
@@ -1028,16 +1046,20 @@ Item
                     var topic_id = endpoint_topic_connections_[key]["destination_id"]
                     if (topic_locations_[topic_id] != undefined)
                     {
-                        //console.log(key)
-                        //console.log(endpoint_topic_connections_[key]["y"])
-                        var destination_x = topic_locations_[topic_id]["x"]
-                        var input = {"x": endpoint_topic_connections_[key]["x"]
-                            ,"left_to_right": endpoint_topic_connections_[key]["left_to_right"]
-                            ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
-                            ,"width": 4*elements_spacing_
-                            ,"height":connection_thickness_, "z":200
-                            ,"arrow_color": topic_color_, "background_color": background_color.color }
-                        var connection_bar = arrow_component.createObject(mainSpace, input)
+                        if (!entity_painted_.includes(key))
+                        {
+                            //console.log(key)
+                            //console.log(JSON.stringify(endpoint_topic_connections_[key], null, 2))
+                            var destination_x = topic_locations_[topic_id]["x"]
+                            var input = {"x": endpoint_topic_connections_[key]["x"]
+                                ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
+                                ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
+                                ,"width": 4*elements_spacing_
+                                ,"height":connection_thickness_, "z":200
+                                ,"arrow_color": topic_color_, "background_color": background_color.color }
+                            var connection_bar = arrow_component.createObject(mainSpace, input)
+                            entity_painted_[entity_painted_.length] = key
+                        }
                     }
                 }
             }
@@ -1068,6 +1090,8 @@ Item
         // clear internal models
         topic_locations_ = {}
         endpoint_topic_connections_ = {}
+        entity_painted_ = []
+        topic_painted_ = []
 
         new_model = {
             "kind": "domain_view",
@@ -1151,6 +1175,13 @@ Item
                                                     "alias": "datawriter_alias_16",
                                                     "status": "error",
                                                     "topic": 26
+                                                },
+                                                "17":
+                                                {
+                                                    "kind": "datareader",
+                                                    "alias": "datareader_alias_17",
+                                                    "status": "ok",
+                                                    "topic": 27
                                                 }
                                             }
                                         },
@@ -1163,17 +1194,18 @@ Item
                                             "app_metadata": "",
                                             "endpoints":
                                             {
-                                                "17":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_17",
-                                                    "status": "ok",
-                                                    "topic": 25
-                                                },
+
                                                 "18":
                                                 {
                                                     "kind": "datawriter",
                                                     "alias": "datawriter_alias_18",
+                                                    "status": "ok",
+                                                    "topic": 25
+                                                },
+                                                "19":
+                                                {
+                                                    "kind": "datawriter",
+                                                    "alias": "datawriter_alias_19",
                                                     "status": "ok",
                                                     "topic": 26
                                                 }
@@ -1203,7 +1235,135 @@ Item
                                                     "kind": "datareader",
                                                     "alias": "datareader_alias_9",
                                                     "status": "ok",
-                                                    "topic": 27
+                                                    "topic": 28
+                                                }
+                                            }
+                                        },
+                                        "30":
+                                        {
+                                            "kind": "participant",
+                                            "alias": "participant_alias30",
+                                            "status": "ok",
+                                            "app_id": "",
+                                            "app_metadata": "",
+                                            "endpoints":
+                                            {
+                                                "9":
+                                                {
+                                                    "kind": "datareader",
+                                                    "alias": "datareader_alias_9",
+                                                    "status": "ok",
+                                                    "topic": 28
+                                                }
+                                            }
+                                        },
+                                        "31":
+                                        {
+                                            "kind": "participant",
+                                            "alias": "participant_alias31",
+                                            "status": "ok",
+                                            "app_id": "",
+                                            "app_metadata": "",
+                                            "endpoints":
+                                            {
+                                                "9":
+                                                {
+                                                    "kind": "datareader",
+                                                    "alias": "datareader_alias_9",
+                                                    "status": "ok",
+                                                    "topic": 28
+                                                }
+                                            }
+                                        },
+                                        "32":
+                                        {
+                                            "kind": "participant",
+                                            "alias": "participant_alias32",
+                                            "status": "ok",
+                                            "app_id": "",
+                                            "app_metadata": "",
+                                            "endpoints":
+                                            {
+                                                "9":
+                                                {
+                                                    "kind": "datareader",
+                                                    "alias": "datareader_alias_9",
+                                                    "status": "ok",
+                                                    "topic": 28
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "38":
+                        {
+                            "kind": "user",
+                            "alias": "user_alias_38",
+                            "status": "error",
+                            "processes":
+                            {
+                                "39":
+                                {
+                                    "kind": "process",
+                                    "alias": "process_alias_39",
+                                    "pid": "9539",
+                                    "status": "error",
+                                    "participants":
+                                    {
+                                        "40":
+                                        {
+                                            "kind": "participant",
+                                            "alias": "participant_alias_40",
+                                            "status": "error",
+                                            "app_id": "",
+                                            "app_metadata": "",
+                                            "endpoints":
+                                            {
+                                                "41":
+                                                {
+                                                    "kind": "datareader",
+                                                    "alias": "datareader_alias_41",
+                                                    "status": "warning",
+                                                    "topic": 29
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "42":
+                        {
+                            "kind": "user",
+                            "alias": "user_alias_42",
+                            "status": "error",
+                            "processes":
+                            {
+                                "43":
+                                {
+                                    "kind": "process",
+                                    "alias": "process_alias_43",
+                                    "pid": "9543",
+                                    "status": "error",
+                                    "participants":
+                                    {
+                                        "44":
+                                        {
+                                            "kind": "participant",
+                                            "alias": "participant_alias_44",
+                                            "status": "error",
+                                            "app_id": "",
+                                            "app_metadata": "",
+                                            "endpoints":
+                                            {
+                                                "45":
+                                                {
+                                                    "kind": "datareader",
+                                                    "alias": "datareader_alias_45",
+                                                    "status": "warning",
+                                                    "topic": 30
                                                 }
                                             }
                                         }
@@ -1217,30 +1377,30 @@ Item
         }
 
         // transform indexed model to array model (arrays required for the listviews)
-        var loaded_topics = []
+        var new_topics = []
         for (var topic in new_model["topics"])
         {
-            loaded_topics[loaded_topics.length] = {
+            new_topics[new_topics.length] = {
                 "id":topic,
                 "kind":new_model["topics"][topic]["kind"],
                 "alias":new_model["topics"][topic]["alias"],}
         }
-        var loaded_hosts = []
+        var new_hosts = []
         for (var host in new_model["hosts"])
         {
-            var loaded_users = []
+            var new_users = []
             for (var user in new_model["hosts"][host]["users"])
             {
-                var loaded_processes = []
+                var new_processes = []
                 for (var process in new_model["hosts"][host]["users"][user]["processes"])
                 {
-                    var loaded_participants = []
+                    var new_participants = []
                     for (var participant in new_model["hosts"][host]["users"][user]["processes"][process]["participants"])
                     {
-                        var loaded_endpoints = []
+                        var new_endpoints = []
                         for (var endpoint in new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
                         {
-                            loaded_endpoints[loaded_endpoints.length] = {
+                            new_endpoints[new_endpoints.length] = {
                                 "id":endpoint,
                                 "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"],
                                 "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
@@ -1248,46 +1408,46 @@ Item
                                 "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"]
                             }
                         }
-                        loaded_participants[loaded_participants.length] = {
+                        new_participants[new_participants.length] = {
                             "id":participant,
                             "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["kind"],
                             "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
                             "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
                             "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
                             "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
-                            "endpoints":loaded_endpoints
+                            "endpoints":new_endpoints
                         }
                     }
-                    loaded_processes[loaded_processes.length] = {
+                    new_processes[new_processes.length] = {
                         "id":process,
                         "kind":new_model["hosts"][host]["users"][user]["processes"][process]["kind"],
                         "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
                         "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
                         "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
-                        "participants":loaded_participants
+                        "participants":new_participants
                     }
                 }
-                loaded_users[loaded_users.length] = {
+                new_users[new_users.length] = {
                     "id":user,
                     "kind":new_model["hosts"][host]["users"][user]["kind"],
                     "alias":new_model["hosts"][host]["users"][user]["alias"],
                     "status":new_model["hosts"][host]["users"][user]["status"],
-                    "processes":loaded_processes
+                    "processes":new_processes
                 }
             }
-            loaded_hosts[loaded_hosts.length] = {
+            new_hosts[new_hosts.length] = {
                 "id":host,
                 "kind":new_model["hosts"][host]["kind"],
                 "alias":new_model["hosts"][host]["alias"],
                 "status":new_model["hosts"][host]["status"],
-                "users":loaded_users
+                "users":new_users
             }
         }
         model = {
             "kind": new_model["kind"],
             "domain": new_model["domain"],
-            "topics": loaded_topics,
-            "hosts": loaded_hosts,
+            "topics": new_topics,
+            "hosts": new_hosts,
         }
     }
 }
