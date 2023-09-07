@@ -436,10 +436,7 @@ Item
                     var listViewWidth = 0
 
                     // iterate over each element in the list item
-                    console.log("hosts length: " + hostsList.visibleChildren.length)
-                    console.log(hostsList.visibleChildren[0].height)
                     for (var i = 0; i < hostsList.visibleChildren.length; i++) {
-                        listViewHeight += hostsList.visibleChildren[i].height + elements_spacing_
                         var min_width = hostsList.visibleChildren[i].width
                         for (var j = 0; j < hostsList.visibleChildren[i].visibleChildren.length; j++)
                         {
@@ -449,6 +446,15 @@ Item
                         max_host_width_ = Math.max(max_host_width_, listViewWidth)
                         max_host_width_ = Math.max(max_host_width_, (2*elements_spacing_)+max_user_width_)
                         hostsList.visibleChildren[i].width = max_host_width_
+                    }
+
+                    for (var c = 0; c < hostsList.count; c++)
+                    {
+                        hostsList.currentIndex = c
+                        if (hostsList.currentItem != null)
+                        {
+                            listViewHeight += hostsList.currentItem.height + elements_spacing_
+                        }
                     }
 
                     hostsList.height = listViewHeight + elements_spacing_
@@ -556,7 +562,6 @@ Item
 
                             // iterate over each element in the list item
                             for (var i = 0; i < usersList.visibleChildren.length; i++) {
-                                listViewHeight += usersList.visibleChildren[i].height + elements_spacing_
                                 var min_width = usersList.visibleChildren[i].width
                                 for (var j = 0; j < usersList.visibleChildren[i].visibleChildren.length; j++)
                                 {
@@ -568,10 +573,18 @@ Item
                                 usersList.visibleChildren[i].width = max_user_width_
                             }
 
+                            for (var c = 0; c < usersList.count; c++)
+                            {
+                                usersList.currentIndex = c
+                                if (usersList.currentItem != null)
+                                {
+                                    listViewHeight += usersList.currentItem.height + elements_spacing_
+                                }
+                            }
+
                             usersList.height = listViewHeight + elements_spacing_
                             usersList.width = max_user_width_
                             users_updated()
-                            console.log(usersList.height)
                         }
 
                         delegate: Item
@@ -904,7 +917,7 @@ Item
 
                                                     // iterate over each element in the list item
                                                     for (var i = 0; i < endpointsList.visibleChildren.length; i++) {
-                                                        //listViewHeight += endpointsList.visibleChildren[i].height + elements_spacing_
+                                                        listViewHeight += endpointsList.visibleChildren[i].height + elements_spacing_
                                                         var min_width = endpointsList.visibleChildren[i].width
                                                         for (var j = 0; j < endpointsList.visibleChildren[i].visibleChildren.length; j++)
                                                         {
@@ -918,7 +931,6 @@ Item
                                                     {
                                                         endpointsList.currentIndex = c
                                                         endpointsList.currentItem.record_connection()
-                                                        listViewHeight += endpointsList.currentItem.height + elements_spacing_
                                                     }
 
                                                     endpointsList.height = listViewHeight + elements_spacing_
