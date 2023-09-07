@@ -28,6 +28,9 @@ Item
     // Public properties
     property var model: {}
 
+    // Public signals
+    signal update_tab_name(string new_name)
+
     // Private properties
     property var topic_locations_: {}
     property var endpoint_topic_connections_: {}
@@ -40,13 +43,13 @@ Item
     property var topic_painted_: []
 
     // Private signals
-    signal resize_elements()
-    signal topics_updated()
-    signal endpoints_updated()
-    signal participants_updated()
-    signal processes_updated()
-    signal users_updated()
-    signal hosts_updated()
+    signal resize_elements_()
+    signal topics_updated_()
+    signal endpoints_updated_()
+    signal participants_updated_()
+    signal processes_updated_()
+    signal users_updated_()
+    signal hosts_updated_()
 
     // Read only design properties
     readonly property int radius_: 10
@@ -71,7 +74,7 @@ Item
     Component.onCompleted:
     {
         load_model()
-        resize_elements()
+        resize_elements_()
     }
 
     Flickable {
@@ -134,7 +137,7 @@ Item
             {
                 target: domainGraphLayout
 
-                function onResize_elements()
+                function onResize_elements_()
                 {
                     topicsList.onCountChanged()
                 }
@@ -162,7 +165,7 @@ Item
                 }
                 topicsList.height = listViewHeight
                 topicsList.width = listViewWidth + 10* elements_spacing_
-                topics_updated()
+                topics_updated_()
             }
 
             delegate: Rectangle
@@ -278,32 +281,32 @@ Item
         {
             target: domainGraphLayout
 
-            function onTopics_updated()
+            function onTopics_updated_()
             {
                 topicView.create_connections()
             }
 
-            function onEndpoints_updated()
+            function onEndpoints_updated_()
             {
                 topicView.create_connections()
             }
 
-            function onParticipants_updated()
+            function onParticipants_updated_()
             {
                 topicView.create_connections()
             }
 
-            function onProcesses_updated()
+            function onProcesses_updated_()
             {
                 topicView.create_connections()
             }
 
-            function onUsers_updated()
+            function onUsers_updated_()
             {
                 topicView.create_connections()
             }
 
-            function onHosts_updated()
+            function onHosts_updated_()
             {
                 topicView.create_connections()
             }
@@ -424,7 +427,7 @@ Item
                 {
                     target: domainGraphLayout
 
-                    function onUsers_updated()
+                    function onUsers_updated_()
                     {
                         hostsList.onCountChanged()
                     }
@@ -459,7 +462,7 @@ Item
 
                     hostsList.height = listViewHeight + elements_spacing_
                     hostsList.width = max_host_width_
-                    hosts_updated()
+                    hosts_updated_()
                 }
 
                 delegate: Item
@@ -549,7 +552,7 @@ Item
                         {
                             target: domainGraphLayout
 
-                            function onProcesses_updated()
+                            function onProcesses_updated_()
                             {
                                 usersList.onCountChanged()
                             }
@@ -584,7 +587,7 @@ Item
 
                             usersList.height = listViewHeight + elements_spacing_
                             usersList.width = max_user_width_
-                            users_updated()
+                            users_updated_()
                         }
 
                         delegate: Item
@@ -675,7 +678,7 @@ Item
                                 {
                                     target: domainGraphLayout
 
-                                    function onParticipants_updated()
+                                    function onParticipants_updated_()
                                     {
                                         processesList.onCountChanged()
                                     }
@@ -702,7 +705,7 @@ Item
 
                                     processesList.height = listViewHeight + elements_spacing_
                                     processesList.width = max_process_width_
-                                    processes_updated()
+                                    processes_updated_()
                                 }
 
                                 delegate: Item
@@ -792,7 +795,7 @@ Item
                                         {
                                             target: domainGraphLayout
 
-                                            function onEndpoints_updated()
+                                            function onEndpoints_updated_()
                                             {
                                                 participantsList.onCountChanged()
                                             }
@@ -819,7 +822,7 @@ Item
 
                                             participantsList.height = listViewHeight + elements_spacing_
                                             participantsList.width = max_participant_width_
-                                            participants_updated()
+                                            participants_updated_()
                                         }
 
                                         delegate: Item
@@ -905,7 +908,7 @@ Item
                                                 {
                                                     target: domainGraphLayout
 
-                                                    function onTopics_updated()
+                                                    function onTopics_updated_()
                                                     {
                                                         endpointsList.onCountChanged()
                                                     }
@@ -935,7 +938,7 @@ Item
 
                                                     endpointsList.height = listViewHeight + elements_spacing_
                                                     endpointsList.width = max_endpoint_width_
-                                                    endpoints_updated()
+                                                    endpoints_updated_()
                                                 }
 
                                                 delegate: Item
@@ -1038,32 +1041,32 @@ Item
             {
                 target: domainGraphLayout
 
-                function onTopics_updated()
+                function onTopics_updated_()
                 {
                     mainSpace.create_connections()
                 }
 
-                function onEndpoints_updated()
+                function onEndpoints_updated_()
                 {
                     mainSpace.create_connections()
                 }
 
-                function onParticipants_updated()
+                function onParticipants_updated_()
                 {
                     mainSpace.create_connections()
                 }
 
-                function onProcesses_updated()
+                function onProcesses_updated_()
                 {
                     mainSpace.create_connections()
                 }
 
-                function onUsers_updated()
+                function onUsers_updated_()
                 {
                     mainSpace.create_connections()
                 }
 
-                function onHosts_updated()
+                function onHosts_updated_()
                 {
                     mainSpace.create_connections()
                 }
@@ -1100,7 +1103,7 @@ Item
         anchors.top: parent.top
         anchors.left: parent.left
         height: 2* elements_spacing_ + label_height_
-        width: max_host_width_ + elements_spacing_
+        width: max_host_width_ +2* elements_spacing_
         color: "white"
         z: 12
     }
@@ -1479,5 +1482,7 @@ Item
             "topics": new_topics,
             "hosts": new_hosts,
         }
+
+        domainGraphLayout.update_tab_name("Domain " + new_model["domain"] + " View")
     }
 }
