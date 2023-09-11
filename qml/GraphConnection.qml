@@ -7,15 +7,16 @@ Item {
     property int left_margin: 0
     property string arrow_color: Theme.grey
     property string background_color: "white"
-
-    // The index of corner for the triangle to be attached
     property int corner: 0
+
+    readonly property int arrow_margin_: -4
+    readonly property int arrow_size_: 30
 
     Rectangle {
         id: background_arrow
         visible: left_margin != 0
         anchors.top: parent.top; anchors.bottom: parent.bottom
-        anchors.topMargin: -2; anchors.bottomMargin: -2
+        anchors.topMargin: arrow_margin_; anchors.bottomMargin: arrow_margin_
         anchors.left: parent.left; anchors.right: parent.right
         anchors.leftMargin: left_margin; anchors.rightMargin: left_margin;
         color: background_color
@@ -31,10 +32,10 @@ Item {
     Item {
         id: left_arrow
         visible: left_direction
-        height: 30
-        width: 30
+        height: arrow_size_
+        width: arrow_size_
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left; anchors.leftMargin: -parent.height /2
+        anchors.left: parent.left
 
         Canvas {
             id: left_canvas
@@ -63,8 +64,8 @@ Item {
     Item {
         id: right_arrow
         visible: right_direction
-        height: 30
-        width: 30
+        height: arrow_size_
+        width: arrow_size_
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right; anchors.rightMargin: parent.height /2
 
@@ -85,7 +86,7 @@ Item {
                 ctx.lineWidth = right_canvas.width * 0.1
                 ctx.beginPath()
                 ctx.moveTo(0, right_canvas.height * 0.05)
-                ctx.lineTo(right_canvas.width, right_canvas.height / 2)
+                ctx.lineTo(right_canvas.width, right_canvas.height / 2 -1)
                 ctx.lineTo(0, right_canvas.height * 0.95)
                 ctx.stroke()
             }
