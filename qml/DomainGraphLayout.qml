@@ -323,8 +323,6 @@ Item
                 {
                     if (!topic_painted_.includes(key))
                     {
-                        //console.log(key)
-                        //console.log(endpoint_topic_connections_[key]["y"])
                         var destination_x = topic_locations_[topic_id]["x"]
                         var input = {"x": 0
                             ,"right_direction": endpoint_topic_connections_[key]["right_direction"]
@@ -1082,8 +1080,6 @@ Item
                     {
                         if (!entity_painted_.includes(key))
                         {
-                            //console.log(key)
-                            //console.log(JSON.stringify(endpoint_topic_connections_[key], null, 2))
                             var destination_x = topic_locations_[topic_id]["x"]
                             var input = {"x": endpoint_topic_connections_[key]["x"]
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
@@ -1127,9 +1123,10 @@ Item
         entity_painted_ = []
         topic_painted_ = []
 
-        //var new_model = controller.get_domain_view_graph(entity_id)
+        var model_string = controller.get_domain_view_graph(entity_id)
+        var new_model = JSON.parse(model_string)
 
-        var new_model = {
+        /*var new_model = {
             "kind": "domain_view",
             "domain": 0,
             "topics":
@@ -1410,7 +1407,7 @@ Item
                     }
                 }
             }
-        }
+        }*/
 
         // transform indexed model to array model (arrays required for the listviews)
         var new_topics = []
