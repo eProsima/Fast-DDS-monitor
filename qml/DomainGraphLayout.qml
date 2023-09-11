@@ -27,6 +27,8 @@ Item
 
     // Public properties
     property var model: {}
+    property int entity_id: 0                       // entity id associated to the domain id
+    property int domain_id: 0                       // domain id
 
     // Public signals
     signal update_tab_name(string new_name)
@@ -1125,9 +1127,9 @@ Item
         entity_painted_ = []
         topic_painted_ = []
 
-        //var new_model = controller.get_domain_view_graph(0)
+        //var new_model = controller.get_domain_view_graph(entity_id)
 
-        new_model = {
+        var new_model = {
             "kind": "domain_view",
             "domain": 0,
             "topics":
