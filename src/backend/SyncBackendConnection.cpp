@@ -765,6 +765,19 @@ bool SyncBackendConnection::build_source_target_entities_vectors(
     return two_entities_data;
 }
 
+Graph SyncBackendConnection::get_domain_view_graph (
+        const EntityId& domain_id)
+{
+    try
+    {
+        return StatisticsBackend::get_domain_view_graph(domain_id);
+    }
+    catch (BadParameter)
+    {
+        return nullptr;
+    }
+}
+
 void SyncBackendConnection::change_unit_magnitude(
         std::vector<StatisticsData>& data,
         DataKind data_kind)

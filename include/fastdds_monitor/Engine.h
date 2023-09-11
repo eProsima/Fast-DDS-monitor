@@ -495,6 +495,10 @@ public:
             quint64 series_id,
             quint64 new_max_point);
 
+    //! Request to backend the latest domain view JSON to build the graph
+    backend::Graph get_domain_view_graph (
+        const backend::EntityId& domain_id);
+
 signals:
 
     /**

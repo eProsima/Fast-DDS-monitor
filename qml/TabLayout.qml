@@ -351,7 +351,9 @@ Item {
 
         onAccepted:
         {
-            open_domain_view(0, 0)
+            open_domain_view(
+                entityModelFirst.get(custom_combobox.currentIndex).id,
+                entityModelFirst.get(custom_combobox.currentIndex).name)
         }
     }
 
