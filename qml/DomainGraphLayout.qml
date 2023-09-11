@@ -198,7 +198,7 @@ Item
                         }
                         Label {
                             text: modelData["alias"]
-                            Layout.rightMargin: first_indentation_
+                            Layout.rightMargin: 2* first_indentation_
                             color: "white"
                         }
                     }
@@ -500,20 +500,28 @@ Item
 
                         RowLayout {
                             id: hostRowLayout
+                            spacing: spacing_icon_label_
                             anchors.centerIn: parent
 
+                            Rectangle {
+                                color: "transparent"
+                                width: modelData["status"] != "ok"
+                                    ? first_indentation_ : 0
+                            }
                             IconSVG {
                                 visible: modelData["status"] != "ok"
                                 name: "issues"
                                 color: "white"
-                                size: icon_size_
-                                Layout.leftMargin: first_indentation_
+                                size: modelData["status"] != "ok"? icon_size_ : 0
+                            }
+                            Rectangle {
+                                color: "transparent"
+                                width: first_indentation_ /2
                             }
                             IconSVG {
                                 name: "host"
                                 color: "white"
                                 size: icon_size_
-                                Layout.leftMargin: modelData["status"] != "ok" ? 0 : first_indentation_
                             }
                             Label {
                                 text: modelData["alias"]
@@ -626,20 +634,28 @@ Item
 
                                 RowLayout {
                                     id: userRowLayout
+                                    spacing: spacing_icon_label_
                                     anchors.centerIn: parent
 
+                                    Rectangle {
+                                        color: "transparent"
+                                        width: modelData["status"] != "ok"
+                                            ? first_indentation_ : 0
+                                    }
                                     IconSVG {
                                         visible: modelData["status"] != "ok"
                                         name: "issues"
                                         color: "white"
-                                        size: icon_size_
-                                        Layout.leftMargin: first_indentation_
+                                        size: modelData["status"] != "ok"? icon_size_ : 0
+                                    }
+                                    Rectangle {
+                                        color: "transparent"
+                                        width: first_indentation_ /2
                                     }
                                     IconSVG {
                                         name: "user"
                                         color: "white"
                                         size: icon_size_
-                                        Layout.leftMargin: modelData["status"] != "ok" ? 0 : first_indentation_
                                     }
                                     Label {
                                         text: modelData["alias"]
@@ -744,20 +760,28 @@ Item
 
                                         RowLayout {
                                             id: processRowLayout
+                                            spacing: spacing_icon_label_
                                             anchors.centerIn: parent
 
+                                            Rectangle {
+                                                color: "transparent"
+                                                width: modelData["status"] != "ok"
+                                                    ? first_indentation_ : 0
+                                            }
                                             IconSVG {
                                                 visible: modelData["status"] != "ok"
                                                 name: "issues"
                                                 color: "white"
-                                                size: icon_size_
-                                                Layout.leftMargin: first_indentation_
+                                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                            }
+                                            Rectangle {
+                                                color: "transparent"
+                                                width: first_indentation_ /2
                                             }
                                             IconSVG {
                                                 name: "process"
                                                 color: "white"
                                                 size: icon_size_
-                                                Layout.leftMargin: modelData["status"] != "ok" ? 0 : first_indentation_
                                             }
                                             Label {
                                                 text: modelData["alias"]
@@ -860,13 +884,22 @@ Item
 
                                                 RowLayout {
                                                     id: participantRowLayout
+                                                    spacing: spacing_icon_label_
                                                     anchors.centerIn: parent
 
+                                                    Rectangle {
+                                                        color: "transparent"
+                                                        width: modelData["status"] != "ok"
+                                                            ? first_indentation_ : 0
+                                                    }
                                                     IconSVG {
                                                         visible: modelData["status"] != "ok"
                                                         name: "issues"
                                                         size: modelData["status"] != "ok"? icon_size_ : 0
-                                                        Layout.leftMargin: modelData["status"] != "ok" ? first_indentation_ : 0
+                                                    }
+                                                    Rectangle {
+                                                        color: "transparent"
+                                                        width: first_indentation_ /2
                                                     }
                                                     IconSVG {
                                                         name: modelData["kind"]
@@ -992,13 +1025,22 @@ Item
 
                                                         RowLayout {
                                                             id: endpointRowLayout
+                                                            spacing: spacing_icon_label_
                                                             anchors.centerIn: parent
 
+                                                            Rectangle {
+                                                                color: "transparent"
+                                                                width: modelData["status"] != "ok"
+                                                                    ? first_indentation_ : 0
+                                                            }
                                                             IconSVG {
                                                                 visible: modelData["status"] != "ok"
                                                                 name: "issues"
                                                                 size: modelData["status"] != "ok"? icon_size_ : 0
-                                                                Layout.leftMargin: modelData["status"] != "ok" ? first_indentation_ : 0
+                                                            }
+                                                            Rectangle {
+                                                                color: "transparent"
+                                                                width: first_indentation_ /2
                                                             }
                                                             IconSVG {
                                                                 name: modelData["kind"]
@@ -1107,12 +1149,13 @@ Item
         z: 12
 
         Button{
+            id: refresh_button
             width: parent.width /2 < 150 ? 150 : parent.width /2
             height: label_height_
             anchors.top: parent.top; anchors.topMargin: elements_spacing_
-            anchors.left: parent.left
-            anchors.leftMargin: max_host_width_/2 + elements_spacing_ - width /2 < 100 ? 5* elements_spacing_
-                : max_host_width_/2 + elements_spacing_ - width /2
+            anchors.left:  parent.left
+            anchors.leftMargin: max_host_width_/2 + elements_spacing_ - refresh_button.width /2 < 40
+                ? 5* elements_spacing_ : (max_host_width_/2) + elements_spacing_ - (refresh_button.width /2)
             text: "Refresh"
 
             onClicked:{
