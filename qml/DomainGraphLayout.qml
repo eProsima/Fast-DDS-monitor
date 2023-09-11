@@ -256,15 +256,18 @@ Item
                 anchors.fill: parent
 
                 onWheel: {
-                    if (wheel.angleDelta.y > 0) {
-                        topicView.contentX -= 30// topicView.scrollSpeed;
-                        if (topicView.contentX < 0) {
-                            topicView.contentX = 0;
-                        }
-                    } else {
-                        topicView.contentX += 30// topicView.scrollSpeed;
-                        if (topicView.contentX + topicView.width > topicView.contentWidth) {
-                            topicView.contentX = topicView.contentWidth -  topicView.width;
+                    if (topicView.contentWidth > topicView.width)
+                    {
+                        if (wheel.angleDelta.y > 0) {
+                            topicView.contentX -= 30// topicView.scrollSpeed;
+                            if (topicView.contentX < 0) {
+                                topicView.contentX = 0;
+                            }
+                        } else {
+                            topicView.contentX += 30// topicView.scrollSpeed;
+                            if (topicView.contentX + topicView.width > topicView.contentWidth) {
+                                topicView.contentX = topicView.contentWidth -  topicView.width;
+                            }
                         }
                     }
                 }
