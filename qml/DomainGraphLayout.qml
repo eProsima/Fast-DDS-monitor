@@ -76,7 +76,6 @@ Item
     Component.onCompleted:
     {
         load_model()
-        resize_elements_()
     }
 
     Flickable {
@@ -1103,6 +1102,17 @@ Item
         width: max_host_width_ +2* elements_spacing_
         color: "white"
         z: 12
+
+        Button{
+            width: parent.width /2
+            height: label_height_
+            anchors.centerIn: parent
+            text: "Refresh"
+
+            onClicked:{
+                load_model()
+            }
+        }
     }
 
     Rectangle {
@@ -1117,297 +1127,30 @@ Item
 
     function load_model()
     {
+        // remove drawn connections
+        for (var i = 0; i < mainSpace.children.length; i++)
+        {
+            if (mainSpace.children[i].left_margin != undefined)
+            {
+                mainSpace.children[i].destroy()
+            }
+        }
+        for (var i = 0; i < topic_connections.children.length; i++)
+        {
+            if (topic_connections.children[i].left_margin != undefined)
+            {
+                topic_connections.children[i].destroy()
+            }
+        }
         // clear internal models
         topic_locations_ = {}
         endpoint_topic_connections_ = {}
         entity_painted_ = []
         topic_painted_ = []
 
+        // Obtain model from backend, and parse from string to JSON
         var model_string = controller.get_domain_view_graph(entity_id)
         var new_model = JSON.parse(model_string)
-
-        /*var new_model = {
-            "kind": "domain_view",
-            "domain": 0,
-            "topics":
-            {
-                "25":
-                {
-                    "kind": "topic",
-                    "alias": "topic_alias_25"
-                },
-                "26":
-                {
-                    "kind": "topic",
-                    "alias": "topic_alias_26"
-                },
-                "27":
-                {
-                    "kind": "topic",
-                    "alias": "topic_alias_27"
-                },
-                "28":
-                {
-                    "kind": "topic",
-                    "alias": "topic_alias_28"
-                },
-                "29":
-                {
-                    "kind": "topic",
-                    "alias": "topic_alias_29"
-                },
-                "30":
-                {
-                    "kind": "topic",
-                    "alias": "topic_alias_30"
-                }
-            },
-            "hosts":
-            {
-                "1":
-                {
-                    "kind": "host",
-                    "alias": "host_alias_1",
-                    "status": "error",
-                    "users":
-                    {
-                        "3":
-                        {
-                            "kind": "user",
-                            "alias": "user_alias_3",
-                            "status": "error",
-                            "processes":
-                            {
-                                "6":
-                                {
-                                    "kind": "process",
-                                    "alias": "process_alias_6",
-                                    "pid": "9506",
-                                    "status": "error",
-                                    "participants":
-                                    {
-                                        "10":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias_10",
-                                            "status": "error",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-                                                "15":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_15",
-                                                    "status": "warning",
-                                                    "topic": 25
-                                                },
-                                                "16":
-                                                {
-                                                    "kind": "datawriter",
-                                                    "alias": "datawriter_alias_16",
-                                                    "status": "error",
-                                                    "topic": 26
-                                                },
-                                                "17":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_17",
-                                                    "status": "ok",
-                                                    "topic": 27
-                                                }
-                                            }
-                                        },
-                                        "11":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias_11",
-                                            "status": "ok",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-
-                                                "18":
-                                                {
-                                                    "kind": "datawriter",
-                                                    "alias": "datawriter_alias_18",
-                                                    "status": "ok",
-                                                    "topic": 25
-                                                },
-                                                "19":
-                                                {
-                                                    "kind": "datawriter",
-                                                    "alias": "datawriter_alias_19",
-                                                    "status": "ok",
-                                                    "topic": 26
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                "7":
-                                {
-                                    "kind": "process",
-                                    "alias": "process_alias_7",
-                                    "pid": "9507",
-                                    "status": "ok",
-                                    "participants":
-                                    {
-                                        "8":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias_8",
-                                            "status": "ok",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-                                                "9":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_9",
-                                                    "status": "ok",
-                                                    "topic": 28
-                                                }
-                                            }
-                                        },
-                                        "30":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias30",
-                                            "status": "ok",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-                                                "9":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_9",
-                                                    "status": "ok",
-                                                    "topic": 28
-                                                }
-                                            }
-                                        },
-                                        "31":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias31",
-                                            "status": "ok",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-                                                "9":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_9",
-                                                    "status": "ok",
-                                                    "topic": 28
-                                                }
-                                            }
-                                        },
-                                        "32":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias32",
-                                            "status": "ok",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-                                                "9":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_9",
-                                                    "status": "ok",
-                                                    "topic": 28
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "38":
-                        {
-                            "kind": "user",
-                            "alias": "user_alias_38",
-                            "status": "error",
-                            "processes":
-                            {
-                                "39":
-                                {
-                                    "kind": "process",
-                                    "alias": "process_alias_39",
-                                    "pid": "9539",
-                                    "status": "error",
-                                    "participants":
-                                    {
-                                        "40":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias_40",
-                                            "status": "error",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-                                                "41":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_41",
-                                                    "status": "warning",
-                                                    "topic": 29
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "42":
-                        {
-                            "kind": "user",
-                            "alias": "user_alias_42",
-                            "status": "error",
-                            "processes":
-                            {
-                                "43":
-                                {
-                                    "kind": "process",
-                                    "alias": "process_alias_43",
-                                    "pid": "9543",
-                                    "status": "error",
-                                    "participants":
-                                    {
-                                        "44":
-                                        {
-                                            "kind": "participant",
-                                            "alias": "participant_alias_44",
-                                            "status": "error",
-                                            "app_id": "",
-                                            "app_metadata": "",
-                                            "endpoints":
-                                            {
-                                                "45":
-                                                {
-                                                    "kind": "datareader",
-                                                    "alias": "datareader_alias_45",
-                                                    "status": "warning",
-                                                    "topic": 30
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
 
         // transform indexed model to array model (arrays required for the listviews)
         var new_topics = []
@@ -1494,6 +1237,15 @@ Item
             "hosts": new_hosts,
         }
 
+        // Update tab name with selected domain id
         domainGraphLayout.update_tab_name("Domain " + new_model["domain"] + " View")
+
+        // Update visual elements
+        resize_elements_()
+    }
+
+    function remove_connections()
+    {
+
     }
 }

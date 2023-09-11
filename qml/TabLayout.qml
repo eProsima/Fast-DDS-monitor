@@ -72,7 +72,6 @@ Item {
             onUpdate_tab_name: {
                 tabLayout.tab_model_[current_]["title"] = new_name
             }
-
         }
     }
 
