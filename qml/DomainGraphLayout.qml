@@ -1117,13 +1117,15 @@ Item
     }
 
 
-    function load_model(new_model)
+    function load_model()
     {
         // clear internal models
         topic_locations_ = {}
         endpoint_topic_connections_ = {}
         entity_painted_ = []
         topic_painted_ = []
+
+        //var new_model = controller.get_domain_view_graph(0)
 
         new_model = {
             "kind": "domain_view",

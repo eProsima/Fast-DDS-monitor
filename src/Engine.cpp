@@ -1286,6 +1286,12 @@ bool Engine::data_kind_has_target(
     return backend_connection_.data_kind_has_target(backend::string_to_data_kind(data_kind));
 }
 
+backend::Graph Engine::get_domain_view_graph (
+        const backend::EntityId& domain_id)
+{
+    return backend_connection_.get_domain_view_graph(domain_id);
+}
+
 bool EntityClicked::is_set() const
 {
     return kind != backend::EntityKind::INVALID;

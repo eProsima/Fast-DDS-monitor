@@ -257,6 +257,10 @@ public:
             std::vector<EntityId>& source_ids,
             std::vector<EntityId>& target_ids);
 
+    //! Request to backend the latest domain view JSON to build the graph
+    Graph get_domain_view_graph (
+            const EntityId& domain_id);
+
 protected:
 
     void change_unit_magnitude(
