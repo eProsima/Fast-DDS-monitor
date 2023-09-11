@@ -69,7 +69,7 @@ Item
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
     readonly property string process_color_: Theme.eProsimaDarkBlue
-    readonly property string participant_color_: Theme.vulcanexusBlue
+    readonly property string participant_color_: Theme.whiteSmoke
     readonly property string reader_color_: Theme.eProsimaYellow
     readonly property string writer_color_: Theme.eProsimaGreen
 
