@@ -322,9 +322,5 @@ QString Controller::get_domain_view_graph(
         QString entity_id)
 {
     backend::Graph domain_view = engine_->get_domain_view_graph(backend::models_id_to_backend_id(entity_id));
-    if (domain_view != nullptr)
-    {
-        return QString::fromUtf8(domain_view.dump().data(), int(domain_view.dump().size()));
-    }
-    return "";
+    return QString::fromUtf8(domain_view.dump().data(), int(domain_view.dump().size()));
 }

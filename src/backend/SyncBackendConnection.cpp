@@ -772,9 +772,12 @@ Graph SyncBackendConnection::get_domain_view_graph (
     {
         return StatisticsBackend::get_domain_view_graph(domain_id);
     }
-    catch (BadParameter)
+    catch (const Exception& e)
     {
-        return nullptr;
+        qWarning() << "Fail getting the domain view JSON graph for entity id "
+                   << domain_id.value() << ":" << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+        return Graph();
     }
 }
 

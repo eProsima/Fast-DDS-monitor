@@ -1298,7 +1298,7 @@ Item
         var new_hosts = []
 
         // Check if obtained graph is not empty
-        if (model_string.length !== 0)
+        if (model_string.length !== 0 && model_string !== "null")
         {
             // Parse model from string to JSON
             var new_model = JSON.parse(model_string)

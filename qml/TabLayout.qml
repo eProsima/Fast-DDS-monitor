@@ -266,7 +266,21 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: "Domain View"
                                 onClicked: {
-                                    domain_id_dialog.open()
+                                    if (mainApplicationView.monitors == 0)
+                                    {
+                                        dialogInitMonitor.open()
+                                    }
+                                    else if (mainApplicationView.monitors == 1)
+                                    {
+                                        controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
+                                        open_domain_view(
+                                            entityModelFirst.get(0).id,
+                                            entityModelFirst.get(0).name)
+                                    }
+                                    else
+                                    {
+                                        domain_id_dialog.open()
+                                    }
                                 }
                             }
                         }
