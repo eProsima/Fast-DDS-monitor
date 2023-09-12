@@ -2,16 +2,17 @@ import QtQuick 2.0
 
 Item {
     // public property
-    property bool left_direction: false
-    property bool right_direction: false
-    property int left_margin: 0
-    property string arrow_color: Theme.grey
-    property string background_color: "white"
-    property int corner: 0
+    property bool left_direction: false             // defines if the represented connection must draw a left arrow
+    property bool right_direction: false            // defines if the represented connection must draw a right arrow
+    property int left_margin: 0                     // left margin to be applied
+    property string arrow_color: Theme.grey         // connection color
+    property string background_color: "white"       // background color
 
-    readonly property int arrow_margin_: -4
-    readonly property int arrow_size_: 30
+    // readonly private design properties
+    readonly property int arrow_margin_: -4         // margins for background
+    readonly property int arrow_size_: 30           // arrow size
 
+    // bacground to make connection overlap nicely with previous topics (looks like connection goes OVER the topic)
     Rectangle {
         id: background_arrow
         visible: left_margin != 0
@@ -22,13 +23,14 @@ Item {
         color: background_color
     }
 
+    // main connection
     Rectangle {
         id: base_arrow
         anchors.fill: parent
         color: arrow_color
     }
 
-
+    // left arrow if visible
     Item {
         id: left_arrow
         visible: left_direction
@@ -61,6 +63,7 @@ Item {
         }
     }
 
+    // right arrow if visible
     Item {
         id: right_arrow
         visible: right_direction

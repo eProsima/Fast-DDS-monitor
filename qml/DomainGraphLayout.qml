@@ -26,31 +26,36 @@ Item
     id: domainGraphLayout
 
     // Public properties
-    property var model: {}
+    property var model: {}                          // domain view graph JSON model
     property int entity_id: 0                       // entity id associated to the domain id
     property int domain_id: 0                       // domain id
 
     // Public signals
-    signal update_tab_name(string new_name)
+    signal update_tab_name(string new_name)         // Update tab name based on selected domain id
 
     // Private properties
-    property var topic_locations_: {}
-    property var endpoint_topic_connections_: {}
-    property int max_host_width_: 0
-    property int max_user_width_: 0
-    property int max_process_width_: 0
-    property int max_participant_width_: 0
-    property int max_endpoint_width_: 0
-    property var entity_painted_: []
-    property var topic_painted_: []
+    property var topic_locations_: {}               // topic information needed for connection representation
+    property var endpoint_topic_connections_: {}    // endpoint information needed for connection representation
+    property var topic_painted_: []                 // already painted topic connection references
+    property var endpoint_painted_: []              // already painted endpoint connection references
+    property int max_host_width_: 0                 // host entity box width management
+    property int max_user_width_: 0                 // user entity box width management
+    property int max_process_width_: 0              // process entity box width management
+    property int max_participant_width_: 0          // participant entity box width management
+    property int max_endpoint_width_: 0             // endpoint entity box width management
 
-    // Private signals
-    signal resize_elements_()               // resize elements will trigger a bunch of resize methods per entities and
-    signal update_endpoints_()              // topics, when 2 iterations are performed. The first one is aimed  to
-    signal update_participants_()           // resize "parents" based on max "child" size, and then the second one takes
-    signal update_processes_()              // place to ensure the well format if a "parent" has a size longer than a
-    signal update_users_()                  // "child". After that, with the final results, connections between topics
-    signal update_hosts_()                  // and endpoints are generated.
+    // Private (resize) signals               resize_elements_ will trigger a bunch of resize methods per entities and
+    //    HOST       TOPIC ─┐                 topics, when 2 iterations are performed. The first one is aimed  to
+    //  3↓ ... ↑2    1│ ↑  5└─>CONNECTIONS    resize "parents" based on max "child" size, and then the second one takes
+    //   ENDPOINT <───┘ │                     place to ensure the well format if a "parent" has a size longer than a
+    //   4└─────────────┘                     "child". After that, with the final results, connections between topics
+    //                                        and endpoints are generated
+    signal resize_elements_()
+    signal update_endpoints_()
+    signal update_participants_()
+    signal update_processes_()
+    signal update_users_()
+    signal update_hosts_()
     signal topics_updated_()
     signal endpoints_updated_()
     signal participants_updated_()
@@ -58,7 +63,7 @@ Item
     signal users_updated_()
     signal hosts_updated_()
 
-    // Read only design properties
+    // Read only design properties (sizes and colors)
     readonly property int radius_: 10
     readonly property int connection_thickness_: 5
     readonly property int elements_spacing_: 12
@@ -78,11 +83,14 @@ Item
     readonly property string reader_color_: Theme.eProsimaYellow
     readonly property string writer_color_: Theme.eProsimaGreen
 
+    // Obtain given domain id graph
     Component.onCompleted:
     {
         load_model()
     }
 
+    // Horizontal scroll view for topics section. This will contain also a Flickable that replicates entities height
+    // and will move accordingly to display the connections
     Flickable {
         id: topicView
         anchors.top: parent.top; anchors.bottom: parent.bottom
@@ -127,6 +135,7 @@ Item
             }
         }
 
+        // List view of topics model
         ListView
         {
             id: topicsList
@@ -139,6 +148,7 @@ Item
             orientation: ListView.Horizontal
             interactive: false
 
+            // Resizing management connections
             Connections
             {
                 target: domainGraphLayout
@@ -156,11 +166,13 @@ Item
                 }
             }
 
+            // Resize performed also when new element included in the model
             onCountChanged:
             {
                 topicsList.resize()
             }
 
+            // Calculates the list height based on the number of contained entities, and width based on their widths
             function resize()
             {
                 var listViewHeight = 0
@@ -185,6 +197,7 @@ Item
                 topicsList.width = listViewWidth + 10* elements_spacing_
             }
 
+            // Topic delegated item box with vertical line
             delegate: Rectangle
             {
                 property string topic_id: modelData["id"]
@@ -192,7 +205,7 @@ Item
                 height: topicsList.height
                 color: "transparent"
 
-
+                // Topic name and icon
                 Rectangle
                 {
                     id: topic_tag
@@ -228,6 +241,7 @@ Item
                     }
                 }
 
+                // Topic vertical line
                 Rectangle
                 {
                     id: topic_down_bar
@@ -240,6 +254,7 @@ Item
             }
         }
 
+        // Section where connections are represented
         Flickable
         {
             id: topicSpace
@@ -254,11 +269,12 @@ Item
             contentHeight: mainView.contentHeight
             Rectangle {id: topic_connections; anchors.fill:parent; color: "transparent" }
 
-
+            // Not visible scroll bar
             ScrollBar.vertical: ScrollBar{
                 id: custom_bar
                 width: 0
 
+                // connection to move vertically the view when entities view moves vertically
                 Connections {
                     target: vertical_bar
 
@@ -268,6 +284,7 @@ Item
                 }
             }
 
+            // Overriding mouse area to scroll horizontally on wheel event
             MouseArea {
                 anchors.fill: parent
 
@@ -294,9 +311,9 @@ Item
                 onPositionChanged: mouse.accepted = false;
                 onPressAndHold: mouse.accepted = false;
             }
-
         }
 
+        // Resizing management connections
         Connections
         {
             target: domainGraphLayout
@@ -307,6 +324,7 @@ Item
             }
         }
 
+        // Generate connections in topic side
         function create_connections()
         {
             for (var key in endpoint_topic_connections_)
@@ -331,6 +349,7 @@ Item
         }
     }
 
+    // Entities vertical flickable (left section)
     Flickable {
         id: mainView
         anchors.left: parent.left ; anchors.top: parent.top; anchors.bottom: parent.bottom
@@ -383,7 +402,7 @@ Item
             }
         }
 
-
+        // Scpace where entities will be represented
         Rectangle
         {
             id: mainSpace
@@ -393,12 +412,14 @@ Item
             height: hostsList.height < domainGraphLayout.height - (label_height_ + 2*elements_spacing_)
                 ? domainGraphLayout.height - (label_height_ + 2*elements_spacing_) : hostsList.height
 
+            // Entities background
             Rectangle {
                 id: background_color
                 anchors.fill: parent
                 color: "white"
             }
 
+            // Graph connection component definition for object creation purposes
             Component {
                 id: arrow_component
                 GraphConnection{
@@ -406,6 +427,7 @@ Item
                 }
             }
 
+            // List view of hosts model (which would contain remain entities nested)
             ListView
             {
                 id: hostsList
@@ -416,6 +438,7 @@ Item
                 spacing: elements_spacing_
                 z: 20
 
+                // Resizing management connections
                 Connections
                 {
                     target: domainGraphLayout
@@ -427,11 +450,13 @@ Item
                     }
                 }
 
+                // Resize performed also when new element included in the model
                 onCountChanged:
                 {
                     hostsList.resize()
                 }
 
+                // Calculates the list height based on the number of contained entities, and width based on their widths
                 function resize()
                 {
                     var listViewHeight = 0
@@ -463,6 +488,7 @@ Item
                     hostsList.width = max_host_width_
                 }
 
+                // Host delegated item box
                 delegate: Item
                 {
                     height: host_tag.height + usersList.height
@@ -472,6 +498,8 @@ Item
                             ? hostRowLayout.implicitWidth
                             : max_host_width_
 
+
+                    // background
                     Rectangle
                     {
                         id: host_background
@@ -481,6 +509,7 @@ Item
                         radius: radius_
                     }
 
+                    // host name and icons
                     Rectangle
                     {
                         id: host_tag
@@ -544,6 +573,7 @@ Item
                         }
                     }
 
+                    // List view of users model (which would contain remain entities nested)
                     ListView
                     {
                         id: usersList
@@ -554,6 +584,7 @@ Item
                         interactive: false
                         spacing: elements_spacing_
 
+                        // Resizing management connections
                         Connections
                         {
                             target: domainGraphLayout
@@ -570,11 +601,14 @@ Item
                             }
                         }
 
+                        // Resize performed also when new element included in the model
                         onCountChanged:
                         {
                             usersList.resize()
                         }
 
+                        // Calculates the list height based on the number of contained entities, and width based on
+                        // their widths
                         function resize()
                         {
                             var listViewHeight = 0
@@ -606,6 +640,7 @@ Item
                             usersList.width = max_user_width_
                         }
 
+                        // User delegated item box
                         delegate: Item
                         {
                             height: user_tag.height + processesList.height
@@ -615,6 +650,7 @@ Item
                                     ? userRowLayout.implicitWidth
                                     : max_user_width_
 
+                            // background
                             Rectangle
                             {
                                 id: user_background
@@ -624,6 +660,7 @@ Item
                                 radius: radius_
                             }
 
+                            // user name and icons
                             Rectangle
                             {
                                 id: user_tag
@@ -688,6 +725,7 @@ Item
                                 }
                             }
 
+                            // List view of processes model (which would contain remain entities nested)
                             ListView
                             {
                                 id: processesList
@@ -698,6 +736,7 @@ Item
                                 interactive: false
                                 spacing: elements_spacing_
 
+                                // Resizing management connections
                                 Connections
                                 {
                                     target: domainGraphLayout
@@ -715,11 +754,14 @@ Item
                                     }
                                 }
 
+                                // Resize performed also when new element included in the model
                                 onCountChanged:
                                 {
                                     processesList.resize()
                                 }
 
+                                // Calculates the list height based on the number of contained entities,
+                                // and width based on their widths
                                 function resize()
                                 {
                                     var listViewHeight = 0
@@ -743,6 +785,7 @@ Item
                                     processesList.width = max_process_width_
                                 }
 
+                                // Process delegated item box
                                 delegate: Item
                                 {
                                     height: process_tag.height + participantsList.height
@@ -752,6 +795,7 @@ Item
                                             ? processRowLayout.implicitWidth
                                             : max_process_width_
 
+                                    // background
                                     Rectangle
                                     {
                                         id: process_background
@@ -761,6 +805,7 @@ Item
                                         radius: radius_
                                     }
 
+                                    // process name and icons
                                     Rectangle
                                     {
                                         id: process_tag
@@ -824,6 +869,8 @@ Item
                                             }
                                         }
                                     }
+
+                                    // List view of participants model (which would contain remain endpoints nested)
                                     ListView
                                     {
                                         id: participantsList
@@ -834,6 +881,7 @@ Item
                                         interactive: false
                                         spacing: elements_spacing_
 
+                                        // Resizing management connections
                                         Connections
                                         {
                                             target: domainGraphLayout
@@ -850,11 +898,14 @@ Item
                                             }
                                         }
 
+                                        // Resize performed also when new element included in the model
                                         onCountChanged:
                                         {
                                             participantsList.resize()
                                         }
 
+                                        // Calculates the list height based on the number of contained entities,
+                                        // and width based on their widths
                                         function resize()
                                         {
                                             var listViewHeight = 0
@@ -878,6 +929,7 @@ Item
                                             participantsList.width = max_participant_width_
                                         }
 
+                                        // Participant delegated item box
                                         delegate: Item
                                         {
                                             height: participant_tag.height + endpointsList.height
@@ -887,6 +939,8 @@ Item
                                                     ? participantRowLayout.implicitWidth
                                                     : max_participant_width_
 
+
+                                            // background
                                             Rectangle
                                             {
                                                 id: participant_background
@@ -895,6 +949,8 @@ Item
                                                 color: participant_color_
                                                 radius: radius_
                                             }
+
+                                            // participant name and icons
                                             Rectangle
                                             {
                                                 id: participant_tag
@@ -956,6 +1012,7 @@ Item
                                                 }
                                             }
 
+                                            // List view of endpoint model
                                             ListView
                                             {
                                                 id: endpointsList
@@ -966,6 +1023,7 @@ Item
                                                 interactive: false
                                                 spacing: elements_spacing_
 
+                                                // Resizing management connections
                                                 Connections
                                                 {
                                                     target: domainGraphLayout
@@ -983,11 +1041,14 @@ Item
                                                     }
                                                 }
 
+                                                // Resize performed also when new element included in the model
                                                 onCountChanged:
                                                 {
                                                     endpointsList.resize()
                                                 }
 
+                                                // Calculates the list height based on the number of contained entities,
+                                                // and width based on their widths
                                                 function resize()
                                                 {
                                                     var listViewHeight = 0
@@ -1014,6 +1075,7 @@ Item
                                                     endpointsList.width = max_endpoint_width_
                                                 }
 
+                                                // Endpoint delegated item box
                                                 delegate: Item
                                                 {
                                                     id: endpointComponent
@@ -1024,6 +1086,7 @@ Item
                                                             : max_endpoint_width_
                                                     height: endpoint_height_
 
+                                                    // Saves the endpoint needed info for connection representation
                                                     function record_connection()
                                                     {
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
@@ -1039,6 +1102,7 @@ Item
                                                         }
                                                     }
 
+                                                    // background
                                                     Rectangle
                                                     {
                                                         id: endpoint_background
@@ -1047,6 +1111,8 @@ Item
                                                         color: modelData["kind"] == "datareader" ? reader_color_ : writer_color_
                                                         radius: radius_
                                                     }
+
+                                                    // endpoint name and icons
                                                     Rectangle
                                                     {
                                                         id: endpoint_tag
@@ -1118,6 +1184,7 @@ Item
                 }
             }
 
+            // Resizing management connections
             Connections
             {
                 target: domainGraphLayout
@@ -1128,6 +1195,7 @@ Item
                 }
             }
 
+            // Saves the topic needed info for connection representation
             function create_connections()
             {
                 for (var key in endpoint_topic_connections_)
@@ -1135,7 +1203,7 @@ Item
                     var topic_id = endpoint_topic_connections_[key]["destination_id"]
                     if (topic_locations_[topic_id] != undefined)
                     {
-                        if (!entity_painted_.includes(key))
+                        if (!endpoint_painted_.includes(key))
                         {
                             var destination_x = topic_locations_[topic_id]["x"]
                             var input = {"x": endpoint_topic_connections_[key]["x"]
@@ -1145,7 +1213,7 @@ Item
                                 ,"height":connection_thickness_, "z":200
                                 ,"arrow_color": topic_color_, "background_color": background_color.color }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
-                            entity_painted_[entity_painted_.length] = key
+                            endpoint_painted_[endpoint_painted_.length] = key
                         }
                     }
                 }
@@ -1153,6 +1221,7 @@ Item
         }
     }
 
+    // top section to cut entities layout and display the REFRESH butotn
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
@@ -1161,6 +1230,7 @@ Item
         color: "white"
         z: 12
 
+        // Refresh button
         Button{
             id: refresh_button
             width: parent.width /2 < 150 ? 150 : parent.width /2
@@ -1177,6 +1247,7 @@ Item
         }
     }
 
+    // footer section to cut entities layout
     Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -1186,6 +1257,7 @@ Item
         z: 14
     }
 
+    // Empty screen message
     Rectangle {
         anchors.fill: parent
         color: "transparent"
@@ -1208,20 +1280,20 @@ Item
         }
     }
 
-
+    // Obtain given domain id graph JSON model
     function load_model()
     {
         // clear internal models
         topic_locations_ = {}
         endpoint_topic_connections_ = {}
-        entity_painted_ = []
+        endpoint_painted_ = []
         topic_painted_ = []
         remove_connections()
 
-        // Obtain model from backend, and parse from string to JSON
+        // Obtain model from backend
         var model_string = controller.get_domain_view_graph(entity_id)
 
-        // obtained hosts and topics
+        // declare obtained hosts and topics variables
         var new_topics = []
         var new_hosts = []
 
@@ -1317,7 +1389,7 @@ Item
             // Update tab name with selected domain id
             domainGraphLayout.update_tab_name("Domain " + new_model["domain"] + " View")
 
-            // Update visual elements
+            // Update visual elements by re-calculating their sizes
             resize_elements_()
 
             // hide empty screen label
