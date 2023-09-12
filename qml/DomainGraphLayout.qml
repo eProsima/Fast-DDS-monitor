@@ -45,7 +45,12 @@ Item
     property var topic_painted_: []
 
     // Private signals
-    signal resize_elements_()
+    signal resize_elements_()               // resize elements will trigger a bunch of resize methods per entities and
+    signal update_endpoints_()              // topics, when 2 iterations are performed. The first one is aimed  to
+    signal update_participants_()           // resize "parents" based on max "child" size, and then the second one takes
+    signal update_processes_()              // place to ensure the well format if a "parent" has a size longer than a
+    signal update_users_()                  // "child". After that, with the final results, connections between topics
+    signal update_hosts_()                  // and endpoints are generated.
     signal topics_updated_()
     signal endpoints_updated_()
     signal participants_updated_()
@@ -140,11 +145,23 @@ Item
 
                 function onResize_elements_()
                 {
-                    topicsList.onCountChanged()
+                    topicsList.resize()
+                    update_endpoints_()
+                }
+
+                function onEndpoints_updated_()
+                {
+                    topicsList.resize()
+                    topics_updated_()
                 }
             }
 
             onCountChanged:
+            {
+                topicsList.resize()
+            }
+
+            function resize()
             {
                 var listViewHeight = 0
                 var listViewWidth = 0
@@ -166,7 +183,6 @@ Item
                 }
                 topicsList.height = listViewHeight
                 topicsList.width = listViewWidth + 10* elements_spacing_
-                topics_updated_()
             }
 
             delegate: Rectangle
@@ -289,31 +305,6 @@ Item
             {
                 topicView.create_connections()
             }
-
-            function onEndpoints_updated_()
-            {
-                topicView.create_connections()
-            }
-
-            function onParticipants_updated_()
-            {
-                topicView.create_connections()
-            }
-
-            function onProcesses_updated_()
-            {
-                topicView.create_connections()
-            }
-
-            function onUsers_updated_()
-            {
-                topicView.create_connections()
-            }
-
-            function onHosts_updated_()
-            {
-                topicView.create_connections()
-            }
         }
 
         function create_connections()
@@ -429,13 +420,19 @@ Item
                 {
                     target: domainGraphLayout
 
-                    function onUsers_updated_()
+                    function onUpdate_hosts_()
                     {
-                        hostsList.onCountChanged()
+                        hostsList.resize()
+                        hosts_updated_()
                     }
                 }
 
                 onCountChanged:
+                {
+                    hostsList.resize()
+                }
+
+                function resize()
                 {
                     var listViewHeight = 0
                     var listViewWidth = 0
@@ -464,7 +461,6 @@ Item
 
                     hostsList.height = listViewHeight + elements_spacing_
                     hostsList.width = max_host_width_
-                    hosts_updated_()
                 }
 
                 delegate: Item
@@ -562,13 +558,24 @@ Item
                         {
                             target: domainGraphLayout
 
-                            function onProcesses_updated_()
+                            function onUpdate_users_()
                             {
-                                usersList.onCountChanged()
+                                usersList.resize()
+                                update_hosts_()
+                            }
+                            function onHosts_updated_()
+                            {
+                                usersList.resize()
+                                users_updated_()
                             }
                         }
 
                         onCountChanged:
+                        {
+                            usersList.resize()
+                        }
+
+                        function resize()
                         {
                             var listViewHeight = 0
                             var listViewWidth = 0
@@ -597,7 +604,6 @@ Item
 
                             usersList.height = listViewHeight + elements_spacing_
                             usersList.width = max_user_width_
-                            users_updated_()
                         }
 
                         delegate: Item
@@ -696,13 +702,25 @@ Item
                                 {
                                     target: domainGraphLayout
 
-                                    function onParticipants_updated_()
+                                    function onUpdate_processes_()
                                     {
-                                        processesList.onCountChanged()
+                                        processesList.resize()
+                                        update_users_()
+                                    }
+
+                                    function onUsers_updated_()
+                                    {
+                                        processesList.resize()
+                                        processes_updated_()
                                     }
                                 }
 
                                 onCountChanged:
+                                {
+                                    processesList.resize()
+                                }
+
+                                function resize()
                                 {
                                     var listViewHeight = 0
                                     var listViewWidth = 0
@@ -723,7 +741,6 @@ Item
 
                                     processesList.height = listViewHeight + elements_spacing_
                                     processesList.width = max_process_width_
-                                    processes_updated_()
                                 }
 
                                 delegate: Item
@@ -821,13 +838,24 @@ Item
                                         {
                                             target: domainGraphLayout
 
-                                            function onEndpoints_updated_()
+                                            function onUpdate_participants_()
                                             {
-                                                participantsList.onCountChanged()
+                                                participantsList.resize()
+                                                update_processes_()
+                                            }
+                                            function onProcesses_updated_()
+                                            {
+                                                participantsList.resize()
+                                                participants_updated_()
                                             }
                                         }
 
                                         onCountChanged:
+                                        {
+                                            participantsList.resize()
+                                        }
+
+                                        function resize()
                                         {
                                             var listViewHeight = 0
                                             var listViewWidth = 0
@@ -848,7 +876,6 @@ Item
 
                                             participantsList.height = listViewHeight + elements_spacing_
                                             participantsList.width = max_participant_width_
-                                            participants_updated_()
                                         }
 
                                         delegate: Item
@@ -943,13 +970,25 @@ Item
                                                 {
                                                     target: domainGraphLayout
 
-                                                    function onTopics_updated_()
+                                                    function onUpdate_endpoints_()
                                                     {
-                                                        endpointsList.onCountChanged()
+                                                        endpointsList.resize()
+                                                        update_participants_()
+                                                    }
+
+                                                    function onParticipants_updated_()
+                                                    {
+                                                        endpointsList.resize()
+                                                        endpoints_updated_()
                                                     }
                                                 }
 
                                                 onCountChanged:
+                                                {
+                                                    endpointsList.resize()
+                                                }
+
+                                                function resize()
                                                 {
                                                     var listViewHeight = 0
 
@@ -973,7 +1012,6 @@ Item
 
                                                     endpointsList.height = listViewHeight + elements_spacing_
                                                     endpointsList.width = max_endpoint_width_
-                                                    endpoints_updated_()
                                                 }
 
                                                 delegate: Item
@@ -1085,31 +1123,6 @@ Item
                 target: domainGraphLayout
 
                 function onTopics_updated_()
-                {
-                    mainSpace.create_connections()
-                }
-
-                function onEndpoints_updated_()
-                {
-                    mainSpace.create_connections()
-                }
-
-                function onParticipants_updated_()
-                {
-                    mainSpace.create_connections()
-                }
-
-                function onProcesses_updated_()
-                {
-                    mainSpace.create_connections()
-                }
-
-                function onUsers_updated_()
-                {
-                    mainSpace.create_connections()
-                }
-
-                function onHosts_updated_()
                 {
                     mainSpace.create_connections()
                 }
