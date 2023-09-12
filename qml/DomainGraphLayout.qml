@@ -105,7 +105,7 @@ Item
         ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOff }
         ScrollBar.horizontal: ScrollBar {
             id: horizontal_bar
-            anchors.left: parent.left;
+            anchors.left: parent.left; anchors.leftMargin: elements_spacing_
             anchors.bottom: parent.bottom
             policy: ScrollBar.AlwaysOn
             visible: topicView.contentWidth > topicView.width
@@ -142,7 +142,7 @@ Item
             model: domainGraphLayout.model ? domainGraphLayout.model["topics"] : undefined
             anchors.left: parent.left; anchors.leftMargin: 2 * elements_spacing_
             anchors.top: parent.top; anchors.topMargin: elements_spacing_;
-            anchors.bottom: parent.bottom;  anchors.bottomMargin: scrollbar_max_size_+ elements_spacing_
+            anchors.bottom: parent.bottom
             contentWidth: contentItem.childrenRect.width
             spacing: elements_spacing_
             orientation: ListView.Horizontal
@@ -273,6 +273,7 @@ Item
             ScrollBar.vertical: ScrollBar{
                 id: custom_bar
                 width: 0
+                interactive: false
 
                 // connection to move vertically the view when entities view moves vertically
                 Connections {
@@ -282,11 +283,16 @@ Item
                         custom_bar.position = vertical_bar.position
                     }
                 }
+
+                Component.onCompleted:{
+                    custom_bar.position = 0
+                }
             }
 
             // Overriding mouse area to scroll horizontally on wheel event
             MouseArea {
                 anchors.fill: parent
+                preventStealing: true
 
                 onWheel: {
                     if (topicView.contentWidth > topicView.width)
@@ -349,6 +355,15 @@ Item
         }
     }
 
+    // middle section to cut topics layout
+    Rectangle {
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: mainView.right
+        width: elements_spacing_
+        color: "white"
+    }
+
     // Entities vertical flickable (left section)
     Flickable {
         id: mainView
@@ -408,7 +423,7 @@ Item
             id: mainSpace
             anchors.top: parent.top
 
-            width: hostsList.width
+            width: hostsList.width + 2*elements_spacing_
             height: hostsList.height < domainGraphLayout.height - (label_height_ + 2*elements_spacing_)
                 ? domainGraphLayout.height - (label_height_ + 2*elements_spacing_) : hostsList.height
 
@@ -484,7 +499,7 @@ Item
                         }
                     }
 
-                    hostsList.height = listViewHeight + elements_spacing_
+                    hostsList.height = listViewHeight
                     hostsList.width = max_host_width_
                 }
 
@@ -1209,7 +1224,7 @@ Item
                             var input = {"x": endpoint_topic_connections_[key]["x"]
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
-                                ,"width": 4*elements_spacing_
+                                ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
                                 ,"arrow_color": topic_color_, "background_color": background_color.color }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
@@ -1252,10 +1267,11 @@ Item
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         height: elements_spacing_
-        width: max_host_width_ + elements_spacing_
+        width: max_host_width_ + 2*elements_spacing_
         color: "white"
         z: 14
     }
+
 
     // Empty screen message
     Rectangle {
@@ -1284,11 +1300,7 @@ Item
     function load_model()
     {
         // clear internal models
-        topic_locations_ = {}
-        endpoint_topic_connections_ = {}
-        endpoint_painted_ = []
-        topic_painted_ = []
-        remove_connections()
+        clear_graph()
 
         // Obtain model from backend
         var model_string = controller.get_domain_view_graph(entity_id)
@@ -1407,8 +1419,20 @@ Item
     }
 
     // remove drawn connections
-    function remove_connections()
+    function clear_graph()
     {
+        topic_locations_ = {}
+        endpoint_topic_connections_ = {}
+        endpoint_painted_ = []
+        topic_painted_ = []
+        vertical_bar.position = 0
+        horizontal_bar.position = 0
+        max_host_width_ = 0;
+        max_user_width_ = 0;
+        max_process_width_ = 0;
+        max_participant_width_ = 0;
+        max_endpoint_width_ = 0;
+
         for (var i = 0; i < mainSpace.children.length; i++)
         {
             if (mainSpace.children[i].left_margin != undefined)
