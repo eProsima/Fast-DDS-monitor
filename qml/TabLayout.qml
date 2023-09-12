@@ -297,6 +297,7 @@ Item {
                                 var new_domain_graph = domainGraphLayout_component.createObject(null,
                                     {"id": tabLayout.tab_model_[current_]["stack_id"],
                                     "entity_id":entity_id , "domain_id":domain_id })
+                                new_domain_graph.load_model()
                                 stack.push(new_domain_graph)
                                 refresh_layout(current_)
                             }

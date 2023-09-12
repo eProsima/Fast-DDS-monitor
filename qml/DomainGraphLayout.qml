@@ -95,7 +95,7 @@ Item
         id: topicView
         anchors.top: parent.top; anchors.bottom: parent.bottom
         anchors.left: parent.left; anchors.leftMargin: max_host_width_ + elements_spacing_;
-        width: parent.width - max_host_width_ - elements_spacing_
+        width: parent.width - max_host_width_ - 2*elements_spacing_
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds
 
@@ -162,6 +162,7 @@ Item
                 function onEndpoints_updated_()
                 {
                     topicsList.resize()
+                    topicsList.create_connections()
                     topics_updated_()
                 }
             }
@@ -179,22 +180,30 @@ Item
                 var listViewWidth = 0
 
                 // iterate over each element in the list item
-                for (var i = 0; i < topicsList.visibleChildren.length; i++) {
-                    listViewHeight = topicsList.visibleChildren[i].height
-                    listViewWidth += topicsList.visibleChildren[i].width
-                }
-
                 for (var c = 0; c < topicsList.count; c++)
                 {
                     topicsList.currentIndex = c
-                    var globalCoordinates = topicsList.currentItem.mapToItem(mainSpace, 0, 0)
-                    topic_locations_[topicsList.currentItem.topic_id] = {
-                        "id": topicsList.currentItem.topic_id,
-                        "x" : globalCoordinates.x + (topicsList.currentItem.width/2)
-                    }
+                    listViewHeight = topicsList.currentItem.height
+                    listViewWidth += topicsList.currentItem.width + elements_spacing_
                 }
                 topicsList.height = listViewHeight
-                topicsList.width = listViewWidth + 10* elements_spacing_
+                topicsList.width = listViewWidth
+            }
+
+            function create_connections()
+            {
+                var draw_width = 2*elements_spacing_
+
+                // iterate over each element in the list item
+                for (var c = 0; c < topicsList.count; c++)
+                {
+                    topicsList.currentIndex = c
+                    topic_locations_[topicsList.currentItem.topic_id] = {
+                        "id": topicsList.currentItem.topic_id,
+                        "width" : draw_width + topicsList.currentItem.width/2
+                    }
+                    draw_width += topicsList.currentItem.width + elements_spacing_
+                }
             }
 
             // Topic delegated item box with vertical line
@@ -283,10 +292,6 @@ Item
                         custom_bar.position = vertical_bar.position
                     }
                 }
-
-                Component.onCompleted:{
-                    custom_bar.position = 0
-                }
             }
 
             // Overriding mouse area to scroll horizontally on wheel event
@@ -298,12 +303,12 @@ Item
                     if (topicView.contentWidth > topicView.width)
                     {
                         if (wheel.angleDelta.y > 0) {
-                            topicView.contentX -= 30// topicView.scrollSpeed;
+                            topicView.contentX -= 30
                             if (topicView.contentX < 0) {
                                 topicView.contentX = 0;
                             }
                         } else {
-                            topicView.contentX += 30// topicView.scrollSpeed;
+                            topicView.contentX += 30
                             if (topicView.contentX + topicView.width > topicView.contentWidth) {
                                 topicView.contentX = topicView.contentWidth -  topicView.width;
                             }
@@ -340,11 +345,10 @@ Item
                 {
                     if (!topic_painted_.includes(key))
                     {
-                        var destination_x = topic_locations_[topic_id]["x"]
                         var input = {"x": 0
                             ,"right_direction": endpoint_topic_connections_[key]["right_direction"]
                             ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
-                            ,"width": destination_x - endpoint_topic_connections_[key]["x"] - 4*elements_spacing_
+                            ,"width": topic_locations_[topic_id]["width"]
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
                             ,"arrow_color": topic_color_, "background_color": background_color.color }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
@@ -475,27 +479,16 @@ Item
                 function resize()
                 {
                     var listViewHeight = 0
-                    var listViewWidth = 0
-
                     // iterate over each element in the list item
-                    for (var i = 0; i < hostsList.visibleChildren.length; i++) {
-                        var min_width = hostsList.visibleChildren[i].width
-                        for (var j = 0; j < hostsList.visibleChildren[i].visibleChildren.length; j++)
-                        {
-                            min_width = Math.max(min_width, hostsList.visibleChildren[i].visibleChildren[j].width)
-                        }
-                        listViewWidth  = Math.max(listViewWidth, min_width)
-                        max_host_width_ = Math.max(max_host_width_, listViewWidth)
-                        max_host_width_ = Math.max(max_host_width_, (2*elements_spacing_)+max_user_width_)
-                        hostsList.visibleChildren[i].width = max_host_width_
-                    }
-
                     for (var c = 0; c < hostsList.count; c++)
                     {
                         hostsList.currentIndex = c
                         if (hostsList.currentItem != null)
                         {
                             listViewHeight += hostsList.currentItem.height + elements_spacing_
+                            max_host_width_ = Math.max(max_host_width_, hostsList.currentItem.width)
+                            max_host_width_ = Math.max(max_host_width_, (2*elements_spacing_)+max_user_width_)
+                            hostsList.currentItem.width = max_host_width_
                         }
                     }
 
@@ -512,7 +505,6 @@ Item
                         : max_host_width_ == 0
                             ? hostRowLayout.implicitWidth
                             : max_host_width_
-
 
                     // background
                     Rectangle
@@ -627,27 +619,18 @@ Item
                         function resize()
                         {
                             var listViewHeight = 0
-                            var listViewWidth = 0
 
                             // iterate over each element in the list item
-                            for (var i = 0; i < usersList.visibleChildren.length; i++) {
-                                var min_width = usersList.visibleChildren[i].width
-                                for (var j = 0; j < usersList.visibleChildren[i].visibleChildren.length; j++)
-                                {
-                                    min_width = Math.max(min_width, usersList.visibleChildren[i].visibleChildren[j].width)
-                                }
-                                listViewWidth  = Math.max(listViewWidth, min_width)
-                                max_user_width_ = Math.max(max_user_width_, listViewWidth)
-                                max_user_width_ = Math.max(max_user_width_, (2*elements_spacing_)+max_process_width_)
-                                usersList.visibleChildren[i].width = max_user_width_
-                            }
-
                             for (var c = 0; c < usersList.count; c++)
                             {
                                 usersList.currentIndex = c
                                 if (usersList.currentItem != null)
                                 {
                                     listViewHeight += usersList.currentItem.height + elements_spacing_
+                                    max_user_width_ = Math.max(max_user_width_, usersList.currentItem.width)
+                                    max_user_width_ = Math.max(max_user_width_, max_process_width_+(2*elements_spacing_))
+                                    max_user_width_ = Math.max(max_user_width_, max_host_width_-(2*elements_spacing_))
+                                    usersList.currentItem.width = max_user_width_
                                 }
                             }
 
@@ -780,20 +763,16 @@ Item
                                 function resize()
                                 {
                                     var listViewHeight = 0
-                                    var listViewWidth = 0
 
                                     // iterate over each element in the list item
-                                    for (var i = 0; i < processesList.visibleChildren.length; i++) {
-                                        listViewHeight += processesList.visibleChildren[i].height + elements_spacing_
-                                        var min_width = processesList.visibleChildren[i].width
-                                        for (var j = 0; j < processesList.visibleChildren[i].visibleChildren.length; j++)
-                                        {
-                                            min_width = Math.max(min_width, processesList.visibleChildren[i].visibleChildren[j].width)
-                                        }
-                                        listViewWidth  = Math.max(listViewWidth, min_width)
-                                        max_process_width_ = Math.max(max_process_width_, listViewWidth)
-                                        max_process_width_ = Math.max(max_process_width_, (2*elements_spacing_)+max_participant_width_)
-                                        processesList.visibleChildren[i].width = max_process_width_
+                                    for (var c = 0; c < processesList.count; c++)
+                                    {
+                                        processesList.currentIndex = c
+                                        listViewHeight += processesList.currentItem.height + elements_spacing_
+                                        max_process_width_ = Math.max(max_process_width_, processesList.currentItem.width)
+                                        max_process_width_ = Math.max(max_process_width_, max_participant_width_+(2*elements_spacing_))
+                                        max_process_width_ = Math.max(max_process_width_, max_user_width_-(2*elements_spacing_))
+                                        processesList.currentItem.width = max_process_width_
                                     }
 
                                     processesList.height = listViewHeight + elements_spacing_
@@ -924,20 +903,16 @@ Item
                                         function resize()
                                         {
                                             var listViewHeight = 0
-                                            var listViewWidth = 0
 
                                             // iterate over each element in the list item
-                                            for (var i = 0; i < participantsList.visibleChildren.length; i++) {
-                                                listViewHeight += participantsList.visibleChildren[i].height + elements_spacing_
-                                                var min_width = participantsList.visibleChildren[i].width
-                                                for (var j = 0; j < participantsList.visibleChildren[i].visibleChildren.length; j++)
-                                                {
-                                                    min_width = Math.max(min_width, participantsList.visibleChildren[i].visibleChildren[j].width)
-                                                }
-                                                listViewWidth  = Math.max(listViewWidth, min_width)
-                                                max_participant_width_ = Math.max(max_participant_width_, listViewWidth)
-                                                max_participant_width_ = Math.max(max_participant_width_, (2*elements_spacing_)+max_endpoint_width_)
-                                                participantsList.visibleChildren[i].width = max_participant_width_
+                                            for (var c = 0; c < participantsList.count; c++)
+                                            {
+                                                participantsList.currentIndex = c
+                                                listViewHeight += participantsList.currentItem.height + elements_spacing_
+                                                max_participant_width_ = Math.max(max_participant_width_, participantsList.currentItem.width)
+                                                max_participant_width_ = Math.max(max_participant_width_, max_endpoint_width_+(2*elements_spacing_))
+                                                max_participant_width_ = Math.max(max_participant_width_, max_process_width_-(2*elements_spacing_))
+                                                participantsList.currentItem.width = max_participant_width_
                                             }
 
                                             participantsList.height = listViewHeight + elements_spacing_
@@ -953,7 +928,6 @@ Item
                                                 : max_participant_width_ == 0
                                                     ? participantRowLayout.implicitWidth
                                                     : max_participant_width_
-
 
                                             // background
                                             Rectangle
@@ -1052,6 +1026,7 @@ Item
                                                     function onParticipants_updated_()
                                                     {
                                                         endpointsList.resize()
+                                                        endpointsList.record_connections()
                                                         endpoints_updated_()
                                                     }
                                                 }
@@ -1069,25 +1044,26 @@ Item
                                                     var listViewHeight = 0
 
                                                     // iterate over each element in the list item
-                                                    for (var i = 0; i < endpointsList.visibleChildren.length; i++) {
-                                                        listViewHeight += endpointsList.visibleChildren[i].height + elements_spacing_
-                                                        var min_width = endpointsList.visibleChildren[i].width
-                                                        for (var j = 0; j < endpointsList.visibleChildren[i].visibleChildren.length; j++)
-                                                        {
-                                                            min_width = Math.max(min_width, endpointsList.visibleChildren[i].visibleChildren[j].width)
-                                                        }
-                                                        max_endpoint_width_ = Math.max(max_endpoint_width_, min_width)
-                                                        endpointsList.visibleChildren[i].width = max_endpoint_width_
+                                                    for (var c = 0; c < endpointsList.count; c++)
+                                                    {
+                                                        endpointsList.currentIndex = c
+                                                        listViewHeight += endpointsList.currentItem.height + elements_spacing_
+                                                        max_endpoint_width_ = Math.max(max_endpoint_width_, endpointsList.currentItem.width)
+                                                        max_endpoint_width_ = Math.max(max_endpoint_width_, max_participant_width_-(2*elements_spacing_))
+                                                        endpointsList.currentItem.width = max_endpoint_width_
                                                     }
 
+                                                    endpointsList.height = listViewHeight + elements_spacing_
+                                                    endpointsList.width = max_endpoint_width_
+                                                }
+
+                                                function record_connections()
+                                                {
                                                     for (var c = 0; c < endpointsList.count; c++)
                                                     {
                                                         endpointsList.currentIndex = c
                                                         endpointsList.currentItem.record_connection()
                                                     }
-
-                                                    endpointsList.height = listViewHeight + elements_spacing_
-                                                    endpointsList.width = max_endpoint_width_
                                                 }
 
                                                 // Endpoint delegated item box
@@ -1220,7 +1196,6 @@ Item
                     {
                         if (!endpoint_painted_.includes(key))
                         {
-                            var destination_x = topic_locations_[topic_id]["x"]
                             var input = {"x": endpoint_topic_connections_[key]["x"]
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
@@ -1271,7 +1246,6 @@ Item
         color: "white"
         z: 14
     }
-
 
     // Empty screen message
     Rectangle {
