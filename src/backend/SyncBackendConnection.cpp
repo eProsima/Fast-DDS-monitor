@@ -768,7 +768,14 @@ bool SyncBackendConnection::build_source_target_entities_vectors(
 Graph SyncBackendConnection::get_domain_view_graph (
         const EntityId& domain_id)
 {
-    return StatisticsBackend::get_domain_view_graph(domain_id);
+    try
+    {
+        return StatisticsBackend::get_domain_view_graph(domain_id);
+    }
+    catch (BadParameter)
+    {
+        return nullptr;
+    }
 }
 
 void SyncBackendConnection::change_unit_magnitude(
