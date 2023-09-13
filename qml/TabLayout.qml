@@ -414,8 +414,23 @@ Item {
         if (idx != current_)
         {
             current_ = idx
+
             // move to the idx tab in the stack
             stack_layout.currentIndex = tabLayout.tab_model_[idx]["stack_id"]
+
+            // check if domain info has changed
+            if (tabLayout.tab_model_[idx]["title"].includes("Domain"))
+            {
+                for (var i=0; i<stack_layout.count; i++)
+                {
+                    if (stack_layout.children[i].stack_id == tabLayout.tab_model_[idx]["stack_id"])
+                    {
+                        controller.domain_click(stack_layout.children[i].currentItem.entity_id)
+                        break;
+                    }
+                }
+            }
+
             refresh_layout(current_)
         }
         // update idx model
