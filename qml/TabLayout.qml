@@ -29,8 +29,11 @@ Item {
     property int current_: 0                                                // current tab displayed
     property int last_index_: 1                                             // force unique idx on QML components
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
-    property bool disable_chart_selection: false                            // flag to disable multiple chart view tabs
-    signal open_domain_view(int entity_id, int domain_id)
+    property bool disable_chart_selection_: false                            // flag to disable multiple chart view tabs
+
+    // private signals
+    signal open_domain_view_(int stack_id, int entity_id, int domain_id)
+    signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
 
     // Read only design properties
     readonly property int max_tabs_: 15
@@ -47,31 +50,18 @@ Item {
 
     // initialize first element in the tab
     Component.onCompleted:{
-        var new_stack = stack_component.createObject(null, {"id": 0, "anchors.fill": "parent"})
+        var new_stack = stack_component.createObject(null, {"stack_id": 0, "anchors.fill": "parent"})
         stack_layout.children.push(new_stack)
         refresh_layout(current_)
     }
 
     ChartsLayout {
         z: 1
-        visible: disable_chart_selection
+        visible: disable_chart_selection_
         id: chartsLayout
         anchors.fill: stack_layout
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
-        }
-    }
-
-    Component {
-        id: domainGraphLayout_component
-
-        DomainGraphLayout
-        {
-            id: domainGraphLayout
-
-            onUpdate_tab_name: {
-                tabLayout.tab_model_[current_]["title"] = new_name
-            }
         }
     }
 
@@ -224,6 +214,7 @@ Item {
             // view with the different views available in a tab
             StackView {
                 id: stack
+                property int stack_id: 0
                 anchors.fill: parent
                 initialItem: view_selector
 
@@ -245,10 +236,10 @@ Item {
                             Button {
                                 width: 400; height: 400
                                 anchors.verticalCenter: parent.verticalCenter
-                                enabled: !disable_chart_selection
+                                enabled: !disable_chart_selection_
                                 text: "Chart View"
                                 onClicked: {
-                                    if (!disable_chart_selection)
+                                    if (!disable_chart_selection_)
                                     {
                                         tabLayout.tab_model_[current_]["title"] = "Chart View"
                                         if (stack.deep > 1)
@@ -256,7 +247,7 @@ Item {
                                             stack.pop()
                                         }
                                         stack.push(chartsLayout)
-                                        disable_chart_selection = true
+                                        disable_chart_selection_ = true
                                         refresh_layout(current_)
                                     }
                                 }
@@ -273,7 +264,8 @@ Item {
                                     else if (mainApplicationView.monitors == 1)
                                     {
                                         controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
-                                        open_domain_view(
+                                        open_domain_view_(
+                                            tabLayout.tab_model_[current_]["stack_id"],
                                             entityModelFirst.get(0).id,
                                             entityModelFirst.get(0).name)
                                     }
@@ -284,23 +276,52 @@ Item {
                                 }
                             }
                         }
+                    }
+                }
+
+                Component {
+                    id: domainGraphLayout_component
+
+                    DomainGraphLayout
+                    {
+                        id: domainGraphLayout
+                        component_id: stack.stack_id
+
+                        onUpdate_tab_name: {
+                            tabLayout.tab_model_[current_]["title"] = new_name
+                            refresh_layout(current_)
+                        }
 
                         Connections {
                             target: tabLayout
 
-                            function onOpen_domain_view(entity_id, domain_id) {
-                                if (stack.deep > 1)
+                            function onInitialize_domain_view_(stack_id, entity_id, domain_id) {
+                                if (domainGraphLayout.component_id == stack_id)
                                 {
-                                    stack.pop()
+                                    domainGraphLayout.entity_id = entity_id
+                                    domainGraphLayout.domain_id = domain_id
+                                    domainGraphLayout.load_model()
                                 }
-
-                                var new_domain_graph = domainGraphLayout_component.createObject(null,
-                                    {"id": tabLayout.tab_model_[current_]["stack_id"],
-                                    "entity_id":entity_id , "domain_id":domain_id })
-                                new_domain_graph.load_model()
-                                stack.push(new_domain_graph)
-                                refresh_layout(current_)
                             }
+                        }
+
+                    }
+                }
+
+                Connections {
+                    target: tabLayout
+
+                    function onOpen_domain_view_(stack_id, entity_id, domain_id) {
+                        if (stack.stack_id == stack_id)
+                        {
+                            if (stack.deep > 1)
+                            {
+                                stack.pop()
+                            }
+
+                            stack.push(domainGraphLayout_component)
+                            refresh_layout(current_)
+                            initialize_domain_view_(stack_id, entity_id, domain_id)
                         }
                     }
                 }
@@ -366,7 +387,8 @@ Item {
 
         onAccepted:
         {
-            open_domain_view(
+            open_domain_view_(
+                tabLayout.tab_model_[current_]["stack_id"],
                 entityModelFirst.get(custom_combobox.currentIndex).id,
                 entityModelFirst.get(custom_combobox.currentIndex).name)
         }
@@ -376,7 +398,8 @@ Item {
     {
         var idx = tabLayout.tab_model_.length
         tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
-        var new_stack = stack_component.createObject(null, {"id": last_index_, "anchors.fill": "parent"})
+        var new_stack = stack_component.createObject(null, {"stack_id": tabLayout.tab_model_[idx]["stack_id"],
+            "anchors.fill": "parent"})
         last_index_++
         stack_layout.children.push(new_stack)
         refresh_layout(idx)
@@ -434,7 +457,7 @@ Item {
                 // check if removed tab was declared as chart view to enable new chart view tab
                 if (tabLayout.tab_model_[idx]["title"] == "Chart View")
                 {
-                    disable_chart_selection = false
+                    disable_chart_selection_ = false
                 }
             }
         }

@@ -27,8 +27,9 @@ Item
 
     // Public properties
     property var model: {}                          // domain view graph JSON model
-    property int entity_id: 0                       // entity id associated to the domain id
-    property int domain_id: 0                       // domain id
+    property int entity_id                          // entity id associated to the domain id
+    property int domain_id                          // domain id
+    required property string component_id           // mandatory to be included when object created
 
     // Public signals
     signal update_tab_name(string new_name)         // Update tab name based on selected domain id
@@ -1289,94 +1290,98 @@ Item
             // Parse model from string to JSON
             var new_model = JSON.parse(model_string)
 
-            // transform indexed model to array model (arrays required for the listviews)
-            for (var topic in new_model["topics"])
+            // Ensure expected graph was received
+            if (new_model["domain"] == domain_id)
             {
-                new_topics[new_topics.length] = {
-                    "id":topic,
-                    "kind":new_model["topics"][topic]["kind"],
-                    "alias":new_model["topics"][topic]["alias"],}
-            }
-            var accum_y = 0
-            for (var host in new_model["hosts"])
-            {
-                accum_y += label_height_ + elements_spacing_
-                var new_users = []
-                for (var user in new_model["hosts"][host]["users"])
+                // transform indexed model to array model (arrays required for the listviews)
+                for (var topic in new_model["topics"])
+                {
+                    new_topics[new_topics.length] = {
+                        "id":topic,
+                        "kind":new_model["topics"][topic]["kind"],
+                        "alias":new_model["topics"][topic]["alias"],}
+                }
+                var accum_y = 0
+                for (var host in new_model["hosts"])
                 {
                     accum_y += label_height_ + elements_spacing_
-                    var new_processes = []
-                    for (var process in new_model["hosts"][host]["users"][user]["processes"])
+                    var new_users = []
+                    for (var user in new_model["hosts"][host]["users"])
                     {
                         accum_y += label_height_ + elements_spacing_
-                        var new_participants = []
-                        for (var participant in new_model["hosts"][host]["users"][user]["processes"][process]["participants"])
+                        var new_processes = []
+                        for (var process in new_model["hosts"][host]["users"][user]["processes"])
                         {
                             accum_y += label_height_ + elements_spacing_
-                            var new_endpoints = []
-                            for (var endpoint in new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
+                            var new_participants = []
+                            for (var participant in new_model["hosts"][host]["users"][user]["processes"][process]["participants"])
                             {
-                                new_endpoints[new_endpoints.length] = {
-                                    "id":endpoint,
-                                    "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"],
-                                    "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
-                                    "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
-                                    "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
-                                    "accum_y":accum_y
+                                accum_y += label_height_ + elements_spacing_
+                                var new_endpoints = []
+                                for (var endpoint in new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
+                                {
+                                    new_endpoints[new_endpoints.length] = {
+                                        "id":endpoint,
+                                        "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"],
+                                        "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
+                                        "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
+                                        "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
+                                        "accum_y":accum_y
+                                    }
+                                    accum_y += endpoint_height_ + elements_spacing_
                                 }
-                                accum_y += endpoint_height_ + elements_spacing_
+                                new_participants[new_participants.length] = {
+                                    "id":participant,
+                                    "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["kind"],
+                                    "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
+                                    "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
+                                    "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
+                                    "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
+                                    "endpoints":new_endpoints
+                                }
+                                accum_y += elements_spacing_
                             }
-                            new_participants[new_participants.length] = {
-                                "id":participant,
-                                "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["kind"],
-                                "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
-                                "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
-                                "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
-                                "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
-                                "endpoints":new_endpoints
+                            new_processes[new_processes.length] = {
+                                "id":process,
+                                "kind":new_model["hosts"][host]["users"][user]["processes"][process]["kind"],
+                                "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
+                                "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
+                                "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
+                                "participants":new_participants
                             }
                             accum_y += elements_spacing_
                         }
-                        new_processes[new_processes.length] = {
-                            "id":process,
-                            "kind":new_model["hosts"][host]["users"][user]["processes"][process]["kind"],
-                            "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
-                            "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
-                            "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
-                            "participants":new_participants
+                        new_users[new_users.length] = {
+                            "id":user,
+                            "kind":new_model["hosts"][host]["users"][user]["kind"],
+                            "alias":new_model["hosts"][host]["users"][user]["alias"],
+                            "status":new_model["hosts"][host]["users"][user]["status"],
+                            "processes":new_processes
                         }
                         accum_y += elements_spacing_
                     }
-                    new_users[new_users.length] = {
-                        "id":user,
-                        "kind":new_model["hosts"][host]["users"][user]["kind"],
-                        "alias":new_model["hosts"][host]["users"][user]["alias"],
-                        "status":new_model["hosts"][host]["users"][user]["status"],
-                        "processes":new_processes
+                    new_hosts[new_hosts.length] = {
+                        "id":host,
+                        "kind":new_model["hosts"][host]["kind"],
+                        "alias":new_model["hosts"][host]["alias"],
+                        "status":new_model["hosts"][host]["status"],
+                        "users":new_users
                     }
                     accum_y += elements_spacing_
                 }
-                new_hosts[new_hosts.length] = {
-                    "id":host,
-                    "kind":new_model["hosts"][host]["kind"],
-                    "alias":new_model["hosts"][host]["alias"],
-                    "status":new_model["hosts"][host]["status"],
-                    "users":new_users
+                model = {
+                    "kind": new_model["kind"],
+                    "domain": new_model["domain"],
+                    "topics": new_topics,
+                    "hosts": new_hosts,
                 }
-                accum_y += elements_spacing_
-            }
-            model = {
-                "kind": new_model["kind"],
-                "domain": new_model["domain"],
-                "topics": new_topics,
-                "hosts": new_hosts,
-            }
 
-            // Update visual elements by re-calculating their sizes
-            resize_elements_()
+                // Update visual elements by re-calculating their sizes
+                resize_elements_()
 
-            // hide empty screen label
-            emptyScreenLabel.visible = false
+                // hide empty screen label
+                emptyScreenLabel.visible = false
+            }
         }
         // print error message
         if (new_topics.length === 0 || new_hosts.length === 0)
