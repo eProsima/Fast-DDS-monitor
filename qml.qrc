@@ -60,6 +60,7 @@
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
         <file>qml/StatusPanel.qml</file>
+        <file>qml/StatusLayout.qml</file>
         <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qml/TabLayout.qml</file>
