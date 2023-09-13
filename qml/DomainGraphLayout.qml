@@ -246,7 +246,7 @@ Item
                         anchors.fill: parent
                         onClicked:
                         {
-                            console.log(modelData["alias"] + " clicked!")
+                            controller.topic_click(modelData["id"])
                         }
                     }
                 }
@@ -576,7 +576,7 @@ Item
                             anchors.fill: parent
                             onClicked:
                             {
-                                console.log(modelData["alias"] + " clicked!")
+                                controller.host_click(modelData["id"])
                             }
                         }
                     }
@@ -719,7 +719,7 @@ Item
                                     anchors.fill: parent
                                     onClicked:
                                     {
-                                        console.log(modelData["alias"] + " clicked!")
+                                        controller.user_click(modelData["id"])
                                     }
                                 }
                             }
@@ -860,7 +860,7 @@ Item
                                             anchors.fill: parent
                                             onClicked:
                                             {
-                                                console.log(modelData["alias"] + " clicked!")
+                                                controller.process_click(modelData["id"])
                                             }
                                         }
                                     }
@@ -997,7 +997,7 @@ Item
                                                     anchors.fill: parent
                                                     onClicked:
                                                     {
-                                                        console.log(modelData["alias"] + " clicked!")
+                                                        controller.participant_click(modelData["id"])
                                                     }
                                                 }
                                             }
@@ -1152,7 +1152,7 @@ Item
                                                             anchors.fill: parent
                                                             onClicked:
                                                             {
-                                                                console.log(modelData["alias"] + " clicked!")
+                                                                controller.endpoint_click(modelData["id"])
                                                             }
                                                         }
                                                     }
