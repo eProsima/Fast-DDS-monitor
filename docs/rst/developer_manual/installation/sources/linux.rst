@@ -240,7 +240,7 @@ Local installation
         .. code-block:: bash
 
             cd ~/Fast-DDS-Monitor
-            git clone https://github.com/eProsima/Fast-CDR.git
+            git clone https://github.com/eProsima/Fast-CDR.git --branch 1.1.x
             mkdir Fast-CDR/build
             cd Fast-CDR/build
             cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install
