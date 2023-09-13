@@ -365,11 +365,11 @@ Item {
 
         AdaptiveComboBox {
             id: custom_combobox
-            textRole: "nameId"
+            textRole: "name"
             valueRole: "id"
             displayText: currentIndex === -1
                             ? ("Please choose a Domain ID")
-                            : currentText
+                            : ("DDS Domain " + currentText)
             model: entityModelFirst
 
             Component.onCompleted:
