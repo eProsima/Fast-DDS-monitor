@@ -1372,9 +1372,6 @@ Item
                 "hosts": new_hosts,
             }
 
-            // Update tab name with selected domain id
-            domainGraphLayout.update_tab_name("Domain " + new_model["domain"] + " View")
-
             // Update visual elements by re-calculating their sizes
             resize_elements_()
 
@@ -1382,14 +1379,22 @@ Item
             emptyScreenLabel.visible = false
         }
         // print error message
-        if (new_topics.length === 0 && new_hosts.length === 0)
+        if (new_topics.length === 0 || new_hosts.length === 0)
         {
-            // Update tab name with selected domain id
-            domainGraphLayout.update_tab_name("Domain " + domain_id + " View")
+            // Discard any possible data received
+            model = {
+                "kind": "domain_view",
+                "domain": domain_id,
+                "topics": [],
+                "hosts": [],
+            }
 
             // display empty screen label
             emptyScreenLabel.visible = true
         }
+
+        // Update tab name with selected domain id
+        domainGraphLayout.update_tab_name("Domain " + domain_id + " View")
     }
 
     // remove drawn connections
