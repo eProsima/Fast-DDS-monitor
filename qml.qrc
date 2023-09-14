@@ -64,6 +64,7 @@
         <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qml/TabLayout.qml</file>
+        <file>qml/TopicMenu.qml</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
     <qresource prefix="/resources/images">

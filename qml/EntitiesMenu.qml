@@ -15,4 +15,8 @@ Menu {
         text: "Change alias"
         onTriggered: changeAlias(menu.entityId, menu.currentAlias, menu.entityKind)
     }
+    MenuItem {
+        text: "View Problems"
+        onTriggered: {}//todo
+    }
 }

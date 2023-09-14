@@ -32,7 +32,9 @@ Item
     required property string component_id           // mandatory to be included when object created
 
     // Public signals
-    signal update_tab_name(string new_name)         // Update tab name based on selected domain id
+    signal update_tab_name(string new_name)                                 // Update tab name based on selected id
+    signal openEntitiesMenu(string entityId, string currentAlias, string entityKind) // Display menu on right click
+    signal openTopicMenu(string entityId, string currentAlias, string entityKind)    // Display menu on right click
 
     // Private properties
     property var topic_locations_: {}               // topic information needed for connection representation
@@ -244,9 +246,14 @@ Item
                     MouseArea
                     {
                         anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked:
                         {
-                            controller.topic_click(modelData["id"])
+                            if(mouse.button & Qt.RightButton) {
+                                openTopicMenu(modelData["id"], modelData["name"], modelData["kind"])
+                            } else {
+                                controller.topic_click(modelData["id"])
+                            }
                         }
                     }
                 }
@@ -574,9 +581,14 @@ Item
                         MouseArea
                         {
                             anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                             onClicked:
                             {
-                                controller.host_click(modelData["id"])
+                                if(mouse.button & Qt.RightButton) {
+                                    openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                } else {
+                                    controller.host_click(modelData["id"])
+                                }
                             }
                         }
                     }
@@ -717,9 +729,14 @@ Item
                                 MouseArea
                                 {
                                     anchors.fill: parent
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                                     onClicked:
                                     {
-                                        controller.user_click(modelData["id"])
+                                        if(mouse.button & Qt.RightButton) {
+                                            openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                        } else {
+                                            controller.user_click(modelData["id"])
+                                        }
                                     }
                                 }
                             }
@@ -858,9 +875,14 @@ Item
                                         MouseArea
                                         {
                                             anchors.fill: parent
+                                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                                             onClicked:
                                             {
-                                                controller.process_click(modelData["id"])
+                                                if(mouse.button & Qt.RightButton) {
+                                                    openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                                } else {
+                                                    controller.process_click(modelData["id"])
+                                                }
                                             }
                                         }
                                     }
@@ -995,9 +1017,14 @@ Item
                                                 MouseArea
                                                 {
                                                     anchors.fill: parent
+                                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                                                     onClicked:
                                                     {
-                                                        controller.participant_click(modelData["id"])
+                                                        if(mouse.button & Qt.RightButton) {
+                                                            openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                                        } else {
+                                                            controller.participant_click(modelData["id"])
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1150,9 +1177,14 @@ Item
                                                         MouseArea
                                                         {
                                                             anchors.fill: parent
+                                                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                                                             onClicked:
                                                             {
-                                                                controller.endpoint_click(modelData["id"])
+                                                                if(mouse.button & Qt.RightButton) {
+                                                                    openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                                                } else {
+                                                                    controller.endpoint_click(modelData["id"])
+                                                                }
                                                             }
                                                         }
                                                     }

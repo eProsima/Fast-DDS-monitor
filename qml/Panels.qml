@@ -128,6 +128,12 @@ RowLayout {
                             }
                         }
                     }
+                    onOpenEntitiesMenu: {
+                        panels.openEntitiesMenu(entityId, currentAlias, entityKind)
+                    }
+                    onOpenTopicMenu: {
+                        panels.openTopicMenu(entityId, currentAlias, entityKind)
+                    }
                 }
                 StatusLayout {
                     id: statusLayout
@@ -184,5 +190,13 @@ RowLayout {
 
     function changeExplorerEntityInfo(status) {
         leftPanel.changeExplorerEntityInfo(status)
+    }
+
+    function openEntitiesMenu(entityId, currentAlias, entityKind) {
+        leftPanel.openEntitiesMenu(entityId, currentAlias, entityKind)
+    }
+
+    function openTopicMenu(entityId, currentAlias, entityKind) {
+        leftPanel.openTopicMenu(entityId, currentAlias, entityKind)
     }
 }

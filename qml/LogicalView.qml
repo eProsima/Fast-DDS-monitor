@@ -164,7 +164,7 @@ Rectangle {
 
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(id, name, kind)
+                                            openTopicMenu(id, name, kind)
                                         } else {
                                             controller.topic_click(id)
                                         }

@@ -65,6 +65,10 @@ RowLayout {
         id: entitiesMenu
     }
 
+    TopicMenu {
+        id: topicMenu
+    }
+
     IssuesPanel {
         id: issuesPanel
         Layout.fillHeight: true
@@ -83,6 +87,13 @@ RowLayout {
         entitiesMenu.currentAlias = currentAlias
         entitiesMenu.entityKind = entityKind
         entitiesMenu.popup()
+    }
+
+    function openTopicMenu(entityId, currentAlias, entityKind) {
+        topicMenu.entityId = entityId
+        topicMenu.currentAlias = currentAlias
+        topicMenu.entityKind = entityKind
+        topicMenu.popup()
     }
 
     function expandAll(view, model) {
