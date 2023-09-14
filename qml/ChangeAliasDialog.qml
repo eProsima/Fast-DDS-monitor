@@ -32,6 +32,7 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
     anchors.centerIn: Overlay.overlay
 
+    property var domainEntityId: ""
     property var entityId: ""
     property var currentAlias: ""
     property var entityKind: ""
@@ -79,6 +80,7 @@ Dialog {
             } else {
                 controller.set_alias(entityId, newSeriesNameTextField.text, entityKind)
             }
+            refreshDomainGraphView(domainEntityId)
         }
     }
 }

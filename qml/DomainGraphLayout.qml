@@ -33,8 +33,8 @@ Item
 
     // Public signals
     signal update_tab_name(string new_name)
-    signal openEntitiesMenu(string entityId, string currentAlias, string entityKind)
-    signal openTopicMenu(string entityId, string currentAlias, string entityKind, string domainEntityId, string domainId)
+    signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
+    signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
 
     // Private properties
     property var topic_locations_: {}               // topic information needed for connection representation
@@ -250,7 +250,7 @@ Item
                         onClicked:
                         {
                             if(mouse.button & Qt.RightButton) {
-                                openTopicMenu(modelData["id"], modelData["name"], modelData["kind"], entity_id, domain_id)
+                                openTopicMenu(entity_id, domain_id, modelData["id"], modelData["name"], modelData["kind"])
                             } else {
                                 controller.topic_click(modelData["id"])
                             }
@@ -585,7 +585,7 @@ Item
                             onClicked:
                             {
                                 if(mouse.button & Qt.RightButton) {
-                                    openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                    openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
                                 } else {
                                     controller.host_click(modelData["id"])
                                 }
@@ -733,7 +733,7 @@ Item
                                     onClicked:
                                     {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                            openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
                                         } else {
                                             controller.user_click(modelData["id"])
                                         }
@@ -879,7 +879,7 @@ Item
                                             onClicked:
                                             {
                                                 if(mouse.button & Qt.RightButton) {
-                                                    openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
                                                 } else {
                                                     controller.process_click(modelData["id"])
                                                 }
@@ -997,7 +997,7 @@ Item
                                                         width: first_indentation_ /2
                                                     }
                                                     IconSVG {
-                                                        name: modelData["kind"]
+                                                        name: "participant"
                                                         size: icon_size_
                                                     }
                                                     Label {
@@ -1021,7 +1021,7 @@ Item
                                                     onClicked:
                                                     {
                                                         if(mouse.button & Qt.RightButton) {
-                                                            openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                                            openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
                                                         } else {
                                                             controller.participant_click(modelData["id"])
                                                         }
@@ -1111,8 +1111,8 @@ Item
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
                                                         var src_x = globalCoordinates.x + endpointComponent.width
                                                         var src_y = modelData["accum_y"] + (endpointComponent.height / 2)
-                                                        var left_direction = modelData["kind"] == "datareader"
-                                                        var right_direction = modelData["kind"] == "datawriter"
+                                                        var left_direction = modelData["kind"] == "DataReader"
+                                                        var right_direction = modelData["kind"] == "DataWriter"
 
                                                         endpoint_topic_connections_[modelData["id"]] = {
                                                             "id":  modelData["id"], "left_direction": left_direction,
@@ -1127,7 +1127,7 @@ Item
                                                         id: endpoint_background
                                                         width: parent.width
                                                         height: endpoint_height_
-                                                        color: modelData["kind"] == "datareader" ? reader_color_ : writer_color_
+                                                        color: modelData["kind"] == "DataReader" ? reader_color_ : writer_color_
                                                         radius: radius_
                                                     }
 
@@ -1166,7 +1166,8 @@ Item
                                                                 width: first_indentation_ /2
                                                             }
                                                             IconSVG {
-                                                                name: modelData["kind"]
+                                                                name: modelData["kind"] == "DataReader"
+                                                                    ? "datareader" : "datawriter"
                                                                 size: icon_size_
                                                             }
                                                             Label {
@@ -1181,7 +1182,7 @@ Item
                                                             onClicked:
                                                             {
                                                                 if(mouse.button & Qt.RightButton) {
-                                                                    openEntitiesMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
                                                                 } else {
                                                                     controller.endpoint_click(modelData["id"])
                                                                 }
@@ -1341,7 +1342,7 @@ Item
                     {
                         new_topics[new_topics.length] = {
                             "id":topic,
-                            "kind":new_model["topics"][topic]["kind"],
+                            "kind":"Topic",
                             "alias":new_model["topics"][topic]["alias"]
                         }
                     }
@@ -1380,9 +1381,14 @@ Item
                                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["metatraffic"]
                                                     if (metatraffic_ != true || is_metatraffic_visible_)
                                                     {
+                                                        var kind = "DataWriter"
+                                                        if (new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"] == "datareader")
+                                                        {
+                                                            kind = "DataReader"
+                                                        }
                                                         new_endpoints[new_endpoints.length] = {
                                                             "id":endpoint,
-                                                            "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"],
+                                                            "kind":kind,
                                                             "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
                                                             "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
                                                             "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
@@ -1393,7 +1399,7 @@ Item
                                                 }
                                                 new_participants[new_participants.length] = {
                                                     "id":participant,
-                                                    "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["kind"],
+                                                    "kind": "DomainParticipant",
                                                     "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
                                                     "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
                                                     "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
@@ -1405,7 +1411,7 @@ Item
                                         }
                                         new_processes[new_processes.length] = {
                                             "id":process,
-                                            "kind":new_model["hosts"][host]["users"][user]["processes"][process]["kind"],
+                                            "kind":"Process",
                                             "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
                                             "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
                                             "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
@@ -1416,7 +1422,7 @@ Item
                                 }
                                 new_users[new_users.length] = {
                                     "id":user,
-                                    "kind":new_model["hosts"][host]["users"][user]["kind"],
+                                    "kind": "User",
                                     "alias":new_model["hosts"][host]["users"][user]["alias"],
                                     "status":new_model["hosts"][host]["users"][user]["status"],
                                     "processes":new_processes
@@ -1426,7 +1432,7 @@ Item
                         }
                         new_hosts[new_hosts.length] = {
                             "id":host,
-                            "kind":new_model["hosts"][host]["kind"],
+                            "kind":"Host",
                             "alias":new_model["hosts"][host]["alias"],
                             "status":new_model["hosts"][host]["status"],
                             "users":new_users

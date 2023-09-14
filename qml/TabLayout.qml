@@ -26,8 +26,8 @@ Item {
     property bool fullScreen: false                                         // ChartsLayout inherited var
 
     // Public signals
-    signal openEntitiesMenu(string entityId, string currentAlias, string entityKind)
-    signal openTopicMenu(string entityId, string currentAlias, string entityKind, string domainEntityId, string domainId)
+    signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
+    signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
 
     // Private properties
     property int current_: 0                                                // current tab displayed
@@ -298,10 +298,10 @@ Item {
                         }
 
                         onOpenEntitiesMenu: {
-                            tabLayout.openEntitiesMenu(entityId, currentAlias, entityKind)
+                            tabLayout.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
                         }
                         onOpenTopicMenu: {
-                            tabLayout.openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId)
+                            tabLayout.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
                         }
 
                         Connections {
@@ -567,5 +567,15 @@ Item {
         create_new_tab()
         open_domain_view_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, domainId)
         filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
+    }
+
+    function refresh_domain_graph_view(domainEntityId) {
+        for (var i=0; i<stack_layout.count; i++)
+        {
+            if (stack_layout.children[i].currentItem.entity_id == domainEntityId)
+            {
+                stack_layout.children[i].currentItem.load_model()
+            }
+        }
     }
 }

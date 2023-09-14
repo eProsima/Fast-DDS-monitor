@@ -24,15 +24,15 @@ import Theme 1.0
  */
 Menu {
     id: topicMenu
+    property string domainEntityId: ""
+    property string domainId: ""
     property string entityId: ""
     property string currentAlias: ""
     property string entityKind: ""
-    property string domainEntityId: ""
-    property string domainId: ""
 
     MenuItem {
         text: "Change alias"
-        onTriggered: changeAlias(menu.entityId, menu.currentAlias, menu.entityKind)
+        onTriggered: changeAlias(menu.domainEntityId, menu.entityId, menu.currentAlias, menu.entityKind)
     }
     MenuItem {
         text: "View problems"

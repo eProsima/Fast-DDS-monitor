@@ -98,6 +98,7 @@ RowLayout {
             onExplorerLogicalChanged: panels.explorerLogicalChanged(status)
             onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
             onOpen_topic_view: tabs.open_topic_view(domainEntityId, domainId, entityId)
+            onRefresh_domain_graph_view: tabs.refresh_domain_graph_view(domainEntityId)
         }
 
         Rectangle {
@@ -130,10 +131,10 @@ RowLayout {
                         }
                     }
                     onOpenEntitiesMenu: {
-                        panels.openEntitiesMenu(entityId, currentAlias, entityKind)
+                        panels.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
                     }
                     onOpenTopicMenu: {
-                        panels.openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId)
+                        panels.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
                     }
                 }
                 StatusLayout {
@@ -193,11 +194,11 @@ RowLayout {
         leftPanel.changeExplorerEntityInfo(status)
     }
 
-    function openEntitiesMenu(entityId, currentAlias, entityKind) {
-        leftPanel.openEntitiesMenu(entityId, currentAlias, entityKind)
+    function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind) {
+        leftPanel.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
     }
 
-    function openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId) {
-        leftPanel.openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId)
+    function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind) {
+        leftPanel.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
     }
 }
