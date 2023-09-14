@@ -23,10 +23,12 @@ import Theme 1.0
     Menu containing the possible actions that can be performed on any DDS, physical and logical entity.
  */
 Menu {
-    id: entitiesMenu
+    id: topicMenu
     property string entityId: ""
     property string currentAlias: ""
     property string entityKind: ""
+    property string domainEntityId: ""
+    property string domainId: ""
 
     MenuItem {
         text: "Change alias"
@@ -38,6 +40,6 @@ Menu {
     }
     MenuItem {
         text: "Filter graph view"
-        onTriggered: {}//todo
+        onTriggered: openTopicView(menu.domainEntityId, menu.domainId, menu.entityId)
     }
 }

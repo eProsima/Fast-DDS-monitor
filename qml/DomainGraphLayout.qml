@@ -32,9 +32,9 @@ Item
     required property string component_id           // mandatory to be included when object created
 
     // Public signals
-    signal update_tab_name(string new_name)                                 // Update tab name based on selected id
-    signal openEntitiesMenu(string entityId, string currentAlias, string entityKind) // Display menu on right click
-    signal openTopicMenu(string entityId, string currentAlias, string entityKind)    // Display menu on right click
+    signal update_tab_name(string new_name)
+    signal openEntitiesMenu(string entityId, string currentAlias, string entityKind)
+    signal openTopicMenu(string entityId, string currentAlias, string entityKind, string domainEntityId, string domainId)
 
     // Private properties
     property var topic_locations_: {}               // topic information needed for connection representation
@@ -250,7 +250,7 @@ Item
                         onClicked:
                         {
                             if(mouse.button & Qt.RightButton) {
-                                openTopicMenu(modelData["id"], modelData["name"], modelData["kind"])
+                                openTopicMenu(modelData["id"], modelData["name"], modelData["kind"], entity_id, domain_id)
                             } else {
                                 controller.topic_click(modelData["id"])
                             }
@@ -1305,6 +1305,12 @@ Item
 
     // Obtain given domain id graph JSON model
     function load_model()
+    {
+        filter_model_by_topic ("")
+    }
+
+    // Filter model by topic
+    function filter_model_by_topic (topic_id)
     {
         // clear internal models
         clear_graph()

@@ -26,8 +26,8 @@ Item {
     property bool fullScreen: false                                         // ChartsLayout inherited var
 
     // Public signals
-    signal openEntitiesMenu(string entityId, string currentAlias, string entityKind) // Display menu on right click
-    signal openTopicMenu(string entityId, string currentAlias, string entityKind)    // Display menu on right click
+    signal openEntitiesMenu(string entityId, string currentAlias, string entityKind)
+    signal openTopicMenu(string entityId, string currentAlias, string entityKind, string domainEntityId, string domainId)
 
     // Private properties
     property int current_: 0                                                // current tab displayed
@@ -38,6 +38,7 @@ Item {
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
     signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
+    signal filter_domain_view_by_topic_(int stack_id, int domain_entity_id, string topic_id)
 
     // Read only design properties
     readonly property int max_tabs_: 15
@@ -300,7 +301,7 @@ Item {
                             tabLayout.openEntitiesMenu(entityId, currentAlias, entityKind)
                         }
                         onOpenTopicMenu: {
-                            tabLayout.openTopicMenu(entityId, currentAlias, entityKind)
+                            tabLayout.openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId)
                         }
 
                         Connections {
@@ -314,6 +315,14 @@ Item {
                                     domainGraphLayout.load_model()
                                 }
                             }
+
+                            function onFilter_domain_view_by_topic_(stack_id, domain_entity_id, topic_id) {
+                                if (domainGraphLayout.component_id == stack_id &&
+                                    domainGraphLayout.entity_id == domain_entity_id)
+                                {
+                                    domainGraphLayout.filter_model_by_topic(topic_id)
+                                }
+                            }
                         }
 
                     }
@@ -322,7 +331,7 @@ Item {
                 Connections {
                     target: tabLayout
 
-                    function onOpen_domain_view_(stack_id, entity_id, domain_id) {
+                    function onOpen_domain_view_(stack_id, entity_id, domain_id, topic_id) {
                         if (stack.stack_id == stack_id)
                         {
                             if (stack.deep > 1)
@@ -552,5 +561,11 @@ Item {
 
     function chartsLayout_saveAllCSV() {
         chartsLayout.saveAllCSV()
+    }
+
+    function open_topic_view(domainEntityId, domainId, entityId) {
+        create_new_tab()
+        open_domain_view_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, domainId)
+        filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
     }
 }

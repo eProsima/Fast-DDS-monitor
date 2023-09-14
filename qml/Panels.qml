@@ -97,6 +97,7 @@ RowLayout {
             onExplorerPhysicalChanged: panels.explorerPhysicalChanged(status)
             onExplorerLogicalChanged: panels.explorerLogicalChanged(status)
             onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
+            onOpen_topic_view: tabs.open_topic_view(domainEntityId, domainId, entityId)
         }
 
         Rectangle {
@@ -132,7 +133,7 @@ RowLayout {
                         panels.openEntitiesMenu(entityId, currentAlias, entityKind)
                     }
                     onOpenTopicMenu: {
-                        panels.openTopicMenu(entityId, currentAlias, entityKind)
+                        panels.openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId)
                     }
                 }
                 StatusLayout {
@@ -196,7 +197,7 @@ RowLayout {
         leftPanel.openEntitiesMenu(entityId, currentAlias, entityKind)
     }
 
-    function openTopicMenu(entityId, currentAlias, entityKind) {
-        leftPanel.openTopicMenu(entityId, currentAlias, entityKind)
+    function openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId) {
+        leftPanel.openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId)
     }
 }

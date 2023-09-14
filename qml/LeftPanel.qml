@@ -40,6 +40,7 @@ RowLayout {
     signal explorerPhysicalChanged(bool status)
     signal explorerLogicalChanged(bool status)
     signal explorerEntityInfoChanged(bool status)
+    signal open_topic_view(string domainEntityId, string domainId, string entityId)
 
     MonitoringPanel {
         id: monitoringPanel
@@ -89,11 +90,17 @@ RowLayout {
         entitiesMenu.popup()
     }
 
-    function openTopicMenu(entityId, currentAlias, entityKind) {
+    function openTopicMenu(entityId, currentAlias, entityKind, domainEntityId, domainId) {
         topicMenu.entityId = entityId
         topicMenu.currentAlias = currentAlias
         topicMenu.entityKind = entityKind
+        topicMenu.domainEntityId = domainEntityId
+        topicMenu.domainId = domainId
         topicMenu.popup()
+    }
+
+    function openTopicView(domainEntityId, domainId, entityId) {
+        leftPanel.open_topic_view(domainEntityId, domainId, entityId)
     }
 
     function expandAll(view, model) {
