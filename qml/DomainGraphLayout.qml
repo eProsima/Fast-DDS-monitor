@@ -41,6 +41,7 @@ Item
     property var endpoint_topic_connections_: {}    // endpoint information needed for connection representation
     property var topic_painted_: []                 // already painted topic connection references
     property var endpoint_painted_: []              // already painted endpoint connection references
+    property var filtered_topics_: []               // flitered topic entity id in the graph
     property int max_host_width_: 0                 // host entity box width management
     property int max_user_width_: 0                 // user entity box width management
     property int max_process_width_: 0              // process entity box width management
@@ -89,6 +90,7 @@ Item
     // Obtain given domain id graph
     Component.onCompleted:
     {
+        filtered_topics_ = []
         load_model()
     }
 
@@ -1313,6 +1315,13 @@ Item
     // Filter model by topic
     function filter_model_by_topic (topic_id)
     {
+        // topic id management
+        var topic_name = ""
+        if (topic_id != "" && !filtered_topics_.includes(topic_id))
+        {
+            filtered_topics_[filtered_topics_.length] = topic_id;
+        }
+
         // clear internal models
         clear_graph()
 
@@ -1340,16 +1349,36 @@ Item
                     var metatraffic_ = new_model["topics"][topic]["metatraffic"]
                     if (metatraffic_ != true || is_metatraffic_visible_)
                     {
-                        new_topics[new_topics.length] = {
-                            "id":topic,
-                            "kind":"Topic",
-                            "alias":new_model["topics"][topic]["alias"]
+                        if (filtered_topics_.length > 0)
+                        {
+                            for (var i = 0; i < filtered_topics_.length; i++)
+                            {
+                                if (filtered_topics_[i] == topic)
+                                {
+                                    topic_name = new_model["topics"][topic]["alias"]
+                                    new_topics[new_topics.length] = {
+                                        "id":topic,
+                                        "kind":"Topic",
+                                        "alias":new_model["topics"][topic]["alias"]
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            new_topics[new_topics.length] = {
+                                "id":topic,
+                                "kind":"Topic",
+                                "alias":new_model["topics"][topic]["alias"]
+                            }
                         }
                     }
                 }
                 var accum_y = 0
+                var temp_y = 0
                 for (var host in new_model["hosts"])
                 {
+                    var discard_host = true
                     var metatraffic_ = new_model["hosts"][host]["metatraffic"]
                     if (metatraffic_ != true || is_metatraffic_visible_)
                     {
@@ -1381,20 +1410,25 @@ Item
                                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["metatraffic"]
                                                     if (metatraffic_ != true || is_metatraffic_visible_)
                                                     {
-                                                        var kind = "DataWriter"
-                                                        if (new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"] == "datareader")
+                                                        if ((!filtered_topics_.length) || (filtered_topics_.length > 0
+                                                            && filtered_topics_.includes(new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"])))
                                                         {
-                                                            kind = "DataReader"
+                                                            discard_host = false
+                                                            var kind = "DataWriter"
+                                                            if (new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"] == "datareader")
+                                                            {
+                                                                kind = "DataReader"
+                                                            }
+                                                            new_endpoints[new_endpoints.length] = {
+                                                                "id":endpoint,
+                                                                "kind":kind,
+                                                                "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
+                                                                "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
+                                                                "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
+                                                                "accum_y":accum_y
+                                                            }
+                                                            accum_y += endpoint_height_ + elements_spacing_
                                                         }
-                                                        new_endpoints[new_endpoints.length] = {
-                                                            "id":endpoint,
-                                                            "kind":kind,
-                                                            "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
-                                                            "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
-                                                            "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
-                                                            "accum_y":accum_y
-                                                        }
-                                                        accum_y += endpoint_height_ + elements_spacing_
                                                     }
                                                 }
                                                 new_participants[new_participants.length] = {
@@ -1430,15 +1464,23 @@ Item
                                 accum_y += elements_spacing_
                             }
                         }
-                        new_hosts[new_hosts.length] = {
-                            "id":host,
-                            "kind":"Host",
-                            "alias":new_model["hosts"][host]["alias"],
-                            "status":new_model["hosts"][host]["status"],
-                            "users":new_users
+                        if (!discard_host)
+                        {
+                            new_hosts[new_hosts.length] = {
+                                "id":host,
+                                "kind":"Host",
+                                "alias":new_model["hosts"][host]["alias"],
+                                "status":new_model["hosts"][host]["status"],
+                                "users":new_users
+                            }
+                            accum_y += elements_spacing_
+                            temp_y = accum_y
                         }
-                        accum_y += elements_spacing_
+                        else {
+                            accum_y = temp_y
+                        }
                     }
+
                 }
                 model = {
                     "kind": new_model["kind"],
@@ -1470,7 +1512,14 @@ Item
         }
 
         // Update tab name with selected domain id
-        domainGraphLayout.update_tab_name("Domain " + domain_id + " View")
+        if (topic_id != "")
+        {
+            domainGraphLayout.update_tab_name(topic_name + " Topic View")
+        }
+        else
+        {
+            domainGraphLayout.update_tab_name("Domain " + domain_id + " View")
+        }
     }
 
     // remove drawn connections
