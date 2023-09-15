@@ -252,7 +252,7 @@ Item
                         onClicked:
                         {
                             if(mouse.button & Qt.RightButton) {
-                                openTopicMenu(entity_id, domain_id, modelData["id"], modelData["name"], modelData["kind"])
+                                openTopicMenu(entity_id, domain_id, modelData["id"], modelData["alias"], modelData["kind"])
                             } else {
                                 controller.topic_click(modelData["id"])
                             }
@@ -587,7 +587,7 @@ Item
                             onClicked:
                             {
                                 if(mouse.button & Qt.RightButton) {
-                                    openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
+                                    openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                 } else {
                                     controller.host_click(modelData["id"])
                                 }
@@ -735,7 +735,7 @@ Item
                                     onClicked:
                                     {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
+                                            openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                         } else {
                                             controller.user_click(modelData["id"])
                                         }
@@ -881,7 +881,7 @@ Item
                                             onClicked:
                                             {
                                                 if(mouse.button & Qt.RightButton) {
-                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
+                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                                 } else {
                                                     controller.process_click(modelData["id"])
                                                 }
@@ -1023,7 +1023,7 @@ Item
                                                     onClicked:
                                                     {
                                                         if(mouse.button & Qt.RightButton) {
-                                                            openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
+                                                            openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                                         } else {
                                                             controller.participant_click(modelData["id"])
                                                         }
@@ -1184,7 +1184,7 @@ Item
                                                             onClicked:
                                                             {
                                                                 if(mouse.button & Qt.RightButton) {
-                                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["name"], modelData["kind"])
+                                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                                                 } else {
                                                                     controller.endpoint_click(modelData["id"])
                                                                 }
@@ -1551,5 +1551,88 @@ Item
                 topic_connections.children[i].destroy()
             }
         }
+    }
+
+    // check if model contains entity
+    function contains_entity(domainEntityId, entityId)
+    {
+        // check if domainEntityId has content
+        if (domainEntityId != "")
+        {
+            // belongs to the current domain
+            if (entity_id.toString() != domainEntityId)
+            {
+                return false
+            }
+        }
+        // check all entities by entityId
+
+        // check domain
+        if(entity_id.toString() == entityId)
+        {
+            return true
+        }
+
+        // check topics
+        for (var topic in model["topics"])
+        {
+            if (model["topics"][topic]["id"] == entityId)
+            {
+                return true
+            }
+        }
+
+        // check entities
+        for (var host in model["hosts"])
+        {
+            if (model["hosts"][host]["id"] == entityId)
+            {
+                return true
+            }
+            else
+            {
+                for (var user in model["hosts"][host]["users"])
+                {
+                    if (model["hosts"][host]["users"][user]["id"] == entityId)
+                    {
+                        return true
+                    }
+                    else
+                    {
+                        for (var process in model["hosts"][host]["users"][user]["processes"])
+                        {
+                            if (model["hosts"][host]["users"][user]["processes"][process]["id"] == entityId)
+                            {
+                                return true
+                            }
+                            else
+                            {
+                                for (var participant in model["hosts"][host]["users"][user]["processes"][process]["participants"])
+                                {
+                                    if (model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["id"] == entityId)
+                                    {
+                                        return true
+                                    }
+                                    else
+                                    {
+                                        for (var endpoint in model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
+                                        {
+                                            if (model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["id"] == entityId)
+                                            {
+                                                return true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // not found yet
+        return false
     }
 }

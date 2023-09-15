@@ -80,7 +80,7 @@ Dialog {
             } else {
                 controller.set_alias(entityId, newSeriesNameTextField.text, entityKind)
             }
-            refreshDomainGraphView(domainEntityId)
+            refreshDomainGraphView(domainEntityId, entityId)
         }
     }
 }

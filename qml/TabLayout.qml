@@ -569,12 +569,15 @@ Item {
         filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
     }
 
-    function refresh_domain_graph_view(domainEntityId) {
+    function refresh_domain_graph_view(domainEntityId, entityId) {
         for (var i=0; i<stack_layout.count; i++)
         {
-            if (stack_layout.children[i].currentItem.entity_id == domainEntityId)
+            if (stack_layout.children[i].currentItem.entity_id != undefined)
             {
-                stack_layout.children[i].currentItem.load_model()
+                if (stack_layout.children[i].currentItem.contains_entity(domainEntityId, entityId))
+                {
+                    stack_layout.children[i].currentItem.load_model()
+                }
             }
         }
     }
