@@ -169,4 +169,13 @@ void Listener::on_topic_discovery(
     }
 }
 
+void Listener::on_problem_reported(
+        EntityId domain_id,
+        EntityId entity_id,
+        DataKind data_kind)
+{
+    qDebug() << "Problem reported"; // TODO add more info in this debug message
+    engine_->add_callback(ProblemCallback(domain_id, entity_id, data_kind));
+}
+
 } //namespace backend

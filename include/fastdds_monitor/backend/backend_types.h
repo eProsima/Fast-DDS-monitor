@@ -42,6 +42,11 @@ extern const EntityId ID_ALL;
 //! Reference the ID_NONE in the project
 extern const EntityId ID_NONE;
 
+//! Reference for problem status (ok, error or warning)
+static constexpr const char* PROBLEM_STATUS_ERROR = "error";
+static constexpr const char* PROBLEM_STATUS_OK = "ok";
+static constexpr const char* PROBLEM_STATUS_WARNING = "warning";
+
 } //namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_BACKENDTYPES_H

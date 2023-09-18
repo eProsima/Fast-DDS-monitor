@@ -32,6 +32,7 @@
 #include <QWaitCondition>
 
 #include <fastdds_monitor/backend/Callback.h>
+#include <fastdds_monitor/backend/ProblemCallback.h>
 #include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
@@ -349,6 +350,19 @@ public:
             backend::Callback callback);
 
     /**
+     * @brief add a callback arrived from the backend to the callback queue
+     *
+     * Add a callback to the callback queue in order to process it afterwards by the main thread.
+     * Emit a signal that communicate the main thread that there are info to process in the callback queue.
+     * Add a callback issue.
+     *
+     * @param callback new callback to add
+     * @return true
+     */
+    bool add_callback(
+            backend::ProblemCallback callback);
+
+    /**
      * @brief Refresh the view
      *
      * Erase the last entity clicked, and set it as \c ID_ALL so the info shown does nor reference any single entity.
@@ -389,6 +403,14 @@ public:
      * updated in the view when modified.
      */
     void process_callback_queue();
+
+    /**
+     * @brief Pop problem callbacks from the callback queues while non empty and update the models
+     *
+     * @warning This method must be executed from the main Thread (or at least a QThread) so the models are
+     * updated in the view when modified.
+     */
+    void process_problem_callback_queue();
 
     //! Refresh summary panel
     void refresh_summary();
@@ -507,13 +529,25 @@ signals:
      */
     void new_callback_signal();
 
+    /**
+     * Internal signal that communicate that there are callbacks to process by the main Thread.
+     * Arise from \c add_callback
+     */
+    void new_problem_callback_signal();
+
 public slots:
 
     /**
-     * Receive the internal signal \c new_callback_signal and start the process of
+     * Receive the internal signal \c new_callback_signal and start the process of problem
      * callback queue by \c process_callback_queue
      */
     void new_callback_slot();
+
+    /**
+     * Receive the internal signal \c new_problem_callback_signal and start the process of
+     * callback queue by \c process_problem_callback_queue
+     */
+    void new_problem_callback_slot();
 
 protected:
 
@@ -570,6 +604,13 @@ protected:
      */
     bool fill_status_();
 
+    /**
+     * @brief Clear and fill the Problem Model
+     *
+     * @return true if any change in any model has been done
+     */
+    bool fill_problem_();
+
     //! Add a new callback message to the Log model
     bool add_log_callback_(
             std::string callback,
@@ -608,6 +649,16 @@ protected:
      */
     void generate_new_status_info_();
 
+    /**
+     * Generates a new problem info model from the main schema
+     * The Problem model schema has:
+     * - "Entities" tag that has:
+     *   - "Status" tag - to display and count if error or warning problem detected
+     *   - "ProblemName" tag - to display the problem definition
+     *   - "ProblemDescription" tag - to display the information about the problem
+     */
+    void generate_new_problem_info_();
+
     //! Update the issue model "Entities" count adding \c n
     void sum_entity_number_issue(
             int n);
@@ -633,12 +684,22 @@ protected:
     //! True if there are callbacks in the callback queue
     bool are_callbacks_to_process_();
 
+    //! True if there are problem callbacks in the callback queue
+    bool are_problem_callbacks_to_process_();
+
     //! Pop a callback from callback queues and call \c read_callback for that callback
     bool process_callback_();
+
+    //! Pop a problem callback from callback queues and call \c read_callback for that problem callback
+    bool process_problem_callback_();
 
     //! Update the model concerned by the entity in the callback
     bool read_callback_(
             backend::Callback callback);
+
+    //! Update the model concerned by the entity in the problem callback
+    bool read_callback_(
+            backend::ProblemCallback callback);
 
     //! Common method to demultiplex to update functions depending on the entity kind
     bool update_entity_generic(
@@ -695,6 +756,12 @@ protected:
     //! Data that is represented in the Status Model when this model is refreshed
     backend::Info status_info_;
 
+    //! Data Model for Fast DDS Monitor problem view. Collects all entities problems detected by the monitor service
+    models::TreeModel* problem_model_;
+
+    //! Data that is represented in the problem model when this model is refreshed
+    backend::Info problem_info_;
+
     //! TODO
     models::ListModel* source_entity_id_model_;
 
@@ -722,8 +789,14 @@ protected:
     //! Mutex to protect \c callback_queue_
     std::recursive_mutex callback_queue_mutex_;
 
+    //! Mutex to protect \c problem_callback_queue_
+    std::recursive_mutex problem_callback_queue_mutex_;
+
     //! Queue of Callbacks that have arrived by the \c Listener and have not been processed
     QQueue<backend::Callback> callback_queue_;
+
+    //! Queue of Problem Callbacks that have arrived by the \c Listener and have not been processed
+    QQueue<backend::ProblemCallback> problem_callback_queue_;
 
     //! Object that manage all the communications with the QML view
     Controller* controller_;

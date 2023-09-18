@@ -87,6 +87,11 @@ QObject* Engine::enable()
     generate_new_status_info_();
     fill_status_();
 
+    // Creates a default json structure for problems and fills the tree model with it
+    problem_model_ = new models::TreeModel();
+    generate_new_problem_info_();
+    fill_problem_();
+
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
@@ -109,6 +114,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("issueModel", issue_model_);
     rootContext()->setContextProperty("logModel", log_model_);
     rootContext()->setContextProperty("statusModel", status_model_);
+    rootContext()->setContextProperty("problemModel", problem_model_);
 
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
@@ -184,6 +190,11 @@ Engine::~Engine()
         if (status_model_)
         {
             delete status_model_;
+        }
+
+        if (problem_model_)
+        {
+            delete problem_model_;
         }
 
         // Auxiliar models
@@ -332,6 +343,12 @@ bool Engine::fill_status_()
     return true;
 }
 
+bool Engine::fill_problem_()
+{
+    problem_model_->update(problem_info_);
+    return true;
+}
+
 void Engine::generate_new_issue_info_()
 {
     EntityInfo info;
@@ -359,6 +376,22 @@ void Engine::generate_new_status_info_()
     info["Entities"]["Entities"] = 0;
 
     status_info_ = info;
+}
+
+void Engine::generate_new_problem_info_()
+{
+    EntityInfo info;
+    /* - "Entities" tag that has:
+     *   - "Status" tag - to display and count if error or warning problem detected
+     *   - "ProblemName" tag - to display the problem definition
+     *   - "ProblemDescription" tag - to display the information about the problem
+     */
+    info["Entities"] = EntityInfo();
+    info["Entities"]["Status"] = 0/*Status::OK*/;
+    info["Entities"]["ProblemName"] = "";
+    info["Entities"]["ProblemDescription"] = "";
+
+    problem_info_ = info;
 }
 
 void Engine::sum_entity_number_issue(
@@ -833,10 +866,25 @@ void Engine::process_callback_queue()
     }
 }
 
+void Engine::process_problem_callback_queue()
+{
+    // It iterates while run_ is activate and the queue has elements
+    while (!problem_callback_queue_.empty())
+    {
+        process_problem_callback_();
+    }
+}
+
 bool Engine::are_callbacks_to_process_()
 {
     std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
     return callback_queue_.empty();
+}
+
+bool Engine::are_problem_callbacks_to_process_()
+{
+    std::lock_guard<std::recursive_mutex> ml(problem_callback_queue_mutex_);
+    return problem_callback_queue_.empty();
 }
 
 bool Engine::add_callback(
@@ -851,9 +899,26 @@ bool Engine::add_callback(
     return true;
 }
 
+bool Engine::add_callback(
+        backend::ProblemCallback problem_callback)
+{
+    std::lock_guard<std::recursive_mutex> ml(problem_callback_queue_mutex_);
+    problem_callback_queue_.append(problem_callback);
+
+    // Emit signal to specify there are new data
+    emit new_problem_callback_signal();
+
+    return true;
+}
+
 void Engine::new_callback_slot()
 {
     process_callback_queue();
+}
+
+void Engine::new_problem_callback_slot()
+{
+    process_problem_callback_queue();
 }
 
 bool Engine::process_callback_()
@@ -869,6 +934,21 @@ bool Engine::process_callback_()
     qDebug() << "Processing callback: " << backend::backend_id_to_models_id(first_callback.entity_id);
 
     return read_callback_(first_callback);
+}
+
+bool Engine::process_problem_callback_()
+{
+    backend::ProblemCallback first_problem_callback;
+
+    {
+        std::lock_guard<std::recursive_mutex> ml(problem_callback_queue_mutex_);
+        first_problem_callback = problem_callback_queue_.front();
+        problem_callback_queue_.pop_front();
+    }
+
+    qDebug() << "Processing problem callback: " << backend::backend_id_to_models_id(first_problem_callback.entity_id);
+
+    return read_callback_(first_problem_callback);
 }
 
 bool Engine::read_callback_(
@@ -895,6 +975,22 @@ bool Engine::read_callback_(
 
     return update_entity_generic(
         callback.entity_id, callback.entity_kind, callback.is_update);
+}
+
+bool Engine::read_callback_(
+        backend::ProblemCallback problem_callback)
+{
+    // It should not read callbacks while a domain is being initialized
+    std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
+    // TODO add get_data and process status here
+    std::cout << "Problem callback received: " << std::endl;
+    std::cout << "  DomainEntityID: " << problem_callback.domain_entity_id.value() << std::endl;
+    std::cout << "  EntityID: " << problem_callback.entity_id.value() << std::endl;
+    std::cout << "  DataKind: " << backend::data_kind_to_string(problem_callback.data_kind) << std::endl;
+    static_cast<void>(problem_callback);
+
+    return true;
 }
 
 bool Engine::update_entity_generic(

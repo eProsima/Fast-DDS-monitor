@@ -91,6 +91,12 @@ public:
             EntityId datawriter_id,
             const Status& status) override;
 
+    //! Callback when a problem is reported
+    void on_problem_reported(
+            EntityId domain_id,
+            EntityId entity_id,
+            DataKind data_kind) override;
+
 protected:
 
     //! Engine reference
