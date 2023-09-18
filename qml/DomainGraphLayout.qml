@@ -1316,7 +1316,7 @@ Item
     function filter_model_by_topic (topic_id)
     {
         // topic id management
-        var topic_name = ""
+        var topic_names = []
         if (topic_id != "" && !filtered_topics_.includes(topic_id))
         {
             filtered_topics_[filtered_topics_.length] = topic_id;
@@ -1355,7 +1355,7 @@ Item
                             {
                                 if (filtered_topics_[i] == topic)
                                 {
-                                    topic_name = new_model["topics"][topic]["alias"]
+                                    topic_names[i] = new_model["topics"][topic]["alias"]
                                     new_topics[new_topics.length] = {
                                         "id":topic,
                                         "kind":"Topic",
@@ -1512,9 +1512,26 @@ Item
         }
 
         // Update tab name with selected domain id
-        if (topic_id != "")
+        if (filtered_topics_.length > 0)
         {
-            domainGraphLayout.update_tab_name(topic_name + " Topic View")
+            if (filtered_topics_.length == 1)
+            {
+                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View")
+            }
+            else
+            {
+                var print_topic_names = topic_names[0]
+                for (var i = 1; i < topic_names.length -1; i++)
+                {
+                    print_topic_names += ", " + topic_names[i]
+                }
+                if (print_topic_names.length-1 > 0)
+                {
+                    print_topic_names += " and " + topic_names[topic_names.length-1]
+                }
+
+                domainGraphLayout.update_tab_name(print_topic_names + " Topics View")
+            }
         }
         else
         {
