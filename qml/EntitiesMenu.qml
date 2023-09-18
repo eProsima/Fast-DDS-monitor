@@ -7,12 +7,17 @@ import Theme 1.0
  */
 Menu {
     id: entitiesMenu
+    property string domainEntityId: ""
     property string entityId: ""
     property string currentAlias: ""
     property string entityKind: ""
 
     MenuItem {
         text: "Change alias"
-        onTriggered: changeAlias(menu.entityId, menu.currentAlias, menu.entityKind)
+        onTriggered: changeAlias(menu.domainEntityId, menu.entityId, menu.currentAlias, menu.entityKind)
+    }
+    MenuItem {
+        text: "View Problems"
+        onTriggered: filterProblemLog(menu.entityId)
     }
 }

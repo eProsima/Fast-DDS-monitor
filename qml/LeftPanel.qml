@@ -40,6 +40,9 @@ RowLayout {
     signal explorerPhysicalChanged(bool status)
     signal explorerLogicalChanged(bool status)
     signal explorerEntityInfoChanged(bool status)
+    signal open_topic_view(string domainEntityId, string domainId, string entityId)
+    signal refresh_domain_graph_view(string domainEntityId, string entityId)
+    signal filter_problem_log(string entityId)
 
     MonitoringPanel {
         id: monitoringPanel
@@ -65,24 +68,50 @@ RowLayout {
         id: entitiesMenu
     }
 
+    TopicMenu {
+        id: topicMenu
+    }
+
     IssuesPanel {
         id: issuesPanel
         Layout.fillHeight: true
         visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Issues]) ? true : false
     }
 
-    function changeAlias(entityId, currentAlias, entityKind) {
+    function changeAlias(domainEntityId, entityId, currentAlias, entityKind) {
+        aliasDialog.domainEntityId = domainEntityId
         aliasDialog.entityId = entityId
         aliasDialog.currentAlias = currentAlias
         aliasDialog.entityKind = entityKind
         aliasDialog.open()
     }
 
-    function openEntitiesMenu(entityId, currentAlias, entityKind) {
+    function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind) {
+        entitiesMenu.domainEntityId = domainEntityId
         entitiesMenu.entityId = entityId
         entitiesMenu.currentAlias = currentAlias
         entitiesMenu.entityKind = entityKind
         entitiesMenu.popup()
+    }
+
+    function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind) {
+        topicMenu.domainEntityId = domainEntityId
+        topicMenu.domainId = domainId
+        topicMenu.entityId = entityId
+        topicMenu.currentAlias = currentAlias
+        topicMenu.entityKind = entityKind
+        topicMenu.popup()
+    }
+
+    function openTopicView(domainEntityId, domainId, entityId) {
+        leftPanel.open_topic_view(domainEntityId, domainId, entityId)
+    }
+
+    function refreshDomainGraphView(domainEntityId, entityId) {
+        leftPanel.refresh_domain_graph_view(domainEntityId, entityId)
+    }
+    function filterProblemLog(entityId){
+        leftPanel.filter_problem_log(entityId)
     }
 
     function expandAll(view, model) {

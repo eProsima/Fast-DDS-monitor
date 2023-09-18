@@ -23,6 +23,7 @@
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/Listener.h>
@@ -146,6 +147,42 @@ public:
             EntityId target_entity_id,
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
+
+    void get_status_data(
+            EntityId source_entity_id,
+            ConnectionListSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            DeadlineMissedSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            IncompatibleQosSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            InconsistentTopicSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            LivelinessChangedSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            LivelinessLostSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            ProxySample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            SampleLostSample& sample);
+
+    /*void get_status_data(
+            EntityId source_entity_id,
+            StatusesSizeSample& sample);*/
 
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(

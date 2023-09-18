@@ -33,14 +33,31 @@ namespace backend {
 using EntityId = eprosima::statistics_backend::EntityId;
 using EntityKind = eprosima::statistics_backend::EntityKind;
 using DataKind = eprosima::statistics_backend::DataKind;
+using StatusKind = eprosima::statistics_backend::StatusKind;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
 using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
+
+// Problem status types from backend
+using ConnectionListSample = eprosima::statistics_backend::ConnectionListSample;
+using DeadlineMissedSample = eprosima::statistics_backend::DeadlineMissedSample;
+using IncompatibleQosSample = eprosima::statistics_backend::IncompatibleQosSample;
+using InconsistentTopicSample = eprosima::statistics_backend::InconsistentTopicSample;
+using LivelinessChangedSample = eprosima::statistics_backend::LivelinessChangedSample;
+using LivelinessLostSample = eprosima::statistics_backend::LivelinessLostSample;
+using ProxySample = eprosima::statistics_backend::ProxySample;
+using SampleLostSample = eprosima::statistics_backend::SampleLostSample;
+//using StatusesSizeSample = eprosima::statistics_backend::StatusesSizeSample;
 
 //! Reference the ID_ALL in the project
 extern const EntityId ID_ALL;
 //! Reference the ID_NONE in the project
 extern const EntityId ID_NONE;
+
+//! Reference for problem status (ok, error or warning)
+static constexpr const char* PROBLEM_STATUS_ERROR = "error";
+static constexpr const char* PROBLEM_STATUS_OK = "ok";
+static constexpr const char* PROBLEM_STATUS_WARNING = "warning";
 
 } //namespace backend
 
