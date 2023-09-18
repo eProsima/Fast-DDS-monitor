@@ -52,6 +52,13 @@ Item
     readonly property int expand_rotation_angle_: 90
     readonly property int collapse_rotation_angle_: -90
 
+
+ property int spacingIconLabel: 8
+    property int iconSize: 18
+    property int firstIndentation: 5
+    property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
+
+
     TabView {
         id: tab_view
         anchors.top: parent.top
@@ -64,10 +71,154 @@ Item
 
                 color: "white"
 
-                Text {
+                /*Text {
                     anchors.top: parent.top; anchors.topMargin: elements_spacing_
                     anchors.left: parent.left; anchors.leftMargin: elements_spacing_
                     text: "There are no issues"
+                }*/
+
+                ListView {
+                    id: entityList
+                    model: domainModel
+                    delegate: entityListDelegate
+                    clip: true
+                    width: parent.width
+                    height: parent.height
+                    spacing: elements_spacing_
+                    boundsBehavior: Flickable.StopAtBounds
+
+                    ScrollBar.vertical: CustomScrollBar {
+                        id: scrollBar
+                    }
+
+                    Component {
+                        id: entityListDelegate
+
+                        Item {
+                            id: entityItem
+                            width: entityList.width
+                            height: entityListColumn.childrenRect.height
+
+                            property var entityId: id
+                            property var entityName: name
+                            property int entityIdx: index
+                            property var problemList: problemList
+
+                            Column {
+                                id: entityListColumn
+
+                                Rectangle {
+                                    id: entityHighlightRect
+                                    width: statusLayout.width
+                                    height: entityIcon.height
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                                        onDoubleClicked: {
+                                            if(problemList.height === problemList.collapseHeightFlag) {
+                                                problemList.height = 0;
+                                            } else {
+                                                if (problemList.childrenRect.height != 0) {
+                                                    problemList.height = problemList.collapseHeightFlag;
+                                                }
+                                            }
+                                        }
+                                        onClicked: {
+                                            if(mouse.button & Qt.LeftButton) {
+                                                //controller.domain_click(id)
+                                            }
+                                        }
+                                    }
+
+                                    RowLayout {
+                                        spacing: spacingIconLabel
+
+                                        IconSVG {
+                                            id: entityIcon
+                                            name: "issues"
+                                            size: iconSize
+                                            Layout.leftMargin: firstIndentation
+                                        }
+                                        Label {
+                                            text: name
+                                        }
+                                    }
+                                }
+
+                                ListView {
+                                    id: problemList
+                                    model: entityList.model.subModelFromEntityId(entityId)
+                                    width: entityList.width
+                                    height: 0
+                                    contentHeight: contentItem.childrenRect.height
+                                    clip: true
+                                    spacing: elements_spacing_
+                                    topMargin: elements_spacing_
+                                    delegate: problemListDelegate
+                                    boundsBehavior: Flickable.StopAtBounds
+
+                                    property int collapseHeightFlag: childrenRect.height + problemList.topMargin
+                                }
+
+                                Component {
+                                    id: problemListDelegate
+
+                                    Item {
+                                        id: problemItem
+                                        width: problemListColumn.width
+                                        height: problemListColumn.childrenRect.height
+
+                                        property int problemIdx: index
+
+                                        ListView.onAdd: {
+                                            if(problemList.height != 0) {
+                                                problemList.height = problemList.collapseHeightFlag
+                                            }
+                                        }
+
+                                        Column {
+                                            id: problemListColumn
+
+                                            Rectangle {
+                                                id: problemHighlightRect
+                                                width: statusLayout.width
+                                                height: problemIcon.height
+
+                                                MouseArea {
+                                                    anchors.fill: parent
+                                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                                                    onClicked: {
+                                                        if(mouse.button & Qt.RightButton) {
+                                                            openTopicMenu(entityId, entityName, id, name, kind)
+                                                        } else {
+                                                            controller.problem_click(id)
+                                                        }
+                                                    }
+                                                }
+
+                                                RowLayout {
+                                                    spacing: spacingIconLabel
+
+                                                    IconSVG {
+                                                        id: problemIcon
+                                                        name: "issues"
+                                                        size: iconSize
+                                                        Layout.leftMargin: secondIndentation
+                                                    }
+                                                    Label {
+                                                        text: name
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
