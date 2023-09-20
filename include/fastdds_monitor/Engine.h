@@ -497,7 +497,7 @@ public:
 
     //! Request to backend the latest domain view JSON to build the graph
     backend::Graph get_domain_view_graph (
-        const backend::EntityId& domain_id);
+            const backend::EntityId& domain_id);
 
 signals:
 

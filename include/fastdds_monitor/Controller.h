@@ -263,7 +263,7 @@ public slots:
 
     //! Request to backend the latest domain view JSON to build the graph
     QString get_domain_view_graph (
-        QString domain_id);
+            QString domain_id);
 
 signals:
 
