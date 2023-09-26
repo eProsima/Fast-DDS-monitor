@@ -41,18 +41,18 @@ struct ProblemCallback
     ProblemCallback(
             backend::EntityId domain_entity_id,
             backend::EntityId entity_id,
-            backend::DataKind data_kind)
+            backend::StatusKind status_kind)
         : domain_entity_id(domain_entity_id)
         , entity_id(entity_id)
-        , data_kind(data_kind)
+        , status_kind(status_kind)
     {
     }
     //! Information of the domain \c EntityId the callback refers
     backend::EntityId domain_entity_id;
     //! Information of the \c EntityId the callback refers
     backend::EntityId entity_id;
-    //! Information of the \c DataKind the callback refers
-    backend::DataKind data_kind;
+    //! Information of the \c StatusKind the callback refers
+    backend::StatusKind status_kind;
 };
 
 } // namespace backend

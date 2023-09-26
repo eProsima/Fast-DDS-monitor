@@ -681,6 +681,14 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     }
 }
 
+void SyncBackendConnection::get_status_data(
+        EntityId entity_id,
+        backend::IncompatibleQosSample sample)
+{
+    return StatisticsBackend::get_status_data(entity_id, sample);
+}
+
+
 void SyncBackendConnection::dump(
         const std::string file,
         bool clear)

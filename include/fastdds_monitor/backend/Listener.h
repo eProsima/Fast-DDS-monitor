@@ -95,7 +95,7 @@ public:
     void on_problem_reported(
             EntityId domain_id,
             EntityId entity_id,
-            DataKind data_kind) override;
+            StatusKind data_kind) override;
 
 protected:
 

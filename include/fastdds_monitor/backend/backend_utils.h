@@ -87,6 +87,10 @@ std::string data_kind_to_string(
 std::string statistic_kind_to_string(
         const StatisticKind& statistic_kind);
 
+//! Converts the \c StatusKind to string
+std::string status_kind_to_string(
+        const StatusKind& status_kind);
+
 //! Retrieves the \c EntityKind related with its name in QString
 backend::EntityKind string_to_entity_kind(
         const QString& entity_kind);

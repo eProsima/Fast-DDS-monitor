@@ -133,6 +133,12 @@ QObject* Engine::enable()
         this,
         &Engine::new_callback_slot);
 
+    QObject::connect(
+        this,
+        &Engine::new_problem_callback_signal,
+        this,
+        &Engine::new_problem_callback_slot);
+
     // Set enable as True
     enabled_ = true;
 
@@ -987,9 +993,24 @@ bool Engine::read_callback_(
     std::cout << "Problem callback received: " << std::endl;
     std::cout << "  DomainEntityID: " << problem_callback.domain_entity_id.value() << std::endl;
     std::cout << "  EntityID: " << problem_callback.entity_id.value() << std::endl;
-    std::cout << "  DataKind: " << backend::data_kind_to_string(problem_callback.data_kind) << std::endl;
-    static_cast<void>(problem_callback);
+    std::cout << "  StatusKind: " << backend::status_kind_to_string(problem_callback.status_kind) << std::endl;
 
+    // switch to get the status kind data sample
+    switch (problem_callback.status_kind)
+    {
+        case backend::StatusKind::INCOMPATIBLE_QOS:
+        {
+            backend::IncompatibleQosSample sample;
+            backend_connection_.get_status_data(problem_callback.entity_id, sample);
+            // TODO introduce data in the model
+            break;
+        }
+        default:
+        {
+            std::cout << "ERROR: unexpected data kind." << std::endl;
+            break;
+        }
+    }
     return true;
 }
 

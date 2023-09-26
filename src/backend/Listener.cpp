@@ -172,10 +172,11 @@ void Listener::on_topic_discovery(
 void Listener::on_problem_reported(
         EntityId domain_id,
         EntityId entity_id,
-        DataKind data_kind)
+        StatusKind status_kind)
 {
-    qDebug() << "Problem reported"; // TODO add more info in this debug message
-    engine_->add_callback(ProblemCallback(domain_id, entity_id, data_kind));
+    qDebug() << "PROBLEM REPORTED OF " << backend::backend_id_to_models_id(entity_id)
+            << " IN DOMAIN " << backend::backend_id_to_models_id(domain_id);
+    engine_->add_callback(ProblemCallback(domain_id, entity_id, status_kind));
 }
 
 } //namespace backend

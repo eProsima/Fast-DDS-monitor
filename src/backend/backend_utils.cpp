@@ -123,6 +123,35 @@ std::string statistic_kind_to_string(
     }
 }
 
+std::string status_kind_to_string(
+        const StatusKind& status_kind)
+{
+    switch (status_kind)
+    {
+        case StatusKind::CONNECTION_LIST:
+            return "CONNECTION_LIST";
+        case StatusKind::DEADLINE_MISSED:
+            return "DEADLINE_MISSED";
+        case StatusKind::INCOMPATIBLE_QOS:
+            return "INCOMPATIBLE_QOS";
+        case StatusKind::INCONSISTENT_TOPIC:
+            return "INCONSISTENT_TOPIC";
+        case StatusKind::LIVELINESS_CHANGED:
+            return "LIVELINESS_CHANGED";
+        case StatusKind::LIVELINESS_LOST:
+            return "LIVELINESS_LOST";
+        case StatusKind::PROXY:
+            return "PROXY";
+        case StatusKind::SAMPLE_LOST:
+            return "SAMPLE_LOST";
+        case StatusKind::STATUSES_SIZE:
+            return "STATUSES_SIZE";
+        case StatusKind::INVALID:
+        default:
+            return "INVALID";
+    }
+}
+
 std::string data_kind_to_string(
         const DataKind& data_kind)
 {

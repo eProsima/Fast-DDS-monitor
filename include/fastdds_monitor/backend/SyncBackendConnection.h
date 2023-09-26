@@ -23,6 +23,7 @@
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/Listener.h>
@@ -133,6 +134,11 @@ public:
             StatisticKind statistic_kind = StatisticKind::NONE,
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
+
+    //! Get data from the backend with specific paramenters calling backend \c get_status_data
+    void get_status_data(
+            EntityId entity_id,
+            backend::IncompatibleQosSample sample);
 
     //! Dump Backend's database to a file
     void dump(
