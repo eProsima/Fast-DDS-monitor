@@ -34,7 +34,6 @@
 #include <fastdds_monitor/backend/Callback.h>
 #include <fastdds_monitor/backend/ProblemCallback.h>
 #include <fastdds_monitor/backend/Listener.h>
-#include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
@@ -604,13 +603,6 @@ protected:
      */
     bool fill_status_();
 
-    /**
-     * @brief Clear and fill the Problem Model
-     *
-     * @return true if any change in any model has been done
-     */
-    bool fill_problem_();
-
     //! Add a new callback message to the Log model
     bool add_log_callback_(
             std::string callback,
@@ -648,16 +640,6 @@ protected:
      *   - "Entities" tag - to show the number of entities discovered
      */
     void generate_new_status_info_();
-
-    /**
-     * Generates a new problem info model from the main schema
-     * The Problem model schema has:
-     * - "Entities" tag that has:
-     *   - "Status" tag - to display and count if error or warning problem detected
-     *   - "ProblemName" tag - to display the problem definition
-     *   - "ProblemDescription" tag - to display the information about the problem
-     */
-    void generate_new_problem_info_();
 
     //! Update the issue model "Entities" count adding \c n
     void sum_entity_number_issue(
@@ -757,7 +739,7 @@ protected:
     backend::Info status_info_;
 
     //! Data Model for Fast DDS Monitor problem view. Collects all entities problems detected by the monitor service
-    models::TreeModel* problem_model_;
+    models::ProblemListModel* problem_model_;
 
     //! Data that is represented in the problem model when this model is refreshed
     backend::Info problem_info_;

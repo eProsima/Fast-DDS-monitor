@@ -33,6 +33,7 @@
 #include <fastdds_monitor/model/dds/ParticipantModelItem.h>
 #include <fastdds_monitor/model/logical/DomainModelItem.h>
 #include <fastdds_monitor/model/physical/HostModelItem.h>
+#include <fastdds_monitor/model/status/EntityProblemModelItem.h>
 #include <fastdds_monitor/model/statistics/EntityItem.h>
 #include <fastdds_monitor/model/SubListedListItem.h>
 #include <fastdds_monitor/model/SubListedListModel.h>
@@ -87,10 +88,7 @@ QObject* Engine::enable()
     generate_new_status_info_();
     fill_status_();
 
-    // Creates a default json structure for problems and fills the tree model with it
-    problem_model_ = new models::TreeModel();
-    generate_new_problem_info_();
-    fill_problem_();
+    problem_model_ = new models::ProblemSubListedListModel(new models::EntityProblemModelItem());
 
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
@@ -349,12 +347,6 @@ bool Engine::fill_status_()
     return true;
 }
 
-bool Engine::fill_problem_()
-{
-    problem_model_->update(problem_info_);
-    return true;
-}
-
 void Engine::generate_new_issue_info_()
 {
     EntityInfo info;
@@ -382,22 +374,6 @@ void Engine::generate_new_status_info_()
     info["Entities"]["Entities"] = 0;
 
     status_info_ = info;
-}
-
-void Engine::generate_new_problem_info_()
-{
-    EntityInfo info;
-    /* - "Entities" tag that has:
-     *   - "Status" tag - to display and count if error or warning problem detected
-     *   - "ProblemName" tag - to display the problem definition
-     *   - "ProblemDescription" tag - to display the information about the problem
-     */
-    info["Entities"] = EntityInfo();
-    info["Entities"]["Status"] = 0/*Status::OK*/;
-    info["Entities"]["ProblemName"] = "";
-    info["Entities"]["ProblemDescription"] = "";
-
-    problem_info_ = info;
 }
 
 void Engine::sum_entity_number_issue(
@@ -995,23 +971,13 @@ bool Engine::read_callback_(
     std::cout << "  EntityID: " << problem_callback.entity_id.value() << std::endl;
     std::cout << "  StatusKind: " << backend::status_kind_to_string(problem_callback.status_kind) << std::endl;
 
-    // switch to get the status kind data sample
-    switch (problem_callback.status_kind)
-    {
-        case backend::StatusKind::INCOMPATIBLE_QOS:
-        {
-            backend::IncompatibleQosSample sample;
-            backend_connection_.get_status_data(problem_callback.entity_id, sample);
-            // TODO introduce data in the model
-            break;
-        }
-        default:
-        {
-            std::cout << "ERROR: unexpected data kind." << std::endl;
-            break;
-        }
-    }
-    return true;
+    return backend_connection_.update_problem_model(
+            problem_model_,
+            problem_callback.entity_id,
+            problem_callback.domain_entity_id,
+            problem_callback.status_kind,
+            inactive_visible(),
+            metatraffic_visible());
 }
 
 bool Engine::update_entity_generic(

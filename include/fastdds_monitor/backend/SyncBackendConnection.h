@@ -33,6 +33,7 @@
 #include <fastdds_monitor/model/physical/ProcessModelItem.h>
 #include <fastdds_monitor/model/physical/UserModelItem.h>
 #include <fastdds_monitor/model/SubListedListModel.h>
+#include <fastdds_monitor/model/status/ProblemSubListedListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 
 
@@ -135,11 +136,6 @@ public:
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
 
-    //! Get data from the backend with specific paramenters calling backend \c get_status_data
-    void get_status_data(
-            EntityId entity_id,
-            backend::IncompatibleQosSample sample);
-
     //! Dump Backend's database to a file
     void dump(
             const std::string file,
@@ -213,6 +209,11 @@ protected:
     //! Create a new \c ListItem of class \c Locator related with the backend entity with id \c id
     ListItem* create_locator_data_(
             backend::EntityId id);
+
+    //! Create a new \c ProblemListItem of class \c EntityProblem related with the backend entity with id \c id
+    ProblemListItem* create_entity_problem_data_(
+            backend::EntityId id,
+            backend::StatusKind kind);
 
     /************
      * GET DATA *
@@ -475,6 +476,21 @@ public:
             bool inactive_visible,
             bool metatraffic_visible);
 
+    /**
+     * @brief Update the problem item and their subentities with backend information
+     *
+     * Regenerate the info of this item from the info in the backend.
+     * Update every subentity.
+     *
+     * @param problem_item problem item to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_entity_problem_item(
+            ProblemListItem* problem_item,
+            backend::StatusKind kind,
+            bool inactive_visible,
+            bool metatraffic_visible);
+
 protected:
 
     bool update_item_(
@@ -490,6 +506,13 @@ protected:
     bool update_item_info_(
             ListItem* item);
 
+    bool update_problem_item_(
+        ProblemListItem* item,
+        StatusKind kind,
+        bool (SyncBackendConnection::* update_function)(ProblemListItem*, StatusKind, bool, bool),
+        bool inactive_visible,
+        bool metatraffic_visible);
+
     //! General method to encapsulate the common funcionality of \c update_*_model methods refering to models update
     bool update_model_(
         models::ListModel* model,
@@ -497,6 +520,16 @@ protected:
         EntityId id,
         bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
         models::ListItem* (SyncBackendConnection::* create_function)(EntityId),
+        bool inactive_visible,
+        bool metatraffic_visible);
+
+    bool update_problem_model_(
+        models::ProblemListModel* problem_model,
+        EntityId id,
+        EntityId domain_id,
+        StatusKind kind,
+        bool (SyncBackendConnection::* update_function)(ProblemListItem*, StatusKind, bool, bool),
+        ProblemListItem* (SyncBackendConnection::* create_function)(EntityId, StatusKind),
         bool inactive_visible,
         bool metatraffic_visible);
 
@@ -578,6 +611,14 @@ public:
             bool inactive_visible,
             bool metatraffic_visible,
             bool last_clicked);
+
+    bool update_problem_model(
+            models::ProblemListModel* problem_model,
+            EntityId id,
+            EntityId domain_id,
+            StatusKind kind,
+            bool inactive_visible,
+            bool metatraffic_visible);
 
     //! Set a new alias in backend
     void set_alias(

@@ -42,6 +42,10 @@
 #include <fastdds_monitor/model/physical/ProcessModelItem.h>
 #include <fastdds_monitor/model/physical/UserModelItem.h>
 #include <fastdds_monitor/model/statistics/EntityItem.h>
+#include <fastdds_monitor/model/status/EntityProblemModelItem.h>
+#include <fastdds_monitor/model/status/ProblemListItem.h>
+#include <fastdds_monitor/model/status/ProblemListModel.h>
+#include <fastdds_monitor/model/status/ProblemModelItem.h>
 #include <fastdds_monitor/model/SubListedListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/utils.h>
@@ -112,6 +116,73 @@ ListItem* SyncBackendConnection::create_locator_data_(
 {
     qDebug() << "Creating Locator " << backend::backend_id_to_models_id(id);
     return new LocatorModelItem(id, get_info(id));
+}
+
+ProblemListItem* SyncBackendConnection::create_entity_problem_data_(
+        EntityId id,
+        StatusKind kind)
+{
+    qDebug() << "Creating " << backend::status_kind_to_string(kind)
+            << " Problem of " << backend::backend_id_to_models_id(id);
+
+    switch (kind)
+    {
+        case backend::StatusKind::CONNECTION_LIST:
+        {
+            backend::ConnectionListSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+        case backend::StatusKind::DEADLINE_MISSED:
+        {
+            backend::DeadlineMissedSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+        case backend::StatusKind::INCOMPATIBLE_QOS:
+        {
+            backend::IncompatibleQosSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+        case backend::StatusKind::INCONSISTENT_TOPIC:
+        {
+            backend::InconsistentTopicSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+        case backend::StatusKind::LIVELINESS_CHANGED:
+        {
+            backend::LivelinessChangedSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+        case backend::StatusKind::LIVELINESS_LOST:
+        {
+            backend::LivelinessLostSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+        case backend::StatusKind::SAMPLE_LOST:
+        {
+            backend::SampleLostSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+        /*case backend::StatusKind::STATUSES_SIZE:
+        {
+            backend::StatusesSizeSample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }*/
+        case backend::StatusKind::PROXY:
+        default:
+        {
+            backend::ProxySample sample;
+            StatisticsBackend::get_status_data(id, sample);
+            return new EntityProblemModelItem(id, sample);
+        }
+    }
 }
 
 /// UPDATE PRIVATE FUNCTIONS
@@ -247,6 +318,20 @@ bool SyncBackendConnection::update_locator_item(
     return false;
 }
 
+bool SyncBackendConnection::update_entity_problem_item(
+        ProblemListItem* problem_item,
+        backend::StatusKind kind,
+        bool inactive_visible,
+        bool metatraffic_visible)
+{
+    // TODO
+    static_cast<void>(problem_item);
+    static_cast<void>(kind);
+    static_cast<void>(inactive_visible);
+    static_cast<void>(metatraffic_visible);
+    return false;
+}
+
 /// UPDATE STRUCTURE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_physical_model(
         models::ListModel* physical_model,
@@ -340,6 +425,20 @@ bool SyncBackendConnection::update_item_info_(
     return true;
 }
 
+bool SyncBackendConnection::update_problem_item_(
+        ProblemListItem* item,
+        StatusKind kind,
+        bool (SyncBackendConnection::* update_function)(ProblemListItem*, StatusKind, bool, bool),
+        bool inactive_visible,
+        bool metatraffic_visible)
+{
+    // Query for this item info and updte it
+    //item->info(get_info(item->get_entity_id()));
+    // TODO
+    item->triggerItemUpdate();
+    return (this->*update_function)(item, kind, inactive_visible, metatraffic_visible);
+}
+
 bool SyncBackendConnection::update_model_(
         ListModel* model,
         EntityKind type,
@@ -397,6 +496,71 @@ bool SyncBackendConnection::update_model_(
         {
             models::ListItem* subentity_item = model->at(index);
             changed = update_item_(subentity_item, update_function, inactive_visible, metatraffic_visible)
+                    || changed;
+        }
+    }
+
+    return changed;
+}
+
+bool SyncBackendConnection::update_problem_model_(
+        models::ProblemListModel* problem_model,
+        EntityId id,
+        EntityId /*domain_id*/,
+        StatusKind kind,
+        bool (SyncBackendConnection::* update_function)(ProblemListItem*, StatusKind, bool, bool),
+        ProblemListItem* (SyncBackendConnection::* create_function)(EntityId, StatusKind),
+        bool inactive_visible,
+        bool metatraffic_visible)
+{
+    bool changed = false;
+
+    // For each User get all processes
+    for (auto subentity_id : get_entities(get_type(id), id))
+    {
+        // Check if it exists already
+        int index = problem_model->rowIndexFromId(subentity_id);
+
+        // If it does not exist, it creates it and add a Row with it
+        // If it exists it updates its info
+        if (index == -1)
+        {
+            // Only create the new entity if is alive or inactive are visible,
+            // and if is metatraffic or metatraffic is visible
+            if ((inactive_visible || get_alive(subentity_id))
+                    && (metatraffic_visible || !is_metatraffic(subentity_id)))
+            {
+                // Creates the Item object and update its data
+                problem_model->appendRow((this->*create_function)(subentity_id, kind));
+                changed = true;
+                models::ProblemListItem* subentity_item = problem_model->find(subentity_id);
+
+                changed = update_problem_item_(subentity_item, kind, update_function, inactive_visible,
+                                metatraffic_visible) || changed;
+            }
+        }
+
+        // In case this entity is inactive and inactive are not being displayed,
+        // or if it is metatraffic and metatraffic are not being displayed, remove it
+        else if ((!inactive_visible && !get_alive(subentity_id))
+                || (!metatraffic_visible && is_metatraffic(subentity_id)))
+        {
+            models::ProblemListItem* subentity_item = problem_model->at(index);
+
+            // Remove the row
+            problem_model->removeRow(index);
+
+            // Remove its subentities and the object ListItem
+            delete subentity_item;
+
+            changed = true;
+        }
+
+        // Otherwise just update the entity
+        else
+        {
+            models::ProblemListItem* subentity_item = problem_model->at(index);
+            changed = update_problem_item_(subentity_item, kind, update_function, inactive_visible, metatraffic_visible)
                     || changed;
         }
     }
@@ -679,13 +843,6 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
 
         return std::vector<StatisticsData>();
     }
-}
-
-void SyncBackendConnection::get_status_data(
-        EntityId entity_id,
-        backend::IncompatibleQosSample sample)
-{
-    return StatisticsBackend::get_status_data(entity_id, sample);
 }
 
 
@@ -1310,6 +1467,28 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         }
     }
 }
+
+bool SyncBackendConnection::update_problem_model(
+        models::ProblemListModel* problem_model,
+        EntityId id,
+        EntityId domain_id,
+        StatusKind kind,
+        bool inactive_visible,
+        bool metatraffic_visible)
+{
+    qDebug() << "Update Problem Data";
+
+    return update_problem_model_(
+        problem_model,
+        id,
+        domain_id,
+        kind,
+        &SyncBackendConnection::update_entity_problem_item,
+        &SyncBackendConnection::create_entity_problem_data_,
+        inactive_visible,
+        metatraffic_visible);
+}
+
 
 std::string SyncBackendConnection::get_data_kind_units(
         DataKind data_kind)

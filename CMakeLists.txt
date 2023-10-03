@@ -231,6 +231,11 @@ set(PROJECT_HEADERS
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/physical/ProcessModelItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/physical/UserModelItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/statistics/EntityItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/status/EntityProblemContainerModelItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/status/ProblemListItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/status/ProblemListModel.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/status/ProblemSubListedListItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/status/ProblemSubListedListModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/SubListedListItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/SubListedListModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/TreeItem.h
@@ -260,6 +265,9 @@ set(PROJECT_SOURCES_NO_MAIN
     ${PROJECT_SOURCE_DIR}/src/model/logical/TopicModelItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/physical/ProcessModelItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/statistics/EntityItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/status/ProblemListItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/status/ProblemListModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/status/ProblemSubListedListModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/SubListedListModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeModel.cpp
