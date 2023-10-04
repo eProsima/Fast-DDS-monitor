@@ -75,7 +75,7 @@ Item
                     anchors.top: parent.top; anchors.topMargin: elements_spacing_
                     anchors.left: parent.left; anchors.leftMargin: elements_spacing_
                     text: "There are no issues"
-                }*/
+                }
 
                 ListView {
                     id: entityList
@@ -217,6 +217,47 @@ Item
                                     }
                                 }
                             }
+                        }
+                    }
+                }*/
+
+                TreeView {
+                    id: status_tree_view
+                    anchors.fill: parent
+                    model: qosModel
+                    selectionMode: SelectionMode.NoSelection
+                    frameVisible: false
+                    /*selection: ItemSelectionModel {
+                        id: item_selection_model
+                        model: qosModel
+                    }*/
+                    itemDelegate: Item {
+                        Text {
+                            anchors.fill: parent
+                            elide: styleData.elideMode
+                            text: styleData.value
+                        }
+                    }
+                    horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+
+                    TableViewColumn {
+                        width: parent.width / 2
+                        role: "name"
+                        title: "Name"
+                    }
+
+                    TableViewColumn {
+                        width: parent.width / 2
+                        role: "value"
+                        title: "Value"
+                    }
+
+                    Component.onCompleted: leftPanel.expandAll(qos_tree_view, qosModel)
+
+                    Connections {
+                        target: qosModel
+                        function onUpdatedData() {
+                            leftPanel.expandAll(qos_tree_view, qosModel)
                         }
                     }
                 }

@@ -39,7 +39,15 @@ using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
 
 // Problem status types from backend
+using ConnectionListSample = eprosima::statistics_backend::ConnectionListSample;
+using DeadlineMissedSample = eprosima::statistics_backend::DeadlineMissedSample;
 using IncompatibleQosSample = eprosima::statistics_backend::IncompatibleQosSample;
+using InconsistentTopicSample = eprosima::statistics_backend::InconsistentTopicSample;
+using LivelinessChangedSample = eprosima::statistics_backend::LivelinessChangedSample;
+using LivelinessLostSample = eprosima::statistics_backend::LivelinessLostSample;
+using ProxySample = eprosima::statistics_backend::ProxySample;
+using SampleLostSample = eprosima::statistics_backend::SampleLostSample;
+//using StatusesSizeSample = eprosima::statistics_backend::StatusesSizeSample;
 
 //! Reference the ID_ALL in the project
 extern const EntityId ID_ALL;

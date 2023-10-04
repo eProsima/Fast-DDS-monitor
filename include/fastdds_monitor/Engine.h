@@ -268,6 +268,14 @@ public:
             bool new_entity = true,
             bool last_clicked = false);
 
+    bool update_problem(
+            const backend::EntityId& id,
+            backend::Info data);
+
+    backend::Info get_sample_info(
+            backend::EntityId id,
+            backend::StatusKind kind);
+
     /**
      * @brief Update the internal dds model with entities related with Entity referenced by \c id
      *
@@ -649,16 +657,6 @@ protected:
      */
     void generate_new_status_info_();
 
-    /**
-     * Generates a new problem info model from the main schema
-     * The Problem model schema has:
-     * - "Entities" tag that has:
-     *   - "Status" tag - to display and count if error or warning problem detected
-     *   - "ProblemName" tag - to display the problem definition
-     *   - "ProblemDescription" tag - to display the information about the problem
-     */
-    void generate_new_problem_info_();
-
     //! Update the issue model "Entities" count adding \c n
     void sum_entity_number_issue(
             int n);
@@ -758,9 +756,6 @@ protected:
 
     //! Data Model for Fast DDS Monitor problem view. Collects all entities problems detected by the monitor service
     models::TreeModel* problem_model_;
-
-    //! Data that is represented in the problem model when this model is refreshed
-    backend::Info problem_info_;
 
     //! TODO
     models::ListModel* source_entity_id_model_;

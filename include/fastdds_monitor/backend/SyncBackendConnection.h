@@ -135,11 +135,6 @@ public:
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
 
-    //! Get data from the backend with specific paramenters calling backend \c get_status_data
-    void get_status_data(
-            EntityId entity_id,
-            backend::IncompatibleQosSample sample);
-
     //! Dump Backend's database to a file
     void dump(
             const std::string file,
@@ -152,6 +147,42 @@ public:
             EntityId target_entity_id,
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
+
+    void get_status_data(
+            EntityId source_entity_id,
+            ConnectionListSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            DeadlineMissedSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            IncompatibleQosSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            InconsistentTopicSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            LivelinessChangedSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            LivelinessLostSample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            ProxySample& sample);
+
+    void get_status_data(
+            EntityId source_entity_id,
+            SampleLostSample& sample);
+
+    /*void get_status_data(
+            EntityId source_entity_id,
+            StatusesSizeSample& sample);*/
 
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(

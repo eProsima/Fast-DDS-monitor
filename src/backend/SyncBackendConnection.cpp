@@ -681,14 +681,6 @@ std::vector<StatisticsData> SyncBackendConnection::get_data(
     }
 }
 
-void SyncBackendConnection::get_status_data(
-        EntityId entity_id,
-        backend::IncompatibleQosSample sample)
-{
-    return StatisticsBackend::get_status_data(entity_id, sample);
-}
-
-
 void SyncBackendConnection::dump(
         const std::string file,
         bool clear)
@@ -725,6 +717,63 @@ bool SyncBackendConnection::data_available(
         data_kind, source_entity_id, target_entity_id, 1, StatisticKind::NONE, start_time, end_time);
     return !data.empty();
 }
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        ConnectionListSample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        DeadlineMissedSample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        IncompatibleQosSample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        InconsistentTopicSample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        LivelinessChangedSample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        LivelinessLostSample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        ProxySample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
+void SyncBackendConnection::get_status_data(
+        EntityId id,
+        SampleLostSample& sample)
+{
+    StatisticsBackend::get_status_data(id, sample);
+}
+
 
 bool SyncBackendConnection::build_source_target_entities_vectors(
         DataKind data_kind,

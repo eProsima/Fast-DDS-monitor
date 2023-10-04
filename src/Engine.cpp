@@ -89,8 +89,7 @@ QObject* Engine::enable()
 
     // Creates a default json structure for problems and fills the tree model with it
     problem_model_ = new models::TreeModel();
-    generate_new_problem_info_();
-    fill_problem_();
+    update_problem(backend::ID_ALL, backend::Info());
 
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
@@ -349,12 +348,6 @@ bool Engine::fill_status_()
     return true;
 }
 
-bool Engine::fill_problem_()
-{
-    problem_model_->update(problem_info_);
-    return true;
-}
-
 void Engine::generate_new_issue_info_()
 {
     EntityInfo info;
@@ -382,22 +375,6 @@ void Engine::generate_new_status_info_()
     info["Entities"]["Entities"] = 0;
 
     status_info_ = info;
-}
-
-void Engine::generate_new_problem_info_()
-{
-    EntityInfo info;
-    /* - "Entities" tag that has:
-     *   - "Status" tag - to display and count if error or warning problem detected
-     *   - "ProblemName" tag - to display the problem definition
-     *   - "ProblemDescription" tag - to display the information about the problem
-     */
-    info["Entities"] = EntityInfo();
-    info["Entities"]["Status"] = 0/*Status::OK*/;
-    info["Entities"]["ProblemName"] = "";
-    info["Entities"]["ProblemDescription"] = "";
-
-    problem_info_ = info;
 }
 
 void Engine::sum_entity_number_issue(
@@ -989,29 +966,100 @@ bool Engine::read_callback_(
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
-    // TODO add get_data and process status here
     std::cout << "Problem callback received: " << std::endl;
     std::cout << "  DomainEntityID: " << problem_callback.domain_entity_id.value() << std::endl;
     std::cout << "  EntityID: " << problem_callback.entity_id.value() << std::endl;
     std::cout << "  StatusKind: " << backend::status_kind_to_string(problem_callback.status_kind) << std::endl;
 
-    // switch to get the status kind data sample
-    switch (problem_callback.status_kind)
+    return update_problem(problem_callback.entity_id,
+            get_sample_info(problem_callback.entity_id, problem_callback.status_kind));
+}
+
+bool Engine::update_problem(
+        const backend::EntityId& id,
+        backend::Info data)
+{
+    if (id == backend::ID_ALL)
     {
+        backend::Info default_info;
+        default_info["No data"] = "No issues found";
+        problem_model_->update(default_info);
+    }
+    else
+    {
+        problem_model_->update(data);
+    }
+    return true;
+}
+
+backend::Info Engine::get_sample_info(
+        backend::EntityId id,
+        backend::StatusKind kind)
+{
+    backend::Info data;
+    switch (kind)
+    {
+        case backend::StatusKind::CONNECTION_LIST:
+        {
+            backend::ConnectionListSample sample;
+            backend_connection_.get_status_data(id, sample);
+            /*for (eprosima::fastdds::statistics::Connection conn in sample.connection_list)
+            {
+                data["Locator"] = "HelloWorld";
+            }*/
+            break;
+        }
+        case backend::StatusKind::DEADLINE_MISSED:
+        {
+            backend::DeadlineMissedSample sample;
+            backend_connection_.get_status_data(id, sample);
+            break;
+        }
         case backend::StatusKind::INCOMPATIBLE_QOS:
         {
             backend::IncompatibleQosSample sample;
-            backend_connection_.get_status_data(problem_callback.entity_id, sample);
-            // TODO introduce data in the model
+            backend_connection_.get_status_data(id, sample);
             break;
         }
+        case backend::StatusKind::INCONSISTENT_TOPIC:
+        {
+            backend::InconsistentTopicSample sample;
+            backend_connection_.get_status_data(id, sample);
+            break;
+        }
+        case backend::StatusKind::LIVELINESS_CHANGED:
+        {
+            backend::LivelinessChangedSample sample;
+            backend_connection_.get_status_data(id, sample);
+            break;
+        }
+        case backend::StatusKind::LIVELINESS_LOST:
+        {
+            backend::LivelinessLostSample sample;
+            backend_connection_.get_status_data(id, sample);
+            break;
+        }
+        case backend::StatusKind::SAMPLE_LOST:
+        {
+            backend::SampleLostSample sample;
+            backend_connection_.get_status_data(id, sample);
+            break;
+        }
+        /*case backend::StatusKind::STATUSES_SIZE:
+        {
+            backend::StatusesSizeSample sample;
+            backend_connection_.get_status_data(id, sample);
+            break;
+        }*/
+        case backend::StatusKind::PROXY:
         default:
         {
-            std::cout << "ERROR: unexpected data kind." << std::endl;
+            backend::ProxySample sample;
+            backend_connection_.get_status_data(id, sample);
             break;
         }
     }
-    return true;
+    return data;
 }
 
 bool Engine::update_entity_generic(
