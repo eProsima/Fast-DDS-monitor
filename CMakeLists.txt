@@ -209,6 +209,8 @@ set(CMAKE_AUTORCC ON)
 # Compile program
 ###############################################################################
 set(PROJECT_HEADERS
+    ${PROJECT_SOURCE_DIR}/imports/TreeView/QMLTreeView/tree_model.h
+    ${PROJECT_SOURCE_DIR}/imports/TreeView/QMLTreeView/tree_item.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/backend_types.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/backend_utils.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/backend/Callback.h
@@ -246,6 +248,8 @@ set(PROJECT_HEADERS
 )
 
 set(PROJECT_SOURCES_NO_MAIN
+    ${PROJECT_SOURCE_DIR}/imports/TreeView/QMLTreeView/tree_model.cpp
+    ${PROJECT_SOURCE_DIR}/imports/TreeView/QMLTreeView/tree_item.cpp
     ${PROJECT_SOURCE_DIR}/src/backend/backend_utils.cpp
     ${PROJECT_SOURCE_DIR}/src/backend/Listener.cpp
     ${PROJECT_SOURCE_DIR}/src/backend/SyncBackendConnection.cpp

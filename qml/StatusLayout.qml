@@ -21,6 +21,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.15
 
+import QMLTreeView 1.0
 import Theme 1.0
 
 Item
@@ -59,7 +60,7 @@ Item
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
 
 
-    TabView {
+  /*  TabView {
         id: tab_view
         anchors.top: parent.top
         anchors.bottom: separator_line.top
@@ -70,7 +71,7 @@ Item
             Rectangle {
 
                 color: "white"
-
+*/
                 /*Text {
                     anchors.top: parent.top; anchors.topMargin: elements_spacing_
                     anchors.left: parent.left; anchors.leftMargin: elements_spacing_
@@ -221,16 +222,16 @@ Item
                     }
                 }*/
 
-                TreeView {
+                /*TreeView {
                     id: status_tree_view
                     anchors.fill: parent
                     model: problemModel
                     selectionMode: SelectionMode.NoSelection
                     frameVisible: false
-                    /*selection: ItemSelectionModel {
+                    selection: ItemSelectionModel {
                         id: item_selection_model
                         model: problemModel
-                    }*/
+                    }
                     itemDelegate: Item {
                         Text {
                             anchors.fill: parent
@@ -260,8 +261,94 @@ Item
                             leftPanel.expandAll(status_tree_view, problemModel)
                         }
                     }
+                }*/
+                TreeView {
+                    id: status_tree_view
+                    anchors.fill: parent
+                    anchors.margins: 1
+
+                    model: problemModel
+                    rowPadding: 20
+                    selectionEnabled: true
+
+                    Component.onCompleted:
+                    {
+                        console.log(JSON.stringify(problemModel, null, 2))
+                    }
+
+                    contentItem: RowLayout {
+                        Text {
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            text: currentRow.currentData.key
+                        }
+
+                        Text {
+                            Layout.fillWidth: true
+                            Layout.rightMargin: 10
+
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            text: currentRow.currentData.value ? currentRow.currentData.value : ""
+                        }
+
+                        Rectangle {
+                            width: parent.height * 0.6
+                            height: width
+                            radius: width
+                            y: width / 3
+                            color: currentRow.hasChildren ? "tomato" : "lightcoral"
+                        }
+
+                        Text {
+                            verticalAlignment: Text.AlignVCenter
+
+                            color: currentRow.isSelectedIndex ? status_tree_view.selectedItemColor : status_tree_view.color
+                            text: currentRow.currentData
+                            font: status_tree_view.font
+                        }
+                    }
+
+                    handle: Item {
+                        width: 20
+                        height: 20
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: 10
+                            height: 2
+                            color: "black"
+                            visible: currentRow.hasChildren
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: parent.height
+                                height: parent.width
+                                color: parent.color
+                                visible: parent.visible && !currentRow.expanded
+                            }
+                        }
+                    }
+
+                    highlight: Item {
+                        Rectangle {
+                            color: "pink"
+                            width: parent.width * 0.9
+                            height: parent.height
+                            anchors.left: parent.left
+                            radius: 20
+                        }
+                        Rectangle {
+                            color: "pink"
+                            width: parent.width * 0.2
+                            height: parent.height
+                            anchors.right: parent.right
+                            radius: 20
+                        }
+
+                        Behavior on y { NumberAnimation { duration: 150 }}
+                    }
                 }
-            }
+            /*}
         }
         style: TabViewStyle {
             frameOverlap: 1
@@ -361,7 +448,7 @@ Item
                 }
             }
         }
-    }
+    }*/
 
     Rectangle {
         id: separator_line

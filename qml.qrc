@@ -13,6 +13,10 @@
         <file>controls/ToolButton.qml</file>
         <file>imports/Theme/qmldir</file>
         <file>imports/Theme/Theme.qml</file>
+        <file>imports/TreeView/QMLTreeView/qmldir</file>
+        <file>imports/TreeView/QMLTreeView/treeview.qrc</file>
+        <file>imports/TreeView/QMLTreeView/TreeView.qml</file>
+        <file>imports/TreeView/QMLTreeView/TreeViewItem.qml</file>
         <file>qml/AboutDialog.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/AdaptiveMenu.qml</file>
@@ -197,5 +201,21 @@
         <file alias="help_eProsimaLightBlue.svg">resources/images/icons/help/help_eProsimaLightBlue.svg</file>
         <file alias="help_grey.svg">resources/images/icons/help/help_grey.svg</file>
         <file alias="help_white.svg">resources/images/icons/help/help_white.svg</file>
+        <file alias="left_arrow_black.svg">resources/images/icons/left_arrow/left_arrow_black.svg</file>
+        <file alias="left_arrow_eProsimaLightBlue.svg">resources/images/icons/left_arrow/left_arrow_eProsimaLightBlue.svg</file>
+        <file alias="left_arrow_grey.svg">resources/images/icons/left_arrow/left_arrow_grey.svg</file>
+        <file alias="left_arrow_white.svg">resources/images/icons/left_arrow/left_arrow_white.svg</file>
+        <file alias="right_arrow_black.svg">resources/images/icons/right_arrow/right_arrow_black.svg</file>
+        <file alias="right_arrow_eProsimaLightBlue.svg">resources/images/icons/right_arrow/right_arrow_eProsimaLightBlue.svg</file>
+        <file alias="right_arrow_grey.svg">resources/images/icons/right_arrow/right_arrow_grey.svg</file>
+        <file alias="right_arrow_white.svg">resources/images/icons/right_arrow/right_arrow_white.svg</file>
+        <file alias="rounded_left_arrow_black.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_black.svg</file>
+        <file alias="rounded_left_arrow_eProsimaLightBlue.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_eProsimaLightBlue.svg</file>
+        <file alias="rounded_left_arrow_grey.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_grey.svg</file>
+        <file alias="rounded_left_arrow_white.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_white.svg</file>
+        <file alias="rounded_right_arrow_black.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_black.svg</file>
+        <file alias="rounded_right_arrow_eProsimaLightBlue.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_eProsimaLightBlue.svg</file>
+        <file alias="rounded_right_arrow_grey.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_grey.svg</file>
+        <file alias="rounded_right_arrow_white.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_white.svg</file>
     </qresource>
 </RCC>

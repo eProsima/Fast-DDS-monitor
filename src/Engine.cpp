@@ -123,6 +123,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("controller", controller_);
 
     addImportPath(":/imports");
+    addImportPath(":/imports/TreeView");
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     // Connect Callback Listener to this object
