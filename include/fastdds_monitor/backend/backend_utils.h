@@ -112,6 +112,9 @@ backend::EntityInfo refactor_json(
 std::string timestamp_to_string(
         const backend::Timestamp timestamp);
 
+std::string policy_id_to_string(
+        const uint32_t& id);
+
 } //namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_BACKENDUTILS_H

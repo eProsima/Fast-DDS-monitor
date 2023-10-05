@@ -18,6 +18,6 @@ Menu {
     }
     MenuItem {
         text: "View Problems"
-        onTriggered: {}//todo
+        onTriggered: filterProblemLog(menu.entityId)
     }
 }

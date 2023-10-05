@@ -407,4 +407,87 @@ std::string timestamp_to_string(
     return ss.str();
 }
 
+std::string policy_id_to_string(
+        const uint32_t& id)
+{
+    switch (id)
+    {
+        case 0:     // INVALID_QOS_POLICY_ID
+        default:
+            return "INVALID";
+        case 1:     // USERDATA_QOS_POLICY_ID
+            return "UserData";
+        case 2:     // DURABILITY_QOS_POLICY_ID
+            return "Durability";
+        case 3:     // PRESENTATION_QOS_POLICY_ID
+            return "Presentation";
+        case 4:     // DEADLINE_QOS_POLICY_ID
+            return "Deadline";
+        case 5:     // LATENCYBUDGET_QOS_POLICY_ID
+            return "Latency budget";
+        case 6:     // OWNERSHIP_QOS_POLICY_ID
+            return "Ownership";
+        case 7:     // OWNERSHIPSTRENGTH_QOS_POLICY_ID
+            return "Ownership strength";
+        case 8:     // LIVELINESS_QOS_POLICY_ID
+            return "Liveliness";
+        case 9:     // TIMEBASEDFILTER_QOS_POLICY_ID
+            return "Time-based filter";
+        case 10:    // PARTITION_QOS_POLICY_ID
+            return "Partition";
+        case 11:    // RELIABILITY_QOS_POLICY_ID
+            return "Reliability";
+        case 12:    // DESTINATIONORDER_QOS_POLICY_ID
+            return "Destination order";
+        case 13:    // HISTORY_QOS_POLICY_ID
+            return "History";
+        case 14:    // RESOURCELIMITS_QOS_POLICY_ID
+            return "Resource limits";
+        case 15:    // ENTITYFACTORY_QOS_POLICY_ID
+            return "Entity factory";
+        case 16:    // WRITERDATALIFECYCLE_QOS_POLICY_ID
+            return "Writer data lifecycle";
+        case 17:    // READERDATALIFECYCLE_QOS_POLICY_ID
+            return "Reader data lifecycle";
+        case 18:    // TOPICDATA_QOS_POLICY_ID
+            return "Topic data";
+        case 19:    // GROUPDATA_QOS_POLICY_ID
+            return "Group data";
+        case 20:    // TRANSPORTPRIORITY_QOS_POLICY_ID
+            return "Transport priority";
+        case 21:    // LIFESPAN_QOS_POLICY_ID
+            return "Lifespan";
+        case 22:    // DURABILITYSERVICE_QOS_POLICY_ID
+            return "Durability service";
+        case 23:    // DATAREPRESENTATION_QOS_POLICY_ID
+            return "Data representation";
+        case 24:    // TYPECONSISTENCYENFORCEMENT_QOS_POLICY_ID
+            return "Type consistency enforcement";
+        case 25:    // DISABLEPOSITIVEACKS_QOS_POLICY_ID
+            return "Disable positive acks";
+        case 26:    // PARTICIPANTRESOURCELIMITS_QOS_POLICY_ID
+            return "Participant resource limits";
+        case 27:    // PROPERTYPOLICY_QOS_POLICY_ID
+            return "Property policy";
+        case 28:    // PUBLISHMODE_QOS_POLICY_ID
+            return "Publish mode";
+        case 29:    // READERRESOURCELIMITS_QOS_POLICY_ID
+            return "Reader resource limits";
+        case 30:    // RTPSENDPOINT_QOS_POLICY_ID
+            return "RTPS endpoint";
+        case 31:    // RTPSRELIABLEREADER_QOS_POLICY_ID
+            return "RTPS reliable reader";
+        case 32:    // RTPSRELIABLEWRITER_QOS_POLICY_ID
+            return "RTPS reliable writer";
+        case 33:    // TRANSPORTCONFIG_QOS_POLICY_ID
+            return "Transport config";
+        case 34:    // TYPECONSISTENCY_QOS_POLICY_ID
+            return "Type consistency";
+        case 35:    // WIREPROTOCOLCONFIG_QOS_POLICY_ID
+            return "Wire protocol config";
+        case 36:    // WRITERRESOURCELIMITS_QOS_POLICY_ID
+            return "Writer resource limits";
+    }
+}
+
 } // namespace backend

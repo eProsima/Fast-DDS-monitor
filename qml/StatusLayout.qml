@@ -53,7 +53,7 @@ Item
     readonly property int collapse_rotation_angle_: -90
 
 
- property int spacingIconLabel: 8
+    property int spacingIconLabel: 8
     property int iconSize: 18
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
@@ -224,12 +224,12 @@ Item
                 TreeView {
                     id: status_tree_view
                     anchors.fill: parent
-                    model: qosModel
+                    model: problemModel
                     selectionMode: SelectionMode.NoSelection
                     frameVisible: false
                     /*selection: ItemSelectionModel {
                         id: item_selection_model
-                        model: qosModel
+                        model: problemModel
                     }*/
                     itemDelegate: Item {
                         Text {
@@ -252,12 +252,12 @@ Item
                         title: "Value"
                     }
 
-                    Component.onCompleted: leftPanel.expandAll(qos_tree_view, qosModel)
+                    Component.onCompleted: leftPanel.expandAll(status_tree_view, problemModel)
 
                     Connections {
-                        target: qosModel
+                        target: problemModel
                         function onUpdatedData() {
-                            leftPanel.expandAll(qos_tree_view, qosModel)
+                            leftPanel.expandAll(status_tree_view, problemModel)
                         }
                     }
                 }
@@ -392,12 +392,12 @@ Item
             anchors.left: error_icon.right
             anchors.leftMargin: elements_spacing_/2
             anchors.verticalCenter: parent.verticalCenter
-            text: "1"
+            text: "0"
         }
         IconSVG {
             id: warning_icon
-            anchors.left: error_value.right
-            anchors.leftMargin: elements_spacing_
+            anchors.left: error_icon.right
+            anchors.leftMargin: elements_spacing_ * 4
             anchors.verticalCenter: parent.verticalCenter
             name: "issues"
             size: parent.height - elements_spacing_
@@ -407,9 +407,18 @@ Item
             anchors.left: warning_icon.right
             anchors.leftMargin: elements_spacing_/2
             anchors.verticalCenter: parent.verticalCenter
-            text: "5"
+            text: "0"
         }
-        IconSVG {
+
+        Connections
+        {
+            target: controller
+            function onUpdate_status_counters(errors, warnings) {
+                error_value.text = errors
+                warning_value.text = warnings
+            }
+        }
+        /*IconSVG {
             id: info_icon
             anchors.left: warning_value.right
             anchors.leftMargin: elements_spacing_
@@ -423,7 +432,7 @@ Item
             anchors.leftMargin: elements_spacing_/2
             anchors.verticalCenter: parent.verticalCenter
             text: "19"
-        }
+        }*/
         MouseArea {
             anchors.fill: parent
             onClicked: {
@@ -435,6 +444,21 @@ Item
                 {
                     collapse_status_layout()
                 }
+            }
+        }
+    }
+
+    function filter_problem_log(entityId) {
+        var entity_value = ""
+        for (var i=0; i < status_tree_view.model.rowCount(); i++)
+        {
+            if (status_tree.model.index(i, 0).data() == entity_value)
+            {
+                status_tree_view.expand(status_tree.model.index(i, 0))
+            }
+            else
+            {
+                status_tree_view.collapse(status_tree.model.index(i, 0))
             }
         }
     }

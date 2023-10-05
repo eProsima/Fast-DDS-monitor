@@ -814,6 +814,9 @@ protected:
      * to happen) there are going to create entities already created.
      */
     std::recursive_mutex initializing_monitor_;
+
+    //! All status log
+    backend::Info problem_status_log_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H

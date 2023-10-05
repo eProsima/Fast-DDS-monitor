@@ -59,6 +59,13 @@ public:
             QString error_msg,
             ErrorType error_type = ErrorType::GENERIC);
 
+    //! Status counters displayed in the QML
+    struct StatusCounters
+    {
+        uint32_t errors = 0;
+        uint32_t warnings = 0;
+    } status_counters;
+
 public slots:
 
     // Methods to be called from QML
@@ -274,6 +281,9 @@ signals:
 
     //! Signal to inform qml that a new monitor has been initialized
     void monitorInitialized();
+
+    //! Signal to notify status counters have been updated
+    void update_status_counters(QString errors, QString warnings);
 
 protected:
 

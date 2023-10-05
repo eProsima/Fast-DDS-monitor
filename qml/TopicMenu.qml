@@ -36,7 +36,7 @@ Menu {
     }
     MenuItem {
         text: "View problems"
-        onTriggered: {}//todo
+        onTriggered: filterProblemLog(menu.entityId)
     }
     MenuItem {
         text: "Filter graph view"

@@ -979,7 +979,7 @@ bool Engine::update_problem(
         const backend::EntityId& id,
         backend::Info data)
 {
-    if (id == backend::ID_ALL)
+    if (id == backend::ID_ALL || (data == backend::Info() && problem_status_log_ == backend::Info()))
     {
         backend::Info default_info;
         default_info["No data"] = "No issues found";
@@ -997,69 +997,114 @@ backend::Info Engine::get_sample_info(
         backend::StatusKind kind)
 {
     backend::Info data;
+    backend::EntityStatus new_status = backend::EntityStatus::OK;
     switch (kind)
     {
-        case backend::StatusKind::CONNECTION_LIST:
-        {
-            backend::ConnectionListSample sample;
-            backend_connection_.get_status_data(id, sample);
-            /*for (eprosima::fastdds::statistics::Connection conn in sample.connection_list)
-            {
-                data["Locator"] = "HelloWorld";
-            }*/
-            break;
-        }
+
         case backend::StatusKind::DEADLINE_MISSED:
         {
             backend::DeadlineMissedSample sample;
             backend_connection_.get_status_data(id, sample);
+            if (sample.status != backend::EntityStatus::OK)
+            {
+                new_status = sample.status;
+                problem_status_log_[backend_connection_.get_name(id)]["Deadline missed"]["Total count"] =
+                        std::to_string(sample.deadline_missed_status.total_count());
+                std::string handle_string;
+                for (uint8_t handler : sample.deadline_missed_status.last_instance_handle())
+                {
+                    handle_string = handle_string + std::to_string(handler);
+                }
+                problem_status_log_[backend_connection_.get_name(id)]["Deadline missed"]["Last instance handle"] =
+                        handle_string;
+            }
             break;
         }
         case backend::StatusKind::INCOMPATIBLE_QOS:
         {
             backend::IncompatibleQosSample sample;
             backend_connection_.get_status_data(id, sample);
+            if (sample.status != backend::EntityStatus::OK)
+            {
+                new_status = sample.status;
+                problem_status_log_[backend_connection_.get_name(id)]["Incompatible QoS"]["Total count"] =
+                        std::to_string(sample.incompatible_qos_status.total_count());
+                problem_status_log_[backend_connection_.get_name(id)]["Incompatible QoS"]["Last policy"] =
+                        backend::policy_id_to_string(sample.incompatible_qos_status.last_policy_id());
+                for (eprosima::fastdds::statistics::QosPolicyCount_s policy : sample.incompatible_qos_status.policies())
+                {
+                    if (policy.count() > 0)
+                    {
+                        problem_status_log_[backend_connection_.get_name(id)]["Incompatible QoS"]["Affected QoS Policies"]
+                                [backend::policy_id_to_string(policy.policy_id())] = std::to_string(policy.count());
+                    }
+                }
+            }
             break;
         }
         case backend::StatusKind::INCONSISTENT_TOPIC:
         {
             backend::InconsistentTopicSample sample;
             backend_connection_.get_status_data(id, sample);
-            break;
-        }
-        case backend::StatusKind::LIVELINESS_CHANGED:
-        {
-            backend::LivelinessChangedSample sample;
-            backend_connection_.get_status_data(id, sample);
+            if (sample.status != backend::EntityStatus::OK)
+            {
+                new_status = sample.status;
+                problem_status_log_[backend_connection_.get_name(id)]["Inconsistent topics"] =
+                        std::to_string(sample.inconsistent_topic_status.total_count());
+            }
             break;
         }
         case backend::StatusKind::LIVELINESS_LOST:
         {
             backend::LivelinessLostSample sample;
             backend_connection_.get_status_data(id, sample);
+            if (sample.status != backend::EntityStatus::OK)
+            {
+                new_status = sample.status;
+                problem_status_log_[backend_connection_.get_name(id)]["Liveliness lost"] =
+                        std::to_string(sample.liveliness_lost_status.total_count());
+            }
             break;
         }
         case backend::StatusKind::SAMPLE_LOST:
         {
             backend::SampleLostSample sample;
             backend_connection_.get_status_data(id, sample);
+            if (sample.status != backend::EntityStatus::OK)
+            {
+                new_status = sample.status;
+                problem_status_log_[backend_connection_.get_name(id)]["Samples lost"] =
+                        std::to_string(sample.sample_lost_status.total_count());
+            }
             break;
         }
-        /*case backend::StatusKind::STATUSES_SIZE:
-        {
-            backend::StatusesSizeSample sample;
-            backend_connection_.get_status_data(id, sample);
-            break;
-        }*/
+
+        case backend::StatusKind::CONNECTION_LIST:
+        case backend::StatusKind::LIVELINESS_CHANGED:
         case backend::StatusKind::PROXY:
+        //case backend::StatusKind::STATUSES_SIZE:
         default:
         {
-            backend::ProxySample sample;
-            backend_connection_.get_status_data(id, sample);
+            // No problem status updates, as always returns OK
             break;
         }
     }
-    return data;
+    if (new_status != backend::EntityStatus::OK)
+    {
+        if (new_status == backend::EntityStatus::ERROR)
+        {
+            controller_->status_counters.errors++;
+        }
+        else if (new_status == backend::EntityStatus::WARNING)
+        {
+            controller_->status_counters.warnings++;
+        }
+        emit controller_->update_status_counters(
+                QString::number(controller_->status_counters.errors),
+                QString::number(controller_->status_counters.warnings));
+    }
+
+    return problem_status_log_;
 }
 
 bool Engine::update_entity_generic(
