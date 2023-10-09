@@ -59,6 +59,20 @@ class ProblemTreeItem
     friend class ProblemTreeModel;
 
 public:
+
+
+    //! Role names to allow queries to get some specific information from the Item
+    enum ModelItemRoles
+    {
+        idRole = Qt::UserRole + 1,      //! Role for attribute Id
+        kindRole,                       //! Role for attribute Kind
+        aliveRole,                      //! Role for attribute Alive
+        clickedRole,                    //! Role for attribute Clicked
+        nameRole                        //! Role for attribute Name
+        // The nameRole must always be the last one as it is used in child classes
+        // as the initial role of the enumeration)
+    };
+
     //! Create an empty item.
     ProblemTreeItem();
 
@@ -66,22 +80,36 @@ public:
     explicit ProblemTreeItem(
             const QVariant& data);
 
-    //! Create an item with the given data as string.
+    //! Create an item with the given name as string.
     explicit ProblemTreeItem(
             const backend::EntityId& id,
-            const std::string& data);
+            const std::string& name);
 
-    //! Create an item with the given data as string.
+    //! Create an item with the given name as string.
     explicit ProblemTreeItem(
             const backend::EntityId& id,
             const backend::StatusKind& kind,
-            const std::string& data);
+            const std::string& name);
 
     //! Destroy the item. It will destroy every child.
     ~ProblemTreeItem();
 
     //! Return the stored data of the node.
     const QVariant& data() const;
+
+    //! Return the stored data of the node.
+    /*const QVariant& data(
+            int role) const;*/
+
+    QString entity_id() const;
+
+    QString name() const;
+
+    QString kind() const;
+
+    bool alive() const;
+
+    bool clicked() const;
 
     //! Set the internal data of the node.
     void setData(
@@ -118,11 +146,12 @@ private:
             ProblemTreeItem* item);
 
 private:
-    backend::EntityId _id;
     QVariant _itemData;
     ProblemTreeItem* _parentItem;
     QVector<ProblemTreeItem*> _childItems;
+    backend::EntityId _id;
     backend::StatusKind _kind;
+    bool _is_active;
 };
 
 } // namespace models

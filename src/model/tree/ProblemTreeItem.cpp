@@ -48,40 +48,44 @@
 namespace models {
 
 ProblemTreeItem::ProblemTreeItem()
-    : _id(backend::ID_ALL)
-    , _itemData()
+    : _itemData()
     , _parentItem(nullptr)
+    , _id(backend::ID_ALL)
     , _kind(backend::StatusKind::INVALID)
+    , _is_active(true)
 {
 }
 
 ProblemTreeItem::ProblemTreeItem(
         const QVariant& data)
-    : _id(backend::ID_ALL)
-    , _itemData(data)
+    : _itemData(data)
     , _parentItem(nullptr)
+    , _id(backend::ID_ALL)
     , _kind(backend::StatusKind::INVALID)
+    , _is_active(true)
 {
 }
 
 ProblemTreeItem::ProblemTreeItem(
         const backend::EntityId& id,
-        const std::string& data)
-    : _id(id)
-    , _itemData(QString::fromStdString(data))
+        const std::string& name)
+    : _itemData(QString::fromStdString(name))
     , _parentItem(nullptr)
+    , _id(id)
     , _kind(backend::StatusKind::INVALID)
+    , _is_active(true)
 {
 }
 
 ProblemTreeItem::ProblemTreeItem(
         const backend::EntityId& id,
         const backend::StatusKind& kind,
-        const std::string& data)
-    : _id(id)
-    , _itemData(QString::fromStdString(data))
+        const std::string& name)
+    : _itemData(QString::fromStdString(name))
     , _parentItem(nullptr)
+    , _id(id)
     , _kind(kind)
+    , _is_active(true)
 {
 }
 
@@ -132,7 +136,54 @@ int ProblemTreeItem::childCount() const
 
 const QVariant& ProblemTreeItem::data() const
 {
+    //return this->data(nameRole);
     return _itemData;
+}
+
+/*const QVariant& ProblemTreeItem::data(
+        int role) const
+{
+    switch (role)
+    {
+        case idRole:
+            return this->entity_id();
+        case kindRole:
+            return this->kind();
+        case aliveRole:
+            return this->alive();
+        case clickedRole:
+            return this->clicked();
+        case nameRole:
+        default:
+            return this->name();
+    }
+}*/
+
+QString ProblemTreeItem::entity_id() const
+{
+    return backend::backend_id_to_models_id(_id); //backend::backend_id_to_models_id(id_);
+}
+
+QString ProblemTreeItem::name() const
+{
+    return _itemData.toString();
+}
+
+QString ProblemTreeItem::kind() const
+{
+    return QString::fromStdString(backend::status_kind_to_string(_kind));
+}
+
+bool ProblemTreeItem::alive() const
+{
+    //return backend::
+    return true;
+}
+
+bool ProblemTreeItem::clicked() const
+{
+    //return clicked_;
+    return false;
 }
 
 void ProblemTreeItem::setData(

@@ -269,27 +269,20 @@ Item
 
                     model: problemModel
 
-                    /*Connections {
-                        target: problemModel
-
-                        function onLayoutChanged() {
-                            console.log("updated layout")
-                            status_tree_view.model = problemModel
-                        }
-                    }*/
                     //rowPadding: 20
                     //selectionEnabled: true
 
-                    /*Component.onCompleted:
-                    {
-                        console.log(JSON.stringify(problemModel, null, 2))
-                    }
-
                     contentItem: RowLayout {
-                        Text {
+                        id: tree_item
+                        property string id: currentRow.currentData.id
+                        property string kind: currentRow.currentData.kind
+                        property bool alive: currentRow.currentData.alive
+                        property bool clicked: currentRow.currentData.clicked
+                        property string name: currentRow.currentData.name
+                        /*Text {
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignLeft
-                            text: currentRow.currentData.key
+                            ext: currentRow.currentData.key
                         }
 
                         Text {
@@ -300,62 +293,30 @@ Item
                             horizontalAlignment: Text.AlignRight
                             text: currentRow.currentData.value ? currentRow.currentData.value : ""
                         }
+                        Text {
+                            Layout.rightMargin: 10
 
-                        Rectangle {
-                            width: parent.height * 0.6
-                            height: width
-                            radius: width
-                            y: width / 3
-                            color: currentRow.hasChildren ? "tomato" : "lightcoral"
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            text: currentRow.currentData._is_active
+                        }*/
+
+                        Text {
+                            verticalAlignment: Text.AlignVCenter
+
+                            color: currentRow.currentData.alive ? "grey" : "black"
+                            text: tree_item.name
+                            font: status_tree_view.font
                         }
 
                         Text {
                             verticalAlignment: Text.AlignVCenter
 
                             color: currentRow.isSelectedIndex ? status_tree_view.selectedItemColor : status_tree_view.color
-                            text: currentRow.currentData
+                            text: tree_item.id
                             font: status_tree_view.font
                         }
                     }
-
-                    handle: Item {
-                        width: 20
-                        height: 20
-                        Rectangle {
-                            anchors.centerIn: parent
-                            width: 10
-                            height: 2
-                            color: "black"
-                            visible: currentRow.hasChildren
-
-                            Rectangle {
-                                anchors.centerIn: parent
-                                width: parent.height
-                                height: parent.width
-                                color: parent.color
-                                visible: parent.visible && !currentRow.expanded
-                            }
-                        }
-                    }
-
-                    highlight: Item {
-                        Rectangle {
-                            color: "pink"
-                            width: parent.width * 0.9
-                            height: parent.height
-                            anchors.left: parent.left
-                            radius: 20
-                        }
-                        Rectangle {
-                            color: "pink"
-                            width: parent.width * 0.2
-                            height: parent.height
-                            anchors.right: parent.right
-                            radius: 20
-                        }
-
-                        Behavior on y { NumberAnimation { duration: 150 }}
-                    }*/
                 }
             }
         }
