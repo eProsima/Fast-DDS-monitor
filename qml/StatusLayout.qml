@@ -21,7 +21,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.15
 
-import QMLTreeView 1.0
+import ProblemTreeView 1.0
 import Theme 1.0
 
 Item
@@ -60,7 +60,7 @@ Item
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
 
 
-  /*  TabView {
+    TabView {
         id: tab_view
         anchors.top: parent.top
         anchors.bottom: separator_line.top
@@ -71,7 +71,7 @@ Item
             Rectangle {
 
                 color: "white"
-*/
+
                 /*Text {
                     anchors.top: parent.top; anchors.topMargin: elements_spacing_
                     anchors.left: parent.left; anchors.leftMargin: elements_spacing_
@@ -262,16 +262,25 @@ Item
                         }
                     }
                 }*/
-                TreeView {
+                ProblemTreeView {
                     id: status_tree_view
                     anchors.fill: parent
                     anchors.margins: 1
 
                     model: problemModel
-                    rowPadding: 20
-                    selectionEnabled: true
 
-                    Component.onCompleted:
+                    /*Connections {
+                        target: problemModel
+
+                        function onLayoutChanged() {
+                            console.log("updated layout")
+                            status_tree_view.model = problemModel
+                        }
+                    }*/
+                    //rowPadding: 20
+                    //selectionEnabled: true
+
+                    /*Component.onCompleted:
                     {
                         console.log(JSON.stringify(problemModel, null, 2))
                     }
@@ -346,9 +355,9 @@ Item
                         }
 
                         Behavior on y { NumberAnimation { duration: 150 }}
-                    }
+                    }*/
                 }
-            /*}
+            }
         }
         style: TabViewStyle {
             frameOverlap: 1
@@ -448,7 +457,7 @@ Item
                 }
             }
         }
-    }*/
+    }
 
     Rectangle {
         id: separator_line

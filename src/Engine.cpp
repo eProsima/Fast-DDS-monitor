@@ -88,8 +88,8 @@ QObject* Engine::enable()
     fill_status_();
 
     // Creates a default json structure for problems and fills the tree model with it
-    problem_model_ = new models::TreeModel();
-    update_problem(backend::ID_ALL, backend::Info());
+    problem_model_ = new models::ProblemTreeModel();
+    update_problem(backend::ID_ALL, backend::StatusKind::INVALID);
 
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
@@ -967,145 +967,151 @@ bool Engine::read_callback_(
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
-    std::cout << "Problem callback received: " << std::endl;
-    std::cout << "  DomainEntityID: " << problem_callback.domain_entity_id.value() << std::endl;
-    std::cout << "  EntityID: " << problem_callback.entity_id.value() << std::endl;
-    std::cout << "  StatusKind: " << backend::status_kind_to_string(problem_callback.status_kind) << std::endl;
-
-    return update_problem(problem_callback.entity_id,
-            get_sample_info(problem_callback.entity_id, problem_callback.status_kind));
+    // update model
+    return update_problem(problem_callback.entity_id, problem_callback.status_kind);
 }
 
 bool Engine::update_problem(
         const backend::EntityId& id,
-        backend::Info data)
+        backend::StatusKind kind)
 {
-    if (id == backend::ID_ALL || (data == backend::Info() && problem_status_log_ == backend::Info()))
+    auto empty_item = new models::ProblemTreeItem(backend::ID_ALL, std::string("No issues found"));
+    if (id == backend::ID_ALL)
     {
-        backend::Info default_info;
-        default_info["No data"] = "No issues found";
-        problem_model_->update(default_info);
+        problem_model_->addTopLevelItem(empty_item);
     }
     else
     {
-        problem_model_->update(data);
+        backend::EntityStatus new_status = backend::EntityStatus::OK;
+
+        switch (kind)
+        {
+            case backend::StatusKind::DEADLINE_MISSED:
+            {
+                backend::DeadlineMissedSample sample;
+                backend_connection_.get_status_data(id, sample);
+                if (sample.status != backend::EntityStatus::OK)
+                {
+                    auto entity_item = problem_model_->getTopLevelItem(id, backend_connection_.get_name(id));
+                    new_status = sample.status;
+                    std::string handle_string;
+                    auto deadline_missed_item = new models::ProblemTreeItem(id, kind, std::string("Deadline missed"));
+                    auto total_count_item = new models::ProblemTreeItem(id, kind, std::string("Total count - ") +
+                            std::to_string(sample.deadline_missed_status.total_count()));
+                    for (uint8_t handler : sample.deadline_missed_status.last_instance_handle())
+                    {
+                        handle_string = handle_string + std::to_string(handler);
+                    }
+                    auto last_instance_handle_item = new models::ProblemTreeItem(id, kind,
+                            std::string("Last instance handle - ") + handle_string);
+                    problem_model_->addItem(deadline_missed_item, total_count_item);
+                    problem_model_->addItem(deadline_missed_item, last_instance_handle_item);
+                    problem_model_->addItem(entity_item, deadline_missed_item);
+                }
+                break;
+            }
+            case backend::StatusKind::INCOMPATIBLE_QOS:
+            {
+                backend::IncompatibleQosSample sample;
+                backend_connection_.get_status_data(id, sample);
+                if (sample.status != backend::EntityStatus::OK)
+                {
+                    auto entity_item = problem_model_->getTopLevelItem(id, backend_connection_.get_name(id));
+                    new_status = sample.status;
+                    auto incompatible_qos_item = new models::ProblemTreeItem(id, kind, std::string("Incompatible QoS"));
+                    for (eprosima::fastdds::statistics::QosPolicyCount_s policy : sample.incompatible_qos_status.policies())
+                    {
+                        if (policy.count() > 0)
+                        {
+                            auto policy_item = new models::ProblemTreeItem(id, kind,
+                                backend::policy_id_to_string(policy.policy_id()) + " - " + std::to_string(policy.count()));
+                            problem_model_->addItem(incompatible_qos_item, policy_item);
+                        }
+                    }
+                    problem_model_->addItem(entity_item, incompatible_qos_item);
+                }
+                break;
+            }
+            case backend::StatusKind::INCONSISTENT_TOPIC:
+            {
+                backend::InconsistentTopicSample sample;
+                backend_connection_.get_status_data(id, sample);
+                if (sample.status != backend::EntityStatus::OK)
+                {
+                    auto entity_item = problem_model_->getTopLevelItem(id, backend_connection_.get_name(id));
+                    new_status = sample.status;
+                    auto inconsistent_topic_item = new models::ProblemTreeItem(id, kind, std::string("Inconsistent topics - ") +
+                            std::to_string(sample.inconsistent_topic_status.total_count()));
+                    problem_model_->addItem(entity_item, inconsistent_topic_item);
+                }
+                break;
+            }
+            case backend::StatusKind::LIVELINESS_LOST:
+            {
+                backend::LivelinessLostSample sample;
+                backend_connection_.get_status_data(id, sample);
+                if (sample.status != backend::EntityStatus::OK)
+                {
+                    auto entity_item = problem_model_->getTopLevelItem(id, backend_connection_.get_name(id));
+                    new_status = sample.status;
+                    auto liveliness_lost_item = new models::ProblemTreeItem(id, kind, std::string("Liveliness lost - ") +
+                            std::to_string(sample.liveliness_lost_status.total_count()));
+                    problem_model_->addItem(entity_item, liveliness_lost_item);
+                }
+                break;
+            }
+            case backend::StatusKind::SAMPLE_LOST:
+            {
+                backend::SampleLostSample sample;
+                backend_connection_.get_status_data(id, sample);
+                if (sample.status != backend::EntityStatus::OK)
+                {
+                    auto entity_item = problem_model_->getTopLevelItem(id, backend_connection_.get_name(id));
+                    new_status = sample.status;
+                    auto samples_lost_item = new models::ProblemTreeItem(id, kind, std::string("Samples lost - ") +
+                            std::to_string(sample.sample_lost_status.total_count()));
+                    problem_model_->addItem(entity_item, samples_lost_item);
+                }
+                break;
+            }
+
+            case backend::StatusKind::CONNECTION_LIST:
+            case backend::StatusKind::LIVELINESS_CHANGED:
+            case backend::StatusKind::PROXY:
+            //case backend::StatusKind::STATUSES_SIZE:
+            default:
+            {
+                // No problem status updates, as always returns OK
+                break;
+            }
+        }
+        if (new_status != backend::EntityStatus::OK)
+        {
+            if (new_status == backend::EntityStatus::ERROR)
+            {
+                controller_->status_counters.errors++;
+            }
+            else if (new_status == backend::EntityStatus::WARNING)
+            {
+                controller_->status_counters.warnings++;
+            }
+            // notify problem model layout changed to refresh layout view
+            emit problem_model_->layoutAboutToBeChanged();
+
+            emit controller_->update_status_counters(
+                    QString::number(controller_->status_counters.errors),
+                    QString::number(controller_->status_counters.warnings));
+
+            // remove empty message if exists
+            if (problem_model_->is_empty())
+            {
+                problem_model_->removeEmptyItem();
+            }
+            // notify problem model layout changed to refresh layout view
+            emit problem_model_->layoutChanged();
+        }
     }
     return true;
-}
-
-backend::Info Engine::get_sample_info(
-        backend::EntityId id,
-        backend::StatusKind kind)
-{
-    backend::Info data;
-    backend::EntityStatus new_status = backend::EntityStatus::OK;
-    switch (kind)
-    {
-
-        case backend::StatusKind::DEADLINE_MISSED:
-        {
-            backend::DeadlineMissedSample sample;
-            backend_connection_.get_status_data(id, sample);
-            if (sample.status != backend::EntityStatus::OK)
-            {
-                new_status = sample.status;
-                problem_status_log_[backend_connection_.get_name(id)]["Deadline missed"]["Total count"] =
-                        std::to_string(sample.deadline_missed_status.total_count());
-                std::string handle_string;
-                for (uint8_t handler : sample.deadline_missed_status.last_instance_handle())
-                {
-                    handle_string = handle_string + std::to_string(handler);
-                }
-                problem_status_log_[backend_connection_.get_name(id)]["Deadline missed"]["Last instance handle"] =
-                        handle_string;
-            }
-            break;
-        }
-        case backend::StatusKind::INCOMPATIBLE_QOS:
-        {
-            backend::IncompatibleQosSample sample;
-            backend_connection_.get_status_data(id, sample);
-            if (sample.status != backend::EntityStatus::OK)
-            {
-                new_status = sample.status;
-                problem_status_log_[backend_connection_.get_name(id)]["Incompatible QoS"]["Total count"] =
-                        std::to_string(sample.incompatible_qos_status.total_count());
-                problem_status_log_[backend_connection_.get_name(id)]["Incompatible QoS"]["Last policy"] =
-                        backend::policy_id_to_string(sample.incompatible_qos_status.last_policy_id());
-                for (eprosima::fastdds::statistics::QosPolicyCount_s policy : sample.incompatible_qos_status.policies())
-                {
-                    if (policy.count() > 0)
-                    {
-                        problem_status_log_[backend_connection_.get_name(id)]["Incompatible QoS"]["Affected QoS Policies"]
-                                [backend::policy_id_to_string(policy.policy_id())] = std::to_string(policy.count());
-                    }
-                }
-            }
-            break;
-        }
-        case backend::StatusKind::INCONSISTENT_TOPIC:
-        {
-            backend::InconsistentTopicSample sample;
-            backend_connection_.get_status_data(id, sample);
-            if (sample.status != backend::EntityStatus::OK)
-            {
-                new_status = sample.status;
-                problem_status_log_[backend_connection_.get_name(id)]["Inconsistent topics"] =
-                        std::to_string(sample.inconsistent_topic_status.total_count());
-            }
-            break;
-        }
-        case backend::StatusKind::LIVELINESS_LOST:
-        {
-            backend::LivelinessLostSample sample;
-            backend_connection_.get_status_data(id, sample);
-            if (sample.status != backend::EntityStatus::OK)
-            {
-                new_status = sample.status;
-                problem_status_log_[backend_connection_.get_name(id)]["Liveliness lost"] =
-                        std::to_string(sample.liveliness_lost_status.total_count());
-            }
-            break;
-        }
-        case backend::StatusKind::SAMPLE_LOST:
-        {
-            backend::SampleLostSample sample;
-            backend_connection_.get_status_data(id, sample);
-            if (sample.status != backend::EntityStatus::OK)
-            {
-                new_status = sample.status;
-                problem_status_log_[backend_connection_.get_name(id)]["Samples lost"] =
-                        std::to_string(sample.sample_lost_status.total_count());
-            }
-            break;
-        }
-
-        case backend::StatusKind::CONNECTION_LIST:
-        case backend::StatusKind::LIVELINESS_CHANGED:
-        case backend::StatusKind::PROXY:
-        //case backend::StatusKind::STATUSES_SIZE:
-        default:
-        {
-            // No problem status updates, as always returns OK
-            break;
-        }
-    }
-    if (new_status != backend::EntityStatus::OK)
-    {
-        if (new_status == backend::EntityStatus::ERROR)
-        {
-            controller_->status_counters.errors++;
-        }
-        else if (new_status == backend::EntityStatus::WARNING)
-        {
-            controller_->status_counters.warnings++;
-        }
-        emit controller_->update_status_counters(
-                QString::number(controller_->status_counters.errors),
-                QString::number(controller_->status_counters.warnings));
-    }
-
-    return problem_status_log_;
 }
 
 bool Engine::update_entity_generic(

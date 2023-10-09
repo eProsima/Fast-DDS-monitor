@@ -41,6 +41,7 @@
 #include <fastdds_monitor/model/info/InfoModel.h>
 #include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
 #include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
+#include <fastdds_monitor/model/tree/ProblemTreeModel.h>
 
 struct EntityClicked
 {
@@ -270,10 +271,6 @@ public:
 
     bool update_problem(
             const backend::EntityId& id,
-            backend::Info data);
-
-    backend::Info get_sample_info(
-            backend::EntityId id,
             backend::StatusKind kind);
 
     /**
@@ -755,7 +752,7 @@ protected:
     backend::Info status_info_;
 
     //! Data Model for Fast DDS Monitor problem view. Collects all entities problems detected by the monitor service
-    models::TreeModel* problem_model_;
+    models::ProblemTreeModel* problem_model_;
 
     //! TODO
     models::ListModel* source_entity_id_model_;

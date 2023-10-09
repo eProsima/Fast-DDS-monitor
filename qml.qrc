@@ -13,10 +13,10 @@
         <file>controls/ToolButton.qml</file>
         <file>imports/Theme/qmldir</file>
         <file>imports/Theme/Theme.qml</file>
-        <file>imports/TreeView/QMLTreeView/qmldir</file>
-        <file>imports/TreeView/QMLTreeView/treeview.qrc</file>
-        <file>imports/TreeView/QMLTreeView/TreeView.qml</file>
-        <file>imports/TreeView/QMLTreeView/TreeViewItem.qml</file>
+        <file>imports/TreeView/ProblemTreeView/qmldir</file>
+        <file>imports/TreeView/ProblemTreeView/problem_treeview.qrc</file>
+        <file>imports/TreeView/ProblemTreeView/ProblemTreeView.qml</file>
+        <file>imports/TreeView/ProblemTreeView/ProblemTreeViewItem.qml</file>
         <file>qml/AboutDialog.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/AdaptiveMenu.qml</file>

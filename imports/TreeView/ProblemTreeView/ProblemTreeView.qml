@@ -22,6 +22,23 @@
  * SOFTWARE.
  */
 
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+//
+// This file is part of eProsima Fast DDS Monitor.
+//
+// eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+
 
 import QtQuick 2.15
 import QtQuick.Window 2.15
@@ -71,7 +88,7 @@ Flickable {
         Arrow
     }
 
-    property int handleStyle: TreeView.Handle.Triangle
+    property int handleStyle: ProblemTreeView.Handle.Triangle
 
     contentHeight: tree.height
     contentWidth: width
@@ -80,7 +97,7 @@ Flickable {
 
     Connections { function onCurrentIndexChanged() { if(currentIndex) currentData = model.data(currentIndex) }  }
 
-    TreeViewItem {
+    ProblemTreeViewItem {
         id: tree
 
         model: root.model
@@ -124,12 +141,12 @@ Flickable {
 
     function indicatorToString(handle){
         switch (handle){
-            case TreeView.Handle.Triangle: return "▶";
-            case TreeView.Handle.TriangleSmall: return "►";
-            case TreeView.Handle.TriangleOutline: return "▷";
-            case TreeView.Handle.TriangleSmallOutline: return "⊳";
-            case TreeView.Handle.Chevron: return "❱";
-            case TreeView.Handle.Arrow: return "➤";
+            case ProblemTreeView.Handle.Triangle: return "▶";
+            case ProblemTreeView.Handle.TriangleSmall: return "►";
+            case ProblemTreeView.Handle.TriangleOutline: return "▷";
+            case ProblemTreeView.Handle.TriangleSmallOutline: return "⊳";
+            case ProblemTreeView.Handle.Chevron: return "❱";
+            case ProblemTreeView.Handle.Arrow: return "➤";
             default: return "▶";
         }
     }
