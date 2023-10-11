@@ -21,7 +21,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.15
 
-import ProblemTreeView 1.0
 import Theme 1.0
 
 Item

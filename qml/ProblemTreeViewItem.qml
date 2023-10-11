@@ -43,6 +43,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import Theme 1.0
+
 Item {
     id: root
 
@@ -75,17 +77,10 @@ Item {
 
     property string defaultIndicator: "▶"
     property FontMetrics fontMetrics: FontMetrics {
-        font.pixelSize: 20
+        font.pointSize: Theme.font.pointSize
     }
     property alias font: root.fontMetrics.font
-    enum Role {
-        Id=257,
-        Status,
-        Value,
-        Description,
-        Alive,
-        Name
-    }
+    enum Role { Id=257, Status, Value, Description, Alive, Name }
 
     implicitWidth: parent.width
     implicitHeight: childrenRect.height
@@ -111,28 +106,22 @@ Item {
         }
     }
 
-    /*property Component contentItem: Text {
-        id: contentData
-
-        anchors.verticalCenter: parent.verticalCenter
-        verticalAlignment: Text.AlignVCenter
-
-        color: currentRow.isSelectedIndex ? root.selectedItemColor : root.color
-        text: currentRow.currentData
-        font: root.font
-    }*/
     property Component contentItem: Item {
         id: contentData
 
 
-        /*IconSVG {
+        IconSVG {
+            id: status_icon
+            anchors.left: parent.left; anchors.leftMargin: -5
+            anchors.verticalCenter: parent.verticalCenter
             name: currentRow.currentStatus ? "cross" :"issues"
-            size: currentRow.currentStatus ? 30 : 35
-        }*/
+            color: currentRow.currentAlive ? currentRow.currentStatus ? "red" :"black" : "grey"
+            size: currentRow.currentStatus ? 12 : 15
+        }
 
         Text {
             id: entity_name
-            anchors.left: parent.left; anchors.leftMargin: 20
+            anchors.left: status_icon.right; anchors.leftMargin: 5
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Text.AlignVCenter
 
@@ -143,7 +132,7 @@ Item {
 
         Text {
             id: id_value
-            anchors.left: entity_name.right; anchors.leftMargin: 20
+            anchors.left: entity_name.right; anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Text.AlignVCenter
 
@@ -165,7 +154,8 @@ Item {
 
             color:currentRow.currentAlive ? currentRow.isSelectedIndex ? root.selectedItemColor : root.color : root.inactive
             text: currentRow.currentValue == undefined ? "" : currentRow.currentDescription
-            font: root.font
+            font.pointSize: Theme.font.pointSize
+            font.italic: true
         }
     }
 

@@ -13,10 +13,6 @@
         <file>controls/ToolButton.qml</file>
         <file>imports/Theme/qmldir</file>
         <file>imports/Theme/Theme.qml</file>
-        <file>imports/TreeView/ProblemTreeView/qmldir</file>
-        <file>imports/TreeView/ProblemTreeView/problem_treeview.qrc</file>
-        <file>imports/TreeView/ProblemTreeView/ProblemTreeView.qml</file>
-        <file>imports/TreeView/ProblemTreeView/ProblemTreeViewItem.qml</file>
         <file>qml/AboutDialog.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/AdaptiveMenu.qml</file>
@@ -57,6 +53,8 @@
         <file>qml/MonitorToolBarButton.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
+        <file>qml/ProblemTreeView.qml</file>
+        <file>qml/ProblemTreeViewItem.qml</file>
         <file>qml/QosView.qml</file>
         <file>qml/ScheduleClearDialog.qml</file>
         <file>qml/SeriesSetMaxPointsDialog.qml</file>
@@ -90,6 +88,7 @@
         <file alias="cross_eProsimaLightBlue.svg">resources/images/icons/cross/cross_eProsimaLightBlue.svg</file>
         <file alias="cross_grey.svg">resources/images/icons/cross/cross_grey.svg</file>
         <file alias="cross_white.svg">resources/images/icons/cross/cross_white.svg</file>
+        <file alias="cross_red.svg">resources/images/icons/cross/cross_red.svg</file>
         <file alias="datareader_black.svg">resources/images/icons/datareader/datareader_black.svg</file>
         <file alias="datareader_eProsimaLightBlue.svg">resources/images/icons/datareader/datareader_eProsimaLightBlue.svg</file>
         <file alias="datareader_grey.svg">resources/images/icons/datareader/datareader_grey.svg</file>

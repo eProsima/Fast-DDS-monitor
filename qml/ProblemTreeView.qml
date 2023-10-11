@@ -88,7 +88,7 @@ Flickable {
         Arrow
     }
 
-    property int handleStyle: ProblemTreeView.Handle.Triangle
+    property int handleStyle: ProblemTreeView.Handle.TriangleSmallOutline
 
     contentHeight: tree.height
     contentWidth: width

@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/imports/TreeView/ProblemTreeView">
-        <file>qmldir</file>
-        <file>ProblemTreeViewItem.qml</file>
-        <file>ProblemTreeView.qml</file>
-    </qresource>
-</RCC>
