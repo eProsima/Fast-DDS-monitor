@@ -29,7 +29,7 @@ Item
 
     // Public properties
     enum Status {Closed, Expanded, Collapsed}
-    property int current_status: Closed
+    property int current_status: StatusLayout.Status.Closed
     required property int footer_height
 
     // Public signals
@@ -71,252 +71,12 @@ Item
 
                 color: "white"
 
-                /*Text {
-                    anchors.top: parent.top; anchors.topMargin: elements_spacing_
-                    anchors.left: parent.left; anchors.leftMargin: elements_spacing_
-                    text: "There are no issues"
-                }
-
-                ListView {
-                    id: entityList
-                    model: domainModel
-                    delegate: entityListDelegate
-                    clip: true
-                    width: parent.width
-                    height: parent.height
-                    spacing: elements_spacing_
-                    boundsBehavior: Flickable.StopAtBounds
-
-                    ScrollBar.vertical: CustomScrollBar {
-                        id: scrollBar
-                    }
-
-                    Component {
-                        id: entityListDelegate
-
-                        Item {
-                            id: entityItem
-                            width: entityList.width
-                            height: entityListColumn.childrenRect.height
-
-                            property var entityId: id
-                            property var entityName: name
-                            property int entityIdx: index
-                            property var problemList: problemList
-
-                            Column {
-                                id: entityListColumn
-
-                                Rectangle {
-                                    id: entityHighlightRect
-                                    width: statusLayout.width
-                                    height: entityIcon.height
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                                        onDoubleClicked: {
-                                            if(problemList.height === problemList.collapseHeightFlag) {
-                                                problemList.height = 0;
-                                            } else {
-                                                if (problemList.childrenRect.height != 0) {
-                                                    problemList.height = problemList.collapseHeightFlag;
-                                                }
-                                            }
-                                        }
-                                        onClicked: {
-                                            if(mouse.button & Qt.LeftButton) {
-                                                //controller.domain_click(id)
-                                            }
-                                        }
-                                    }
-
-                                    RowLayout {
-                                        spacing: spacingIconLabel
-
-                                        IconSVG {
-                                            id: entityIcon
-                                            name: "issues"
-                                            size: iconSize
-                                            Layout.leftMargin: firstIndentation
-                                        }
-                                        Label {
-                                            text: name
-                                        }
-                                    }
-                                }
-
-                                ListView {
-                                    id: problemList
-                                    model: entityList.model.subModelFromEntityId(entityId)
-                                    width: entityList.width
-                                    height: 0
-                                    contentHeight: contentItem.childrenRect.height
-                                    clip: true
-                                    spacing: elements_spacing_
-                                    topMargin: elements_spacing_
-                                    delegate: problemListDelegate
-                                    boundsBehavior: Flickable.StopAtBounds
-
-                                    property int collapseHeightFlag: childrenRect.height + problemList.topMargin
-                                }
-
-                                Component {
-                                    id: problemListDelegate
-
-                                    Item {
-                                        id: problemItem
-                                        width: problemListColumn.width
-                                        height: problemListColumn.childrenRect.height
-
-                                        property int problemIdx: index
-
-                                        ListView.onAdd: {
-                                            if(problemList.height != 0) {
-                                                problemList.height = problemList.collapseHeightFlag
-                                            }
-                                        }
-
-                                        Column {
-                                            id: problemListColumn
-
-                                            Rectangle {
-                                                id: problemHighlightRect
-                                                width: statusLayout.width
-                                                height: problemIcon.height
-
-                                                MouseArea {
-                                                    anchors.fill: parent
-                                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                                                    onClicked: {
-                                                        if(mouse.button & Qt.RightButton) {
-                                                            openTopicMenu(entityId, entityName, id, name, kind)
-                                                        } else {
-                                                            controller.problem_click(id)
-                                                        }
-                                                    }
-                                                }
-
-                                                RowLayout {
-                                                    spacing: spacingIconLabel
-
-                                                    IconSVG {
-                                                        id: problemIcon
-                                                        name: "issues"
-                                                        size: iconSize
-                                                        Layout.leftMargin: secondIndentation
-                                                    }
-                                                    Label {
-                                                        text: name
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }*/
-
-                /*TreeView {
-                    id: status_tree_view
-                    anchors.fill: parent
-                    model: problemModel
-                    selectionMode: SelectionMode.NoSelection
-                    frameVisible: false
-                    selection: ItemSelectionModel {
-                        id: item_selection_model
-                        model: problemModel
-                    }
-                    itemDelegate: Item {
-                        Text {
-                            anchors.fill: parent
-                            elide: styleData.elideMode
-                            text: styleData.value
-                        }
-                    }
-                    horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
-
-                    TableViewColumn {
-                        width: parent.width / 2
-                        role: "name"
-                        title: "Name"
-                    }
-
-                    TableViewColumn {
-                        width: parent.width / 2
-                        role: "value"
-                        title: "Value"
-                    }
-
-                    Component.onCompleted: leftPanel.expandAll(status_tree_view, problemModel)
-
-                    Connections {
-                        target: problemModel
-                        function onUpdatedData() {
-                            leftPanel.expandAll(status_tree_view, problemModel)
-                        }
-                    }
-                }*/
                 ProblemTreeView {
                     id: status_tree_view
                     anchors.fill: parent
                     anchors.margins: 1
 
                     model: problemModel
-
-                    //rowPadding: 20
-                    //selectionEnabled: true
-
-                    /*contentItem: RowLayout {
-                        id: tree_item
-                        //role: "name"
-                        /*property string id: currentRow.currentData.id
-                        property string kind: currentRow.currentData.kind
-                        property bool alive: currentRow.currentData.alive
-                        property bool clicked: currentRow.currentData.clicked
-                        property string name: currentRow.currentData.name*/
-                        /*Text {
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignLeft
-                            ext: currentRow.currentData.key
-                        }
-
-                        Text {
-                            Layout.fillWidth: true
-                            Layout.rightMargin: 10
-
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignRight
-                            text: currentRow.currentData.value ? currentRow.currentData.value : ""
-                        }
-                        Text {
-                            Layout.rightMargin: 10
-
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignRight
-                            text: currentRow.currentData._is_active
-                        }*/
-
-                        /*Text {
-                            verticalAlignment: Text.AlignVCenter
-
-                            color: currentRow.currentData.alive ? "grey" : "black"
-                            text: currentRow.currentData
-                            font: status_tree_view.font
-                        }
-
-                        /*Text {
-                            verticalAlignment: Text.AlignVCenter
-
-                            color: currentRow.isSelectedIndex ? status_tree_view.selectedItemColor : status_tree_view.color
-                            text: tree_item.id
-                            font: status_tree_view.font
-                        }*/
-                    //}
                 }
             }
         }
@@ -435,6 +195,8 @@ Item
         height: footer_height
         width: parent.width
         color: grey_background_
+
+        Component.onCompleted: { close_status_layout() }
 
         IconSVG {
             id: error_icon
