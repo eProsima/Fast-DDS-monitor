@@ -518,4 +518,33 @@ std::string problem_description(
     }
 }
 
+std::string policy_documentation_description(
+        const uint32_t& id)
+{
+        switch (id)
+    {
+        case 2:     // DURABILITY_QOS_POLICY_ID
+            return "#durability-compatibilityrule";
+        case 3:     // PRESENTATION_QOS_POLICY_ID
+            return "#presentation-compatibilityrule";
+        case 4:     // DEADLINE_QOS_POLICY_ID
+            return "#compatibility-rule";
+        case 5:     // LATENCYBUDGET_QOS_POLICY_ID
+            return "#latencybudget-compatibilityrule";
+        case 6:     // OWNERSHIP_QOS_POLICY_ID
+            return "#ownership-compatibilityrule";
+        case 8:     // LIVELINESS_QOS_POLICY_ID
+            return "#liveliness-compatibilityrule";
+        case 11:    // RELIABILITY_QOS_POLICY_ID
+            return "#reliability-compatibilityrule";
+        case 12:    // DESTINATIONORDER_QOS_POLICY_ID
+            return "#destinationorder-compatibilityrule";
+        case 14:    // RESOURCELIMITS_QOS_POLICY_ID
+            return "#consistency-rule";
+        default:
+            return "";
+    }
+}
+
+
 } // namespace backend

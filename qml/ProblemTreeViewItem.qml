@@ -156,6 +156,14 @@ Item {
             text: currentRow.currentValue == undefined ? "" : currentRow.currentDescription
             font.pointSize: Theme.font.pointSize
             font.italic: true
+            onLinkActivated: Qt.openUrlExternally(link)
+
+            MouseArea {
+                visible: currentRow.currentDescription.includes("href")
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
+                cursorShape: Qt.PointingHandCursor
+            }
         }
     }
 

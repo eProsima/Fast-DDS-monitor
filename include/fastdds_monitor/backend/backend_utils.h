@@ -117,6 +117,9 @@ std::string policy_id_to_string(
 std::string problem_description(
         const backend::StatusKind kind);
 
+std::string policy_documentation_description(
+        const uint32_t& id);
+
 } //namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_BACKENDUTILS_H
