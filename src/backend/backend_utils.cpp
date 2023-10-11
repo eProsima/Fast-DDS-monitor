@@ -490,4 +490,32 @@ std::string policy_id_to_string(
     }
 }
 
+std::string problem_description(
+        const backend::StatusKind kind)
+{
+    switch (kind) {
+        case backend::StatusKind::CONNECTION_LIST:
+            return "List of connections that the entity is using";
+        case backend::StatusKind::DEADLINE_MISSED:
+            return "Number of deadlines missed that were registered in the entity";
+        case backend::StatusKind::INCOMPATIBLE_QOS:
+            return "Tracks the number of incompatible QoS detected in the entity";
+        case backend::StatusKind::INCONSISTENT_TOPIC:
+            return "Status of Inconsistent topics of the topic of the entity";
+        case backend::StatusKind::LIVELINESS_CHANGED:
+            return "Tracks the number of times that liveliness status changed (reader side)";
+        case backend::StatusKind::LIVELINESS_LOST:
+            return "Tracks the number of times that liveliness was lost (writer side)";
+        case backend::StatusKind::PROXY:
+            return "Collection of Parameters describing the Proxy Data of the entity";
+        case backend::StatusKind::SAMPLE_LOST:
+            return "Tracks the number of times that the entity lost samples";
+        //case backend::StatusKind::STATUSES_SIZE:
+        //    return "";
+        default:
+        case backend::StatusKind::INVALID:
+            return "";
+    }
+}
+
 } // namespace backend

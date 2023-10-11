@@ -55,6 +55,7 @@ namespace models {
 class ProblemTreeModel : public QAbstractItemModel
 {
     Q_OBJECT
+    //Q_ENUMS(models::ProblemTreeItem::ModelItemRoles)
 
 public:
     explicit ProblemTreeModel(
@@ -65,6 +66,20 @@ public:
     // Overriden method from QAbstractItemModel
 
 public:
+
+    //! Role names to allow queries to get some specific information from the Item
+    enum ModelItemRoles
+    {
+        idRole = Qt::UserRole + 1,      //! Role for attribute Id
+        statusRole,                     //! Role for attribute Status
+        valueRole,                      //! Role for attribute Value
+        descriptionRole,                //! Role for attribute Description
+        aliveRole,                      //! Role for attribute Alive
+        nameRole                        //! Role for attribute Name
+        // The nameRole must always be the last one as it is used in child classes
+        // as the initial role of the enumeration)
+    };
+
     int rowCount(
             const QModelIndex& index) const override;
     int columnCount(
@@ -86,6 +101,8 @@ public:
             const QModelIndex& index,
             const QVariant& value,
             int role = Qt::EditRole) override;
+
+    QHash<int, QByteArray> roleNames() const override;
 
 public:
     //! Add an item to the top level.
@@ -134,15 +151,17 @@ public:
     //! Looks for a TopLevelItem that matches that id. If not existing, creates new one and returns it
     ProblemTreeItem*  getTopLevelItem(
             const backend::EntityId& id,
-            const std::string& data);
+            const std::string& data,
+            const bool& is_error,
+            const std::string& description);
 
 private:
     ProblemTreeItem* internalPointer(
             const QModelIndex& index) const;
 
 private:
-    ProblemTreeItem* _rootItem;
-    bool _is_empty;
+    ProblemTreeItem* root_item_;
+    bool is_empty_;
 };
 
 } // namespace models

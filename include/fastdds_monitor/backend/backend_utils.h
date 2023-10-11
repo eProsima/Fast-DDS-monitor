@@ -103,7 +103,6 @@ backend::DataKind string_to_data_kind(
 backend::StatisticKind string_to_statistic_kind(
         const QString& statistic_kind);
 
-
 //! recursive function to convert array json subelements to dictionaries indexed by numbers
 backend::EntityInfo refactor_json(
         backend::EntityInfo json_data);
@@ -114,6 +113,9 @@ std::string timestamp_to_string(
 
 std::string policy_id_to_string(
         const uint32_t& id);
+
+std::string problem_description(
+        const backend::StatusKind kind);
 
 } //namespace backend
 

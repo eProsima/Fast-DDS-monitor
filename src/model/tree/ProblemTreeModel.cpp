@@ -42,6 +42,7 @@
 #include <fastdds_monitor/model/tree/ProblemTreeModel.h>
 
 #include <iostream>
+#include <QQmlEngine>
 
 #include <fastdds_monitor/backend/backend_utils.h>
 
@@ -50,14 +51,15 @@ namespace models {
 ProblemTreeModel::ProblemTreeModel(
         QObject* parent)
     : QAbstractItemModel(parent)
-    , _rootItem{ new ProblemTreeItem() }
-    , _is_empty(false)
+    , root_item_{ new ProblemTreeItem() }
+    , is_empty_(false)
 {
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 ProblemTreeModel::~ProblemTreeModel()
 {
-    delete _rootItem;
+    delete root_item_;
 }
 
 int ProblemTreeModel::rowCount(
@@ -65,7 +67,7 @@ int ProblemTreeModel::rowCount(
 {
     if (!parent.isValid())
     {
-        return _rootItem->childCount();
+        return root_item_->childCount();
     }
 
     return internalPointer(parent)->childCount();
@@ -88,7 +90,7 @@ QModelIndex ProblemTreeModel::index(
         return {};
     }
 
-    ProblemTreeItem* item = _rootItem;
+    ProblemTreeItem* item = root_item_;
     if (parent.isValid())
     {
         item = internalPointer(parent);
@@ -118,7 +120,7 @@ QModelIndex ProblemTreeModel::parent(
         return {};
     }
 
-    if (parentItem == _rootItem)
+    if (parentItem == root_item_)
     {
         return {};
     }
@@ -130,12 +132,12 @@ QVariant ProblemTreeModel::data(
         const QModelIndex& index,
         const int role) const
 {
-    if (!index.isValid() || role != Qt::DisplayRole)
+    if (!index.isValid()/* || role != Qt::DisplayRole*/)
     {
         return QVariant();
     }
 
-    return internalPointer(index)->data();
+    return internalPointer(index)->data(role);
 }
 
 bool ProblemTreeModel::setData(
@@ -162,10 +164,10 @@ void ProblemTreeModel::addTopLevelItem(
 {
     if (child)
     {
-        addItem(_rootItem, child);
-        if (child->get_id() == backend::ID_ALL &&_rootItem->childCount() == 1)
+        addItem(root_item_, child);
+        if (child->id() == backend::ID_ALL &&root_item_->childCount() == 1)
         {
-            _is_empty = true;
+            is_empty_ = true;
         }
     }
 }
@@ -181,13 +183,13 @@ void ProblemTreeModel::addItem(
 
 
     // if parent is topLevelItem (entity item)
-    if (parent->get_id() != backend::ID_ALL && parent->get_kind() == backend::StatusKind::INVALID)
+    if (parent->id() != backend::ID_ALL && parent->kind() == backend::StatusKind::INVALID)
     {
         // For each problem in the entity item
         for (int i=0; i<parent->childCount(); i++)
         {
             // if overriding problem, remove previous problem
-            if (parent->child(i)->get_id() == child->get_id() && parent->child(i)->get_kind() == child->get_kind())
+            if (parent->child(i)->id() == child->id() && parent->child(i)->kind() == child->kind())
             {
                 emit layoutAboutToBeChanged();
                 beginRemoveRows(QModelIndex(), qMax(parent->childCount() - 1, 0), qMax(parent->childCount(), 0));
@@ -240,7 +242,7 @@ void ProblemTreeModel::removeItem(
 
 ProblemTreeItem* ProblemTreeModel::rootItem() const
 {
-    return _rootItem;
+    return root_item_;
 }
 
 QModelIndex ProblemTreeModel::rootIndex()
@@ -270,8 +272,8 @@ void ProblemTreeModel::clear()
 {
     emit layoutAboutToBeChanged();
     beginResetModel();
-    delete _rootItem;
-    _rootItem = new ProblemTreeItem();
+    delete root_item_;
+    root_item_ = new ProblemTreeItem();
     endResetModel();
     emit layoutChanged();
 }
@@ -287,7 +289,7 @@ bool ProblemTreeModel::containsTopLevelItem(
 {
     if (child)
     {
-        return contains(_rootItem, child);
+        return contains(root_item_, child);
     }
     return false;
 }
@@ -303,7 +305,7 @@ bool ProblemTreeModel::contains(
 
     for (int i = 0; i < parent->childCount(); i++)
     {
-        if (parent->child(i)->get_id() == child->get_id())
+        if (parent->child(i)->id() == child->id())
         {
             return true;
         }
@@ -313,18 +315,18 @@ bool ProblemTreeModel::contains(
 
 bool ProblemTreeModel::is_empty()
 {
-    return _is_empty;
+    return is_empty_;
 }
 
 void ProblemTreeModel::removeEmptyItem()
 {
     emit layoutAboutToBeChanged();
-    for (int i=0; i<_rootItem->childCount(); i++)
+    for (int i=0; i<root_item_->childCount(); i++)
     {
-        if (_rootItem->child(i)->get_id() == backend::ID_ALL)
+        if (root_item_->child(i)->id() == backend::ID_ALL)
         {
-            _rootItem->removeChild(_rootItem->child(i));
-            _is_empty = false;
+            root_item_->removeChild(root_item_->child(i));
+            is_empty_ = false;
             break;
         }
     }
@@ -333,22 +335,40 @@ void ProblemTreeModel::removeEmptyItem()
 
 ProblemTreeItem*  ProblemTreeModel::getTopLevelItem(
         const backend::EntityId& id,
-        const std::string& data)
+        const std::string& data,
+        const bool& is_error,
+        const std::string& description)
 {
     // For each entity item in the three (root)
-    for (int i=0; i<_rootItem->childCount(); i++)
+    for (int i=0; i<root_item_->childCount(); i++)
     {
         // if exists
-        if (_rootItem->child(i)->get_id() == id)
+        if (root_item_->child(i)->id() == id)
         {
-            return _rootItem->child(i);
+            return root_item_->child(i);
         }
     }
 
     // if not existing, create new topLevelItem
-    ProblemTreeItem* new_entity_item = new ProblemTreeItem(id, data);
+    ProblemTreeItem* new_entity_item = new ProblemTreeItem(id, data, is_error, description);
     addTopLevelItem(new_entity_item);
     return new_entity_item;
+}
+
+
+QHash<int, QByteArray> ProblemTreeModel::roleNames() const
+{
+    // TODO Jesus this roles are not currently used in the QML, find out why
+    QHash<int, QByteArray>  roles;
+
+    roles[idRole] = "id";
+    roles[statusRole] = "status";
+    roles[valueRole] = "value";
+    roles[descriptionRole] = "description";
+    roles[aliveRole] = "alive";
+    roles[nameRole] = "name";
+
+    return roles;
 }
 
 } // namespace models

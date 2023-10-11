@@ -60,19 +60,6 @@ class ProblemTreeItem
 
 public:
 
-
-    //! Role names to allow queries to get some specific information from the Item
-    enum ModelItemRoles
-    {
-        idRole = Qt::UserRole + 1,      //! Role for attribute Id
-        kindRole,                       //! Role for attribute Kind
-        aliveRole,                      //! Role for attribute Alive
-        clickedRole,                    //! Role for attribute Clicked
-        nameRole                        //! Role for attribute Name
-        // The nameRole must always be the last one as it is used in child classes
-        // as the initial role of the enumeration)
-    };
-
     //! Create an empty item.
     ProblemTreeItem();
 
@@ -80,16 +67,21 @@ public:
     explicit ProblemTreeItem(
             const QVariant& data);
 
-    //! Create an item with the given name as string.
+    //! Create an Entity item / top level item
     explicit ProblemTreeItem(
             const backend::EntityId& id,
-            const std::string& name);
+            const std::string& name,
+            const bool& is_error,
+            const std::string& description);
 
-    //! Create an item with the given name as string.
+    //! Create an item with the problem parameters
     explicit ProblemTreeItem(
             const backend::EntityId& id,
             const backend::StatusKind& kind,
-            const std::string& name);
+            const std::string& name,
+            const bool& is_error,
+            const std::string& value,
+            const std::string& description);
 
     //! Destroy the item. It will destroy every child.
     ~ProblemTreeItem();
@@ -98,18 +90,20 @@ public:
     const QVariant& data() const;
 
     //! Return the stored data of the node.
-    /*const QVariant& data(
-            int role) const;*/
+    const QVariant& data(
+            int role) const;
 
-    QString entity_id() const;
+    const QVariant& entity_id() const;
 
-    QString name() const;
+    const QVariant& name() const;
 
-    QString kind() const;
+    const QVariant& status() const;
 
-    bool alive() const;
+    const QVariant& value() const;
 
-    bool clicked() const;
+    const QVariant& description() const;
+
+    const QVariant& alive() const;
 
     //! Set the internal data of the node.
     void setData(
@@ -129,9 +123,9 @@ public:
     ProblemTreeItem* child(
             int row);
 
-    backend::EntityId get_id();
+    backend::EntityId id();
 
-    backend::StatusKind get_kind();
+    backend::StatusKind kind();
 
 private:
     ProblemTreeItem* parentItem();
@@ -146,12 +140,22 @@ private:
             ProblemTreeItem* item);
 
 private:
-    QVariant _itemData;
-    ProblemTreeItem* _parentItem;
-    QVector<ProblemTreeItem*> _childItems;
-    backend::EntityId _id;
-    backend::StatusKind _kind;
-    bool _is_active;
+    ProblemTreeItem* parent_item_;
+    QVector<ProblemTreeItem*> child_items_;
+    backend::EntityId id_;
+    backend::StatusKind kind_;
+    std::string name_;
+    bool is_status_error_;
+    std::string value_;
+    std::string description_;
+    bool is_active_;
+    QVariant id_variant_;
+    QVariant kind_variant_;
+    QVariant name_variant_;
+    QVariant is_status_error_variant_;
+    QVariant value_variant_;
+    QVariant description_variant_;
+    QVariant is_active_variant_;
 };
 
 } // namespace models

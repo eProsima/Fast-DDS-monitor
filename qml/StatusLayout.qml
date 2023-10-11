@@ -272,13 +272,14 @@ Item
                     //rowPadding: 20
                     //selectionEnabled: true
 
-                    contentItem: RowLayout {
+                    /*contentItem: RowLayout {
                         id: tree_item
-                        property string id: currentRow.currentData.id
+                        //role: "name"
+                        /*property string id: currentRow.currentData.id
                         property string kind: currentRow.currentData.kind
                         property bool alive: currentRow.currentData.alive
                         property bool clicked: currentRow.currentData.clicked
-                        property string name: currentRow.currentData.name
+                        property string name: currentRow.currentData.name*/
                         /*Text {
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignLeft
@@ -301,22 +302,22 @@ Item
                             text: currentRow.currentData._is_active
                         }*/
 
-                        Text {
+                        /*Text {
                             verticalAlignment: Text.AlignVCenter
 
                             color: currentRow.currentData.alive ? "grey" : "black"
-                            text: tree_item.name
+                            text: currentRow.currentData
                             font: status_tree_view.font
                         }
 
-                        Text {
+                        /*Text {
                             verticalAlignment: Text.AlignVCenter
 
                             color: currentRow.isSelectedIndex ? status_tree_view.selectedItemColor : status_tree_view.color
                             text: tree_item.id
                             font: status_tree_view.font
-                        }
-                    }
+                        }*/
+                    //}
                 }
             }
         }

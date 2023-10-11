@@ -44,73 +44,119 @@
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/backend_utils.h>
 #include <fastdds_monitor/model/tree/ProblemTreeItem.h>
+#include <fastdds_monitor/model/tree/ProblemTreeModel.h>
 
 namespace models {
 
 ProblemTreeItem::ProblemTreeItem()
-    : _itemData()
-    , _parentItem(nullptr)
-    , _id(backend::ID_ALL)
-    , _kind(backend::StatusKind::INVALID)
-    , _is_active(true)
+    : parent_item_(nullptr)
+    , id_(backend::ID_ALL)
+    , kind_(backend::StatusKind::INVALID)
+    , name_()
+    , is_status_error_(false)
+    , value_()
+    , description_()
+    , is_active_(true)
+    , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
+    , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
+    , name_variant_(QVariant())
+    , is_status_error_variant_(QVariant(false))
+    , value_variant_(QVariant())
+    , description_variant_(QVariant())
+    , is_active_variant_(QVariant(true))
 {
 }
 
 ProblemTreeItem::ProblemTreeItem(
         const QVariant& data)
-    : _itemData(data)
-    , _parentItem(nullptr)
-    , _id(backend::ID_ALL)
-    , _kind(backend::StatusKind::INVALID)
-    , _is_active(true)
+    : parent_item_(nullptr)
+    , id_(backend::ID_ALL)
+    , kind_(backend::StatusKind::INVALID)
+    , name_(data.toString().toStdString())
+    , is_status_error_(false)
+    , value_()
+    , description_()
+    , is_active_(true)
+    , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
+    , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
+    , name_variant_(QVariant(QString::fromStdString(name_)))
+    , is_status_error_variant_(QVariant(false))
+    , value_variant_(QVariant())
+    , description_variant_(QVariant())
+    , is_active_variant_(QVariant(true))
 {
 }
 
 ProblemTreeItem::ProblemTreeItem(
         const backend::EntityId& id,
-        const std::string& name)
-    : _itemData(QString::fromStdString(name))
-    , _parentItem(nullptr)
-    , _id(id)
-    , _kind(backend::StatusKind::INVALID)
-    , _is_active(true)
+        const std::string& name,
+        const bool& is_error,
+        const std::string& description)
+    : parent_item_(nullptr)
+    , id_(id)
+    , kind_(backend::StatusKind::INVALID)
+    , name_(name)
+    , is_status_error_(is_error)
+    , value_()
+    , description_(description)
+    , is_active_(true)
+    , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
+    , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
+    , name_variant_(QVariant(QString::fromStdString(name)))
+    , is_status_error_variant_(QVariant(is_error))
+    , value_variant_(QVariant())
+    , description_variant_(QVariant(QString::fromStdString(description)))
+    , is_active_variant_(QVariant(true))
 {
 }
 
 ProblemTreeItem::ProblemTreeItem(
         const backend::EntityId& id,
         const backend::StatusKind& kind,
-        const std::string& name)
-    : _itemData(QString::fromStdString(name))
-    , _parentItem(nullptr)
-    , _id(id)
-    , _kind(kind)
-    , _is_active(true)
+        const std::string& name,
+        const bool& is_error,
+        const std::string& value,
+        const std::string& description)
+    : parent_item_(nullptr)
+    , id_(id)
+    , kind_(kind)
+    , name_(name)
+    , is_status_error_(is_error)
+    , value_(value)
+    , description_(description)
+    , is_active_(true)
+    , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
+    , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
+    , name_variant_(QVariant(QString::fromStdString(name_)))
+    , is_status_error_variant_(QVariant(is_error))
+    , value_variant_(QVariant(QString::fromStdString(value)))
+    , description_variant_(QVariant(QString::fromStdString(description)))
+    , is_active_variant_(QVariant(true))
 {
 }
 
 ProblemTreeItem::~ProblemTreeItem()
 {
-    qDeleteAll(_childItems);
+    qDeleteAll(child_items_);
 }
 
 ProblemTreeItem* ProblemTreeItem::parentItem()
 {
-    return _parentItem;
+    return parent_item_;
 }
 
 void ProblemTreeItem::setParentItem(
         ProblemTreeItem* parentItem)
 {
-    _parentItem = parentItem;
+    parent_item_ = parentItem;
 }
 
 void ProblemTreeItem::appendChild(
         ProblemTreeItem* item)
 {
-    if (item && !_childItems.contains(item))
+    if (item && !child_items_.contains(item))
     {
-        _childItems.append(item);
+        child_items_.append(item);
     }
 }
 
@@ -119,88 +165,92 @@ void ProblemTreeItem::removeChild(
 {
     if (item)
     {
-        _childItems.removeAll(item);
+        child_items_.removeAll(item);
     }
 }
 
 ProblemTreeItem* ProblemTreeItem::child(
         int row)
 {
-    return _childItems.value(row);
+    return child_items_.value(row);
 }
 
 int ProblemTreeItem::childCount() const
 {
-    return _childItems.count();
+    return child_items_.count();
 }
 
 const QVariant& ProblemTreeItem::data() const
 {
-    //return this->data(nameRole);
-    return _itemData;
+    return this->data(models::ProblemTreeModel::ModelItemRoles::nameRole);
 }
 
-/*const QVariant& ProblemTreeItem::data(
+const QVariant& ProblemTreeItem::data(
         int role) const
 {
     switch (role)
     {
-        case idRole:
+        case models::ProblemTreeModel::ModelItemRoles::idRole:
             return this->entity_id();
-        case kindRole:
-            return this->kind();
-        case aliveRole:
+        case models::ProblemTreeModel::ModelItemRoles::statusRole:
+            return this->status();
+        case models::ProblemTreeModel::ModelItemRoles::valueRole:
+            return this->value();
+        case models::ProblemTreeModel::ModelItemRoles::descriptionRole:
+            return this->description();
+        case models::ProblemTreeModel::ModelItemRoles::aliveRole:
             return this->alive();
-        case clickedRole:
-            return this->clicked();
-        case nameRole:
+        case models::ProblemTreeModel::ModelItemRoles::nameRole:
         default:
             return this->name();
     }
-}*/
-
-QString ProblemTreeItem::entity_id() const
-{
-    return backend::backend_id_to_models_id(_id); //backend::backend_id_to_models_id(id_);
 }
 
-QString ProblemTreeItem::name() const
+const QVariant& ProblemTreeItem::entity_id() const
 {
-    return _itemData.toString();
+    return  id_variant_;
 }
 
-QString ProblemTreeItem::kind() const
+const QVariant& ProblemTreeItem::name() const
 {
-    return QString::fromStdString(backend::status_kind_to_string(_kind));
+    return name_variant_;
 }
 
-bool ProblemTreeItem::alive() const
+const QVariant& ProblemTreeItem::status() const
 {
-    //return backend::
-    return true;
+    return is_status_error_variant_;
 }
 
-bool ProblemTreeItem::clicked() const
+const QVariant& ProblemTreeItem::value() const
 {
-    //return clicked_;
-    return false;
+    return value_variant_;
+}
+
+const QVariant& ProblemTreeItem::description() const
+{
+    return description_variant_;
+}
+
+const QVariant& ProblemTreeItem::alive() const
+{
+    return is_active_variant_;
 }
 
 void ProblemTreeItem::setData(
         const QVariant& data)
 {
-    _itemData = data;
+    name_variant_ = data;
 }
 
 bool ProblemTreeItem::isLeaf() const
 {
-    return _childItems.isEmpty();
+    return child_items_.isEmpty();
 }
 
 int ProblemTreeItem::depth() const
 {
     int depth = 0;
-    ProblemTreeItem* anchestor = _parentItem;
+    ProblemTreeItem* anchestor = parent_item_;
     while (anchestor)
     {
         ++depth;
@@ -212,22 +262,22 @@ int ProblemTreeItem::depth() const
 
 int ProblemTreeItem::row() const
 {
-    if (_parentItem)
+    if (parent_item_)
     {
-        return _parentItem->_childItems.indexOf(const_cast<ProblemTreeItem*>(this));
+        return parent_item_->child_items_.indexOf(const_cast<ProblemTreeItem*>(this));
     }
 
     return 0;
 }
 
-backend::EntityId ProblemTreeItem::get_id()
+backend::EntityId ProblemTreeItem::id()
 {
-    return _id;
+    return id_;
 }
 
-backend::StatusKind ProblemTreeItem::get_kind()
+backend::StatusKind ProblemTreeItem::kind()
 {
-    return _kind;
+    return kind_;
 }
 
 } // namespace models
