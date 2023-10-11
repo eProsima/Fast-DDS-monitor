@@ -82,6 +82,9 @@ Item {
     property alias font: root.fontMetrics.font
     enum Role { Id=257, Status, Value, Description, Alive, Name }
 
+    // private (internal) signals
+    signal focus_(int entityId)
+
     implicitWidth: parent.width
     implicitHeight: childrenRect.height
 
@@ -215,12 +218,23 @@ Item {
                 }
 
                 Connections {
-                target: root.model
-                ignoreUnknownSignals: true
-                function onLayoutChanged() {
-                    const parent = root.model.index(index, 0, parentIndex)
-                    _prop.itemChildCount = root.model.rowCount(parent)
+                    target: root.model
+                    ignoreUnknownSignals: true
+                    function onLayoutChanged() {
+                        const parent = root.model.index(index, 0, parentIndex)
+                        _prop.itemChildCount = root.model.rowCount(parent)
+                    }
                 }
+
+                Connections {
+                    target: root
+                    function onFocus_(entityId){
+                        if(parseInt(_prop.currentId) === parseInt(entityId)){
+                            _prop.expanded = true
+                        } else {
+                            _prop.expanded = false
+                        }
+                    }
                 }
 
                 Item {
@@ -361,5 +375,9 @@ Item {
                 }
             }
         }
+    }
+
+    function focus (entityId) {
+        root.focus_(entityId)
     }
 }

@@ -88,6 +88,8 @@ Flickable {
         Arrow
     }
 
+    signal problem_focused()
+
     property int handleStyle: ProblemTreeView.Handle.TriangleSmallOutline
 
     contentHeight: tree.height
@@ -148,6 +150,19 @@ Flickable {
             case ProblemTreeView.Handle.Chevron: return "❱";
             case ProblemTreeView.Handle.Arrow: return "➤";
             default: return "▶";
+        }
+    }
+
+    function focus_entity(entityId) {
+        var found = false
+        for (var i = 0; i< model.rowCount(); i++){
+            if (model.data(model.index(i,0),ProblemTreeViewItem.Role.Id) == entityId) {
+                tree.focus(entityId)
+                found = true
+            }
+        }
+        if (found){
+            root.problem_focused()
         }
     }
 }

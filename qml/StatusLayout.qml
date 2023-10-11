@@ -42,6 +42,7 @@ Item
     property int expand_btn_rotation_angle: expand_rotation_angle_
 
     // Private signals
+    signal focus_entity_(int entityId)
 
     // Read only design properties (sizes and colors)
     readonly property int tabs_height_: 30
@@ -77,6 +78,18 @@ Item
                     anchors.margins: 1
 
                     model: problemModel
+
+                    onProblem_focused:{
+                        collapse_status_layout()
+                    }
+
+                    Connections {
+                        target: statusLayout
+
+                        function onFocus_entity_(entityId) {
+                            status_tree_view.focus_entity(entityId)
+                        }
+                    }
                 }
             }
         }
@@ -268,17 +281,6 @@ Item
     }
 
     function filter_problem_log(entityId) {
-        var entity_value = ""
-        for (var i=0; i < status_tree_view.model.rowCount(); i++)
-        {
-            if (status_tree.model.index(i, 0).data() == entity_value)
-            {
-                status_tree_view.expand(status_tree.model.index(i, 0))
-            }
-            else
-            {
-                status_tree_view.collapse(status_tree.model.index(i, 0))
-            }
-        }
+        statusLayout.focus_entity_(entityId)
     }
 }
