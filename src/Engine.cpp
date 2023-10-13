@@ -200,7 +200,7 @@ Engine::~Engine()
 
         if (problem_model_)
         {
-            delete problem_model_;
+            //delete problem_model_;
         }
 
         // Auxiliar models
