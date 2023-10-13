@@ -363,6 +363,7 @@ QHash<int, QByteArray> ProblemTreeModel::roleNames() const
 
     roles[idRole] = "id";
     roles[statusRole] = "status";
+    roles[kindRole] = "kind";
     roles[valueRole] = "value";
     roles[descriptionRole] = "description";
     roles[aliveRole] = "alive";

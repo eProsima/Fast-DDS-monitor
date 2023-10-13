@@ -72,6 +72,7 @@ public:
     {
         idRole = Qt::UserRole + 1,      //! Role for attribute Id
         statusRole,                     //! Role for attribute Status
+        kindRole,                       //! Role for attribute Kind
         valueRole,                      //! Role for attribute Value
         descriptionRole,                //! Role for attribute Description
         aliveRole,                      //! Role for attribute Alive

@@ -95,6 +95,8 @@ public:
 
     const QVariant& entity_id() const;
 
+    const QVariant& status_kind() const;
+
     const QVariant& name() const;
 
     const QVariant& status() const;
@@ -126,6 +128,9 @@ public:
     backend::EntityId id();
 
     backend::StatusKind kind();
+
+    //! Increases the issues counter of a top level entity item
+    void recalculate_entity_counter();
 
 private:
     ProblemTreeItem* parentItem();

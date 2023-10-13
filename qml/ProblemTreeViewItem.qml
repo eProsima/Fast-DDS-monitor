@@ -80,7 +80,7 @@ Item {
         font.pointSize: Theme.font.pointSize
     }
     property alias font: root.fontMetrics.font
-    enum Role { Id=257, Status, Value, Description, Alive, Name }
+    enum Role { Id=257, Status, Kind, Value, Description, Alive, Name }
 
     // private (internal) signals
     signal focus_(int entityId)
@@ -115,6 +115,7 @@ Item {
 
         IconSVG {
             id: status_icon
+            visible: !(currentRow.currentId === "all" && currentRow.currentKind === "INVALID")
             anchors.left: parent.left; anchors.leftMargin: -5
             anchors.verticalCenter: parent.verticalCenter
             name: currentRow.currentStatus ? "cross" :"issues"
@@ -140,8 +141,8 @@ Item {
             verticalAlignment: Text.AlignVCenter
 
             color:currentRow.currentAlive ? currentRow.isSelectedIndex ? root.selectedItemColor : root.color : root.inactive
-            text: currentRow.currentValue == undefined ?
-                    currentRow.currentId === "all" ? "" : "(" + currentRow.currentId + ")" : currentRow.currentValue
+            text: currentRow.currentId != "all" && currentRow.currentKind === "INVALID" ?
+                    currentRow.currentId === "all" ? "" : "(" + currentRow.currentValue + ")" : currentRow.currentValue
             font: root.font
         }
 
@@ -156,7 +157,9 @@ Item {
             elide: Text.ElideRight
 
             color:currentRow.currentAlive ? currentRow.isSelectedIndex ? root.selectedItemColor : root.color : root.inactive
-            text: currentRow.currentValue == undefined ? "" : currentRow.currentDescription
+            text: currentRow.currentId != "all" && currentRow.currentKind === "INVALID" ?
+                    currentRow.currentId === "all" ? "" :
+                    "Entity ID:  " + currentRow.currentId : currentRow.currentDescription
             font.pointSize: Theme.font.pointSize
             font.italic: true
             onLinkActivated: Qt.openUrlExternally(link)
@@ -200,6 +203,7 @@ Item {
                 property var currentData: root.model.data(currentIndex)
                 property var currentId: root.model.data(currentIndex, ProblemTreeViewItem.Role.Id)
                 property var currentStatus: root.model.data(currentIndex, ProblemTreeViewItem.Role.Status)
+                property var currentKind: root.model.data(currentIndex, ProblemTreeViewItem.Role.Kind)
                 property var currentValue: root.model.data(currentIndex, ProblemTreeViewItem.Role.Value)
                 property var currentDescription: root.model.data(currentIndex, ProblemTreeViewItem.Role.Description)
                 property var currentAlive: root.model.data(currentIndex, ProblemTreeViewItem.Role.Alive)
@@ -214,7 +218,6 @@ Item {
                 readonly property bool isSelectedAndHoveredIndex: hoverEnabled && selectionEnabled && isHoveredIndex && isSelectedIndex
 
                 function toggle(){ if(_prop.hasChildren) _prop.expanded = !_prop.expanded }
-
                 }
 
                 Connections {
@@ -223,6 +226,12 @@ Item {
                     function onLayoutChanged() {
                         const parent = root.model.index(index, 0, parentIndex)
                         _prop.itemChildCount = root.model.rowCount(parent)
+                        // refresh counter
+                        var new_value = root.model.data(_prop.currentIndex, ProblemTreeViewItem.Role.Value)
+                        if (new_value != undefined)
+                        {
+                            _prop.currentValue = new_value
+                        }
                     }
                 }
 

@@ -194,6 +194,8 @@ const QVariant& ProblemTreeItem::data(
             return this->entity_id();
         case models::ProblemTreeModel::ModelItemRoles::statusRole:
             return this->status();
+        case models::ProblemTreeModel::ModelItemRoles::kindRole:
+            return this->status_kind();
         case models::ProblemTreeModel::ModelItemRoles::valueRole:
             return this->value();
         case models::ProblemTreeModel::ModelItemRoles::descriptionRole:
@@ -209,6 +211,11 @@ const QVariant& ProblemTreeItem::data(
 const QVariant& ProblemTreeItem::entity_id() const
 {
     return  id_variant_;
+}
+
+const QVariant& ProblemTreeItem::status_kind() const
+{
+    return  kind_variant_;
 }
 
 const QVariant& ProblemTreeItem::name() const
@@ -278,6 +285,33 @@ backend::EntityId ProblemTreeItem::id()
 backend::StatusKind ProblemTreeItem::kind()
 {
     return kind_;
+}
+
+
+void ProblemTreeItem::recalculate_entity_counter()
+{
+    // check if top level item / entity item
+    if (id_ != backend::ID_ALL && kind_ == backend::StatusKind::INVALID)
+    {
+        int count = 0;
+        for (int i = 0; i < child_items_.count(); i++)
+        {
+            try
+            {
+                if (child_items_.value(i)->childCount() > 0)
+                {
+                    for (int j = 0; j < child_items_.value(i)->childCount(); j++)
+                    {
+                        count += child_items_.value(i)->child(j)->value().toInt();
+                    }
+                }
+                count += child_items_.value(i)->value().toInt();
+            }
+            catch (...) {}
+        }
+        value_ = std::to_string(count);
+        value_variant_ = QVariant(QString::fromStdString(value_));
+    }
 }
 
 } // namespace models
