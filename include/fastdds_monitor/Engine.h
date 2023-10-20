@@ -273,6 +273,9 @@ public:
             const backend::EntityId& id,
             backend::StatusKind kind);
 
+    bool update_problem_entities(
+            const backend::EntityId& id);
+
     /**
      * @brief Update the internal dds model with entities related with Entity referenced by \c id
      *

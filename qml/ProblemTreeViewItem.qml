@@ -141,7 +141,8 @@ Item {
             verticalAlignment: Text.AlignVCenter
 
             color:currentRow.currentAlive ? currentRow.isSelectedIndex ? root.selectedItemColor : root.color : root.inactive
-            text: currentRow.currentId != "all" && currentRow.currentKind === "INVALID" ?
+            text: currentRow.currentId == undefined || currentRow.currentValue == undefined ? "" :
+                    currentRow.currentId != "all" && currentRow.currentKind === "INVALID" ?
                     currentRow.currentId === "all" ? "" : "(" + currentRow.currentValue + ")" : currentRow.currentValue
             font: root.font
         }

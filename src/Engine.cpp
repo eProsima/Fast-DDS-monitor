@@ -1120,18 +1120,40 @@ bool Engine::update_problem(
         {
             if (new_status == backend::EntityStatus::ERROR)
             {
-                controller_->status_counters.errors++;
+                std::map<backend::EntityId,uint32_t>::iterator it = controller_->status_counters.errors.find(id);
+                uint32_t counter = 1;
+                if(it != controller_->status_counters.errors.end())
+                {
+                    //element found;
+                    counter = ++it->second;
+                }
+                else
+                {
+                    controller_->status_counters.errors.insert(std::pair<backend::EntityId, uint32_t>(id, counter));
+                }
+                controller_->status_counters.total_errors++;
             }
             else if (new_status == backend::EntityStatus::WARNING)
             {
-                controller_->status_counters.warnings++;
+                std::map<backend::EntityId,uint32_t>::iterator it = controller_->status_counters.warnings.find(id);
+                uint32_t counter = 1;
+                if(it != controller_->status_counters.warnings.end())
+                {
+                    //element found;
+                    counter = ++it->second;
+                }
+                else
+                {
+                    controller_->status_counters.warnings.insert(std::pair<backend::EntityId, uint32_t>(id, counter));
+                }
+                controller_->status_counters.total_warnings++;
             }
             // notify problem model layout changed to refresh layout view
             emit problem_model_->layoutAboutToBeChanged();
 
             emit controller_->update_status_counters(
-                    QString::number(controller_->status_counters.errors),
-                    QString::number(controller_->status_counters.warnings));
+                    QString::number(controller_->status_counters.total_errors),
+                    QString::number(controller_->status_counters.total_warnings));
 
             // remove empty message if exists
             if (problem_model_->is_empty())
@@ -1143,6 +1165,57 @@ bool Engine::update_problem(
         }
     }
     return true;
+}
+
+bool Engine::update_problem_entities(
+        const backend::EntityId& id)
+{
+    // check if there are entities in the problem model
+    if (!problem_model_->is_empty())
+    {
+        // get info from id
+        EntityInfo entity_info = backend_connection_.get_info(id);
+
+        // update problem model if not alive
+        if (!entity_info["alive"])
+        {
+            // remove item from tree
+            problem_model_->removeItem(problem_model_->getTopLevelItem(id, "", false, ""));
+
+            // add empty item if removed last item
+            if (problem_model_->rowCount(problem_model_->rootIndex()) == 0)
+            {
+                problem_model_->addTopLevelItem(new models::ProblemTreeItem(backend::ID_ALL, std::string("No issues found"), false, std::string("")));
+            }
+
+            // update error counter
+            std::map<backend::EntityId,uint32_t>::iterator err_it = controller_->status_counters.errors.find(id);
+            if(err_it != controller_->status_counters.errors.end())
+            {
+                //element found;
+                controller_->status_counters.total_errors -= err_it->second;
+            }
+            controller_->status_counters.errors.erase(id);
+
+            // update warning counter
+            std::map<backend::EntityId,uint32_t>::iterator warn_it = controller_->status_counters.warnings.find(id);
+            if(warn_it != controller_->status_counters.warnings.end())
+            {
+                //element found;
+                controller_->status_counters.total_warnings -= warn_it->second;
+            }
+            controller_->status_counters.warnings.erase(id);
+
+            // refresh layout
+            emit problem_model_->layoutAboutToBeChanged();
+
+            emit controller_->update_status_counters(
+                    QString::number(controller_->status_counters.total_errors),
+                    QString::number(controller_->status_counters.total_warnings));
+        }
+        return true;
+    }
+    return false;
 }
 
 bool Engine::update_entity_generic(
@@ -1174,14 +1247,17 @@ bool Engine::update_entity_generic(
                 entity_id, &Engine::update_topic, !is_update, is_last_clicked);
 
         case backend::EntityKind::PARTICIPANT:
+            update_problem_entities(entity_id);
             return update_entity(
                 entity_id, &Engine::update_participant, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAWRITER:
+            update_problem_entities(entity_id);
             return update_entity(
                 entity_id, &Engine::update_datawriter, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAREADER:
+            update_problem_entities(entity_id);
             return update_entity(
                 entity_id, &Engine::update_datareader, !is_update, is_last_clicked);
 

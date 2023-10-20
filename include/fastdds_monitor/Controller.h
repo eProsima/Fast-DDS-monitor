@@ -26,6 +26,8 @@
 #include <QObject>
 #include <QtCharts/QVXYModelMapper>
 
+#include <fastdds_monitor/backend/backend_types.h>
+
 class Engine;
 
 enum class ErrorType : int
@@ -62,8 +64,10 @@ public:
     //! Status counters displayed in the QML
     struct StatusCounters
     {
-        uint32_t errors = 0;
-        uint32_t warnings = 0;
+        std::map<backend::EntityId,uint32_t> errors;
+        std::map<backend::EntityId,uint32_t> warnings;
+        uint32_t total_errors = 0;
+        uint32_t total_warnings = 0;
     } status_counters;
 
 public slots:
