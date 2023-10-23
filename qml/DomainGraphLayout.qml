@@ -547,14 +547,14 @@ Item
 
                             Rectangle {
                                 color: "transparent"
-                                width: modelData["status"] != "ok"
+                                width: modelData["status"] != "OK"
                                     ? first_indentation_ : 0
                             }
                             IconSVG {
-                                visible: modelData["status"] != "ok"
-                                name: modelData["status"] == "warning" ? "issues" : "error"
-                                color: modelData["status"] == "warning" ? "white" : "red"
-                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                visible: modelData["status"] != "OK"
+                                name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                color: modelData["status"] == "WARNING" ? "white" : "red"
+                                size: modelData["status"] != "OK"? icon_size_ : 0
                             }
                             Rectangle {
                                 color: "transparent"
@@ -695,14 +695,14 @@ Item
 
                                     Rectangle {
                                         color: "transparent"
-                                        width: modelData["status"] != "ok"
+                                        width: modelData["status"] != "OK"
                                             ? first_indentation_ : 0
                                     }
                                     IconSVG {
-                                        visible: modelData["status"] != "ok"
-                                        name: modelData["status"] == "warning" ? "issues" : "error"
-                                        color: modelData["status"] == "warning" ? "white" : "red"
-                                        size: modelData["status"] != "ok"? icon_size_ : 0
+                                        visible: modelData["status"] != "OK"
+                                        name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                        color: modelData["status"] == "WARNING" ? "white" : "red"
+                                        size: modelData["status"] != "OK"? icon_size_ : 0
                                     }
                                     Rectangle {
                                         color: "transparent"
@@ -841,14 +841,14 @@ Item
 
                                             Rectangle {
                                                 color: "transparent"
-                                                width: modelData["status"] != "ok"
+                                                width: modelData["status"] != "OK"
                                                     ? first_indentation_ : 0
                                             }
                                             IconSVG {
-                                                visible: modelData["status"] != "ok"
-                                                name: modelData["status"] == "warning" ? "issues" : "error"
-                                                color: modelData["status"] == "warning" ? "white" : "red"
-                                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                                visible: modelData["status"] != "OK"
+                                                name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                                color: modelData["status"] == "WARNING" ? "white" : "red"
+                                                size: modelData["status"] != "OK"? icon_size_ : 0
                                             }
                                             Rectangle {
                                                 color: "transparent"
@@ -986,14 +986,14 @@ Item
 
                                                     Rectangle {
                                                         color: "transparent"
-                                                        width: modelData["status"] != "ok"
+                                                        width: modelData["status"] != "OK"
                                                             ? first_indentation_ : 0
                                                     }
                                                     IconSVG {
-                                                        visible: modelData["status"] != "ok"
-                                                        name: modelData["status"] == "warning" ? "issues" : "error"
-                                                        color: modelData["status"] == "warning" ? "black" : "red"
-                                                        size: modelData["status"] != "ok"? icon_size_ : 0
+                                                        visible: modelData["status"] != "OK"
+                                                        name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                                        color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                        size: modelData["status"] != "OK"? icon_size_ : 0
                                                     }
                                                     Rectangle {
                                                         color: "transparent"
@@ -1156,14 +1156,14 @@ Item
 
                                                             Rectangle {
                                                                 color: "transparent"
-                                                                width: modelData["status"] != "ok"
+                                                                width: modelData["status"] != "OK"
                                                                     ? first_indentation_ : 0
                                                             }
                                                             IconSVG {
-                                                                visible: modelData["status"] != "ok"
-                                                                name: modelData["status"] == "warning" ? "issues" : "error"
-                                                                color: modelData["status"] == "warning" ? "black" : "red"
-                                                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                                                visible: modelData["status"] != "OK"
+                                                                name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                                                color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                                size: modelData["status"] != "OK"? icon_size_ : 0
                                                             }
                                                             Rectangle {
                                                                 color: "transparent"
@@ -1273,16 +1273,6 @@ Item
                 load_model()
             }
         }
-    }
-
-    // footer section to cut entities layout
-    Rectangle {
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        height: elements_spacing_
-        width: max_host_width_ + 2*elements_spacing_
-        color: "white"
-        z: 14
     }
 
     // Empty screen message
