@@ -288,12 +288,12 @@ backend::StatusKind ProblemTreeItem::kind()
 }
 
 
-void ProblemTreeItem::recalculate_entity_counter()
+int ProblemTreeItem::recalculate_entity_counter()
 {
+    int count = 0;
     // check if top level item / entity item
     if (id_ != backend::ID_ALL && kind_ == backend::StatusKind::INVALID)
     {
-        int count = 0;
         for (int i = 0; i < child_items_.count(); i++)
         {
             try
@@ -312,6 +312,7 @@ void ProblemTreeItem::recalculate_entity_counter()
         value_ = std::to_string(count);
         value_variant_ = QVariant(QString::fromStdString(value_));
     }
+    return count;
 }
 
 } // namespace models

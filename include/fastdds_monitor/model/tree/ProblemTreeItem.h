@@ -130,7 +130,7 @@ public:
     backend::StatusKind kind();
 
     //! Increases the issues counter of a top level entity item
-    void recalculate_entity_counter();
+    int recalculate_entity_counter();
 
 private:
     ProblemTreeItem* parentItem();

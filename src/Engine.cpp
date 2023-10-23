@@ -975,6 +975,7 @@ bool Engine::update_problem(
         const backend::EntityId& id,
         backend::StatusKind kind)
 {
+    int counter = 0;
     auto empty_item = new models::ProblemTreeItem(backend::ID_ALL, std::string("No issues found"), false, std::string(""));
     if (id == backend::ID_ALL)
     {
@@ -1013,7 +1014,7 @@ bool Engine::update_problem(
                     problem_model_->addItem(deadline_missed_item, total_count_item);
                     problem_model_->addItem(deadline_missed_item, last_instance_handle_item);
                     problem_model_->addItem(entity_item, deadline_missed_item);
-                    entity_item->recalculate_entity_counter();
+                    counter = entity_item->recalculate_entity_counter();
                 }
                 break;
             }
@@ -1047,7 +1048,7 @@ bool Engine::update_problem(
                         }
                     }
                     problem_model_->addItem(entity_item, incompatible_qos_item);
-                    entity_item->recalculate_entity_counter();
+                    counter = entity_item->recalculate_entity_counter();
                 }
                 break;
             }
@@ -1065,7 +1066,7 @@ bool Engine::update_problem(
                             sample.status == backend::EntityStatus::ERROR,
                             std::to_string(sample.inconsistent_topic_status.total_count()), description);
                     problem_model_->addItem(entity_item, inconsistent_topic_item);
-                    entity_item->recalculate_entity_counter();
+                    counter = entity_item->recalculate_entity_counter();
                 }
                 break;
             }
@@ -1083,7 +1084,7 @@ bool Engine::update_problem(
                             sample.status == backend::EntityStatus::ERROR,
                             std::to_string(sample.liveliness_lost_status.total_count()), description);
                     problem_model_->addItem(entity_item, liveliness_lost_item);
-                    entity_item->recalculate_entity_counter();
+                    counter = entity_item->recalculate_entity_counter();
                 }
                 break;
             }
@@ -1101,7 +1102,7 @@ bool Engine::update_problem(
                             sample.status == backend::EntityStatus::ERROR,
                             std::to_string(sample.sample_lost_status.total_count()), description);
                     problem_model_->addItem(entity_item, samples_lost_item);
-                    entity_item->recalculate_entity_counter();
+                    counter = entity_item->recalculate_entity_counter();
                 }
                 break;
             }
@@ -1118,35 +1119,44 @@ bool Engine::update_problem(
         }
         if (new_status != backend::EntityStatus::OK)
         {
+            std::map<backend::EntityId,uint32_t>::iterator it;
+            uint32_t total_counter = 0;
+            bool found = false;
             if (new_status == backend::EntityStatus::ERROR)
             {
-                std::map<backend::EntityId,uint32_t>::iterator it = controller_->status_counters.errors.find(id);
-                uint32_t counter = 1;
-                if(it != controller_->status_counters.errors.end())
+                for (it = controller_->status_counters.errors.begin(); it != controller_->status_counters.errors.end(); it++)
                 {
-                    //element found;
-                    counter = ++it->second;
+                    if (it->first == id)
+                    {
+                        //element found;
+                        found = true;
+                        it->second = counter;
+                    }
+                    total_counter += it->second;
                 }
-                else
+                if (!found)
                 {
                     controller_->status_counters.errors.insert(std::pair<backend::EntityId, uint32_t>(id, counter));
                 }
-                controller_->status_counters.total_errors++;
+                controller_->status_counters.total_errors = total_counter;
             }
             else if (new_status == backend::EntityStatus::WARNING)
             {
-                std::map<backend::EntityId,uint32_t>::iterator it = controller_->status_counters.warnings.find(id);
-                uint32_t counter = 1;
-                if(it != controller_->status_counters.warnings.end())
+                for (it = controller_->status_counters.warnings.begin(); it != controller_->status_counters.warnings.end(); it++)
                 {
-                    //element found;
-                    counter = ++it->second;
+                    if (it->first == id)
+                    {
+                        //element found;
+                        found = true;
+                        it->second = counter;
+                    }
+                    total_counter += it->second;
                 }
-                else
+                if (!found)
                 {
                     controller_->status_counters.warnings.insert(std::pair<backend::EntityId, uint32_t>(id, counter));
                 }
-                controller_->status_counters.total_warnings++;
+                controller_->status_counters.total_warnings = total_counter;
             }
             // notify problem model layout changed to refresh layout view
             emit problem_model_->layoutAboutToBeChanged();
@@ -1188,12 +1198,18 @@ bool Engine::update_problem_entities(
                 problem_model_->addTopLevelItem(new models::ProblemTreeItem(backend::ID_ALL, std::string("No issues found"), false, std::string("")));
             }
 
+
+            uint32_t error_checker = 0 - 100;
             // update error counter
             std::map<backend::EntityId,uint32_t>::iterator err_it = controller_->status_counters.errors.find(id);
             if(err_it != controller_->status_counters.errors.end())
             {
                 //element found;
                 controller_->status_counters.total_errors -= err_it->second;
+                if (controller_->status_counters.total_errors > error_checker)
+                {
+                    controller_->status_counters.total_errors = 0;
+                }
             }
             controller_->status_counters.errors.erase(id);
 
@@ -1203,6 +1219,10 @@ bool Engine::update_problem_entities(
             {
                 //element found;
                 controller_->status_counters.total_warnings -= warn_it->second;
+                if (controller_->status_counters.total_warnings > error_checker)
+                {
+                    controller_->status_counters.total_warnings = 0;
+                }
             }
             controller_->status_counters.warnings.erase(id);
 
