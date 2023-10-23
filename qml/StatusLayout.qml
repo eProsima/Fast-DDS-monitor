@@ -38,11 +38,11 @@ Item
     signal collapse_status_layout()
 
     // Private properties
-    property bool filter_visible_: true
-    property int expand_btn_rotation_angle: expand_rotation_angle_
+    property bool filter_visible_: false
 
     // Private signals
     signal focus_entity_(int entityId)
+    signal clean_filter_()
 
     // Read only design properties (sizes and colors)
     readonly property int tabs_height_: 30
@@ -50,9 +50,6 @@ Item
     readonly property int elements_spacing_: 8
     readonly property int separator_line_: 2
     readonly property string grey_background_: "#eaeaea"
-    readonly property int expand_rotation_angle_: 90
-    readonly property int collapse_rotation_angle_: -90
-
 
     property int spacingIconLabel: 8
     property int iconSize: 18
@@ -81,6 +78,10 @@ Item
 
                     onProblem_focused:{
                         collapse_status_layout()
+                    }
+
+                    onClean_filter: {
+                        statusLayout.clean_filter_()
                     }
 
                     Connections {
@@ -140,23 +141,19 @@ Item
                 }
 
                 Rectangle {
-                    id: rotation_rect
+                    id: rect
                     anchors.right: close_icon.left
                     anchors.rightMargin: elements_spacing_ *2
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenterOffset: elements_spacing_/2
                     width: parent.height - elements_spacing_
                     height: parent.height - elements_spacing_
-                    transform: Rotation {
-                        origin.x: rotation_rect.width/2
-                        origin.y: rotation_rect.height/2
-                        angle: expand_btn_rotation_angle
-                    }
                     color: "transparent"
 
                     IconSVG {
                         id: expand_icon
 
-                        name: "lessthan"
+                        name: "expand"
                         size: parent.width
                     }
 
@@ -168,26 +165,48 @@ Item
                         onClicked: {
                             if (statusLayout.current_status === StatusLayout.Status.Expanded)
                             {
-                                expand_btn_rotation_angle = expand_rotation_angle_
                                 collapse_status_layout()
+                                expand_icon.name = "expand"
+
                             }
                             else if (statusLayout.current_status === StatusLayout.Status.Collapsed)
                             {
-                                expand_btn_rotation_angle = collapse_rotation_angle_
                                 expand_status_layout()
+                                expand_icon.name = "collapse"
                             }
                         }
                     }
                 }
 
                 IconSVG {
-                    id: filter_icon
-                    visible: statusLayout.filter_visible_
-                    anchors.right: rotation_rect.left
+                    id: filter_empty_icon
+                    visible: !statusLayout.filter_visible_
+                    anchors.right: rect.left
                     anchors.rightMargin: elements_spacing_ *2
                     anchors.verticalCenter: parent.verticalCenter
-                    name: "status"
+                    name: "filter_empty"
                     size: parent.height - elements_spacing_
+                }
+
+                IconSVG {
+                    id: filter_full_icon
+                    visible: statusLayout.filter_visible_
+                    anchors.right: rect.left
+                    anchors.rightMargin: elements_spacing_ *2
+                    anchors.verticalCenter: parent.verticalCenter
+                    name: "filter_full"
+                    size: parent.height - elements_spacing_
+                }
+                Connections {
+                    target: statusLayout
+
+                    function onFocus_entity_(entityId) {
+                        statusLayout.filter_visible_ = true
+                    }
+
+                    function onClean_filter_() {
+                        statusLayout.filter_visible_ = false
+                    }
                 }
             }
         }
@@ -216,8 +235,8 @@ Item
             anchors.left: parent.left
             anchors.leftMargin: elements_spacing_
             anchors.verticalCenter: parent.verticalCenter
-            name: "cross"
-            size: parent.height - elements_spacing_ -3
+            name: "error"
+            size: parent.height - elements_spacing_
         }
         Label {
             id: error_value

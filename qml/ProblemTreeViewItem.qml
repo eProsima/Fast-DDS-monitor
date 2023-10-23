@@ -82,6 +82,9 @@ Item {
     property alias font: root.fontMetrics.font
     enum Role { Id=257, Status, Kind, Value, Description, Alive, Name }
 
+    // public signal
+    signal toggled()
+
     // private (internal) signals
     signal focus_(int entityId)
 
@@ -118,9 +121,9 @@ Item {
             visible: !(currentRow.currentId === "all" && currentRow.currentKind === "INVALID")
             anchors.left: parent.left; anchors.leftMargin: -5
             anchors.verticalCenter: parent.verticalCenter
-            name: currentRow.currentStatus ? "cross" :"issues"
+            name: currentRow.currentStatus ? "error" :"issues"
             color: currentRow.currentAlive ? currentRow.currentStatus ? "red" :"black" : "grey"
-            size: currentRow.currentStatus ? 12 : 15
+            size: 15
         }
 
         Text {
@@ -218,7 +221,13 @@ Item {
                 readonly property bool isHoveredIndex: root.hoverEnabled && currentIndex === root.hoveredIndex
                 readonly property bool isSelectedAndHoveredIndex: hoverEnabled && selectionEnabled && isHoveredIndex && isSelectedIndex
 
-                function toggle(){ if(_prop.hasChildren) _prop.expanded = !_prop.expanded }
+                function toggle(){
+                    if(_prop.hasChildren)
+                    {
+                        _prop.expanded = !_prop.expanded
+                    }
+                    root.toggled()
+                }
                 }
 
                 Connections {
@@ -357,6 +366,10 @@ Item {
                     function onLayoutChanged() {
                         const parent = root.model.index(index, 0, parentIndex)
                         loader.item.childCount = root.model.rowCount(parent)
+                    }
+
+                    function onToggled() {
+                        root.toggled()
                     }
                 }
 

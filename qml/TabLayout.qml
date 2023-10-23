@@ -19,6 +19,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import Theme 1.0
+
 Item {
     id: tabLayout
 
@@ -239,10 +241,36 @@ Item {
                             width: childrenRect.width
                             spacing: 60
                             Button {
+                                id: chart_button
                                 width: 400; height: 400
+                                background: Rectangle {
+                                    color: Theme.whiteSmoke
+                                    border.width: 3
+                                    border.color: chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    radius: 40
+
+                                    Image {
+                                        anchors.centerIn: parent
+                                        anchors.verticalCenterOffset: -50
+                                        smooth: true
+                                        source: "/resources/images/graphs.svg/"
+                                        property int size: 25
+                                        sourceSize.width: size * 16
+                                        sourceSize.height: size * 9
+                                    }
+
+                                    Text {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        anchors.bottom: parent.bottom; anchors.bottomMargin: 50
+                                        width: parent.width
+                                        text: "Chart View"
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.pointSize: 20
+                                        color: chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    }
+                                }
                                 anchors.verticalCenter: parent.verticalCenter
                                 enabled: !disable_chart_selection_
-                                text: "Chart View"
                                 onClicked: {
                                     if (!disable_chart_selection_)
                                     {
@@ -256,11 +284,39 @@ Item {
                                         refresh_layout(current_)
                                     }
                                 }
+
+
                             }
                             Button {
+                                id: domain_view_button
                                 width: 400; height: 400
+                                background: Rectangle {
+                                    color: Theme.whiteSmoke
+                                    border.width: 3
+                                    border.color: domain_view_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    radius: 40
+
+                                    Image {
+                                        anchors.centerIn: parent
+                                        anchors.verticalCenterOffset: -50
+                                        smooth: true
+                                        source: "/resources/images/domain_graph.svg/"
+                                        property int size: 30
+                                        sourceSize.width: size * 16
+                                        sourceSize.height: size * 9
+                                    }
+
+                                    Text {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        anchors.bottom: parent.bottom; anchors.bottomMargin: 50
+                                        width: parent.width
+                                        text: "Domain View"
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.pointSize: 20
+                                        color: domain_view_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    }
+                                }
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: "Domain View"
                                 onClicked: {
                                     if (mainApplicationView.monitors == 0)
                                     {

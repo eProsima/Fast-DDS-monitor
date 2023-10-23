@@ -552,8 +552,8 @@ Item
                             }
                             IconSVG {
                                 visible: modelData["status"] != "ok"
-                                name: "issues"
-                                color: "white"
+                                name: modelData["status"] == "warning" ? "issues" : "error"
+                                color: modelData["status"] == "warning" ? "white" : "red"
                                 size: modelData["status"] != "ok"? icon_size_ : 0
                             }
                             Rectangle {
@@ -700,8 +700,8 @@ Item
                                     }
                                     IconSVG {
                                         visible: modelData["status"] != "ok"
-                                        name: "issues"
-                                        color: "white"
+                                        name: modelData["status"] == "warning" ? "issues" : "error"
+                                        color: modelData["status"] == "warning" ? "white" : "red"
                                         size: modelData["status"] != "ok"? icon_size_ : 0
                                     }
                                     Rectangle {
@@ -846,8 +846,8 @@ Item
                                             }
                                             IconSVG {
                                                 visible: modelData["status"] != "ok"
-                                                name: "issues"
-                                                color: "white"
+                                                name: modelData["status"] == "warning" ? "issues" : "error"
+                                                color: modelData["status"] == "warning" ? "white" : "red"
                                                 size: modelData["status"] != "ok"? icon_size_ : 0
                                             }
                                             Rectangle {
@@ -991,7 +991,8 @@ Item
                                                     }
                                                     IconSVG {
                                                         visible: modelData["status"] != "ok"
-                                                        name: "issues"
+                                                        name: modelData["status"] == "warning" ? "issues" : "error"
+                                                        color: modelData["status"] == "warning" ? "black" : "red"
                                                         size: modelData["status"] != "ok"? icon_size_ : 0
                                                     }
                                                     Rectangle {
@@ -1160,7 +1161,8 @@ Item
                                                             }
                                                             IconSVG {
                                                                 visible: modelData["status"] != "ok"
-                                                                name: "issues"
+                                                                name: modelData["status"] == "warning" ? "issues" : "error"
+                                                                color: modelData["status"] == "warning" ? "black" : "red"
                                                                 size: modelData["status"] != "ok"? icon_size_ : 0
                                                             }
                                                             Rectangle {

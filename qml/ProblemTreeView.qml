@@ -89,6 +89,7 @@ Flickable {
     }
 
     signal problem_focused()
+    signal clean_filter()
 
     property int handleStyle: ProblemTreeView.Handle.TriangleSmallOutline
 
@@ -115,12 +116,18 @@ Flickable {
         defaultIndicator: indicatorToString(handleStyle)
         z: 1
 
+        onToggled: {
+            root.clean_filter()
+        }
+
         Connections {
-           target: root.model
-           ignoreUnknownSignals: true
-           function onLayoutChanged() {
+            target: root.model
+            ignoreUnknownSignals: true
+            function onLayoutChanged() {
                tree.childCount = root.model ? root.model.rowCount(tree.parentIndex) : 0
-           }
+            }
+
+
         }
     }
 
