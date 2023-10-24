@@ -289,7 +289,20 @@ Item {
 
                         onUpdate_tab_name: {
                             tabLayout.tab_model_[current_]["title"] = new_name
-                            refresh_layout(current_)
+
+                            // update model to set the visual change
+                            tab_list.model = tabLayout.tab_model_
+
+                            // update left panel information
+                            for (var i=0; i<stack_layout.count; i++)
+                            {
+                                if (stack_layout.children[i].stack_id == tabLayout.tab_model_[current_]["stack_id"] &&
+                                    stack_layout.children[i].currentItem.entity_id > 0)
+                                {
+                                    controller.domain_click(stack_layout.children[i].currentItem.entity_id)
+                                    break;
+                                }
+                            }
                         }
 
                         Connections {
