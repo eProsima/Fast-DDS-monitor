@@ -361,15 +361,6 @@ Item
         }
     }
 
-    // middle section to cut topics layout
-    Rectangle {
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: mainView.right
-        width: elements_spacing_
-        color: "white"
-    }
-
     // Entities vertical flickable (left section)
     Flickable {
         id: mainView
