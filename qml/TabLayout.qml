@@ -29,7 +29,7 @@ Item {
     property int current_: 0                                                // current tab displayed
     property int last_index_: 1                                             // force unique idx on QML components
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
-    property bool disable_chart_selection_: false                            // flag to disable multiple chart view tabs
+    property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
 
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
