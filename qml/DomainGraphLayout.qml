@@ -472,6 +472,8 @@ Item
                 function resize()
                 {
                     var listViewHeight = 0
+                    var aux_width = entity_box_width_
+
                     // iterate over each element in the list item
                     for (var c = 0; c < hostsList.count; c++)
                     {
@@ -479,14 +481,17 @@ Item
                         if (hostsList.currentItem != null)
                         {
                             listViewHeight += hostsList.currentItem.height + elements_spacing_
-                            max_host_width_ = Math.max(max_host_width_, hostsList.currentItem.width)
-                            max_host_width_ = Math.max(max_host_width_, (2*elements_spacing_)+max_user_width_)
-                            hostsList.currentItem.width = max_host_width_
+                            aux_width = Math.max(aux_width, hostsList.currentItem.width)
                         }
                     }
 
                     hostsList.height = listViewHeight
-                    hostsList.width = max_host_width_
+
+                    // update if necessary
+                    if (aux_width > entity_box_width_)
+                    {
+                        entity_box_width_ = aux_width
+                    }
                 }
 
                 // Host delegated item box
@@ -599,6 +604,7 @@ Item
                         function resize()
                         {
                             var listViewHeight = 0
+                            var aux_width = entity_box_width_
 
                             // iterate over each element in the list item
                             for (var c = 0; c < usersList.count; c++)
@@ -607,15 +613,17 @@ Item
                                 if (usersList.currentItem != null)
                                 {
                                     listViewHeight += usersList.currentItem.height + elements_spacing_
-                                    max_user_width_ = Math.max(max_user_width_, usersList.currentItem.width)
-                                    max_user_width_ = Math.max(max_user_width_, max_process_width_+(2*elements_spacing_))
-                                    max_user_width_ = Math.max(max_user_width_, max_host_width_-(2*elements_spacing_))
-                                    usersList.currentItem.width = max_user_width_
+                                    aux_width = Math.max(aux_width, usersList.currentItem.width+(2*elements_spacing_))
                                 }
                             }
 
                             usersList.height = listViewHeight + elements_spacing_
-                            usersList.width = max_user_width_
+
+                            // update if necessary
+                            if (aux_width > entity_box_width_)
+                            {
+                                entity_box_width_ = aux_width
+                            }
                         }
 
                         // User delegated item box
@@ -730,6 +738,7 @@ Item
                                 function resize()
                                 {
                                     var listViewHeight = 0
+                                    var aux_width = entity_box_width_
 
                                     // iterate over each element in the list item
                                     for (var c = 0; c < processesList.count; c++)
@@ -738,12 +747,17 @@ Item
                                         if (processesList.currentItem != null)
                                         {
                                             listViewHeight += processesList.currentItem.height + elements_spacing_
-                                            entity_box_width_ = Math.max(entity_box_width_, processesList.currentItem.width+(4*elements_spacing_))
+                                            aux_width = Math.max(aux_width, processesList.currentItem.width+(4*elements_spacing_))
                                         }
                                     }
 
                                     processesList.height = listViewHeight + elements_spacing_
-                                    processesList.width = max_process_width_
+
+                                    // update if necessary
+                                    if (aux_width > entity_box_width_)
+                                    {
+                                        entity_box_width_ = aux_width
+                                    }
                                 }
 
                                 // Process delegated item box
@@ -857,6 +871,7 @@ Item
                                         function resize()
                                         {
                                             var listViewHeight = 0
+                                            var aux_width = entity_box_width_
 
                                             // iterate over each element in the list item
                                             for (var c = 0; c < participantsList.count; c++)
@@ -865,12 +880,17 @@ Item
                                                 if (participantsList.currentItem != null)
                                                 {
                                                     listViewHeight += participantsList.currentItem.height + elements_spacing_
-                                                    entity_box_width_ = Math.max(entity_box_width_, participantsList.currentItem.width+(6*elements_spacing_))
+                                                    aux_width = Math.max(aux_width, participantsList.currentItem.width+(6*elements_spacing_))
                                                 }
                                             }
 
                                             participantsList.height = listViewHeight + elements_spacing_
-                                            participantsList.width = max_participant_width_
+
+                                            // update if necessary
+                                            if (aux_width > entity_box_width_)
+                                            {
+                                                entity_box_width_ = aux_width
+                                            }
                                         }
 
                                         // Participant delegated item box
@@ -983,6 +1003,7 @@ Item
                                                 function resize()
                                                 {
                                                     var listViewHeight = 0
+                                                    var aux_width = entity_box_width_
 
                                                     // iterate over each element in the list item
                                                     for (var c = 0; c < endpointsList.count; c++)
@@ -991,12 +1012,17 @@ Item
                                                         if (endpointsList.currentItem != null)
                                                         {
                                                             listViewHeight += endpointsList.currentItem.height + elements_spacing_
-                                                            entity_box_width_ = Math.max(entity_box_width_, endpointsList.currentItem.width+(8*elements_spacing_))
+                                                            aux_width = Math.max(aux_width, endpointsList.currentItem.width+(8*elements_spacing_))
                                                         }
                                                     }
 
                                                     endpointsList.height = listViewHeight + elements_spacing_
-                                                    endpointsList.width = max_endpoint_width_
+
+                                                    // update if necessary
+                                                    if (aux_width > entity_box_width_)
+                                                    {
+                                                        entity_box_width_ = aux_width
+                                                    }
                                                 }
 
                                                 function record_connections()
