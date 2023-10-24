@@ -735,11 +735,11 @@ Item
                                     for (var c = 0; c < processesList.count; c++)
                                     {
                                         processesList.currentIndex = c
-                                        listViewHeight += processesList.currentItem.height + elements_spacing_
-                                        max_process_width_ = Math.max(max_process_width_, processesList.currentItem.width)
-                                        max_process_width_ = Math.max(max_process_width_, max_participant_width_+(2*elements_spacing_))
-                                        max_process_width_ = Math.max(max_process_width_, max_user_width_-(2*elements_spacing_))
-                                        processesList.currentItem.width = max_process_width_
+                                        if (processesList.currentItem != null)
+                                        {
+                                            listViewHeight += processesList.currentItem.height + elements_spacing_
+                                            entity_box_width_ = Math.max(entity_box_width_, processesList.currentItem.width+(4*elements_spacing_))
+                                        }
                                     }
 
                                     processesList.height = listViewHeight + elements_spacing_
@@ -862,11 +862,11 @@ Item
                                             for (var c = 0; c < participantsList.count; c++)
                                             {
                                                 participantsList.currentIndex = c
-                                                listViewHeight += participantsList.currentItem.height + elements_spacing_
-                                                max_participant_width_ = Math.max(max_participant_width_, participantsList.currentItem.width)
-                                                max_participant_width_ = Math.max(max_participant_width_, max_endpoint_width_+(2*elements_spacing_))
-                                                max_participant_width_ = Math.max(max_participant_width_, max_process_width_-(2*elements_spacing_))
-                                                participantsList.currentItem.width = max_participant_width_
+                                                if (participantsList.currentItem != null)
+                                                {
+                                                    listViewHeight += participantsList.currentItem.height + elements_spacing_
+                                                    entity_box_width_ = Math.max(entity_box_width_, participantsList.currentItem.width+(6*elements_spacing_))
+                                                }
                                             }
 
                                             participantsList.height = listViewHeight + elements_spacing_
@@ -988,10 +988,11 @@ Item
                                                     for (var c = 0; c < endpointsList.count; c++)
                                                     {
                                                         endpointsList.currentIndex = c
-                                                        listViewHeight += endpointsList.currentItem.height + elements_spacing_
-                                                        max_endpoint_width_ = Math.max(max_endpoint_width_, endpointsList.currentItem.width)
-                                                        max_endpoint_width_ = Math.max(max_endpoint_width_, max_participant_width_-(2*elements_spacing_))
-                                                        endpointsList.currentItem.width = max_endpoint_width_
+                                                        if (endpointsList.currentItem != null)
+                                                        {
+                                                            listViewHeight += endpointsList.currentItem.height + elements_spacing_
+                                                            entity_box_width_ = Math.max(entity_box_width_, endpointsList.currentItem.width+(8*elements_spacing_))
+                                                        }
                                                     }
 
                                                     endpointsList.height = listViewHeight + elements_spacing_
