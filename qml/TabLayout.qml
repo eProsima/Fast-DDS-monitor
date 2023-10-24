@@ -56,7 +56,6 @@ Item {
     }
 
     ChartsLayout {
-        z: 1
         visible: disable_chart_selection_
         id: chartsLayout
         anchors.fill: stack_layout
@@ -71,7 +70,6 @@ Item {
         anchors.left: parent.left
         width: contentWidth
         height: tabs_height_
-        z: 100 // z is the front-back order. The tab bar must always be on top of any StackView component
         orientation: ListView.Horizontal
         model: tabLayout.tab_model_
         interactive: false
@@ -149,7 +147,6 @@ Item {
     // Add new tab button
     Rectangle {
         id: add_new_tab_button
-        z: 99
         visible: tabLayout.tab_model_.length < max_tabs_
         anchors.right: remain_width_rect.left
         anchors.verticalCenter: tab_list.verticalCenter
@@ -182,7 +179,6 @@ Item {
     // remain space in tab bar handled by this component
     Rectangle {
         id: remain_width_rect
-        z: 98
         width: tabLayout.width - add_new_tab_button.width - tab_list.width; height: tabs_height_
         anchors.right: tabLayout.right
         anchors.verticalCenter: tab_list.verticalCenter
@@ -204,7 +200,6 @@ Item {
     // stack layout (where idx referred to the tab, which would contain different views)
     StackLayout {
         id: stack_layout
-        z: 1 // z is the front-back order. The tab bar must always be on top of any stackview component
         width: tabLayout.width
         anchors.top: tab_list.bottom; anchors.bottom: tabLayout.bottom
 

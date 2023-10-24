@@ -369,7 +369,6 @@ Item
         anchors.topMargin: 2* elements_spacing_ + label_height_
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
-        z: 10
 
         contentWidth: mainSpace.width
         contentHeight: mainSpace.height
@@ -382,7 +381,6 @@ Item
             anchors.top: parent.top;        anchors.topMargin: -elements_spacing_
             anchors.right: parent.right;    anchors.rightMargin: parent.width - domainGraphLayout.width
             hoverEnabled: true
-            z: 20
 
             contentItem: Item {
                 implicitWidth: scrollbar_min_size_
@@ -448,7 +446,6 @@ Item
                 anchors.left: parent.left; anchors.leftMargin: elements_spacing_
                 interactive: false
                 spacing: elements_spacing_
-                z: 20
 
                 // Resizing management connections
                 Connections
@@ -1155,7 +1152,6 @@ Item
         height: 2* elements_spacing_ + label_height_
         width: max_host_width_ +2* elements_spacing_
         color: "white"
-        z: 12
 
         // Refresh button
         Button{
