@@ -354,10 +354,6 @@ Item {
             standardButtons: Dialog.Ok | Dialog.Cancel
         }
 
-        Component.onCompleted: {
-            controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
-        }
-
         onAboutToShow: {
             custom_combobox.currentIndex = -1
             controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
@@ -381,7 +377,6 @@ Item {
 
             Component.onCompleted:
             {
-                controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
                 currentIndex = -1
                 custom_combobox.recalculateWidth()
             }
