@@ -430,8 +430,6 @@ Item {
                     }
                 }
             }
-
-            refresh_layout(current_)
         }
         // update idx model
         tab_list.model = tabLayout.tab_model_
