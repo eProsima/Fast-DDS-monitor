@@ -495,9 +495,7 @@ Item
                     height: host_tag.height + usersList.height
                     width: hostRowLayout.implicitWidth > max_host_width_
                         ? hostRowLayout.implicitWidth
-                        : max_host_width_ == 0
-                            ? hostRowLayout.implicitWidth
-                            : max_host_width_
+                        : max_host_width_
 
                     // background
                     Rectangle
@@ -516,9 +514,7 @@ Item
                         anchors.horizontalCenter: parent.horizontalCenter
                         implicitWidth: hostRowLayout.implicitWidth > max_host_width_
                             ? hostRowLayout.implicitWidth
-                            : max_host_width_ == 0
-                                ? hostRowLayout.implicitWidth
-                                : max_host_width_
+                            : max_host_width_
                         height: label_height_
                         color: host_color_
                         radius: radius_
@@ -637,9 +633,7 @@ Item
                             height: user_tag.height + processesList.height
                             width: userRowLayout.implicitWidth > max_user_width_
                                 ? userRowLayout.implicitWidth
-                                : max_user_width_ == 0
-                                    ? userRowLayout.implicitWidth
-                                    : max_user_width_
+                                : max_user_width_
 
                             // background
                             Rectangle
@@ -659,9 +653,7 @@ Item
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 implicitWidth: userRowLayout.implicitWidth > max_user_width_
                                     ? userRowLayout.implicitWidth
-                                    : max_user_width_ == 0
-                                        ? userRowLayout.implicitWidth
-                                        : max_user_width_
+                                    : max_user_width_
                                 height: label_height_
                                 color: user_color_
                                 radius: radius_
@@ -778,9 +770,7 @@ Item
                                     height: process_tag.height + participantsList.height
                                     width: processRowLayout.implicitWidth > max_process_width_
                                         ? processRowLayout.implicitWidth
-                                        : max_process_width_ == 0
-                                            ? processRowLayout.implicitWidth
-                                            : max_process_width_
+                                        : max_process_width_
 
                                     // background
                                     Rectangle
@@ -800,9 +790,7 @@ Item
                                         anchors.horizontalCenter: parent.horizontalCenter
                                         implicitWidth: processRowLayout.implicitWidth > max_process_width_
                                             ? processRowLayout.implicitWidth
-                                            : max_process_width_ == 0
-                                                ? processRowLayout.implicitWidth
-                                                : max_process_width_
+                                            : max_process_width_
                                         height: label_height_
                                         color: process_color_
                                         radius: radius_
@@ -918,9 +906,7 @@ Item
                                             height: participant_tag.height + endpointsList.height
                                             width: participantRowLayout.implicitWidth > max_participant_width_
                                                 ? participantRowLayout.implicitWidth
-                                                : max_participant_width_ == 0
-                                                    ? participantRowLayout.implicitWidth
-                                                    : max_participant_width_
+                                                : max_participant_width_
 
                                             // background
                                             Rectangle
@@ -940,9 +926,7 @@ Item
                                                 anchors.horizontalCenter: parent.horizontalCenter
                                                 implicitWidth: participantRowLayout.implicitWidth > max_participant_width_
                                                     ? participantRowLayout.implicitWidth
-                                                    : max_participant_width_ == 0
-                                                        ? participantRowLayout.implicitWidth
-                                                        : max_participant_width_
+                                                    : max_participant_width_
                                                 height: label_height_
                                                 color: participant_color_
                                                 radius: radius_
@@ -1065,9 +1049,7 @@ Item
                                                     id: endpointComponent
                                                     width: endpointRowLayout.implicitWidth > max_endpoint_width_
                                                         ? endpointRowLayout.implicitWidth
-                                                        : max_endpoint_width_ == 0
-                                                            ? endpointRowLayout.implicitWidth
-                                                            : max_endpoint_width_
+                                                        : max_endpoint_width_
                                                     height: endpoint_height_
 
                                                     // Saves the endpoint needed info for connection representation
@@ -1104,9 +1086,7 @@ Item
                                                         anchors.horizontalCenter: parent.horizontalCenter
                                                         implicitWidth: endpointRowLayout.implicitWidth > max_endpoint_width_
                                                             ? endpointRowLayout.implicitWidth
-                                                            : max_endpoint_width_ == 0
-                                                                ? endpointRowLayout.implicitWidth
-                                                                : max_endpoint_width_
+                                                            : max_endpoint_width_ 
                                                         height: endpoint_height_
                                                         color: endpoint_background.color
                                                         radius: radius_
