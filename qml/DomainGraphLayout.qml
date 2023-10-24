@@ -1093,15 +1093,6 @@ Item
                                                             }
                                                         }
                                                     }
-                                                    Rectangle {
-                                                        visible: endpoint_tag.implicitWidth < max_endpoint_width_
-                                                        anchors.left: endpoint_tag.right
-                                                        anchors.verticalCenter: parent.verticalCenter
-                                                        height: endpoint_tag.height
-                                                        width: max_endpoint_width_ - endpoint_tag.implicitWidth
-                                                        color: endpoint_background.color
-                                                        radius: radius_
-                                                    }
                                                 }
                                             }
                                         }
