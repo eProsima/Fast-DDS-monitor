@@ -186,8 +186,11 @@ Item
                 for (var c = 0; c < topicsList.count; c++)
                 {
                     topicsList.currentIndex = c
-                    listViewHeight = topicsList.currentItem.height
-                    listViewWidth += topicsList.currentItem.width + elements_spacing_
+                    if (topicsList.currentItem != null)
+                    {
+                        listViewHeight = topicsList.currentItem.height
+                        listViewWidth += topicsList.currentItem.width + elements_spacing_
+                    }
                 }
                 topicsList.height = listViewHeight
                 topicsList.width = listViewWidth
