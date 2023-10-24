@@ -21,7 +21,6 @@
 
 #include <fastdds_monitor/config.h>
 #include <fastdds_statistics_backend/config.h>
-#include <fastdds_statistics_backend/exception/Exception.hpp>
 #include <fastrtps/config.h>
 
 #include <fastdds_monitor/Controller.h>
