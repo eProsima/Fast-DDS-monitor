@@ -1145,7 +1145,7 @@ Item
         anchors.top: parent.top
         anchors.left: parent.left
         height: 2* elements_spacing_ + label_height_
-        width: max_host_width_ +2* elements_spacing_
+        width: entity_box_width_ + 2*elements_spacing_
         color: "white"
 
         // Refresh button
