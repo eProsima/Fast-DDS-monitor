@@ -284,8 +284,7 @@ Item
             // Not visible scroll bar
             ScrollBar.vertical: ScrollBar{
                 id: custom_bar
-                width: 0
-                interactive: false
+                visible: false
 
                 // connection to move vertically the view when entities view moves vertically
                 Connections {
