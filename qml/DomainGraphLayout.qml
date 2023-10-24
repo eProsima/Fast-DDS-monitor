@@ -68,6 +68,7 @@ Item
     readonly property int radius_: 10
     readonly property int connection_thickness_: 5
     readonly property int elements_spacing_: 12
+    readonly property int containers_spacing_: 100
     readonly property int endpoint_height_: 40
     readonly property int first_indentation_: 5
     readonly property int icon_size_: 18
@@ -76,6 +77,7 @@ Item
     readonly property int scrollbar_min_size_: 8
     readonly property int scrollbar_max_size_: 12
     readonly property int topic_thickness_: 10
+    readonly property int wheel_displacement_: 30
     readonly property string topic_color_: Theme.grey
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
@@ -100,7 +102,7 @@ Item
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds
 
-        contentWidth: topicsList.contentWidth + 100
+        contentWidth: topicsList.contentWidth + containers_spacing_
         contentHeight: parent.height
 
         ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOff }
@@ -275,7 +277,7 @@ Item
             interactive: false
             clip: true
 
-            contentWidth: topicsList.contentWidth + 100
+            contentWidth: topicsList.contentWidth + containers_spacing_
             contentHeight: mainView.contentHeight
             Rectangle {id: topic_connections; anchors.fill:parent; color: "transparent" }
 
@@ -304,12 +306,12 @@ Item
                     if (topicView.contentWidth > topicView.width)
                     {
                         if (wheel.angleDelta.y > 0) {
-                            topicView.contentX -= 30
+                            topicView.contentX -= wheel_displacement_
                             if (topicView.contentX < 0) {
                                 topicView.contentX = 0;
                             }
                         } else {
-                            topicView.contentX += 30
+                            topicView.contentX += wheel_displacement_
                             if (topicView.contentX + topicView.width > topicView.contentWidth) {
                                 topicView.contentX = topicView.contentWidth -  topicView.width;
                             }
