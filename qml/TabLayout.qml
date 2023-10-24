@@ -50,7 +50,7 @@ Item {
 
     // initialize first element in the tab
     Component.onCompleted:{
-        var new_stack = stack_component.createObject(null, {"stack_id": 0, "anchors.fill": "parent"})
+        var new_stack = stack_component.createObject(null, {"stack_id": 0})
         stack_layout.children.push(new_stack)
         refresh_layout(current_)
     }
@@ -215,7 +215,6 @@ Item {
             StackView {
                 id: stack
                 property int stack_id: 0
-                anchors.fill: parent
                 initialItem: view_selector
 
                 // override push transition to none
@@ -411,8 +410,7 @@ Item {
     {
         var idx = tabLayout.tab_model_.length
         tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
-        var new_stack = stack_component.createObject(null, {"stack_id": tabLayout.tab_model_[idx]["stack_id"],
-            "anchors.fill": "parent"})
+        var new_stack = stack_component.createObject(null, {"stack_id": tabLayout.tab_model_[idx]["stack_id"]})
         last_index_++
         stack_layout.children.push(new_stack)
         refresh_layout(idx)
