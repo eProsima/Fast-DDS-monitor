@@ -622,7 +622,7 @@ Item
                         delegate: Item
                         {
                             height: user_tag.height + processesList.height
-                            width: userRowLayout.implicitWidth > max_user_width_
+                            width: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                 ? userRowLayout.implicitWidth
                                 : max_user_width_
 
@@ -642,7 +642,7 @@ Item
                                 id: user_tag
                                 anchors.top: parent.top
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                implicitWidth: userRowLayout.implicitWidth > max_user_width_
+                                implicitWidth: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                     ? userRowLayout.implicitWidth
                                     : max_user_width_
                                 height: label_height_
@@ -750,7 +750,7 @@ Item
                                 delegate: Item
                                 {
                                     height: process_tag.height + participantsList.height
-                                    width: processRowLayout.implicitWidth > max_process_width_
+                                    width: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                         ? processRowLayout.implicitWidth
                                         : max_process_width_
 
@@ -770,7 +770,7 @@ Item
                                         id: process_tag
                                         anchors.top: parent.top
                                         anchors.horizontalCenter: parent.horizontalCenter
-                                        implicitWidth: processRowLayout.implicitWidth > max_process_width_
+                                        implicitWidth: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                             ? processRowLayout.implicitWidth
                                             : max_process_width_
                                         height: label_height_
@@ -877,7 +877,7 @@ Item
                                         delegate: Item
                                         {
                                             height: participant_tag.height + endpointsList.height
-                                            width: participantRowLayout.implicitWidth > max_participant_width_
+                                            width: participantRowLayout.implicitWidth > (entity_box_width_-(6*elements_spacing_))
                                                 ? participantRowLayout.implicitWidth
                                                 : max_participant_width_
 
@@ -897,7 +897,7 @@ Item
                                                 id: participant_tag
                                                 anchors.top: parent.top
                                                 anchors.horizontalCenter: parent.horizontalCenter
-                                                implicitWidth: participantRowLayout.implicitWidth > max_participant_width_
+                                                implicitWidth: participantRowLayout.implicitWidth > (entity_box_width_-(6*elements_spacing_))
                                                     ? participantRowLayout.implicitWidth
                                                     : max_participant_width_
                                                 height: label_height_
@@ -1011,7 +1011,7 @@ Item
                                                 delegate: Item
                                                 {
                                                     id: endpointComponent
-                                                    width: endpointRowLayout.implicitWidth > max_endpoint_width_
+                                                    width: endpointRowLayout.implicitWidth > (entity_box_width_-(8*elements_spacing_))
                                                         ? endpointRowLayout.implicitWidth
                                                         : max_endpoint_width_
                                                     height: endpoint_height_
@@ -1048,7 +1048,7 @@ Item
                                                         id: endpoint_tag
                                                         anchors.top: parent.top
                                                         anchors.horizontalCenter: parent.horizontalCenter
-                                                        implicitWidth: endpointRowLayout.implicitWidth > max_endpoint_width_
+                                                        implicitWidth: endpointRowLayout.implicitWidth > (entity_box_width_-(8*elements_spacing_))
                                                             ? endpointRowLayout.implicitWidth
                                                             : max_endpoint_width_
                                                         height: endpoint_height_
