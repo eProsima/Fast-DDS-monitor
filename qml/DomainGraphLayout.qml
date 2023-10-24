@@ -530,14 +530,14 @@ Item
 
                             Rectangle {
                                 color: "transparent"
-                                width: modelData["status"] != "ok"
+                                width: modelData["status"] != "OK"
                                     ? first_indentation_ : 0
                             }
                             IconSVG {
-                                visible: modelData["status"] != "ok"
+                                visible: modelData["status"] != "OK"
                                 name: "issues"
                                 color: "white"
-                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                size: modelData["status"] != "OK"? icon_size_ : 0
                             }
                             Rectangle {
                                 color: "transparent"
@@ -673,14 +673,14 @@ Item
 
                                     Rectangle {
                                         color: "transparent"
-                                        width: modelData["status"] != "ok"
+                                        width: modelData["status"] != "OK"
                                             ? first_indentation_ : 0
                                     }
                                     IconSVG {
-                                        visible: modelData["status"] != "ok"
+                                        visible: modelData["status"] != "OK"
                                         name: "issues"
                                         color: "white"
-                                        size: modelData["status"] != "ok"? icon_size_ : 0
+                                        size: modelData["status"] != "OK"? icon_size_ : 0
                                     }
                                     Rectangle {
                                         color: "transparent"
@@ -814,14 +814,14 @@ Item
 
                                             Rectangle {
                                                 color: "transparent"
-                                                width: modelData["status"] != "ok"
+                                                width: modelData["status"] != "OK"
                                                     ? first_indentation_ : 0
                                             }
                                             IconSVG {
-                                                visible: modelData["status"] != "ok"
+                                                visible: modelData["status"] != "OK"
                                                 name: "issues"
                                                 color: "white"
-                                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                                size: modelData["status"] != "OK"? icon_size_ : 0
                                             }
                                             Rectangle {
                                                 color: "transparent"
@@ -954,13 +954,13 @@ Item
 
                                                     Rectangle {
                                                         color: "transparent"
-                                                        width: modelData["status"] != "ok"
+                                                        width: modelData["status"] != "OK"
                                                             ? first_indentation_ : 0
                                                     }
                                                     IconSVG {
-                                                        visible: modelData["status"] != "ok"
+                                                        visible: modelData["status"] != "OK"
                                                         name: "issues"
-                                                        size: modelData["status"] != "ok"? icon_size_ : 0
+                                                        size: modelData["status"] != "OK"? icon_size_ : 0
                                                     }
                                                     Rectangle {
                                                         color: "transparent"
@@ -1118,13 +1118,13 @@ Item
 
                                                             Rectangle {
                                                                 color: "transparent"
-                                                                width: modelData["status"] != "ok"
+                                                                width: modelData["status"] != "OK"
                                                                     ? first_indentation_ : 0
                                                             }
                                                             IconSVG {
-                                                                visible: modelData["status"] != "ok"
+                                                                visible: modelData["status"] != "OK"
                                                                 name: "issues"
-                                                                size: modelData["status"] != "ok"? icon_size_ : 0
+                                                                size: modelData["status"] != "OK"? icon_size_ : 0
                                                             }
                                                             Rectangle {
                                                                 color: "transparent"
