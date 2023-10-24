@@ -95,7 +95,7 @@ Item
     Flickable {
         id: topicView
         anchors.top: parent.top; anchors.bottom: parent.bottom
-        anchors.left: parent.left; anchors.leftMargin: max_host_width_ + elements_spacing_;
+        anchors.left: parent.left; anchors.leftMargin: max_host_width_ + elements_spacing_
         width: parent.width - max_host_width_ - 2*elements_spacing_
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds
