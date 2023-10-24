@@ -550,15 +550,6 @@ Item
                                 color: "white"
                             }
                         }
-                        Rectangle {
-                            visible: host_tag.implicitWidth < max_host_width_
-                            anchors.left: host_tag.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            height: host_tag.height
-                            width: max_host_width_ - host_tag.implicitWidth
-                            color: host_background.color
-                            radius: radius_
-                        }
                         MouseArea
                         {
                             anchors.fill: parent
@@ -689,15 +680,6 @@ Item
                                         color: "white"
                                     }
                                 }
-                                Rectangle {
-                                    visible: user_tag.implicitWidth < max_user_width_
-                                    anchors.left: user_tag.right
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    height: user_tag.height
-                                    width: max_user_width_ - user_tag.implicitWidth
-                                    color: user_background.color
-                                    radius: radius_
-                                }
                                 MouseArea
                                 {
                                     anchors.fill: parent
@@ -826,15 +808,6 @@ Item
                                                 color: "white"
                                             }
                                         }
-                                        Rectangle {
-                                            visible: process_tag.implicitWidth < max_process_width_
-                                            anchors.left: process_tag.right
-                                            anchors.verticalCenter: parent.verticalCenter
-                                            height: process_tag.height
-                                            width: max_process_width_ - process_tag.implicitWidth
-                                            color: process_background.color
-                                            radius: radius_
-                                        }
                                         MouseArea
                                         {
                                             anchors.fill: parent
@@ -959,15 +932,6 @@ Item
                                                         Layout.rightMargin: spacing_icon_label_ + first_indentation_
                                                     }
                                                 }
-                                                Rectangle {
-                                                    visible: participant_tag.implicitWidth < max_participant_width_
-                                                    anchors.left: participant_tag.right
-                                                    anchors.verticalCenter: parent.verticalCenter
-                                                    height: participant_tag.height
-                                                    width: max_participant_width_ - participant_tag.implicitWidth
-                                                    color: participant_background.color
-                                                    radius: radius_
-                                                }
                                                 MouseArea
                                                 {
                                                     anchors.fill: parent
@@ -1086,7 +1050,7 @@ Item
                                                         anchors.horizontalCenter: parent.horizontalCenter
                                                         implicitWidth: endpointRowLayout.implicitWidth > max_endpoint_width_
                                                             ? endpointRowLayout.implicitWidth
-                                                            : max_endpoint_width_ 
+                                                            : max_endpoint_width_
                                                         height: endpoint_height_
                                                         color: endpoint_background.color
                                                         radius: radius_
