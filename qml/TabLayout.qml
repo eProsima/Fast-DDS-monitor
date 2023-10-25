@@ -105,9 +105,10 @@ Item {
                                 id: chart_button
                                 width: 400; height: 400
                                 background: Rectangle {
-                                    color: Theme.whiteSmoke
+                                    color: disable_chart_selection_ ? Theme.lightGrey : Theme.whiteSmoke
                                     border.width: 3
-                                    border.color: chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    border.color: disable_chart_selection_ ? Theme.grey :
+                                            chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
                                     radius: 40
 
                                     Image {
@@ -127,7 +128,8 @@ Item {
                                         text: "Chart View"
                                         horizontalAlignment: Text.AlignHCenter
                                         font.pointSize: 20
-                                        color: chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                        color: disable_chart_selection_ ? Theme.grey :
+                                                chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
                                     }
                                 }
                                 anchors.verticalCenter: parent.verticalCenter
