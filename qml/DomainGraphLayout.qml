@@ -39,11 +39,7 @@ Item
     property var endpoint_topic_connections_: {}    // endpoint information needed for connection representation
     property var topic_painted_: []                 // already painted topic connection references
     property var endpoint_painted_: []              // already painted endpoint connection references
-    property int max_host_width_: 0                 // host entity box width management
-    property int max_user_width_: 0                 // user entity box width management
-    property int max_process_width_: 0              // process entity box width management
-    property int max_participant_width_: 0          // participant entity box width management
-    property int max_endpoint_width_: 0             // endpoint entity box width management
+    property int entity_box_width_: 0               // entities box width management
 
     // Private (resize) signals               resize_elements_ will trigger a bunch of resize methods per entities and
     //    HOST       TOPIC ─┐                 topics, when 2 iterations are performed. The first one is aimed  to
@@ -63,6 +59,7 @@ Item
     signal processes_updated_()
     signal users_updated_()
     signal hosts_updated_()
+    signal generate_connections_()
 
     // Read only design properties (sizes and colors)
     readonly property int radius_: 10
@@ -97,8 +94,8 @@ Item
     Flickable {
         id: topicView
         anchors.top: parent.top; anchors.bottom: parent.bottom
-        anchors.left: parent.left; anchors.leftMargin: max_host_width_ + elements_spacing_
-        width: parent.width - max_host_width_ - 2*elements_spacing_
+        anchors.left: parent.left; anchors.leftMargin: entity_box_width_ + elements_spacing_
+        width: parent.width - entity_box_width_ - 2*elements_spacing_
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds
 
@@ -164,9 +161,7 @@ Item
 
                 function onEndpoints_updated_()
                 {
-                    topicsList.resize()
                     topicsList.create_connections()
-                    topics_updated_()
                 }
             }
 
@@ -200,6 +195,9 @@ Item
             {
                 var draw_width = 2*elements_spacing_
 
+                // load topic sizes
+                topicsList.resize()
+
                 // iterate over each element in the list item
                 for (var c = 0; c < topicsList.count; c++)
                 {
@@ -210,6 +208,9 @@ Item
                     }
                     draw_width += topicsList.currentItem.width + elements_spacing_
                 }
+
+                // announce topics are ready
+                topics_updated_()
             }
 
             // Topic delegated item box with vertical line
@@ -368,7 +369,7 @@ Item
     Flickable {
         id: mainView
         anchors.left: parent.left ; anchors.top: parent.top; anchors.bottom: parent.bottom
-        width: max_host_width_ + elements_spacing_
+        width: entity_box_width_ + elements_spacing_
         anchors.topMargin: 2* elements_spacing_ + label_height_
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
@@ -490,7 +491,9 @@ Item
                     // update if necessary
                     if (aux_width > entity_box_width_)
                     {
+                        clear_graph()
                         entity_box_width_ = aux_width
+                        resize_elements_()
                     }
                 }
 
@@ -498,9 +501,9 @@ Item
                 delegate: Item
                 {
                     height: host_tag.height + usersList.height
-                    width: hostRowLayout.implicitWidth > max_host_width_
+                    width: hostRowLayout.implicitWidth > entity_box_width_
                         ? hostRowLayout.implicitWidth
-                        : max_host_width_
+                        : entity_box_width_
 
                     // background
                     Rectangle
@@ -517,9 +520,9 @@ Item
                     {
                         id: host_tag
                         anchors.horizontalCenter: parent.horizontalCenter
-                        implicitWidth: hostRowLayout.implicitWidth > max_host_width_
+                        implicitWidth: hostRowLayout.implicitWidth > entity_box_width_
                             ? hostRowLayout.implicitWidth
-                            : max_host_width_
+                            : entity_box_width_
                         height: label_height_
                         color: host_color_
                         radius: radius_
@@ -622,7 +625,9 @@ Item
                             // update if necessary
                             if (aux_width > entity_box_width_)
                             {
+                                clear_graph()
                                 entity_box_width_ = aux_width
+                                resize_elements_()
                             }
                         }
 
@@ -632,7 +637,7 @@ Item
                             height: user_tag.height + processesList.height
                             width: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                 ? userRowLayout.implicitWidth
-                                : max_user_width_
+                                : entity_box_width_-(2*elements_spacing_)
 
                             // background
                             Rectangle
@@ -652,7 +657,7 @@ Item
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 implicitWidth: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                     ? userRowLayout.implicitWidth
-                                    : max_user_width_
+                                    : entity_box_width_-(2*elements_spacing_)
                                 height: label_height_
                                 color: user_color_
                                 radius: radius_
@@ -756,7 +761,9 @@ Item
                                     // update if necessary
                                     if (aux_width > entity_box_width_)
                                     {
+                                        clear_graph()
                                         entity_box_width_ = aux_width
+                                        resize_elements_()
                                     }
                                 }
 
@@ -766,7 +773,7 @@ Item
                                     height: process_tag.height + participantsList.height
                                     width: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                         ? processRowLayout.implicitWidth
-                                        : max_process_width_
+                                        : entity_box_width_-(4*elements_spacing_)
 
                                     // background
                                     Rectangle
@@ -786,7 +793,7 @@ Item
                                         anchors.horizontalCenter: parent.horizontalCenter
                                         implicitWidth: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                             ? processRowLayout.implicitWidth
-                                            : max_process_width_
+                                            : entity_box_width_-(4*elements_spacing_)
                                         height: label_height_
                                         color: process_color_
                                         radius: radius_
@@ -889,7 +896,9 @@ Item
                                             // update if necessary
                                             if (aux_width > entity_box_width_)
                                             {
+                                                clear_graph()
                                                 entity_box_width_ = aux_width
+                                                resize_elements_()
                                             }
                                         }
 
@@ -899,7 +908,7 @@ Item
                                             height: participant_tag.height + endpointsList.height
                                             width: participantRowLayout.implicitWidth > (entity_box_width_-(6*elements_spacing_))
                                                 ? participantRowLayout.implicitWidth
-                                                : max_participant_width_
+                                                : entity_box_width_-(6*elements_spacing_)
 
                                             // background
                                             Rectangle
@@ -919,7 +928,7 @@ Item
                                                 anchors.horizontalCenter: parent.horizontalCenter
                                                 implicitWidth: participantRowLayout.implicitWidth > (entity_box_width_-(6*elements_spacing_))
                                                     ? participantRowLayout.implicitWidth
-                                                    : max_participant_width_
+                                                    : entity_box_width_-(6*elements_spacing_)
                                                 height: label_height_
                                                 color: participant_color_
                                                 radius: radius_
@@ -987,8 +996,12 @@ Item
                                                     function onParticipants_updated_()
                                                     {
                                                         endpointsList.resize()
-                                                        endpointsList.record_connections()
                                                         endpoints_updated_()
+                                                    }
+
+                                                    function onTopics_updated_()
+                                                    {
+                                                        endpointsList.record_connections()
                                                     }
                                                 }
 
@@ -1021,7 +1034,9 @@ Item
                                                     // update if necessary
                                                     if (aux_width > entity_box_width_)
                                                     {
+                                                        clear_graph()
                                                         entity_box_width_ = aux_width
+                                                        resize_elements_()
                                                     }
                                                 }
 
@@ -1032,6 +1047,7 @@ Item
                                                         endpointsList.currentIndex = c
                                                         endpointsList.currentItem.record_connection()
                                                     }
+                                                    generate_connections_()
                                                 }
 
                                                 // Endpoint delegated item box
@@ -1040,14 +1056,14 @@ Item
                                                     id: endpointComponent
                                                     width: endpointRowLayout.implicitWidth > (entity_box_width_-(8*elements_spacing_))
                                                         ? endpointRowLayout.implicitWidth
-                                                        : max_endpoint_width_
+                                                        : entity_box_width_-(8*elements_spacing_)
                                                     height: endpoint_height_
 
                                                     // Saves the endpoint needed info for connection representation
                                                     function record_connection()
                                                     {
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
-                                                        var src_x = globalCoordinates.x + endpointComponent.width
+                                                        var src_x = globalCoordinates.x + entity_box_width_-(8*elements_spacing_)
                                                         var src_y = modelData["accum_y"] + (endpointComponent.height / 2)
                                                         var left_direction = modelData["kind"] == "datareader"
                                                         var right_direction = modelData["kind"] == "datawriter"
@@ -1077,7 +1093,7 @@ Item
                                                         anchors.horizontalCenter: parent.horizontalCenter
                                                         implicitWidth: endpointRowLayout.implicitWidth > (entity_box_width_-(8*elements_spacing_))
                                                             ? endpointRowLayout.implicitWidth
-                                                            : max_endpoint_width_
+                                                            : entity_box_width_-(8*elements_spacing_)
                                                         height: endpoint_height_
                                                         color: endpoint_background.color
                                                         radius: radius_
@@ -1135,14 +1151,14 @@ Item
             {
                 target: domainGraphLayout
 
-                function onTopics_updated_()
+                function onGenerate_connections_()
                 {
-                    mainSpace.create_connections()
+                    mainSpace.generate_connections()
                 }
             }
 
             // Saves the topic needed info for connection representation
-            function create_connections()
+            function generate_connections()
             {
                 for (var key in endpoint_topic_connections_)
                 {
@@ -1152,8 +1168,8 @@ Item
                         if (!endpoint_painted_.includes(key))
                         {
                             var input = {"x": endpoint_topic_connections_[key]["x"]
-                                ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
+                                ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
                                 ,"arrow_color": topic_color_, "background_color": background_color.color }
@@ -1181,8 +1197,8 @@ Item
             height: label_height_
             anchors.top: parent.top; anchors.topMargin: elements_spacing_
             anchors.left:  parent.left
-            anchors.leftMargin: max_host_width_/2 + elements_spacing_ - refresh_button.width /2 < 40
-                ? 5* elements_spacing_ : (max_host_width_/2) + elements_spacing_ - (refresh_button.width /2)
+            anchors.leftMargin: entity_box_width_/2 + elements_spacing_ - refresh_button.width /2 < 40
+                ? 5* elements_spacing_ : (entity_box_width_/2) + elements_spacing_ - (refresh_button.width /2)
             text: "Refresh"
 
             onClicked:{
@@ -1196,7 +1212,7 @@ Item
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         height: elements_spacing_
-        width: max_host_width_ + 2*elements_spacing_
+        width: entity_box_width_ + 2*elements_spacing_
         color: "white"
         z: 14
     }
@@ -1391,12 +1407,7 @@ Item
         topic_painted_ = []
         vertical_bar.position = 0
         horizontal_bar.position = 0
-        max_host_width_ = 0;
-        max_user_width_ = 0;
-        max_process_width_ = 0;
-        max_participant_width_ = 0;
-        max_endpoint_width_ = 0;
-
+        entity_box_width_ = 0;
         for (var i = 0; i < mainSpace.children.length; i++)
         {
             if (mainSpace.children[i].left_margin != undefined)
