@@ -315,7 +315,7 @@ Item
                             }
                         } else {
                             topicView.contentX += wheel_displacement_
-                            if (topicView.contentX + topicView.width > topicView.contentWidth) {
+                            if ((topicView.contentX + topicView.width) > topicView.contentWidth) {
                                 topicView.contentX = topicView.contentWidth -  topicView.width;
                             }
                         }
@@ -423,7 +423,7 @@ Item
             anchors.top: parent.top
 
             width: hostsList.width + 2*elements_spacing_
-            height: hostsList.height < domainGraphLayout.height - (label_height_ + 2*elements_spacing_)
+            height: hostsList.height < (domainGraphLayout.height - (label_height_ + 2*elements_spacing_))
                 ? domainGraphLayout.height - (label_height_ + 2*elements_spacing_) : hostsList.height
 
             // Entities background
@@ -1193,11 +1193,11 @@ Item
         // Refresh button
         Button{
             id: refresh_button
-            width: parent.width /2 < 150 ? 150 : parent.width /2
+            width: (parent.width /2) < 150 ? 150 : parent.width /2
             height: label_height_
             anchors.top: parent.top; anchors.topMargin: elements_spacing_
             anchors.left:  parent.left
-            anchors.leftMargin: entity_box_width_/2 + elements_spacing_ - refresh_button.width /2 < 40
+            anchors.leftMargin: ((entity_box_width_/2) + elements_spacing_ - (refresh_button.width /2)) < 40
                 ? 5* elements_spacing_ : (entity_box_width_/2) + elements_spacing_ - (refresh_button.width /2)
             text: "Refresh"
 
