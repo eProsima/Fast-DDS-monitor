@@ -28,8 +28,20 @@ arrows.
 Those arrows would start from the DataWriter and point to the Topic, or start from the Topic and point to the
 DataReader (in publication and subscription cases, respectively).
 
+.. figure:: /rst/figures/screenshots/shapes_domain.png
+    :align: center
+
 If filtering that graph by Topic, only the entities whose endpoints are publishing in, or subscribed to the selected
 Topic would be represented in the view.
+
+.. figure:: /rst/figures/screenshots/shapes_topic.png
+    :align: center
+
+If there are problems reported by a DDS entity, they are condensed by entity in the bottom layout problem section.
+Among the problem counter, the problem is described and, in some cases, followed by a link to the documentation.
+
+.. figure:: /rst/figures/screenshots/problem_detail.png
+    :align: center
 
 .. toctree::
     :maxdepth: 2

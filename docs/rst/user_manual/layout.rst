@@ -275,13 +275,13 @@ Domain View
 -----------
 This view in the main panel shows the connections between DataWriters and DataReaders that belong to the same
 DDS Domain.
-They are represented encapsulated inside their physical entities (see :ref:`_entities` relationship), and with a
+They are represented encapsulated inside their physical entities (see :ref:`entities` relationship), and with a
 connection to the topic they are published and subscribed, respectively.
 
-.. figure:: /rst/figures/screenshots/chartbox.png
+.. figure:: /rst/figures/screenshots/domain_graph.png
     :align: center
 
-Clicking on any entity displays its detailed information in the :ref:`_info_panel`.
+Clicking on any entity displays its detailed information in the :ref:`info_panel`.
 Right click allows changing the alias of the entity, filter the problems to display only the selected entity's problems
 and, in the case of topics, filter the domain graph by topic, so they are displayed only the entities related to the
 selected topic.
@@ -298,3 +298,6 @@ counter, for instance.
 The entities that has reported a problem would display a warning or error icon in close to the entity name, based on
 the severity of the problem.
 The entity representation in the domain graph may also display that icon.
+
+.. figure:: /rst/figures/screenshots/problem.png
+    :align: center
