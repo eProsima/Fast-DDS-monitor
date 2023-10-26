@@ -219,21 +219,25 @@ For the explanation of this information refer to the section :ref:`log_panel`.
 
 Main Panel
 ==========
-The central window it will display the data charts, so-called *Chartbox*, that the user has configured.
-To create a new *Chartbox* go to *Edit->DisplayNewData* in the application menu.
-This button will create a new *Chartbox* where new series could be added, removed or modified.
+The central window allows multiple tabs for different views.
+Also it is displayed a collapsed menu with the possible problems that have been detected on the DDS entities.
+The tab panel allows multiple tabs generation so different views are contemplated in the same window.
+It will display the data charts, so-called *Chartbox*, that the user has configured.
+It will display a domain graph where the physical, logical and DDS entities from a domain are represented,
+focusing on the connection between endpoints through the topics, and the entities physical inheritance.
 
 .. figure:: /rst/figures/screenshots/main_panel.png
     :align: center
-
-For further information about how to create a chart refer to the section :ref:`chart_panel`.
 
 .. _chartbox_layout:
 
 Chartbox
 --------
-These windows in the central panel store some *series* or *data configurations* to show a specific data type for
+These windows in the main panel store some *series* or *data configurations* to show a specific data type for
 one or several entities in a specified time interval and with different accumulative operations on the data.
+
+To create a new *Chartbox* go to *Chart View* in the Main Panel default tab.
+This button will create a new *Chartbox* where new series could be added, removed or modified.
 
 These Chartbox could be moved along the main window.
 In order to move one of this charts, press in the *Chartbox* title and grab the object to its new location inside the
@@ -243,10 +247,12 @@ The rest of the *Chartboxes* will automatically rearrange when one of them is mo
 .. figure:: /rst/figures/screenshots/chartbox.png
     :align: center
 
+For further information about how to create a chart refer to the section :ref:`chart_panel`.
+
 .. _create_new_series_layout:
 
 Create Series Dialog
-------------------------
+^^^^^^^^^^^^^^^^^^^^
 This Dialog will appear every time a new Chartbox is created, or adding a new series by the button in the Chartbox
 *Series->AddSeries*.
 
@@ -262,3 +268,33 @@ This Dialog will appear every time a new Chartbox is created, or adding a new se
 
 For further details on how to configure a new series refer to :ref:`historic_series` for historic data or
 :ref:`dynamic_series` for dynamic data.
+
+.. _domain_graph:
+
+Domain View
+-----------
+This view in the main panel shows the connections between DataWriters and DataReaders that belong to the same
+DDS Domain.
+They are represented encapsulated inside their physical entities (see :ref:`_entities` relationship), and with a
+connection to the topic they are published and subscribed, respectively.
+
+.. figure:: /rst/figures/screenshots/chartbox.png
+    :align: center
+
+Clicking on any entity displays its detailed information in the :ref:`_info_panel`.
+Right click allows changing the alias of the entity, filter the problems to display only the selected entity's problems
+and, in the case of topics, filter the domain graph by topic, so they are displayed only the entities related to the
+selected topic.
+
+.. _problem_summary:
+
+Problem summary
+---------------
+
+This section that can be expanded and collapsed displays all the collected problems per entity.
+Those problems are related to DataReader samples lost, incompatible QoS between endpoints, or DataWriter deadline missed
+counter, for instance.
+
+The entities that has reported a problem would display a warning or error icon in close to the entity name, based on
+the severity of the problem.
+The entity representation in the domain graph may also display that icon.
