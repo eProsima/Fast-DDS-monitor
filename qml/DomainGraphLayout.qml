@@ -39,6 +39,7 @@ Item
     property var endpoint_topic_connections_: {}    // endpoint information needed for connection representation
     property var topic_painted_: []                 // already painted topic connection references
     property var endpoint_painted_: []              // already painted endpoint connection references
+    property var pending_endpoints_: []             // pending endpoints references that have not been resized yet
     property int entity_box_width_: 0               // entities box width management
 
     // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
@@ -478,9 +479,7 @@ Item
                     // update if necessary
                     if (aux_width > entity_box_width_)
                     {
-                        clear_graph()
                         entity_box_width_ = aux_width
-                        resize_elements_()
                     }
                 }
 
@@ -607,9 +606,7 @@ Item
                             // update if necessary
                             if (aux_width > entity_box_width_)
                             {
-                                clear_graph()
                                 entity_box_width_ = aux_width
-                                resize_elements_()
                             }
                         }
 
@@ -737,9 +734,7 @@ Item
                                     // update if necessary
                                     if (aux_width > entity_box_width_)
                                     {
-                                        clear_graph()
                                         entity_box_width_ = aux_width
-                                        resize_elements_()
                                     }
                                 }
 
@@ -867,9 +862,7 @@ Item
                                             // update if necessary
                                             if (aux_width > entity_box_width_)
                                             {
-                                                clear_graph()
                                                 entity_box_width_ = aux_width
-                                                resize_elements_()
                                             }
                                         }
 
@@ -961,12 +954,29 @@ Item
                                                     function onParticipants_updated_()
                                                     {
                                                         endpointsList.resize()
+
+                                                        // remove current endpoints from pending queue
+                                                        for (var c = 0; c < endpointsList.count; c++)
+                                                        {
+                                                            endpointsList.currentIndex = c
+                                                            if (endpointsList.currentItem != null)
+                                                            {
+                                                                if (pending_endpoints_.includes(endpointsList.currentItem.get_endpoint_id()))
+                                                                {
+                                                                    pending_endpoints_.splice(pending_endpoints_.indexOf(endpointsList.currentItem.get_endpoint_id()), 1)
+                                                                }
+                                                            }
+                                                        }
                                                         endpoints_updated_()
                                                     }
 
                                                     function onTopics_updated_()
                                                     {
-                                                        endpointsList.record_connections()
+                                                        if (pending_endpoints_.length == 0)
+                                                        {
+                                                            stop_timer()
+                                                            endpointsList.record_connections()
+                                                        }
                                                     }
                                                 }
 
@@ -999,9 +1009,7 @@ Item
                                                     // update if necessary
                                                     if (aux_width > entity_box_width_)
                                                     {
-                                                        clear_graph()
                                                         entity_box_width_ = aux_width
-                                                        resize_elements_()
                                                     }
                                                 }
 
@@ -1038,6 +1046,11 @@ Item
                                                             "right_direction": right_direction, "x": src_x, "y": src_y,
                                                             "destination_id": modelData["topic"]
                                                         }
+                                                    }
+
+                                                    function get_endpoint_id()
+                                                    {
+                                                        return modelData["id"]
                                                     }
 
                                                     // background
@@ -1205,6 +1218,12 @@ Item
         }
     }
 
+    Timer {
+        id: safety_timer
+        interval: 200; running: false
+        onTriggered: { if (interval < 500) interval = 500; load_model() }
+    }   function stop_timer() { safety_timer.stop() }
+
     // Obtain given domain id graph JSON model
     function load_model()
     {
@@ -1285,6 +1304,7 @@ Item
                                                             "accum_y":accum_y
                                                         }
                                                         accum_y += endpoint_height_ + elements_spacing_
+                                                        pending_endpoints_[pending_endpoints_.length] = endpoint
                                                     }
                                                 }
                                                 new_participants[new_participants.length] = {
@@ -1337,6 +1357,9 @@ Item
                     "hosts": new_hosts,
                 }
 
+                // recovery timer starts
+                safety_timer.start()
+
                 // Update visual elements by re-calculating their sizes
                 resize_elements_()
 
@@ -1370,6 +1393,7 @@ Item
         endpoint_topic_connections_ = {}
         endpoint_painted_ = []
         topic_painted_ = []
+        pending_endpoints_ = []
         vertical_bar.position = 0
         horizontal_bar.position = 0
         entity_box_width_ = 0;
