@@ -41,18 +41,11 @@ Item
     property var endpoint_painted_: []              // already painted endpoint connection references
     property int entity_box_width_: 0               // entities box width management
 
-    // Private (resize) signals               resize_elements_ will trigger a bunch of resize methods per entities and
-    //    HOST       TOPIC ─┐                 topics, when 2 iterations are performed. The first one is aimed  to
-    //  3↓ ... ↑2    1│ ↑  5└─>CONNECTIONS    resize "parents" based on max "child" size, and then the second one takes
-    //   ENDPOINT <───┘ │                     place to ensure the well format if a "parent" has a size longer than a
-    //   4└─────────────┘                     "child". After that, with the final results, connections between topics
-    //                                        and endpoints are generated
+    // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
+    //    HOST       TOPIC ─┐                 the order displayed in the left figure. All entities width value are
+    //  1↓ ... ↓4    5↑    6└─>CONNECTIONS    based on the var entity_box_width_wich would be updated with the max
+    //   ENDPOINT ────┘                       width. After that, connections between endpoints and topics are generated.
     signal resize_elements_()
-    signal update_endpoints_()
-    signal update_participants_()
-    signal update_processes_()
-    signal update_users_()
-    signal update_hosts_()
     signal topics_updated_()
     signal endpoints_updated_()
     signal participants_updated_()
@@ -152,12 +145,6 @@ Item
             Connections
             {
                 target: domainGraphLayout
-
-                function onResize_elements_()
-                {
-                    topicsList.resize()
-                    update_endpoints_()
-                }
 
                 function onEndpoints_updated_()
                 {
@@ -456,7 +443,7 @@ Item
                 {
                     target: domainGraphLayout
 
-                    function onUpdate_hosts_()
+                    function onResize_elements_()
                     {
                         hostsList.resize()
                         hosts_updated_()
@@ -584,11 +571,6 @@ Item
                         {
                             target: domainGraphLayout
 
-                            function onUpdate_users_()
-                            {
-                                usersList.resize()
-                                update_hosts_()
-                            }
                             function onHosts_updated_()
                             {
                                 usersList.resize()
@@ -718,12 +700,6 @@ Item
                                 Connections
                                 {
                                     target: domainGraphLayout
-
-                                    function onUpdate_processes_()
-                                    {
-                                        processesList.resize()
-                                        update_users_()
-                                    }
 
                                     function onUsers_updated_()
                                     {
@@ -855,11 +831,6 @@ Item
                                         {
                                             target: domainGraphLayout
 
-                                            function onUpdate_participants_()
-                                            {
-                                                participantsList.resize()
-                                                update_processes_()
-                                            }
                                             function onProcesses_updated_()
                                             {
                                                 participantsList.resize()
@@ -986,12 +957,6 @@ Item
                                                 Connections
                                                 {
                                                     target: domainGraphLayout
-
-                                                    function onUpdate_endpoints_()
-                                                    {
-                                                        endpointsList.resize()
-                                                        update_participants_()
-                                                    }
 
                                                     function onParticipants_updated_()
                                                     {
