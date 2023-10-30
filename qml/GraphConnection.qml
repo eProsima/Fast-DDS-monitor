@@ -9,8 +9,8 @@ Item {
     property string background_color: "white"       // background color
 
     // readonly private design properties
-    readonly property int arrow_margin_: -4         // margins for background
-    readonly property int arrow_size_: 30           // arrow size
+    readonly property int arrow_margin_: -3         // margins for background
+    readonly property int arrow_size_: 18           // arrow size
 
     // background to make connection overlap nicely with previous topics (looks like connection goes OVER the topic)
     Rectangle {
@@ -19,7 +19,7 @@ Item {
         anchors.top: parent.top; anchors.bottom: parent.bottom
         anchors.topMargin: arrow_margin_; anchors.bottomMargin: arrow_margin_
         anchors.left: parent.left; anchors.right: parent.right
-        anchors.leftMargin: left_margin; anchors.rightMargin: left_margin;
+        anchors.leftMargin: left_margin; anchors.rightMargin: left_margin
         color: "white"
     }
 
@@ -28,7 +28,8 @@ Item {
         anchors.top: parent.top; anchors.bottom: parent.bottom
         anchors.topMargin: arrow_margin_; anchors.bottomMargin: arrow_margin_
         anchors.left: parent.left; anchors.right: parent.right
-        anchors.leftMargin: parent.height /2; anchors.rightMargin: 5;
+        anchors.leftMargin: parent.height /2
+        anchors.rightMargin: left_direction ? left_margin: left_margin != 0 ? parent.height : parent.height/2
         color: "white"
     }
 
@@ -38,7 +39,7 @@ Item {
     Item {
         id: left_arrow_background
         visible: left_direction
-        height: arrow_size_ + 20
+        height: arrow_size_ + 15
         width: arrow_size_
         clip: true
         anchors.verticalCenter: parent.verticalCenter
@@ -49,7 +50,7 @@ Item {
             anchors.top: parent.top
             name: "left_arrow"
             color: "white"
-            size: arrow_size_ + 10
+            size: arrow_size_ + 8
         }
 
         IconSVG {
@@ -57,7 +58,7 @@ Item {
             anchors.bottom: parent.bottom
             name: "left_arrow"
             color: "white"
-            size: arrow_size_ + 10
+            size: arrow_size_ + 8
         }
     }
 
@@ -91,15 +92,15 @@ Item {
     Item {
         id: right_arrow
         visible: right_direction
-        height: arrow_size_ -4
-        width: arrow_size_ -4
+        height: arrow_size_ -2
+        width: arrow_size_ -2
         anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right; anchors.rightMargin: parent.height /2 + 2
+        anchors.right: parent.right; anchors.rightMargin: parent.height /2
 
         IconSVG {
             name: "right_arrow"
             color: "grey"
-            size: arrow_size_-5
+            size: arrow_size_-2
         }
     }
 }
