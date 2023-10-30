@@ -34,7 +34,6 @@
 #include <fastdds_monitor/backend/Callback.h>
 #include <fastdds_monitor/backend/ProblemCallback.h>
 #include <fastdds_monitor/backend/Listener.h>
-#include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
