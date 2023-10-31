@@ -226,7 +226,14 @@ Item {
                     {
                         _prop.expanded = !_prop.expanded
                     }
+
+                    _prop.focus()
                     root.toggled()
+                }
+
+                function focus(){
+                    controller.endpoint_click(_prop.currentId)
+                    controller.participant_click(_prop.currentId)
                 }
                 }
 
@@ -311,6 +318,7 @@ Item {
                     TapHandler {
                         onDoubleTapped: _prop.toggle()
                         onSingleTapped: {
+                            _prop.focus()
                             root.currentItem = _prop.currentItem
                             root.selectedIndex = _prop.currentIndex
                         }
