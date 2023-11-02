@@ -103,6 +103,10 @@ public:
             const QVariant& value,
             int role = Qt::EditRole) override;
 
+    bool removeRow(
+            int row,
+            const QModelIndex &index = QModelIndex());
+
     QHash<int, QByteArray> roleNames() const override;
 
 public:
@@ -144,6 +148,10 @@ public:
             ProblemTreeItem* parent,
             ProblemTreeItem* child);
 
+    // Returns the child in the given position
+    ProblemTreeItem* child(
+            int row);
+
     // Check if default empty value is the only element
     bool is_empty();
 
@@ -156,13 +164,32 @@ public:
             const bool& is_error,
             const std::string& description);
 
+    void set_source_model(
+            ProblemTreeModel* source_model);
+
+    /*!
+    *  Filters the model if it is defined as proxy
+    */
+    Q_INVOKABLE void filter_proxy(
+            const QVariant& entity_id);
+
 private:
     ProblemTreeItem* internalPointer(
             const QModelIndex& index) const;
 
+    ProblemTreeItem* copy(
+            ProblemTreeItem* source,
+            const backend::EntityId entity_id);
+
+    void filter(
+            const backend::EntityId entity_id);
+
 private:
+    ProblemTreeModel* source_model_;
     ProblemTreeItem* root_item_;
     bool is_empty_;
+
+    backend::EntityId current_filter_;
 };
 
 } // namespace models

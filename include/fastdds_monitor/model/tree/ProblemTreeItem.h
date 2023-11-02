@@ -129,6 +129,17 @@ public:
 
     backend::StatusKind kind();
 
+    bool is_error();
+
+    void is_error(
+            bool val);
+
+    std::string name_str();
+
+    std::string value_str();
+
+    std::string description_str();
+
     //! Increases the issues counter of a top level entity item
     int recalculate_entity_counter();
 

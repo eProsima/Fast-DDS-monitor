@@ -287,6 +287,32 @@ backend::StatusKind ProblemTreeItem::kind()
     return kind_;
 }
 
+bool ProblemTreeItem::is_error()
+{
+    return is_status_error_;
+}
+
+void ProblemTreeItem::is_error(
+        bool val)
+{
+    is_status_error_ = val;
+    is_status_error_variant_ = QVariant(val);
+}
+
+std::string ProblemTreeItem::name_str()
+{
+    return name_;
+}
+
+std::string ProblemTreeItem::value_str()
+{
+    return value_;
+}
+
+std::string ProblemTreeItem::description_str()
+{
+    return description_;
+}
 
 int ProblemTreeItem::recalculate_entity_counter()
 {

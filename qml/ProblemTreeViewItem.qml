@@ -86,7 +86,8 @@ Item {
     signal toggled()
 
     // private (internal) signals
-    signal focus_(int entityId)
+    signal filter_(int entityId)
+    signal unfilter_()
 
     implicitWidth: parent.width
     implicitHeight: childrenRect.height
@@ -114,7 +115,6 @@ Item {
 
     property Component contentItem: Item {
         id: contentData
-
 
         IconSVG {
             id: status_icon
@@ -157,8 +157,8 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
-            height: parent.height
             elide: Text.ElideRight
+            height: parent.height
 
             color:currentRow.currentAlive ? currentRow.isSelectedIndex ? root.selectedItemColor : root.color : root.inactive
             text: currentRow.currentId != "all" && currentRow.currentKind === "INVALID" ?
@@ -212,7 +212,7 @@ Item {
                 property var currentDescription: root.model.data(currentIndex, ProblemTreeViewItem.Role.Description)
                 property var currentAlive: root.model.data(currentIndex, ProblemTreeViewItem.Role.Alive)
                 property Item currentItem: repeater.itemAt(index)
-                property bool expanded: false
+                property bool expanded: true
                 property bool selected: false
                 property int itemChildCount: root.model.rowCount(currentIndex)
                 readonly property int depth: root.model.depth(currentIndex)
@@ -254,12 +254,15 @@ Item {
 
                 Connections {
                     target: root
-                    function onFocus_(entityId){
-                        if(parseInt(_prop.currentId) === parseInt(entityId)){
+                    function onFilter_(entityId) {
+                        if (_prop.currentId == entityId)
+                        {
                             _prop.expanded = true
-                        } else {
-                            _prop.expanded = false
                         }
+                    }
+
+                    function onUnfilter_(){
+                        _prop.expanded = false
                     }
                 }
 
@@ -408,7 +411,11 @@ Item {
         }
     }
 
-    function focus (entityId) {
-        root.focus_(entityId)
+    function filter (entityId) {
+        root.filter_(entityId)
+    }
+
+    function unfilter() {
+        root.unfilter_()
     }
 }

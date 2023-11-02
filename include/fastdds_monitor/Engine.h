@@ -749,6 +749,9 @@ protected:
     //! Data Model for Fast DDS Monitor problem view. Collects all entities problems detected by the monitor service
     models::ProblemTreeModel* problem_model_;
 
+    //! Display and allow to filter Model for Fast DDS Monitor problem view.
+    models::ProblemTreeModel* problem_proxy_model_;
+
     //! TODO
     models::ListModel* source_entity_id_model_;
 

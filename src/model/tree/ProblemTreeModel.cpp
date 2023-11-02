@@ -51,8 +51,10 @@ namespace models {
 ProblemTreeModel::ProblemTreeModel(
         QObject* parent)
     : QAbstractItemModel(parent)
+    , source_model_(nullptr)
     , root_item_{ new ProblemTreeItem() }
     , is_empty_(false)
+    , current_filter_(backend::ID_ALL)
 {
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
@@ -61,6 +63,63 @@ ProblemTreeModel::~ProblemTreeModel()
 {
     delete root_item_;
 }
+
+void ProblemTreeModel::set_source_model(
+        ProblemTreeModel* source_model)
+{
+    source_model_ = source_model;
+    filter(current_filter_);
+}
+
+void ProblemTreeModel::filter_proxy(
+            const QVariant& entity_id)
+{
+    if (source_model_)
+    {
+        filter(entity_id.toInt());
+    }
+}
+
+void ProblemTreeModel::filter(
+        const backend::EntityId entity_id)
+{
+    clear();
+    if (current_filter_ != entity_id)
+    {
+        current_filter_ = entity_id;
+    }
+    if (source_model_)
+    {
+        for (int i = 0; i < source_model_->rootItem()->childCount(); i++)
+        {
+            addTopLevelItem(copy(source_model_->rootItem()->child(i), entity_id));
+        }
+    }
+}
+
+ProblemTreeItem* ProblemTreeModel::copy(
+        ProblemTreeItem* source,
+        const backend::EntityId entity_id)
+{
+    // copy source data in destiny data
+    if (source->id() == entity_id || entity_id == backend::ID_ALL)
+    {
+        ProblemTreeItem* destiny = new ProblemTreeItem(
+                source->id(),
+                source->kind(),
+                source->name_str(),
+                source->is_error(),
+                source->value_str(),
+                source->description_str());
+        for (int i = 0; i < source->childCount(); i++)
+        {
+            addItem(destiny, copy(source->child(i), entity_id));
+        }
+        return destiny;
+    }
+    return nullptr;
+}
+
 
 int ProblemTreeModel::rowCount(
         const QModelIndex& parent) const
@@ -154,6 +213,25 @@ bool ProblemTreeModel::setData(
     {
         item->setData(value);
         emit dataChanged(index, index, {Qt::EditRole});
+    }
+
+    return false;
+}
+
+bool ProblemTreeModel::removeRow(
+        int /*row*/,
+        const QModelIndex& index)
+{
+    if (!index.isValid())
+    {
+        return false;
+    }
+
+    if (auto item = internalPointer(index))
+    {
+        std::cout << "removing" << std::endl;
+        removeItem(item);
+        std::cout << "removed" << std::endl;
     }
 
     return false;
@@ -311,6 +389,17 @@ bool ProblemTreeModel::contains(
         }
     }
     return false;
+}
+
+ProblemTreeItem* ProblemTreeModel::child(
+        int row)
+{
+    if (row >= 0 && row < root_item_->childCount())
+    {
+        return root_item_->child(row);
+    }
+
+    return nullptr;
 }
 
 bool ProblemTreeModel::is_empty()

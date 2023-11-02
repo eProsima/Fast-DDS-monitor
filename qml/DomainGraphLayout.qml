@@ -1428,7 +1428,6 @@ Item
                                                                 "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
                                                                 "accum_y":accum_y
                                                             }
-                                                            accum_y += endpoint_height_ + elements_spacing_
                                                         }
                                                         accum_y += endpoint_height_ + elements_spacing_
                                                         pending_endpoints_[pending_endpoints_.length] = endpoint

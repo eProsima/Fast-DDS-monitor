@@ -91,8 +91,8 @@ public:
             EntityId datawriter_id,
             const Status& status) override;
 
-    //! Callback when a problem is reported
-    void on_problem_reported(
+    //! Callback when a status problem is reported
+    void on_status_reported(
             EntityId domain_id,
             EntityId entity_id,
             StatusKind data_kind) override;

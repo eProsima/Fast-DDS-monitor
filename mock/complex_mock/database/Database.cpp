@@ -362,7 +362,7 @@ void Database::callback_listener_thread_()
                 }
 
                 // add status callback
-                listener_->on_problem_reported(std::get<2>(entity), std::get<0>(entity), StatusKind::PROXY);
+                listener_->on_status_reported(std::get<2>(entity), std::get<0>(entity), StatusKind::PROXY);
             }
         }
 

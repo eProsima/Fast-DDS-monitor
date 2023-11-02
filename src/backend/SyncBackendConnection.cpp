@@ -619,6 +619,12 @@ std::string SyncBackendConnection::get_name(
     return backend::get_info_value(get_info(id), "name");
 }
 
+StatusLevel SyncBackendConnection:: get_status(
+        EntityId id)
+{
+    return StatisticsBackend::get_status(id);
+}
+
 std::vector<StatisticsData> SyncBackendConnection::get_data(
         DataKind data_kind,
         EntityId source_entity_id,

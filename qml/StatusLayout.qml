@@ -76,19 +76,19 @@ Item
 
                     model: problemModel
 
-                    onProblem_focused:{
+                    onProblem_filtered:{
                         collapse_status_layout()
-                    }
-
-                    onClean_filter: {
-                        statusLayout.clean_filter_()
                     }
 
                     Connections {
                         target: statusLayout
 
+                        function onClean_filter_() {
+                            status_tree_view.clean_filter()
+                        }
+
                         function onFocus_entity_(entityId) {
-                            status_tree_view.focus_entity(entityId)
+                            status_tree_view.filter_model_by_id(entityId)
                         }
                     }
                 }
@@ -178,25 +178,38 @@ Item
                     }
                 }
 
-                IconSVG {
-                    id: filter_empty_icon
-                    visible: !statusLayout.filter_visible_
+                Rectangle {
+                    id: filter_rect
                     anchors.right: rect.left
                     anchors.rightMargin: elements_spacing_ *2
                     anchors.verticalCenter: parent.verticalCenter
-                    name: "filter_empty"
-                    size: parent.height - elements_spacing_
+                    height: parent.height - elements_spacing_
+                    width: parent.height - elements_spacing_
+                    color: "transparent"
+
+                    IconSVG {
+                        id: filter_empty_icon
+                        visible: !statusLayout.filter_visible_
+                        anchors.centerIn: parent
+                        name: "filter_empty"
+                        size: parent.width
+                    }
+
+                    IconSVG {
+                        id: filter_full_icon
+                        visible: statusLayout.filter_visible_
+                        anchors.centerIn: parent
+                        name: "filter_full"
+                        size: parent.width
+                    }
+
+                    MouseArea {
+                        id: filter_btn
+                        anchors.fill: parent
+                        onClicked: statusLayout.clean_filter_()
+                    }
                 }
 
-                IconSVG {
-                    id: filter_full_icon
-                    visible: statusLayout.filter_visible_
-                    anchors.right: rect.left
-                    anchors.rightMargin: elements_spacing_ *2
-                    anchors.verticalCenter: parent.verticalCenter
-                    name: "filter_full"
-                    size: parent.height - elements_spacing_
-                }
                 Connections {
                     target: statusLayout
 
@@ -301,5 +314,9 @@ Item
 
     function filter_problem_log(entityId) {
         statusLayout.focus_entity_(entityId)
+    }
+    function clean_filter()
+    {
+        statusLayout.clean_filter_()
     }
 }

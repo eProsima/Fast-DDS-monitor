@@ -88,8 +88,8 @@ Flickable {
         Arrow
     }
 
-    signal problem_focused()
-    signal clean_filter()
+    property int current_filter_: -2        // backend::ID_ALL
+    signal problem_filtered()
 
     property int handleStyle: ProblemTreeView.Handle.TriangleSmallOutline
 
@@ -97,6 +97,18 @@ Flickable {
     contentWidth: width
     boundsBehavior: Flickable.StopAtBounds
     ScrollBar.vertical: ScrollBar {}
+
+    Component.onCompleted:{
+        root.clean_filter()
+    }
+
+    Connections
+    {
+        target: root.model
+        function onLayoutChanged() {
+            root.filter_model()
+        }
+    }
 
     Connections { function onCurrentIndexChanged() { if(currentIndex) currentData = model.data(currentIndex) }  }
 
@@ -116,18 +128,12 @@ Flickable {
         defaultIndicator: indicatorToString(handleStyle)
         z: 1
 
-        onToggled: {
-            root.clean_filter()
-        }
-
         Connections {
             target: root.model
             ignoreUnknownSignals: true
             function onLayoutChanged() {
                tree.childCount = root.model ? root.model.rowCount(tree.parentIndex) : 0
             }
-
-
         }
     }
 
@@ -160,16 +166,29 @@ Flickable {
         }
     }
 
-    function focus_entity(entityId) {
-        var found = false
-        for (var i = 0; i< model.rowCount(); i++){
-            if (model.data(model.index(i,0),ProblemTreeViewItem.Role.Id) == entityId) {
-                tree.focus(entityId)
-                found = true
-            }
+
+    function clean_filter()
+    {
+        root.filter_model()
+        model.filter_proxy(-2)
+        tree.unfilter()
+    }
+
+    function filter_model()
+    {
+        var filter_all = -2 // backend::ID_ALL
+
+        if (current_filter_ != filter_all)
+        {
+            current_filter_ = filter_all
+            root.filter_model_by_id(current_filter_)
         }
-        if (found){
-            root.problem_focused()
-        }
+    }
+
+    function filter_model_by_id(entityId)
+    {
+        model.filter_proxy(entityId)
+        root.problem_filtered()
+        tree.filter(entityId)
     }
 }

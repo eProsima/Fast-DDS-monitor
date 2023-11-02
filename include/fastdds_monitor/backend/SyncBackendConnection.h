@@ -117,6 +117,10 @@ public:
     std::string get_name(
             backend::EntityId id);
 
+    //! Get the status level of an entity from the Backend by calling \c get_status
+    StatusLevel get_status(
+            backend::EntityId id);
+
     //! Get the alive status of an entity from the Backend by calling \c is_active
     bool get_alive(
             backend::EntityId id);

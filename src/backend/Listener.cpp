@@ -169,7 +169,7 @@ void Listener::on_topic_discovery(
     }
 }
 
-void Listener::on_problem_reported(
+void Listener::on_status_reported(
         EntityId domain_id,
         EntityId entity_id,
         StatusKind status_kind)
