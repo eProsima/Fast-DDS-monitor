@@ -544,14 +544,14 @@ Item
                             }
                             Rectangle {
                                 visible: modelData["status"] != "OK"
-                                color: "white"
+                                color: modelData["status"] == "WARNING" ? "transparent" : "white"
                                 width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                 height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                 radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                 IconSVG {
                                     anchors.centerIn: parent
                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                    color: modelData["status"] == "WARNING" ? "white" : "red"
+                                    color: modelData["status"] == "WARNING" ? "black" : "red"
                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                 }
                             }
@@ -688,14 +688,14 @@ Item
                                     }
                                     Rectangle {
                                         visible: modelData["status"] != "OK"
-                                        color: "white"
+                                        color: modelData["status"] == "WARNING" ? "transparent" : "white"
                                         width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                         height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                         radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                         IconSVG {
                                             anchors.centerIn: parent
                                             name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                            color: modelData["status"] == "WARNING" ? "white" : "red"
+                                            color: modelData["status"] == "WARNING" ? "black" : "red"
                                             size: modelData["status"] != "OK"? icon_size_ : 0
                                         }
                                     }
@@ -831,14 +831,14 @@ Item
                                             }
                                             Rectangle {
                                                 visible: modelData["status"] != "OK"
-                                                color: "white"
+                                                color: modelData["status"] == "WARNING" ? "transparent" : "white"
                                                 width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                 height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                 radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                 IconSVG {
                                                     anchors.centerIn: parent
                                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                    color: modelData["status"] == "WARNING" ? "white" : "red"
+                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
                                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                                 }
                                             }
@@ -974,14 +974,14 @@ Item
                                                     }
                                                     Rectangle {
                                                         visible: modelData["status"] != "OK"
-                                                        color: "white"
+                                                        color: modelData["status"] == "WARNING" ? "transparent" : "white"
                                                         width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                         height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                         radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                         IconSVG {
                                                             anchors.centerIn: parent
                                                             name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                            color: modelData["status"] == "WARNING" ? "white" : "red"
+                                                            color: modelData["status"] == "WARNING" ? "black" : "red"
                                                             size: modelData["status"] != "OK"? icon_size_ : 0
                                                         }
                                                     }
@@ -1171,14 +1171,14 @@ Item
                                                             }
                                                             Rectangle {
                                                                 visible: modelData["status"] != "OK"
-                                                                color: "white"
+                                                                color: modelData["status"] == "WARNING" ? "transparent" : "white"
                                                                 width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                                 height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                                 radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                                 IconSVG {
                                                                     anchors.centerIn: parent
                                                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                                    color: modelData["status"] == "WARNING" ? "white" : "red"
+                                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
                                                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                                                 }
                                                             }
