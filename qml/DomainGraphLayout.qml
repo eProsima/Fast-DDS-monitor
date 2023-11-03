@@ -32,7 +32,7 @@ Item
     required property string component_id           // mandatory to be included when object created
 
     // Public signals
-    signal update_tab_name(string new_name)         // Update tab name based on selected domain id
+    signal update_tab_name(string new_name, string stack_id)  // Update tab name based on selected domain id
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
 
@@ -1376,7 +1376,7 @@ Item
                     }
                 }
                 var accum_y = 0
-                var temp_y = 0
+                var host_temp_y = 0
                 for (var host in new_model["hosts"])
                 {
                     var discard_host = true
@@ -1385,22 +1385,28 @@ Item
                     {
                         accum_y += label_height_ + elements_spacing_
                         var new_users = []
+                        var user_temp_y = accum_y
                         for (var user in new_model["hosts"][host]["users"])
                         {
+                            var discard_user = true
                             var metatraffic_ = new_model["hosts"][host]["users"][user]["metatraffic"]
                             if (metatraffic_ != true || is_metatraffic_visible_)
                             {
                                 accum_y += label_height_ + elements_spacing_
                                 var new_processes = []
+                                var process_temp_y = accum_y
                                 for (var process in new_model["hosts"][host]["users"][user]["processes"])
                                 {
+                                    var discard_process = true
                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["metatraffic"]
                                     if (metatraffic_ != true || is_metatraffic_visible_)
                                     {
                                         accum_y += label_height_ + elements_spacing_
                                         var new_participants = []
+                                        var participant_temp_y = accum_y
                                         for (var participant in new_model["hosts"][host]["users"][user]["processes"][process]["participants"])
                                         {
+                                            var discard_participant = true
                                             var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["metatraffic"]
                                             if (metatraffic_ != true || is_metatraffic_visible_)
                                             {
@@ -1414,7 +1420,7 @@ Item
                                                         if ((!filtered_topics_.length) || (filtered_topics_.length > 0
                                                             && filtered_topics_.includes(new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"])))
                                                         {
-                                                            discard_host = false
+                                                            discard_participant = false; discard_process = false; discard_user = false; discard_host = false
                                                             var kind = "DataWriter"
                                                             if (new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"] == "datareader")
                                                             {
@@ -1428,42 +1434,66 @@ Item
                                                                 "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
                                                                 "accum_y":accum_y
                                                             }
+                                                            accum_y += endpoint_height_ + elements_spacing_
+                                                            pending_endpoints_[pending_endpoints_.length] = endpoint
                                                         }
-                                                        accum_y += endpoint_height_ + elements_spacing_
-                                                        pending_endpoints_[pending_endpoints_.length] = endpoint
                                                     }
                                                 }
-                                                new_participants[new_participants.length] = {
-                                                    "id":participant,
-                                                    "kind": "DomainParticipant",
-                                                    "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
-                                                    "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
-                                                    "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
-                                                    "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
-                                                    "endpoints":new_endpoints
+                                                if (!discard_participant)
+                                                {
+                                                    new_participants[new_participants.length] = {
+                                                        "id":participant,
+                                                        "kind": "DomainParticipant",
+                                                        "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
+                                                        "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
+                                                        "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
+                                                        "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
+                                                        "endpoints":new_endpoints
+                                                    }
+                                                    accum_y += elements_spacing_
+                                                    participant_temp_y = accum_y
                                                 }
-                                                accum_y += elements_spacing_
+                                                else
+                                                {
+                                                    accum_y = participant_temp_y
+                                                }
                                             }
                                         }
-                                        new_processes[new_processes.length] = {
-                                            "id":process,
-                                            "kind":"Process",
-                                            "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
-                                            "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
-                                            "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
-                                            "participants":new_participants
+                                        if (!discard_process)
+                                        {
+                                            new_processes[new_processes.length] = {
+                                                "id":process,
+                                                "kind":"Process",
+                                                "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
+                                                "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
+                                                "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
+                                                "participants":new_participants
+                                            }
+                                            accum_y += elements_spacing_
+                                            process_temp_y = accum_y
                                         }
-                                        accum_y += elements_spacing_
+                                        else
+                                        {
+                                            accum_y = process_temp_y
+                                        }
                                     }
                                 }
-                                new_users[new_users.length] = {
-                                    "id":user,
-                                    "kind": "User",
-                                    "alias":new_model["hosts"][host]["users"][user]["alias"],
-                                    "status":new_model["hosts"][host]["users"][user]["status"],
-                                    "processes":new_processes
+                                if (!discard_user)
+                                {
+                                    new_users[new_users.length] = {
+                                        "id":user,
+                                        "kind": "User",
+                                        "alias":new_model["hosts"][host]["users"][user]["alias"],
+                                        "status":new_model["hosts"][host]["users"][user]["status"],
+                                        "processes":new_processes
+                                    }
+                                    accum_y += elements_spacing_
+                                    user_temp_y = accum_y
                                 }
-                                accum_y += elements_spacing_
+                                else
+                                {
+                                    accum_y = user_temp_y
+                                }
                             }
                         }
                         if (!discard_host)
@@ -1476,10 +1506,11 @@ Item
                                 "users":new_users
                             }
                             accum_y += elements_spacing_
-                            temp_y = accum_y
+                            host_temp_y = accum_y
                         }
-                        else {
-                            accum_y = temp_y
+                        else
+                        {
+                            accum_y = host_temp_y
                         }
                     }
 
@@ -1521,7 +1552,7 @@ Item
         {
             if (filtered_topics_.length == 1)
             {
-                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View")
+                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View", component_id)
             }
             else
             {
@@ -1535,12 +1566,12 @@ Item
                     print_topic_names += " and " + topic_names[topic_names.length-1]
                 }
 
-                domainGraphLayout.update_tab_name(print_topic_names + " Topics View")
+                domainGraphLayout.update_tab_name(print_topic_names + " Topics View", component_id)
             }
         }
         else
         {
-            domainGraphLayout.update_tab_name("Domain " + domain_id + " View")
+            domainGraphLayout.update_tab_name("Domain " + domain_id + " View", component_id)
         }
     }
 

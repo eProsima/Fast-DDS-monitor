@@ -210,19 +210,26 @@ Item {
                         component_id: stack.stack_id
 
                         onUpdate_tab_name: {
-                            tabLayout.tab_model_[current_]["title"] = new_name
-
-                            // update model to set the visual change
-                            tab_list.model = tabLayout.tab_model_
-
-                            // update left panel information
-                            for (var i=0; i<stack_layout.count; i++)
+                            for (var i = 0; i<tabLayout.tab_model_.length; i++)
                             {
-                                if (stack_layout.children[i].stack_id == tabLayout.tab_model_[current_]["stack_id"] &&
-                                    stack_layout.children[i].currentItem.entity_id > 0)
+                                if (tabLayout.tab_model_[i]["stack_id"] == stack_id)
                                 {
-                                    controller.domain_click(stack_layout.children[i].currentItem.entity_id)
-                                    break;
+                                    tabLayout.tab_model_[i]["title"] = new_name
+
+                                    // update model to set the visual change
+                                    tab_list.model = tabLayout.tab_model_
+
+                                    // update left panel information
+                                    for (var j=0; j<stack_layout.count; j++)
+                                    {
+                                        if (stack_layout.children[j].stack_id == tabLayout.tab_model_[i]["stack_id"] &&
+                                            stack_layout.children[j].currentItem.entity_id > 0)
+                                        {
+                                            controller.domain_click(stack_layout.children[j].currentItem.entity_id)
+                                            break;
+                                        }
+                                    }
+                                    break       // exit loop
                                 }
                             }
                         }
