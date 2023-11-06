@@ -77,12 +77,6 @@ Item
     readonly property string reader_color_: Theme.eProsimaYellow
     readonly property string writer_color_: Theme.eProsimaGreen
 
-    // Obtain given domain id graph
-    Component.onCompleted:
-    {
-        load_model()
-    }
-
     // Horizontal scroll view for topics section. This will contain also a Flickable that replicates entities height
     // and will move accordingly to display the connections
     Flickable {
