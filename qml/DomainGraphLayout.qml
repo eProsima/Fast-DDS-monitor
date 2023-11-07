@@ -50,8 +50,7 @@ Item
     signal resize_elements_()
     signal topics_updated_()
     signal endpoints_updated_()
-    signal create_endpoint_connections_();
-    signal generate_connections_()
+    signal record_connections_()
 
     // Read only design properties (sizes and colors)
     readonly property int radius_: 10
@@ -141,7 +140,7 @@ Item
 
                 function onEndpoints_updated_()
                 {
-                    topicsList.create_connections()
+                    topicsList.record_connections()
                 }
             }
 
@@ -171,7 +170,7 @@ Item
                 topicsList.width = listViewWidth
             }
 
-            function create_connections()
+            function record_connections()
             {
                 var draw_width = 2*elements_spacing_
 
@@ -317,12 +316,12 @@ Item
 
             function onTopics_updated_()
             {
-                topicView.create_connections()
+                topicView.generate_connections()
             }
         }
 
         // Generate connections in topic side
-        function create_connections()
+        function generate_connections()
         {
             for (var key in endpoint_topic_connections_)
             {
@@ -714,7 +713,7 @@ Item
                                 interactive: false
                                 spacing: elements_spacing_
 
-                                                        // Resize performed also when new element included in the model
+                                // Resize performed also when new element included in the model
                                 onCountChanged:
                                 {
                                     processesList.resize()
@@ -988,7 +987,7 @@ Item
                                                 {
                                                     target: domainGraphLayout
 
-                                                    function onCreate_endpoint_connections_()
+                                                    function onRecord_connections_()
                                                     {
                                                         endpointsList.record_connections()
                                                     }
@@ -1046,7 +1045,7 @@ Item
 
                                                     if (pending_endpoints_.length == 0)
                                                     {
-                                                        domainGraphLayout.create_endpoint_connections_()
+                                                        domainGraphLayout.record_connections_()
                                                     }
                                                 }
 
