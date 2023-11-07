@@ -50,10 +50,6 @@ Item
     signal resize_elements_()
     signal topics_updated_()
     signal endpoints_updated_()
-    signal participants_updated_()
-    signal processes_updated_()
-    signal users_updated_()
-    signal hosts_updated_()
     signal create_endpoint_connections_();
     signal generate_connections_()
 
