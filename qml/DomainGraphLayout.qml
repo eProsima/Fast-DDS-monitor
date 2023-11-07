@@ -1310,7 +1310,14 @@ Item
     // Obtain given domain id graph JSON model
     function load_model()
     {
-        filter_model_by_topic ("")
+        if (filtered_topics_.length > 0)
+        {
+            filter_model_by_topic (filtered_topics_[filtered_topics_.length-1])
+        }
+        else
+        {
+            filter_model_by_topic ("")
+        }
     }
 
     // Filter model by topic
