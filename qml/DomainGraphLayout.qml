@@ -40,6 +40,7 @@ Item
     property var topic_painted_: []                 // already painted topic connection references
     property var endpoint_painted_: []              // already painted endpoint connection references
     property var pending_endpoints_: []             // pending endpoints references that have not been resized yet
+    property var pending_connections_: []           // pending connections references that have not been generated yet
     property int entity_box_width_: 0               // entities box width management
 
     // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
@@ -53,6 +54,7 @@ Item
     signal processes_updated_()
     signal users_updated_()
     signal hosts_updated_()
+    signal create_endpoint_connections_();
     signal generate_connections_()
 
     // Read only design properties (sizes and colors)
@@ -441,7 +443,7 @@ Item
                     function onResize_elements_()
                     {
                         hostsList.resize()
-                        hosts_updated_()
+                        hostsList.resize_elements()
                     }
                 }
 
@@ -477,6 +479,20 @@ Item
                     }
                 }
 
+                // Makes each list element to be resized
+                function resize_elements()
+                {
+                    // iterate over each element in the list item
+                    for (var c = 0; c < hostsList.count; c++)
+                    {
+                        hostsList.currentIndex = c
+                        if (hostsList.currentItem != null)
+                        {
+                            hostsList.currentItem.resize()
+                        }
+                    }
+                }
+
                 // Host delegated item box
                 delegate: Item
                 {
@@ -484,6 +500,12 @@ Item
                     width: hostRowLayout.implicitWidth > entity_box_width_
                         ? hostRowLayout.implicitWidth
                         : entity_box_width_
+
+                    function resize()
+                    {
+                        usersList.resize()
+                        usersList.resize_elements()
+                    }
 
                     // background
                     Rectangle
@@ -559,18 +581,6 @@ Item
                         interactive: false
                         spacing: elements_spacing_
 
-                        // Resizing management connections
-                        Connections
-                        {
-                            target: domainGraphLayout
-
-                            function onHosts_updated_()
-                            {
-                                usersList.resize()
-                                users_updated_()
-                            }
-                        }
-
                         // Resize performed also when new element included in the model
                         onCountChanged:
                         {
@@ -604,6 +614,21 @@ Item
                             }
                         }
 
+                        // Makes each list element to be resized
+                        function resize_elements()
+                        {
+                            // iterate over each element in the list item
+                            for (var c = 0; c < usersList.count; c++)
+                            {
+                                usersList.currentIndex = c
+                                if (usersList.currentItem != null)
+                                {
+                                    usersList.currentItem.resize()
+                                }
+                            }
+                        }
+
+
                         // User delegated item box
                         delegate: Item
                         {
@@ -611,6 +636,12 @@ Item
                             width: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                 ? userRowLayout.implicitWidth
                                 : entity_box_width_-(2*elements_spacing_)
+
+                            function resize()
+                            {
+                                processesList.resize()
+                                processesList.resize_elements()
+                            }
 
                             // background
                             Rectangle
@@ -687,19 +718,7 @@ Item
                                 interactive: false
                                 spacing: elements_spacing_
 
-                                // Resizing management connections
-                                Connections
-                                {
-                                    target: domainGraphLayout
-
-                                    function onUsers_updated_()
-                                    {
-                                        processesList.resize()
-                                        processes_updated_()
-                                    }
-                                }
-
-                                // Resize performed also when new element included in the model
+                                                        // Resize performed also when new element included in the model
                                 onCountChanged:
                                 {
                                     processesList.resize()
@@ -732,6 +751,20 @@ Item
                                     }
                                 }
 
+                                // Makes each list element to be resized
+                                function resize_elements()
+                                {
+                                    // iterate over each element in the list item
+                                    for (var c = 0; c < processesList.count; c++)
+                                    {
+                                        processesList.currentIndex = c
+                                        if (processesList.currentItem != null)
+                                        {
+                                            processesList.currentItem.resize()
+                                        }
+                                    }
+                                }
+
                                 // Process delegated item box
                                 delegate: Item
                                 {
@@ -739,6 +772,12 @@ Item
                                     width: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                         ? processRowLayout.implicitWidth
                                         : entity_box_width_-(4*elements_spacing_)
+
+                                    function resize()
+                                    {
+                                        participantsList.resize()
+                                        participantsList.resize_elements()
+                                    }
 
                                     // background
                                     Rectangle
@@ -815,18 +854,6 @@ Item
                                         interactive: false
                                         spacing: elements_spacing_
 
-                                        // Resizing management connections
-                                        Connections
-                                        {
-                                            target: domainGraphLayout
-
-                                            function onProcesses_updated_()
-                                            {
-                                                participantsList.resize()
-                                                participants_updated_()
-                                            }
-                                        }
-
                                         // Resize performed also when new element included in the model
                                         onCountChanged:
                                         {
@@ -860,6 +887,20 @@ Item
                                             }
                                         }
 
+                                        // Makes each list element to be resized
+                                        function resize_elements()
+                                        {
+                                            // iterate over each element in the list item
+                                            for (var c = 0; c < participantsList.count; c++)
+                                            {
+                                                participantsList.currentIndex = c
+                                                if (participantsList.currentItem != null)
+                                                {
+                                                    participantsList.currentItem.resize()
+                                                }
+                                            }
+                                        }
+
                                         // Participant delegated item box
                                         delegate: Item
                                         {
@@ -867,6 +908,12 @@ Item
                                             width: participantRowLayout.implicitWidth > (entity_box_width_-(6*elements_spacing_))
                                                 ? participantRowLayout.implicitWidth
                                                 : entity_box_width_-(6*elements_spacing_)
+
+                                            function resize()
+                                            {
+                                                endpointsList.resize()
+                                                endpointsList.resize_elements()
+                                            }
 
                                             // background
                                             Rectangle
@@ -940,37 +987,14 @@ Item
                                                 interactive: false
                                                 spacing: elements_spacing_
 
-                                                // Resizing management connections
+                                                // Connection management
                                                 Connections
                                                 {
                                                     target: domainGraphLayout
 
-                                                    function onParticipants_updated_()
+                                                    function onCreate_endpoint_connections_()
                                                     {
-                                                        endpointsList.resize()
-
-                                                        // remove current endpoints from pending queue
-                                                        for (var c = 0; c < endpointsList.count; c++)
-                                                        {
-                                                            endpointsList.currentIndex = c
-                                                            if (endpointsList.currentItem != null)
-                                                            {
-                                                                if (pending_endpoints_.includes(endpointsList.currentItem.get_endpoint_id()))
-                                                                {
-                                                                    pending_endpoints_.splice(pending_endpoints_.indexOf(endpointsList.currentItem.get_endpoint_id()), 1)
-                                                                }
-                                                            }
-                                                        }
-                                                        endpoints_updated_()
-                                                    }
-
-                                                    function onTopics_updated_()
-                                                    {
-                                                        if (pending_endpoints_.length == 0)
-                                                        {
-                                                            stop_timer()
-                                                            endpointsList.record_connections()
-                                                        }
+                                                        endpointsList.record_connections()
                                                     }
                                                 }
 
@@ -1007,14 +1031,46 @@ Item
                                                     }
                                                 }
 
+                                                // Makes each list element to be resized
+                                                function resize_elements()
+                                                {
+                                                    // remove current endpoints from pending queue
+                                                    for (var c = 0; c < endpointsList.count; c++)
+                                                    {
+                                                        endpointsList.currentIndex = c
+                                                        if (endpointsList.currentItem != null)
+                                                        {
+                                                            if (pending_endpoints_.includes(endpointsList.currentItem.get_endpoint_id()))
+                                                            {
+                                                                pending_connections_[pending_connections_.length] = endpointsList.currentItem.get_endpoint_id()
+                                                                pending_endpoints_.splice(pending_endpoints_.indexOf(endpointsList.currentItem.get_endpoint_id()), 1)
+                                                            }
+                                                        }
+                                                    }
+
+                                                    if (pending_endpoints_.length == 0)
+                                                    {
+                                                        domainGraphLayout.create_endpoint_connections_()
+                                                    }
+                                                }
+
                                                 function record_connections()
                                                 {
                                                     for (var c = 0; c < endpointsList.count; c++)
                                                     {
                                                         endpointsList.currentIndex = c
-                                                        endpointsList.currentItem.record_connection()
+                                                        if (pending_connections_.includes(endpointsList.currentItem.get_endpoint_id()))
+                                                        {
+                                                            pending_connections_.splice(pending_connections_.indexOf(endpointsList.currentItem.get_endpoint_id()), 1)
+                                                            endpointsList.currentItem.record_connection()
+                                                        }
                                                     }
-                                                    generate_connections_()
+
+                                                    if (pending_connections_.length == 0)
+                                                    {
+                                                        stop_timer()
+                                                        endpoints_updated_()
+                                                    }
                                                 }
 
                                                 // Endpoint delegated item box
@@ -1123,7 +1179,7 @@ Item
             {
                 target: domainGraphLayout
 
-                function onGenerate_connections_()
+                function onTopics_updated_()
                 {
                     mainSpace.generate_connections()
                 }
@@ -1215,7 +1271,7 @@ Item
     Timer {
         id: safety_timer
         interval: 200; running: false
-        onTriggered: { if (interval < 500) interval = 500; load_model() }
+        onTriggered: { interval += interval; load_model() }
     }   function stop_timer() { safety_timer.stop() }
 
     // Obtain given domain id graph JSON model
@@ -1388,6 +1444,7 @@ Item
         endpoint_painted_ = []
         topic_painted_ = []
         pending_endpoints_ = []
+        pending_connections_ = []
         vertical_bar.position = 0
         horizontal_bar.position = 0
         entity_box_width_ = 0;
