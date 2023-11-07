@@ -45,7 +45,7 @@ Item
 
     // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
     //    HOST       TOPIC ─┐                 the order displayed in the left figure. All entities width value are
-    //  1↓ ... ↓4    5↑    6└─>CONNECTIONS    based on the var entity_box_width_wich would be updated with the max
+    //  1↓ ... ↓4    5↑    6└─>CONNECTIONS    based on the var entity_box_width which would be updated with the max
     //   ENDPOINT ────┘                       width. After that, connections between endpoints and topics are generated.
     signal resize_elements_()
     signal topics_updated_()
