@@ -970,8 +970,8 @@ Item
                                         delegate: Item
                                         {
                                             height: participant_tag.height + endpointsList.height
-                                            width: participantRowLayout.implicitWidth > (entity_box_width_-(6*elements_spacing_))
-                                                ? participantRowLayout.implicitWidth
+                                            width: participant_tag.implicitWidth > (entity_box_width_-(6*elements_spacing_))
+                                                ? participant_tag.implicitWidth
                                                 : entity_box_width_-(6*elements_spacing_)
 
                                             function resize()
@@ -996,8 +996,9 @@ Item
                                                 id: participant_tag
                                                 anchors.top: parent.top
                                                 anchors.horizontalCenter: parent.horizontalCenter
-                                                implicitWidth: participantRowLayout.implicitWidth > (entity_box_width_-(6*elements_spacing_))
-                                                    ? participantRowLayout.implicitWidth
+                                                implicitWidth: (participantRowLayout.implicitWidth + participant_app_icon)
+                                                    > (entity_box_width_-(6*elements_spacing_))
+                                                    ? (participantRowLayout.implicitWidth + participant_app_icon)
                                                     : entity_box_width_-(6*elements_spacing_)
                                                 height: label_height_
                                                 color: participant_color_
@@ -1032,6 +1033,26 @@ Item
                                                     Label {
                                                         text: modelData["alias"]
                                                         Layout.rightMargin: spacing_icon_label_ + first_indentation_
+                                                    }
+                                                }
+                                                Rectangle {
+                                                    id: participant_app_icon
+                                                    visible: modelData["app_id"] != "UNKNOWN_APP"
+                                                    anchors.right: parent.right
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                    width: participant_app_icon.visible ? icon_size_ + 2 * elements_spacing_ : 0
+                                                    height: icon_size_
+                                                    color: "transparent"
+
+                                                    Image {
+                                                        smooth: true
+                                                        visible: parent.visible
+                                                        source: "/resources/images/app_icons/" + modelData["app_id"] + ".svg"
+                                                        readonly property int amlip_offset_: 5
+                                                        sourceSize.width: modelData["app_id"] == "amlip"
+                                                                ? parent.height + amlip_offset_ : parent.height
+                                                        sourceSize.height: modelData["app_id"] == "amlip"
+                                                                ? parent.height + amlip_offset_ : parent.height
                                                     }
                                                 }
                                                 MouseArea

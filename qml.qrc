@@ -242,4 +242,7 @@
         <file alias="rounded_right_arrow_grey.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_grey.svg</file>
         <file alias="rounded_right_arrow_white.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_white.svg</file>
     </qresource>
+    <qresource prefix="/resources/images/app_icons">
+        <file alias="amlip.svg">resources/images/app_icons/amlip.svg</file>
+    </qresource>
 </RCC>
