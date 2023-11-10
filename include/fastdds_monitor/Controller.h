@@ -260,6 +260,11 @@ public slots:
             quint64 series_id,
             quint64 new_max_point);
 
+
+    //! Request to backend the latest domain view JSON to build the graph
+    QString get_domain_view_graph (
+            QString domain_id);
+
 signals:
 
     //! Signal to show the Error Dialog

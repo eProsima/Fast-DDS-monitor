@@ -29,9 +29,13 @@ Item {
     property int current_: 0                                                // current tab displayed
     property int last_index_: 1                                             // force unique idx on QML components
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
-    property bool disable_chart_selection: false                            // flag to disable multiple chart view tabs
+    property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
 
-    // Read only  design properties
+    // private signals
+    signal open_domain_view_(int stack_id, int entity_id, int domain_id)
+    signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
+
+    // Read only design properties
     readonly property int max_tabs_: 15
     readonly property int max_tab_size_: 180
     readonly property int min_tab_size_: 120
@@ -46,16 +50,156 @@ Item {
 
     // initialize first element in the tab
     Component.onCompleted:{
-        var new_stack = stack_component.createObject(null, {"id": 0, "anchors.fill": "parent"})
+        var new_stack = stack_component.createObject(null, {"stack_id": 0})
         stack_layout.children.push(new_stack)
         refresh_layout(current_)
     }
 
     ChartsLayout {
+        visible: disable_chart_selection_
         id: chartsLayout
         anchors.fill: stack_layout
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
+        }
+    }
+
+    // stack layout (where idx referred to the tab, which would contain different views)
+    StackLayout {
+        id: stack_layout
+        width: tabLayout.width
+        anchors.top: tab_list.bottom; anchors.bottom: tabLayout.bottom
+
+        Component {
+            id: stack_component
+
+            // view with the different views available in a tab
+            StackView {
+                id: stack
+                property int stack_id: 0
+                initialItem: view_selector
+
+                // override push transition to none
+                pushEnter: Transition {}
+
+                // menu that allows the selection of the view, and changes the stack if necessary
+                Component {
+                    id: view_selector
+                    Rectangle {
+                        Row {
+                            anchors{
+                                horizontalCenter: parent.horizontalCenter
+                                verticalCenter: parent.verticalCenter
+                            }
+                            height: parent.height
+                            width: childrenRect.width
+                            spacing: 60
+                            Button {
+                                width: 400; height: 400
+                                anchors.verticalCenter: parent.verticalCenter
+                                enabled: !disable_chart_selection_
+                                text: "Chart View"
+                                onClicked: {
+                                    if (!disable_chart_selection_)
+                                    {
+                                        tabLayout.tab_model_[current_]["title"] = "Chart View"
+                                        if (stack.deep > 1)
+                                        {
+                                            stack.pop()
+                                        }
+                                        stack.push(chartsLayout)
+                                        disable_chart_selection_ = true
+                                        refresh_layout(current_)
+                                    }
+                                }
+                            }
+                            Button {
+                                width: 400; height: 400
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: "Domain View"
+                                onClicked: {
+                                    if (mainApplicationView.monitors == 0)
+                                    {
+                                        dialogInitMonitor.open()
+                                    }
+                                    else if (mainApplicationView.monitors == 1)
+                                    {
+                                        controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
+                                        open_domain_view_(
+                                            tabLayout.tab_model_[current_]["stack_id"],
+                                            entityModelFirst.get(0).id,
+                                            entityModelFirst.get(0).name)
+                                    }
+                                    else
+                                    {
+                                        domain_id_dialog.open()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Component {
+                    id: domainGraphLayout_component
+
+                    DomainGraphLayout
+                    {
+                        id: domainGraphLayout
+                        component_id: stack.stack_id
+
+                        onUpdate_tab_name: {
+                            tabLayout.tab_model_[current_]["title"] = new_name
+
+                            // update model to set the visual change
+                            tab_list.model = tabLayout.tab_model_
+
+                            // update left panel information
+                            for (var i=0; i<stack_layout.count; i++)
+                            {
+                                if (stack_layout.children[i].stack_id == tabLayout.tab_model_[current_]["stack_id"] &&
+                                    stack_layout.children[i].currentItem.entity_id > 0)
+                                {
+                                    controller.domain_click(stack_layout.children[i].currentItem.entity_id)
+                                    break;
+                                }
+                            }
+                        }
+
+                        Connections {
+                            target: tabLayout
+
+                            function onInitialize_domain_view_(stack_id, entity_id, domain_id) {
+                                if (domainGraphLayout.component_id == stack_id)
+                                {
+                                    domainGraphLayout.entity_id = entity_id
+                                    domainGraphLayout.domain_id = domain_id
+                                    domainGraphLayout.load_model()
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                Connections {
+                    target: tabLayout
+
+                    function onOpen_domain_view_(stack_id, entity_id, domain_id) {
+                        if (stack.stack_id == stack_id)
+                        {
+                            if (stack.deep > 1)
+                            {
+                                stack.pop()
+                            }
+
+                            stack.push(domainGraphLayout_component)
+                            refresh_layout(current_)
+                            initialize_domain_view_(stack_id, entity_id, domain_id)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -65,7 +209,6 @@ Item {
         anchors.left: parent.left
         width: contentWidth
         height: tabs_height_
-        z: 100 // z is the front-back order. The tab bar must always be on top of any StackView component
         orientation: ListView.Horizontal
         model: tabLayout.tab_model_
         interactive: false
@@ -192,85 +335,63 @@ Item {
         }
     }
 
+    Dialog {
+        id: domain_id_dialog
 
-    // stack layout (where idx referred to the tab, which would contain different views)
-    StackLayout {
-        id: stack_layout
-        z: 1 // z is the front-back order. The tab bar must always be on top of any stackview component
-        width: tabLayout.width
-        anchors.top: tab_list.bottom; anchors.bottom: tabLayout.bottom
+        property bool enable_ok_button: false       // disable OK button until user selects domain id
 
-        Component {
-            id: stack_component
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
 
-            // view with the different views available in a tab
-            StackView {
-                id: stack
-                anchors.fill: parent
-                initialItem: view_selector
+        width: 300
 
-                // override push transition to none
-                pushEnter: Transition {}
+        modal: true
+        title: "Select DDS Domain"
 
-                // menu that allows the selection of the view, and changes the stack if necessary
-                Component {
-                    id: view_selector
-                    Rectangle {
-                        Row {
-                            anchors{
-                                horizontalCenter: parent.horizontalCenter
-                                verticalCenter: parent.verticalCenter
-                            }
-                            height: parent.height
-                            width: childrenRect.width
-                            spacing: 60
-                            Button {
-                                width: 400; height: 400
-                                anchors.verticalCenter: parent.verticalCenter
-                                enabled: !disable_chart_selection
-                                text: "Chart View"
-                                onClicked: {
-                                    if (!disable_chart_selection)
-                                    {
-                                        tabLayout.tab_model_[current_]["title"] = "Chart View"
-                                        if (stack.deep > 1)
-                                        {
-                                            stack.pop()
-                                        }
-                                        stack.push(chartsLayout)
-                                        disable_chart_selection = true
-                                        refresh_layout(current_)
-                                    }
-                                }
-                            }
-                            Button {
-                                width: 400; height: 400
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: "Domain View"
-                                onClicked: {
-                                    tabLayout.tab_model_[current_]["title"]="Domain View"
-                                    if (stack.deep > 1)
-                                    {
-                                        stack.pop()
-                                    }
-                                    stack.push(domainViewLayout)
-                                    refresh_layout(current_)
-                                }
-                            }
-                        }
-                    }
-                }
+        footer: DialogButtonBox {
+            id: buttons
+            standardButtons: Dialog.Ok | Dialog.Cancel
+        }
+
+        onAboutToShow: {
+            custom_combobox.currentIndex = -1
+            controller.update_available_entity_ids("Domain", "getDataDialogSourceEntityId")
+            custom_combobox.recalculateWidth()
+            enable_ok_button = false
+            buttons.standardButton(Dialog.Ok).enabled = false
+        }
+
+        onEnable_ok_buttonChanged: {
+            buttons.standardButton(Dialog.Ok).enabled = domain_id_dialog.enable_ok_button
+        }
+
+        AdaptiveComboBox {
+            id: custom_combobox
+            textRole: "name"
+            valueRole: "id"
+            displayText: currentIndex === -1
+                            ? ("Please choose a Domain ID")
+                            : ("DDS Domain " + currentText)
+            model: entityModelFirst
+
+            Component.onCompleted:
+            {
+                currentIndex = -1
+                custom_combobox.recalculateWidth()
+            }
+
+            onActivated: {
+                domain_id_dialog.enable_ok_button = true
+                custom_combobox.recalculateWidth()
             }
         }
-    }
 
-    Component {
-        id: domainViewLayout
-
-        Rectangle{
-            Text{
-                text: "Here would be the domain view"
-            }
+        onAccepted:
+        {
+            open_domain_view_(
+                tabLayout.tab_model_[current_]["stack_id"],
+                entityModelFirst.get(custom_combobox.currentIndex).id,
+                entityModelFirst.get(custom_combobox.currentIndex).name)
         }
     }
 
@@ -278,7 +399,7 @@ Item {
     {
         var idx = tabLayout.tab_model_.length
         tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
-        var new_stack = stack_component.createObject(null, {"id": last_index_, "anchors.fill": "parent"})
+        var new_stack = stack_component.createObject(null, {"stack_id": tabLayout.tab_model_[idx]["stack_id"]})
         last_index_++
         stack_layout.children.push(new_stack)
         refresh_layout(idx)
@@ -293,9 +414,22 @@ Item {
         if (idx != current_)
         {
             current_ = idx
+
             // move to the idx tab in the stack
             stack_layout.currentIndex = tabLayout.tab_model_[idx]["stack_id"]
-            refresh_layout(current_)
+
+            // check if domain info has changed
+            if (tabLayout.tab_model_[idx]["title"].includes("Domain"))
+            {
+                for (var i=0; i<stack_layout.count; i++)
+                {
+                    if (stack_layout.children[i].stack_id == tabLayout.tab_model_[idx]["stack_id"])
+                    {
+                        controller.domain_click(stack_layout.children[i].currentItem.entity_id)
+                        break;
+                    }
+                }
+            }
         }
         // update idx model
         tab_list.model = tabLayout.tab_model_
@@ -336,7 +470,7 @@ Item {
                 // check if removed tab was declared as chart view to enable new chart view tab
                 if (tabLayout.tab_model_[idx]["title"] == "Chart View")
                 {
-                    disable_chart_selection = false
+                    disable_chart_selection_ = false
                 }
             }
         }

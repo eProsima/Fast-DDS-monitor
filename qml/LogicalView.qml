@@ -47,6 +47,7 @@ Rectangle {
         width: parent.width
         height: parent.height
         spacing: verticalSpacing
+        boundsBehavior: Flickable.StopAtBounds
 
         ScrollBar.vertical: CustomScrollBar {
             id: scrollBar
@@ -129,6 +130,7 @@ Rectangle {
                     spacing: verticalSpacing
                     topMargin: verticalSpacing
                     delegate: topicListDelegate
+                    boundsBehavior: Flickable.StopAtBounds
 
                     property int collapseHeightFlag: childrenRect.height + topicList.topMargin
                 }
