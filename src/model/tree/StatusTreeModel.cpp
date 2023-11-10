@@ -101,10 +101,10 @@ StatusTreeItem* StatusTreeModel::copy(
         StatusTreeItem* source,
         const backend::EntityId entity_id)
 {
-    // copy source data in destiny data
+    // copy source data in destination data
     if (source->id() == entity_id || entity_id == backend::ID_ALL)
     {
-        StatusTreeItem* destiny = new StatusTreeItem(
+        StatusTreeItem* destination = new StatusTreeItem(
                 source->id(),
                 source->kind(),
                 source->name_str(),
@@ -113,9 +113,9 @@ StatusTreeItem* StatusTreeModel::copy(
                 source->description_str());
         for (int i = 0; i < source->childCount(); i++)
         {
-            addItem(destiny, copy(source->child(i), entity_id));
+            addItem(destination, copy(source->child(i), entity_id));
         }
-        return destiny;
+        return destination;
     }
     return nullptr;
 }

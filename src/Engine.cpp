@@ -210,7 +210,7 @@ Engine::~Engine()
 
         if (entity_status_proxy_model_)
         {
-            //delete entity_status_proxy_model_;
+            delete entity_status_proxy_model_;
         }
 
         // Auxiliar models
@@ -976,6 +976,11 @@ bool Engine::read_callback_(
 {
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
+    // Add callback to log model
+    add_log_callback_("New entity (" + backend_connection_.get_name(status_callback.entity_id) + ") status reported: "
+            + backend::status_kind_to_string(status_callback.status_kind),
+            utils::now());
 
     // update model
     return update_entity_status(status_callback.entity_id, status_callback.status_kind);
