@@ -92,6 +92,7 @@ void StatusTreeModel::filter(
     {
         for (int i = 0; i < source_model_->rootItem()->childCount(); i++)
         {
+            
             addTopLevelItem(copy(source_model_->rootItem()->child(i), entity_id));
         }
     }
