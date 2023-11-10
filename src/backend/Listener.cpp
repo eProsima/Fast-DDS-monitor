@@ -174,7 +174,7 @@ void Listener::on_status_reported(
         EntityId entity_id,
         StatusKind status_kind)
 {
-    engine_->add_callback(ProblemCallback(domain_id, entity_id, status_kind));
+    engine_->add_callback(StatusCallback(domain_id, entity_id, status_kind));
 }
 
 } //namespace backend

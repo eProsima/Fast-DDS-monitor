@@ -39,10 +39,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_PROBLEMTREEMODEL_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_PROBLEMTREEMODEL_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_StatusTreeModel_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_StatusTreeModel_H
 
-#include <fastdds_monitor/model/tree/ProblemTreeItem.h>
+#include <fastdds_monitor/model/tree/StatusTreeItem.h>
 
 #include <QAbstractItemModel>
 
@@ -52,16 +52,16 @@ namespace models {
  * The Tree Model works as List Model, using one column and using the row information
  * referred to the parent node.
  */
-class ProblemTreeModel : public QAbstractItemModel
+class StatusTreeModel : public QAbstractItemModel
 {
     Q_OBJECT
-    //Q_ENUMS(models::ProblemTreeItem::ModelItemRoles)
+    //Q_ENUMS(models::StatusTreeItem::ModelItemRoles)
 
 public:
-    explicit ProblemTreeModel(
+    explicit StatusTreeModel(
             QObject* parent = nullptr);
 
-    ~ProblemTreeModel() override;
+    ~StatusTreeModel() override;
 
     // Overriden method from QAbstractItemModel
 
@@ -112,19 +112,19 @@ public:
 public:
     //! Add an item to the top level.
     void addTopLevelItem(
-            ProblemTreeItem* child);
+            StatusTreeItem* child);
 
     //! Add a child to the parent item.
     void addItem(
-            ProblemTreeItem* parent,
-            ProblemTreeItem* child);
+            StatusTreeItem* parent,
+            StatusTreeItem* child);
 
     //! Remove the item from the model.
     void removeItem(
-            ProblemTreeItem* item);
+            StatusTreeItem* item);
 
     //! Return the root item of the model.
-    ProblemTreeItem* rootItem() const;
+    StatusTreeItem* rootItem() const;
 
     //! Return the depth for the given index
     Q_INVOKABLE int depth(
@@ -141,15 +141,15 @@ public:
 
     // Check if top level item is defined
     bool containsTopLevelItem(
-            ProblemTreeItem* child);
+            StatusTreeItem* child);
 
     // Check if item is defined in the parent item
     bool contains(
-            ProblemTreeItem* parent,
-            ProblemTreeItem* child);
+            StatusTreeItem* parent,
+            StatusTreeItem* child);
 
     // Returns the child in the given position
-    ProblemTreeItem* child(
+    StatusTreeItem* child(
             int row);
 
     // Check if default empty value is the only element
@@ -158,14 +158,14 @@ public:
     void removeEmptyItem();
 
     //! Looks for a TopLevelItem that matches that id. If not existing, creates new one and returns it
-    ProblemTreeItem*  getTopLevelItem(
+    StatusTreeItem*  getTopLevelItem(
             const backend::EntityId& id,
             const std::string& data,
             const bool& is_error,
             const std::string& description);
 
     void set_source_model(
-            ProblemTreeModel* source_model);
+            StatusTreeModel* source_model);
 
     /*!
     *  Filters the model if it is defined as proxy
@@ -174,19 +174,19 @@ public:
             const QVariant& entity_id);
 
 private:
-    ProblemTreeItem* internalPointer(
+    StatusTreeItem* internalPointer(
             const QModelIndex& index) const;
 
-    ProblemTreeItem* copy(
-            ProblemTreeItem* source,
+    StatusTreeItem* copy(
+            StatusTreeItem* source,
             const backend::EntityId entity_id);
 
     void filter(
             const backend::EntityId entity_id);
 
 private:
-    ProblemTreeModel* source_model_;
-    ProblemTreeItem* root_item_;
+    StatusTreeModel* source_model_;
+    StatusTreeItem* root_item_;
     bool is_empty_;
 
     backend::EntityId current_filter_;
@@ -194,4 +194,4 @@ private:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_PROBLEMTREEMODEL_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_StatusTreeModel_H

@@ -89,9 +89,9 @@ Flickable {
     }
 
     property int current_filter_: -2        // backend::ID_ALL
-    signal problem_filtered()
+    signal entity_status_filtered()
 
-    property int handleStyle: ProblemTreeView.Handle.TriangleSmallOutline
+    property int handleStyle: StatusTreeView.Handle.TriangleSmallOutline
 
     contentHeight: tree.height
     contentWidth: width
@@ -112,7 +112,7 @@ Flickable {
 
     Connections { function onCurrentIndexChanged() { if(currentIndex) currentData = model.data(currentIndex) }  }
 
-    ProblemTreeViewItem {
+    StatusTreeViewItem {
         id: tree
 
         model: root.model
@@ -156,12 +156,12 @@ Flickable {
 
     function indicatorToString(handle){
         switch (handle){
-            case ProblemTreeView.Handle.Triangle: return "▶";
-            case ProblemTreeView.Handle.TriangleSmall: return "►";
-            case ProblemTreeView.Handle.TriangleOutline: return "▷";
-            case ProblemTreeView.Handle.TriangleSmallOutline: return "⊳";
-            case ProblemTreeView.Handle.Chevron: return "❱";
-            case ProblemTreeView.Handle.Arrow: return "➤";
+            case StatusTreeView.Handle.Triangle: return "▶";
+            case StatusTreeView.Handle.TriangleSmall: return "►";
+            case StatusTreeView.Handle.TriangleOutline: return "▷";
+            case StatusTreeView.Handle.TriangleSmallOutline: return "⊳";
+            case StatusTreeView.Handle.Chevron: return "❱";
+            case StatusTreeView.Handle.Arrow: return "➤";
             default: return "▶";
         }
     }
@@ -188,7 +188,7 @@ Flickable {
     function filter_model_by_id(entityId)
     {
         model.filter_proxy(entityId)
-        root.problem_filtered()
+        root.entity_status_filtered()
         tree.filter(entityId)
     }
 }

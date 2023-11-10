@@ -233,8 +233,8 @@ set(PROJECT_HEADERS
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/statistics/EntityItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/SubListedListItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/SubListedListModel.h
-    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/ProblemTreeItem.h
-    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/ProblemTreeModel.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/StatusTreeItem.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/StatusTreeModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/TreeItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/tree/TreeModel.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/statistics/DataChartBox.h
@@ -263,8 +263,8 @@ set(PROJECT_SOURCES_NO_MAIN
     ${PROJECT_SOURCE_DIR}/src/model/physical/ProcessModelItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/statistics/EntityItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/SubListedListModel.cpp
-    ${PROJECT_SOURCE_DIR}/src/model/tree/ProblemTreeItem.cpp
-    ${PROJECT_SOURCE_DIR}/src/model/tree/ProblemTreeModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/tree/StatusTreeItem.cpp
+    ${PROJECT_SOURCE_DIR}/src/model/tree/StatusTreeModel.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/tree/TreeModel.cpp
     ${PROJECT_SOURCE_DIR}/src/statistics/DataChartBox.cpp

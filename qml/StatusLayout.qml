@@ -69,14 +69,14 @@ Item
 
                 color: "white"
 
-                ProblemTreeView {
+                StatusTreeView {
                     id: status_tree_view
                     anchors.fill: parent
                     anchors.margins: 1
 
-                    model: problemModel
+                    model: entityStatusModel
 
-                    onProblem_filtered:{
+                    onEntity_status_filtered:{
                         collapse_status_layout()
                     }
 
@@ -312,7 +312,7 @@ Item
         }
     }
 
-    function filter_problem_log(entityId) {
+    function filter_entity_status_log(entityId) {
         statusLayout.focus_entity_(entityId)
     }
     function clean_filter()

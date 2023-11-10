@@ -490,7 +490,7 @@ std::string policy_id_to_string(
     }
 }
 
-std::string problem_description(
+std::string entity_status_description(
         const backend::StatusKind kind)
 {
     switch (kind) {

@@ -36,7 +36,7 @@ Menu {
     }
     MenuItem {
         text: "View problems"
-        onTriggered: filterProblemLog(menu.entityId)
+        onTriggered: filterEntityStatusLog(menu.entityId)
     }
     MenuItem {
         text: "Filter graph view"

@@ -114,7 +114,7 @@ std::string timestamp_to_string(
 std::string policy_id_to_string(
         const uint32_t& id);
 
-std::string problem_description(
+std::string entity_status_description(
         const backend::StatusKind kind);
 
 std::string policy_documentation_description(

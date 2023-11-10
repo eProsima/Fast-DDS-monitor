@@ -42,7 +42,7 @@ RowLayout {
     signal explorerEntityInfoChanged(bool status)
     signal open_topic_view(string domainEntityId, string domainId, string entityId)
     signal refresh_domain_graph_view(string domainEntityId, string entityId)
-    signal filter_problem_log(string entityId)
+    signal filter_entity_status_log(string entityId)
 
     MonitoringPanel {
         id: monitoringPanel
@@ -110,8 +110,8 @@ RowLayout {
     function refreshDomainGraphView(domainEntityId, entityId) {
         leftPanel.refresh_domain_graph_view(domainEntityId, entityId)
     }
-    function filterProblemLog(entityId){
-        leftPanel.filter_problem_log(entityId)
+    function filterEntityStatusLog(entityId){
+        leftPanel.filter_entity_status_log(entityId)
     }
 
     function expandAll(view, model) {

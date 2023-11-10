@@ -99,7 +99,7 @@ RowLayout {
             onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
             onOpen_topic_view: tabs.open_topic_view(domainEntityId, domainId, entityId)
             onRefresh_domain_graph_view: tabs.refresh_domain_graph_view(domainEntityId, entityId)
-            onFilter_problem_log: statusLayout.filter_problem_log(entityId)
+            onFilter_entity_status_log: statusLayout.filter_entity_status_log(entityId)
         }
 
         Rectangle {

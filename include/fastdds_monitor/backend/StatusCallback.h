@@ -16,29 +16,29 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * @file ProblemCallback.h
+ * @file StatusCallback.h
  */
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_BACKEND_PROBLEM_CALLBACK_H
-#define _EPROSIMA_FASTDDS_MONITOR_BACKEND_PROBLEM_CALLBACK_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_BACKEND_STATUS_CALLBACK_H
+#define _EPROSIMA_FASTDDS_MONITOR_BACKEND_STATUS_CALLBACK_H
 
 #include <fastdds_monitor/backend/backend_types.h>
 
 namespace backend {
 
 /*
- * Struct that store the problem callback information required by the GUI.
- * It encapsulates the domain id, entity id and the kind of the new problem reported.
+ * Struct that store the status callback information required by the GUI.
+ * It encapsulates the domain id, entity id and the kind of the new status reported.
  */
-struct ProblemCallback
+struct StatusCallback
 {
     //! Void constructor to use copy constructor afterwards
-    ProblemCallback()
+    StatusCallback()
     {
     }
 
     //! Standard constructor with the two fields required
-    ProblemCallback(
+    StatusCallback(
             backend::EntityId domain_entity_id,
             backend::EntityId entity_id,
             backend::StatusKind status_kind)
@@ -57,4 +57,4 @@ struct ProblemCallback
 
 } // namespace backend
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_PROBLEM_CALLBACK_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_STATUS_CALLBACK_H

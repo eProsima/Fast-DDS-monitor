@@ -39,7 +39,7 @@ using StatisticKind = eprosima::statistics_backend::StatisticKind;
 using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
 
-// Problem status types from backend
+// Status types from backend
 using ConnectionListSample = eprosima::statistics_backend::ConnectionListSample;
 using DeadlineMissedSample = eprosima::statistics_backend::DeadlineMissedSample;
 using IncompatibleQosSample = eprosima::statistics_backend::IncompatibleQosSample;
@@ -54,11 +54,6 @@ using SampleLostSample = eprosima::statistics_backend::SampleLostSample;
 extern const EntityId ID_ALL;
 //! Reference the ID_NONE in the project
 extern const EntityId ID_NONE;
-
-//! Reference for problem status (ok, error or warning)
-static const char* PROBLEM_STATUS_ERROR = eprosima::statistics_backend::ERROR_STATUS;
-static const char* PROBLEM_STATUS_OK = eprosima::statistics_backend::OK_STATUS;
-static const char* PROBLEM_STATUS_WARNING = eprosima::statistics_backend::WARNING_STATUS;
 
 } //namespace backend
 

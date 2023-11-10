@@ -39,7 +39,7 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-#include <fastdds_monitor/model/tree/ProblemTreeModel.h>
+#include <fastdds_monitor/model/tree/StatusTreeModel.h>
 
 #include <iostream>
 #include <QQmlEngine>
@@ -48,30 +48,30 @@
 
 namespace models {
 
-ProblemTreeModel::ProblemTreeModel(
+StatusTreeModel::StatusTreeModel(
         QObject* parent)
     : QAbstractItemModel(parent)
     , source_model_(nullptr)
-    , root_item_{ new ProblemTreeItem() }
+    , root_item_{ new StatusTreeItem() }
     , is_empty_(false)
     , current_filter_(backend::ID_ALL)
 {
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
-ProblemTreeModel::~ProblemTreeModel()
+StatusTreeModel::~StatusTreeModel()
 {
     delete root_item_;
 }
 
-void ProblemTreeModel::set_source_model(
-        ProblemTreeModel* source_model)
+void StatusTreeModel::set_source_model(
+        StatusTreeModel* source_model)
 {
     source_model_ = source_model;
     filter(current_filter_);
 }
 
-void ProblemTreeModel::filter_proxy(
+void StatusTreeModel::filter_proxy(
             const QVariant& entity_id)
 {
     if (source_model_)
@@ -80,7 +80,7 @@ void ProblemTreeModel::filter_proxy(
     }
 }
 
-void ProblemTreeModel::filter(
+void StatusTreeModel::filter(
         const backend::EntityId entity_id)
 {
     clear();
@@ -97,14 +97,14 @@ void ProblemTreeModel::filter(
     }
 }
 
-ProblemTreeItem* ProblemTreeModel::copy(
-        ProblemTreeItem* source,
+StatusTreeItem* StatusTreeModel::copy(
+        StatusTreeItem* source,
         const backend::EntityId entity_id)
 {
     // copy source data in destiny data
     if (source->id() == entity_id || entity_id == backend::ID_ALL)
     {
-        ProblemTreeItem* destiny = new ProblemTreeItem(
+        StatusTreeItem* destiny = new StatusTreeItem(
                 source->id(),
                 source->kind(),
                 source->name_str(),
@@ -121,7 +121,7 @@ ProblemTreeItem* ProblemTreeModel::copy(
 }
 
 
-int ProblemTreeModel::rowCount(
+int StatusTreeModel::rowCount(
         const QModelIndex& parent) const
 {
     if (!parent.isValid())
@@ -132,14 +132,14 @@ int ProblemTreeModel::rowCount(
     return internalPointer(parent)->childCount();
 }
 
-int ProblemTreeModel::columnCount(
+int StatusTreeModel::columnCount(
         const QModelIndex& /*parent*/) const
 {
     // This is basically flatten as a list model
     return 1;
 }
 
-QModelIndex ProblemTreeModel::index(
+QModelIndex StatusTreeModel::index(
         const int row,
         const int column,
         const QModelIndex& parent) const
@@ -149,7 +149,7 @@ QModelIndex ProblemTreeModel::index(
         return {};
     }
 
-    ProblemTreeItem* item = root_item_;
+    StatusTreeItem* item = root_item_;
     if (parent.isValid())
     {
         item = internalPointer(parent);
@@ -163,7 +163,7 @@ QModelIndex ProblemTreeModel::index(
     return {};
 }
 
-QModelIndex ProblemTreeModel::parent(
+QModelIndex StatusTreeModel::parent(
         const QModelIndex& index) const
 {
     if (!index.isValid())
@@ -171,8 +171,8 @@ QModelIndex ProblemTreeModel::parent(
         return {};
     }
 
-    ProblemTreeItem* childItem = internalPointer(index);
-    ProblemTreeItem* parentItem = childItem->parentItem();
+    StatusTreeItem* childItem = internalPointer(index);
+    StatusTreeItem* parentItem = childItem->parentItem();
 
     if (!parentItem)
     {
@@ -187,7 +187,7 @@ QModelIndex ProblemTreeModel::parent(
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
-QVariant ProblemTreeModel::data(
+QVariant StatusTreeModel::data(
         const QModelIndex& index,
         const int role) const
 {
@@ -199,7 +199,7 @@ QVariant ProblemTreeModel::data(
     return internalPointer(index)->data(role);
 }
 
-bool ProblemTreeModel::setData(
+bool StatusTreeModel::setData(
         const QModelIndex& index,
         const QVariant& value,
         int /*role*/)
@@ -218,7 +218,7 @@ bool ProblemTreeModel::setData(
     return false;
 }
 
-bool ProblemTreeModel::removeRow(
+bool StatusTreeModel::removeRow(
         int /*row*/,
         const QModelIndex& index)
 {
@@ -237,8 +237,8 @@ bool ProblemTreeModel::removeRow(
     return false;
 }
 
-void ProblemTreeModel::addTopLevelItem(
-        ProblemTreeItem* child)
+void StatusTreeModel::addTopLevelItem(
+        StatusTreeItem* child)
 {
     if (child)
     {
@@ -250,9 +250,9 @@ void ProblemTreeModel::addTopLevelItem(
     }
 }
 
-void ProblemTreeModel::addItem(
-        ProblemTreeItem* parent,
-        ProblemTreeItem* child)
+void StatusTreeModel::addItem(
+        StatusTreeItem* parent,
+        StatusTreeItem* child)
 {
     if (!child || !parent)
     {
@@ -263,10 +263,10 @@ void ProblemTreeModel::addItem(
     // if parent is topLevelItem (entity item)
     if (parent->id() != backend::ID_ALL && parent->kind() == backend::StatusKind::INVALID)
     {
-        // For each problem in the entity item
+        // For each status in the entity item
         for (int i=0; i<parent->childCount(); i++)
         {
-            // if overriding problem, remove previous problem
+            // if overriding status, remove previous status
             if (parent->child(i)->id() == child->id() && parent->child(i)->kind() == child->kind())
             {
                 emit layoutAboutToBeChanged();
@@ -298,8 +298,8 @@ void ProblemTreeModel::addItem(
     emit layoutChanged();
 }
 
-void ProblemTreeModel::removeItem(
-        ProblemTreeItem* item)
+void StatusTreeModel::removeItem(
+        StatusTreeItem* item)
 {
     if (!item)
     {
@@ -318,17 +318,17 @@ void ProblemTreeModel::removeItem(
     emit layoutChanged();
 }
 
-ProblemTreeItem* ProblemTreeModel::rootItem() const
+StatusTreeItem* StatusTreeModel::rootItem() const
 {
     return root_item_;
 }
 
-QModelIndex ProblemTreeModel::rootIndex()
+QModelIndex StatusTreeModel::rootIndex()
 {
     return {};
 }
 
-int ProblemTreeModel::depth(
+int StatusTreeModel::depth(
         const QModelIndex& index) const
 {
     int count = 0;
@@ -346,24 +346,24 @@ int ProblemTreeModel::depth(
     return count;
 }
 
-void ProblemTreeModel::clear()
+void StatusTreeModel::clear()
 {
     emit layoutAboutToBeChanged();
     beginResetModel();
     delete root_item_;
-    root_item_ = new ProblemTreeItem();
+    root_item_ = new StatusTreeItem();
     endResetModel();
     emit layoutChanged();
 }
 
-ProblemTreeItem* ProblemTreeModel::internalPointer(
+StatusTreeItem* StatusTreeModel::internalPointer(
         const QModelIndex& index) const
 {
-    return static_cast<ProblemTreeItem*>(index.internalPointer());
+    return static_cast<StatusTreeItem*>(index.internalPointer());
 }
 
-bool ProblemTreeModel::containsTopLevelItem(
-        ProblemTreeItem* child)
+bool StatusTreeModel::containsTopLevelItem(
+        StatusTreeItem* child)
 {
     if (child)
     {
@@ -372,9 +372,9 @@ bool ProblemTreeModel::containsTopLevelItem(
     return false;
 }
 
-bool ProblemTreeModel::contains(
-    ProblemTreeItem* parent,
-    ProblemTreeItem* child)
+bool StatusTreeModel::contains(
+    StatusTreeItem* parent,
+    StatusTreeItem* child)
 {
     if (!parent || !child)
     {
@@ -391,7 +391,7 @@ bool ProblemTreeModel::contains(
     return false;
 }
 
-ProblemTreeItem* ProblemTreeModel::child(
+StatusTreeItem* StatusTreeModel::child(
         int row)
 {
     if (row >= 0 && row < root_item_->childCount())
@@ -402,12 +402,12 @@ ProblemTreeItem* ProblemTreeModel::child(
     return nullptr;
 }
 
-bool ProblemTreeModel::is_empty()
+bool StatusTreeModel::is_empty()
 {
     return is_empty_;
 }
 
-void ProblemTreeModel::removeEmptyItem()
+void StatusTreeModel::removeEmptyItem()
 {
     emit layoutAboutToBeChanged();
     for (int i=0; i<root_item_->childCount(); i++)
@@ -422,7 +422,7 @@ void ProblemTreeModel::removeEmptyItem()
     emit layoutChanged();
 }
 
-ProblemTreeItem*  ProblemTreeModel::getTopLevelItem(
+StatusTreeItem*  StatusTreeModel::getTopLevelItem(
         const backend::EntityId& id,
         const std::string& data,
         const bool& is_error,
@@ -439,13 +439,13 @@ ProblemTreeItem*  ProblemTreeModel::getTopLevelItem(
     }
 
     // if not existing, create new topLevelItem
-    ProblemTreeItem* new_entity_item = new ProblemTreeItem(id, data, is_error, description);
+    StatusTreeItem* new_entity_item = new StatusTreeItem(id, data, is_error, description);
     addTopLevelItem(new_entity_item);
     return new_entity_item;
 }
 
 
-QHash<int, QByteArray> ProblemTreeModel::roleNames() const
+QHash<int, QByteArray> StatusTreeModel::roleNames() const
 {
     // TODO Jesus this roles are not currently used in the QML, find out why
     QHash<int, QByteArray>  roles;

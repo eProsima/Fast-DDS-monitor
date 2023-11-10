@@ -43,12 +43,12 @@
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/backend_utils.h>
-#include <fastdds_monitor/model/tree/ProblemTreeItem.h>
-#include <fastdds_monitor/model/tree/ProblemTreeModel.h>
+#include <fastdds_monitor/model/tree/StatusTreeItem.h>
+#include <fastdds_monitor/model/tree/StatusTreeModel.h>
 
 namespace models {
 
-ProblemTreeItem::ProblemTreeItem()
+StatusTreeItem::StatusTreeItem()
     : parent_item_(nullptr)
     , id_(backend::ID_ALL)
     , kind_(backend::StatusKind::INVALID)
@@ -67,7 +67,7 @@ ProblemTreeItem::ProblemTreeItem()
 {
 }
 
-ProblemTreeItem::ProblemTreeItem(
+StatusTreeItem::StatusTreeItem(
         const QVariant& data)
     : parent_item_(nullptr)
     , id_(backend::ID_ALL)
@@ -87,7 +87,7 @@ ProblemTreeItem::ProblemTreeItem(
 {
 }
 
-ProblemTreeItem::ProblemTreeItem(
+StatusTreeItem::StatusTreeItem(
         const backend::EntityId& id,
         const std::string& name,
         const bool& is_error,
@@ -110,7 +110,7 @@ ProblemTreeItem::ProblemTreeItem(
 {
 }
 
-ProblemTreeItem::ProblemTreeItem(
+StatusTreeItem::StatusTreeItem(
         const backend::EntityId& id,
         const backend::StatusKind& kind,
         const std::string& name,
@@ -135,24 +135,24 @@ ProblemTreeItem::ProblemTreeItem(
 {
 }
 
-ProblemTreeItem::~ProblemTreeItem()
+StatusTreeItem::~StatusTreeItem()
 {
     qDeleteAll(child_items_);
 }
 
-ProblemTreeItem* ProblemTreeItem::parentItem()
+StatusTreeItem* StatusTreeItem::parentItem()
 {
     return parent_item_;
 }
 
-void ProblemTreeItem::setParentItem(
-        ProblemTreeItem* parentItem)
+void StatusTreeItem::setParentItem(
+        StatusTreeItem* parentItem)
 {
     parent_item_ = parentItem;
 }
 
-void ProblemTreeItem::appendChild(
-        ProblemTreeItem* item)
+void StatusTreeItem::appendChild(
+        StatusTreeItem* item)
 {
     if (item && !child_items_.contains(item))
     {
@@ -160,8 +160,8 @@ void ProblemTreeItem::appendChild(
     }
 }
 
-void ProblemTreeItem::removeChild(
-        ProblemTreeItem* item)
+void StatusTreeItem::removeChild(
+        StatusTreeItem* item)
 {
     if (item)
     {
@@ -169,95 +169,95 @@ void ProblemTreeItem::removeChild(
     }
 }
 
-ProblemTreeItem* ProblemTreeItem::child(
+StatusTreeItem* StatusTreeItem::child(
         int row)
 {
     return child_items_.value(row);
 }
 
-int ProblemTreeItem::childCount() const
+int StatusTreeItem::childCount() const
 {
     return child_items_.count();
 }
 
-const QVariant& ProblemTreeItem::data() const
+const QVariant& StatusTreeItem::data() const
 {
-    return this->data(models::ProblemTreeModel::ModelItemRoles::nameRole);
+    return this->data(models::StatusTreeModel::ModelItemRoles::nameRole);
 }
 
-const QVariant& ProblemTreeItem::data(
+const QVariant& StatusTreeItem::data(
         int role) const
 {
     switch (role)
     {
-        case models::ProblemTreeModel::ModelItemRoles::idRole:
+        case models::StatusTreeModel::ModelItemRoles::idRole:
             return this->entity_id();
-        case models::ProblemTreeModel::ModelItemRoles::statusRole:
+        case models::StatusTreeModel::ModelItemRoles::statusRole:
             return this->status();
-        case models::ProblemTreeModel::ModelItemRoles::kindRole:
+        case models::StatusTreeModel::ModelItemRoles::kindRole:
             return this->status_kind();
-        case models::ProblemTreeModel::ModelItemRoles::valueRole:
+        case models::StatusTreeModel::ModelItemRoles::valueRole:
             return this->value();
-        case models::ProblemTreeModel::ModelItemRoles::descriptionRole:
+        case models::StatusTreeModel::ModelItemRoles::descriptionRole:
             return this->description();
-        case models::ProblemTreeModel::ModelItemRoles::aliveRole:
+        case models::StatusTreeModel::ModelItemRoles::aliveRole:
             return this->alive();
-        case models::ProblemTreeModel::ModelItemRoles::nameRole:
+        case models::StatusTreeModel::ModelItemRoles::nameRole:
         default:
             return this->name();
     }
 }
 
-const QVariant& ProblemTreeItem::entity_id() const
+const QVariant& StatusTreeItem::entity_id() const
 {
     return  id_variant_;
 }
 
-const QVariant& ProblemTreeItem::status_kind() const
+const QVariant& StatusTreeItem::status_kind() const
 {
     return  kind_variant_;
 }
 
-const QVariant& ProblemTreeItem::name() const
+const QVariant& StatusTreeItem::name() const
 {
     return name_variant_;
 }
 
-const QVariant& ProblemTreeItem::status() const
+const QVariant& StatusTreeItem::status() const
 {
     return is_status_error_variant_;
 }
 
-const QVariant& ProblemTreeItem::value() const
+const QVariant& StatusTreeItem::value() const
 {
     return value_variant_;
 }
 
-const QVariant& ProblemTreeItem::description() const
+const QVariant& StatusTreeItem::description() const
 {
     return description_variant_;
 }
 
-const QVariant& ProblemTreeItem::alive() const
+const QVariant& StatusTreeItem::alive() const
 {
     return is_active_variant_;
 }
 
-void ProblemTreeItem::setData(
+void StatusTreeItem::setData(
         const QVariant& data)
 {
     name_variant_ = data;
 }
 
-bool ProblemTreeItem::isLeaf() const
+bool StatusTreeItem::isLeaf() const
 {
     return child_items_.isEmpty();
 }
 
-int ProblemTreeItem::depth() const
+int StatusTreeItem::depth() const
 {
     int depth = 0;
-    ProblemTreeItem* anchestor = parent_item_;
+    StatusTreeItem* anchestor = parent_item_;
     while (anchestor)
     {
         ++depth;
@@ -267,54 +267,54 @@ int ProblemTreeItem::depth() const
     return depth;
 }
 
-int ProblemTreeItem::row() const
+int StatusTreeItem::row() const
 {
     if (parent_item_)
     {
-        return parent_item_->child_items_.indexOf(const_cast<ProblemTreeItem*>(this));
+        return parent_item_->child_items_.indexOf(const_cast<StatusTreeItem*>(this));
     }
 
     return 0;
 }
 
-backend::EntityId ProblemTreeItem::id()
+backend::EntityId StatusTreeItem::id()
 {
     return id_;
 }
 
-backend::StatusKind ProblemTreeItem::kind()
+backend::StatusKind StatusTreeItem::kind()
 {
     return kind_;
 }
 
-bool ProblemTreeItem::is_error()
+bool StatusTreeItem::is_error()
 {
     return is_status_error_;
 }
 
-void ProblemTreeItem::is_error(
+void StatusTreeItem::is_error(
         bool val)
 {
     is_status_error_ = val;
     is_status_error_variant_ = QVariant(val);
 }
 
-std::string ProblemTreeItem::name_str()
+std::string StatusTreeItem::name_str()
 {
     return name_;
 }
 
-std::string ProblemTreeItem::value_str()
+std::string StatusTreeItem::value_str()
 {
     return value_;
 }
 
-std::string ProblemTreeItem::description_str()
+std::string StatusTreeItem::description_str()
 {
     return description_;
 }
 
-int ProblemTreeItem::recalculate_entity_counter()
+int StatusTreeItem::recalculate_entity_counter()
 {
     int count = 0;
     // check if top level item / entity item

@@ -205,12 +205,12 @@ Item {
 
                 property var currentIndex: root.model.index(index, 0, parentIndex)
                 property var currentData: root.model.data(currentIndex)
-                property var currentId: root.model.data(currentIndex, ProblemTreeViewItem.Role.Id)
-                property var currentStatus: root.model.data(currentIndex, ProblemTreeViewItem.Role.Status)
-                property var currentKind: root.model.data(currentIndex, ProblemTreeViewItem.Role.Kind)
-                property var currentValue: root.model.data(currentIndex, ProblemTreeViewItem.Role.Value)
-                property var currentDescription: root.model.data(currentIndex, ProblemTreeViewItem.Role.Description)
-                property var currentAlive: root.model.data(currentIndex, ProblemTreeViewItem.Role.Alive)
+                property var currentId: root.model.data(currentIndex, StatusTreeViewItem.Role.Id)
+                property var currentStatus: root.model.data(currentIndex, StatusTreeViewItem.Role.Status)
+                property var currentKind: root.model.data(currentIndex, StatusTreeViewItem.Role.Kind)
+                property var currentValue: root.model.data(currentIndex, StatusTreeViewItem.Role.Value)
+                property var currentDescription: root.model.data(currentIndex, StatusTreeViewItem.Role.Description)
+                property var currentAlive: root.model.data(currentIndex, StatusTreeViewItem.Role.Alive)
                 property Item currentItem: repeater.itemAt(index)
                 property bool expanded: true
                 property bool selected: false
@@ -244,7 +244,7 @@ Item {
                         const parent = root.model.index(index, 0, parentIndex)
                         _prop.itemChildCount = root.model.rowCount(parent)
                         // refresh counter
-                        var new_value = root.model.data(_prop.currentIndex, ProblemTreeViewItem.Role.Value)
+                        var new_value = root.model.data(_prop.currentIndex, StatusTreeViewItem.Role.Value)
                         if (new_value != undefined)
                         {
                             _prop.currentValue = new_value
@@ -362,7 +362,7 @@ Item {
 
                 Layout.fillWidth: true
 
-                source: "ProblemTreeViewItem.qml"
+                source: "StatusTreeViewItem.qml"
                 visible: _prop.expanded
 
                 onLoaded: {

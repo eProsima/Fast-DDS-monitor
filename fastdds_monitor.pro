@@ -24,8 +24,8 @@ SOURCES += \
         src/model/physical/ProcessModelItem.cpp \
         src/model/statistics/EntityItem.cpp \
         src/model/SubListedListModel.cpp \
-        src/model/tree/ProblemTreeItem.cpp \
-        src/model/tree/ProblemTreeModel.cpp \
+        src/model/tree/StatusTreeItem.cpp \
+        src/model/tree/StatusTreeModel.cpp \
         src/model/tree/TreeItem.cpp \
         src/model/tree/TreeModel.cpp \
         src/statistics/DataChartBox.cpp \
@@ -77,8 +77,8 @@ HEADERS += \
     include/fastdds_monitor/model/statistics/EntityItem.h \
     include/fastdds_monitor/model/SubListedListItem.h \
     include/fastdds_monitor/model/SubListedListModel.h \
-    include/fastdds_monitor/model/tree/ProblemTreeModel.h \
-    include/fastdds_monitor/model/tree/ProblemTreeItem.h \
+    include/fastdds_monitor/model/tree/StatusTreeModel.h \
+    include/fastdds_monitor/model/tree/StatusTreeItem.h \
     include/fastdds_monitor/model/tree/TreeItem.h \
     include/fastdds_monitor/model/tree/TreeModel.h \
     include/fastdds_monitor/statistics/DataChartBox.h \

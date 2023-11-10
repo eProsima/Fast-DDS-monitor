@@ -39,8 +39,8 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_PROBLEMTREEITEM_H
-#define _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_PROBLEMTREEITEM_H
+#ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_StatusTreeItem_H
+#define _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_StatusTreeItem_H
 
 #include <QVariant>
 #include <fastdds_monitor/backend/backend_types.h>
@@ -48,34 +48,34 @@
 namespace models {
 
 /*!
- * This class represents a node of the ProblemTreeModel.
- * The items are meant to be managed from the ProblemTreeModel, thus is only allowed
+ * This class represents a node of the StatusTreeModel.
+ * The items are meant to be managed from the StatusTreeModel, thus is only allowed
  * to modify the stored data.
- * Parenting and deletion are dealt from the ProblemTreeModel. Deleting a ProblemTreeItem
+ * Parenting and deletion are dealt from the StatusTreeModel. Deleting a StatusTreeItem
  * will call the delete for each child node.
  */
-class ProblemTreeItem
+class StatusTreeItem
 {
-    friend class ProblemTreeModel;
+    friend class StatusTreeModel;
 
 public:
 
     //! Create an empty item.
-    ProblemTreeItem();
+    StatusTreeItem();
 
     //! Create an item with the given data.
-    explicit ProblemTreeItem(
+    explicit StatusTreeItem(
             const QVariant& data);
 
     //! Create an Entity item / top level item
-    explicit ProblemTreeItem(
+    explicit StatusTreeItem(
             const backend::EntityId& id,
             const std::string& name,
             const bool& is_error,
             const std::string& description);
 
-    //! Create an item with the problem parameters
-    explicit ProblemTreeItem(
+    //! Create an item with the status parameters
+    explicit StatusTreeItem(
             const backend::EntityId& id,
             const backend::StatusKind& kind,
             const std::string& name,
@@ -84,7 +84,7 @@ public:
             const std::string& description);
 
     //! Destroy the item. It will destroy every child.
-    ~ProblemTreeItem();
+    ~StatusTreeItem();
 
     //! Return the stored data of the node.
     const QVariant& data() const;
@@ -122,7 +122,7 @@ public:
     //! Return the depth of this node inside the tree.
     int depth() const;
 
-    ProblemTreeItem* child(
+    StatusTreeItem* child(
             int row);
 
     backend::EntityId id();
@@ -144,20 +144,20 @@ public:
     int recalculate_entity_counter();
 
 private:
-    ProblemTreeItem* parentItem();
+    StatusTreeItem* parentItem();
 
     void setParentItem(
-            ProblemTreeItem* parentItem);
+            StatusTreeItem* parentItem);
 
     void appendChild(
-            ProblemTreeItem* item);
+            StatusTreeItem* item);
 
     void removeChild(
-            ProblemTreeItem* item);
+            StatusTreeItem* item);
 
 private:
-    ProblemTreeItem* parent_item_;
-    QVector<ProblemTreeItem*> child_items_;
+    StatusTreeItem* parent_item_;
+    QVector<StatusTreeItem*> child_items_;
     backend::EntityId id_;
     backend::StatusKind kind_;
     std::string name_;
@@ -176,4 +176,4 @@ private:
 
 } // namespace models
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_PROBLEMTREEITEM_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_StatusTreeItem_H
