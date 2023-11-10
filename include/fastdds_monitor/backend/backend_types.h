@@ -26,6 +26,7 @@
 #include <QString>
 
 #include <fastdds_statistics_backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/JSONTags.h>
 
 namespace backend {
 
@@ -55,9 +56,9 @@ extern const EntityId ID_ALL;
 extern const EntityId ID_NONE;
 
 //! Reference for problem status (ok, error or warning)
-static constexpr const char* PROBLEM_STATUS_ERROR = "error";
-static constexpr const char* PROBLEM_STATUS_OK = "ok";
-static constexpr const char* PROBLEM_STATUS_WARNING = "warning";
+static const char* PROBLEM_STATUS_ERROR = eprosima::statistics_backend::ERROR_STATUS;
+static const char* PROBLEM_STATUS_OK = eprosima::statistics_backend::OK_STATUS;
+static const char* PROBLEM_STATUS_WARNING = eprosima::statistics_backend::WARNING_STATUS;
 
 } //namespace backend
 
