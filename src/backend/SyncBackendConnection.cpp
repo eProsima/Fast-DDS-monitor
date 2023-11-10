@@ -765,6 +765,22 @@ bool SyncBackendConnection::build_source_target_entities_vectors(
     return two_entities_data;
 }
 
+Graph SyncBackendConnection::get_domain_view_graph (
+        const EntityId& domain_id)
+{
+    try
+    {
+        return StatisticsBackend::get_domain_view_graph(domain_id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting the domain view JSON graph for entity id "
+                   << domain_id.value() << ":" << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+        return Graph();
+    }
+}
+
 void SyncBackendConnection::change_unit_magnitude(
         std::vector<StatisticsData>& data,
         DataKind data_kind)

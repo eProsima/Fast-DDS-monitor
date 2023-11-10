@@ -316,3 +316,10 @@ void Controller::change_max_points(
 {
     return engine_->change_max_points(chartbox_id, series_id, new_max_point);
 }
+
+QString Controller::get_domain_view_graph(
+        QString entity_id)
+{
+    backend::Graph domain_view = engine_->get_domain_view_graph(backend::models_id_to_backend_id(entity_id));
+    return QString::fromUtf8(domain_view.dump().data(), int(domain_view.dump().size()));
+}
