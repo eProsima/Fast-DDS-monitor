@@ -174,8 +174,6 @@ void Listener::on_status_reported(
         EntityId entity_id,
         StatusKind status_kind)
 {
-    //qDebug() << "PROBLEM REPORTED OF " << backend::backend_id_to_models_id(entity_id)
-    //        << " IN DOMAIN " << backend::backend_id_to_models_id(domain_id);
     engine_->add_callback(ProblemCallback(domain_id, entity_id, status_kind));
 }
 
