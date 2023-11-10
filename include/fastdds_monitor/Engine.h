@@ -268,10 +268,23 @@ public:
             bool new_entity = true,
             bool last_clicked = false);
 
+    /**
+     * @brief Update the entity status model with the status kind received
+     *
+     * @param id entity id
+     * @param kind StatusKind reported
+     * @return true if any change in model has been done
+     */
     bool update_entity_status(
             const backend::EntityId& id,
             backend::StatusKind kind);
 
+    /**
+     * @brief Update the entity status counters and populate the model with empty message if empty
+     *
+     * @param id entity id
+     * @return false
+     */
     bool update_entity_status_entities(
             const backend::EntityId& id);
 
@@ -357,13 +370,13 @@ public:
             backend::Callback callback);
 
     /**
-     * @brief add a callback arrived from the backend to the callback queue
+     * @brief add a status callback arrived from the backend to the status callback queue
      *
-     * Add a callback to the callback queue in order to process it afterwards by the main thread.
-     * Emit a signal that communicate the main thread that there are info to process in the callback queue.
-     * Add a callback issue.
+     * Add a status callback to the status callback queue in order to process it afterwards by the main thread.
+     * Emit a signal that communicate the main thread that there are info to process in the status callback queue.
+     * Add a status callback issue.
      *
-     * @param callback new callback to add
+     * @param callback new status callback to add
      * @return true
      */
     bool add_callback(
@@ -412,7 +425,7 @@ public:
     void process_callback_queue();
 
     /**
-     * @brief Pop status callbacks from the callback queues while non empty and update the models
+     * @brief Pop status callbacks from the status callback queues while non empty and update the models
      *
      * @warning This method must be executed from the main Thread (or at least a QThread) so the models are
      * updated in the view when modified.
@@ -537,7 +550,7 @@ signals:
     void new_callback_signal();
 
     /**
-     * Internal signal that communicate that there are callbacks to process by the main Thread.
+     * Internal signal that communicate that there are status callbacks to process by the main Thread.
      * Arise from \c add_callback
      */
     void new_status_callback_signal();
