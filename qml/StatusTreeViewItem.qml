@@ -201,40 +201,40 @@ Item {
                 spacing: 0
 
                 QtObject {
-                id: _prop
+                    id: _prop
 
-                property var currentIndex: root.model.index(index, 0, parentIndex)
-                property var currentData: root.model.data(currentIndex)
-                property var currentId: root.model.data(currentIndex, StatusTreeViewItem.Role.Id)
-                property var currentStatus: root.model.data(currentIndex, StatusTreeViewItem.Role.Status)
-                property var currentKind: root.model.data(currentIndex, StatusTreeViewItem.Role.Kind)
-                property var currentValue: root.model.data(currentIndex, StatusTreeViewItem.Role.Value)
-                property var currentDescription: root.model.data(currentIndex, StatusTreeViewItem.Role.Description)
-                property var currentAlive: root.model.data(currentIndex, StatusTreeViewItem.Role.Alive)
-                property Item currentItem: repeater.itemAt(index)
-                property bool expanded: true
-                property bool selected: false
-                property int itemChildCount: root.model.rowCount(currentIndex)
-                readonly property int depth: root.model.depth(currentIndex)
-                readonly property bool hasChildren: itemChildCount > 0
-                readonly property bool isSelectedIndex: root.selectionEnabled && currentIndex === root.selectedIndex
-                readonly property bool isHoveredIndex: root.hoverEnabled && currentIndex === root.hoveredIndex
-                readonly property bool isSelectedAndHoveredIndex: hoverEnabled && selectionEnabled && isHoveredIndex && isSelectedIndex
+                    property var currentIndex: root.model.index(index, 0, parentIndex)
+                    property var currentData: root.model.data(currentIndex)
+                    property var currentId: root.model.data(currentIndex, StatusTreeViewItem.Role.Id)
+                    property var currentStatus: root.model.data(currentIndex, StatusTreeViewItem.Role.Status)
+                    property var currentKind: root.model.data(currentIndex, StatusTreeViewItem.Role.Kind)
+                    property var currentValue: root.model.data(currentIndex, StatusTreeViewItem.Role.Value)
+                    property var currentDescription: root.model.data(currentIndex, StatusTreeViewItem.Role.Description)
+                    property var currentAlive: root.model.data(currentIndex, StatusTreeViewItem.Role.Alive)
+                    property Item currentItem: repeater.itemAt(index)
+                    property bool expanded: true
+                    property bool selected: false
+                    property int itemChildCount: root.model.rowCount(currentIndex)
+                    readonly property int depth: root.model.depth(currentIndex)
+                    readonly property bool hasChildren: itemChildCount > 0
+                    readonly property bool isSelectedIndex: root.selectionEnabled && currentIndex === root.selectedIndex
+                    readonly property bool isHoveredIndex: root.hoverEnabled && currentIndex === root.hoveredIndex
+                    readonly property bool isSelectedAndHoveredIndex: hoverEnabled && selectionEnabled && isHoveredIndex && isSelectedIndex
 
-                function toggle(){
-                    if(_prop.hasChildren)
-                    {
-                        _prop.expanded = !_prop.expanded
+                    function toggle(){
+                        if(_prop.hasChildren)
+                        {
+                            _prop.expanded = !_prop.expanded
+                        }
+
+                        _prop.focus()
+                        root.toggled()
                     }
 
-                    _prop.focus()
-                    root.toggled()
-                }
-
-                function focus(){
-                    controller.endpoint_click(_prop.currentId)
-                    controller.participant_click(_prop.currentId)
-                }
+                    function focus(){
+                        controller.endpoint_click(_prop.currentId)
+                        controller.participant_click(_prop.currentId)
+                    }
                 }
 
                 Connections {
@@ -309,11 +309,11 @@ Item {
                             target: root.model
                             ignoreUnknownSignals: true
                             function onDataChanged(modelIndex) {
-                            const changedId = modelIndex.internalId
-                            const currentId = _prop.currentIndex.internalId
-                            if(changedId === currentId){
-                                contentItemLoader.currentRow.currentData = root.model.data(modelIndex);
-                            }
+                                const changedId = modelIndex.internalId
+                                const currentId = _prop.currentIndex.internalId
+                                if(changedId === currentId){
+                                    contentItemLoader.currentRow.currentData = root.model.data(modelIndex);
+                                }
                             }
                         }
                     }
@@ -358,60 +358,60 @@ Item {
 
                 // loader to populate the children row for each node
                 Loader {
-                id: loader
+                    id: loader
 
-                Layout.fillWidth: true
+                    Layout.fillWidth: true
 
-                source: "StatusTreeViewItem.qml"
-                visible: _prop.expanded
+                    source: "StatusTreeViewItem.qml"
+                    visible: _prop.expanded
 
-                onLoaded: {
-                    item.model = root.model
-                    item.parentIndex = _prop.currentIndex
-                    item.childCount = _prop.itemChildCount
-                }
-
-                Connections {
-                    target: root.model
-                    ignoreUnknownSignals: true
-                    function onLayoutChanged() {
-                        const parent = root.model.index(index, 0, parentIndex)
-                        loader.item.childCount = root.model.rowCount(parent)
+                    onLoaded: {
+                        item.model = root.model
+                        item.parentIndex = _prop.currentIndex
+                        item.childCount = _prop.itemChildCount
                     }
 
-                    function onToggled() {
-                        root.toggled()
+                    Connections {
+                        target: root.model
+                        ignoreUnknownSignals: true
+                        function onLayoutChanged() {
+                            const parent = root.model.index(index, 0, parentIndex)
+                            loader.item.childCount = root.model.rowCount(parent)
+                        }
+
+                        function onToggled() {
+                            root.toggled()
+                        }
                     }
-                }
 
-                Binding { target: loader.item; property: "model"; value: root.model; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "handle"; value: root.handle; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "contentItem"; value: root.contentItem; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "model"; value: root.model; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "handle"; value: root.handle; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "contentItem"; value: root.contentItem; when: loader.status == Loader.Ready }
 
-                Binding { target: loader.item; property: "currentItem"; value: root.currentItem; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "selectedIndex"; value: root.selectedIndex; when: loader.status == Loader.Ready }
-                Binding { target: root; property: "currentItem"; value: loader.item.currentItem; when: loader.status == Loader.Ready }
-                Binding { target: root; property: "selectedIndex"; value: loader.item.selectedIndex; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "currentItem"; value: root.currentItem; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "selectedIndex"; value: root.selectedIndex; when: loader.status == Loader.Ready }
+                    Binding { target: root; property: "currentItem"; value: loader.item.currentItem; when: loader.status == Loader.Ready }
+                    Binding { target: root; property: "selectedIndex"; value: loader.item.selectedIndex; when: loader.status == Loader.Ready }
 
-                Binding { target: loader.item; property: "color"; value: root.color; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "handleColor"; value: root.handleColor; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "hoverEnabled"; value: root.hoverEnabled; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "hoverColor"; value: root.hoverColor; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "selectionEnabled"; value: root.selectionEnabled; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "selectedColor"; value: root.selectedColor; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "selectedItemColor"; value: root.selectedItemColor; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "color"; value: root.color; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "handleColor"; value: root.handleColor; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "hoverEnabled"; value: root.hoverEnabled; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "hoverColor"; value: root.hoverColor; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "selectionEnabled"; value: root.selectionEnabled; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "selectedColor"; value: root.selectedColor; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "selectedItemColor"; value: root.selectedItemColor; when: loader.status == Loader.Ready }
 
-                Binding { target: loader.item; property: "itemLeftPadding"; value: root.rowPadding; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "rowHeight"; value: root.rowHeight; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "rowPadding"; value: root.rowPadding; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "rowSpacing"; value: root.rowSpacing; when: loader.status == Loader.Ready }
-                Binding { target: loader.item; property: "fontMetrics"; value: root.selectedItemColor; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "itemLeftPadding"; value: root.rowPadding; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "rowHeight"; value: root.rowHeight; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "rowPadding"; value: root.rowPadding; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "rowSpacing"; value: root.rowSpacing; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "fontMetrics"; value: root.selectedItemColor; when: loader.status == Loader.Ready }
                 }
             }
         }
     }
 
-    function filter (entityId) {
+    function filter(entityId) {
         root.filter_(entityId)
     }
 

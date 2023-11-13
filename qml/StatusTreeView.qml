@@ -110,7 +110,14 @@ Flickable {
         }
     }
 
-    Connections { function onCurrentIndexChanged() { if(currentIndex) currentData = model.data(currentIndex) }  }
+    Connections {
+        function onCurrentIndexChanged() {
+            if(currentIndex)
+            {
+                currentData = model.data(currentIndex)
+            }
+        }
+    }
 
     StatusTreeViewItem {
         id: tree
