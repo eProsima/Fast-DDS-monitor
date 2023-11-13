@@ -187,16 +187,97 @@ QModelIndex StatusTreeModel::parent(
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
+
 QVariant StatusTreeModel::data(
         const QModelIndex& index,
-        const int role) const
+        const int role) const 
 {
-    if (!index.isValid()/* || role != Qt::DisplayRole*/)
+    return name(index, role);
+}
+
+QVariant StatusTreeModel::name(
+        const QModelIndex& index,
+        const int /*role*/) const
+{
+    if (!index.isValid())
     {
         return QVariant();
     }
 
-    return internalPointer(index)->data(role);
+    return internalPointer(index)->name();
+}
+
+
+QVariant StatusTreeModel::id(
+        const QModelIndex& index,
+        const int /*role*/) const
+{
+    if (!index.isValid())
+    {
+        return QVariant();
+    }
+
+    return internalPointer(index)->entity_id();
+}
+
+QVariant StatusTreeModel::status(
+        const QModelIndex& index,
+        const int /*role*/) const
+{
+    if (!index.isValid())
+    {
+        return QVariant();
+    }
+
+    return internalPointer(index)->status();
+}
+
+QVariant StatusTreeModel::kind(
+        const QModelIndex& index,
+        const int /*role*/) const
+{
+    if (!index.isValid())
+    {
+        return QVariant();
+    }
+
+    return internalPointer(index)->status_kind();
+}
+
+QVariant StatusTreeModel::value(
+        const QModelIndex& index,
+        const int /*role*/) const
+{
+    if (!index.isValid())
+    {
+        return QVariant();
+    }
+
+    return internalPointer(index)->value();
+}
+
+QVariant StatusTreeModel::description(
+        const QModelIndex& index,
+        const int /*role*/) const
+{
+    if (!index.isValid())
+    {
+        return QVariant();
+    }
+
+    return internalPointer(index)->description();
+}
+
+QVariant StatusTreeModel::alive(
+        const QModelIndex& index,
+        const int /*role*/) const
+{
+    if (!index.isValid())
+    {
+        return QVariant();
+    }
+
+    return internalPointer(index)->alive();
 }
 
 bool StatusTreeModel::setData(
@@ -442,23 +523,6 @@ StatusTreeItem*  StatusTreeModel::getTopLevelItem(
     StatusTreeItem* new_entity_item = new StatusTreeItem(id, data, is_error, description);
     addTopLevelItem(new_entity_item);
     return new_entity_item;
-}
-
-
-QHash<int, QByteArray> StatusTreeModel::roleNames() const
-{
-    // TODO Jesus this roles are not currently used in the QML, find out why
-    QHash<int, QByteArray>  roles;
-
-    roles[idRole] = "id";
-    roles[statusRole] = "status";
-    roles[kindRole] = "kind";
-    roles[valueRole] = "value";
-    roles[descriptionRole] = "description";
-    roles[aliveRole] = "alive";
-    roles[nameRole] = "name";
-
-    return roles;
 }
 
 } // namespace models

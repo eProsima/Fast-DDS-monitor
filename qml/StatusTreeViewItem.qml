@@ -80,7 +80,6 @@ Item {
         font.pointSize: Theme.font.pointSize
     }
     property alias font: root.fontMetrics.font
-    enum Role { Id=257, Status, Kind, Value, Description, Alive, Name }
 
     // private (internal) signals
     signal filter_(int entityId)
@@ -202,12 +201,12 @@ Item {
 
                     property var currentIndex: root.model.index(index, 0, parentIndex)
                     property var currentData: root.model.data(currentIndex)
-                    property var currentId: root.model.data(currentIndex, StatusTreeViewItem.Role.Id)
-                    property var currentStatus: root.model.data(currentIndex, StatusTreeViewItem.Role.Status)
-                    property var currentKind: root.model.data(currentIndex, StatusTreeViewItem.Role.Kind)
-                    property var currentValue: root.model.data(currentIndex, StatusTreeViewItem.Role.Value)
-                    property var currentDescription: root.model.data(currentIndex, StatusTreeViewItem.Role.Description)
-                    property var currentAlive: root.model.data(currentIndex, StatusTreeViewItem.Role.Alive)
+                    property var currentId: root.model.id(currentIndex)
+                    property var currentStatus: root.model.status(currentIndex)
+                    property var currentKind: root.model.kind(currentIndex)
+                    property var currentValue: root.model.value(currentIndex)
+                    property var currentDescription: root.model.description(currentIndex)
+                    property var currentAlive: root.model.alive(currentIndex)
                     property Item currentItem: repeater.itemAt(index)
                     property bool expanded: true
                     property bool selected: false
@@ -240,7 +239,7 @@ Item {
                         const parent = root.model.index(index, 0, parentIndex)
                         _prop.itemChildCount = root.model.rowCount(parent)
                         // refresh counter
-                        var new_value = root.model.data(_prop.currentIndex, StatusTreeViewItem.Role.Value)
+                        var new_value = root.model.value(_prop.currentIndex)
                         if (new_value != undefined)
                         {
                             _prop.currentValue = new_value

@@ -181,34 +181,6 @@ int StatusTreeItem::childCount() const
     return child_items_.count();
 }
 
-const QVariant& StatusTreeItem::data() const
-{
-    return this->data(models::StatusTreeModel::ModelItemRoles::nameRole);
-}
-
-const QVariant& StatusTreeItem::data(
-        int role) const
-{
-    switch (role)
-    {
-        case models::StatusTreeModel::ModelItemRoles::idRole:
-            return this->entity_id();
-        case models::StatusTreeModel::ModelItemRoles::statusRole:
-            return this->status();
-        case models::StatusTreeModel::ModelItemRoles::kindRole:
-            return this->status_kind();
-        case models::StatusTreeModel::ModelItemRoles::valueRole:
-            return this->value();
-        case models::StatusTreeModel::ModelItemRoles::descriptionRole:
-            return this->description();
-        case models::StatusTreeModel::ModelItemRoles::aliveRole:
-            return this->alive();
-        case models::StatusTreeModel::ModelItemRoles::nameRole:
-        default:
-            return this->name();
-    }
-}
-
 const QVariant& StatusTreeItem::entity_id() const
 {
     return  id_variant_;

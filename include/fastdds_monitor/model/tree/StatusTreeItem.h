@@ -86,13 +86,6 @@ public:
     //! Destroy the item. It will destroy every child.
     ~StatusTreeItem();
 
-    //! Return the stored data of the node.
-    const QVariant& data() const;
-
-    //! Return the stored data of the node.
-    const QVariant& data(
-            int role) const;
-
     const QVariant& entity_id() const;
 
     const QVariant& status_kind() const;

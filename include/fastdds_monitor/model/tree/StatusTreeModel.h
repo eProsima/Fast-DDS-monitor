@@ -55,7 +55,6 @@ namespace models {
 class StatusTreeModel : public QAbstractItemModel
 {
     Q_OBJECT
-    //Q_ENUMS(models::StatusTreeItem::ModelItemRoles)
 
 public:
     explicit StatusTreeModel(
@@ -66,21 +65,6 @@ public:
     // Overriden method from QAbstractItemModel
 
 public:
-
-    //! Role names to allow queries to get some specific information from the Item
-    enum ModelItemRoles
-    {
-        idRole = Qt::UserRole + 1,      //! Role for attribute Id
-        statusRole,                     //! Role for attribute Status
-        kindRole,                       //! Role for attribute Kind
-        valueRole,                      //! Role for attribute Value
-        descriptionRole,                //! Role for attribute Description
-        aliveRole,                      //! Role for attribute Alive
-        nameRole                        //! Role for attribute Name
-        // The nameRole must always be the last one as it is used in child classes
-        // as the initial role of the enumeration)
-    };
-
     int rowCount(
             const QModelIndex& index) const override;
     int columnCount(
@@ -98,6 +82,34 @@ public:
             const QModelIndex& index,
             int role = 0) const override;
 
+    Q_INVOKABLE QVariant name(
+            const QModelIndex& index,
+            int role = 0) const;
+
+    Q_INVOKABLE QVariant id(
+            const QModelIndex& index,
+            int role = 0) const;
+
+    Q_INVOKABLE QVariant status(
+            const QModelIndex& index,
+            int role = 0) const;
+
+    Q_INVOKABLE QVariant kind(
+            const QModelIndex& index,
+            int role = 0) const;
+
+    Q_INVOKABLE QVariant value(
+            const QModelIndex& index,
+            int role = 0) const;
+
+    Q_INVOKABLE QVariant description(
+            const QModelIndex& index,
+            int role = 0) const;
+
+    Q_INVOKABLE QVariant alive(
+            const QModelIndex& index,
+            int role = 0) const;
+
     bool setData(
             const QModelIndex& index,
             const QVariant& value,
@@ -106,8 +118,6 @@ public:
     bool removeRow(
             int row,
             const QModelIndex &index = QModelIndex());
-
-    QHash<int, QByteArray> roleNames() const override;
 
 public:
     //! Add an item to the top level.
