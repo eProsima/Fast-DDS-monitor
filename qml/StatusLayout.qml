@@ -56,30 +56,34 @@ Item
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
 
-
+    // Main tab view with possibility of multiple tabs
     TabView {
         id: tab_view
         anchors.top: parent.top
         anchors.bottom: separator_line.top
         width: parent.width
 
+        // Main Problems tab
         Tab {
             title: "Problems"
             Rectangle {
 
                 color: "white"
 
+                // Main content of problems tab: problem tree view with problems per entity
                 StatusTreeView {
                     id: status_tree_view
                     anchors.fill: parent
                     anchors.margins: 1
 
-                    model: entityStatusModel
+                    model: entityStatusModel        // problems model: entity status proxy model
 
+                    // display if hidden when problems filtered (from right-click dialog)
                     onEntity_status_filtered:{
                         collapse_status_layout()
                     }
 
+                    // filter and clean filter signal-slots management
                     Connections {
                         target: statusLayout
 
@@ -94,8 +98,11 @@ Item
                 }
             }
         }
+
+        // Tab main stlye
         style: TabViewStyle {
             frameOverlap: 1
+            // Each tab style: simple rounded rect header with text
             tab: Rectangle {
                 color: styleData.selected ? "white" : Theme.lightGrey
                 implicitWidth: Math.max(text.width + 10, tabs_width_)
@@ -115,12 +122,15 @@ Item
                     text: styleData.title
                 }
             }
+            // Tab bar style: would contain all tabs, and the custom menu on the right section
+            // (close, expand/collapse, and filter buttons, from right to left)
             tabBar: Rectangle {
                 anchors.top: parent.top
                 width: parent.width
                 height: tabs_height_
                 color: grey_background_
 
+                // Close button
                 IconSVG {
                     id: close_icon
                     anchors.right: parent.right
@@ -140,6 +150,7 @@ Item
                     }
                 }
 
+                // Container with expand and collapse buttons
                 Rectangle {
                     id: rect
                     anchors.right: close_icon.left
@@ -178,6 +189,7 @@ Item
                     }
                 }
 
+                // Container with filter buttons (filtered/not filtered icons)
                 Rectangle {
                     id: filter_rect
                     anchors.right: rect.left
@@ -210,6 +222,7 @@ Item
                     }
                 }
 
+                // connections to update filter icons
                 Connections {
                     target: statusLayout
 
@@ -234,6 +247,7 @@ Item
         color: Theme.grey
     }
 
+    // footer (and ALWAYS displayed) error and warning counters bar section
     Rectangle {
         id: icon_section
         anchors.bottom: parent.bottom
@@ -241,7 +255,10 @@ Item
         width: parent.width
         color: grey_background_
 
-        Component.onCompleted: { close_status_layout() }
+        // Close status so only this section is displayed, when component is loaded
+        Component.onCompleted: {
+            close_status_layout()
+        }
 
         IconSVG {
             id: error_icon
