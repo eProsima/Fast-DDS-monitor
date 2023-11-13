@@ -82,9 +82,6 @@ Item {
     property alias font: root.fontMetrics.font
     enum Role { Id=257, Status, Kind, Value, Description, Alive, Name }
 
-    // public signal
-    signal toggled()
-
     // private (internal) signals
     signal filter_(int entityId)
     signal unfilter_()
@@ -228,7 +225,6 @@ Item {
                         }
 
                         _prop.focus()
-                        root.toggled()
                     }
 
                     function focus(){
@@ -377,10 +373,6 @@ Item {
                         function onLayoutChanged() {
                             const parent = root.model.index(index, 0, parentIndex)
                             loader.item.childCount = root.model.rowCount(parent)
-                        }
-
-                        function onToggled() {
-                            root.toggled()
                         }
                     }
 
