@@ -88,7 +88,8 @@ Flickable {
         Arrow
     }
 
-    property int current_filter_: -2        // backend::ID_ALL
+    readonly property int filter_all_: -2   // backend::ID_ALL
+    property int current_filter_: filter_all_
     signal entity_status_filtered()
 
     property int handleStyle: StatusTreeView.Handle.TriangleSmallOutline
@@ -106,7 +107,7 @@ Flickable {
     {
         target: root.model
         function onLayoutChanged() {
-            root.filter_model()
+            root.filter_model_by_id(root.current_filter_)
         }
     }
 
@@ -176,26 +177,18 @@ Flickable {
 
     function clean_filter()
     {
-        root.filter_model()
-        model.filter_proxy(-2)
+        root.filter_model_by_id(filter_all_)
         tree.unfilter()
-    }
-
-    function filter_model()
-    {
-        var filter_all = -2 // backend::ID_ALL
-
-        if (current_filter_ != filter_all)
-        {
-            current_filter_ = filter_all
-            root.filter_model_by_id(current_filter_)
-        }
     }
 
     function filter_model_by_id(entityId)
     {
-        model.filter_proxy(entityId)
-        root.entity_status_filtered()
-        tree.filter(entityId)
+        if (current_filter_ != entityId)
+        {
+            current_filter_ = entityId
+            model.filter_proxy(current_filter_)
+            root.entity_status_filtered()
+            tree.filter(current_filter_)
+        }
     }
 }
