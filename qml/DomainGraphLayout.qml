@@ -1005,7 +1005,6 @@ Item
                                                         } else {
                                                             controller.participant_click(modelData["id"])
                                                         }
-
                                                     }
                                                 }
                                             }

@@ -20,7 +20,7 @@ import QtQuick.Controls 2.15
 import Theme 1.0
 
 /*
-    Menu containing the possible actions that can be performed on any DDS, physical and logical entity.
+    Menu containing the possible actions that can be performed on topic entities.
  */
 Menu {
     id: topicMenu
