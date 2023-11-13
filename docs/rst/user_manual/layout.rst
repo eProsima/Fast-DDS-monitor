@@ -220,14 +220,15 @@ For the explanation of this information refer to the section :ref:`log_panel`.
 Main Panel
 ==========
 The central window allows multiple tabs for different views.
-Also it is displayed a collapsed menu with the possible problems that have been detected on the DDS entities.
-The tab panel allows multiple tabs generation so different views are contemplated in the same window.
+It is also displayed a collapsed menu with the possible problems that have been detected on the DDS entities.
 It will display the data charts, so-called *Chartbox*, that the user has configured.
 It will display a domain graph where the physical, logical and DDS entities from a domain are represented,
 focusing on the connection between endpoints through the topics, and the entities physical inheritance.
 
 .. figure:: /rst/figures/screenshots/main_panel.png
     :align: center
+
+For further information about how to create a chart refer to the section :ref:`chart_panel`.
 
 .. _chartbox_layout:
 
@@ -236,10 +237,10 @@ Chartbox
 These windows in the main panel store some *series* or *data configurations* to show a specific data type for
 one or several entities in a specified time interval and with different accumulative operations on the data.
 
-To create a new *Chartbox* go to *Chart View* in the Main Panel default tab.
+To create a new *Chartbox* go to *Chart View* in the Main Panel default tab, and click on *Create new chart* button.
 This button will create a new *Chartbox* where new series could be added, removed or modified.
 
-These Chartbox could be moved along the main window.
+These Chartbox could be moved along the *Chart View* tab.
 In order to move one of this charts, press in the *Chartbox* title and grab the object to its new location inside the
 main panel.
 The rest of the *Chartboxes* will automatically rearrange when one of them is moved to a different position.
@@ -281,10 +282,10 @@ connection to the topic they are published and subscribed, respectively.
 .. figure:: /rst/figures/screenshots/domain_graph.png
     :align: center
 
-Clicking on any entity displays its detailed information in the :ref:`info_panel`.
+By clicking on any entity, its detailed information is displayed in the :ref:`info_panel`.
 Right click allows changing the alias of the entity, filter the problems to display only the selected entity's problems
-and, in the case of topics, filter the domain graph by topic, so they are displayed only the entities related to the
-selected topic.
+and, in the case of topics, filtering the domain graph by topic so that only the entities related to the selected topic
+are displayed.
 
 .. _problem_summary:
 
@@ -295,7 +296,7 @@ This section that can be expanded and collapsed displays all the collected probl
 Those problems are related to DataReader samples lost, incompatible QoS between endpoints, or DataWriter deadline missed
 counter, for instance.
 
-The entities that has reported a problem would display a warning or error icon in close to the entity name, based on
+The entities that have reported a problem would display a warning or an error icon close to the entity name, based on
 the severity of the problem.
 The entity representation in the domain graph may also display that icon.
 

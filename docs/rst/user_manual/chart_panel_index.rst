@@ -7,20 +7,20 @@
 Main Panel
 ##########
 
-In the central panel, there is a tan section that allows multiple views, including a collapsed menu that reports the
+In the central panel, there is a tab section that allows multiple views, including a collapsed menu that reports the
 possible problems that have been detected on the DDS entities.
 
 The main feature of the *Fast DDS Monitor* application is to graphically display the data that is being monitored in
-the *Chartbox* or *Chart view*.
+the *Chart View*.
 DDS entities have associated different types of data (so-called *DataKind*) that could be visualize by configuring
 a chart.
 For example, it can be displayed the mean, median and standard deviation latency between two machines (*Hosts*) running
 *Fast DDS* applications for the period of two hours in intervals of ten minutes.
 
-There are other features to represent the detected entities graphically in a graph.
+The *Fast DDS Monitor* can also show the detected entities in a graph.
 The *Domain view* would filter all entities that belong to the same DDS Domain, and represent the inheritance of the
-physical entities and DDS entities (the DataWriters or DataReaders that belong to a DomainParticipant, the
-DomainParticipants that runs on the same process, the processes that a user is running, and the users that are on a
+physical and DDS entities (the DataWriters or DataReaders that belong to a DomainParticipant, the
+DomainParticipants that run on the same process, the processes that a user is running, and the users that are on a
 host).
 Those relations are represented in different boxes that contain the sub-category of entities.
 Also, the connections between different endpoints that are publishing or subscribed to a Topic are represented with
