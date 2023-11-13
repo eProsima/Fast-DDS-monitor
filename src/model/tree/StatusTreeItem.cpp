@@ -166,6 +166,7 @@ void StatusTreeItem::removeChild(
     if (item)
     {
         child_items_.removeAll(item);
+        delete item;
     }
 }
 

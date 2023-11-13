@@ -994,9 +994,10 @@ bool Engine::update_entity_status(
         backend::StatusKind kind)
 {
     int counter = 0;
-    auto empty_item = new models::StatusTreeItem(backend::ID_ALL, std::string("No issues found"), false, std::string(""));
     if (id == backend::ID_ALL)
     {
+        auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
+                std::string("No issues found"), false, std::string(""));
         entity_status_model_->addTopLevelItem(empty_item);
     }
     else
