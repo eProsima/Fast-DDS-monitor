@@ -1227,7 +1227,7 @@ bool Engine::update_entity_status(
     return true;
 }
 
-bool Engine::update_entity_status_entities(
+bool Engine::remove_inactive_entities_from_status_model(
         const backend::EntityId& id)
 {
     // check if there are entities in the status model
@@ -1321,17 +1321,17 @@ bool Engine::update_entity_generic(
                 entity_id, &Engine::update_topic, !is_update, is_last_clicked);
 
         case backend::EntityKind::PARTICIPANT:
-            update_entity_status_entities(entity_id);
+            remove_inactive_entities_from_status_model(entity_id);
             return update_entity(
                 entity_id, &Engine::update_participant, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAWRITER:
-            update_entity_status_entities(entity_id);
+            remove_inactive_entities_from_status_model(entity_id);
             return update_entity(
                 entity_id, &Engine::update_datawriter, !is_update, is_last_clicked);
 
         case backend::EntityKind::DATAREADER:
-            update_entity_status_entities(entity_id);
+            remove_inactive_entities_from_status_model(entity_id);
             return update_entity(
                 entity_id, &Engine::update_datareader, !is_update, is_last_clicked);
 

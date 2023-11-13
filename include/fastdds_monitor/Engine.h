@@ -285,7 +285,7 @@ public:
      * @param id entity id
      * @return false
      */
-    bool update_entity_status_entities(
+    bool remove_inactive_entities_from_status_model(
             const backend::EntityId& id);
 
     /**
