@@ -66,8 +66,8 @@ public:
     {
         std::map<backend::EntityId,uint32_t> errors;
         std::map<backend::EntityId,uint32_t> warnings;
-        uint32_t total_errors = 0;
-        uint32_t total_warnings = 0;
+        int32_t total_errors = 0;
+        int32_t total_warnings = 0;
     } status_counters;
 
 public slots:
