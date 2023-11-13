@@ -315,8 +315,4 @@ Item
     function filter_entity_status_log(entityId) {
         statusLayout.focus_entity_(entityId)
     }
-    function clean_filter()
-    {
-        statusLayout.clean_filter_()
-    }
 }
