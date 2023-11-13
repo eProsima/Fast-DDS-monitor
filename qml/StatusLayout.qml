@@ -282,21 +282,7 @@ Item
                 warning_value.text = warnings
             }
         }
-        /*IconSVG {
-            id: info_icon
-            anchors.left: warning_value.right
-            anchors.leftMargin: elements_spacing_
-            name: "info"
-            size: parent.height - elements_spacing_ -1
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        Label {
-            id: info_value
-            anchors.left: info_icon.right
-            anchors.leftMargin: elements_spacing_/2
-            anchors.verticalCenter: parent.verticalCenter
-            text: "19"
-        }*/
+
         MouseArea {
             anchors.fill: parent
             onClicked: {
