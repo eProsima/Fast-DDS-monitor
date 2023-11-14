@@ -1023,14 +1023,14 @@ bool Engine::update_entity_status(
                             new_status == backend::StatusLevel::ERROR, std::string(""), description);
                     auto total_count_item = new models::StatusTreeItem(id, kind, std::string("Total count:"),
                             new_status == backend::StatusLevel::ERROR,
-                            std::to_string(sample.deadline_missed_status.total_count()), description);
+                            std::to_string(sample.deadline_missed_status.total_count()), std::string(""));
                     for (uint8_t handler : sample.deadline_missed_status.last_instance_handle())
                     {
                         handle_string = handle_string + std::to_string(handler);
                     }
                     auto last_instance_handle_item = new models::StatusTreeItem(id, kind,
                             std::string("Last instance handle:"),
-                            new_status == backend::StatusLevel::ERROR, handle_string, description);
+                            new_status == backend::StatusLevel::ERROR, handle_string, std::string(""));
                     entity_status_model_->addItem(deadline_missed_item, total_count_item);
                     entity_status_model_->addItem(deadline_missed_item, last_instance_handle_item);
                     entity_status_model_->addItem(entity_item, deadline_missed_item);
@@ -1107,17 +1107,17 @@ bool Engine::update_entity_status(
                     std::string handle_string;
                     auto alive_count_item = new models::StatusTreeItem(id, kind, std::string("Alive count:"),
                             new_status == backend::StatusLevel::ERROR,
-                            std::to_string(sample.liveliness_changed_status.alive_count()), description);
+                            std::to_string(sample.liveliness_changed_status.alive_count()), std::string(""));
                     auto not_alive_count_item = new models::StatusTreeItem(id, kind, std::string("Not alive count:"),
                             new_status == backend::StatusLevel::ERROR,
-                            std::to_string(sample.liveliness_changed_status.not_alive_count()), description);
+                            std::to_string(sample.liveliness_changed_status.not_alive_count()), std::string(""));
                     for (uint8_t handler : sample.liveliness_changed_status.last_publication_handle())
                     {
                         handle_string = handle_string + std::to_string(handler);
                     }
                     auto last_publication_handle_item = new models::StatusTreeItem(id, kind,
                             std::string("Last publication handle:"),
-                            new_status == backend::StatusLevel::ERROR, handle_string, description);
+                            new_status == backend::StatusLevel::ERROR, handle_string, std::string(""));
 
                     entity_status_model_->addItem(liveliness_changed_item, alive_count_item);
                     entity_status_model_->addItem(liveliness_changed_item, not_alive_count_item);
