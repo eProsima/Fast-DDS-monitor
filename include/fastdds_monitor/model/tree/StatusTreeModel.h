@@ -171,7 +171,7 @@ public:
     StatusTreeItem*  getTopLevelItem(
             const backend::EntityId& id,
             const std::string& data,
-            const bool& is_error,
+            const backend::StatusLevel& status,
             const std::string& description);
 
     void set_source_model(

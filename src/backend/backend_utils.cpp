@@ -152,6 +152,21 @@ std::string status_kind_to_string(
     }
 }
 
+std::string status_level_to_string(
+        const StatusLevel& status_level)
+{
+    switch (status_level)
+    {
+        case StatusLevel::WARNING:
+            return "WARNING";
+        case StatusLevel::ERROR:
+            return "ERROR";
+        case StatusLevel::OK:
+        default:
+            return "OK";
+    }
+}
+
 std::string data_kind_to_string(
         const DataKind& data_kind)
 {

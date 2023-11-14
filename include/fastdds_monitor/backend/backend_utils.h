@@ -91,6 +91,10 @@ std::string statistic_kind_to_string(
 std::string status_kind_to_string(
         const StatusKind& status_kind);
 
+//! Converts the \c StatusLevel to string
+std::string status_level_to_string(
+        const StatusLevel& status_level);
+
 //! Retrieves the \c EntityKind related with its name in QString
 backend::EntityKind string_to_entity_kind(
         const QString& entity_kind);

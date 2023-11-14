@@ -115,10 +115,12 @@ Item {
         IconSVG {
             id: status_icon
             visible: !(currentRow.currentId === "all" && currentRow.currentKind === "INVALID")
+                    && currentRow.currentStatus != "OK"
             anchors.left: parent.left; anchors.leftMargin: -5
             anchors.verticalCenter: parent.verticalCenter
-            name: currentRow.currentStatus ? "error" :"issues"
-            color: currentRow.currentAlive ? currentRow.currentStatus ? "red" :"black" : "grey"
+            name: currentRow.currentStatus == "ERROR" ? "error"
+                    : currentRow.currentStatus == "WARNING" ? "issues" : ""
+            color: currentRow.currentAlive ? currentRow.currentStatus == "ERROR" ? "red" :"black" : "grey"
             size: 15
         }
 

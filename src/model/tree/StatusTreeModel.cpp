@@ -108,7 +108,7 @@ StatusTreeItem* StatusTreeModel::filtered_copy(
                 source->id(),
                 source->kind(),
                 source->name_str(),
-                source->is_error(),
+                source->status_level(),
                 source->value_str(),
                 source->description_str());
         for (int i = 0; i < source->childCount(); i++)
@@ -506,7 +506,7 @@ void StatusTreeModel::removeEmptyItem()
 StatusTreeItem*  StatusTreeModel::getTopLevelItem(
         const backend::EntityId& id,
         const std::string& data,
-        const bool& is_error,
+        const backend::StatusLevel& status,
         const std::string& description)
 {
     // For each entity item in the three (root)
@@ -520,7 +520,7 @@ StatusTreeItem*  StatusTreeModel::getTopLevelItem(
     }
 
     // if not existing, create new topLevelItem
-    StatusTreeItem* new_entity_item = new StatusTreeItem(id, data, is_error, description);
+    StatusTreeItem* new_entity_item = new StatusTreeItem(id, data, status, description);
     addTopLevelItem(new_entity_item);
     return new_entity_item;
 }

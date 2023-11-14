@@ -71,7 +71,7 @@ public:
     explicit StatusTreeItem(
             const backend::EntityId& id,
             const std::string& name,
-            const bool& is_error,
+            const backend::StatusLevel& status_level,
             const std::string& description);
 
     //! Create an item with the status parameters
@@ -79,7 +79,7 @@ public:
             const backend::EntityId& id,
             const backend::StatusKind& kind,
             const std::string& name,
-            const bool& is_error,
+            const backend::StatusLevel& status_level,
             const std::string& value,
             const std::string& description);
 
@@ -122,10 +122,10 @@ public:
 
     backend::StatusKind kind();
 
-    bool is_error();
+    backend::StatusLevel status_level();
 
-    void is_error(
-            bool val);
+    void status_level(
+            backend::StatusLevel val);
 
     std::string name_str();
 
@@ -154,14 +154,14 @@ private:
     backend::EntityId id_;
     backend::StatusKind kind_;
     std::string name_;
-    bool is_status_error_;
+    backend::StatusLevel status_level_;
     std::string value_;
     std::string description_;
     bool is_active_;
     QVariant id_variant_;
     QVariant kind_variant_;
     QVariant name_variant_;
-    QVariant is_status_error_variant_;
+    QVariant status_level_variant_;
     QVariant value_variant_;
     QVariant description_variant_;
     QVariant is_active_variant_;

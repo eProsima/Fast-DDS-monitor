@@ -53,14 +53,14 @@ StatusTreeItem::StatusTreeItem()
     , id_(backend::ID_ALL)
     , kind_(backend::StatusKind::INVALID)
     , name_()
-    , is_status_error_(false)
+    , status_level_(backend::StatusLevel::OK)
     , value_()
     , description_()
     , is_active_(true)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant())
-    , is_status_error_variant_(QVariant(false))
+    , status_level_variant_(QVariant(QString::fromStdString(backend::status_level_to_string(status_level_))))
     , value_variant_(QVariant())
     , description_variant_(QVariant())
     , is_active_variant_(QVariant(true))
@@ -73,14 +73,14 @@ StatusTreeItem::StatusTreeItem(
     , id_(backend::ID_ALL)
     , kind_(backend::StatusKind::INVALID)
     , name_(data.toString().toStdString())
-    , is_status_error_(false)
+    , status_level_(backend::StatusLevel::OK)
     , value_()
     , description_()
     , is_active_(true)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant(QString::fromStdString(name_)))
-    , is_status_error_variant_(QVariant(false))
+    , status_level_variant_(QVariant(QString::fromStdString(backend::status_level_to_string(status_level_))))
     , value_variant_(QVariant())
     , description_variant_(QVariant())
     , is_active_variant_(QVariant(true))
@@ -90,20 +90,20 @@ StatusTreeItem::StatusTreeItem(
 StatusTreeItem::StatusTreeItem(
         const backend::EntityId& id,
         const std::string& name,
-        const bool& is_error,
+        const backend::StatusLevel& status_level,
         const std::string& description)
     : parent_item_(nullptr)
     , id_(id)
     , kind_(backend::StatusKind::INVALID)
     , name_(name)
-    , is_status_error_(is_error)
+    , status_level_(status_level)
     , value_()
     , description_(description)
     , is_active_(true)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant(QString::fromStdString(name)))
-    , is_status_error_variant_(QVariant(is_error))
+    , status_level_variant_(QVariant(QString::fromStdString(backend::status_level_to_string(status_level_))))
     , value_variant_(QVariant())
     , description_variant_(QVariant(QString::fromStdString(description)))
     , is_active_variant_(QVariant(true))
@@ -114,21 +114,21 @@ StatusTreeItem::StatusTreeItem(
         const backend::EntityId& id,
         const backend::StatusKind& kind,
         const std::string& name,
-        const bool& is_error,
+        const backend::StatusLevel& status_level,
         const std::string& value,
         const std::string& description)
     : parent_item_(nullptr)
     , id_(id)
     , kind_(kind)
     , name_(name)
-    , is_status_error_(is_error)
+    , status_level_(status_level)
     , value_(value)
     , description_(description)
     , is_active_(true)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant(QString::fromStdString(name_)))
-    , is_status_error_variant_(QVariant(is_error))
+    , status_level_variant_(QVariant(QString::fromStdString(backend::status_level_to_string(status_level_))))
     , value_variant_(QVariant(QString::fromStdString(value)))
     , description_variant_(QVariant(QString::fromStdString(description)))
     , is_active_variant_(QVariant(true))
@@ -198,7 +198,7 @@ const QVariant& StatusTreeItem::name() const
 
 const QVariant& StatusTreeItem::status() const
 {
-    return is_status_error_variant_;
+    return status_level_variant_;
 }
 
 const QVariant& StatusTreeItem::value() const
@@ -260,16 +260,16 @@ backend::StatusKind StatusTreeItem::kind()
     return kind_;
 }
 
-bool StatusTreeItem::is_error()
+backend::StatusLevel StatusTreeItem::status_level()
 {
-    return is_status_error_;
+    return status_level_;
 }
 
-void StatusTreeItem::is_error(
-        bool val)
+void StatusTreeItem::status_level(
+        backend::StatusLevel val)
 {
-    is_status_error_ = val;
-    is_status_error_variant_ = QVariant(val);
+    status_level_ = val;
+    status_level_variant_ = QVariant(QString::fromStdString(backend::status_level_to_string(status_level_)));
 }
 
 std::string StatusTreeItem::name_str()

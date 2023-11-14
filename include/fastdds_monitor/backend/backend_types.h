@@ -35,6 +35,7 @@ using EntityId = eprosima::statistics_backend::EntityId;
 using EntityKind = eprosima::statistics_backend::EntityKind;
 using DataKind = eprosima::statistics_backend::DataKind;
 using StatusKind = eprosima::statistics_backend::StatusKind;
+using StatusLevel = eprosima::statistics_backend::StatusLevel;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
 using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
