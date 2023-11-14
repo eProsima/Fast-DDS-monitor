@@ -30,7 +30,7 @@ Item {
         color: "white"
     }
 
-    //background to make connection overlap nicely left panel
+    // background to make connection overlap nicely left panel
     Rectangle {
         id: left_background
         anchors.top: parent.top; anchors.bottom: parent.bottom
