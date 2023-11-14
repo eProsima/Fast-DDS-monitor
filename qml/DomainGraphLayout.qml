@@ -27,7 +27,7 @@ Item
 
     // Public properties
     property var model: {}                          // domain view graph JSON model
-    property int entity_id                          // entity id associated to the domain id
+    property int domain_entity_id                   // entity id associated to the domain id
     property int domain_id                          // domain id
     required property string component_id           // mandatory to be included when object created
 
@@ -237,7 +237,7 @@ Item
                         onClicked:
                         {
                             if(mouse.button & Qt.RightButton) {
-                                openTopicMenu(entity_id, domain_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                openTopicMenu(domain_entity_id, domain_id, modelData["id"], modelData["alias"], modelData["kind"])
                             } else {
                                 controller.topic_click(modelData["id"])
                             }
@@ -573,7 +573,7 @@ Item
                             onClicked:
                             {
                                 if(mouse.button & Qt.RightButton) {
-                                    openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                    openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                 } else {
                                     controller.host_click(modelData["id"])
                                 }
@@ -717,7 +717,7 @@ Item
                                     onClicked:
                                     {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                            openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                         } else {
                                             controller.user_click(modelData["id"])
                                         }
@@ -860,7 +860,7 @@ Item
                                             onClicked:
                                             {
                                                 if(mouse.button & Qt.RightButton) {
-                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                                    openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                                 } else {
                                                     controller.process_click(modelData["id"])
                                                 }
@@ -1001,7 +1001,7 @@ Item
                                                     onClicked:
                                                     {
                                                         if(mouse.button & Qt.RightButton) {
-                                                            openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                                            openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                                         } else {
                                                             controller.participant_click(modelData["id"])
                                                         }
@@ -1198,7 +1198,7 @@ Item
                                                             onClicked:
                                                             {
                                                                 if(mouse.button & Qt.RightButton) {
-                                                                    openEntitiesMenu(entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                                                    openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
                                                                 } else {
                                                                     controller.endpoint_click(modelData["id"])
                                                                 }
@@ -1333,7 +1333,7 @@ Item
         clear_graph()
 
         // Obtain model from backend
-        var model_string = controller.get_domain_view_graph(entity_id)
+        var model_string = controller.get_domain_view_graph(domain_entity_id)
 
         // declare obtained hosts and topics variables
         var new_topics = []
@@ -1616,7 +1616,7 @@ Item
         if (domainEntityId != "")
         {
             // belongs to the current domain
-            if (entity_id.toString() != domainEntityId)
+            if (domain_entity_id.toString() != domainEntityId)
             {
                 return false
             }
@@ -1624,7 +1624,7 @@ Item
         // check all entities by entityId
 
         // check domain
-        if(entity_id.toString() == entityId)
+        if(domain_entity_id.toString() == entityId)
         {
             return true
         }

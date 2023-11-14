@@ -223,9 +223,9 @@ Item {
                                     for (var j=0; j<stack_layout.count; j++)
                                     {
                                         if (stack_layout.children[j].stack_id == tabLayout.tab_model_[i]["stack_id"] &&
-                                            stack_layout.children[j].currentItem.entity_id > 0)
+                                            stack_layout.children[j].currentItem.domain_entity_id > 0)
                                         {
-                                            controller.domain_click(stack_layout.children[j].currentItem.entity_id)
+                                            controller.domain_click(stack_layout.children[j].currentItem.domain_entity_id)
                                             break;
                                         }
                                     }
@@ -247,7 +247,7 @@ Item {
                             function onInitialize_domain_view_(stack_id, entity_id, domain_id) {
                                 if (domainGraphLayout.component_id == stack_id)
                                 {
-                                    domainGraphLayout.entity_id = entity_id
+                                    domainGraphLayout.domain_entity_id = entity_id
                                     domainGraphLayout.domain_id = domain_id
                                     domainGraphLayout.load_model()
                                 }
@@ -255,7 +255,7 @@ Item {
 
                             function onFilter_domain_view_by_topic_(stack_id, domain_entity_id, topic_id) {
                                 if (domainGraphLayout.component_id == stack_id &&
-                                    domainGraphLayout.entity_id == domain_entity_id)
+                                    domainGraphLayout.domain_entity_id == domain_entity_id)
                                 {
                                     domainGraphLayout.filter_model_by_topic(topic_id)
                                 }
@@ -507,9 +507,9 @@ Item {
                 for (var i=0; i<stack_layout.count; i++)
                 {
                     if (stack_layout.children[i].stack_id == tabLayout.tab_model_[idx]["stack_id"] &&
-                        stack_layout.children[i].currentItem.entity_id > 0)
+                        stack_layout.children[i].currentItem.domain_entity_id > 0)
                     {
-                        controller.domain_click(stack_layout.children[i].currentItem.entity_id)
+                        controller.domain_click(stack_layout.children[i].currentItem.domain_entity_id)
                         break;
                     }
                 }
@@ -634,7 +634,7 @@ Item {
     function refresh_domain_graph_view(domainEntityId, entityId) {
         for (var i=0; i<stack_layout.count; i++)
         {
-            if (stack_layout.children[i].currentItem.entity_id != undefined)
+            if (stack_layout.children[i].currentItem.domain_entity_id != undefined)
             {
                 if (stack_layout.children[i].currentItem.contains_entity(domainEntityId, entityId))
                 {
