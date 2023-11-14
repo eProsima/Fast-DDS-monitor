@@ -277,8 +277,8 @@ Item
         }
         IconSVG {
             id: warning_icon
-            anchors.left: error_icon.right
-            anchors.leftMargin: elements_spacing_ * 4
+            anchors.left: error_value.right
+            anchors.leftMargin: elements_spacing_ 
             anchors.verticalCenter: parent.verticalCenter
             name: "issues"
             size: parent.height - elements_spacing_
