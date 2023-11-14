@@ -92,12 +92,12 @@ void StatusTreeModel::filter(
     {
         for (int i = 0; i < source_model_->rootItem()->childCount(); i++)
         {
-            addTopLevelItem(copy(source_model_->rootItem()->child(i), entity_id));
+            addTopLevelItem(filtered_copy(source_model_->rootItem()->child(i), entity_id));
         }
     }
 }
 
-StatusTreeItem* StatusTreeModel::copy(
+StatusTreeItem* StatusTreeModel::filtered_copy(
         StatusTreeItem* source,
         const backend::EntityId entity_id)
 {
@@ -113,7 +113,7 @@ StatusTreeItem* StatusTreeModel::copy(
                 source->description_str());
         for (int i = 0; i < source->childCount(); i++)
         {
-            addItem(destination, copy(source->child(i), entity_id));
+            addItem(destination, filtered_copy(source->child(i), entity_id));
         }
         return destination;
     }
@@ -190,7 +190,7 @@ QModelIndex StatusTreeModel::parent(
 
 QVariant StatusTreeModel::data(
         const QModelIndex& index,
-        const int role) const 
+        const int role) const
 {
     return name(index, role);
 }

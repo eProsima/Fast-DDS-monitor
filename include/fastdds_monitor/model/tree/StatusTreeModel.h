@@ -187,7 +187,7 @@ private:
     StatusTreeItem* internalPointer(
             const QModelIndex& index) const;
 
-    StatusTreeItem* copy(
+    StatusTreeItem* filtered_copy(
             StatusTreeItem* source,
             const backend::EntityId entity_id);
 
