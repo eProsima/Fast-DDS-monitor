@@ -1176,10 +1176,6 @@ bool Engine::update_entity_status(
                 if(it != controller_->status_counters.errors.end())
                 {
                     controller_->status_counters.total_errors -= controller_->status_counters.errors[id];
-                    if (controller_->status_counters.total_errors < 0)
-                    {
-                        controller_->status_counters.total_errors = 0;
-                    }
                 }
                 controller_->status_counters.errors[id] = counter;
                 controller_->status_counters.total_errors += controller_->status_counters.errors[id];
@@ -1190,10 +1186,6 @@ bool Engine::update_entity_status(
                 if(it != controller_->status_counters.warnings.end())
                 {
                     controller_->status_counters.total_warnings -= controller_->status_counters.warnings[id];
-                    if (controller_->status_counters.total_warnings < 0)
-                    {
-                        controller_->status_counters.total_warnings = 0;
-                    }
                 }
                 controller_->status_counters.warnings[id] = counter;
                 controller_->status_counters.total_warnings += controller_->status_counters.warnings[id];
