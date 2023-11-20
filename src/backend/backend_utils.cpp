@@ -26,6 +26,7 @@
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/model/model_types.h>
 #include <fastdds_monitor/utils.h>
+#include <fastdds_statistics_backend/types/JSONTags.h>
 
 #include <QDebug>
 
@@ -155,16 +156,7 @@ std::string status_kind_to_string(
 std::string status_level_to_string(
         const StatusLevel& status_level)
 {
-    switch (status_level)
-    {
-        case StatusLevel::WARNING:
-            return "WARNING";
-        case StatusLevel::ERROR:
-            return "ERROR";
-        case StatusLevel::OK:
-        default:
-            return "OK";
-    }
+    return eprosima::statistics_backend::status_level_str[(int)status_level];
 }
 
 std::string data_kind_to_string(
