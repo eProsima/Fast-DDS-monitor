@@ -70,6 +70,7 @@ Item
     readonly property int scrollbar_max_size_: 12
     readonly property int topic_thickness_: 10
     readonly property int wheel_displacement_: 30
+    readonly property int timer_initial_ms_interval_: 200
     readonly property string topic_color_: Theme.grey
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
@@ -1302,9 +1303,19 @@ Item
 
     Timer {
         id: safety_timer
-        interval: 200; running: false
-        onTriggered: { interval += interval; load_model() }
-    }   function stop_timer() { safety_timer.stop() }
+        interval: timer_initial_ms_interval_; running: false
+        onTriggered: {
+            interval += interval
+            load_model()
+        }
+    }
+    function stop_timer() {
+        if (safety_timer.running)
+        {
+            safety_timer.stop()
+            safety_timer.interval = timer_initial_ms_interval_
+        }
+    }
 
     // Obtain given domain id graph JSON model
     function load_model()
