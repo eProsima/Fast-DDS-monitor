@@ -985,8 +985,7 @@ bool Engine::read_callback_(
     // Update status in info model
     if (last_entities_clicked_.dds.id == status_callback.entity_id)
     {
-        info_model_->update_selected_entity(backend::backend_id_to_models_id(
-                status_callback.entity_id), utils::to_QString(backend_connection_.get_alias(status_callback.entity_id)));
+        info_model_->update(backend_connection_.get_info(status_callback.entity_id));
     }
 
     // Remove entities from status layout if needed
