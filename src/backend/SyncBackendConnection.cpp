@@ -619,6 +619,18 @@ std::string SyncBackendConnection::get_name(
     return backend::get_info_value(get_info(id), "name");
 }
 
+std::string SyncBackendConnection::get_alias(
+        EntityId id)
+{
+    return backend::get_info_value(get_info(id), "alias");
+}
+
+StatusLevel SyncBackendConnection:: get_status(
+        EntityId id)
+{
+    return StatisticsBackend::get_status(id);
+}
+
 std::vector<StatisticsData> SyncBackendConnection::get_data(
         DataKind data_kind,
         EntityId source_entity_id,
@@ -717,6 +729,167 @@ bool SyncBackendConnection::data_available(
         data_kind, source_entity_id, target_entity_id, 1, StatisticKind::NONE, start_time, end_time);
     return !data.empty();
 }
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        ConnectionListSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        DeadlineMissedSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        IncompatibleQosSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        InconsistentTopicSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        LivelinessChangedSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        LivelinessLostSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        ProxySample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        SampleLostSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
 
 bool SyncBackendConnection::build_source_target_entities_vectors(
         DataKind data_kind,

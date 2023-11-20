@@ -360,8 +360,12 @@ void Database::callback_listener_thread_()
                     default:
                         break;
                 }
+
+                // add status callback
+                listener_->on_status_reported(std::get<2>(entity), std::get<0>(entity), StatusKind::PROXY);
             }
         }
+
     }
 
     std::cout << "DATABASE Callback Listener Thread stopping" << std::endl;

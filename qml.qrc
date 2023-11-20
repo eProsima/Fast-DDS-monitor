@@ -53,6 +53,8 @@
         <file>qml/MonitorToolBarButton.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
+        <file>qml/StatusTreeView.qml</file>
+        <file>qml/StatusTreeViewItem.qml</file>
         <file>qml/QosView.qml</file>
         <file>qml/ScheduleClearDialog.qml</file>
         <file>qml/SeriesSetMaxPointsDialog.qml</file>
@@ -60,9 +62,11 @@
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
         <file>qml/StatusPanel.qml</file>
+        <file>qml/StatusLayout.qml</file>
         <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qml/TabLayout.qml</file>
+        <file>qml/TopicMenu.qml</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
     <qresource prefix="/resources/images">
@@ -70,6 +74,8 @@
         <file alias="eprosima_logo.ico">resources/images/eprosima_logo.ico</file>
         <file alias="fastdds-monitor-logo.png">resources/images/fastdds-monitor-logo.png</file>
         <file alias="graphs.svg">resources/images/graphs.svg</file>
+        <file alias="domain_graph.svg">resources/images/domain_graph.svg</file>
+        <file alias="topic_graph.svg">resources/images/topic_graph.svg</file>
     </qresource>
     <qresource prefix="/resources/images/icons">
         <file alias="clearissues_black.svg">resources/images/icons/clearissues/clearissues_black.svg</file>
@@ -80,10 +86,15 @@
         <file alias="clearlog_eProsimaLightBlue.svg">resources/images/icons/clearlog/clearlog_eProsimaLightBlue.svg</file>
         <file alias="clearlog_grey.svg">resources/images/icons/clearlog/clearlog_grey.svg</file>
         <file alias="clearlog_white.svg">resources/images/icons/clearlog/clearlog_white.svg</file>
+        <file alias="collapse_black.svg">resources/images/icons/collapse/collapse_black.svg</file>
+        <file alias="collapse_eProsimaLightBlue.svg">resources/images/icons/collapse/collapse_eProsimaLightBlue.svg</file>
+        <file alias="collapse_grey.svg">resources/images/icons/collapse/collapse_grey.svg</file>
+        <file alias="collapse_white.svg">resources/images/icons/collapse/collapse_white.svg</file>
         <file alias="cross_black.svg">resources/images/icons/cross/cross_black.svg</file>
         <file alias="cross_eProsimaLightBlue.svg">resources/images/icons/cross/cross_eProsimaLightBlue.svg</file>
         <file alias="cross_grey.svg">resources/images/icons/cross/cross_grey.svg</file>
         <file alias="cross_white.svg">resources/images/icons/cross/cross_white.svg</file>
+        <file alias="cross_red.svg">resources/images/icons/cross/cross_red.svg</file>
         <file alias="datareader_black.svg">resources/images/icons/datareader/datareader_black.svg</file>
         <file alias="datareader_eProsimaLightBlue.svg">resources/images/icons/datareader/datareader_eProsimaLightBlue.svg</file>
         <file alias="datareader_grey.svg">resources/images/icons/datareader/datareader_grey.svg</file>
@@ -104,10 +115,27 @@
         <file alias="editaxis_eProsimaLightBlue.svg">resources/images/icons/editaxis/editaxis_eProsimaLightBlue.svg</file>
         <file alias="editaxis_grey.svg">resources/images/icons/editaxis/editaxis_grey.svg</file>
         <file alias="editaxis_white.svg">resources/images/icons/editaxis/editaxis_white.svg</file>
+        <file alias="error_black.svg">resources/images/icons/error/error_black.svg</file>
+        <file alias="error_eProsimaLightBlue.svg">resources/images/icons/error/error_eProsimaLightBlue.svg</file>
+        <file alias="error_grey.svg">resources/images/icons/error/error_grey.svg</file>
+        <file alias="error_white.svg">resources/images/icons/error/error_white.svg</file>
+        <file alias="error_red.svg">resources/images/icons/error/error_red.svg</file>
+        <file alias="expand_black.svg">resources/images/icons/expand/expand_black.svg</file>
+        <file alias="expand_eProsimaLightBlue.svg">resources/images/icons/expand/expand_eProsimaLightBlue.svg</file>
+        <file alias="expand_grey.svg">resources/images/icons/expand/expand_grey.svg</file>
+        <file alias="expand_white.svg">resources/images/icons/expand/expand_white.svg</file>
         <file alias="explorer_black.svg">resources/images/icons/explorer/explorer_black.svg</file>
         <file alias="explorer_eProsimaLightBlue.svg">resources/images/icons/explorer/explorer_eProsimaLightBlue.svg</file>
         <file alias="explorer_grey.svg">resources/images/icons/explorer/explorer_grey.svg</file>
         <file alias="explorer_white.svg">resources/images/icons/explorer/explorer_white.svg</file>
+        <file alias="filter_empty_black.svg">resources/images/icons/filter_empty/filter_empty_black.svg</file>
+        <file alias="filter_empty_eProsimaLightBlue.svg">resources/images/icons/filter_empty/filter_empty_eProsimaLightBlue.svg</file>
+        <file alias="filter_empty_grey.svg">resources/images/icons/filter_empty/filter_empty_grey.svg</file>
+        <file alias="filter_empty_white.svg">resources/images/icons/filter_empty/filter_empty_white.svg</file>
+        <file alias="filter_full_black.svg">resources/images/icons/filter_full/filter_full_black.svg</file>
+        <file alias="filter_full_eProsimaLightBlue.svg">resources/images/icons/filter_full/filter_full_eProsimaLightBlue.svg</file>
+        <file alias="filter_full_grey.svg">resources/images/icons/filter_full/filter_full_grey.svg</file>
+        <file alias="filter_full_white.svg">resources/images/icons/filter_full/filter_full_white.svg</file>
         <file alias="grid1_black.svg">resources/images/icons/grid1/grid1_black.svg</file>
         <file alias="grid1_eProsimaLightBlue.svg">resources/images/icons/grid1/grid1_eProsimaLightBlue.svg</file>
         <file alias="grid1_grey.svg">resources/images/icons/grid1/grid1_grey.svg</file>
@@ -195,5 +223,21 @@
         <file alias="help_eProsimaLightBlue.svg">resources/images/icons/help/help_eProsimaLightBlue.svg</file>
         <file alias="help_grey.svg">resources/images/icons/help/help_grey.svg</file>
         <file alias="help_white.svg">resources/images/icons/help/help_white.svg</file>
+        <file alias="left_arrow_black.svg">resources/images/icons/left_arrow/left_arrow_black.svg</file>
+        <file alias="left_arrow_eProsimaLightBlue.svg">resources/images/icons/left_arrow/left_arrow_eProsimaLightBlue.svg</file>
+        <file alias="left_arrow_grey.svg">resources/images/icons/left_arrow/left_arrow_grey.svg</file>
+        <file alias="left_arrow_white.svg">resources/images/icons/left_arrow/left_arrow_white.svg</file>
+        <file alias="right_arrow_black.svg">resources/images/icons/right_arrow/right_arrow_black.svg</file>
+        <file alias="right_arrow_eProsimaLightBlue.svg">resources/images/icons/right_arrow/right_arrow_eProsimaLightBlue.svg</file>
+        <file alias="right_arrow_grey.svg">resources/images/icons/right_arrow/right_arrow_grey.svg</file>
+        <file alias="right_arrow_white.svg">resources/images/icons/right_arrow/right_arrow_white.svg</file>
+        <file alias="rounded_left_arrow_black.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_black.svg</file>
+        <file alias="rounded_left_arrow_eProsimaLightBlue.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_eProsimaLightBlue.svg</file>
+        <file alias="rounded_left_arrow_grey.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_grey.svg</file>
+        <file alias="rounded_left_arrow_white.svg">resources/images/icons/rounded_left_arrow/rounded_left_arrow_white.svg</file>
+        <file alias="rounded_right_arrow_black.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_black.svg</file>
+        <file alias="rounded_right_arrow_eProsimaLightBlue.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_eProsimaLightBlue.svg</file>
+        <file alias="rounded_right_arrow_grey.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_grey.svg</file>
+        <file alias="rounded_right_arrow_white.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_white.svg</file>
     </qresource>
 </RCC>

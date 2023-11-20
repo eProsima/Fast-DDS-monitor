@@ -30,12 +30,19 @@ RowLayout {
     // If is set to true, the left sidebar was opened, and false if it was closed.
     property bool prevFullScreenLeftSidebarState: true
 
+    // private properties
+    property int status_layout_height: status_layout_min_height_
+
     signal openCloseLeftSideBar
     signal changeChartboxLayout(int chartsPerRow)
     signal explorerDDSEntitiesChanged(bool status)
     signal explorerPhysicalChanged(bool status)
     signal explorerLogicalChanged(bool status)
     signal explorerEntityInfoChanged(bool status)
+
+    // Read only design properties
+    readonly property int status_layout_min_height_: 24
+
 
     onOpenCloseLeftSideBar: {
         if (panels.showLeftSidebar) {
@@ -90,24 +97,66 @@ RowLayout {
             onExplorerPhysicalChanged: panels.explorerPhysicalChanged(status)
             onExplorerLogicalChanged: panels.explorerLogicalChanged(status)
             onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
+            onOpen_topic_view: tabs.open_topic_view(domainEntityId, domainId, entityId)
+            onRefresh_domain_graph_view: tabs.refresh_domain_graph_view(domainEntityId, entityId)
+            onFilter_entity_status_log: statusLayout.filter_entity_status_log(entityId)
         }
 
-        TabLayout {
-            id: tabs
+        Rectangle {
             SplitView.fillWidth: true
-            clip: true
 
-            onFullScreenChanged: {
-                if (fullScreen) {
-                    if (showLeftSidebar) {
-                        openCloseLeftSideBar()
-                        prevFullScreenLeftSidebarState = true
-                    } else {
-                        prevFullScreenLeftSidebarState = false
+            SplitView {
+                id: tabsSplitView
+                anchors.fill: parent
+                orientation: Qt.Vertical
+
+                TabLayout {
+                    id: tabs
+                    SplitView.fillWidth: true
+                    SplitView.fillHeight: true
+                    SplitView.preferredHeight: parent.height - parent.height / 5
+                    clip: true
+
+                    onFullScreenChanged: {
+                        if (fullScreen) {
+                            if (showLeftSidebar) {
+                                openCloseLeftSideBar()
+                                prevFullScreenLeftSidebarState = true
+                            } else {
+                                prevFullScreenLeftSidebarState = false
+                            }
+                        } else {
+                            if (!showLeftSidebar && prevFullScreenLeftSidebarState) {
+                                openCloseLeftSideBar()
+                            }
+                        }
                     }
-                } else {
-                    if (!showLeftSidebar && prevFullScreenLeftSidebarState) {
-                        openCloseLeftSideBar()
+                    onOpenEntitiesMenu: {
+                        panels.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
+                    }
+                    onOpenTopicMenu: {
+                        panels.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
+                    }
+                }
+                StatusLayout {
+                    id: statusLayout
+                    SplitView.preferredHeight: status_layout_height
+                    SplitView.minimumHeight: status_layout_min_height_
+                    clip: true
+                    current_status: StatusLayout.Status.Collapsed
+                    footer_height: status_layout_min_height_
+
+                    onClose_status_layout: {
+                        status_layout_height = status_layout_min_height_
+                        statusLayout.current_status = StatusLayout.Status.Closed
+                    }
+                    onCollapse_status_layout: {
+                        status_layout_height = tabsSplitView.height / 5
+                        statusLayout.current_status = StatusLayout.Status.Collapsed
+                    }
+                    onExpand_status_layout: {
+                        status_layout_height = tabsSplitView.height
+                        statusLayout.current_status = StatusLayout.Status.Expanded
                     }
                 }
             }
@@ -144,5 +193,13 @@ RowLayout {
 
     function changeExplorerEntityInfo(status) {
         leftPanel.changeExplorerEntityInfo(status)
+    }
+
+    function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind) {
+        leftPanel.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
+    }
+
+    function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind) {
+        leftPanel.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
     }
 }

@@ -26,6 +26,7 @@
 #include <QString>
 
 #include <fastdds_statistics_backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/JSONTags.h>
 
 namespace backend {
 
@@ -33,9 +34,22 @@ namespace backend {
 using EntityId = eprosima::statistics_backend::EntityId;
 using EntityKind = eprosima::statistics_backend::EntityKind;
 using DataKind = eprosima::statistics_backend::DataKind;
+using StatusKind = eprosima::statistics_backend::StatusKind;
+using StatusLevel = eprosima::statistics_backend::StatusLevel;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
 using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
+
+// Status types from backend
+using ConnectionListSample = eprosima::statistics_backend::ConnectionListSample;
+using DeadlineMissedSample = eprosima::statistics_backend::DeadlineMissedSample;
+using IncompatibleQosSample = eprosima::statistics_backend::IncompatibleQosSample;
+using InconsistentTopicSample = eprosima::statistics_backend::InconsistentTopicSample;
+using LivelinessChangedSample = eprosima::statistics_backend::LivelinessChangedSample;
+using LivelinessLostSample = eprosima::statistics_backend::LivelinessLostSample;
+using ProxySample = eprosima::statistics_backend::ProxySample;
+using SampleLostSample = eprosima::statistics_backend::SampleLostSample;
+//using StatusesSizeSample = eprosima::statistics_backend::StatusesSizeSample;
 
 //! Reference the ID_ALL in the project
 extern const EntityId ID_ALL;
