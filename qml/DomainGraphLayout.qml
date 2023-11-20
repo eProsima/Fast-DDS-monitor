@@ -1049,9 +1049,9 @@ Item
                                                         visible: parent.visible
                                                         source: "/resources/images/app_icons/" + modelData["app_id"] + ".svg"
                                                         readonly property int amlip_offset_: 5
-                                                        sourceSize.width: modelData["app_id"] == "AML-IP"
+                                                        sourceSize.width: modelData["app_id"] == "AML_IP"
                                                                 ? parent.height + amlip_offset_ : parent.height
-                                                        sourceSize.height: modelData["app_id"] == "AML-IP"
+                                                        sourceSize.height: modelData["app_id"] == "AML_IP"
                                                                 ? parent.height + amlip_offset_ : parent.height
                                                     }
                                                 }
