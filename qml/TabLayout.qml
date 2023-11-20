@@ -19,11 +19,17 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import Theme 1.0
+
 Item {
     id: tabLayout
 
     // Public properties
     property bool fullScreen: false                                         // ChartsLayout inherited var
+
+    // Public signals
+    signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
+    signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
 
     // Private properties
     property int current_: 0                                                // current tab displayed
@@ -34,6 +40,7 @@ Item {
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
     signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
+    signal filter_domain_view_by_topic_(int stack_id, int domain_entity_id, string topic_id)
 
     // Read only design properties
     readonly property int max_tabs_: 15
@@ -95,10 +102,38 @@ Item {
                             width: childrenRect.width
                             spacing: 60
                             Button {
+                                id: chart_button
                                 width: 400; height: 400
+                                background: Rectangle {
+                                    color: disable_chart_selection_ ? Theme.lightGrey : Theme.whiteSmoke
+                                    border.width: 3
+                                    border.color: disable_chart_selection_ ? Theme.grey :
+                                            chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    radius: 40
+
+                                    Image {
+                                        anchors.centerIn: parent
+                                        anchors.verticalCenterOffset: -50
+                                        smooth: true
+                                        source: "/resources/images/graphs.svg/"
+                                        property int size: 25
+                                        sourceSize.width: size * 16
+                                        sourceSize.height: size * 9
+                                    }
+
+                                    Text {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        anchors.bottom: parent.bottom; anchors.bottomMargin: 50
+                                        width: parent.width
+                                        text: "Chart View"
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.pointSize: 20
+                                        color: disable_chart_selection_ ? Theme.grey :
+                                                chart_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    }
+                                }
                                 anchors.verticalCenter: parent.verticalCenter
                                 enabled: !disable_chart_selection_
-                                text: "Chart View"
                                 onClicked: {
                                     if (!disable_chart_selection_)
                                     {
@@ -114,9 +149,35 @@ Item {
                                 }
                             }
                             Button {
+                                id: domain_view_button
                                 width: 400; height: 400
+                                background: Rectangle {
+                                    color: Theme.whiteSmoke
+                                    border.width: 3
+                                    border.color: domain_view_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    radius: 40
+
+                                    Image {
+                                        anchors.centerIn: parent
+                                        anchors.verticalCenterOffset: -50
+                                        smooth: true
+                                        source: "/resources/images/domain_graph.svg/"
+                                        property int size: 30
+                                        sourceSize.width: size * 16
+                                        sourceSize.height: size * 9
+                                    }
+
+                                    Text {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        anchors.bottom: parent.bottom; anchors.bottomMargin: 50
+                                        width: parent.width
+                                        text: "Domain View"
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.pointSize: 20
+                                        color: domain_view_button.hovered ? Theme.eProsimaLightBlue : Theme.eProsimaDarkBlue
+                                    }
+                                }
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: "Domain View"
                                 onClicked: {
                                     if (mainApplicationView.monitors == 0)
                                     {
@@ -149,21 +210,35 @@ Item {
                         component_id: stack.stack_id
 
                         onUpdate_tab_name: {
-                            tabLayout.tab_model_[current_]["title"] = new_name
-
-                            // update model to set the visual change
-                            tab_list.model = tabLayout.tab_model_
-
-                            // update left panel information
-                            for (var i=0; i<stack_layout.count; i++)
+                            for (var i = 0; i<tabLayout.tab_model_.length; i++)
                             {
-                                if (stack_layout.children[i].stack_id == tabLayout.tab_model_[current_]["stack_id"] &&
-                                    stack_layout.children[i].currentItem.entity_id > 0)
+                                if (tabLayout.tab_model_[i]["stack_id"] == stack_id)
                                 {
-                                    controller.domain_click(stack_layout.children[i].currentItem.entity_id)
-                                    break;
+                                    tabLayout.tab_model_[i]["title"] = new_name
+
+                                    // update model to set the visual change
+                                    tab_list.model = tabLayout.tab_model_
+
+                                    // update left panel information
+                                    for (var j=0; j<stack_layout.count; j++)
+                                    {
+                                        if (stack_layout.children[j].stack_id == tabLayout.tab_model_[i]["stack_id"] &&
+                                            stack_layout.children[j].currentItem.domain_entity_id > 0)
+                                        {
+                                            controller.domain_click(stack_layout.children[j].currentItem.domain_entity_id)
+                                            break;
+                                        }
+                                    }
+                                    break       // exit loop
                                 }
                             }
+                        }
+
+                        onOpenEntitiesMenu: {
+                            tabLayout.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
+                        }
+                        onOpenTopicMenu: {
+                            tabLayout.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
                         }
 
                         Connections {
@@ -172,9 +247,17 @@ Item {
                             function onInitialize_domain_view_(stack_id, entity_id, domain_id) {
                                 if (domainGraphLayout.component_id == stack_id)
                                 {
-                                    domainGraphLayout.entity_id = entity_id
+                                    domainGraphLayout.domain_entity_id = entity_id
                                     domainGraphLayout.domain_id = domain_id
                                     domainGraphLayout.load_model()
+                                }
+                            }
+
+                            function onFilter_domain_view_by_topic_(stack_id, domain_entity_id, topic_id) {
+                                if (domainGraphLayout.component_id == stack_id &&
+                                    domainGraphLayout.domain_entity_id == domain_entity_id)
+                                {
+                                    domainGraphLayout.filter_model_by_topic(topic_id)
                                 }
                             }
                         }
@@ -185,7 +268,7 @@ Item {
                 Connections {
                     target: tabLayout
 
-                    function onOpen_domain_view_(stack_id, entity_id, domain_id) {
+                    function onOpen_domain_view_(stack_id, entity_id, domain_id, topic_id) {
                         if (stack.stack_id == stack_id)
                         {
                             if (stack.deep > 1)
@@ -423,9 +506,10 @@ Item {
             {
                 for (var i=0; i<stack_layout.count; i++)
                 {
-                    if (stack_layout.children[i].stack_id == tabLayout.tab_model_[idx]["stack_id"])
+                    if (stack_layout.children[i].stack_id == tabLayout.tab_model_[idx]["stack_id"] &&
+                        stack_layout.children[i].currentItem.domain_entity_id > 0)
                     {
-                        controller.domain_click(stack_layout.children[i].currentItem.entity_id)
+                        controller.domain_click(stack_layout.children[i].currentItem.domain_entity_id)
                         break;
                     }
                 }
@@ -539,5 +623,24 @@ Item {
 
     function chartsLayout_saveAllCSV() {
         chartsLayout.saveAllCSV()
+    }
+
+    function open_topic_view(domainEntityId, domainId, entityId) {
+        create_new_tab()
+        open_domain_view_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, domainId)
+        filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
+    }
+
+    function refresh_domain_graph_view(domainEntityId, entityId) {
+        for (var i=0; i<stack_layout.count; i++)
+        {
+            if (stack_layout.children[i].currentItem.domain_entity_id != undefined)
+            {
+                if (stack_layout.children[i].currentItem.contains_entity(domainEntityId, entityId))
+                {
+                    stack_layout.children[i].currentItem.load_model()
+                }
+            }
+        }
     }
 }

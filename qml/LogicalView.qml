@@ -63,6 +63,7 @@ Rectangle {
             height: domainListColumn.childrenRect.height
 
             property var domainId: id
+            property var domainName: name
             property int domainIdx: index
             property var topicList: topicList
 
@@ -96,7 +97,7 @@ Rectangle {
                         }
                         onClicked: {
                             if(mouse.button & Qt.RightButton) {
-                                openEntitiesMenu(id, name, kind)
+                                openEntitiesMenu(domainId, id, name, kind)
                             } else {
                                 controller.domain_click(id)
                             }
@@ -166,7 +167,7 @@ Rectangle {
 
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(id, name, kind)
+                                            openTopicMenu(domainId, domainName, id, name, kind)
                                         } else {
                                             controller.topic_click(id)
                                         }

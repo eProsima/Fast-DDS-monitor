@@ -90,7 +90,7 @@ Rectangle {
                         }
                         onClicked: {
                             if(mouse.button & Qt.RightButton) {
-                                openEntitiesMenu(id, name, kind)
+                                openEntitiesMenu("", id, name, kind)
                             } else {
                                 controller.host_click(id)
                             }
@@ -174,7 +174,7 @@ Rectangle {
                                     }
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(id, name, kind)
+                                            openEntitiesMenu("", id, name, kind)
                                         } else {
                                             controller.user_click(id)
                                         }
@@ -246,7 +246,7 @@ Rectangle {
 
                                                 onClicked: {
                                                     if(mouse.button & Qt.RightButton) {
-                                                        openEntitiesMenu(id, name, kind)
+                                                        openEntitiesMenu("", id, name, kind)
                                                     } else {
                                                         controller.process_click(id)
                                                     }

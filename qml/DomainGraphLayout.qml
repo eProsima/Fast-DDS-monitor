@@ -27,12 +27,14 @@ Item
 
     // Public properties
     property var model: {}                          // domain view graph JSON model
-    property int entity_id                          // entity id associated to the domain id
+    property int domain_entity_id                   // entity id associated to the domain id
     property int domain_id                          // domain id
     required property string component_id           // mandatory to be included when object created
 
     // Public signals
-    signal update_tab_name(string new_name)         // Update tab name based on selected domain id
+    signal update_tab_name(string new_name, string stack_id)  // Update tab name based on selected domain id
+    signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
+    signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
 
     // Private properties
     property var topic_locations_: {}               // topic information needed for connection representation
@@ -41,7 +43,8 @@ Item
     property var endpoint_painted_: []              // already painted endpoint connection references
     property var pending_endpoints_: []             // pending endpoints references that have not been resized yet
     property var pending_connections_: []           // pending connections references that have not been generated yet
-    property int entity_box_width_: 0               // entities box width management
+    property var filtered_topics_: []               // flitered topic entity id in the graph
+    property int entity_box_width_: 0               // entity box width management
 
     // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
     //    HOST       TOPIC ─┐                 the order displayed in the left figure. All entities width value are
@@ -54,18 +57,20 @@ Item
 
     // Read only design properties (sizes and colors)
     readonly property int radius_: 10
-    readonly property int connection_thickness_: 5
-    readonly property int elements_spacing_: 12
+    readonly property int connection_thickness_: 6
+    readonly property int elements_spacing_: 5
     readonly property int containers_spacing_: 100
-    readonly property int endpoint_height_: 40
+    readonly property int endpoint_height_: 30
     readonly property int first_indentation_: 5
     readonly property int icon_size_: 18
-    readonly property int label_height_: 35
+    readonly property int label_height_: 25
     readonly property int spacing_icon_label_: 8
+    readonly property int spacing_icon_: 4
     readonly property int scrollbar_min_size_: 8
     readonly property int scrollbar_max_size_: 12
     readonly property int topic_thickness_: 10
     readonly property int wheel_displacement_: 30
+    readonly property int timer_initial_ms_interval_: 200
     readonly property string topic_color_: Theme.grey
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
@@ -229,9 +234,14 @@ Item
                     MouseArea
                     {
                         anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked:
                         {
-                            controller.topic_click(modelData["id"])
+                            if(mouse.button & Qt.RightButton) {
+                                openTopicMenu(domain_entity_id, domain_id, modelData["id"], modelData["alias"], modelData["kind"])
+                            } else {
+                                controller.topic_click(modelData["id"])
+                            }
                         }
                     }
                 }
@@ -531,18 +541,20 @@ Item
 
                             Rectangle {
                                 color: "transparent"
-                                width: modelData["status"] != "OK"
-                                    ? first_indentation_ : 0
-                            }
-                            IconSVG {
-                                visible: modelData["status"] != "OK"
-                                name: "issues"
-                                color: "white"
-                                size: modelData["status"] != "OK"? icon_size_ : 0
+                                width: first_indentation_
                             }
                             Rectangle {
-                                color: "transparent"
-                                width: first_indentation_ /2
+                                visible: modelData["status"] != "OK"
+                                color: modelData["status"] == "WARNING" ? "transparent" : "white"
+                                width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                IconSVG {
+                                    anchors.centerIn: parent
+                                    name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                    size: modelData["status"] != "OK"? icon_size_ : 0
+                                }
                             }
                             IconSVG {
                                 name: "host"
@@ -558,9 +570,14 @@ Item
                         MouseArea
                         {
                             anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                             onClicked:
                             {
-                                controller.host_click(modelData["id"])
+                                if(mouse.button & Qt.RightButton) {
+                                    openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                } else {
+                                    controller.host_click(modelData["id"])
+                                }
                             }
                         }
                     }
@@ -668,18 +685,20 @@ Item
 
                                     Rectangle {
                                         color: "transparent"
-                                        width: modelData["status"] != "OK"
-                                            ? first_indentation_ : 0
-                                    }
-                                    IconSVG {
-                                        visible: modelData["status"] != "OK"
-                                        name: "issues"
-                                        color: "white"
-                                        size: modelData["status"] != "OK"? icon_size_ : 0
+                                        width: first_indentation_
                                     }
                                     Rectangle {
-                                        color: "transparent"
-                                        width: first_indentation_ /2
+                                        visible: modelData["status"] != "OK"
+                                        color: modelData["status"] == "WARNING" ? "transparent" : "white"
+                                        width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                        height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                        radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                        IconSVG {
+                                            anchors.centerIn: parent
+                                            name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                            color: modelData["status"] == "WARNING" ? "black" : "red"
+                                            size: modelData["status"] != "OK"? icon_size_ : 0
+                                        }
                                     }
                                     IconSVG {
                                         name: "user"
@@ -695,9 +714,14 @@ Item
                                 MouseArea
                                 {
                                     anchors.fill: parent
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                                     onClicked:
                                     {
-                                        controller.user_click(modelData["id"])
+                                        if(mouse.button & Qt.RightButton) {
+                                            openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                        } else {
+                                            controller.user_click(modelData["id"])
+                                        }
                                     }
                                 }
                             }
@@ -804,18 +828,20 @@ Item
 
                                             Rectangle {
                                                 color: "transparent"
-                                                width: modelData["status"] != "OK"
-                                                    ? first_indentation_ : 0
-                                            }
-                                            IconSVG {
-                                                visible: modelData["status"] != "OK"
-                                                name: "issues"
-                                                color: "white"
-                                                size: modelData["status"] != "OK"? icon_size_ : 0
+                                                width: first_indentation_
                                             }
                                             Rectangle {
-                                                color: "transparent"
-                                                width: first_indentation_ /2
+                                                visible: modelData["status"] != "OK"
+                                                color: modelData["status"] == "WARNING" ? "transparent" : "white"
+                                                width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                IconSVG {
+                                                    anchors.centerIn: parent
+                                                    name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                    size: modelData["status"] != "OK"? icon_size_ : 0
+                                                }
                                             }
                                             IconSVG {
                                                 name: "process"
@@ -831,9 +857,14 @@ Item
                                         MouseArea
                                         {
                                             anchors.fill: parent
+                                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                                             onClicked:
                                             {
-                                                controller.process_click(modelData["id"])
+                                                if(mouse.button & Qt.RightButton) {
+                                                    openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                                } else {
+                                                    controller.process_click(modelData["id"])
+                                                }
                                             }
                                         }
                                     }
@@ -940,20 +971,23 @@ Item
 
                                                     Rectangle {
                                                         color: "transparent"
-                                                        width: modelData["status"] != "OK"
-                                                            ? first_indentation_ : 0
-                                                    }
-                                                    IconSVG {
-                                                        visible: modelData["status"] != "OK"
-                                                        name: "issues"
-                                                        size: modelData["status"] != "OK"? icon_size_ : 0
+                                                        width: first_indentation_
                                                     }
                                                     Rectangle {
-                                                        color: "transparent"
-                                                        width: first_indentation_ /2
+                                                        visible: modelData["status"] != "OK"
+                                                        color: modelData["status"] == "WARNING" ? "transparent" : "white"
+                                                        width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                        height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                        radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                        IconSVG {
+                                                            anchors.centerIn: parent
+                                                            name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                                            color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                            size: modelData["status"] != "OK"? icon_size_ : 0
+                                                        }
                                                     }
                                                     IconSVG {
-                                                        name: modelData["kind"]
+                                                        name: "participant"
                                                         size: icon_size_
                                                     }
                                                     Label {
@@ -964,9 +998,14 @@ Item
                                                 MouseArea
                                                 {
                                                     anchors.fill: parent
+                                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                                                     onClicked:
                                                     {
-                                                        controller.participant_click(modelData["id"])
+                                                        if(mouse.button & Qt.RightButton) {
+                                                            openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                                        } else {
+                                                            controller.participant_click(modelData["id"])
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1083,8 +1122,8 @@ Item
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
                                                         var src_x = globalCoordinates.x + entity_box_width_-(8*elements_spacing_)
                                                         var src_y = modelData["accum_y"] + (endpointComponent.height / 2)
-                                                        var left_direction = modelData["kind"] == "datareader"
-                                                        var right_direction = modelData["kind"] == "datawriter"
+                                                        var left_direction = modelData["kind"] == "DataReader"
+                                                        var right_direction = modelData["kind"] == "DataWriter"
 
                                                         endpoint_topic_connections_[modelData["id"]] = {
                                                             "id":  modelData["id"], "left_direction": left_direction,
@@ -1104,7 +1143,7 @@ Item
                                                         id: endpoint_background
                                                         width: parent.width
                                                         height: endpoint_height_
-                                                        color: modelData["kind"] == "datareader" ? reader_color_ : writer_color_
+                                                        color: modelData["kind"] == "DataReader" ? reader_color_ : writer_color_
                                                         radius: radius_
                                                     }
 
@@ -1128,20 +1167,24 @@ Item
 
                                                             Rectangle {
                                                                 color: "transparent"
-                                                                width: modelData["status"] != "OK"
-                                                                    ? first_indentation_ : 0
-                                                            }
-                                                            IconSVG {
-                                                                visible: modelData["status"] != "OK"
-                                                                name: "issues"
-                                                                size: modelData["status"] != "OK"? icon_size_ : 0
+                                                                width: first_indentation_
                                                             }
                                                             Rectangle {
-                                                                color: "transparent"
-                                                                width: first_indentation_ /2
+                                                                visible: modelData["status"] != "OK"
+                                                                color: modelData["status"] == "WARNING" ? "transparent" : "white"
+                                                                width: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                                height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                                radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
+                                                                IconSVG {
+                                                                    anchors.centerIn: parent
+                                                                    name: modelData["status"] == "WARNING" ? "issues" : "error"
+                                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                                    size: modelData["status"] != "OK"? icon_size_ : 0
+                                                                }
                                                             }
                                                             IconSVG {
-                                                                name: modelData["kind"]
+                                                                name: modelData["kind"] == "DataReader"
+                                                                    ? "datareader" : "datawriter"
                                                                 size: icon_size_
                                                             }
                                                             Label {
@@ -1152,9 +1195,14 @@ Item
                                                         MouseArea
                                                         {
                                                             anchors.fill: parent
+                                                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                                                             onClicked:
                                                             {
-                                                                controller.endpoint_click(modelData["id"])
+                                                                if(mouse.button & Qt.RightButton) {
+                                                                    openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                                                } else {
+                                                                    controller.endpoint_click(modelData["id"])
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -1230,16 +1278,6 @@ Item
         }
     }
 
-    // footer section to cut entities layout
-    Rectangle {
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        height: elements_spacing_
-        width: entity_box_width_ + 2*elements_spacing_
-        color: "white"
-        z: 14
-    }
-
     // Empty screen message
     Rectangle {
         anchors.fill: parent
@@ -1265,18 +1303,48 @@ Item
 
     Timer {
         id: safety_timer
-        interval: 200; running: false
-        onTriggered: { interval += interval; load_model() }
-    }   function stop_timer() { safety_timer.stop() }
+        interval: timer_initial_ms_interval_; running: false
+        onTriggered: {
+            interval += interval
+            load_model()
+        }
+    }
+    function stop_timer() {
+        if (safety_timer.running)
+        {
+            safety_timer.stop()
+            safety_timer.interval = timer_initial_ms_interval_
+        }
+    }
 
     // Obtain given domain id graph JSON model
     function load_model()
     {
+        if (filtered_topics_.length > 0)
+        {
+            filter_model_by_topic (filtered_topics_[filtered_topics_.length-1])
+        }
+        else
+        {
+            filter_model_by_topic ("")
+        }
+    }
+
+    // Filter model by topic
+    function filter_model_by_topic (topic_id)
+    {
+        // topic id management
+        var topic_names = []
+        if (topic_id != "" && !filtered_topics_.includes(topic_id))
+        {
+            filtered_topics_[filtered_topics_.length] = topic_id;
+        }
+
         // clear internal models
         clear_graph()
 
         // Obtain model from backend
-        var model_string = controller.get_domain_view_graph(entity_id)
+        var model_string = controller.get_domain_view_graph(domain_entity_id)
 
         // declare obtained hosts and topics variables
         var new_topics = []
@@ -1299,37 +1367,63 @@ Item
                     var metatraffic_ = new_model["topics"][topic]["metatraffic"]
                     if (metatraffic_ != true || is_metatraffic_visible_)
                     {
-                        new_topics[new_topics.length] = {
-                            "id":topic,
-                            "kind":new_model["topics"][topic]["kind"],
-                            "alias":new_model["topics"][topic]["alias"]
+                        if (filtered_topics_.length > 0)
+                        {
+                            for (var i = 0; i < filtered_topics_.length; i++)
+                            {
+                                if (filtered_topics_[i] == topic)
+                                {
+                                    topic_names[i] = new_model["topics"][topic]["alias"]
+                                    new_topics[new_topics.length] = {
+                                        "id":topic,
+                                        "kind":"Topic",
+                                        "alias":new_model["topics"][topic]["alias"]
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            new_topics[new_topics.length] = {
+                                "id":topic,
+                                "kind":"Topic",
+                                "alias":new_model["topics"][topic]["alias"]
+                            }
                         }
                     }
                 }
                 var accum_y = 0
+                var host_temp_y = 0
                 for (var host in new_model["hosts"])
                 {
+                    var discard_host = true
                     var metatraffic_ = new_model["hosts"][host]["metatraffic"]
                     if (metatraffic_ != true || is_metatraffic_visible_)
                     {
                         accum_y += label_height_ + elements_spacing_
                         var new_users = []
+                        var user_temp_y = accum_y
                         for (var user in new_model["hosts"][host]["users"])
                         {
+                            var discard_user = true
                             var metatraffic_ = new_model["hosts"][host]["users"][user]["metatraffic"]
                             if (metatraffic_ != true || is_metatraffic_visible_)
                             {
                                 accum_y += label_height_ + elements_spacing_
                                 var new_processes = []
+                                var process_temp_y = accum_y
                                 for (var process in new_model["hosts"][host]["users"][user]["processes"])
                                 {
+                                    var discard_process = true
                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["metatraffic"]
                                     if (metatraffic_ != true || is_metatraffic_visible_)
                                     {
                                         accum_y += label_height_ + elements_spacing_
                                         var new_participants = []
+                                        var participant_temp_y = accum_y
                                         for (var participant in new_model["hosts"][host]["users"][user]["processes"][process]["participants"])
                                         {
+                                            var discard_participant = true
                                             var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["metatraffic"]
                                             if (metatraffic_ != true || is_metatraffic_visible_)
                                             {
@@ -1340,60 +1434,103 @@ Item
                                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["metatraffic"]
                                                     if (metatraffic_ != true || is_metatraffic_visible_)
                                                     {
-                                                        new_endpoints[new_endpoints.length] = {
-                                                            "id":endpoint,
-                                                            "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"],
-                                                            "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
-                                                            "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
-                                                            "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
-                                                            "accum_y":accum_y
+                                                        if ((!filtered_topics_.length) || (filtered_topics_.length > 0
+                                                            && filtered_topics_.includes(new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"])))
+                                                        {
+                                                            discard_participant = false; discard_process = false; discard_user = false; discard_host = false
+                                                            var kind = "DataWriter"
+                                                            if (new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["kind"] == "datareader")
+                                                            {
+                                                                kind = "DataReader"
+                                                            }
+                                                            new_endpoints[new_endpoints.length] = {
+                                                                "id":endpoint,
+                                                                "kind":kind,
+                                                                "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
+                                                                "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
+                                                                "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
+                                                                "accum_y":accum_y
+                                                            }
+                                                            accum_y += endpoint_height_ + elements_spacing_
+                                                            pending_endpoints_[pending_endpoints_.length] = endpoint
                                                         }
-                                                        accum_y += endpoint_height_ + elements_spacing_
-                                                        pending_endpoints_[pending_endpoints_.length] = endpoint
                                                     }
                                                 }
-                                                new_participants[new_participants.length] = {
-                                                    "id":participant,
-                                                    "kind":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["kind"],
-                                                    "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
-                                                    "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
-                                                    "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
-                                                    "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
-                                                    "endpoints":new_endpoints
+                                                if (!discard_participant)
+                                                {
+                                                    new_participants[new_participants.length] = {
+                                                        "id":participant,
+                                                        "kind": "DomainParticipant",
+                                                        "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["alias"],
+                                                        "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
+                                                        "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
+                                                        "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
+                                                        "endpoints":new_endpoints
+                                                    }
+                                                    accum_y += elements_spacing_
+                                                    participant_temp_y = accum_y
                                                 }
-                                                accum_y += elements_spacing_
+                                                else
+                                                {
+                                                    accum_y = participant_temp_y
+                                                }
                                             }
                                         }
-                                        new_processes[new_processes.length] = {
-                                            "id":process,
-                                            "kind":new_model["hosts"][host]["users"][user]["processes"][process]["kind"],
-                                            "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
-                                            "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
-                                            "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
-                                            "participants":new_participants
+                                        if (!discard_process)
+                                        {
+                                            new_processes[new_processes.length] = {
+                                                "id":process,
+                                                "kind":"Process",
+                                                "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
+                                                "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
+                                                "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
+                                                "participants":new_participants
+                                            }
+                                            accum_y += elements_spacing_
+                                            process_temp_y = accum_y
                                         }
-                                        accum_y += elements_spacing_
+                                        else
+                                        {
+                                            accum_y = process_temp_y
+                                        }
                                     }
                                 }
-                                new_users[new_users.length] = {
-                                    "id":user,
-                                    "kind":new_model["hosts"][host]["users"][user]["kind"],
-                                    "alias":new_model["hosts"][host]["users"][user]["alias"],
-                                    "status":new_model["hosts"][host]["users"][user]["status"],
-                                    "processes":new_processes
+                                if (!discard_user)
+                                {
+                                    new_users[new_users.length] = {
+                                        "id":user,
+                                        "kind": "User",
+                                        "alias":new_model["hosts"][host]["users"][user]["alias"],
+                                        "status":new_model["hosts"][host]["users"][user]["status"],
+                                        "processes":new_processes
+                                    }
+                                    accum_y += elements_spacing_
+                                    user_temp_y = accum_y
                                 }
-                                accum_y += elements_spacing_
+                                else
+                                {
+                                    accum_y = user_temp_y
+                                }
                             }
                         }
-                        new_hosts[new_hosts.length] = {
-                            "id":host,
-                            "kind":new_model["hosts"][host]["kind"],
-                            "alias":new_model["hosts"][host]["alias"],
-                            "status":new_model["hosts"][host]["status"],
-                            "users":new_users
+                        if (!discard_host)
+                        {
+                            new_hosts[new_hosts.length] = {
+                                "id":host,
+                                "kind":"Host",
+                                "alias":new_model["hosts"][host]["alias"],
+                                "status":new_model["hosts"][host]["status"],
+                                "users":new_users
+                            }
+                            accum_y += elements_spacing_
+                            host_temp_y = accum_y
                         }
-                        accum_y += elements_spacing_
+                        else
+                        {
+                            accum_y = host_temp_y
+                        }
                     }
+
                 }
                 model = {
                     "kind": new_model["kind"],
@@ -1423,12 +1560,39 @@ Item
                 "hosts": [],
             }
 
+            // disable recovery timer
+            stop_timer();
+
             // display empty screen label
             emptyScreenLabel.visible = true
         }
 
         // Update tab name with selected domain id
-        domainGraphLayout.update_tab_name("Domain " + domain_id + " View")
+        if (filtered_topics_.length > 0)
+        {
+            if (filtered_topics_.length == 1)
+            {
+                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View", component_id)
+            }
+            else
+            {
+                var print_topic_names = topic_names[0]
+                for (var i = 1; i < topic_names.length -1; i++)
+                {
+                    print_topic_names += ", " + topic_names[i]
+                }
+                if (print_topic_names.length-1 > 0)
+                {
+                    print_topic_names += " and " + topic_names[topic_names.length-1]
+                }
+
+                domainGraphLayout.update_tab_name(print_topic_names + " Topics View", component_id)
+            }
+        }
+        else
+        {
+            domainGraphLayout.update_tab_name("Domain " + domain_id + " View", component_id)
+        }
     }
 
     // remove drawn connections
@@ -1457,5 +1621,88 @@ Item
                 topic_connections.children[i].destroy()
             }
         }
+    }
+
+    // check if model contains entity
+    function contains_entity(domainEntityId, entityId)
+    {
+        // check if domainEntityId has content
+        if (domainEntityId != "")
+        {
+            // belongs to the current domain
+            if (domain_entity_id.toString() != domainEntityId)
+            {
+                return false
+            }
+        }
+        // check all entities by entityId
+
+        // check domain
+        if(domain_entity_id.toString() == entityId)
+        {
+            return true
+        }
+
+        // check topics
+        for (var topic in model["topics"])
+        {
+            if (model["topics"][topic]["id"] == entityId)
+            {
+                return true
+            }
+        }
+
+        // check entities
+        for (var host in model["hosts"])
+        {
+            if (model["hosts"][host]["id"] == entityId)
+            {
+                return true
+            }
+            else
+            {
+                for (var user in model["hosts"][host]["users"])
+                {
+                    if (model["hosts"][host]["users"][user]["id"] == entityId)
+                    {
+                        return true
+                    }
+                    else
+                    {
+                        for (var process in model["hosts"][host]["users"][user]["processes"])
+                        {
+                            if (model["hosts"][host]["users"][user]["processes"][process]["id"] == entityId)
+                            {
+                                return true
+                            }
+                            else
+                            {
+                                for (var participant in model["hosts"][host]["users"][user]["processes"][process]["participants"])
+                                {
+                                    if (model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["id"] == entityId)
+                                    {
+                                        return true
+                                    }
+                                    else
+                                    {
+                                        for (var endpoint in model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
+                                        {
+                                            if (model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["id"] == entityId)
+                                            {
+                                                return true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // not found yet
+        return false
     }
 }

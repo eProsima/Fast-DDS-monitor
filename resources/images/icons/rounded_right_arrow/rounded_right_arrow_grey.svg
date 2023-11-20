@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" version="1.1" style=""><rect id="backgroundrect" width="100%" height="100%" x="0" y="0" fill="none" stroke="none"/>
+ <title>triangle-filled</title>
+
+ <g style="" class="currentLayer">
+  <title>Layer 1</title>
+  <g transform="rotate(90 256.1480102539063,245.00500488281253) " fill-rule="evenodd" fill="#808080" id="Page-1" class="selected" fill-opacity="1">
+   <g fill="#808080" id="drop" fill-opacity="1">
+    <path id="Combined-Shape" d="m277.31293,48.2956c6.61467,3.77981 12.09663,9.26178 15.87644,15.87644l182.47767,319.33592c11.69109,20.45941 4.58297,46.52254 -15.87645,58.21364c-6.44683,3.6839 -13.74344,5.62162 -21.16859,5.62162l-364.95533,0c-23.56415,0 -42.66667,-19.10252 -42.66667,-42.66667c0,-7.42514 1.93772,-14.72176 5.62163,-21.16859l182.47766,-319.33592c11.69109,-20.45941 37.75423,-27.56753 58.21364,-15.87644z" fill="#808080" fill-opacity="1"/>
+   </g>
+  </g>
+ </g>
+</svg>
