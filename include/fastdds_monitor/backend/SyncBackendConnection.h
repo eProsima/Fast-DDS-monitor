@@ -156,39 +156,39 @@ public:
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             ConnectionListSample& sample);
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             DeadlineMissedSample& sample);
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             IncompatibleQosSample& sample);
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             InconsistentTopicSample& sample);
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             LivelinessChangedSample& sample);
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             LivelinessLostSample& sample);
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             ProxySample& sample);
 
-    void get_status_data(
+    bool get_status_data(
             EntityId source_entity_id,
             SampleLostSample& sample);
 
-    /*void get_status_data(
+    /*bool get_status_data(
             EntityId source_entity_id,
             StatusesSizeSample& sample);*/
 
