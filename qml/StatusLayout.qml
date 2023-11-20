@@ -164,7 +164,8 @@ Item
                     IconSVG {
                         id: expand_icon
 
-                        name: "expand"
+                        name: statusLayout.current_status === StatusLayout.Status.Expanded
+                                ? "collapse" : "expand"
                         size: parent.width
                     }
 
@@ -177,13 +178,11 @@ Item
                             if (statusLayout.current_status === StatusLayout.Status.Expanded)
                             {
                                 collapse_status_layout()
-                                expand_icon.name = "expand"
 
                             }
                             else if (statusLayout.current_status === StatusLayout.Status.Collapsed)
                             {
                                 expand_status_layout()
-                                expand_icon.name = "collapse"
                             }
                         }
                     }
@@ -278,7 +277,7 @@ Item
         IconSVG {
             id: warning_icon
             anchors.left: error_value.right
-            anchors.leftMargin: elements_spacing_ 
+            anchors.leftMargin: elements_spacing_
             anchors.verticalCenter: parent.verticalCenter
             name: "issues"
             size: parent.height - elements_spacing_
