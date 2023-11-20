@@ -1560,6 +1560,9 @@ Item
                 "hosts": [],
             }
 
+            // disable recovery timer
+            stop_timer();
+
             // display empty screen label
             emptyScreenLabel.visible = true
         }
