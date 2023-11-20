@@ -982,10 +982,17 @@ bool Engine::read_callback_(
             + backend::status_kind_to_string(status_callback.status_kind),
             utils::now());
 
-    // update left panel
-    update_entity_generic(status_callback.entity_id, backend_connection_.get_type(status_callback.entity_id) , true, false);
+    // Update status in info model
+    if (last_entities_clicked_.dds.id == status_callback.entity_id)
+    {
+        info_model_->update_selected_entity(backend::backend_id_to_models_id(
+                status_callback.entity_id), utils::to_QString(backend_connection_.get_alias(status_callback.entity_id)));
+    }
 
-    // update model
+    // Remove entities from status layout if needed
+    remove_inactive_entities_from_status_model(status_callback.entity_id);
+
+    // update status model
     return update_entity_status(status_callback.entity_id, status_callback.status_kind);
 }
 
