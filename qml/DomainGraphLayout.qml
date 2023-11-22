@@ -44,6 +44,7 @@ Item
     property var pending_endpoints_: []             // pending endpoints references that have not been resized yet
     property var pending_connections_: []           // pending connections references that have not been generated yet
     property var filtered_topics_: []               // flitered topic entity id in the graph
+    property var endpoints_per_topic: {}            // list of endpoint ids associated to each topic
     property int entity_box_width_: 0               // entity box width management
 
     // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
@@ -54,6 +55,7 @@ Item
     signal topics_updated_()
     signal endpoints_updated_()
     signal record_connections_()
+    signal topic_visibility_changed_(string endpoint_id, bool new_status)
 
     // Read only design properties (sizes and colors)
     readonly property int radius_: 10
@@ -257,6 +259,15 @@ Item
                     width: topic_thickness_
                     color: topic_color_
                 }
+
+                Connections {
+                    target: topicView
+                    function onContentXChanged()
+                    {
+                        domainGraphLayout.topic_visibility_changed(
+                            topic_id, ((x + width/2 + topic_thickness_/2 + elements_spacing_) < topicView.contentX))
+                    }
+                }
             }
         }
 
@@ -346,7 +357,8 @@ Item
                             ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
                             ,"width": topic_locations_[topic_id]["width"]
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
-                            ,"arrow_color": topic_color_, "background_color": background_color.color }
+                            ,"arrow_color": topic_color_, "background_color": background_color.color
+                            ,"endpoint_id": key }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
                     }
@@ -436,7 +448,16 @@ Item
             Component {
                 id: arrow_component
                 GraphConnection{
+                    id: conn
 
+                    Connections{
+                        target: domainGraphLayout
+
+                        function onTopic_visibility_changed_(endpoint_id, new_status)
+                        {
+                            conn.topid_hidden(endpoint_id, new_status)
+                        }
+                    }
                 }
             }
 
@@ -1260,7 +1281,8 @@ Item
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
-                                ,"arrow_color": topic_color_, "background_color": background_color.color }
+                                ,"arrow_color": topic_color_, "background_color": background_color.color
+                                ,"endpoint_id": key }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
                         }
@@ -1396,6 +1418,7 @@ Item
                                         "kind":"Topic",
                                         "alias":new_model["topics"][topic]["alias"]
                                     }
+                                    endpoints_per_topic[topic] = []
                                 }
                             }
                         }
@@ -1406,6 +1429,7 @@ Item
                                 "kind":"Topic",
                                 "alias":new_model["topics"][topic]["alias"]
                             }
+                            endpoints_per_topic[topic] = []
                         }
                     }
                 }
@@ -1460,14 +1484,16 @@ Item
                                                             {
                                                                 kind = "DataReader"
                                                             }
+                                                            var endpoint_topic = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"]
                                                             new_endpoints[new_endpoints.length] = {
                                                                 "id":endpoint,
                                                                 "kind":kind,
                                                                 "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
                                                                 "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
-                                                                "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
+                                                                "topic": endpoint_topic,
                                                                 "accum_y":accum_y
                                                             }
+                                                            endpoints_per_topic[endpoint_topic][endpoints_per_topic[endpoint_topic].length] = endpoint
                                                             accum_y += endpoint_height_ + elements_spacing_
                                                             pending_endpoints_[pending_endpoints_.length] = endpoint
                                                         }
@@ -1621,6 +1647,7 @@ Item
         topic_painted_ = []
         pending_endpoints_ = []
         pending_connections_ = []
+        endpoints_per_topic = {}
         vertical_bar.position = 0
         horizontal_bar.position = 0
         entity_box_width_ = 0;
@@ -1721,5 +1748,17 @@ Item
 
         // not found yet
         return false
+    }
+
+    // report to the graph connections that the endpoint associated topic is not currently in view
+    function topic_visibility_changed(topic_id, inView)
+    {
+        if (topic_id in endpoints_per_topic)
+        {
+            for (var i = 0; i < endpoints_per_topic[topic_id].length; i++)
+            {
+                domainGraphLayout.topic_visibility_changed_(endpoints_per_topic[topic_id][i], inView)
+            }
+        }
     }
 }
