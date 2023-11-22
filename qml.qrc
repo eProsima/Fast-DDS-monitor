@@ -163,6 +163,7 @@
         <file alias="issues_eProsimaLightBlue.svg">resources/images/icons/issues/issues_eProsimaLightBlue.svg</file>
         <file alias="issues_grey.svg">resources/images/icons/issues/issues_grey.svg</file>
         <file alias="issues_white.svg">resources/images/icons/issues/issues_white.svg</file>
+        <file alias="issues_yellow.svg">resources/images/icons/issues/issues_yellow.svg</file>
         <file alias="lessthan_black.svg">resources/images/icons/lessthan/lessthan_black.svg</file>
         <file alias="lessthan_eProsimaLightBlue.svg">resources/images/icons/lessthan/lessthan_eProsimaLightBlue.svg</file>
         <file alias="lessthan_grey.svg">resources/images/icons/lessthan/lessthan_grey.svg</file>

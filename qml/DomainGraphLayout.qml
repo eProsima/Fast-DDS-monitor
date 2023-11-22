@@ -562,7 +562,7 @@ Item
                                 IconSVG {
                                     anchors.centerIn: parent
                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                    color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                 }
                             }
@@ -706,7 +706,7 @@ Item
                                         IconSVG {
                                             anchors.centerIn: parent
                                             name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                            color: modelData["status"] == "WARNING" ? "black" : "red"
+                                            color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                             size: modelData["status"] != "OK"? icon_size_ : 0
                                         }
                                     }
@@ -849,7 +849,7 @@ Item
                                                 IconSVG {
                                                     anchors.centerIn: parent
                                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                    color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                                 }
                                             }
@@ -992,7 +992,7 @@ Item
                                                         IconSVG {
                                                             anchors.centerIn: parent
                                                             name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                            color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                            color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                                             size: modelData["status"] != "OK"? icon_size_ : 0
                                                         }
                                                     }
@@ -1186,9 +1186,16 @@ Item
                                                                 height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                                 radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                                 IconSVG {
+                                                                    visible: modelData["status"] == "WARNING"
+                                                                    anchors.centerIn: parent
+                                                                    name: "issues"
+                                                                    color: "white"
+                                                                    size:  icon_size_ * (3/2)
+                                                                }
+                                                                IconSVG {
                                                                     anchors.centerIn: parent
                                                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                                    color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                                                 }
                                                             }
