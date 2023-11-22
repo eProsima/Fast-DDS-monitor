@@ -26,26 +26,30 @@ Item
     id: domainGraphLayout
 
     // Public properties
-    property var model: {}                          // domain view graph JSON model
-    property int domain_entity_id                   // entity id associated to the domain id
-    property int domain_id                          // domain id
-    required property string component_id           // mandatory to be included when object created
+    property var model: {}                              // domain view graph JSON model
+    property int domain_entity_id                       // entity id associated to the domain id
+    property int domain_id                              // domain id
+    required property string component_id               // mandatory to be included when object created
 
     // Public signals
     signal update_tab_name(string new_name, string stack_id)  // Update tab name based on selected domain id
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
+    signal initialized()                                // let tab layout know that graph has been generated
 
     // Private properties
-    property var topic_locations_: {}               // topic information needed for connection representation
-    property var endpoint_topic_connections_: {}    // endpoint information needed for connection representation
-    property var topic_painted_: []                 // already painted topic connection references
-    property var endpoint_painted_: []              // already painted endpoint connection references
-    property var pending_endpoints_: []             // pending endpoints references that have not been resized yet
-    property var pending_connections_: []           // pending connections references that have not been generated yet
-    property var filtered_topics_: []               // flitered topic entity id in the graph
-    property var endpoints_per_topic: {}            // list of endpoint ids associated to each topic
-    property int entity_box_width_: 0               // entity box width management
+    property var topic_locations_: {}                   // topic information needed for connection representation
+    property var endpoint_topic_connections_: {}        // endpoint information needed for connection representation
+    property var topic_painted_: []                     // already painted topic connection references
+    property var endpoint_painted_: []                  // already painted endpoint connection references
+    property var pending_endpoints_: []                 // pending endpoints references that have not been resized yet
+    property var pending_connections_: []               // pending connections references that have not been generated yet
+    property var filtered_topics_: []                   // flitered topic entity id in the graph
+    property var endpoints_per_topic: {}                // list of endpoint ids associated to each topic
+    property int entity_box_width_: 0                   // entity box width management
+    property bool topic_connections_generated: false    // topic side connections generated
+    property bool endpoint_connections_generated: false // endpoint side connections generated
+
 
     // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
     //    HOST       TOPIC ─┐                 the order displayed in the left figure. All entities width value are
@@ -364,6 +368,9 @@ Item
                     }
                 }
             }
+
+            topic_connections_generated = true
+            domainGraphLayout.connections_generated()
         }
     }
 
@@ -1288,6 +1295,9 @@ Item
                         }
                     }
                 }
+
+                endpoint_connections_generated = true
+                domainGraphLayout.connections_generated()
             }
         }
     }
@@ -1608,6 +1618,9 @@ Item
 
             // display empty screen label
             emptyScreenLabel.visible = true
+
+            // stop animation
+            domainGraphLayout.initialized()
         }
 
         // Update tab name with selected domain id
@@ -1759,6 +1772,17 @@ Item
             {
                 domainGraphLayout.topic_visibility_changed_(endpoints_per_topic[topic_id][i], inView)
             }
+        }
+    }
+
+    // set the graph as initialized
+    function connections_generated()
+    {
+        if (domainGraphLayout.topic_connections_generated && domainGraphLayout.endpoint_connections_generated)
+        {
+            domainGraphLayout.topic_connections_generated = false
+            domainGraphLayout.endpoint_connections_generated = false
+            domainGraphLayout.initialized()
         }
     }
 }
