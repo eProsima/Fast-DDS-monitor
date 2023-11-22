@@ -79,6 +79,7 @@ Item
     readonly property string reader_color_: Theme.eProsimaYellow
     readonly property string writer_color_: Theme.eProsimaGreen
 
+
     // Horizontal scroll view for topics section. This will contain also a Flickable that replicates entities height
     // and will move accordingly to display the connections
     Flickable {
@@ -352,6 +353,15 @@ Item
                 }
             }
         }
+    }
+
+    // Left section background (over right section)
+    Rectangle {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        height: parent.height
+        width: entity_box_width_ + 2*elements_spacing_
+        color: "white"
     }
 
     // Entities vertical flickable (left section)
@@ -1253,7 +1263,7 @@ Item
         }
     }
 
-    // top section to cut entities layout and display the REFRESH butotn
+    // top section to cut entities layout and display the REFRESH button
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
