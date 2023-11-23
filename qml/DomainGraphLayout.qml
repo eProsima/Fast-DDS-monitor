@@ -996,9 +996,9 @@ Item
                                                 id: participant_tag
                                                 anchors.top: parent.top
                                                 anchors.horizontalCenter: parent.horizontalCenter
-                                                implicitWidth: (participantRowLayout.implicitWidth + participant_app_icon)
+                                                implicitWidth: (participantRowLayout.implicitWidth + participant_app_icon.width)
                                                     > (entity_box_width_-(6*elements_spacing_))
-                                                    ? (participantRowLayout.implicitWidth + participant_app_icon)
+                                                    ? (participantRowLayout.implicitWidth + participant_app_icon.width)
                                                     : entity_box_width_-(6*elements_spacing_)
                                                 height: label_height_
                                                 color: participant_color_
@@ -1040,13 +1040,14 @@ Item
                                                     visible: modelData["app_id"] != "UNKNOWN_APP"
                                                     anchors.right: parent.right
                                                     anchors.verticalCenter: parent.verticalCenter
-                                                    width: participant_app_icon.visible ? icon_size_ + 2 * elements_spacing_ : 0
+                                                    width: participant_app_icon.visible ? icon_size_ + 2* spacing_icon_label_ : 0
                                                     height: icon_size_
                                                     color: "transparent"
 
                                                     Image {
                                                         smooth: true
                                                         visible: parent.visible
+                                                        anchors.horizontalCenter: parent.horizontalCenter
                                                         source: "/resources/images/app_icons/" + modelData["app_id"] + ".svg"
                                                         readonly property int amlip_offset_: 5
                                                         sourceSize.width: modelData["app_id"] == "AML_IP"
