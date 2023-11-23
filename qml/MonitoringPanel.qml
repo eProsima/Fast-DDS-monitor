@@ -28,7 +28,9 @@ ColumnLayout {
     id: monitoringPanel
     spacing: 0
 
-    readonly property int logo_height_: 120
+    readonly property int logo_height_: 400
+    readonly property int logo_width_: 1080
+    readonly property int logo_margin_: 10
 
     signal explorerDDSEntitiesChanged(bool status)
     signal explorerPhysicalChanged(bool status)
@@ -302,14 +304,15 @@ ColumnLayout {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         width: parent.width
-                        height: infoSelectedEntity.app_id != "UNKNOWN_APP" ? logo_height_ : 0
+                        height: infoSelectedEntity.app_id != "UNKNOWN_APP" ? (parent.width * logo_height_)/logo_width_ : 0
                         color: "transparent"
 
                         Image {
                             id: app_logo
                             smooth: true
                             visible: parent.visible
-                            source: parent.visible ? "/resources/images/app_logos/" + infoSelectedEntity.app_id + ".svg" : ""
+                            anchors.top: parent.top
+                            anchors.topMargin: logo_margin_
                             sourceSize.width: parent.width
                             sourceSize.height:parent.height
                         }
@@ -319,7 +322,6 @@ ColumnLayout {
                     {
                         color: "transparent"
                         anchors.top: app_logo_rect.bottom
-                        anchors.bottom: parent.bottom
                         height: infoTabBar.height
                         width: parent.width
 
@@ -341,14 +343,14 @@ ColumnLayout {
                                     ? "No entity selected" : (entityKind.toUpperCase() + ": " + entityAlias)
                             infoSelectedEntity.app_id = entity_app_id
                             infoSelectedEntity.height = entity_app_id != "UNKNOWN_APP"
-                                    ? infoTabBar.height + logo_height_ : infoTabBar.height
+                                    ? infoTabBar.height + (parent.width * logo_height_)/logo_width_ : infoTabBar.height
                         }
                     }
                 }
 
                 StackLayout {
                     currentIndex: infoTabBar.currentIndex
-                    anchors.top: infoSelectedEntity.bottom
+                    anchors.top: infoSelectedEntity.bottom//; anchors.topMargin: -infoTabBar.height
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
                     width: parent.width
