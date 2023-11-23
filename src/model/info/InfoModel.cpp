@@ -23,9 +23,10 @@ namespace models {
 
 void InfoModel::update_selected_entity(
         QString entity_kind,
-        QString entity_alias)
+        QString entity_alias,
+        QString entity_app_id)
 {
-    emit entitySelected(entity_kind, entity_alias);
+    emit entitySelected(entity_kind, entity_alias, entity_app_id);
 }
 
 } // namespace models

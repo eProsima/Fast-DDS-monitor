@@ -287,6 +287,7 @@ ColumnLayout {
 
                 Rectangle {
                     id: infoSelectedEntity
+                    property string app_id: "UNKNOWN_APP"
                     Layout.fillWidth: true
                     height: infoTabBar.height
                     Label {
@@ -297,12 +298,21 @@ ColumnLayout {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
+                    Image {
+                        id: app_logo
+                        smooth: true
+                        visible: infoSelectedEntity.app_id != "UNKNOWN_APP"
+                        source: "/resources/images/app_logos/" + infoSelectedEntity.app_id + ".svg"
+                        sourceSize.width: 300
+                        sourceSize.height: 120
+                    }
 
                     Connections {
                         target: qosModel
-                        function onEntitySelected(entityKind, entityAlias) {
-                            infoSelectedEntityLabel.text = (entityKind === "INVALID" || entityAlias === "") ? "No entity selected"
-                                                                : (entityKind.toUpperCase() + ": " + entityAlias)
+                        function onEntitySelected(entityKind, entityAlias, entity_app_id) {
+                            infoSelectedEntityLabel.text = (entityKind === "INVALID" || entityAlias === "")
+                                    ? "No entity selected" : (entityKind.toUpperCase() + ": " + entityAlias)
+                            infoSelectedEntity.app_id = entity_app_id
                         }
                     }
                 }

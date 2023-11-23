@@ -37,14 +37,16 @@ public:
     //! Update the selected entity
     void update_selected_entity(
             QString entity_kind,
-            QString entity_alias);
+            QString entity_alias,
+            QString entity_app_id);
 
 signals:
 
     //! Signal to inform qml the alias of the entity selected.
     void entitySelected(
             QString entity_kind,
-            QString entity_alias);
+            QString entity_alias,
+            QString entity_app_id);
 
 };
 

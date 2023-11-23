@@ -321,15 +321,21 @@ bool Engine::fill_entity_info_(
         info_model_->update(default_info);
         info_model_->update_selected_entity(
             backend::entity_kind_to_QString(backend::EntityKind::INVALID),
-            "No entity selected");
+            "No entity selected", "UNKNOWN_APP");
     }
     else
     {
         EntityInfo entity_info = backend_connection_.get_info(id);
+        std::string app_id = "UNKNOWN_APP";
+        if (entity_info.contains("app_id"))
+        {
+            app_id = entity_info["app_id"];
+        }
         info_model_->update(entity_info);
         info_model_->update_selected_entity(
             utils::to_QString(entity_info["kind"]),
-            utils::to_QString(entity_info["alias"]));
+            utils::to_QString(entity_info["alias"]),
+            utils::to_QString(app_id));
     }
     return true;
 }
@@ -1494,7 +1500,16 @@ void Engine::set_alias(
 
     if (last_entities_clicked_.dds.id == entity_id)
     {
-        info_model_->update_selected_entity(backend::backend_id_to_models_id(entity_id), utils::to_QString(new_alias));
+        EntityInfo entity_info = backend_connection_.get_info(entity_id);
+        std::string app_id = "UNKNOWN_APP";
+        if (entity_info.contains("app_id"))
+        {
+            app_id = entity_info["app_id"];
+        }
+        info_model_->update_selected_entity(
+                backend::backend_id_to_models_id(entity_id),
+                utils::to_QString(new_alias),
+                utils::to_QString(app_id));
     }
 
     // Refresh specific model
