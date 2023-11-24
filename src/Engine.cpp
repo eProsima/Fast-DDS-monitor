@@ -328,9 +328,14 @@ bool Engine::fill_entity_info_(
     {
         EntityInfo entity_info = backend_connection_.get_info(id);
         std::string app_id = "UNKNOWN_APP";
+        //  if the entity has the property "app_id" defined
         if (entity_info.contains("app_id"))
         {
-            app_id = entity_info["app_id"];
+            // check if the property is a known app_id
+            if (std::find(std::begin(backend::app_id_str), std::end(backend::app_id_str), entity_info["app_id"]))
+            {
+                app_id = entity_info["app_id"];
+            }
         }
         info_model_->update(entity_info);
         info_model_->update_selected_entity(
