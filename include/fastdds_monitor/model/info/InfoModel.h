@@ -16,7 +16,7 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * @file TreeModel.hpp
+ * @file InfoModel.hpp
  */
 
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_INFOMODEL_H

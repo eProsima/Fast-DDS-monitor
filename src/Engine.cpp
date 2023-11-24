@@ -321,7 +321,8 @@ bool Engine::fill_entity_info_(
         info_model_->update(default_info);
         info_model_->update_selected_entity(
             backend::entity_kind_to_QString(backend::EntityKind::INVALID),
-            "No entity selected", "UNKNOWN_APP");
+            "No entity selected",
+            "UNKNOWN_APP");
     }
     else
     {
@@ -1507,7 +1508,7 @@ void Engine::set_alias(
             app_id = entity_info["app_id"];
         }
         info_model_->update_selected_entity(
-                backend::backend_id_to_models_id(entity_id),
+                utils::to_QString(entity_info["kind"]),
                 utils::to_QString(new_alias),
                 utils::to_QString(app_id));
     }

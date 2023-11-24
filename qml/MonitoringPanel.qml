@@ -311,6 +311,8 @@ ColumnLayout {
                             id: app_logo
                             smooth: true
                             visible: parent.visible
+                            source: infoSelectedEntity.app_id != "UNKNOWN_APP"
+                                    ? "/resources/images/app_logos/" + infoSelectedEntity.app_id + ".png" : ""
                             anchors.top: parent.top
                             anchors.topMargin: logo_margin_
                             sourceSize.width: parent.width
