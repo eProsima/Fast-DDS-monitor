@@ -141,7 +141,7 @@ Item {
         Rectangle {
             id: spot_0
             anchors.verticalCenter: parent.verticalCenter
-            anchors.right: spot_1.left; anchors.rightMargin: hidden_arrow_margin_*2-graphConnection.height/2
+            anchors.right: spot_1.left; anchors.rightMargin: hidden_arrow_margin_*2-graphConnection.height/2 +1
             height: graphConnection.height; width: graphConnection.height
             radius: graphConnection.height
             color: arrow_color

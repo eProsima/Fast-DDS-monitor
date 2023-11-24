@@ -35,6 +35,7 @@ Item
     signal update_tab_name(string new_name, string stack_id)  // Update tab name based on selected domain id
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
+    signal openLoadingGraphDialog()                     //l et tab layout know that graph is about to be generated
     signal initialized()                                // let tab layout know that graph has been generated
 
     // Private properties
@@ -1322,6 +1323,7 @@ Item
             text: "Refresh"
 
             onClicked:{
+                domainGraphLayout.openLoadingGraphDialog()
                 load_model()
             }
         }

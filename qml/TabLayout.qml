@@ -36,7 +36,8 @@ Item {
     property int last_index_: 1                                             // force unique idx on QML components
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
-    readonly property var allowed_stack_components_: ["view_selector", "chartsLayout", "domainGraphLayout_component"]
+    readonly property var allowed_stack_components_:                        // list of allowed component names to be
+            ["view_selector", "chartsLayout", "domainGraphLayout_component"]//  loaded in the tabs stack view
 
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
@@ -245,6 +246,10 @@ Item {
                         }
                         onOpenTopicMenu: {
                             tabLayout.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
+                        }
+
+                        onOpenLoadingGraphDialog: {
+                            loading_graph_dialog.open()
                         }
 
                         onInitialized: {
