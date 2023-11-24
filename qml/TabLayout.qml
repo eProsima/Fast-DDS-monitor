@@ -500,7 +500,7 @@ Item {
         y: (parent.height - height) / 2
 
         width: dialog_width_
-            height: dialog_height_
+        height: dialog_height_
 
         modal: true
 
