@@ -1,0 +1,68 @@
+name: fastdds_monitor_dependencies_ubuntu
+description: Common first step for all jobs. Checkout repository, download dependencies and install required packages.
+
+inputs:
+
+  os:
+    description: Specify runs-on machine to download specific artifact
+    required: true
+
+  cmake_build_type:
+    description: Specify cmake_build_type option to download specific artifact
+    required: true
+
+  dependencies_artifact_postfix:
+    description: Specify artifact postfix in case it wants to use a manual one
+    required: false
+    default: _nightly
+
+  target_workspace:
+    description: Specify directory to download dependencies
+    required: false
+    default: ${{ github.workspace }}/install
+
+  # This must be passed as an argument because actions do not access to workflow secrets:
+  # Unrecognized named-value: 'secrets'. https://github.com/orgs/community/discussions/27054
+  # Pass argument {{ secrets.GITHUB_TOKEN }} from workflow
+  secret_token:
+    description: 'Secret token to authenticate the WebRequest so it not get a rate limit error.'
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+
+    - name: Install apt packages
+      if: runner.os == 'Linux'
+      uses: eProsima/eProsima-CI/ubuntu/install_apt_packages@v0
+      with:
+        packages: doxygen graphviz imagemagick python3 python3-pip python3-sphinxcontrib.spelling python3-venv software-properties-common wget curl grep
+
+    - name: Install Python packages
+      uses: eProsima/eProsima-CI/multiplatform/install_python_packages@v0
+      with:
+        packages: sphinx==3.0.3 doc8==0.8.0 sphinx_rtd_theme==0.4.3 sphinxcontrib.spelling==5.0.0 sphinxcontrib-imagehelper==1.1.1 GitPython gcovr==5
+
+    - name: Update colcon mixin
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        colcon mixin add default \
+          https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+        colcon mixin update default
+      continue-on-error: true
+
+    - name: Install Qt
+      uses: eProsima/eProsima-CI/multiplatform/install_qt@feature/external_qt
+      with:
+        dir: '${{ github.workspace }}/qt_installation/'
+        modules: 'qtcharts'
+
+    - name: Install OpenSSL in windows
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: >
+        choco install openssl -yr --no-progress;
+        @(ls -Path C:\Windows\System32\* -Include libssl-*.dll; ls -Path C:\Windows\SysWOW64\* -Include libssl-*.dll)
+        | rm -ErrorAction SilentlyContinue
