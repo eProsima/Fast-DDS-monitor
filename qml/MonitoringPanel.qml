@@ -30,6 +30,7 @@ ColumnLayout {
 
     readonly property int logo_height_: 400
     readonly property int logo_width_: 1080
+    readonly property int max_logo_width_: 300
     readonly property int logo_margin_: 10
 
     signal explorerDDSEntitiesChanged(bool status)
@@ -302,9 +303,9 @@ ColumnLayout {
                         id: app_logo_rect
                         visible: infoSelectedEntity.app_id != "UNKNOWN_APP"
                         anchors.top: parent.top
-                        anchors.left: parent.left
-                        width: parent.width
-                        height: infoSelectedEntity.app_id != "UNKNOWN_APP" ? (parent.width * logo_height_)/logo_width_ : 0
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width > max_logo_width_ ? max_logo_width_ : parent.width
+                        height: infoSelectedEntity.app_id != "UNKNOWN_APP" ? (app_logo_rect.width * logo_height_)/logo_width_ : 0
                         color: "transparent"
 
                         Image {
@@ -348,14 +349,14 @@ ColumnLayout {
                                     ? "No entity selected" : (entityKind.toUpperCase() + ": " + entityAlias)
                             infoSelectedEntity.app_id = entity_app_id
                             infoSelectedEntity.height = entity_app_id != "UNKNOWN_APP"
-                                    ? infoTabBar.height + (parent.width * logo_height_)/logo_width_ : infoTabBar.height
+                                    ? infoTabBar.height + (app_logo_rect.width * logo_height_)/logo_width_ : infoTabBar.height
                         }
                     }
                 }
 
                 StackLayout {
                     currentIndex: infoTabBar.currentIndex
-                    anchors.top: infoSelectedEntity.bottom//; anchors.topMargin: -infoTabBar.height
+                    anchors.top: infoSelectedEntity.bottom
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
                     width: parent.width

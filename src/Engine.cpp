@@ -332,7 +332,10 @@ bool Engine::fill_entity_info_(
         if (entity_info.contains("app_id"))
         {
             // check if the property is a known app_id
-            if (std::find(std::begin(backend::app_id_str), std::end(backend::app_id_str), entity_info["app_id"]))
+            if (std::find(
+                    std::begin(backend::app_id_str),
+                    std::end(backend::app_id_str),
+                    entity_info["app_id"]) != std::end(backend::app_id_str))
             {
                 app_id = entity_info["app_id"];
             }
