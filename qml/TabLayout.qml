@@ -54,7 +54,7 @@ Item {
     readonly property int add_tab_width_: 50
     readonly property int timer_ms_interval_: 500
     readonly property int dialog_width_: 300
-    readonly property int dialog_height_: 120
+    readonly property int dialog_height_: 152
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
     readonly property string not_selected_tab_color_: "#f0f0f0"
