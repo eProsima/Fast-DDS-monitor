@@ -997,7 +997,7 @@ bool Engine::update_entity_status(
     if (id == backend::ID_ALL)
     {
         auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
-                std::string("No issues found"), backend::StatusLevel::OK, std::string(""));
+                        std::string("No issues found"), backend::StatusLevel::OK, std::string(""));
         entity_status_model_->addTopLevelItem(empty_item);
     }
     else
@@ -1016,19 +1016,21 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                                id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description);
                         new_status = sample.status;
                         std::string handle_string;
                         auto deadline_missed_item = new models::StatusTreeItem(id, kind, std::string("Deadline missed"),
-                                sample.status, std::string(""), description);
+                                        sample.status, std::string(""), description);
                         auto total_count_item = new models::StatusTreeItem(id, kind, std::string("Total count:"),
-                                sample.status,  std::to_string(sample.deadline_missed_status.total_count()), std::string(""));
+                                        sample.status,  std::to_string(
+                                            sample.deadline_missed_status.total_count()), std::string(""));
                         for (uint8_t handler : sample.deadline_missed_status.last_instance_handle())
                         {
                             handle_string = handle_string + std::to_string(handler);
                         }
                         auto last_instance_handle_item = new models::StatusTreeItem(id, kind,
-                                std::string("Last instance handle:"), sample.status, handle_string, std::string(""));
+                                        std::string("Last instance handle:"), sample.status, handle_string,
+                                        std::string(""));
                         entity_status_model_->addItem(deadline_missed_item, total_count_item);
                         entity_status_model_->addItem(deadline_missed_item, last_instance_handle_item);
                         entity_status_model_->addItem(entity_item, deadline_missed_item);
@@ -1047,22 +1049,26 @@ bool Engine::update_entity_status(
                         std::string fastdds_version = "v2.12.0";
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                                id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description);
                         new_status = sample.status;
-                        auto incompatible_qos_item = new models::StatusTreeItem(id, kind, std::string("Incompatible QoS"),
-                                sample.status, std::string(""), description);
-                        for (eprosima::fastdds::statistics::QosPolicyCount_s policy : sample.incompatible_qos_status.policies())
+                        auto incompatible_qos_item = new models::StatusTreeItem(id, kind, std::string(
+                                            "Incompatible QoS"),
+                                        sample.status, std::string(""), description);
+                        for (eprosima::fastdds::statistics::QosPolicyCount_s policy :
+                                sample.incompatible_qos_status.policies())
                         {
                             if (policy.count() > 0)
                             {
                                 auto policy_item = new models::StatusTreeItem(id, kind,
-                                    std::string(backend::policy_id_to_string(policy.policy_id()) + ":"),
-                                    sample.status, std::to_string(policy.count()),
-                                    std::string("<html><style type=\"text/css\"></style>Check for compatible rules ") +
-                                            std::string("<a href=\"https://fast-dds.docs.eprosima.com/en/") + fastdds_version +
-                                            std::string("/fastdds/dds_layer/core/policy/standardQosPolicies.html") +
-                                            backend::policy_documentation_description(policy.policy_id()) +
-                                            std::string("\">here</a></html>"));
+                                                std::string(backend::policy_id_to_string(policy.policy_id()) + ":"),
+                                                sample.status, std::to_string(policy.count()),
+                                                std::string(
+                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ") +
+                                                std::string(
+                                                    "<a href=\"https://fast-dds.docs.eprosima.com/en/") + fastdds_version +
+                                                std::string("/fastdds/dds_layer/core/policy/standardQosPolicies.html") +
+                                                backend::policy_documentation_description(policy.policy_id()) +
+                                                std::string("\">here</a></html>"));
                                 entity_status_model_->addItem(incompatible_qos_item, policy_item);
                             }
                         }
@@ -1081,10 +1087,12 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                                id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description);
                         new_status = sample.status;
-                        auto inconsistent_topic_item = new models::StatusTreeItem(id, kind, std::string("Inconsistent topics:"),
-                                sample.status, std::to_string(sample.inconsistent_topic_status.total_count()), description);
+                        auto inconsistent_topic_item =
+                                new models::StatusTreeItem(id, kind, std::string("Inconsistent topics:"),
+                                        sample.status, std::to_string(
+                                            sample.inconsistent_topic_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, inconsistent_topic_item);
                         counter = entity_item->recalculate_entity_counter();
                     }
@@ -1100,21 +1108,26 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                                id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description);
                         new_status = sample.status;
-                        auto liveliness_changed_item = new models::StatusTreeItem(id, kind, std::string("Liveliness changed"),
-                                sample.status, std::string(""), description);
+                        auto liveliness_changed_item =
+                                new models::StatusTreeItem(id, kind, std::string("Liveliness changed"),
+                                        sample.status, std::string(""), description);
                         std::string handle_string;
                         auto alive_count_item = new models::StatusTreeItem(id, kind, std::string("Alive count:"),
-                                sample.status, std::to_string(sample.liveliness_changed_status.alive_count()), std::string(""));
-                        auto not_alive_count_item = new models::StatusTreeItem(id, kind, std::string("Not alive count:"),
-                                sample.status, std::to_string(sample.liveliness_changed_status.not_alive_count()), std::string(""));
+                                        sample.status, std::to_string(
+                                            sample.liveliness_changed_status.alive_count()), std::string(""));
+                        auto not_alive_count_item = new models::StatusTreeItem(id, kind, std::string(
+                                            "Not alive count:"),
+                                        sample.status, std::to_string(
+                                            sample.liveliness_changed_status.not_alive_count()), std::string(""));
                         for (uint8_t handler : sample.liveliness_changed_status.last_publication_handle())
                         {
                             handle_string = handle_string + std::to_string(handler);
                         }
                         auto last_publication_handle_item = new models::StatusTreeItem(id, kind,
-                                std::string("Last publication handle:"), sample.status, handle_string, std::string(""));
+                                        std::string(
+                                            "Last publication handle:"), sample.status, handle_string, std::string(""));
 
                         entity_status_model_->addItem(liveliness_changed_item, alive_count_item);
                         entity_status_model_->addItem(liveliness_changed_item, not_alive_count_item);
@@ -1134,10 +1147,12 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                                id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description);
                         new_status = sample.status;
-                        auto liveliness_lost_item = new models::StatusTreeItem(id, kind, std::string("Liveliness lost:"),
-                                sample.status, std::to_string(sample.liveliness_lost_status.total_count()), description);
+                        auto liveliness_lost_item = new models::StatusTreeItem(id, kind, std::string(
+                                            "Liveliness lost:"),
+                                        sample.status, std::to_string(
+                                            sample.liveliness_lost_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, liveliness_lost_item);
                         counter = entity_item->recalculate_entity_counter();
                     }
@@ -1153,10 +1168,11 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                                id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description);
                         new_status = sample.status;
                         auto samples_lost_item = new models::StatusTreeItem(id, kind, std::string("Samples lost:"),
-                                sample.status, std::to_string(sample.sample_lost_status.total_count()), description);
+                                        sample.status, std::to_string(
+                                            sample.sample_lost_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, samples_lost_item);
                         counter = entity_item->recalculate_entity_counter();
                     }
@@ -1177,8 +1193,8 @@ bool Engine::update_entity_status(
         {
             if (new_status == backend::StatusLevel::ERROR)
             {
-                std::map<backend::EntityId,uint32_t>::iterator it = controller_->status_counters.errors.find(id);
-                if(it != controller_->status_counters.errors.end())
+                std::map<backend::EntityId, uint32_t>::iterator it = controller_->status_counters.errors.find(id);
+                if (it != controller_->status_counters.errors.end())
                 {
                     controller_->status_counters.total_errors -= controller_->status_counters.errors[id];
                 }
@@ -1187,8 +1203,8 @@ bool Engine::update_entity_status(
             }
             else if (new_status == backend::StatusLevel::WARNING)
             {
-                std::map<backend::EntityId,uint32_t>::iterator it = controller_->status_counters.warnings.find(id);
-                if(it != controller_->status_counters.warnings.end())
+                std::map<backend::EntityId, uint32_t>::iterator it = controller_->status_counters.warnings.find(id);
+                if (it != controller_->status_counters.warnings.end())
                 {
                     controller_->status_counters.total_warnings -= controller_->status_counters.warnings[id];
                 }
@@ -1199,8 +1215,8 @@ bool Engine::update_entity_status(
             emit entity_status_proxy_model_->layoutAboutToBeChanged();
 
             emit controller_->update_status_counters(
-                    QString::number(controller_->status_counters.total_errors),
-                    QString::number(controller_->status_counters.total_warnings));
+                QString::number(controller_->status_counters.total_errors),
+                QString::number(controller_->status_counters.total_warnings));
 
             // remove empty message if exists
             if (entity_status_model_->is_empty())
@@ -1231,18 +1247,20 @@ bool Engine::remove_inactive_entities_from_status_model(
         if (!entity_info["alive"])
         {
             // remove item from tree
-            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "", backend::StatusLevel::OK, ""));
+            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "", backend::StatusLevel::OK,
+                    ""));
 
             // add empty item if removed last item
             if (entity_status_model_->rowCount(entity_status_model_->rootIndex()) == 0)
             {
                 entity_status_model_->addTopLevelItem(new models::StatusTreeItem(
-                    backend::ID_ALL, std::string("No issues found"), backend::StatusLevel::OK, std::string("")));
+                            backend::ID_ALL, std::string("No issues found"), backend::StatusLevel::OK,
+                            std::string("")));
             }
 
             // update error counter
-            std::map<backend::EntityId,uint32_t>::iterator err_it = controller_->status_counters.errors.find(id);
-            if(err_it != controller_->status_counters.errors.end())
+            std::map<backend::EntityId, uint32_t>::iterator err_it = controller_->status_counters.errors.find(id);
+            if (err_it != controller_->status_counters.errors.end())
             {
                 //element found;
                 controller_->status_counters.total_errors -= err_it->second;
@@ -1254,8 +1272,8 @@ bool Engine::remove_inactive_entities_from_status_model(
             controller_->status_counters.errors.erase(id);
 
             // update warning counter
-            std::map<backend::EntityId,uint32_t>::iterator warn_it = controller_->status_counters.warnings.find(id);
-            if(warn_it != controller_->status_counters.warnings.end())
+            std::map<backend::EntityId, uint32_t>::iterator warn_it = controller_->status_counters.warnings.find(id);
+            if (warn_it != controller_->status_counters.warnings.end())
             {
                 //element found;
                 controller_->status_counters.total_warnings -= warn_it->second;
@@ -1270,8 +1288,8 @@ bool Engine::remove_inactive_entities_from_status_model(
             emit entity_status_proxy_model_->layoutAboutToBeChanged();
 
             emit controller_->update_status_counters(
-                    QString::number(controller_->status_counters.total_errors),
-                    QString::number(controller_->status_counters.total_warnings));
+                QString::number(controller_->status_counters.total_errors),
+                QString::number(controller_->status_counters.total_warnings));
 
             // update view
             entity_status_proxy_model_->set_source_model(entity_status_model_);
