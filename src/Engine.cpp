@@ -333,9 +333,9 @@ bool Engine::fill_entity_info_(
         {
             // check if the property is a known app_id
             if (std::find(
-                    std::begin(backend::app_id_str),
-                    std::end(backend::app_id_str),
-                    entity_info["app_id"]) != std::end(backend::app_id_str))
+                        std::begin(backend::app_id_str),
+                        std::end(backend::app_id_str),
+                        entity_info["app_id"]) != std::end(backend::app_id_str))
             {
                 app_id = entity_info["app_id"];
             }
@@ -1262,8 +1262,8 @@ bool Engine::remove_inactive_entities_from_status_model(
         if (!entity_info["alive"])
         {
             // remove item from tree
-            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "", backend::StatusLevel::OK_STATUS,
-                    ""));
+            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "",
+                    backend::StatusLevel::OK_STATUS, ""));
 
             // add empty item if removed last item
             if (entity_status_model_->rowCount(entity_status_model_->rootIndex()) == 0)
@@ -1516,9 +1516,9 @@ void Engine::set_alias(
             app_id = entity_info["app_id"];
         }
         info_model_->update_selected_entity(
-                utils::to_QString(entity_info["kind"]),
-                utils::to_QString(new_alias),
-                utils::to_QString(app_id));
+            utils::to_QString(entity_info["kind"]),
+            utils::to_QString(new_alias),
+            utils::to_QString(app_id));
     }
 
     // Refresh specific model
