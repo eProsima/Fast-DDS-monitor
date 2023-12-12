@@ -997,12 +997,12 @@ bool Engine::update_entity_status(
     if (id == backend::ID_ALL)
     {
         auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
-                        std::string("No issues found"), backend::StatusLevel::OK, std::string(""));
+                        std::string("No issues found"), backend::StatusLevel::OK_STATUS, std::string(""));
         entity_status_model_->addTopLevelItem(empty_item);
     }
     else
     {
-        backend::StatusLevel new_status = backend::StatusLevel::OK;
+        backend::StatusLevel new_status = backend::StatusLevel::OK_STATUS;
         std::string description = backend::entity_status_description(kind);
 
         switch (kind)
@@ -1012,7 +1012,7 @@ bool Engine::update_entity_status(
                 backend::DeadlineMissedSample sample;
                 if (backend_connection_.get_status_data(id, sample))
                 {
-                    if (sample.status != backend::StatusLevel::OK)
+                    if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
@@ -1044,7 +1044,7 @@ bool Engine::update_entity_status(
                 backend::IncompatibleQosSample sample;
                 if (backend_connection_.get_status_data(id, sample))
                 {
-                    if (sample.status != backend::StatusLevel::OK)
+                    if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         std::string fastdds_version = "v2.12.0";
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
@@ -1083,7 +1083,7 @@ bool Engine::update_entity_status(
                 backend::InconsistentTopicSample sample;
                 if (backend_connection_.get_status_data(id, sample))
                 {
-                    if (sample.status != backend::StatusLevel::OK)
+                    if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
@@ -1104,7 +1104,7 @@ bool Engine::update_entity_status(
                 backend::LivelinessChangedSample sample;
                 if (backend_connection_.get_status_data(id, sample))
                 {
-                    if (sample.status != backend::StatusLevel::OK)
+                    if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
@@ -1143,7 +1143,7 @@ bool Engine::update_entity_status(
                 backend::LivelinessLostSample sample;
                 if (backend_connection_.get_status_data(id, sample))
                 {
-                    if (sample.status != backend::StatusLevel::OK)
+                    if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
@@ -1164,7 +1164,7 @@ bool Engine::update_entity_status(
                 backend::SampleLostSample sample;
                 if (backend_connection_.get_status_data(id, sample))
                 {
-                    if (sample.status != backend::StatusLevel::OK)
+                    if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
@@ -1189,9 +1189,9 @@ bool Engine::update_entity_status(
                 break;
             }
         }
-        if (new_status != backend::StatusLevel::OK)
+        if (new_status != backend::StatusLevel::OK_STATUS)
         {
-            if (new_status == backend::StatusLevel::ERROR)
+            if (new_status == backend::StatusLevel::ERROR_STATUS)
             {
                 std::map<backend::EntityId, uint32_t>::iterator it = controller_->status_counters.errors.find(id);
                 if (it != controller_->status_counters.errors.end())
@@ -1201,7 +1201,7 @@ bool Engine::update_entity_status(
                 controller_->status_counters.errors[id] = counter;
                 controller_->status_counters.total_errors += controller_->status_counters.errors[id];
             }
-            else if (new_status == backend::StatusLevel::WARNING)
+            else if (new_status == backend::StatusLevel::WARNING_STATUS)
             {
                 std::map<backend::EntityId, uint32_t>::iterator it = controller_->status_counters.warnings.find(id);
                 if (it != controller_->status_counters.warnings.end())
@@ -1247,14 +1247,14 @@ bool Engine::remove_inactive_entities_from_status_model(
         if (!entity_info["alive"])
         {
             // remove item from tree
-            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "", backend::StatusLevel::OK,
+            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "", backend::StatusLevel::OK_STATUS,
                     ""));
 
             // add empty item if removed last item
             if (entity_status_model_->rowCount(entity_status_model_->rootIndex()) == 0)
             {
                 entity_status_model_->addTopLevelItem(new models::StatusTreeItem(
-                            backend::ID_ALL, std::string("No issues found"), backend::StatusLevel::OK,
+                            backend::ID_ALL, std::string("No issues found"), backend::StatusLevel::OK_STATUS,
                             std::string("")));
             }
 
