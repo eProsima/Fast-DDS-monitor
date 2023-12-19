@@ -504,11 +504,16 @@ Item {
 
         modal: true
 
+        background: Rectangle {
+            color: "white"
+        }
+
+
         AnimatedImage {
             source: "/resources/images/loading_graph.gif"
             anchors.centerIn: parent
-            width: dialog_width_
-            height: dialog_height_
+            width: dialog_width_ * 3/4
+            height: dialog_height_ * 3/4
         }
 
         onAboutToShow:
