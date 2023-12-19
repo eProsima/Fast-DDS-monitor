@@ -120,7 +120,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             name: currentRow.currentStatus == "ERROR" ? "error"
                     : currentRow.currentStatus == "WARNING" ? "issues" : ""
-            color: currentRow.currentAlive ? currentRow.currentStatus == "ERROR" ? "red" :"black" : "grey"
+            color: currentRow.currentAlive ? currentRow.currentStatus == "ERROR" ? "red" :"yellow" : "grey"
             size: 15
         }
 

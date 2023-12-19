@@ -76,6 +76,7 @@
         <file alias="graphs.svg">resources/images/graphs.svg</file>
         <file alias="domain_graph.svg">resources/images/domain_graph.svg</file>
         <file alias="topic_graph.svg">resources/images/topic_graph.svg</file>
+        <file alias="loading_graph.gif">resources/images/loading_graph.gif</file>
     </qresource>
     <qresource prefix="/resources/images/icons">
         <file alias="clearissues_black.svg">resources/images/icons/clearissues/clearissues_black.svg</file>
@@ -163,6 +164,7 @@
         <file alias="issues_eProsimaLightBlue.svg">resources/images/icons/issues/issues_eProsimaLightBlue.svg</file>
         <file alias="issues_grey.svg">resources/images/icons/issues/issues_grey.svg</file>
         <file alias="issues_white.svg">resources/images/icons/issues/issues_white.svg</file>
+        <file alias="issues_yellow.svg">resources/images/icons/issues/issues_yellow.svg</file>
         <file alias="lessthan_black.svg">resources/images/icons/lessthan/lessthan_black.svg</file>
         <file alias="lessthan_eProsimaLightBlue.svg">resources/images/icons/lessthan/lessthan_eProsimaLightBlue.svg</file>
         <file alias="lessthan_grey.svg">resources/images/icons/lessthan/lessthan_grey.svg</file>

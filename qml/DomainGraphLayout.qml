@@ -26,25 +26,31 @@ Item
     id: domainGraphLayout
 
     // Public properties
-    property var model: {}                          // domain view graph JSON model
-    property int domain_entity_id                   // entity id associated to the domain id
-    property int domain_id                          // domain id
-    required property string component_id           // mandatory to be included when object created
+    property var model: {}                              // domain view graph JSON model
+    property int domain_entity_id                       // entity id associated to the domain id
+    property int domain_id                              // domain id
+    required property string component_id               // mandatory to be included when object created
 
     // Public signals
     signal update_tab_name(string new_name, string stack_id)  // Update tab name based on selected domain id
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
+    signal openLoadingGraphDialog()                     //l et tab layout know that graph is about to be generated
+    signal initialized()                                // let tab layout know that graph has been generated
 
     // Private properties
-    property var topic_locations_: {}               // topic information needed for connection representation
-    property var endpoint_topic_connections_: {}    // endpoint information needed for connection representation
-    property var topic_painted_: []                 // already painted topic connection references
-    property var endpoint_painted_: []              // already painted endpoint connection references
-    property var pending_endpoints_: []             // pending endpoints references that have not been resized yet
-    property var pending_connections_: []           // pending connections references that have not been generated yet
-    property var filtered_topics_: []               // flitered topic entity id in the graph
-    property int entity_box_width_: 0               // entity box width management
+    property var topic_locations_: {}                   // topic information needed for connection representation
+    property var endpoint_topic_connections_: {}        // endpoint information needed for connection representation
+    property var topic_painted_: []                     // already painted topic connection references
+    property var endpoint_painted_: []                  // already painted endpoint connection references
+    property var pending_endpoints_: []                 // pending endpoints references that have not been resized yet
+    property var pending_connections_: []               // pending connections references that have not been generated yet
+    property var filtered_topics_: []                   // flitered topic entity id in the graph
+    property var endpoints_per_topic: {}                // list of endpoint ids associated to each topic
+    property int entity_box_width_: 0                   // entity box width management
+    property bool topic_connections_generated: false    // topic side connections generated
+    property bool endpoint_connections_generated: false // endpoint side connections generated
+
 
     // Private (resize) signals               The signal resize_elements_ will trigger all entities resize methods in
     //    HOST       TOPIC ─┐                 the order displayed in the left figure. All entities width value are
@@ -54,6 +60,7 @@ Item
     signal topics_updated_()
     signal endpoints_updated_()
     signal record_connections_()
+    signal topic_visibility_changed_(string endpoint_id, bool new_status)
 
     // Read only design properties (sizes and colors)
     readonly property int radius_: 10
@@ -78,6 +85,7 @@ Item
     readonly property string participant_color_: Theme.whiteSmoke
     readonly property string reader_color_: Theme.eProsimaYellow
     readonly property string writer_color_: Theme.eProsimaGreen
+
 
     // Horizontal scroll view for topics section. This will contain also a Flickable that replicates entities height
     // and will move accordingly to display the connections
@@ -256,6 +264,15 @@ Item
                     width: topic_thickness_
                     color: topic_color_
                 }
+
+                Connections {
+                    target: topicView
+                    function onContentXChanged()
+                    {
+                        domainGraphLayout.topic_visibility_changed(
+                            topic_id, ((x + width/2 + topic_thickness_/2 + elements_spacing_) < topicView.contentX))
+                    }
+                }
             }
         }
 
@@ -345,13 +362,26 @@ Item
                             ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
                             ,"width": topic_locations_[topic_id]["width"]
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
-                            ,"arrow_color": topic_color_, "background_color": background_color.color }
+                            ,"arrow_color": topic_color_, "background_color": background_color.color
+                            ,"endpoint_id": key }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
                     }
                 }
             }
+
+            topic_connections_generated = true
+            domainGraphLayout.connections_generated()
         }
+    }
+
+    // Left section background (over right section)
+    Rectangle {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        height: parent.height
+        width: entity_box_width_ + 2*elements_spacing_
+        color: "white"
     }
 
     // Entities vertical flickable (left section)
@@ -426,7 +456,16 @@ Item
             Component {
                 id: arrow_component
                 GraphConnection{
+                    id: conn
 
+                    Connections{
+                        target: domainGraphLayout
+
+                        function onTopic_visibility_changed_(endpoint_id, new_status)
+                        {
+                            conn.topid_hidden(endpoint_id, new_status)
+                        }
+                    }
                 }
             }
 
@@ -552,7 +591,7 @@ Item
                                 IconSVG {
                                     anchors.centerIn: parent
                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                    color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                 }
                             }
@@ -696,7 +735,7 @@ Item
                                         IconSVG {
                                             anchors.centerIn: parent
                                             name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                            color: modelData["status"] == "WARNING" ? "black" : "red"
+                                            color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                             size: modelData["status"] != "OK"? icon_size_ : 0
                                         }
                                     }
@@ -839,7 +878,7 @@ Item
                                                 IconSVG {
                                                     anchors.centerIn: parent
                                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                    color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                                 }
                                             }
@@ -982,7 +1021,7 @@ Item
                                                         IconSVG {
                                                             anchors.centerIn: parent
                                                             name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                            color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                            color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                                             size: modelData["status"] != "OK"? icon_size_ : 0
                                                         }
                                                     }
@@ -1176,9 +1215,16 @@ Item
                                                                 height: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                                 radius: modelData["status"] != "OK"? icon_size_ + spacing_icon_: 0
                                                                 IconSVG {
+                                                                    visible: modelData["status"] == "WARNING"
+                                                                    anchors.centerIn: parent
+                                                                    name: "issues"
+                                                                    color: "white"
+                                                                    size:  icon_size_ * (3/2)
+                                                                }
+                                                                IconSVG {
                                                                     anchors.centerIn: parent
                                                                     name: modelData["status"] == "WARNING" ? "issues" : "error"
-                                                                    color: modelData["status"] == "WARNING" ? "black" : "red"
+                                                                    color: modelData["status"] == "WARNING" ? "yellow" : "red"
                                                                     size: modelData["status"] != "OK"? icon_size_ : 0
                                                                 }
                                                             }
@@ -1243,17 +1289,21 @@ Item
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
-                                ,"arrow_color": topic_color_, "background_color": background_color.color }
+                                ,"arrow_color": topic_color_, "background_color": background_color.color
+                                ,"endpoint_id": key }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
                         }
                     }
                 }
+
+                endpoint_connections_generated = true
+                domainGraphLayout.connections_generated()
             }
         }
     }
 
-    // top section to cut entities layout and display the REFRESH butotn
+    // top section to cut entities layout and display the REFRESH button
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
@@ -1273,6 +1323,7 @@ Item
             text: "Refresh"
 
             onClicked:{
+                domainGraphLayout.openLoadingGraphDialog()
                 load_model()
             }
         }
@@ -1379,6 +1430,7 @@ Item
                                         "kind":"Topic",
                                         "alias":new_model["topics"][topic]["alias"]
                                     }
+                                    endpoints_per_topic[topic] = []
                                 }
                             }
                         }
@@ -1389,6 +1441,7 @@ Item
                                 "kind":"Topic",
                                 "alias":new_model["topics"][topic]["alias"]
                             }
+                            endpoints_per_topic[topic] = []
                         }
                     }
                 }
@@ -1443,14 +1496,16 @@ Item
                                                             {
                                                                 kind = "DataReader"
                                                             }
+                                                            var endpoint_topic = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"]
                                                             new_endpoints[new_endpoints.length] = {
                                                                 "id":endpoint,
                                                                 "kind":kind,
                                                                 "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
                                                                 "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
-                                                                "topic":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"],
+                                                                "topic": endpoint_topic,
                                                                 "accum_y":accum_y
                                                             }
+                                                            endpoints_per_topic[endpoint_topic][endpoints_per_topic[endpoint_topic].length] = endpoint
                                                             accum_y += endpoint_height_ + elements_spacing_
                                                             pending_endpoints_[pending_endpoints_.length] = endpoint
                                                         }
@@ -1565,6 +1620,9 @@ Item
 
             // display empty screen label
             emptyScreenLabel.visible = true
+
+            // stop animation
+            domainGraphLayout.initialized()
         }
 
         // Update tab name with selected domain id
@@ -1604,6 +1662,7 @@ Item
         topic_painted_ = []
         pending_endpoints_ = []
         pending_connections_ = []
+        endpoints_per_topic = {}
         vertical_bar.position = 0
         horizontal_bar.position = 0
         entity_box_width_ = 0;
@@ -1704,5 +1763,28 @@ Item
 
         // not found yet
         return false
+    }
+
+    // report to the graph connections that the endpoint associated topic is not currently in view
+    function topic_visibility_changed(topic_id, inView)
+    {
+        if (topic_id in endpoints_per_topic)
+        {
+            for (var i = 0; i < endpoints_per_topic[topic_id].length; i++)
+            {
+                domainGraphLayout.topic_visibility_changed_(endpoints_per_topic[topic_id][i], inView)
+            }
+        }
+    }
+
+    // set the graph as initialized
+    function connections_generated()
+    {
+        if (domainGraphLayout.topic_connections_generated && domainGraphLayout.endpoint_connections_generated)
+        {
+            domainGraphLayout.topic_connections_generated = false
+            domainGraphLayout.endpoint_connections_generated = false
+            domainGraphLayout.initialized()
+        }
     }
 }

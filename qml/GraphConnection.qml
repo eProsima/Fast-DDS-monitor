@@ -1,12 +1,15 @@
 import QtQuick 2.0
 
 Item {
+    id: graphConnection
     // public property
     property bool left_direction: false                 // defines if the represented connection must draw a left arrow
     property bool right_direction: false                // defines if the represented connection must draw a right arrow
     property int left_margin: 0                         // left margin to be applied
     property string arrow_color: Theme.grey             // connection color
     property string background_color: "white"           // background color
+    property string endpoint_id: ""                     // graph refferred entity id
+    property bool hidden_arrow: false                   // associated topic is not visible
 
     // readonly private design properties
     readonly property int arrow_margin_: -3             // margins for background
@@ -18,6 +21,7 @@ Item {
     readonly property int left_arrow_background_margin_: -4
     readonly property int left_arrow_margin_: -5        // left arrow margin
     readonly property int right_arrow_margin_: -2       // right arrow margin
+    readonly property int hidden_arrow_margin_: 2       // hidden arrow margin
 
     // background to make connection overlap nicely with previous topics (looks like connection goes OVER the topic)
     Rectangle {
@@ -40,8 +44,6 @@ Item {
         anchors.rightMargin: left_direction ? left_margin: left_margin != 0 ? parent.height : parent.height/2
         color: "white"
     }
-
-
 
     // left arrow if visible
     Item {
@@ -70,7 +72,6 @@ Item {
         }
     }
 
-
     Item {
         id: left_arrow
         visible: left_direction
@@ -96,6 +97,57 @@ Item {
         color: arrow_color
     }
 
+    // hidden topic icon
+    Rectangle {
+        visible: graphConnection.hidden_arrow
+        anchors.verticalCenter: base_arrow.verticalCenter
+        anchors.left: base_arrow.right
+        height: graphConnection.height - 2* arrow_margin_; width: 3*graphConnection.height + hidden_arrow_margin_*4
+        color: "white"
+
+        Rectangle {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.right; anchors.leftMargin: -parent.height/2
+            height: parent.height; width: parent.height
+            radius: parent.height
+            color: "white"
+        }
+
+        Rectangle {
+            id: spot_1
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left; anchors.leftMargin: hidden_arrow_margin_*2
+            height: graphConnection.height; width: graphConnection.height
+            radius: graphConnection.height
+            color: arrow_color
+        }
+        Rectangle {
+            id: spot_2
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: spot_1.right; anchors.leftMargin: hidden_arrow_margin_
+            height: graphConnection.height; width: graphConnection.height
+            radius: graphConnection.height
+            color: arrow_color
+        }
+        Rectangle {
+            id: spot_3
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: spot_2.right; anchors.leftMargin: hidden_arrow_margin_
+            height: graphConnection.height; width: graphConnection.height
+            radius: graphConnection.height
+            color: arrow_color
+        }
+
+        Rectangle {
+            id: spot_0
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: spot_1.left; anchors.rightMargin: hidden_arrow_margin_*2-graphConnection.height/2 +1
+            height: graphConnection.height; width: graphConnection.height
+            radius: graphConnection.height
+            color: arrow_color
+        }
+    }
+
     // right arrow if visible
     Item {
         id: right_arrow
@@ -109,6 +161,14 @@ Item {
             name: "right_arrow"
             color: "grey"
             size: arrow_size_ + right_arrow_margin_
+        }
+    }
+
+    function topid_hidden(entityId, is_hidden)
+    {
+        if (endpoint_id == entityId && graphConnection.hidden_arrow != is_hidden)
+        {
+            graphConnection.hidden_arrow = is_hidden
         }
     }
 }

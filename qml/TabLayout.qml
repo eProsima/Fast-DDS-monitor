@@ -36,6 +36,8 @@ Item {
     property int last_index_: 1                                             // force unique idx on QML components
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
+    readonly property var allowed_stack_components_:                        // list of allowed component names to be
+            ["view_selector", "chartsLayout", "domainGraphLayout_component"]//  loaded in the tabs stack view
 
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
@@ -50,6 +52,9 @@ Item {
     readonly property int tabs_margins_: 15
     readonly property int tab_icons_size_: 16
     readonly property int add_tab_width_: 50
+    readonly property int timer_ms_interval_: 500
+    readonly property int dialog_width_: 300
+    readonly property int dialog_height_: 152
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
     readonly property string not_selected_tab_color_: "#f0f0f0"
@@ -84,7 +89,9 @@ Item {
             StackView {
                 id: stack
                 property int stack_id: 0
-                initialItem: view_selector
+                property string customInitialItem: "view_selector"
+                initialItem: customInitialItem == "chartsLayout" ? chartsLayout :
+                        customInitialItem == "domainGraphLayout_component" ? domainGraphLayout_component : view_selector
 
                 // override push transition to none
                 pushEnter: Transition {}
@@ -241,6 +248,14 @@ Item {
                             tabLayout.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
                         }
 
+                        onOpenLoadingGraphDialog: {
+                            loading_graph_dialog.open()
+                        }
+
+                        onInitialized: {
+                            loading_graph_dialog.soft_close()
+                        }
+
                         Connections {
                             target: tabLayout
 
@@ -261,7 +276,6 @@ Item {
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -271,6 +285,7 @@ Item {
                     function onOpen_domain_view_(stack_id, entity_id, domain_id, topic_id) {
                         if (stack.stack_id == stack_id)
                         {
+                            loading_graph_dialog.open()
                             if (stack.deep > 1)
                             {
                                 stack.pop()
@@ -426,7 +441,7 @@ Item {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
-        width: 300
+        width: dialog_width_
 
         modal: true
         title: "Select DDS Domain"
@@ -478,11 +493,73 @@ Item {
         }
     }
 
+    Dialog {
+        id: loading_graph_dialog
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+
+        width: dialog_width_
+        height: dialog_height_
+
+        modal: true
+
+        AnimatedImage {
+            source: "/resources/images/loading_graph.gif"
+            anchors.centerIn: parent
+            width: dialog_width_
+            height: dialog_height_
+        }
+
+        onAboutToShow:
+        {
+            timer.start()
+        }
+
+        function soft_close()
+        {
+            if (timer.running)
+            {
+                timer.should_close = true
+            }
+            else
+            {
+                loading_graph_dialog.close()
+            }
+        }
+
+        Timer
+        {
+            id: timer
+            property bool should_close: false
+            interval: timer_ms_interval_; running: false
+            onTriggered:
+            {
+                if (timer.should_close)
+                {
+                    loading_graph_dialog.close()
+                    timer.should_close = false
+                }
+            }
+        }
+    }
+
     function create_new_tab()
     {
+        create_new_custom_tab_("")
+    }
+
+    function create_new_custom_tab_(component_identifier)
+    {
+        var initial_component = component_identifier
+        if (!allowed_stack_components_.includes(component_identifier))
+        {
+            initial_component = "view_selector";
+        }
         var idx = tabLayout.tab_model_.length
         tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
-        var new_stack = stack_component.createObject(null, {"stack_id": tabLayout.tab_model_[idx]["stack_id"]})
+        var new_stack = stack_component.createObject(null, {
+                "stack_id": tabLayout.tab_model_[idx]["stack_id"], "customInitialItem": initial_component })
         last_index_++
         stack_layout.children.push(new_stack)
         refresh_layout(idx)
@@ -626,7 +703,7 @@ Item {
     }
 
     function open_topic_view(domainEntityId, domainId, entityId) {
-        create_new_tab()
+        create_new_custom_tab_("domainGraphLayout_component")
         open_domain_view_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, domainId)
         filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
     }
