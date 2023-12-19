@@ -242,4 +242,26 @@
         <file alias="rounded_right_arrow_grey.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_grey.svg</file>
         <file alias="rounded_right_arrow_white.svg">resources/images/icons/rounded_right_arrow/rounded_right_arrow_white.svg</file>
     </qresource>
+    <qresource prefix="/resources/images/app_icons">
+        <file alias="AML_IP.svg">resources/images/app_icons/AML_IP.svg</file>
+        <file alias="DDS_RECORDER.svg">resources/images/app_icons/DDS_RECORDER.svg</file>
+        <file alias="DDS_REPLAYER.svg">resources/images/app_icons/DDS_REPLAYER.svg</file>
+        <file alias="DDS_ROUTER.svg">resources/images/app_icons/DDS_ROUTER.svg</file>
+        <file alias="FASTDDS.svg">resources/images/app_icons/FASTDDS.svg</file>
+        <file alias="FASTDDS_MONITOR.svg">resources/images/app_icons/FASTDDS_MONITOR.svg</file>
+        <file alias="FASTDDS_SPY.svg">resources/images/app_icons/FASTDDS_SPY.svg</file>
+        <file alias="SAFEDDS.svg">resources/images/app_icons/SAFEDDS.svg</file>
+        <file alias="SHAPES_DEMO.svg">resources/images/app_icons/SHAPES_DEMO.svg</file>
+    </qresource>
+    <qresource prefix="/resources/images/app_logos">
+        <file alias="AML_IP.png">resources/images/app_logos/AML_IP.png</file>
+        <file alias="DDS_RECORDER.png">resources/images/app_logos/DDS_RECORDER.png</file>
+        <file alias="DDS_REPLAYER.png">resources/images/app_logos/DDS_REPLAYER.png</file>
+        <file alias="DDS_ROUTER.png">resources/images/app_logos/DDS_ROUTER.png</file>
+        <file alias="FASTDDS.png">resources/images/app_logos/FASTDDS.png</file>
+        <file alias="FASTDDS_MONITOR.png">resources/images/app_logos/FASTDDS_MONITOR.png</file>
+        <file alias="FASTDDS_SPY.png">resources/images/app_logos/FASTDDS_SPY.png</file>
+        <file alias="SAFEDDS.png">resources/images/app_logos/SAFEDDS.png</file>
+        <file alias="SHAPES_DEMO.png">resources/images/app_logos/SHAPES_DEMO.png</file>
+    </qresource>
 </RCC>

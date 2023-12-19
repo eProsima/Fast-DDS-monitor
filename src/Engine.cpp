@@ -321,15 +321,30 @@ bool Engine::fill_entity_info_(
         info_model_->update(default_info);
         info_model_->update_selected_entity(
             backend::entity_kind_to_QString(backend::EntityKind::INVALID),
-            "No entity selected");
+            "No entity selected",
+            "UNKNOWN_APP");
     }
     else
     {
         EntityInfo entity_info = backend_connection_.get_info(id);
+        std::string app_id = "UNKNOWN_APP";
+        //  if the entity has the property "app_id" defined
+        if (entity_info.contains("app_id"))
+        {
+            // check if the property is a known app_id
+            if (std::find(
+                        std::begin(backend::app_id_str),
+                        std::end(backend::app_id_str),
+                        entity_info["app_id"]) != std::end(backend::app_id_str))
+            {
+                app_id = entity_info["app_id"];
+            }
+        }
         info_model_->update(entity_info);
         info_model_->update_selected_entity(
             utils::to_QString(entity_info["kind"]),
-            utils::to_QString(entity_info["alias"]));
+            utils::to_QString(entity_info["alias"]),
+            utils::to_QString(app_id));
     }
     return true;
 }
@@ -1247,8 +1262,8 @@ bool Engine::remove_inactive_entities_from_status_model(
         if (!entity_info["alive"])
         {
             // remove item from tree
-            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "", backend::StatusLevel::OK_STATUS,
-                    ""));
+            entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "",
+                    backend::StatusLevel::OK_STATUS, ""));
 
             // add empty item if removed last item
             if (entity_status_model_->rowCount(entity_status_model_->rootIndex()) == 0)
@@ -1494,7 +1509,16 @@ void Engine::set_alias(
 
     if (last_entities_clicked_.dds.id == entity_id)
     {
-        info_model_->update_selected_entity(backend::backend_id_to_models_id(entity_id), utils::to_QString(new_alias));
+        EntityInfo entity_info = backend_connection_.get_info(entity_id);
+        std::string app_id = "UNKNOWN_APP";
+        if (entity_info.contains("app_id"))
+        {
+            app_id = entity_info["app_id"];
+        }
+        info_model_->update_selected_entity(
+            utils::to_QString(entity_info["kind"]),
+            utils::to_QString(new_alias),
+            utils::to_QString(app_id));
     }
 
     // Refresh specific model

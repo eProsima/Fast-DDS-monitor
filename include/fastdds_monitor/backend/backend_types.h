@@ -25,8 +25,9 @@
 
 #include <QString>
 
-#include <fastdds_statistics_backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/app_names.h>
 #include <fastdds_statistics_backend/types/JSONTags.h>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 namespace backend {
 
