@@ -72,7 +72,7 @@ void StatusTreeModel::set_source_model(
 }
 
 void StatusTreeModel::filter_proxy(
-            const QVariant& entity_id)
+        const QVariant& entity_id)
 {
     if (source_model_)
     {
@@ -105,12 +105,12 @@ StatusTreeItem* StatusTreeModel::filtered_copy(
     if (source->id() == entity_id || entity_id == backend::ID_ALL)
     {
         StatusTreeItem* destination = new StatusTreeItem(
-                source->id(),
-                source->kind(),
-                source->name_str(),
-                source->status_level(),
-                source->value_str(),
-                source->description_str());
+            source->id(),
+            source->kind(),
+            source->name_str(),
+            source->status_level(),
+            source->value_str(),
+            source->description_str());
         for (int i = 0; i < source->childCount(); i++)
         {
             addItem(destination, filtered_copy(source->child(i), entity_id));
@@ -119,7 +119,6 @@ StatusTreeItem* StatusTreeModel::filtered_copy(
     }
     return nullptr;
 }
-
 
 int StatusTreeModel::rowCount(
         const QModelIndex& parent) const
@@ -187,7 +186,6 @@ QModelIndex StatusTreeModel::parent(
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
-
 QVariant StatusTreeModel::data(
         const QModelIndex& index,
         const int role) const
@@ -206,7 +204,6 @@ QVariant StatusTreeModel::name(
 
     return internalPointer(index)->name();
 }
-
 
 QVariant StatusTreeModel::id(
         const QModelIndex& index,
@@ -324,7 +321,7 @@ void StatusTreeModel::addTopLevelItem(
     if (child)
     {
         addItem(root_item_, child);
-        if (child->id() == backend::ID_ALL &&root_item_->childCount() == 1)
+        if (child->id() == backend::ID_ALL && root_item_->childCount() == 1)
         {
             is_empty_ = true;
         }
@@ -345,7 +342,7 @@ void StatusTreeModel::addItem(
     if (parent->id() != backend::ID_ALL && parent->kind() == backend::StatusKind::INVALID)
     {
         // For each status in the entity item
-        for (int i=0; i<parent->childCount(); i++)
+        for (int i = 0; i < parent->childCount(); i++)
         {
             // if overriding status, remove previous status
             if (parent->child(i)->id() == child->id() && parent->child(i)->kind() == child->kind())
@@ -454,8 +451,8 @@ bool StatusTreeModel::containsTopLevelItem(
 }
 
 bool StatusTreeModel::contains(
-    StatusTreeItem* parent,
-    StatusTreeItem* child)
+        StatusTreeItem* parent,
+        StatusTreeItem* child)
 {
     if (!parent || !child)
     {
@@ -491,7 +488,7 @@ bool StatusTreeModel::is_empty()
 void StatusTreeModel::removeEmptyItem()
 {
     emit layoutAboutToBeChanged();
-    for (int i=0; i<root_item_->childCount(); i++)
+    for (int i = 0; i < root_item_->childCount(); i++)
     {
         if (root_item_->child(i)->id() == backend::ID_ALL)
         {
@@ -510,7 +507,7 @@ StatusTreeItem*  StatusTreeModel::getTopLevelItem(
         const std::string& description)
 {
     // For each entity item in the three (root)
-    for (int i=0; i<root_item_->childCount(); i++)
+    for (int i = 0; i < root_item_->childCount(); i++)
     {
         // if exists
         if (root_item_->child(i)->id() == id)

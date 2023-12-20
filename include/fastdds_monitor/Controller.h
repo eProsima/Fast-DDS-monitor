@@ -64,11 +64,12 @@ public:
     //! Status counters displayed in the QML
     struct StatusCounters
     {
-        std::map<backend::EntityId,uint32_t> errors;
-        std::map<backend::EntityId,uint32_t> warnings;
+        std::map<backend::EntityId, uint32_t> errors;
+        std::map<backend::EntityId, uint32_t> warnings;
         int32_t total_errors = 0;
         int32_t total_warnings = 0;
-    } status_counters;
+    }
+    status_counters;
 
 public slots:
 
@@ -287,7 +288,9 @@ signals:
     void monitorInitialized();
 
     //! Signal to notify status counters have been updated
-    void update_status_counters(QString errors, QString warnings);
+    void update_status_counters(
+            QString errors,
+            QString warnings);
 
 protected:
 

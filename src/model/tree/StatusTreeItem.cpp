@@ -183,12 +183,12 @@ int StatusTreeItem::childCount() const
 
 const QVariant& StatusTreeItem::entity_id() const
 {
-    return  id_variant_;
+    return id_variant_;
 }
 
 const QVariant& StatusTreeItem::status_kind() const
 {
-    return  kind_variant_;
+    return kind_variant_;
 }
 
 const QVariant& StatusTreeItem::name() const
@@ -306,7 +306,9 @@ int StatusTreeItem::recalculate_entity_counter()
                 }
                 count += child_items_.value(i)->value().toInt();
             }
-            catch (...) {}
+            catch (...)
+            {
+            }
         }
         value_ = std::to_string(count);
         value_variant_ = QVariant(QString::fromStdString(value_));

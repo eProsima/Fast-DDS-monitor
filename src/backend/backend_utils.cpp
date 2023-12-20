@@ -500,7 +500,7 @@ std::string policy_id_to_string(
 std::string entity_status_description(
         const backend::StatusKind kind)
 {
-    switch (kind) {
+    switch (kind){
         case backend::StatusKind::CONNECTION_LIST:
             return "List of connections that the entity is using";
         case backend::StatusKind::DEADLINE_MISSED:
@@ -528,7 +528,7 @@ std::string entity_status_description(
 std::string policy_documentation_description(
         const uint32_t& id)
 {
-        switch (id)
+    switch (id)
     {
         case 2:     // DURABILITY_QOS_POLICY_ID
             return "#durability-compatibilityrule";
@@ -552,6 +552,5 @@ std::string policy_documentation_description(
             return "";
     }
 }
-
 
 } // namespace backend

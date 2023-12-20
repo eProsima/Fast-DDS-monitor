@@ -57,6 +57,7 @@ class StatusTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
+
     explicit StatusTreeModel(
             QObject* parent = nullptr);
 
@@ -65,6 +66,7 @@ public:
     // Overriden method from QAbstractItemModel
 
 public:
+
     int rowCount(
             const QModelIndex& index) const override;
     int columnCount(
@@ -117,9 +119,10 @@ public:
 
     bool removeRow(
             int row,
-            const QModelIndex &index = QModelIndex());
+            const QModelIndex& index = QModelIndex());
 
 public:
+
     //! Add an item to the top level.
     void addTopLevelItem(
             StatusTreeItem* child);
@@ -144,9 +147,9 @@ public:
     Q_INVOKABLE void clear();
 
     /*!
-    *  Return the root item to the QML Side.
-    *  This method is not meant to be used in client code.
-    */
+     *  Return the root item to the QML Side.
+     *  This method is not meant to be used in client code.
+     */
     Q_INVOKABLE QModelIndex rootIndex();
 
     // Check if top level item is defined
@@ -178,12 +181,13 @@ public:
             StatusTreeModel* source_model);
 
     /*!
-    *  Filters the model if it is defined as proxy
-    */
+     *  Filters the model if it is defined as proxy
+     */
     Q_INVOKABLE void filter_proxy(
             const QVariant& entity_id);
 
 private:
+
     StatusTreeItem* internalPointer(
             const QModelIndex& index) const;
 
@@ -195,6 +199,7 @@ private:
             const backend::EntityId entity_id);
 
 private:
+
     StatusTreeModel* source_model_;
     StatusTreeItem* root_item_;
     bool is_empty_;

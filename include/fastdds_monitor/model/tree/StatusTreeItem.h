@@ -137,6 +137,7 @@ public:
     int recalculate_entity_counter();
 
 private:
+
     StatusTreeItem* parentItem();
 
     void setParentItem(
@@ -149,6 +150,7 @@ private:
             StatusTreeItem* item);
 
 private:
+
     StatusTreeItem* parent_item_;
     QVector<StatusTreeItem*> child_items_;
     backend::EntityId id_;

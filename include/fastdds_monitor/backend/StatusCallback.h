@@ -47,6 +47,7 @@ struct StatusCallback
         , status_kind(status_kind)
     {
     }
+
     //! Information of the domain \c EntityId the callback refers
     backend::EntityId domain_entity_id;
     //! Information of the \c EntityId the callback refers
