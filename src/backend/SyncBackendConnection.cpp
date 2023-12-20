@@ -442,7 +442,8 @@ EntityId SyncBackendConnection::init_monitor(
 {
     try
     {
-        return StatisticsBackend::init_monitor(domain);
+        return StatisticsBackend::init_monitor(domain, nullptr, CallbackMask::all(),
+                       DataKindMask::none(), FASTDDS_MONITOR_APP);
     }
     catch (const Error& e)
     {
@@ -464,7 +465,8 @@ EntityId SyncBackendConnection::init_monitor(
     {
         return StatisticsBackend::init_monitor(
             discovery_server_guid_prefix,
-            discovery_server_locators);
+            discovery_server_locators,
+            nullptr, CallbackMask::all(), DataKindMask::none(), FASTDDS_MONITOR_APP);
     }
     catch (const Error& e)
     {
@@ -889,7 +891,6 @@ bool SyncBackendConnection::get_status_data(
     }
     return false;
 }
-
 
 bool SyncBackendConnection::build_source_target_entities_vectors(
         DataKind data_kind,
