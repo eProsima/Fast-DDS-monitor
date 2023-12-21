@@ -28,6 +28,11 @@ ColumnLayout {
     id: monitoringPanel
     spacing: 0
 
+    readonly property int logo_height_: 400
+    readonly property int logo_width_: 1080
+    readonly property int max_logo_width_: 300
+    readonly property int logo_margin_: 10
+
     signal explorerDDSEntitiesChanged(bool status)
     signal explorerPhysicalChanged(bool status)
     signal explorerLogicalChanged(bool status)
@@ -265,52 +270,96 @@ ColumnLayout {
                 }
             }
 
-            ColumnLayout {
+            Item {
                 id: entityInfo
                 visible: true
                 SplitView.fillHeight: true
                 SplitView.preferredHeight: parent.height / 4
                 SplitView.minimumHeight: infoTabBar.height
-                spacing: 0
                 clip: true
 
                 TabBar {
                     id: infoTabBar
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    width: parent.width
                     TabButton {
                         text: qsTr("Info")
                     }
                     TabButton {
                         text: qsTr("Statistics")
                     }
-                    Layout.fillWidth: true
                 }
 
                 Rectangle {
                     id: infoSelectedEntity
-                    Layout.fillWidth: true
+                    property string app_id: "UNKNOWN_APP"
+                    anchors.top: infoTabBar.bottom
+                    anchors.left: parent.left
+                    width: parent.width
                     height: infoTabBar.height
-                    Label {
-                        id: infoSelectedEntityLabel
-                        text: "No entity selected"
-                        font.pointSize: 10
-                        font.italic: true
-                        anchors.verticalCenter: parent.verticalCenter
+
+                    Rectangle {
+                        id: app_logo_rect
+                        visible: infoSelectedEntity.app_id != "UNKNOWN_APP"
+                        anchors.top: parent.top
                         anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width > max_logo_width_ ? max_logo_width_ : parent.width
+                        height: infoSelectedEntity.app_id != "UNKNOWN_APP" ? (app_logo_rect.width * logo_height_)/logo_width_ : 0
+                        color: "transparent"
+
+                        Image {
+                            id: app_logo
+                            smooth: true
+                            visible: parent.visible
+                            source: infoSelectedEntity.app_id != "UNKNOWN_APP"
+                                    ? "/resources/images/app_logos/" + infoSelectedEntity.app_id + ".png" : ""
+                            anchors.top: parent.top
+                            anchors.topMargin: logo_margin_
+                            sourceSize.width: parent.width
+                            sourceSize.height:parent.height
+                        }
                     }
+
+                    Rectangle
+                    {
+                        color: "transparent"
+                        anchors.top: app_logo_rect.bottom
+                        height: infoTabBar.height
+                        width: parent.width
+
+                        Label {
+                            id: infoSelectedEntityLabel
+                            text: "No entity selected"
+                            font.pointSize: 10
+                            font.italic: true
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
+                            elide: Text.ElideRight
+                        }
+                    }
+
 
                     Connections {
                         target: qosModel
-                        function onEntitySelected(entityKind, entityAlias) {
-                            infoSelectedEntityLabel.text = (entityKind === "INVALID" || entityAlias === "") ? "No entity selected"
-                                                                : (entityKind.toUpperCase() + ": " + entityAlias)
+                        function onEntitySelected(entityKind, entityAlias, entity_app_id) {
+                            infoSelectedEntityLabel.text = (entityKind === "INVALID" || entityAlias === "")
+                                    ? "No entity selected" : (entityKind.toUpperCase() + ": " + entityAlias)
+                            infoSelectedEntity.app_id = entity_app_id
+                            infoSelectedEntity.height = entity_app_id != "UNKNOWN_APP"
+                                    ? infoTabBar.height + (app_logo_rect.width * logo_height_)/logo_width_ : infoTabBar.height
                         }
                     }
                 }
 
                 StackLayout {
                     currentIndex: infoTabBar.currentIndex
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillHeight: true
+                    anchors.top: infoSelectedEntity.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    width: parent.width
 
                     QosView {
                         id: qosView

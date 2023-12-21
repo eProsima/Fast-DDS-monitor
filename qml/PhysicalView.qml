@@ -47,6 +47,7 @@ Rectangle {
         width: parent.width
         height: parent.height
         spacing: verticalSpacing
+        boundsBehavior: Flickable.StopAtBounds
 
         ScrollBar.vertical: CustomScrollBar {
             id: scrollBar
@@ -89,7 +90,7 @@ Rectangle {
                         }
                         onClicked: {
                             if(mouse.button & Qt.RightButton) {
-                                openEntitiesMenu(id, name, kind)
+                                openEntitiesMenu("", id, name, kind)
                             } else {
                                 controller.host_click(id)
                             }
@@ -123,6 +124,7 @@ Rectangle {
                     spacing: verticalSpacing
                     topMargin: verticalSpacing
                     delegate: userListDelegate
+                    boundsBehavior: Flickable.StopAtBounds
 
                     property int collapseHeightFlag: childrenRect.height + userList.topMargin
                 }
@@ -172,7 +174,7 @@ Rectangle {
                                     }
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(id, name, kind)
+                                            openEntitiesMenu("", id, name, kind)
                                         } else {
                                             controller.user_click(id)
                                         }
@@ -206,6 +208,7 @@ Rectangle {
                                 delegate: processListDelegate
                                 spacing: verticalSpacing
                                 topMargin: verticalSpacing
+                                boundsBehavior: Flickable.StopAtBounds
 
                                 property int collapseHeightFlag: childrenRect.height + processList.topMargin
                             }
@@ -243,7 +246,7 @@ Rectangle {
 
                                                 onClicked: {
                                                     if(mouse.button & Qt.RightButton) {
-                                                        openEntitiesMenu(id, name, kind)
+                                                        openEntitiesMenu("", id, name, kind)
                                                     } else {
                                                         controller.process_click(id)
                                                     }

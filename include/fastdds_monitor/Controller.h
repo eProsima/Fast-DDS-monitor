@@ -26,6 +26,8 @@
 #include <QObject>
 #include <QtCharts/QVXYModelMapper>
 
+#include <fastdds_monitor/backend/backend_types.h>
+
 class Engine;
 
 enum class ErrorType : int
@@ -58,6 +60,16 @@ public:
     void send_error(
             QString error_msg,
             ErrorType error_type = ErrorType::GENERIC);
+
+    //! Status counters displayed in the QML
+    struct StatusCounters
+    {
+        std::map<backend::EntityId, uint32_t> errors;
+        std::map<backend::EntityId, uint32_t> warnings;
+        int32_t total_errors = 0;
+        int32_t total_warnings = 0;
+    }
+    status_counters;
 
 public slots:
 
@@ -260,6 +272,11 @@ public slots:
             quint64 series_id,
             quint64 new_max_point);
 
+
+    //! Request to backend the latest domain view JSON to build the graph
+    QString get_domain_view_graph (
+            QString domain_id);
+
 signals:
 
     //! Signal to show the Error Dialog
@@ -269,6 +286,11 @@ signals:
 
     //! Signal to inform qml that a new monitor has been initialized
     void monitorInitialized();
+
+    //! Signal to notify status counters have been updated
+    void update_status_counters(
+            QString errors,
+            QString warnings);
 
 protected:
 

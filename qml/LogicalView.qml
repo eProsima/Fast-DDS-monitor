@@ -47,6 +47,7 @@ Rectangle {
         width: parent.width
         height: parent.height
         spacing: verticalSpacing
+        boundsBehavior: Flickable.StopAtBounds
 
         ScrollBar.vertical: CustomScrollBar {
             id: scrollBar
@@ -62,6 +63,7 @@ Rectangle {
             height: domainListColumn.childrenRect.height
 
             property var domainId: id
+            property var domainName: name
             property int domainIdx: index
             property var topicList: topicList
 
@@ -95,7 +97,7 @@ Rectangle {
                         }
                         onClicked: {
                             if(mouse.button & Qt.RightButton) {
-                                openEntitiesMenu(id, name, kind)
+                                openEntitiesMenu(domainId, id, name, kind)
                             } else {
                                 controller.domain_click(id)
                             }
@@ -129,6 +131,7 @@ Rectangle {
                     spacing: verticalSpacing
                     topMargin: verticalSpacing
                     delegate: topicListDelegate
+                    boundsBehavior: Flickable.StopAtBounds
 
                     property int collapseHeightFlag: childrenRect.height + topicList.topMargin
                 }
@@ -164,7 +167,7 @@ Rectangle {
 
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(id, name, kind)
+                                            openTopicMenu(domainId, domainName, id, name, kind)
                                         } else {
                                             controller.topic_click(id)
                                         }

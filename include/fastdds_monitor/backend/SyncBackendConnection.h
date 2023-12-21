@@ -23,6 +23,7 @@
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
+#include <fastdds_statistics_backend/types/types.hpp>
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/Listener.h>
@@ -116,6 +117,14 @@ public:
     std::string get_name(
             backend::EntityId id);
 
+    //! Get the alias of an entity from the Backend by calling \c get_info
+    std::string get_alias(
+            backend::EntityId id);
+
+    //! Get the status level of an entity from the Backend by calling \c get_status
+    StatusLevel get_status(
+            backend::EntityId id);
+
     //! Get the alive status of an entity from the Backend by calling \c is_active
     bool get_alive(
             backend::EntityId id);
@@ -146,6 +155,42 @@ public:
             EntityId target_entity_id,
             Timestamp start_time = Timestamp(),
             Timestamp end_time = std::chrono::system_clock::now());
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            ConnectionListSample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            DeadlineMissedSample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            IncompatibleQosSample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            InconsistentTopicSample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            LivelinessChangedSample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            LivelinessLostSample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            ProxySample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            SampleLostSample& sample);
+
+    /*bool get_status_data(
+            EntityId source_entity_id,
+            StatusesSizeSample& sample);*/
 
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(
@@ -256,6 +301,10 @@ public:
             EntityId target_entity_id,
             std::vector<EntityId>& source_ids,
             std::vector<EntityId>& target_ids);
+
+    //! Request to backend the latest domain view JSON to build the graph
+    Graph get_domain_view_graph (
+            const EntityId& domain_id);
 
 protected:
 

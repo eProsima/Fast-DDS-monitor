@@ -70,9 +70,11 @@ EntityId StatisticsBackend::init_monitor(
         DomainId domain,
         DomainListener* domain_listener,
         CallbackMask callback_mask,
-        DataKindMask data_mask)
+        DataKindMask data_mask,
+        std::string app_id,
+        std::string app_metadata)
 {
-    return init_monitor(std::to_string(domain), domain_listener, callback_mask, data_mask);
+    return init_monitor(std::to_string(domain), domain_listener, callback_mask, data_mask, app_id, app_metadata);
 }
 
 // Add a new Domain in the Database
@@ -81,12 +83,16 @@ EntityId StatisticsBackend::init_monitor(
         std::string discovery_server_locators,
         DomainListener* domain_listener,
         CallbackMask callback_mask,
-        DataKindMask data_mask)
+        DataKindMask data_mask,
+        std::string app_id,
+        std::string app_metadata)
 {
     static_cast<void>(discovery_server_locators);
     static_cast<void>(domain_listener);
     static_cast<void>(callback_mask);
     static_cast<void>(data_mask);
+    static_cast<void>(app_id);
+    static_cast<void>(app_metadata);
 
     if (Database::get_instance()->count_domains() == 0)
     {

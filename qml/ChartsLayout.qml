@@ -119,6 +119,7 @@ Rectangle {
 
                     Rectangle {
                         anchors.fill: parent
+                        anchors.topMargin: 1
                         anchors.rightMargin: 2
                         anchors.leftMargin: 2
                         radius: width / 2
@@ -133,6 +134,13 @@ Rectangle {
                         anchors.fill: parent
                         color: gridViewScrollBar.pressed ? Theme.lightGrey : Theme.grey
                     }
+                }
+
+                Rectangle {
+                    anchors.top: parent.top
+                    height: 1
+                    width: parent.width
+                    color: gridViewScrollBar.pressed ? Theme.lightGrey : Theme.grey
                 }
             }
 

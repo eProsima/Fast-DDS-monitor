@@ -87,6 +87,14 @@ std::string data_kind_to_string(
 std::string statistic_kind_to_string(
         const StatisticKind& statistic_kind);
 
+//! Converts the \c StatusKind to string
+std::string status_kind_to_string(
+        const StatusKind& status_kind);
+
+//! Converts the \c StatusLevel to string
+std::string status_level_to_string(
+        const StatusLevel& status_level);
+
 //! Retrieves the \c EntityKind related with its name in QString
 backend::EntityKind string_to_entity_kind(
         const QString& entity_kind);
@@ -99,7 +107,6 @@ backend::DataKind string_to_data_kind(
 backend::StatisticKind string_to_statistic_kind(
         const QString& statistic_kind);
 
-
 //! recursive function to convert array json subelements to dictionaries indexed by numbers
 backend::EntityInfo refactor_json(
         backend::EntityInfo json_data);
@@ -107,6 +114,15 @@ backend::EntityInfo refactor_json(
 //! Serialize the timestamp of a given data value
 std::string timestamp_to_string(
         const backend::Timestamp timestamp);
+
+std::string policy_id_to_string(
+        const uint32_t& id);
+
+std::string entity_status_description(
+        const backend::StatusKind kind);
+
+std::string policy_documentation_description(
+        const uint32_t& id);
 
 } //namespace backend
 

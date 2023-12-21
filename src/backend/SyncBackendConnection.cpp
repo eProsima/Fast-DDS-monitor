@@ -442,7 +442,8 @@ EntityId SyncBackendConnection::init_monitor(
 {
     try
     {
-        return StatisticsBackend::init_monitor(domain);
+        return StatisticsBackend::init_monitor(domain, nullptr, CallbackMask::all(),
+                       DataKindMask::none(), FASTDDS_MONITOR_APP);
     }
     catch (const Error& e)
     {
@@ -464,7 +465,8 @@ EntityId SyncBackendConnection::init_monitor(
     {
         return StatisticsBackend::init_monitor(
             discovery_server_guid_prefix,
-            discovery_server_locators);
+            discovery_server_locators,
+            nullptr, CallbackMask::all(), DataKindMask::none(), FASTDDS_MONITOR_APP);
     }
     catch (const Error& e)
     {
@@ -619,6 +621,18 @@ std::string SyncBackendConnection::get_name(
     return backend::get_info_value(get_info(id), "name");
 }
 
+std::string SyncBackendConnection::get_alias(
+        EntityId id)
+{
+    return backend::get_info_value(get_info(id), "alias");
+}
+
+StatusLevel SyncBackendConnection:: get_status(
+        EntityId id)
+{
+    return StatisticsBackend::get_status(id);
+}
+
 std::vector<StatisticsData> SyncBackendConnection::get_data(
         DataKind data_kind,
         EntityId source_entity_id,
@@ -718,6 +732,166 @@ bool SyncBackendConnection::data_available(
     return !data.empty();
 }
 
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        ConnectionListSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        DeadlineMissedSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        IncompatibleQosSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        InconsistentTopicSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        LivelinessChangedSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        LivelinessLostSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        ProxySample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        SampleLostSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
 bool SyncBackendConnection::build_source_target_entities_vectors(
         DataKind data_kind,
         EntityId source_entity_id,
@@ -763,6 +937,22 @@ bool SyncBackendConnection::build_source_target_entities_vectors(
     }
 
     return two_entities_data;
+}
+
+Graph SyncBackendConnection::get_domain_view_graph (
+        const EntityId& domain_id)
+{
+    try
+    {
+        return StatisticsBackend::get_domain_view_graph(domain_id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting the domain view JSON graph for entity id "
+                   << domain_id.value() << ":" << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+        return Graph();
+    }
 }
 
 void SyncBackendConnection::change_unit_magnitude(

@@ -32,7 +32,7 @@
 #include <QWaitCondition>
 
 #include <fastdds_monitor/backend/Callback.h>
-#include <fastdds_monitor/backend/Listener.h>
+#include <fastdds_monitor/backend/StatusCallback.h>
 #include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
@@ -40,6 +40,7 @@
 #include <fastdds_monitor/model/info/InfoModel.h>
 #include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
 #include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
+#include <fastdds_monitor/model/tree/StatusTreeModel.h>
 
 struct EntityClicked
 {
@@ -268,6 +269,26 @@ public:
             bool last_clicked = false);
 
     /**
+     * @brief Update the entity status model with the status kind received
+     *
+     * @param id entity id
+     * @param kind StatusKind reported
+     * @return true if any change in model has been done
+     */
+    bool update_entity_status(
+            const backend::EntityId& id,
+            backend::StatusKind kind);
+
+    /**
+     * @brief Update the entity status counters and populate the model with empty message if empty
+     *
+     * @param id entity id
+     * @return false
+     */
+    bool remove_inactive_entities_from_status_model(
+            const backend::EntityId& id);
+
+    /**
      * @brief Update the internal dds model with entities related with Entity referenced by \c id
      *
      * The backend allows to ask for all the related entities to an Entity given.
@@ -349,6 +370,19 @@ public:
             backend::Callback callback);
 
     /**
+     * @brief add a status callback arrived from the backend to the status callback queue
+     *
+     * Add a status callback to the status callback queue in order to process it afterwards by the main thread.
+     * Emit a signal that communicate the main thread that there are info to process in the status callback queue.
+     * Add a status callback issue.
+     *
+     * @param callback new status callback to add
+     * @return true
+     */
+    bool add_callback(
+            backend::StatusCallback callback);
+
+    /**
      * @brief Refresh the view
      *
      * Erase the last entity clicked, and set it as \c ID_ALL so the info shown does nor reference any single entity.
@@ -389,6 +423,14 @@ public:
      * updated in the view when modified.
      */
     void process_callback_queue();
+
+    /**
+     * @brief Pop status callbacks from the status callback queues while non empty and update the models
+     *
+     * @warning This method must be executed from the main Thread (or at least a QThread) so the models are
+     * updated in the view when modified.
+     */
+    void process_status_callback_queue();
 
     //! Refresh summary panel
     void refresh_summary();
@@ -495,6 +537,10 @@ public:
             quint64 series_id,
             quint64 new_max_point);
 
+    //! Request to backend the latest domain view JSON to build the graph
+    backend::Graph get_domain_view_graph (
+            const backend::EntityId& domain_id);
+
 signals:
 
     /**
@@ -503,13 +549,25 @@ signals:
      */
     void new_callback_signal();
 
+    /**
+     * Internal signal that communicate that there are status callbacks to process by the main Thread.
+     * Arise from \c add_callback
+     */
+    void new_status_callback_signal();
+
 public slots:
 
     /**
-     * Receive the internal signal \c new_callback_signal and start the process of
-     * callback queue by \c process_callback_queue
+     * Receive the internal signal \c new_callback_signal and start the process of callback
+     * queue by \c process_callback_queue
      */
     void new_callback_slot();
+
+    /**
+     * Receive the internal signal \c new_status_callback_signal and start the process of status
+     * callback queue by \c process_status_callback_queue
+     */
+    void new_status_callback_slot();
 
 protected:
 
@@ -629,12 +687,22 @@ protected:
     //! True if there are callbacks in the callback queue
     bool are_callbacks_to_process_();
 
+    //! True if there are status callbacks in the callback queue
+    bool are_status_callbacks_to_process_();
+
     //! Pop a callback from callback queues and call \c read_callback for that callback
     bool process_callback_();
+
+    //! Pop a status callback from callback queues and call \c read_callback for that status callback
+    bool process_status_callback_();
 
     //! Update the model concerned by the entity in the callback
     bool read_callback_(
             backend::Callback callback);
+
+    //! Update the model concerned by the entity in the status callback
+    bool read_callback_(
+            backend::StatusCallback callback);
 
     //! Common method to demultiplex to update functions depending on the entity kind
     bool update_entity_generic(
@@ -691,6 +759,12 @@ protected:
     //! Data that is represented in the Status Model when this model is refreshed
     backend::Info status_info_;
 
+    //! Data Model for Fast DDS Monitor status view. Collects all entities statuses detected by the monitor service
+    models::StatusTreeModel* entity_status_model_;
+
+    //! Display and allow to filter Model for Fast DDS Monitor status view.
+    models::StatusTreeModel* entity_status_proxy_model_;
+
     //! TODO
     models::ListModel* source_entity_id_model_;
 
@@ -718,8 +792,14 @@ protected:
     //! Mutex to protect \c callback_queue_
     std::recursive_mutex callback_queue_mutex_;
 
+    //! Mutex to protect \c status_callback_queue_
+    std::recursive_mutex status_callback_queue_mutex_;
+
     //! Queue of Callbacks that have arrived by the \c Listener and have not been processed
     QQueue<backend::Callback> callback_queue_;
+
+    //! Queue of status Callbacks that have arrived by the \c Listener and have not been processed
+    QQueue<backend::StatusCallback> status_callback_queue_;
 
     //! Object that manage all the communications with the QML view
     Controller* controller_;
@@ -742,6 +822,9 @@ protected:
      * to happen) there are going to create entities already created.
      */
     std::recursive_mutex initializing_monitor_;
+
+    //! All status log
+    backend::Info status_status_log_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H

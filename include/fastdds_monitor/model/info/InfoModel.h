@@ -16,7 +16,7 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * @file TreeModel.hpp
+ * @file InfoModel.hpp
  */
 
 #ifndef _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_INFOMODEL_H
@@ -37,14 +37,16 @@ public:
     //! Update the selected entity
     void update_selected_entity(
             QString entity_kind,
-            QString entity_alias);
+            QString entity_alias,
+            QString entity_app_id);
 
 signals:
 
     //! Signal to inform qml the alias of the entity selected.
     void entitySelected(
             QString entity_kind,
-            QString entity_alias);
+            QString entity_alias,
+            QString entity_app_id);
 
 };
 
