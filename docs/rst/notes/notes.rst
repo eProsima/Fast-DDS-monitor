@@ -4,12 +4,18 @@
 .. .. include:: forthcoming_version.rst
 
 ##############
-Version v1.5.0
+Version v2.0.0
 ##############
 
 This release includes the following **features**:
 
-    * Schedule the dump of the database information to a JSON file.
+    * Split main view into tabs to open different views simultaneously
+    * Display a :ref:`domain graph<domain_graph>` view with the entities that belongs the domain
+    * Display connections between physical entities in nested groups
+    * Display connections between endpoints through topics in the domain graph
+    * Filter domain graph view per topic
+    * Display a :ref:`problem_summary` view in a new footer section.
+    * Filter problem summary per DDS entity
 
 This release includes the following **dependencies update**:
 
@@ -20,27 +26,24 @@ This release includes the following **dependencies update**:
         - Repository
         - Old Version
         - New Version
-    *   - Foonathan Memory Vendor
-        - `eProsima/foonathan_memory_vendor <https://github.com/eProsima/foonathan_memory_vendor>`_
-        - `v1.3.0 <https://github.com/eProsima/foonathan_memory_vendor/releases/tag/v1.3.0>`_
-        - `v1.3.1 <https://github.com/eProsima/foonathan_memory_vendor/releases/tag/v1.3.1>`_
     *   - Fast CDR
         - `eProsima/Fast-CDR <https://github.com/eProsima/Fast-CDR>`_
-        - `v1.0.27 <https://github.com/eProsima/Fast-CDR/releases/tag/v1.0.27>`_
         - `v1.1.0 <https://github.com/eProsima/Fast-CDR/releases/tag/v1.1.0>`_
+        - `v2.1.2 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.1.2>`_
     *   - Fast DDS
         - `eProsima/Fast-DDS <https://github.com/eProsima/Fast-DDS>`_
-        - `v2.10.1 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.10.1>`_
         - `v2.11.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.11.0>`_
+        - `v2.13.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.13.0>`_
     *   - Fast DDS Statistics Backend
         - `eProsima/Fast-DDS-statistics-backend <https://github.com/eProsima/Fast-DDS-statistics-backend>`_
-        - `v0.10.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v0.10.0>`_
         - `v0.11.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v0.11.0>`_
+        - `v1.0.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v1.0.0>`_
 
 #################
 Previous versions
 #################
 
+.. include:: previous_versions/v1.5.0.rst
 .. include:: previous_versions/v1.4.0.rst
 .. include:: previous_versions/v1.3.0.rst
 .. include:: previous_versions/v1.2.1.rst
