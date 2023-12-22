@@ -16,6 +16,7 @@ This release includes the following **features**:
     * Filter domain graph view per topic
     * Display a :ref:`problem_summary` view in a new footer section.
     * Filter problem summary per DDS entity
+    * Display eProsima products icon as part of the DDS entity information
 
 This release includes the following **dependencies update**:
 
