@@ -42,7 +42,7 @@ std::vector<EntityId> User::get_entities(
         case EntityKind::PROCESS:
             return get_ids(processes_);
 
-        case EntityKind::DOMAIN:
+        case EntityKind::DOMAIN_ENTITY:
         case EntityKind::TOPIC:
         case EntityKind::PARTICIPANT:
         case EntityKind::DATAWRITER:
