@@ -252,6 +252,7 @@
         <file alias="FASTDDS_SPY.svg">resources/images/app_icons/FASTDDS_SPY.svg</file>
         <file alias="SAFEDDS.svg">resources/images/app_icons/SAFEDDS.svg</file>
         <file alias="SHAPES_DEMO.svg">resources/images/app_icons/SHAPES_DEMO.svg</file>
+        <file alias="SUSTAINML.svg">resources/images/app_icons/SUSTAINML.svg</file>
     </qresource>
     <qresource prefix="/resources/images/app_logos">
         <file alias="AML_IP.png">resources/images/app_logos/AML_IP.png</file>
@@ -263,5 +264,6 @@
         <file alias="FASTDDS_SPY.png">resources/images/app_logos/FASTDDS_SPY.png</file>
         <file alias="SAFEDDS.png">resources/images/app_logos/SAFEDDS.png</file>
         <file alias="SHAPES_DEMO.png">resources/images/app_logos/SHAPES_DEMO.png</file>
+        <file alias="SUSTAINML.png">resources/images/app_logos/SUSTAINML.png</file>
     </qresource>
 </RCC>
