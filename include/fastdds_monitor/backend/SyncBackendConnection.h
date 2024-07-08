@@ -95,7 +95,6 @@ public:
      * @return EntityId of the new Domain Entity created
      */
     EntityId init_monitor(
-            std::string discovery_server_guid_prefix,
             std::string discovery_server_locators);
 
     /////

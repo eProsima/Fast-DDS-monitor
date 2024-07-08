@@ -26,7 +26,7 @@ The following packages will be installed:
 
 - ``foonathan_memory_vendor``, an STL compatible C++ memory allocator library.
 - ``fastcdr``, a C++ library that serializes according to the standard CDR serialization mechanism.
-- ``fastrtps``, the core library of eProsima Fast DDS library.
+- ``fastdds``, the core library of eProsima Fast DDS library.
 - ``fastdds_statistics_backend``, a C++ library that provides a simple and easy-to-use API for interacting with data
   from *Fast DDS* statistics module
 

@@ -150,7 +150,6 @@ public:
      * @param domain number of the domain
      */
     void init_monitor(
-            QString discovery_server_guid_prefix,
             QString discovery_server_locators);
 
     /////

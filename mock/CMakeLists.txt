@@ -26,7 +26,7 @@ cmake_minimum_required(VERSION 3.5)
 option(BUILD_SHARED_LIBS "Create shared libraries by default" ON)
 
 find_package(fastcdr REQUIRED)
-find_package(fastrtps REQUIRED)
+find_package(fastdds REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
 
 ###############################################################################

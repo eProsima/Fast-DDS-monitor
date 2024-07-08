@@ -21,7 +21,7 @@ project(complex-backend-mock)
 
 # Find FastDDS Statistics Backend library
 find_package(fastcdr REQUIRED)
-find_package(fastrtps REQUIRED)
+find_package(fastdds REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
 
 # Allow to use threads

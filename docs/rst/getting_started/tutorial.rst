@@ -60,7 +60,7 @@ This does not change the Monitor behavior, but would change the data and informa
         PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC;\
         MONITOR_SERVICE_TOPIC"
 
-        ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample subscriber
+        ./build/fastdds/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample subscriber
 
     where :code:`subscriber` argument creates a *DomainParticipant* with a *DataReader* in the topic
     :code:`HelloWorldTopic` in *Domain* :code:`0`.
@@ -76,7 +76,7 @@ This does not change the Monitor behavior, but would change the data and informa
         PDP_PACKETS_TOPIC;EDP_PACKETS_TOPIC;DISCOVERY_TOPIC;PHYSICAL_DATA_TOPIC;\
         MONITOR_SERVICE_TOPIC"
 
-        ./build/fastrtps/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample publisher 0 500
+        ./build/fastdds/examples/C++/DDS/HelloWorldExample/DDSHelloWorldExample publisher 0 500
 
     where :code:`publisher` argument creates a *DomainParticipant* with a *DataWriter* in the topic
     :code:`HelloWorldTopic` in *Domain* :code:`0`.

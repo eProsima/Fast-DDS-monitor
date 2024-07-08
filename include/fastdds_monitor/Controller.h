@@ -81,7 +81,6 @@ public slots:
 
     //! Slot called when initializing a monitor for a Discovery Server network
     void init_monitor(
-            QString discovery_server_guid_prefix,
             QString discovery_server_locators);
 
     //! Slot called when a Host entity is pressed
