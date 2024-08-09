@@ -109,9 +109,6 @@ RowLayout {
     }
 
     function openIDLView(entityId) {
-        // __FLAG__
-        console.log("Signal received in LeftPanel.qml")
-        // -----------------
         leftPanel.open_idl_view(entityId)
     }
 

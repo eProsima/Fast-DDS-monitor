@@ -284,18 +284,32 @@ Item {
 
                 Component {
                     id: idlView_component
-                    Rectangle
+                    Flickable
                     {
                         id: idlView
-                        
-                        Text
+                        clip: true
+                        boundsBehavior: Flickable.StopAtBounds
+                        interactive: false
+                        anchors.fill: parent
+                        contentWidth: parent.width
+                        contentHeight: idl_text.height + 2 * tabLayout.idl_text_margin_
+                        ScrollBar.vertical: ScrollBar {}
+
+                        TextEdit
                         {
                             id: idl_text
                             text: ""
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: tabLayout.idl_text_margin_
+                            anchors.rightMargin: tabLayout.idl_text_margin_
                             anchors.topMargin: tabLayout.idl_text_margin_
+
+                            // Enable text selection in the view
+                            wrapMode: TextEdit.WordWrap
+                            readOnly: true
+                            selectByMouse: true
+                            selectByKeyboard: true
 
                             Connections
                             {
@@ -748,9 +762,6 @@ Item {
     }
 
     function open_idl_view(entityId) {
-        // __FLAG__
-        console.log("Signal received in TabLayout.qml")
-        // -----------------
         create_new_custom_tab_("idlView_component")
         tabLayout.tab_model_[current_]["title"] = "IDL Description"
         var content = controller.get_type_idl(entityId)
