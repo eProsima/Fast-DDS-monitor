@@ -276,6 +276,9 @@ public slots:
     QString get_domain_view_graph (
             QString domain_id);
 
+    QString get_type_idl (
+            QString entity_id);
+
 signals:
 
     //! Signal to show the Error Dialog

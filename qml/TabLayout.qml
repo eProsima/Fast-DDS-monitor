@@ -37,12 +37,13 @@ Item {
     property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
     readonly property var allowed_stack_components_:                        // list of allowed component names to be
-            ["view_selector", "chartsLayout", "domainGraphLayout_component"]//  loaded in the tabs stack view
+            ["view_selector", "chartsLayout", "domainGraphLayout_component", "idlView_component"] //  loaded in the tabs stack view
 
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
     signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
     signal filter_domain_view_by_topic_(int stack_id, int domain_entity_id, string topic_id)
+    signal display_idl_content_(int stack_id, string content)
 
     // Read only design properties
     readonly property int max_tabs_: 15
@@ -55,6 +56,7 @@ Item {
     readonly property int timer_ms_interval_: 500
     readonly property int dialog_width_: 300
     readonly property int dialog_height_: 152
+    readonly property int idl_text_margin_: 75
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
     readonly property string not_selected_tab_color_: "#f0f0f0"
@@ -91,7 +93,8 @@ Item {
                 property int stack_id: 0
                 property string customInitialItem: "view_selector"
                 initialItem: customInitialItem == "chartsLayout" ? chartsLayout :
-                        customInitialItem == "domainGraphLayout_component" ? domainGraphLayout_component : view_selector
+                        customInitialItem == "domainGraphLayout_component" ? domainGraphLayout_component :
+                        customInitialItem == "idlView_component" ? idlView_component : view_selector
 
                 // override push transition to none
                 pushEnter: Transition {}
@@ -273,6 +276,37 @@ Item {
                                     domainGraphLayout.domain_entity_id == domain_entity_id)
                                 {
                                     domainGraphLayout.filter_model_by_topic(topic_id)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Component {
+                    id: idlView_component
+                    Rectangle
+                    {
+                        id: idlView
+                        
+                        Text
+                        {
+                            id: idl_text
+                            text: ""
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.leftMargin: tabLayout.idl_text_margin_
+                            anchors.topMargin: tabLayout.idl_text_margin_
+
+                            Connections
+                            {
+                                target: tabLayout
+
+                                function onDisplay_idl_content_(stack_id, content)
+                                {
+                                    if (stack.stack_id == stack_id)
+                                    {
+                                        idl_text.text = content
+                                    }
                                 }
                             }
                         }
@@ -711,6 +745,17 @@ Item {
         create_new_custom_tab_("domainGraphLayout_component")
         open_domain_view_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, domainId)
         filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
+    }
+
+    function open_idl_view(entityId) {
+        // __FLAG__
+        console.log("Signal received in TabLayout.qml")
+        // -----------------
+        create_new_custom_tab_("idlView_component")
+        tabLayout.tab_model_[current_]["title"] = "IDL Description"
+        var content = controller.get_type_idl(entityId)
+        display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
+        refresh_layout(current_)
     }
 
     function refresh_domain_graph_view(domainEntityId, entityId) {

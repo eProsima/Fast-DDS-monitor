@@ -953,6 +953,21 @@ Graph SyncBackendConnection::get_domain_view_graph (
     }
 }
 
+std::string SyncBackendConnection::get_type_idl(
+        const EntityId& id)
+{
+    try
+    {
+        return StatisticsBackend::get_type_idl(id);
+    }
+    catch(const std::exception& e)
+    {
+        qWarning() << "Fail getting the IDL type for entity id " << id.value() << ": " << e.what();
+        return "";
+    }
+    
+}
+
 void SyncBackendConnection::change_unit_magnitude(
         std::vector<StatisticsData>& data,
         DataKind data_kind)

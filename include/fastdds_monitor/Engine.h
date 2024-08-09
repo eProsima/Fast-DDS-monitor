@@ -526,6 +526,10 @@ public:
     //! Retrive a string list containing the available data kinds.
     std::vector<std::string> get_data_kinds();
 
+    //! Retrieve the IDL representation associated to a specific data type
+    std::string get_type_idl(
+            const backend::EntityId& entity_id);
+
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(
             const QString& data_kind);

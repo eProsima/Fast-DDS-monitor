@@ -1708,6 +1708,12 @@ std::vector<std::string> Engine::get_data_kinds()
     return backend_connection_.get_data_kinds();
 }
 
+std::string Engine::get_type_idl(
+        const backend::EntityId& entity_id)
+{
+    return backend_connection_.get_type_idl(entity_id);
+}
+
 bool Engine::data_kind_has_target(
         const QString& data_kind)
 {

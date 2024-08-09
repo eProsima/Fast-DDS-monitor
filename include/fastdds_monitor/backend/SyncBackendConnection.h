@@ -305,6 +305,10 @@ public:
     Graph get_domain_view_graph (
             const EntityId& domain_id);
 
+    //! Retrieve the IDL representation of a topic data type in string format
+    std::string get_type_idl (
+            const EntityId& entity_id);
+
 protected:
 
     void change_unit_magnitude(

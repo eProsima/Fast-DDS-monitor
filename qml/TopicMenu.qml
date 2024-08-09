@@ -42,4 +42,8 @@ Menu {
         text: "Filter graph view"
         onTriggered: openTopicView(menu.domainEntityId, menu.domainId, menu.entityId)
     }
+    MenuItem {
+        text: "IDL view"
+        onTriggered: openIDLView(menu.entityId)
+    }
 }

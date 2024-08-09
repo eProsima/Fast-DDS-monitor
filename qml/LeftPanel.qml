@@ -41,6 +41,7 @@ RowLayout {
     signal explorerLogicalChanged(bool status)
     signal explorerEntityInfoChanged(bool status)
     signal open_topic_view(string domainEntityId, string domainId, string entityId)
+    signal open_idl_view(string entityId)
     signal refresh_domain_graph_view(string domainEntityId, string entityId)
     signal filter_entity_status_log(string entityId)
 
@@ -105,6 +106,13 @@ RowLayout {
 
     function openTopicView(domainEntityId, domainId, entityId) {
         leftPanel.open_topic_view(domainEntityId, domainId, entityId)
+    }
+
+    function openIDLView(entityId) {
+        // __FLAG__
+        console.log("Signal received in LeftPanel.qml")
+        // -----------------
+        leftPanel.open_idl_view(entityId)
     }
 
     function refreshDomainGraphView(domainEntityId, entityId) {

@@ -322,3 +322,9 @@ QString Controller::get_domain_view_graph(
     backend::Graph domain_view = engine_->get_domain_view_graph(backend::models_id_to_backend_id(entity_id));
     return QString::fromUtf8(domain_view.dump().data(), int(domain_view.dump().size()));
 }
+
+QString Controller::get_type_idl(
+        QString entity_id)
+{
+    return utils::to_QString(engine_->get_type_idl(backend::models_id_to_backend_id(entity_id)));
+}
