@@ -20,7 +20,7 @@ Installation from sources
 Follow the `ROS 2 galactic installation from sources documentation
 <https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html>`_
 Fast DDS is downloaded within the rest of the packages.
-The only consideration here is to compile :code:`fastdds` library with the Statistics Module activated.
+The only consideration here is to compile :code:`fastrtps` library with the Statistics Module activated.
 When compiling with colcon, the following arguments must be provided:
 
 .. code-block:: bash
@@ -58,7 +58,7 @@ To execute each of the nodes, run the following commands in different terminals:
 
 .. code-block:: bash
 
-    export RMW_IMPLEMENTATION=rmw_fastdds_cpp
+    export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
     export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;\
     PUBLICATION_THROUGHPUT_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;\
@@ -71,7 +71,7 @@ To execute each of the nodes, run the following commands in different terminals:
 
 .. code-block:: bash
 
-    export RMW_IMPLEMENTATION=rmw_fastdds_cpp
+    export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
     export FASTDDS_STATISTICS="HISTORY_LATENCY_TOPIC;NETWORK_LATENCY_TOPIC;\
     PUBLICATION_THROUGHPUT_TOPIC;SUBSCRIPTION_THROUGHPUT_TOPIC;RTPS_SENT_TOPIC;\
