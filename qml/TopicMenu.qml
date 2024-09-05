@@ -43,7 +43,7 @@ Menu {
         onTriggered: openTopicView(menu.domainEntityId, menu.domainId, menu.entityId)
     }
     MenuItem {
-        text: "IDL view"
+        text: "Data type IDL view"
         onTriggered: openIDLView(menu.entityId)
     }
 }

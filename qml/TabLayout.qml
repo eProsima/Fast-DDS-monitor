@@ -56,7 +56,7 @@ Item {
     readonly property int timer_ms_interval_: 500
     readonly property int dialog_width_: 300
     readonly property int dialog_height_: 152
-    readonly property int idl_text_margin_: 75
+    readonly property int idl_text_margin_: 30
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
     readonly property string not_selected_tab_color_: "#f0f0f0"
@@ -763,7 +763,7 @@ Item {
 
     function open_idl_view(entityId) {
         create_new_custom_tab_("idlView_component")
-        tabLayout.tab_model_[current_]["title"] = "IDL Description"
+        tabLayout.tab_model_[current_]["title"] = controller.get_data_type_name(entityId)
         var content = controller.get_type_idl(entityId)
         display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
         refresh_layout(current_)

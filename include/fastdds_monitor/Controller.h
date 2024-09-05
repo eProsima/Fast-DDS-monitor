@@ -279,6 +279,9 @@ public slots:
     QString get_type_idl (
             QString entity_id);
 
+    QString get_data_type_name(
+            QString entity_id);
+
 signals:
 
     //! Signal to show the Error Dialog

@@ -328,3 +328,9 @@ QString Controller::get_type_idl(
 {
     return utils::to_QString(engine_->get_type_idl(backend::models_id_to_backend_id(entity_id)));
 }
+
+QString Controller::get_data_type_name(
+        QString entity_id)
+{
+    return utils::to_QString(engine_->get_data_type_name(backend::models_id_to_backend_id(entity_id)));
+}

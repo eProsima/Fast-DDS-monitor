@@ -119,7 +119,11 @@ public:
     //! Get the alias of an entity from the Backend by calling \c get_info
     std::string get_alias(
             backend::EntityId id);
-
+            
+    //! Get the data type name of an entity from the Backend by calling \c get_info
+    std::string get_data_type_name(
+            backend::EntityId id);
+    
     //! Get the status level of an entity from the Backend by calling \c get_status
     StatusLevel get_status(
             backend::EntityId id);
