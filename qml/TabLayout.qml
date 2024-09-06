@@ -57,6 +57,7 @@ Item {
     readonly property int dialog_width_: 300
     readonly property int dialog_height_: 152
     readonly property int idl_text_margin_: 30
+    readonly property int hover_text_offset_: 50
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
     readonly property string not_selected_tab_color_: "#f0f0f0"
@@ -401,8 +402,20 @@ Item {
                 name: "cross"
                 size: tab_icons_size_
             }
+            Label {
+                id: hover_label
+                visible: false
+                anchors.top: delegated_rect.bottom
+                anchors.topMargin: tabLayout.hover_text_offset_
+                anchors.horizontalCenter: delegated_rect.horizontalCenter
+                ToolTip.text: modelData["title"]
+                ToolTip.visible: mouse_area.containsMouse
+            }
+
             // tab selection action
             MouseArea {
+                id: mouse_area
+                hoverEnabled: true
                 anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.left: parent.left;
                 anchors.right: close_icon.left; anchors.rightMargin: - tabs_margins_
                 onClicked: {
@@ -451,9 +464,19 @@ Item {
             name: "plus"
             size: tab_icons_size_
         }
+        Label {
+            visible: false
+            anchors.top: add_new_tab_button.bottom
+            anchors.topMargin: tabLayout.hover_text_offset_
+            anchors.horizontalCenter: add_new_tab_button.horizontalCenter
+            ToolTip.text: "Add new tab"
+            ToolTip.visible: add_tab_mouse_area.containsMouse
+        }
         // add new tab action
         MouseArea {
+            id: add_tab_mouse_area
             anchors.fill: parent
+            hoverEnabled: true
             onClicked: {
                 if (tabLayout.tab_model_.length < max_tabs_)
                     tabLayout.create_new_tab()
