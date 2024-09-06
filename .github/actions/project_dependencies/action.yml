@@ -33,36 +33,3 @@ runs:
   using: composite
   steps:
 
-    - name: Install apt packages
-      if: runner.os == 'Linux'
-      uses: eProsima/eProsima-CI/ubuntu/install_apt_packages@v0
-      with:
-        packages: doxygen graphviz imagemagick python3 python3-pip python3-sphinxcontrib.spelling python3-venv software-properties-common wget curl grep
-
-    - name: Install Python packages
-      uses: eProsima/eProsima-CI/multiplatform/install_python_packages@v0
-      with:
-        packages: sphinx==4.3.1 doc8==0.10.1 sphinx_rtd_theme==0.5.2 sphinxcontrib.spelling==7.2.1 sphinxcontrib-imagehelper==1.1.1 GitPython gcovr==5
-
-    - name: Update colcon mixin
-      if: runner.os == 'Linux'
-      shell: bash
-      run: |
-        colcon mixin add default \
-          https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
-        colcon mixin update default
-      continue-on-error: true
-
-    - name: Install Qt
-      uses: eProsima/eProsima-CI/multiplatform/install_qt@feature/external_qt
-      with:
-        dir: '${{ github.workspace }}/qt_installation/'
-        modules: 'qtcharts'
-
-    - name: Install OpenSSL in windows
-      if: runner.os == 'Windows'
-      shell: pwsh
-      run: >
-        choco install openssl -yr --no-progress;
-        @(ls -Path C:\Windows\System32\* -Include libssl-*.dll; ls -Path C:\Windows\SysWOW64\* -Include libssl-*.dll)
-        | rm -ErrorAction SilentlyContinue
