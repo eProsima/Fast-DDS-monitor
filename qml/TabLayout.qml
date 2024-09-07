@@ -34,7 +34,7 @@ Item {
     // Private properties
     property int current_: 0                                                // current tab displayed
     property int last_index_: 1                                             // force unique idx on QML components
-    property var tab_model_: [{"idx":0, "title":"New Tab", "stack_id": 0}]  // tab model for tab bad and tab management
+    property var tab_model_: [{"idx":0, "title":"New Tab", "icon":"", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
     readonly property var allowed_stack_components_:                        // list of allowed component names to be
             ["view_selector", "chartsLayout", "domainGraphLayout_component", "idlView_component"] //  loaded in the tabs stack view
@@ -52,6 +52,7 @@ Item {
     readonly property int tabs_height_: 36
     readonly property int tabs_margins_: 15
     readonly property int tab_icons_size_: 16
+    readonly property int tab_icons_margins_: 8
     readonly property int add_tab_width_: 50
     readonly property int timer_ms_interval_: 500
     readonly property int dialog_width_: 300
@@ -149,6 +150,7 @@ Item {
                                     if (!disable_chart_selection_)
                                     {
                                         tabLayout.tab_model_[current_]["title"] = "Chart View"
+                                        tabLayout.tab_model_[current_]["icon"] = "dynamicchart"
                                         if (stack.deep > 1)
                                         {
                                             stack.pop()
@@ -226,6 +228,7 @@ Item {
                                 if (tabLayout.tab_model_[i]["stack_id"] == stack_id)
                                 {
                                     tabLayout.tab_model_[i]["title"] = new_name
+                                    tabLayout.tab_model_[i]["icon"] = new_icon
 
                                     // update model to set the visual change
                                     tab_list.model = tabLayout.tab_model_
@@ -382,10 +385,20 @@ Item {
                 GradientStop { position: 0.96; color: delegated_rect.color }
                 GradientStop { position: 1.0; color: current_ == modelData["idx"] + 1 ? shadow_color : delegated_rect.color}
             }
+            // tab icon
+            IconSVG {
+                id: tab_icon
+                visible: modelData["title"] != "New Tab" && modelData["icon"] != ""
+                anchors.left: parent.left
+                anchors.leftMargin: tab_icons_margins_
+                anchors.verticalCenter: parent.verticalCenter
+                name: modelData["icon"]
+                size: tab_icons_size_
+            }
             Text {
                 horizontalAlignment: Qt.AlignLeft; verticalAlignment: Qt.AlignVCenter
-                anchors.left: parent.left
-                anchors.leftMargin: tabs_margins_
+                anchors.left: tab_icon.right
+                anchors.leftMargin: tab_icons_margins_
                 anchors.right: close_icon.visible ? close_icon.left : parent.right
                 anchors.rightMargin: tabs_margins_
                 anchors.verticalCenter: parent.verticalCenter
@@ -633,7 +646,7 @@ Item {
             initial_component = "view_selector";
         }
         var idx = tabLayout.tab_model_.length
-        tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "stack_id":last_index_}
+        tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "icon":"", "stack_id":last_index_}
         var new_stack = stack_component.createObject(null, {
                 "stack_id": tabLayout.tab_model_[idx]["stack_id"], "customInitialItem": initial_component })
         last_index_++
@@ -690,6 +703,7 @@ Item {
             if (swap)
             {
                 tabLayout.tab_model_[idx_prev]["title"] = tabLayout.tab_model_[i]["title"]
+                tabLayout.tab_model_[idx_prev]["icon"] = tabLayout.tab_model_[i]["icon"]
                 tabLayout.tab_model_[idx_prev]["stack_id"] = tabLayout.tab_model_[i]["stack_id"]
             }
             // reorder model idx usage, and delete idx tab components (stack layout content)
@@ -787,6 +801,7 @@ Item {
     function open_idl_view(entityId) {
         create_new_custom_tab_("idlView_component")
         tabLayout.tab_model_[current_]["title"] = controller.get_data_type_name(entityId)
+        tabLayout.tab_model_[current_]["icon"] = "idl"
         var content = controller.get_type_idl(entityId)
         display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
         refresh_layout(current_)

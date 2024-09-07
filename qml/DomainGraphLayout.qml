@@ -32,7 +32,7 @@ Item
     required property string component_id               // mandatory to be included when object created
 
     // Public signals
-    signal update_tab_name(string new_name, string stack_id)  // Update tab name based on selected domain id
+    signal update_tab_name(string new_name, string new_icon, string stack_id)  // Update tab name based on selected domain id
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
     signal openLoadingGraphDialog()                     //l et tab layout know that graph is about to be generated
@@ -1655,7 +1655,7 @@ Item
         {
             if (filtered_topics_.length == 1)
             {
-                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View", component_id)
+                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View", "topic", component_id)
             }
             else
             {
@@ -1669,12 +1669,12 @@ Item
                     print_topic_names += " and " + topic_names[topic_names.length-1]
                 }
 
-                domainGraphLayout.update_tab_name(print_topic_names + " Topics View", component_id)
+                domainGraphLayout.update_tab_name(print_topic_names + " Topics View", "topic", component_id)
             }
         }
         else
         {
-            domainGraphLayout.update_tab_name("Domain " + domain_id + " View", component_id)
+            domainGraphLayout.update_tab_name("Domain " + domain_id + " View", "domain_graph", component_id)
         }
     }
 
