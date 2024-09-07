@@ -108,6 +108,10 @@
         <file alias="domain_eProsimaLightBlue.svg">resources/images/icons/domain/domain_eProsimaLightBlue.svg</file>
         <file alias="domain_grey.svg">resources/images/icons/domain/domain_grey.svg</file>
         <file alias="domain_white.svg">resources/images/icons/domain/domain_white.svg</file>
+        <file alias="domain_graph_black.svg">resources/images/icons/domain_graph/domain_graph_black.svg</file>
+        <file alias="domain_graph_eProsimaLightBlue.svg">resources/images/icons/domain_graph/domain_graph_eProsimaLightBlue.svg</file>
+        <file alias="domain_graph_grey.svg">resources/images/icons/domain_graph/domain_graph_grey.svg</file>
+        <file alias="domain_graph_white.svg">resources/images/icons/domain_graph/domain_graph_white.svg</file>
         <file alias="dynamicchart_black.svg">resources/images/icons/dynamicchart/dynamicchart_black.svg</file>
         <file alias="dynamicchart_eProsimaLightBlue.svg">resources/images/icons/dynamicchart/dynamicchart_eProsimaLightBlue.svg</file>
         <file alias="dynamicchart_grey.svg">resources/images/icons/dynamicchart/dynamicchart_grey.svg</file>
@@ -157,6 +161,10 @@
         <file alias="host_eProsimaLightBlue.svg">resources/images/icons/host/host_eProsimaLightBlue.svg</file>
         <file alias="host_grey.svg">resources/images/icons/host/host_grey.svg</file>
         <file alias="host_white.svg">resources/images/icons/host/host_white.svg</file>
+        <file alias="idl_black.svg">resources/images/icons/idl/idl_black.svg</file>
+        <file alias="idl_eProsimaLightBlue.svg">resources/images/icons/idl/idl_eProsimaLightBlue.svg</file>
+        <file alias="idl_grey.svg">resources/images/icons/idl/idl_grey.svg</file>
+        <file alias="idl_white.svg">resources/images/icons/idl/idl_white.svg</file>
         <file alias="info_black.svg">resources/images/icons/info/info_black.svg</file>
         <file alias="info_eProsimaDarkBlue.svg">resources/images/icons/info/info_eProsimaDarkBlue.svg</file>
         <file alias="info_eProsimaLightBlue.svg">resources/images/icons/info/info_eProsimaLightBlue.svg</file>
