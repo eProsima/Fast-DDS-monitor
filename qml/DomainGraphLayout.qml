@@ -1049,13 +1049,14 @@ Item
                                                         visible: parent.visible
                                                         anchors.horizontalCenter: parent.horizontalCenter
                                                         source: modelData["app_id"] == "UNKNOWN_APP" ? "" :
-                                                                "/resources/images/app_icons/" + modelData["app_id"] + ".svg" 
+                                                                "/resources/images/app_icons/" + modelData["app_id"] + ".svg"
                                                         readonly property int amlip_offset_: 5
                                                         // AML_IP is wider than it is tall, so its size is increased a little
                                                         // bit to make it look like the same aspect ratio as the other icons
-                                                        sourceSize.width: modelData["app_id"] == "AML_IP"
+                                                        // It also happens with FASTDDS_VISUALIZER
+                                                        sourceSize.width: modelData["app_id"] == "AML_IP" || modelData["app_id"] == "FASTDDS_VISUALIZER"
                                                                 ? parent.height + amlip_offset_ : parent.height
-                                                        sourceSize.height: modelData["app_id"] == "AML_IP"
+                                                        sourceSize.height: modelData["app_id"] == "AML_IP" || modelData["app_id"] == "FASTDDS_VISUALIZER"
                                                                 ? parent.height + amlip_offset_ : parent.height
                                                     }
                                                 }
