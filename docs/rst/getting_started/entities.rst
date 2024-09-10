@@ -44,9 +44,11 @@ Refer to `DomainParticipant Fast DDS Documentation
 <https://fast-dds.docs.eprosima.com/en/latest/fastdds/dds_layer/domain/domainParticipant/domainParticipant.html>`_
 for a more detailed explanation of the *DomainParticipant* entity in DDS.
 
-Each *DomainParticipant* can only communicate under one *Domain* (see :ref:`logical entities <logical_entities>` section)
-and so it exists a direct connection between each *DomainParticipant* and the *Domain* in which it works.
-From the:numref:`entities diagram <fig_entities_diagram>` it can be seen that *DomainParticipant* entities are contained in a
+Each *DomainParticipant* can only communicate under one *Domain*
+(see :ref:`logical entities <logical_entities>` section) and so it exists a direct connection between each
+*DomainParticipant* and the *Domain* in which it works.
+From the:numref:`entities diagram <fig_entities_diagram>` it can be seen that *DomainParticipant* entities
+are contained in a
 *Process*, this is because a system process (so-called *Process* entity) executes an application using *Fast DDS*
 that instantiates *DomainParticipants*.
 The same applies to *DataReaders/DataWriters* instantiated by a *DomainParticipant* belonging to a specific *Process*.
