@@ -49,6 +49,7 @@
                 "-Ax64",
                 "-T host=x64",
                 "-DBUILD_MOCK=ON",
+                "-DBUILD_APP_TESTS=ON",
                 "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/5.15.2"
             ]
         },
