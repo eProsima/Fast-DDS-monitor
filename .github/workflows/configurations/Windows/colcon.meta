@@ -1,0 +1,57 @@
+{
+    "names":
+    {
+        "foonathan_memory":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_CXX_FLAGS='/WX /EHsc'",
+                "-Ax64",
+                "-T host=x64",
+                "-DBUILD_SHARED_LIBS=OFF",
+                "-DFOONATHAN_MEMORY_BUILD_TOOLS=ON",
+                "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+                "-DFOONATHAN_MEMORY_BUILD_TESTS=OFF"
+            ]
+        },
+
+        "fastcdr":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_CXX_FLAGS='/WX /EHsc'",
+                "-Ax64",
+                "-T host=x64"
+            ]
+        },
+
+        "fastrtps":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_CXX_FLAGS='/WX /EHsc'",
+                "-Ax64",
+                "-T host=x64",
+                "-DFASTDDS_STATISTICS=ON",
+                "-DTHIRDPARTY=ON",
+                "-DSECURITY=ON",
+                "-DCOMPILE_EXAMPLES=OFF",
+                "-DEPROSIMA_BUILD_TESTS=OFF",
+                "-DINTERNAL_DEBUG=ON"
+            ]
+        },
+
+        "fastdds_monitor":
+        {
+            "cmake-args":
+            [
+                "-DCMAKE_CXX_FLAGS='/WX /EHsc'",
+                "-Ax64",
+                "-T host=x64",
+                "-DBUILD_MOCK=ON",
+                "-DBUILD_APP_TESTS=ON",
+                "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/5.15.2"
+            ]
+        },
+    }
+}

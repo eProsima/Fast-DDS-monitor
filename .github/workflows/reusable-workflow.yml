@@ -1,0 +1,271 @@
+name: test
+
+on:
+
+  workflow_call:
+    inputs:
+
+      custom_version_build:
+        description: >
+          Version of Fast DDS build from eProsima-CI.
+        required: true
+        type: string
+
+      dependencies_artifact_postfix:
+        description: >
+          'Postfix name to add to artifact name to download dependencies.
+          This is use to download a specific artifact version from eProsima-CI.'
+        required: true
+        default: '_nightly'
+        type: string
+
+      ref:
+        description: >
+          The branch or tag name to checkout.
+        required: true
+        type: string
+        default: 'main'
+
+env:
+  default_dependencies_artifact_postfix: '_nightly'
+
+jobs:
+
+#####################################################################
+# TEST
+
+  multiplatform-build:
+    runs-on: ${{ matrix.os.version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        cmake_build_type:
+          - Release
+          - Debug
+        os:
+          - version: ubuntu-22.04
+            aarch: 'gcc_64'
+          - version: ubuntu-24.04
+            aarch: 'gcc_64'
+          - version: windows-2019
+            aarch: 'win64_msvc2019_64'
+          - version: windows-2022
+            aarch: 'win64_msvc2019_64'
+
+    steps:
+
+      - name: Sync repository
+        uses: eProsima/eProsima-CI/external/checkout@v0
+        with:
+          path: src/fastdds_monitor
+          ref: ${{ inputs.ref }}
+
+      - name: Install Fast DDS dependencies
+        uses: eProsima/eProsima-CI/multiplatform/install_fastdds_dependencies@v0
+        with:
+          cmake_build_type: ${{ matrix.cmake_build_type }}
+
+      - name: Fetch Fast DDS Monitor repositories
+        uses: eProsima/eProsima-CI/multiplatform/vcs_import@v0
+        with:
+          vcs_repos_file:  ${{ github.workspace }}//src/fastdds_monitor/fastdds_monitor.repos
+          destination_workspace: ${{ github.workspace }}/src
+          skip_existing: 'true'
+
+      - name: Install apt packages
+        if: runner.os == 'Linux'
+        uses: eProsima/eProsima-CI/ubuntu/install_apt_packages@v0
+        with:
+          packages: doxygen graphviz imagemagick python3 python3-pip python3-sphinxcontrib.spelling python3-venv software-properties-common wget curl grep
+
+      - name: Install Ubuntu Python packages
+        if: ${{ runner.os == 'Linux' }}
+        uses: eProsima/eProsima-CI/multiplatform/install_python_packages@v0
+        with:
+          packages: sphinx==7.3.6 doc8==0.10.1 sphinx_rtd_theme==2.0.0 sphinxcontrib.spelling==8.0.0 sphinxcontrib-imagehelper==1.1.1 GitPython
+
+      - name: Install Windows Python packages
+        if: ${{ runner.os == 'Windows' }}
+        uses: eProsima/eProsima-CI/multiplatform/install_python_packages@v0
+        with:
+          packages: sphinx doc8 sphinx_rtd_theme sphinxcontrib.spelling sphinxcontrib-imagehelper GitPython
+
+      - name: Install Qt
+        uses: eProsima/eProsima-CI/external/install_qt@v0
+        with:
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+          arch: ${{ matrix.os.aarch }}
+          setup-python: 'false'
+
+      - name: Install OpenSSL in windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: >
+          choco install openssl -yr --no-progress;
+          @(ls -Path C:\Windows\System32\* -Include libssl-*.dll; ls -Path C:\Windows\SysWOW64\* -Include libssl-*.dll)
+          | rm -ErrorAction SilentlyContinue
+
+      - name: Compile and run tests
+        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
+        env:
+          QT_QPA_PLATFORM: 'offscreen'
+        with:
+          packages_names: fastdds_monitor
+          cmake_build_type: ${{ matrix.cmake_build_type }}
+          cmake_args: '-DTHIRDPARTY=ON -DBUILD_DOCUMENTATION=OFF -DBUILD_DOCUMENTATION_TESTS=OFF'
+          colcon_meta_file: ${{ github.workspace }}/src/fastdds_monitor/.github/workflows/configurations/${{ runner.os }}/colcon.meta
+          workspace: ${{ github.workspace }}
+          test_report_artifact: 'fastdds_monitor_${{ matrix.os.version }}_${{ matrix.cmake_build_type }}'
+
+      - name: Upload artifact
+        uses: eProsima/eProsima-CI/external/upload-artifact@v0
+        if: ${{ failure() }}
+        with:
+          name: ${{ matrix.os.version }}_output
+          path: ${{ github.workspace }}/build/fastdds_monitor
+
+
+#####################################################################
+# DOCUMENTATION
+
+#####################################################################
+# TEST
+
+  documentation:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        cmake_build_type:
+          - Release
+          - Debug
+
+    steps:
+      - name: Sync repository
+        uses: eProsima/eProsima-CI/external/checkout@v0
+        with:
+          path: src/fastdds_monitor
+          ref: ${{ inputs.ref }}
+
+      - name: Install Fast DDS dependencies
+        uses: eProsima/eProsima-CI/multiplatform/install_fastdds_dependencies@v0
+        with:
+          cmake_build_type: ${{ matrix.cmake_build_type }}
+
+      - name: Fetch Fast DDS Monitor repositories
+        uses: eProsima/eProsima-CI/multiplatform/vcs_import@v0
+        with:
+          vcs_repos_file:  ${{ github.workspace }}//src/fastdds_monitor/fastdds_monitor.repos
+          destination_workspace: ${{ github.workspace }}/src
+          skip_existing: 'true'
+
+      - name: Install apt packages
+        uses: eProsima/eProsima-CI/ubuntu/install_apt_packages@v0
+        with:
+          packages: doxygen graphviz imagemagick python3 python3-pip python3-sphinxcontrib.spelling python3-venv software-properties-common wget curl grep
+
+      - name: Install Python packages
+        uses: eProsima/eProsima-CI/multiplatform/install_python_packages@v0
+        with:
+          packages: sphinx==7.3.6 doc8==0.10.1 sphinx_rtd_theme==2.0.0 sphinxcontrib.spelling==8.0.0 sphinxcontrib-imagehelper==1.1.1 GitPython
+
+      - name: Install Qt
+        uses: eProsima/eProsima-CI/external/install_qt@v0
+        with:
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+          setup-python: 'false'
+
+      - name: Compile and run tests
+        uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
+        with:
+          packages_names: fastdds_monitor
+          cmake_build_type: ${{ matrix.cmake_build_type }}
+          cmake_args: '-DTHIRDPARTY=ON -DBUILD_DOCUMENTATION=ON -DBUILD_DOCUMENTATION_TESTS=ON'
+          colcon_meta_file: ${{ github.workspace }}/src/fastdds_monitor/.github/workflows/configurations/Linux/colcon.meta
+          workspace: ${{ github.workspace }}
+          test_report_artifact: 'fastdds_monitor_documentation'
+
+
+#####################################################################
+# CLANG
+
+  clang:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: Sync repository
+        uses: eProsima/eProsima-CI/external/checkout@v0
+        with:
+          path: ${{ github.workspace }}/src/fastdds_monitor
+          ref: ${{ inputs.ref }}
+
+      - name: Install Fast DDS dependencies
+        uses: eProsima/eProsima-CI/multiplatform/install_fastdds_dependencies@v0
+        with:
+          cmake_build_type: ${{ matrix.cmake_build_type }}
+
+      - name: Fetch Fast DDS Monitor repositories
+        uses: eProsima/eProsima-CI/multiplatform/vcs_import@v0
+        with:
+          vcs_repos_file:  ${{ github.workspace }}/src/fastdds_monitor/fastdds_monitor.repos
+          destination_workspace: ${{ github.workspace }}/src
+          skip_existing: 'true'
+
+      - name: Install apt packages
+        if: runner.os == 'Linux'
+        uses: eProsima/eProsima-CI/ubuntu/install_apt_packages@v0
+        with:
+          packages: doxygen graphviz imagemagick python3 python3-pip python3-sphinxcontrib.spelling python3-venv software-properties-common wget curl grep
+
+      - name: Install Python packages
+        uses: eProsima/eProsima-CI/multiplatform/install_python_packages@v0
+        with:
+          packages: sphinx==7.3.6 doc8==0.10.1 sphinx_rtd_theme==2.0.0 sphinxcontrib.spelling==8.0.0 sphinxcontrib-imagehelper==1.1.1 GitPython
+
+      - name: Install Qt
+        uses: eProsima/eProsima-CI/external/install_qt@v0
+        with:
+          dir: '${{ github.workspace }}/qt_installation/'
+          modules: 'qtcharts'
+          setup-python: 'false'
+
+      - name: Install OpenSSL in windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: >
+          choco install openssl -yr --no-progress;
+          @(ls -Path C:\Windows\System32\* -Include libssl-*.dll; ls -Path C:\Windows\SysWOW64\* -Include libssl-*.dll)
+          | rm -ErrorAction SilentlyContinue
+
+      - name: Compile and run tests
+        uses: eProsima/eProsima-CI/multiplatform/clang_build_test@v0
+        with:
+          packages_names: fastdds_monitor
+          colcon_meta_file: ${{ github.workspace }}/src/fastdds_monitor/.github/workflows/configurations/Linux/clang_colcon.meta
+          workspace: ${{ github.workspace }}
+
+      - name: Upload artifact
+        uses: eProsima/eProsima-CI/external/upload-artifact@v0
+        if: ${{ failure() }}
+        with:
+          name: clang_output
+          path: ${{ github.workspace }}/build/fastdds_monitor
+
+#####################################################################
+# UNCRUSTIFY
+
+  uncrustify:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: Sync repository
+        uses: eProsima/eProsima-CI/external/checkout@v0
+        with:
+          path: src
+          ref: ${{ inputs.ref }}
+
+      - name: Uncrustify
+        uses: eProsima/eProsima-CI/ubuntu/uncrustify@v0
+

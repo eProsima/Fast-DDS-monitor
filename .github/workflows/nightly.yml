@@ -1,0 +1,25 @@
+# Nightly test workflow for Fast DDS Monitor
+name: nightly
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * *'
+
+jobs:
+  reusable_tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+        - fastdds_ref: 'v2'
+          monitor_ref: '2.x'
+        - fastdds_ref: 'v3'
+          monitor_ref: 'main'
+    name: reusable_tests
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      custom_version_build: ${{ matrix.version.fastdds_ref }}
+      dependencies_artifact_postfix: '_nightly'
+      ref: ${{ matrix.version.monitor_ref }}
+    secrets: inherit
