@@ -20,7 +20,7 @@
   <url type="repository">https://github.com/eProsima/Fast-DDS-monitor</url>
 
   <depend>fastcdr</depend>
-  <depend>fastrtps</depend>
+  <depend>fastdds</depend>
   <depend>fastdds_statistics_backend</depend>
 
   <buildtool_depend>cmake</buildtool_depend>

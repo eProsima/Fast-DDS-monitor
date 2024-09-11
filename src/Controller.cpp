@@ -21,7 +21,7 @@
 
 #include <fastdds_monitor/config.h>
 #include <fastdds_statistics_backend/config.h>
-#include <fastrtps/config.h>
+#include <fastdds/config.hpp>
 
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/Engine.h>
@@ -34,10 +34,9 @@ void Controller::init_monitor(
 }
 
 void Controller::init_monitor(
-        QString discovery_server_guid_prefix,
         QString discovery_server_locators)
 {
-    engine_->init_monitor(discovery_server_guid_prefix, discovery_server_locators);
+    engine_->init_monitor(discovery_server_locators);
 }
 
 void Controller::host_click(
@@ -170,7 +169,7 @@ QtCharts::QVXYModelMapper* Controller::add_statistics_data(
 
 QString Controller::fastdds_version()
 {
-    return utils::to_QString(FASTRTPS_VERSION_STR);
+    return utils::to_QString(FASTDDS_VERSION_STR);
 }
 
 QString Controller::fastdds_statistics_backend_version()

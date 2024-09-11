@@ -86,7 +86,7 @@ list(APPEND CMAKE_PREFIX_PATH ${QT_PATH})
 
 find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts QuickControls2 REQUIRED)
 find_package(fastcdr REQUIRED)
-find_package(fastrtps REQUIRED)
+find_package(fastdds REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
 
 foreach(c Core Widgets Gui Quick Qml Charts QuickControls2 Utils)
@@ -98,7 +98,7 @@ endforeach()
 if(${fastcdr_FOUND})
     message(STATUS "Fast CDR found!")
 endif()
-if(${fastrtps_FOUND})
+if(${fastdds_FOUND})
     message(STATUS "Fast DDS found!")
 endif()
 if(${fastdds_statistics_backend_FOUND})
@@ -331,7 +331,7 @@ else()
     target_link_libraries(${PROJECT_NAME} PUBLIC
         ${QT5_LIBRARY_LINKS}
         fastcdr
-        fastrtps
+        fastdds
         fastdds_statistics_backend)
 
 endif()

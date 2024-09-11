@@ -458,13 +458,11 @@ EntityId SyncBackendConnection::init_monitor(
 }
 
 EntityId SyncBackendConnection::init_monitor(
-        std::string discovery_server_guid_prefix,
         std::string discovery_server_locators)
 {
     try
     {
         return StatisticsBackend::init_monitor(
-            discovery_server_guid_prefix,
             discovery_server_locators,
             nullptr, CallbackMask::all(), DataKindMask::none(), FASTDDS_MONITOR_APP);
     }

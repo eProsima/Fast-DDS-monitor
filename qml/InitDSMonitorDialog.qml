@@ -38,7 +38,6 @@ Dialog {
     }
 
     onReset: {
-        discoveryServerGuid.text = "44.53.00.5f.45.50.52.4f.53.49.4d.41"
         discoveryServerLocatorsModel.clear()
         discoveryServerLocatorsModel.append({"transportProtocolIdx": 0, "ip": "127.0.0.1", "port": 11811})
     }
@@ -57,26 +56,9 @@ Dialog {
         anchors.fill: parent
 
         Label {
-            text: 'Set the GUID and the network addresses (locators) of a Discovery Server.'
+            text: 'Set the network addresses (locators) of a Discovery Server.'
         }
 
-        ColumnLayout {
-            Layout.fillWidth: true
-            Label {
-                id: discoveryServerGuidLabel
-                text: "• Discovery Server GUID: "
-                InfoToolTip {
-                    text: 'Discovery Server GUID.'
-                }
-            }
-            TextField {
-                id: discoveryServerGuid
-                placeholderText: "GUID example: 44.53.00.5f.45.50.52.4f.53.49.4d.41"
-                implicitWidth: dialogLayout.width
-                text: "44.53.00.5f.45.50.52.4f.53.49.4d.41"
-                selectByMouse: true
-            }
-        }
         GridLayout {
             Layout.fillWidth: true
             columns: 5
@@ -85,7 +67,6 @@ Dialog {
             Label {
                 id: discoveryServerLocatorLabel
                 Layout.columnSpan: parent.columns
-                text: "• Discovery Server locator(s): "
                 InfoToolTip {
                     text: 'Each row defines a locator\n' +
                           'for the Discovery Server.'
@@ -311,15 +292,6 @@ Dialog {
     }
 
     MessageDialog {
-        id: wrongGuid
-        title: "Invalid Discovery Server GUID"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discard
-        text: "The inserted Discovery Server GUID is not valid."
-        onAccepted: initDSMonitorDialog.open()
-    }
-
-    MessageDialog {
         id: wrongLocator
         title: "Invalid Discovery Server Locator"
         icon: StandardIcon.Warning
@@ -365,14 +337,6 @@ Dialog {
     }
 
     /**
-     * Returns an regular expression for Discovery Server GUID
-     */
-    function guidRegex() {
-        var guidRe =  /^(([0-9a-fA-F]{1,2}\.){11})([0-9a-fA-F]{1,2})$/
-        return guidRe
-    }
-
-    /**
      * Returns an regular expression that matches any string
      */
     function matchAllRegex() {
@@ -384,14 +348,6 @@ Dialog {
      * Function to parse the input parameter of the initialize monitor dialog for Discovery Server
      */
     function initDiscoveryServer() {
-        /////
-        // Check that Discovery Server GUID is correct
-        var guidRe = guidRegex()
-        if (!guidRe.test(discoveryServerGuid.text)) {
-            wrongGuid.open()
-            return
-        }
-
         /////
         // Build the locators
         var locators = []
@@ -448,7 +404,7 @@ Dialog {
                 return
             }
 
-            controller.init_monitor(discoveryServerGuid.text, locators.join(';'))
+            controller.init_monitor(locators.join(';'))
         }
     }
 

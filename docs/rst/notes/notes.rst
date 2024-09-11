@@ -24,16 +24,17 @@ This release includes the following **dependencies update**:
         - New Version
     *   - Fast CDR
         - `eProsima/Fast-CDR <https://github.com/eProsima/Fast-CDR>`_
-        - `v2.1.2 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.1.2>`_
-        - `v2.2.0 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.2.0>`_
+        - `v2.1.2 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.1.2>`__
+        - `v2.2.0 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.2.0>`__
     *   - Fast DDS
         - `eProsima/Fast-DDS <https://github.com/eProsima/Fast-DDS>`_
-        - `v2.13.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.13.0>`_
-        - `v2.14.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.14.0>`_
+        - `v2.13.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.13.0>`__
+        - `v2.14.0 <https://github.com/eProsima/Fast-DDS/releases/tag/v2.14.0>`__
     *   - Fast DDS Statistics Backend
-        - `eProsima/Fast-DDS-statistics-backend <https://github.com/eProsima/Fast-DDS-statistics-backend>`_
-        - `v1.0.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v1.0.0>`_
-        - `v1.1.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v1.1.0>`_
+        - `eProsima/Fast-DDS-statistics-backend <https://github.com/eProsima/Fast-DDS-statistics-backend>`__
+        - `v1.1.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v1.1.0>`__
+        - `v1.0.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v1.0.0>`__
+
 
 #################
 Previous versions

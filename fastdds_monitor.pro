@@ -110,12 +110,12 @@ INCLUDEPATH += $$PWD/../../install/fastdds_statistics_backend/include
 DEPENDPATH += $$PWD/../../install/fastdds_statistics_backend/include
 
 # Link to the Fast DDS library
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastrtps/lib/release/ -lfastrtps
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastrtps/lib/debug/ -lfastrtps
-else:unix: LIBS += -L$$PWD/../../install/fastrtps/lib/ -lfastrtps
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastdds/lib/release/ -lfastdds
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../install/fastdds/lib/debug/ -lfastdds
+else:unix: LIBS += -L$$PWD/../../install/fastdds/lib/ -lfastdds
 
-INCLUDEPATH += $$PWD/../../install/fastrtps/include
-DEPENDPATH += $$PWD/../../install/fastrtps/include
+INCLUDEPATH += $$PWD/../../install/fastdds/include
+DEPENDPATH += $$PWD/../../install/fastdds/include
 
 # Link to the Fast CDR library
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../install/fastcdr/lib/release/ -lfastcdr

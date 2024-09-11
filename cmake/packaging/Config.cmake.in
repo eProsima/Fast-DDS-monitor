@@ -29,8 +29,8 @@ if(NOT fastcdr_FOUND)
     find_package(fastcdr)
 endif()
 
-if(NOT fastrtps_FOUND)
-    find_package(fastrtps)
+if(NOT fastdds_FOUND)
+    find_package(fastdds)
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
