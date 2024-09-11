@@ -280,7 +280,8 @@ void Engine::init_monitor(
     else
     {
         process_error(
-            "Error trying to initialize monitor in Discovery Server with locators: " + utils::to_string(discovery_server_locators),
+            "Error trying to initialize monitor in Discovery Server with locators: " +
+            utils::to_string(discovery_server_locators),
             ErrorType::INIT_DS_MONITOR);
     }
 }

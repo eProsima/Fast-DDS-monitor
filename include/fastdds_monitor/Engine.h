@@ -529,7 +529,7 @@ public:
     //! Retrieve the data type name associated to a specific entity
     std::string get_data_type_name(
             const backend::EntityId& entity_id);
-            
+
     //! Retrieve the IDL representation associated to a specific data type
     std::string get_type_idl(
             const backend::EntityId& entity_id);
