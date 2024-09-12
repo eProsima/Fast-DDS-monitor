@@ -32,7 +32,7 @@ Item
     required property string component_id               // mandatory to be included when object created
 
     // Public signals
-    signal update_tab_name(string new_name, string stack_id)  // Update tab name based on selected domain id
+    signal update_tab_name(string new_name, string new_icon, string stack_id)  // Update tab name based on selected domain id
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
     signal openLoadingGraphDialog()                     //l et tab layout know that graph is about to be generated
@@ -1049,13 +1049,14 @@ Item
                                                         visible: parent.visible
                                                         anchors.horizontalCenter: parent.horizontalCenter
                                                         source: modelData["app_id"] == "UNKNOWN_APP" ? "" :
-                                                                "/resources/images/app_icons/" + modelData["app_id"] + ".svg" 
+                                                                "/resources/images/app_icons/" + modelData["app_id"] + ".svg"
                                                         readonly property int amlip_offset_: 5
                                                         // AML_IP is wider than it is tall, so its size is increased a little
                                                         // bit to make it look like the same aspect ratio as the other icons
-                                                        sourceSize.width: modelData["app_id"] == "AML_IP"
+                                                        // It also happens with FASTDDS_VISUALIZER
+                                                        sourceSize.width: modelData["app_id"] == "AML_IP" || modelData["app_id"] == "FASTDDS_VISUALIZER"
                                                                 ? parent.height + amlip_offset_ : parent.height
-                                                        sourceSize.height: modelData["app_id"] == "AML_IP"
+                                                        sourceSize.height: modelData["app_id"] == "AML_IP" || modelData["app_id"] == "FASTDDS_VISUALIZER"
                                                                 ? parent.height + amlip_offset_ : parent.height
                                                     }
                                                 }
@@ -1655,7 +1656,7 @@ Item
         {
             if (filtered_topics_.length == 1)
             {
-                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View", component_id)
+                domainGraphLayout.update_tab_name(topic_names[0] + " Topic View", "topic", component_id)
             }
             else
             {
@@ -1669,12 +1670,12 @@ Item
                     print_topic_names += " and " + topic_names[topic_names.length-1]
                 }
 
-                domainGraphLayout.update_tab_name(print_topic_names + " Topics View", component_id)
+                domainGraphLayout.update_tab_name(print_topic_names + " Topics View", "topic", component_id)
             }
         }
         else
         {
-            domainGraphLayout.update_tab_name("Domain " + domain_id + " View", component_id)
+            domainGraphLayout.update_tab_name("Domain " + domain_id + " View", "domain_graph", component_id)
         }
     }
 

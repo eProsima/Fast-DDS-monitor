@@ -134,13 +134,6 @@ jobs:
 
   documentation:
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        cmake_build_type:
-          - Release
-          - Debug
-
     steps:
       - name: Sync repository
         uses: eProsima/eProsima-CI/external/checkout@v0
@@ -151,7 +144,7 @@ jobs:
       - name: Install Fast DDS dependencies
         uses: eProsima/eProsima-CI/multiplatform/install_fastdds_dependencies@v0
         with:
-          cmake_build_type: ${{ matrix.cmake_build_type }}
+          cmake_build_type: 'Release'
 
       - name: Fetch Fast DDS Monitor repositories
         uses: eProsima/eProsima-CI/multiplatform/vcs_import@v0
@@ -181,7 +174,7 @@ jobs:
         uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
         with:
           packages_names: fastdds_monitor
-          cmake_build_type: ${{ matrix.cmake_build_type }}
+          cmake_build_type: 'Release'
           cmake_args: '-DTHIRDPARTY=ON -DBUILD_DOCUMENTATION=ON -DBUILD_DOCUMENTATION_TESTS=ON'
           colcon_meta_file: ${{ github.workspace }}/src/fastdds_monitor/.github/workflows/configurations/Linux/colcon.meta
           workspace: ${{ github.workspace }}

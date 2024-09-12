@@ -625,6 +625,12 @@ std::string SyncBackendConnection::get_alias(
     return backend::get_info_value(get_info(id), "alias");
 }
 
+std::string SyncBackendConnection::get_data_type_name(
+        backend::EntityId id)
+{
+    return backend::get_info_value(get_info(id), "data_type");
+}
+
 StatusLevel SyncBackendConnection:: get_status(
         EntityId id)
 {
@@ -950,6 +956,20 @@ Graph SyncBackendConnection::get_domain_view_graph (
                    << domain_id.value() << ":" << e.what();
         static_cast<void>(e); // In release qWarning does not compile and so e is not used
         return Graph();
+    }
+}
+
+std::string SyncBackendConnection::get_type_idl(
+        const EntityId& id)
+{
+    try
+    {
+        return StatisticsBackend::get_type_idl(id);
+    }
+    catch (const std::exception& e)
+    {
+        qWarning() << "Fail getting the IDL type for entity id " << id.value() << ": " << e.what();
+        return "";
     }
 }
 

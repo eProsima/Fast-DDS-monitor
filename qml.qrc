@@ -108,6 +108,10 @@
         <file alias="domain_eProsimaLightBlue.svg">resources/images/icons/domain/domain_eProsimaLightBlue.svg</file>
         <file alias="domain_grey.svg">resources/images/icons/domain/domain_grey.svg</file>
         <file alias="domain_white.svg">resources/images/icons/domain/domain_white.svg</file>
+        <file alias="domain_graph_black.svg">resources/images/icons/domain_graph/domain_graph_black.svg</file>
+        <file alias="domain_graph_eProsimaLightBlue.svg">resources/images/icons/domain_graph/domain_graph_eProsimaLightBlue.svg</file>
+        <file alias="domain_graph_grey.svg">resources/images/icons/domain_graph/domain_graph_grey.svg</file>
+        <file alias="domain_graph_white.svg">resources/images/icons/domain_graph/domain_graph_white.svg</file>
         <file alias="dynamicchart_black.svg">resources/images/icons/dynamicchart/dynamicchart_black.svg</file>
         <file alias="dynamicchart_eProsimaLightBlue.svg">resources/images/icons/dynamicchart/dynamicchart_eProsimaLightBlue.svg</file>
         <file alias="dynamicchart_grey.svg">resources/images/icons/dynamicchart/dynamicchart_grey.svg</file>
@@ -157,6 +161,10 @@
         <file alias="host_eProsimaLightBlue.svg">resources/images/icons/host/host_eProsimaLightBlue.svg</file>
         <file alias="host_grey.svg">resources/images/icons/host/host_grey.svg</file>
         <file alias="host_white.svg">resources/images/icons/host/host_white.svg</file>
+        <file alias="idl_black.svg">resources/images/icons/idl/idl_black.svg</file>
+        <file alias="idl_eProsimaLightBlue.svg">resources/images/icons/idl/idl_eProsimaLightBlue.svg</file>
+        <file alias="idl_grey.svg">resources/images/icons/idl/idl_grey.svg</file>
+        <file alias="idl_white.svg">resources/images/icons/idl/idl_white.svg</file>
         <file alias="info_black.svg">resources/images/icons/info/info_black.svg</file>
         <file alias="info_eProsimaDarkBlue.svg">resources/images/icons/info/info_eProsimaDarkBlue.svg</file>
         <file alias="info_eProsimaLightBlue.svg">resources/images/icons/info/info_eProsimaLightBlue.svg</file>
@@ -250,6 +258,7 @@
         <file alias="FASTDDS.svg">resources/images/app_icons/FASTDDS.svg</file>
         <file alias="FASTDDS_MONITOR.svg">resources/images/app_icons/FASTDDS_MONITOR.svg</file>
         <file alias="FASTDDS_SPY.svg">resources/images/app_icons/FASTDDS_SPY.svg</file>
+        <file alias="FASTDDS_VISUALIZER.svg">resources/images/app_icons/FASTDDS_VISUALIZER.svg</file>
         <file alias="SAFEDDS.svg">resources/images/app_icons/SAFEDDS.svg</file>
         <file alias="SHAPES_DEMO.svg">resources/images/app_icons/SHAPES_DEMO.svg</file>
         <file alias="SUSTAINML.svg">resources/images/app_icons/SUSTAINML.svg</file>
@@ -262,6 +271,7 @@
         <file alias="FASTDDS.png">resources/images/app_logos/FASTDDS.png</file>
         <file alias="FASTDDS_MONITOR.png">resources/images/app_logos/FASTDDS_MONITOR.png</file>
         <file alias="FASTDDS_SPY.png">resources/images/app_logos/FASTDDS_SPY.png</file>
+        <file alias="FASTDDS_VISUALIZER.png">resources/images/app_logos/FASTDDS_VISUALIZER.png</file>
         <file alias="SAFEDDS.png">resources/images/app_logos/SAFEDDS.png</file>
         <file alias="SHAPES_DEMO.png">resources/images/app_logos/SHAPES_DEMO.png</file>
         <file alias="SUSTAINML.png">resources/images/app_logos/SUSTAINML.png</file>

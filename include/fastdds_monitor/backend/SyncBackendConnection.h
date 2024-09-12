@@ -120,6 +120,10 @@ public:
     std::string get_alias(
             backend::EntityId id);
 
+    //! Get the data type name of an entity from the Backend by calling \c get_info
+    std::string get_data_type_name(
+            backend::EntityId id);
+
     //! Get the status level of an entity from the Backend by calling \c get_status
     StatusLevel get_status(
             backend::EntityId id);
@@ -304,6 +308,10 @@ public:
     //! Request to backend the latest domain view JSON to build the graph
     Graph get_domain_view_graph (
             const EntityId& domain_id);
+
+    //! Retrieve the IDL representation of a topic data type in string format
+    std::string get_type_idl (
+            const EntityId& entity_id);
 
 protected:
 
