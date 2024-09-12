@@ -59,6 +59,10 @@ Item {
     readonly property int dialog_height_: 152
     readonly property int idl_text_margin_: 30
     readonly property int hover_text_offset_: 50
+    readonly property int elements_spacing_: 5
+    readonly property int scrollbar_min_size_: 8
+    readonly property int scrollbar_max_size_: 12
+    readonly property real scroll_speed_: 0.05
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
     readonly property string not_selected_tab_color_: "#f0f0f0"
@@ -295,9 +299,57 @@ Item {
                         boundsBehavior: Flickable.StopAtBounds
                         interactive: false
                         anchors.fill: parent
+                        width: parent.width
+                        height: parent.height
                         contentWidth: parent.width
                         contentHeight: idl_text.height + 2 * tabLayout.idl_text_margin_
-                        ScrollBar.vertical: ScrollBar {}
+                        ScrollBar.vertical: ScrollBar {
+                            id: vertical_bar
+                            policy: ScrollBar.AlwaysOn
+                            visible: idlView.contentHeight > idlView.height
+                            stepSize: tabLayout.scroll_speed_
+                            anchors.top: parent.top;        anchors.topMargin: 0
+                            anchors.right: parent.right;    
+                            hoverEnabled: true
+
+                            contentItem: Item {
+                                implicitWidth: scrollbar_min_size_
+                                Rectangle {
+                                    anchors.fill: parent
+                                    anchors.topMargin: 1
+                                    anchors.rightMargin: 2
+                                    anchors.leftMargin: 2
+                                    radius: width / 2
+                                    color: vertical_bar.pressed ? Theme.eProsimaLightBlue : Theme.lightGrey
+                                }
+                            }
+
+                            background: Item {
+                                implicitWidth: scrollbar_max_size_
+                                Rectangle {
+                                    anchors.fill: parent
+                                    color: vertical_bar.pressed ? Theme.lightGrey : Theme.grey
+                                }
+                            }
+
+                            Rectangle {
+                                anchors.top: parent.top
+                                height: 1
+                                width: parent.width
+                                color: vertical_bar.pressed ? Theme.lightGrey : Theme.grey
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onWheel: {
+                                if(wheel.angleDelta.y > 0){
+                                  vertical_bar.decrease()
+                                }else{
+                                  vertical_bar.increase()
+                                }
+                            }
+                        }
 
                         TextEdit
                         {
@@ -308,13 +360,13 @@ Item {
                             anchors.leftMargin: tabLayout.idl_text_margin_
                             anchors.rightMargin: tabLayout.idl_text_margin_
                             anchors.topMargin: tabLayout.idl_text_margin_
+                            width: parent.width - 2 * tabLayout.idl_text_margin_
+                            wrapMode: TextEdit.WrapAnywhere
 
                             // Enable text selection in the view
-                            wrapMode: TextEdit.WordWrap
                             readOnly: true
                             selectByMouse: true
                             selectByKeyboard: true
-
                             Connections
                             {
                                 target: tabLayout

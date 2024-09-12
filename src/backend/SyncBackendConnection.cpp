@@ -971,7 +971,6 @@ std::string SyncBackendConnection::get_type_idl(
         qWarning() << "Fail getting the IDL type for entity id " << id.value() << ": " << e.what();
         return "";
     }
-
 }
 
 void SyncBackendConnection::change_unit_magnitude(
