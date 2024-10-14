@@ -24,6 +24,18 @@ under which they publish or to which they subscribe respectively.
 It is also possible to see the physical architecture of the network on which the DDS applications that use *Fast DDS*
 are running.
 
+##################
+Commercial Support
+##################
+
+Looking for commercial support? Write us to info@eprosima.com
+
+Find more about us at `eProsima's webpage <https://eprosima.com/>`_.
+
+########
+Overview
+########
+
 *eProsima Fast DDS Monitor* is designed to meet the following criteria:
 
 #. **Monitoring**: real-time tracking of network status and DDS communication.
@@ -46,17 +58,6 @@ are running.
     Please check the following
     `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/troubleshooting.html#troubleshooting>`_
     for more details on how to do this.
-
-###############################
-Contacts and Commercial support
-###############################
-
-Find more about us at `eProsima's webpage <https://eprosima.com/>`_.
-
-Support available at:
-
-* Email: support@eprosima.com
-* Phone: +34 91 804 34 48
 
 #################################
 Contributing to the documentation
