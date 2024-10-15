@@ -1,8 +1,6 @@
-.. raw:: html
-
-  <h1>
-    eProsima Fast DDS Monitor Documentation
-  </h1>
+#######################################
+eProsima Fast DDS Monitor Documentation
+#######################################
 
 .. image:: /rst/figures/logo.png
   :height: 100px
