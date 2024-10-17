@@ -3,7 +3,7 @@
 <package format="3">
   <name>fastdds_monitor</name>
   <!-->There must be a release. Update version accordingly<-->
-  <version>3.0.0</version>
+  <version>3.1.0</version>
   <description>
     Qt application written in C++ that plot the data from the Fast DDS Statistics Backend.
   </description>
@@ -11,7 +11,6 @@
   <maintainer email="RaulSanchezMateos@eprosima.com">Raul Sánchez-Mateos</maintainer>
   <maintainer email="juanlopez@eprosima.com">Juan López</maintainer>
   <maintainer email="jesuspoderoso@eprosima.com">Jesús Poderoso</maintainer>
-  <maintainer email="irenebandera@eprosima.com">Irene Bandera</maintainer>
   <maintainer email="jesusperez@eprosima.com">Jesús Pérez</maintainer>
   <license file="LICENSE">GNU general public license</license>
 
