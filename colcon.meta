@@ -1,28 +1,13 @@
-{
-    "names":
-    {
-        "fastrtps":
-        {
-            "cmake-args":
-            [
-                "-DFASTDDS_STATISTICS=ON",
-            ]
-        },
-        "fastdds-low-bandwidth-transports" :
-        {
-            "cmake-args": [
-                "-DBUILD_SHARED_LIBS=OFF",
-                "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
-                "-DZLIB_REQUIRED=ON",
-                "-DBZIP2_REQUIRED=ON"
-            ]
-        },
-        "fastdds_statistics_backend":
-        {
-            "cmake-args":
-            [
-                "-DBUILD_DOCUMENTATION=OFF",
-            ]
-        }
-    }
-}
+names:
+    fastrtps:
+        cmake-args:
+            - -DFASTDDS_STATISTICS=ON
+    fastdds-low-bandwidth-transports:
+        cmake-args:
+            - -DBUILD_SHARED_LIBS=OFF
+            - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+            - -DZLIB_REQUIRED=ON
+            - -DBZIP2_REQUIRED=ON
+    fastdds_statistics_backend:
+        cmake-args:
+            - -DBUILD_DOCUMENTATION=OFF

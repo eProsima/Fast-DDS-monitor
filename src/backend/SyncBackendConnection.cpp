@@ -455,6 +455,9 @@ EntityId SyncBackendConnection::init_monitor(
     participant_qos.wire_protocol().builtin.discovery_config.use_SIMPLE_EndpointDiscoveryProtocol = false;
     participant_qos.wire_protocol().builtin.discovery_config.use_STATIC_EndpointDiscoveryProtocol = true;
     participant_qos.wire_protocol().builtin.discovery_config.static_edp_xml_config("file://example.xml");
+    participant_qos.properties().properties().emplace_back(eprosima::fastrtps::rtps::Property(
+                "dds.discovery.static_edp.exchange_format",
+                "v1_Reduced"));
 
     // Low Bandwidth Transports
     /*
