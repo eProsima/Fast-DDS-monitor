@@ -333,7 +333,9 @@ else()
         ${QT5_LIBRARY_LINKS}
         fastcdr
         fastdds
-        fastdds_statistics_backend)
+        fastdds_statistics_backend
+        fastdds-low-bandwidth-transports
+    )
 
 endif()
 

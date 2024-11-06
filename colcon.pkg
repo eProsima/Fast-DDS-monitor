@@ -1,6 +1,6 @@
 {
     "name": "fastdds_monitor",
     "type": "cmake",
-    "dependencies" : ["fastcdr", "fastrtps", "fastdds_statistics_backend", "fastdds-low-bandwidth-transports"]
+    "dependencies" : ["fastcdr", "fastdds", "fastdds_statistics_backend", "fastdds-low-bandwidth-transports"]
 }
 
