@@ -47,7 +47,7 @@ for a more detailed explanation of the *DomainParticipant* entity in DDS.
 Each *DomainParticipant* can only communicate under one *Domain*
 (see :ref:`logical entities <logical_entities>` section) and so it exists a direct connection between each
 *DomainParticipant* and the *Domain* in which it works.
-From the :numref:`entities diagram <fig_entities_diagram>` it can be seen that *DomainParticipant* entities
+From the :ref:`entities diagram <fig_entities_diagram>` it can be seen that *DomainParticipant* entities
 are contained in a
 *Process*, this is because a system process (so-called *Process* entity) executes an application using *Fast DDS*
 that instantiates *DomainParticipants*.
