@@ -167,7 +167,7 @@ Rectangle {
 
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openTopicMenu(domainId, domainName, id, name, kind)
+                                            openTopicMenu(domainId, domainName, id, name, kind, openTopicMenuCaller.logicalPanel)
                                         } else {
                                             controller.topic_click(id)
                                         }

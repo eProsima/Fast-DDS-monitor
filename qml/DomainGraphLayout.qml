@@ -34,7 +34,7 @@ Item
     // Public signals
     signal update_tab_name(string new_name, string new_icon, string stack_id)  // Update tab name based on selected domain id
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
-    signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind)
+    signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind, int caller)
     signal openLoadingGraphDialog()                     //l et tab layout know that graph is about to be generated
     signal initialized()                                // let tab layout know that graph has been generated
 
@@ -246,7 +246,7 @@ Item
                         onClicked:
                         {
                             if(mouse.button & Qt.RightButton) {
-                                openTopicMenu(domain_entity_id, domain_id, modelData["id"], modelData["alias"], modelData["kind"])
+                                openTopicMenu(domain_entity_id, domain_id, modelData["id"], modelData["alias"], modelData["kind"], panels.openTopicMenuCaller.domainGraph)
                             } else {
                                 controller.topic_click(modelData["id"])
                             }

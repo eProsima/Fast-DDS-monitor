@@ -32,6 +32,11 @@ RowLayout {
         Issues
     }
 
+    readonly property var openTopicMenuCaller: ({
+        logicalPanel: 0,
+        domainGraph: 1
+    })
+
     property variant panelItem: [monitoringPanel, statusPanel, issuesPanel]
 
     property variant visiblePanel: panelItem[LeftPanel.LeftSubPanel.Explorer]
@@ -95,12 +100,20 @@ RowLayout {
         entitiesMenu.popup()
     }
 
-    function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind) {
+    function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
         topicMenu.domainEntityId = domainEntityId
         topicMenu.domainId = domainId
         topicMenu.entityId = entityId
         topicMenu.currentAlias = currentAlias
         topicMenu.entityKind = entityKind
+
+        if (caller === openTopicMenuCaller.logicalPanel) {
+            topicMenu.showGraphButtonName = "Show topic graph"
+        }
+        else {
+            topicMenu.showGraphButtonName = "Filter topic graph"
+        }
+
         topicMenu.popup()
     }
 

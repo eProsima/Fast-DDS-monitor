@@ -29,6 +29,7 @@ Menu {
     property string entityId: ""
     property string currentAlias: ""
     property string entityKind: ""
+    property string showGraphButtonName: ""
 
     MenuItem {
         text: "Change alias"
@@ -39,7 +40,7 @@ Menu {
         onTriggered: filterEntityStatusLog(menu.entityId)
     }
     MenuItem {
-        text: "Filter graph view"
+        text: menu.showGraphButtonName
         onTriggered: openTopicView(menu.domainEntityId, menu.domainId, menu.entityId)
     }
     MenuItem {
