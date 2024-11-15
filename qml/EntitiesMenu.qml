@@ -9,7 +9,7 @@ import Theme 1.0
 
 Menu {
     id: entitiesMenu
-    property string domainEntityId: "" 
+    property string domainEntityId: ""
     property string entityId: ""
     property string currentAlias: ""
     property string entityKind: ""
@@ -34,7 +34,6 @@ Menu {
                 onEntered: parent.highlighted = true
                 onExited: parent.highlighted = false
                 onPressed: {
-                    console.log("[EntitiesMenu] domainEntityId: ", entitiesMenu.domainEntityId)
                     entitiesMenu.changeAlias(entitiesMenu.domainEntityId, entitiesMenu.entityId, entitiesMenu.currentAlias, entitiesMenu.entityKind)
                     entitiesMenu.close()
                 }

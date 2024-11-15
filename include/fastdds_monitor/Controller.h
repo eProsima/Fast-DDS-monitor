@@ -280,10 +280,10 @@ public slots:
             QString entity_id);
 
     QString get_endpoint_topic_id(
-        QString endpoint_id);
+            QString endpoint_id);
 
     QString get_domain_id(
-        QString entity_id);
+            QString entity_id);
 
     QString get_name(
             QString entity_id);

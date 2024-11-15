@@ -529,7 +529,7 @@ public:
     //! Retrieve the name associated to a specific entity
     std::string get_name(
             const backend::EntityId& entity_id);
-            
+
     //! Retrieve the data type name associated to a specific entity
     std::string get_data_type_name(
             const backend::EntityId& entity_id);
@@ -541,7 +541,7 @@ public:
     //! Retrieve the topic id associated to a specific endpoint
     models::EntityId get_endpoint_topic_id(
             const models::EntityId& endpoint_id);
-            
+
     //! Retrieve the id of the domain associated to an entity (Domain, DomainParticipant, Topìc or Endpoints)
     models::EntityId get_domain_id(
             const models::EntityId& entity_id);

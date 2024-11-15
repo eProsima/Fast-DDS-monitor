@@ -1730,7 +1730,8 @@ std::string Engine::get_type_idl(
 models::EntityId Engine::get_endpoint_topic_id(
         const models::EntityId& endpoint_id)
 {
-    backend::EntityId topic_id = backend_connection_.get_endpoint_topic_id(backend::models_id_to_backend_id(endpoint_id));
+    backend::EntityId topic_id =
+            backend_connection_.get_endpoint_topic_id(backend::models_id_to_backend_id(endpoint_id));
     return backend::backend_id_to_models_id(topic_id);
 }
 
@@ -1739,7 +1740,7 @@ models::EntityId Engine::get_domain_id(
 {
     backend::EntityId domain_id = backend_connection_.get_domain_id(backend::models_id_to_backend_id(entity_id));
     return backend::backend_id_to_models_id(domain_id);
-}   
+}
 
 bool Engine::data_kind_has_target(
         const QString& data_kind)
