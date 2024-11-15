@@ -60,7 +60,7 @@ Menu {
     }
 
     Component {
-        id: endpointsOption
+        id: showGraph
 
         MenuItem {
             text: entitiesMenu.showGraphButtonName
@@ -87,7 +87,7 @@ Menu {
     Repeater {
         model: entityModel
         delegate: Loader {
-            sourceComponent: available ? entity_option : null
+            sourceComponent: available ? option : null
         }    
     }
 
@@ -97,8 +97,8 @@ Menu {
 
     function updateEntityModel() {
         entityModel.clear()
-        entityModel.append({"available": entitiesMenu.entityKind === "DataWriter" || entitiesMenu.entityKind === "DataReader", "entity_option": endpointsOption})
-        entityModel.append({"available": true, "entity_option": changeAlias})
-        entityModel.append({"available": true, "entity_option": viewProblems})
+        entityModel.append({"available": entitiesMenu.entityKind === "DataWriter" || entitiesMenu.entityKind === "DataReader", "option": showGraph})
+        entityModel.append({"available": true, "option": changeAlias})
+        entityModel.append({"available": true, "option": viewProblems})
     }
 }
