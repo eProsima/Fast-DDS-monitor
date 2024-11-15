@@ -495,6 +495,18 @@ EntityInfo SyncBackendConnection::get_info(
     }
 }
 
+backend::EntityId SyncBackendConnection::get_endpoint_topic_id(
+        backend::EntityId endpoint_id)
+{
+    return StatisticsBackend::get_endpoint_topic_id(endpoint_id);
+}
+
+backend::EntityId SyncBackendConnection::get_domain_id(
+        backend::EntityId entity_id)
+{
+    return StatisticsBackend::get_domain_id(entity_id);
+}
+
 bool SyncBackendConnection::get_alive(
         EntityId id)
 {

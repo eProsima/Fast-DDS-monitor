@@ -28,7 +28,7 @@ Item {
     property bool fullScreen: false                                         // ChartsLayout inherited var
 
     // Public signals
-    signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind)
+    signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind, int caller)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind, int caller)
 
     // Private properties
@@ -253,7 +253,7 @@ Item {
                         }
 
                         onOpenEntitiesMenu: {
-                            tabLayout.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
+                            tabLayout.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller)
                         }
                         onOpenTopicMenu: {
                             tabLayout.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)

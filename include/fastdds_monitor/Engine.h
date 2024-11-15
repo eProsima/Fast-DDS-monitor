@@ -526,6 +526,10 @@ public:
     //! Retrive a string list containing the available data kinds.
     std::vector<std::string> get_data_kinds();
 
+    //! Retrieve the name associated to a specific entity
+    std::string get_name(
+            const backend::EntityId& entity_id);
+            
     //! Retrieve the data type name associated to a specific entity
     std::string get_data_type_name(
             const backend::EntityId& entity_id);
@@ -533,6 +537,14 @@ public:
     //! Retrieve the IDL representation associated to a specific data type
     std::string get_type_idl(
             const backend::EntityId& entity_id);
+
+    //! Retrieve the topic id associated to a specific endpoint
+    models::EntityId get_endpoint_topic_id(
+            const models::EntityId& endpoint_id);
+            
+    //! Retrieve the id of the domain associated to an entity (Domain, DomainParticipant, Topìc or Endpoints)
+    models::EntityId get_domain_id(
+            const models::EntityId& entity_id);
 
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(

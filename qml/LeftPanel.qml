@@ -32,8 +32,9 @@ RowLayout {
         Issues
     }
 
-    readonly property var openTopicMenuCaller: ({
-        logicalPanel: 0,
+    // Enum exposed in Panels.qml for Menu items message customization
+    readonly property var openMenuCaller: ({
+        leftPanel: 0,
         domainGraph: 1
     })
 
@@ -72,7 +73,10 @@ RowLayout {
 
     EntitiesMenu {
         id: entitiesMenu
-    }
+        onChangeAlias: leftPanel.changeAlias(domainEntityId, entityId, currentAlias, entityKind)
+        onFilterEntityStatusLog: leftPanel.filterEntityStatusLog(entityId)
+        onOpenTopicView: leftPanel.openTopicView(domainEntityId, domainId, topicId)
+        }
 
     TopicMenu {
         id: topicMenu
@@ -92,11 +96,19 @@ RowLayout {
         aliasDialog.open()
     }
 
-    function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind) {
+    function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller) {
         entitiesMenu.domainEntityId = domainEntityId
         entitiesMenu.entityId = entityId
         entitiesMenu.currentAlias = currentAlias
         entitiesMenu.entityKind = entityKind
+
+        if (caller === openMenuCaller.domainGraph) {
+            entitiesMenu.showGraphButtonName = "Filter topic graph"
+        }
+        else {
+            entitiesMenu.showGraphButtonName = "Show topic graph"
+        }
+
         entitiesMenu.popup()
     }
 
@@ -107,11 +119,11 @@ RowLayout {
         topicMenu.currentAlias = currentAlias
         topicMenu.entityKind = entityKind
 
-        if (caller === openTopicMenuCaller.logicalPanel) {
-            topicMenu.showGraphButtonName = "Show topic graph"
+        if (caller === openMenuCaller.domainGraph) {
+            topicMenu.showGraphButtonName = "Filter topic graph"
         }
         else {
-            topicMenu.showGraphButtonName = "Filter topic graph"
+            topicMenu.showGraphButtonName = "Show topic graph"
         }
 
         topicMenu.popup()
