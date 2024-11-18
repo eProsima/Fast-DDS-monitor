@@ -37,7 +37,8 @@ Menu {
                     entitiesMenu.changeAlias(entitiesMenu.domainEntityId, entitiesMenu.entityId, entitiesMenu.currentAlias, entitiesMenu.entityKind)
                     entitiesMenu.close()
                 }
-            }  
+            }
+            Component.onCompleted: highlighted = false
         }
     }
 
@@ -56,6 +57,7 @@ Menu {
                     entitiesMenu.close()
                 }
             }
+            Component.onCompleted: highlighted = false
         }
     }
 
@@ -76,6 +78,7 @@ Menu {
                     entitiesMenu.close()
                 }
             }
+            Component.onCompleted: highlighted = false
         }
     }
 
