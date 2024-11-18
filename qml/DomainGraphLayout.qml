@@ -67,6 +67,8 @@ Item
     readonly property int connection_thickness_: 6
     readonly property int elements_spacing_: 5
     readonly property int containers_spacing_: 100
+    readonly property int topic_tag_size_: 150
+    readonly property int max_topic_name_size_: 50
     readonly property int endpoint_height_: 30
     readonly property int first_indentation_: 5
     readonly property int icon_size_: 18
@@ -78,6 +80,7 @@ Item
     readonly property int topic_thickness_: 10
     readonly property int wheel_displacement_: 30
     readonly property int timer_initial_ms_interval_: 200
+    readonly property int hover_text_offset_: 50
     readonly property string topic_color_: Theme.grey
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
@@ -217,7 +220,7 @@ Item
                 Rectangle
                 {
                     id: topic_tag
-                    implicitWidth: topicRowLayout.implicitWidth
+                    implicitWidth: topic_tag_size_
                     height: label_height_
                     color: topic_color_
                     radius: radius_
@@ -237,12 +240,16 @@ Item
                             text: modelData["alias"]
                             Layout.rightMargin: 2* first_indentation_
                             color: "white"
+                            Layout.preferredWidth: max_topic_name_size_
+                            elide: Text.ElideRight
                         }
                     }
                     MouseArea
                     {
+                        id: topic_tag_mouse_area
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        hoverEnabled: true
                         onClicked:
                         {
                             if(mouse.button & Qt.RightButton) {
@@ -251,6 +258,15 @@ Item
                                 controller.topic_click(modelData["id"])
                             }
                         }
+                    }
+                    Label {
+                        id: hover_label
+                        visible: false
+                        anchors.top: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.topMargin: hover_text_offset_
+                        ToolTip.text: modelData["alias"]
+                        ToolTip.visible: topic_tag_mouse_area.containsMouse
                     }
                 }
 
