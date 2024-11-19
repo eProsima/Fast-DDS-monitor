@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtGraphicalEffects 1.15
 
 Item {
     id: graphConnection
@@ -81,9 +82,17 @@ Item {
         anchors.left: parent.left; anchors.leftMargin: left_arrow_margin_
 
         IconSVG {
+            id: left_arrow_icon
             name: "left_arrow"
             color: "grey"
             size: arrow_size_
+        }
+
+        // Change left arrow icon color to fit base_arrow color
+        ColorOverlay {
+            anchors.fill: left_arrow_icon
+            source: left_arrow_icon
+            color: arrow_color
         }
     }
 
@@ -161,6 +170,13 @@ Item {
             name: "right_arrow"
             color: "grey"
             size: arrow_size_ + right_arrow_margin_
+        }
+
+        // Change right arrow icon color to fit base_arrow color
+        ColorOverlay {
+            anchors.fill: right_arrow
+            source: right_arrow
+            color: arrow_color
         }
     }
 

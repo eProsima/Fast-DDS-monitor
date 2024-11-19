@@ -40,6 +40,7 @@ Item
 
     // Private properties
     property var topic_locations_: {}                   // topic information needed for connection representation
+    property var topic_color_map_: {}                   // map with boolean values to alternate colors in tags and connections
     property var endpoint_topic_connections_: {}        // endpoint information needed for connection representation
     property var topic_painted_: []                     // already painted topic connection references
     property var endpoint_painted_: []                  // already painted endpoint connection references
@@ -82,6 +83,7 @@ Item
     readonly property int timer_initial_ms_interval_: 200
     readonly property int hover_text_offset_: 50
     readonly property string topic_color_: Theme.grey
+    readonly property string topic_color2_: Theme.darkGrey
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
     readonly property string process_color_: Theme.eProsimaDarkBlue
@@ -201,6 +203,7 @@ Item
                         "id": topicsList.currentItem.topic_id,
                         "width" : draw_width + topicsList.currentItem.width/2
                     }
+                    topic_color_map_[topicsList.currentItem.topic_id] = topicsList.currentItem.even_position
                     draw_width += topicsList.currentItem.width + elements_spacing_
                 }
 
@@ -212,6 +215,7 @@ Item
             delegate: Rectangle
             {
                 property string topic_id: modelData["id"]
+                property bool even_position: index % 2 === 0
                 implicitWidth: topic_tag.implicitWidth
                 height: topicsList.height
                 color: "transparent"
@@ -222,7 +226,7 @@ Item
                     id: topic_tag
                     implicitWidth: topic_tag_size_
                     height: label_height_
-                    color: topic_color_
+                    color: parent.even_position ? topic_color_ : topic_color2_
                     radius: radius_
 
                     RowLayout {
@@ -278,7 +282,7 @@ Item
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: topic_tag.horizontalCenter
                     width: topic_thickness_
-                    color: topic_color_
+                    color: parent.even_position ? topic_color_ : topic_color2_
                 }
 
                 Connections {
@@ -378,7 +382,7 @@ Item
                             ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
                             ,"width": topic_locations_[topic_id]["width"]
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
-                            ,"arrow_color": topic_color_, "background_color": background_color.color
+                            ,"arrow_color": topic_color_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
                             ,"endpoint_id": key }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
@@ -1331,7 +1335,7 @@ Item
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
-                                ,"arrow_color": topic_color_, "background_color": background_color.color
+                                ,"arrow_color": topic_color_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
                                 ,"endpoint_id": key }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
@@ -1699,6 +1703,7 @@ Item
     function clear_graph()
     {
         topic_locations_ = {}
+        topic_color_map_ = {}
         endpoint_topic_connections_ = {}
         endpoint_painted_ = []
         topic_painted_ = []
