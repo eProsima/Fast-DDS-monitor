@@ -199,10 +199,6 @@ public:
             EntityId source_entity_id,
             SampleLostSample& sample);
 
-    /*bool get_status_data(
-            EntityId source_entity_id,
-            StatusesSizeSample& sample);*/
-
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(
             EntityKind entity_type,

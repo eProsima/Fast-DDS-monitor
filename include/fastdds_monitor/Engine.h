@@ -494,7 +494,7 @@ public:
      *
      * @param file_name         path and name to the new csv file
      * @param chartbox_ids      ids of the chartboxes of each series
-     * @param series_indexes    indexes of the serioes inside each chartbox
+     * @param series_indexes    indexes of the series inside each chartbox
      * @param data_kinds        DataKind that refers to the each series
      * @param chartbox_names    Title of the chartbox this series belongs
      * @param label_names       Label of each series
@@ -835,7 +835,7 @@ protected:
     /**
      * Protect the dds model while a new monitor is being created
      *
-     * This mutex is needed because when a new Domain is initialie, it is set as entity:clicked.
+     * This mutex is needed because when a new Domain is initialized, it is set as entity:clicked.
      * Thus, the dds model is filled, and so clear and check in database to create it from scratch.
      * If during this process the callbacks of the entities of this new domain arrive (and it is very likely
      * to happen) there are going to create entities already created.

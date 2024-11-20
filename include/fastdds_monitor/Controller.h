@@ -156,16 +156,16 @@ public slots:
             bool endTimeDefault,
             QString statisticKind);
 
-    //! Returns the eProsima Fast DDS version used to compile de Monitor
+    //! Returns the eProsima Fast DDS version used to compile the Monitor
     QString fastdds_version();
 
-    //! Returns the eProsima Fast DDS Statistics Backend version used to compile de Monitor
+    //! Returns the eProsima Fast DDS Statistics Backend version used to compile the Monitor
     QString fastdds_statistics_backend_version();
 
-    //! Returns the Qt version used to compile de Monitor
+    //! Returns the Qt version used to compile the Monitor
     QString qt_version();
 
-    //! Returns the eProsima Fast DDS Monitor version used to compile de Monitor
+    //! Returns the eProsima Fast DDS Monitor version used to compile the Monitor
     QString fastdds_monitor_version();
 
     //! Returns the system information for which Fast DDS is built
@@ -211,12 +211,12 @@ public slots:
      * @brief Export the series given to a new csv file
      *
      * Export one or multiple series to a new csv file.
-     * Each series to export is given in a vector as chartobox id and series index to get the data from the models.
+     * Each series to export is given in a vector as chartbox id and series index to get the data from the models.
      * Each series to export is given with its headers in order to save them in the csv and can import the file.
      *
      * @param file_name         path and name to the new csv file
      * @param chartbox_ids      ids of the chartboxes of each series
-     * @param series_indexes    indexes of the serioes inside each chartbox
+     * @param series_indexes    indexes of the series inside each chartbox
      * @param data_kinds        DataKind that refers to the each series
      * @param chartbox_names    Title of the chartbox this series belongs
      * @param label_names       Label of each series
@@ -256,12 +256,12 @@ public slots:
      * @brief Export the series given to a new csv file
      *
      * Export one or multiple series to a new csv file.
-     * Each series to export is given in a vector as chartobox id and series index to get the data from the models.
+     * Each series to export is given in a vector as chartbox id and series index to get the data from the models.
      * Each series to export is given with its headers in order to save them in the csv and can import the file.
      *
      * @param series_id         path and name to the new csv file
      * @param series_id         ids of the chartboxes of each series
-     * @param series_indexes    indexes of the serioes inside each chartbox
+     * @param series_indexes    indexes of the series inside each chartbox
      * @param data_kinds        DataKind that refers to the each series
      * @param chartbox_names    Title of the chartbox this series belongs
      * @param label_names       Label of each series
