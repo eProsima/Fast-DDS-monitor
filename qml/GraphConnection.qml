@@ -82,7 +82,6 @@ Item {
         anchors.left: parent.left; anchors.leftMargin: left_arrow_margin_
 
         IconSVG {
-            id: left_arrow_icon
             name: "left_arrow"
             color: "grey"
             size: arrow_size_
@@ -90,8 +89,8 @@ Item {
 
         // Change left arrow icon color to fit base_arrow color
         ColorOverlay {
-            anchors.fill: left_arrow_icon
-            source: left_arrow_icon
+            anchors.fill: left_arrow
+            source: left_arrow
             color: arrow_color
         }
     }
