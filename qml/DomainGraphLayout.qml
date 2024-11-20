@@ -69,6 +69,7 @@ Item
     readonly property int elements_spacing_: 5
     readonly property int containers_spacing_: 100
     readonly property int topic_tag_size_: 150
+    readonly property int topic_tag_margin_: 30
     readonly property int max_topic_name_size_: 100
     readonly property int endpoint_height_: 30
     readonly property int first_indentation_: 5
@@ -230,12 +231,12 @@ Item
                 Rectangle
                 {
                     id: topic_tag
-                    implicitWidth: topic_tag_size_
                     height: label_height_
                     color: parent.even_position ? topic_color_ : topic_color2_
                     radius: radius_
                     y: !parent.even_position ? topicsList.yOffset : 0
                     property int textFullWidth: text_metrics.width
+                    implicitWidth: topicsList.count > 1 ? topic_tag_size_ : Math.max(topic_tag_label.width + topic_tag_margin_, topic_tag_size_)
 
                     Label {
                         id: topic_tag_label
@@ -243,7 +244,7 @@ Item
                         text: modelData["alias"]
                         Layout.rightMargin: 2* first_indentation_
                         color: "white"
-                        width: max_topic_name_size_
+                        width: topicsList.count > 1 ? max_topic_name_size_ : text.width
                         horizontalAlignment: Text.AlignHCenter
                         elide: Text.ElideRight
                     }
