@@ -10,6 +10,7 @@ QtObject {
     readonly property color eProsimaYellow: "#ffc001"
 
     readonly property color grey: "#808080"
+    readonly property color midGrey: "#585858"
     readonly property color lightGrey: "#d3d3d3"
     readonly property color darkGrey: "#3e3e3e"
     readonly property color x11Grey: "#BEBEBE"

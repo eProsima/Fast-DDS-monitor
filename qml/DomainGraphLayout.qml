@@ -40,7 +40,7 @@ Item
 
     // Private properties
     property var topic_locations_: {}                   // topic information needed for connection representation
-    property var topic_color_map_: {}                   // map with boolean values to alternate colors in tags and connections
+    property var topic_style_map_: {}                   // map with boolean values to alternate style in topics tags and connections
     property var endpoint_topic_connections_: {}        // endpoint information needed for connection representation
     property var topic_painted_: []                     // already painted topic connection references
     property var endpoint_painted_: []                  // already painted endpoint connection references
@@ -69,7 +69,7 @@ Item
     readonly property int elements_spacing_: 5
     readonly property int containers_spacing_: 100
     readonly property int topic_tag_size_: 150
-    readonly property int max_topic_name_size_: 50
+    readonly property int max_topic_name_size_: 100
     readonly property int endpoint_height_: 30
     readonly property int first_indentation_: 5
     readonly property int icon_size_: 18
@@ -83,7 +83,7 @@ Item
     readonly property int timer_initial_ms_interval_: 200
     readonly property int hover_text_offset_: 50
     readonly property string topic_color_: Theme.grey
-    readonly property string topic_color2_: Theme.darkGrey
+    readonly property string topic_color2_: Theme.midGrey
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
     readonly property string process_color_: Theme.eProsimaDarkBlue
@@ -142,12 +142,13 @@ Item
         ListView
         {
             id: topicsList
+            property int yOffset: label_height_ + elements_spacing_
             model: domainGraphLayout.model ? domainGraphLayout.model["topics"] : undefined
             anchors.left: parent.left; anchors.leftMargin: 2 * elements_spacing_
             anchors.top: parent.top; anchors.topMargin: elements_spacing_;
             anchors.bottom: parent.bottom
             contentWidth: contentItem.childrenRect.width
-            spacing: elements_spacing_
+            spacing: -(topic_tag_size_/3 + elements_spacing_)
             orientation: ListView.Horizontal
             interactive: false
 
@@ -182,6 +183,11 @@ Item
                     {
                         listViewHeight = topicsList.currentItem.height
                         listViewWidth += topicsList.currentItem.width + elements_spacing_
+                        if (c > 1)
+                        {
+                            // The current item overlaps with the previous one
+                            listViewWidth += topicsList.spacing
+                        }
                     }
                 }
                 topicsList.height = listViewHeight
@@ -203,8 +209,8 @@ Item
                         "id": topicsList.currentItem.topic_id,
                         "width" : draw_width + topicsList.currentItem.width/2
                     }
-                    topic_color_map_[topicsList.currentItem.topic_id] = topicsList.currentItem.even_position
-                    draw_width += topicsList.currentItem.width + elements_spacing_
+                    topic_style_map_[topicsList.currentItem.topic_id] = topicsList.currentItem.even_position
+                    draw_width += topicsList.currentItem.width + topicsList.spacing
                 }
 
                 // announce topics are ready
@@ -228,26 +234,26 @@ Item
                     height: label_height_
                     color: parent.even_position ? topic_color_ : topic_color2_
                     radius: radius_
+                    y: !parent.even_position ? topicsList.yOffset : 0
+                    property int textFullWidth: text_metrics.width
 
-                    RowLayout {
-                        id: topicRowLayout
-                        spacing: spacing_icon_label_
+                    Label {
+                        id: topic_tag_label
                         anchors.centerIn: parent
-
-                        IconSVG {
-                            name: "topic"
-                            color: "white"
-                            size: icon_size_
-                            Layout.leftMargin: first_indentation_
-                        }
-                        Label {
-                            text: modelData["alias"]
-                            Layout.rightMargin: 2* first_indentation_
-                            color: "white"
-                            Layout.preferredWidth: max_topic_name_size_
-                            elide: Text.ElideRight
-                        }
+                        text: modelData["alias"]
+                        Layout.rightMargin: 2* first_indentation_
+                        color: "white"
+                        width: max_topic_name_size_
+                        horizontalAlignment: Text.AlignHCenter
+                        elide: Text.ElideRight
                     }
+
+                    // Save total text size (without eliding)
+                    TextMetrics {
+                        id: text_metrics
+                        text: modelData["alias"]
+                    }
+
                     MouseArea
                     {
                         id: topic_tag_mouse_area
@@ -270,7 +276,8 @@ Item
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.topMargin: hover_text_offset_
                         ToolTip.text: modelData["alias"]
-                        ToolTip.visible: topic_tag_mouse_area.containsMouse
+                        // Show hover only if text is elided
+                        ToolTip.visible: topic_tag_mouse_area.containsMouse && text_metrics.width > topic_tag.width
                     }
                 }
 
@@ -382,7 +389,7 @@ Item
                             ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
                             ,"width": topic_locations_[topic_id]["width"]
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
-                            ,"arrow_color": topic_color_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
+                            ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
                             ,"endpoint_id": key }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
@@ -1335,7 +1342,7 @@ Item
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
-                                ,"arrow_color": topic_color_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
+                                ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
                                 ,"endpoint_id": key }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
@@ -1703,7 +1710,7 @@ Item
     function clear_graph()
     {
         topic_locations_ = {}
-        topic_color_map_ = {}
+        topic_style_map_ = {}
         endpoint_topic_connections_ = {}
         endpoint_painted_ = []
         topic_painted_ = []
