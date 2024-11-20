@@ -90,7 +90,7 @@ Rectangle {
                         }
                         onClicked: {
                             if(mouse.button & Qt.RightButton) {
-                                openEntitiesMenu("", id, name, kind)
+                                openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
                             } else  {
                                 controller.participant_click(id)
                             }
@@ -173,7 +173,7 @@ Rectangle {
                                     }
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu("", id, name, kind)
+                                            openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
                                         } else {
                                             controller.endpoint_click(id)
                                         }
@@ -245,7 +245,7 @@ Rectangle {
 
                                                 onClicked: {
                                                     if(mouse.button & Qt.RightButton) {
-                                                        openEntitiesMenu("", id, name, kind)
+                                                        openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
                                                     } else {
                                                         controller.locator_click(id)
                                                     }

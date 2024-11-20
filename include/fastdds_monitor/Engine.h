@@ -494,7 +494,7 @@ public:
      *
      * @param file_name         path and name to the new csv file
      * @param chartbox_ids      ids of the chartboxes of each series
-     * @param series_indexes    indexes of the serioes inside each chartbox
+     * @param series_indexes    indexes of the series inside each chartbox
      * @param data_kinds        DataKind that refers to the each series
      * @param chartbox_names    Title of the chartbox this series belongs
      * @param label_names       Label of each series
@@ -526,6 +526,10 @@ public:
     //! Retrive a string list containing the available data kinds.
     std::vector<std::string> get_data_kinds();
 
+    //! Retrieve the name associated to a specific entity
+    std::string get_name(
+            const backend::EntityId& entity_id);
+
     //! Retrieve the data type name associated to a specific entity
     std::string get_data_type_name(
             const backend::EntityId& entity_id);
@@ -533,6 +537,14 @@ public:
     //! Retrieve the IDL representation associated to a specific data type
     std::string get_type_idl(
             const backend::EntityId& entity_id);
+
+    //! Retrieve the topic id associated to a specific endpoint
+    models::EntityId get_endpoint_topic_id(
+            const models::EntityId& endpoint_id);
+
+    //! Retrieve the id of the domain associated to an entity (Domain, DomainParticipant, Topìc or Endpoints)
+    models::EntityId get_domain_id(
+            const models::EntityId& entity_id);
 
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(
@@ -823,7 +835,7 @@ protected:
     /**
      * Protect the dds model while a new monitor is being created
      *
-     * This mutex is needed because when a new Domain is initialie, it is set as entity:clicked.
+     * This mutex is needed because when a new Domain is initialized, it is set as entity:clicked.
      * Thus, the dds model is filled, and so clear and check in database to create it from scratch.
      * If during this process the callbacks of the entities of this new domain arrive (and it is very likely
      * to happen) there are going to create entities already created.

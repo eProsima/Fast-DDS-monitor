@@ -329,6 +329,24 @@ QString Controller::get_type_idl(
     return utils::to_QString(engine_->get_type_idl(backend::models_id_to_backend_id(entity_id)));
 }
 
+QString Controller::get_endpoint_topic_id(
+        QString endpoint_id)
+{
+    return engine_->get_endpoint_topic_id(endpoint_id);
+}
+
+QString Controller::get_domain_id(
+        QString entity_id)
+{
+    return engine_->get_domain_id(entity_id);
+}
+
+QString Controller::get_name(
+        QString entity_id)
+{
+    return utils::to_QString(engine_->get_name(backend::models_id_to_backend_id(entity_id)));
+}
+
 QString Controller::get_data_type_name(
         QString entity_id)
 {

@@ -104,6 +104,14 @@ public:
     EntityInfo get_info(
             EntityId id);
 
+    //! Get the id of the topic associated to an endpoint
+    backend::EntityId get_endpoint_topic_id(
+            backend::EntityId endpoint_id);
+
+    //! Get the id of the domain associated to an entity (Domain, DomainParticipant, Topìc or Endpoints)
+    backend::EntityId get_domain_id(
+            backend::EntityId entity_id);
+
     //! Get the \c EntityKind of a given \c EntityId
     EntityKind get_type(
             backend::EntityId id);
@@ -190,10 +198,6 @@ public:
     bool get_status_data(
             EntityId source_entity_id,
             SampleLostSample& sample);
-
-    /*bool get_status_data(
-            EntityId source_entity_id,
-            StatusesSizeSample& sample);*/
 
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(

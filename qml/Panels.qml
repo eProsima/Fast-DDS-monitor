@@ -133,10 +133,10 @@ RowLayout {
                         }
                     }
                     onOpenEntitiesMenu: {
-                        panels.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
+                        panels.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller)
                     }
                     onOpenTopicMenu: {
-                        panels.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
+                        panels.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
                     }
                 }
                 StatusLayout {
@@ -163,6 +163,9 @@ RowLayout {
             }
         }
     }
+
+    // Expose LeftPanel openMenuCaller enum to be used in other children components (e.g: DomainGraphView.qml)
+    property alias openMenuCaller: leftPanel.openMenuCaller
 
     function createHistoricChart(dataKind){
         tabs.chartsLayout_createHistoricChart(dataKind)
@@ -196,11 +199,11 @@ RowLayout {
         leftPanel.changeExplorerEntityInfo(status)
     }
 
-    function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind) {
-        leftPanel.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind)
+    function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller) {
+        leftPanel.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller)
     }
 
-    function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind) {
-        leftPanel.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind)
+    function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
+        leftPanel.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
     }
 }

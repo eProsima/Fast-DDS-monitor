@@ -97,7 +97,7 @@ Rectangle {
                         }
                         onClicked: {
                             if(mouse.button & Qt.RightButton) {
-                                openEntitiesMenu(domainId, id, name, kind)
+                                openEntitiesMenu(domainId, id, name, kind, openMenuCaller.leftPanel)
                             } else {
                                 controller.domain_click(id)
                             }
@@ -167,7 +167,7 @@ Rectangle {
 
                                     onClicked: {
                                         if(mouse.button & Qt.RightButton) {
-                                            openTopicMenu(domainId, domainName, id, name, kind)
+                                            openTopicMenu(domainId, domainName, id, name, kind, openMenuCaller.leftPanel)
                                         } else {
                                             controller.topic_click(id)
                                         }

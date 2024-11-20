@@ -1709,6 +1709,12 @@ std::vector<std::string> Engine::get_data_kinds()
     return backend_connection_.get_data_kinds();
 }
 
+std::string Engine::get_name(
+        const backend::EntityId& entity_id)
+{
+    return backend_connection_.get_name(entity_id);
+}
+
 std::string Engine::get_data_type_name(
         const backend::EntityId& entity_id)
 {
@@ -1719,6 +1725,21 @@ std::string Engine::get_type_idl(
         const backend::EntityId& entity_id)
 {
     return backend_connection_.get_type_idl(entity_id);
+}
+
+models::EntityId Engine::get_endpoint_topic_id(
+        const models::EntityId& endpoint_id)
+{
+    backend::EntityId topic_id =
+            backend_connection_.get_endpoint_topic_id(backend::models_id_to_backend_id(endpoint_id));
+    return backend::backend_id_to_models_id(topic_id);
+}
+
+models::EntityId Engine::get_domain_id(
+        const models::EntityId& entity_id)
+{
+    backend::EntityId domain_id = backend_connection_.get_domain_id(backend::models_id_to_backend_id(entity_id));
+    return backend::backend_id_to_models_id(domain_id);
 }
 
 bool Engine::data_kind_has_target(
