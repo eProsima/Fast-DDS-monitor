@@ -83,6 +83,7 @@ Item
     readonly property int wheel_displacement_: 30
     readonly property int timer_initial_ms_interval_: 200
     readonly property int hover_text_offset_: 50
+    readonly property int hover_delay_: 250
     readonly property string topic_color_: Theme.grey
     readonly property string topic_color_alias_: "grey" // color alias for svg icons
     readonly property string topic_color2_: Theme.midGrey
@@ -281,6 +282,7 @@ Item
                         ToolTip.text: modelData["alias"]
                         // Show hover only if text is elided
                         ToolTip.visible: topic_tag_mouse_area.containsMouse && text_metrics.width > topic_tag.width
+                        ToolTip.delay: hover_delay_
                     }
                 }
 
