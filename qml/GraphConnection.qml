@@ -7,6 +7,7 @@ Item {
     property bool right_direction: false                // defines if the represented connection must draw a right arrow
     property int left_margin: 0                         // left margin to be applied
     property string arrow_color: Theme.grey             // connection color
+    property string arrow_head_color: "grey"
     property string background_color: "white"           // background color
     property string endpoint_id: ""                     // graph refferred entity id
     property bool hidden_arrow: false                   // associated topic is not visible
@@ -82,7 +83,7 @@ Item {
 
         IconSVG {
             name: "left_arrow"
-            color: "grey"
+            color: arrow_head_color
             size: arrow_size_
         }
     }
@@ -159,7 +160,7 @@ Item {
 
         IconSVG {
             name: "right_arrow"
-            color: "grey"
+            color: arrow_head_color
             size: arrow_size_ + right_arrow_margin_
         }
     }

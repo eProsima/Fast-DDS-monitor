@@ -40,6 +40,7 @@ Item
 
     // Private properties
     property var topic_locations_: {}                   // topic information needed for connection representation
+    property var topic_style_map_: {}                   // map with boolean values to alternate style in topics tags and connections
     property var endpoint_topic_connections_: {}        // endpoint information needed for connection representation
     property var topic_painted_: []                     // already painted topic connection references
     property var endpoint_painted_: []                  // already painted endpoint connection references
@@ -67,6 +68,9 @@ Item
     readonly property int connection_thickness_: 6
     readonly property int elements_spacing_: 5
     readonly property int containers_spacing_: 100
+    readonly property int topic_tag_size_: 150
+    readonly property int topic_tag_margin_: 30
+    readonly property int max_topic_name_size_: 100
     readonly property int endpoint_height_: 30
     readonly property int first_indentation_: 5
     readonly property int icon_size_: 18
@@ -78,7 +82,12 @@ Item
     readonly property int topic_thickness_: 10
     readonly property int wheel_displacement_: 30
     readonly property int timer_initial_ms_interval_: 200
+    readonly property int hover_text_offset_: 50
+    readonly property int hover_delay_: 250
     readonly property string topic_color_: Theme.grey
+    readonly property string topic_color_alias_: "grey" // color alias for svg icons
+    readonly property string topic_color2_: Theme.midGrey
+    readonly property string topic_color2_alias_: "mid_grey" // color alias for svg icons
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
     readonly property string process_color_: Theme.eProsimaDarkBlue
@@ -137,12 +146,13 @@ Item
         ListView
         {
             id: topicsList
+            property int yOffset: label_height_ + elements_spacing_
             model: domainGraphLayout.model ? domainGraphLayout.model["topics"] : undefined
             anchors.left: parent.left; anchors.leftMargin: 2 * elements_spacing_
             anchors.top: parent.top; anchors.topMargin: elements_spacing_;
             anchors.bottom: parent.bottom
             contentWidth: contentItem.childrenRect.width
-            spacing: elements_spacing_
+            spacing: -(topic_tag_size_/3 + elements_spacing_)
             orientation: ListView.Horizontal
             interactive: false
 
@@ -177,6 +187,11 @@ Item
                     {
                         listViewHeight = topicsList.currentItem.height
                         listViewWidth += topicsList.currentItem.width + elements_spacing_
+                        if (c > 1)
+                        {
+                            // The current item overlaps with the previous one
+                            listViewWidth += topicsList.spacing
+                        }
                     }
                 }
                 topicsList.height = listViewHeight
@@ -198,7 +213,8 @@ Item
                         "id": topicsList.currentItem.topic_id,
                         "width" : draw_width + topicsList.currentItem.width/2
                     }
-                    draw_width += topicsList.currentItem.width + elements_spacing_
+                    topic_style_map_[topicsList.currentItem.topic_id] = topicsList.currentItem.even_position
+                    draw_width += topicsList.currentItem.width + topicsList.spacing
                 }
 
                 // announce topics are ready
@@ -209,6 +225,7 @@ Item
             delegate: Rectangle
             {
                 property string topic_id: modelData["id"]
+                property bool even_position: index % 2 === 0
                 implicitWidth: topic_tag.implicitWidth
                 height: topicsList.height
                 color: "transparent"
@@ -217,32 +234,36 @@ Item
                 Rectangle
                 {
                     id: topic_tag
-                    implicitWidth: topicRowLayout.implicitWidth
                     height: label_height_
-                    color: topic_color_
+                    color: parent.even_position ? topic_color_ : topic_color2_
                     radius: radius_
+                    y: !parent.even_position ? topicsList.yOffset : 0
+                    property int textFullWidth: text_metrics.width
+                    implicitWidth: topicsList.count > 1 ? topic_tag_size_ : Math.max(topic_tag_label.width + topic_tag_margin_, topic_tag_size_)
 
-                    RowLayout {
-                        id: topicRowLayout
-                        spacing: spacing_icon_label_
+                    Label {
+                        id: topic_tag_label
                         anchors.centerIn: parent
-
-                        IconSVG {
-                            name: "topic"
-                            color: "white"
-                            size: icon_size_
-                            Layout.leftMargin: first_indentation_
-                        }
-                        Label {
-                            text: modelData["alias"]
-                            Layout.rightMargin: 2* first_indentation_
-                            color: "white"
-                        }
+                        text: modelData["alias"]
+                        Layout.rightMargin: 2* first_indentation_
+                        color: "white"
+                        width: topicsList.count > 1 ? max_topic_name_size_ : text.width
+                        horizontalAlignment: Text.AlignHCenter
+                        elide: Text.ElideRight
                     }
+
+                    // Save total text size (without eliding)
+                    TextMetrics {
+                        id: text_metrics
+                        text: modelData["alias"]
+                    }
+
                     MouseArea
                     {
+                        id: topic_tag_mouse_area
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        hoverEnabled: true
                         onClicked:
                         {
                             if(mouse.button & Qt.RightButton) {
@@ -251,6 +272,17 @@ Item
                                 controller.topic_click(modelData["id"])
                             }
                         }
+                    }
+                    Label {
+                        id: hover_label
+                        visible: false
+                        anchors.top: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.topMargin: hover_text_offset_
+                        ToolTip.text: modelData["alias"]
+                        // Show hover only if text is elided
+                        ToolTip.visible: topic_tag_mouse_area.containsMouse && text_metrics.width > topic_tag.width
+                        ToolTip.delay: hover_delay_
                     }
                 }
 
@@ -262,7 +294,7 @@ Item
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: topic_tag.horizontalCenter
                     width: topic_thickness_
-                    color: topic_color_
+                    color: parent.even_position ? topic_color_ : topic_color2_
                 }
 
                 Connections {
@@ -362,7 +394,9 @@ Item
                             ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
                             ,"width": topic_locations_[topic_id]["width"]
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
-                            ,"arrow_color": topic_color_, "background_color": background_color.color
+                            ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_
+                            ,"arrow_head_color": topic_style_map_[topic_id] ? "grey" : "mid_grey"
+                            , "background_color": background_color.color
                             ,"endpoint_id": key }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
@@ -1315,7 +1349,8 @@ Item
                                 ,"left_direction": endpoint_topic_connections_[key]["left_direction"]
                                 ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
-                                ,"arrow_color": topic_color_, "background_color": background_color.color
+                                ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
+                                ,"arrow_head_color": topic_style_map_[topic_id] ? topic_color_alias_ : topic_color2_alias_
                                 ,"endpoint_id": key }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
@@ -1683,6 +1718,7 @@ Item
     function clear_graph()
     {
         topic_locations_ = {}
+        topic_style_map_ = {}
         endpoint_topic_connections_ = {}
         endpoint_painted_ = []
         topic_painted_ = []
