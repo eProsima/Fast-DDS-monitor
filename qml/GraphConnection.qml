@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtGraphicalEffects 1.15
 
 Item {
     id: graphConnection
@@ -8,6 +7,7 @@ Item {
     property bool right_direction: false                // defines if the represented connection must draw a right arrow
     property int left_margin: 0                         // left margin to be applied
     property string arrow_color: Theme.grey             // connection color
+    property string arrow_head_color: "grey"
     property string background_color: "white"           // background color
     property string endpoint_id: ""                     // graph refferred entity id
     property bool hidden_arrow: false                   // associated topic is not visible
@@ -83,15 +83,8 @@ Item {
 
         IconSVG {
             name: "left_arrow"
-            color: "grey"
+            color: arrow_head_color
             size: arrow_size_
-        }
-
-        // Change left arrow icon color to fit base_arrow color
-        ColorOverlay {
-            anchors.fill: left_arrow
-            source: left_arrow
-            color: arrow_color
         }
     }
 
@@ -167,15 +160,8 @@ Item {
 
         IconSVG {
             name: "right_arrow"
-            color: "grey"
+            color: arrow_head_color
             size: arrow_size_ + right_arrow_margin_
-        }
-
-        // Change right arrow icon color to fit base_arrow color
-        ColorOverlay {
-            anchors.fill: right_arrow
-            source: right_arrow
-            color: arrow_color
         }
     }
 

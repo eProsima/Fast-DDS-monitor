@@ -84,7 +84,9 @@ Item
     readonly property int timer_initial_ms_interval_: 200
     readonly property int hover_text_offset_: 50
     readonly property string topic_color_: Theme.grey
+    readonly property string topic_color_alias_: "grey" // color alias for svg icons
     readonly property string topic_color2_: Theme.midGrey
+    readonly property string topic_color2_alias_: "mid_grey" // color alias for svg icons
     readonly property string host_color_: Theme.darkGrey
     readonly property string user_color_: Theme.eProsimaLightBlue
     readonly property string process_color_: Theme.eProsimaDarkBlue
@@ -390,7 +392,9 @@ Item
                             ,"y": endpoint_topic_connections_[key]["y"] - (connection_thickness_ / 2)
                             ,"width": topic_locations_[topic_id]["width"]
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
-                            ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
+                            ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_
+                            ,"arrow_head_color": topic_style_map_[topic_id] ? "grey" : "mid_grey"
+                            , "background_color": background_color.color
                             ,"endpoint_id": key }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
@@ -1344,6 +1348,7 @@ Item
                                 ,"width": 5*elements_spacing_
                                 ,"height":connection_thickness_, "z":200
                                 ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
+                                ,"arrow_head_color": topic_style_map_[topic_id] ? topic_color_alias_ : topic_color2_alias_
                                 ,"endpoint_id": key }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
