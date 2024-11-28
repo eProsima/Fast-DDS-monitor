@@ -175,10 +175,14 @@ public:
             const backend::EntityId& id,
             const std::string& data,
             const backend::StatusLevel& status,
-            const std::string& description);
+            const std::string& description,
+            const std::string& guid);
 
     void set_source_model(
             StatusTreeModel* source_model);
+
+    //! Disconnect every item connected to a StatusTreeModel signal
+    void disconnect_all_item_signals();
 
     /*!
      *  Filters the model if it is defined as proxy
@@ -205,6 +209,20 @@ private:
     bool is_empty_;
 
     backend::EntityId current_filter_;
+
+///////////////////////
+// Signals and Slots //
+///////////////////////
+
+public slots:
+    void onItemRemoved(
+            std::string guid);
+signals:
+    // Notify when the node is removed from the tree
+    // NOTE: Currently, the signal is only used to communicate item changes between top-level items and leaf items to update the Status Tree View when an endpoint becomes inactive.
+    // Signal-slot connections between different types of nodes could lead to unexpected behaviors.
+    void itemRemoved(
+            std::string guid);
 };
 
 } // namespace models

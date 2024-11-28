@@ -43,6 +43,7 @@
 #define _EPROSIMA_FASTDDS_MONITOR_MODEL_TREE_StatusTreeItem_H
 
 #include <QVariant>
+#include <QObject>
 #include <fastdds_monitor/backend/backend_types.h>
 
 namespace models {
@@ -54,8 +55,10 @@ namespace models {
  * Parenting and deletion are dealt from the StatusTreeModel. Deleting a StatusTreeItem
  * will call the delete for each child node.
  */
-class StatusTreeItem
+class StatusTreeItem : public QObject
 {
+    Q_OBJECT
+
     friend class StatusTreeModel;
 
 public:
@@ -72,7 +75,8 @@ public:
             const backend::EntityId& id,
             const std::string& name,
             const backend::StatusLevel& status_level,
-            const std::string& description);
+            const std::string& description,
+            const std::string& guid);
 
     //! Create an item with the status parameters
     explicit StatusTreeItem(
@@ -82,6 +86,17 @@ public:
             const backend::StatusLevel& status_level,
             const std::string& value,
             const std::string& description);
+
+    //! Create an item with the status parameters and guid and configures whether the item should be deleted if it has no children
+    explicit StatusTreeItem(
+            const backend::EntityId& id,
+            const backend::StatusKind& kind,
+            const std::string& name,
+            const backend::StatusLevel& status_level,
+            const std::string& value,
+            const std::string& description,
+            const std::string& guid,
+            bool delete_if_no_children);
 
     //! Destroy the item. It will destroy every child.
     ~StatusTreeItem();
@@ -107,6 +122,12 @@ public:
     //! Return the number of children nodes.
     int childCount() const;
 
+    //! Return the number of descendant nodes
+    int descendantCount() const;
+
+    //! Return the number of leaf nodes of the subtree rooted at this node
+    int leafCount() const;
+
     int row() const;
 
     //! Return true if the node is a leaf node (no children).
@@ -129,9 +150,24 @@ public:
 
     std::string name_str();
 
+    std::string guid_str();
+
     std::string value_str();
 
     std::string description_str();
+
+    //! Getter for delete_if_no_children_ attribute
+    bool get_delete_if_no_children();
+
+    //! Setter for delete_if_no_children_ attribute
+    void set_delete_if_no_children(
+            bool delete_if_no_children);
+
+    //! Check if it has children, and if not, delete it if configured to do so
+    void delete_if_no_children();
+
+    //! Remove item from tree and delete it
+    void remove();
 
     //! Increases the issues counter of a top level entity item
     int recalculate_entity_counter();
@@ -156,10 +192,12 @@ private:
     backend::EntityId id_;
     backend::StatusKind kind_;
     std::string name_;
+    std::string guid_;
     backend::StatusLevel status_level_;
     std::string value_;
     std::string description_;
     bool is_active_;
+    bool delete_if_no_children_;
     QVariant id_variant_;
     QVariant kind_variant_;
     QVariant name_variant_;
@@ -167,6 +205,22 @@ private:
     QVariant value_variant_;
     QVariant description_variant_;
     QVariant is_active_variant_;
+
+///////////////////////
+// Signals and slots //
+///////////////////////
+
+public slots:
+    void onItemRemoved(
+            std::string guid);
+                    
+signals:
+    // Notify when the node is removed from the tree
+    // NOTE: Currently, the signal is only used to communicate item changes between top-level items and leaf items to update the Tree View when an endpoint becomes inactive.
+    // Signal-slot connections between different types of nodes could lead to unexpected behaviors.
+    void itemRemoved(
+            std::string guid);
+    
 };
 
 } // namespace models
