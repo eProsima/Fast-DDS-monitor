@@ -61,6 +61,7 @@ StatusTreeModel::StatusTreeModel(
 
 StatusTreeModel::~StatusTreeModel()
 {
+    disconnect_all_item_signals();
     delete root_item_;
 }
 
