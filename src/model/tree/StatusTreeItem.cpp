@@ -394,9 +394,10 @@ int StatusTreeItem::recalculate_entity_counter()
     // check if top level item / entity item
     if (id_ != backend::ID_ALL && kind_ == backend::StatusKind::INVALID)
     {
-        int count = leafCount();
+        count = leafCount();
         value_ = std::to_string(count);
         value_variant_ = QVariant(QString::fromStdString(value_));
+        return count;
     }
     return count;
 }
