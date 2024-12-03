@@ -126,7 +126,7 @@ std::string policy_documentation_description(
 
 std::string guid_s_to_string(
         const backend::GUID_s& guid);
-        
+
 } //namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_BACKENDUTILS_H

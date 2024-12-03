@@ -175,9 +175,6 @@ StatusTreeItem::StatusTreeItem(
 
 StatusTreeItem::~StatusTreeItem()
 {
-    // __FLAG__
-    // std::cout << "[StatusTreeItem] Calling destructor for item: " << name_ << std::endl;
-    ///////////////////////////
     qDeleteAll(child_items_);
     emit itemRemoved(guid_);
 }
@@ -407,9 +404,6 @@ int StatusTreeItem::recalculate_entity_counter()
 void StatusTreeItem::onItemRemoved(
         std::string guid)
 {
-    // __FLAG__
-    std::cout << "[StatusTreeItem]Item removed with guid: " << guid << std::endl;
-
     if (guid_ == guid)
     {
         remove();

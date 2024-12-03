@@ -333,13 +333,13 @@ void StatusTreeModel::addTopLevelItem(
         {
             is_empty_ = true;
         }
-        
+
         if (child->status_level() == backend::StatusLevel::ERROR_STATUS)
         {
             // Notify entity item destruction
             QObject::connect(child, &StatusTreeItem::itemRemoved, this, &StatusTreeModel::onItemRemoved);
         }
-        
+
     }
 }
 
@@ -373,24 +373,10 @@ void StatusTreeModel::addItem(
             }
         }
     }
-    else if(child->isLeaf() && child->kind() == backend::StatusKind::EXTENDED_INCOMPATIBLE_QOS)
+    else if (child->isLeaf() && child->kind() == backend::StatusKind::EXTENDED_INCOMPATIBLE_QOS)
     {
-        // __FLAG__
-        std::cout << "[StatusTreeModel] Adding child to parent && linking signals. Parent: " << parent->name_str() << " child: " << child->name_str() << std::endl;
         QObject::connect(this, &StatusTreeModel::itemRemoved, child, &StatusTreeItem::onItemRemoved);
     }
-    // else if (parent->id() != backend::ID_ALL && parent->kind() == backend::StatusKind::EXTENDED_INCOMPATIBLE_QOS)
-    // {
-    //     bool 
-    //     for (int i = 0; i < parent->childCount(); i++)
-    //     {
-    //         if (parent->child(i)->name_str() == child->name_str())
-    //         {
-                
-    //             return;
-    //         }
-    //     }
-    // }
 
     emit layoutAboutToBeChanged();
 
@@ -464,8 +450,6 @@ void StatusTreeModel::clear()
 {
     emit layoutAboutToBeChanged();
     beginResetModel();
-    // __FLAG__
-    std::cout << "[StatusTreeModel] Clearing model" << std::endl;
     // NOTE: When the root item is deleted, all its children are also deleted. This causes every leaf node to receive a signal notifying the destruction
     // of every entity item, which is unnecessary. Disconnecting all signal-slot communications between the TreeModel and leaf nodes (i.e., disconnecting
     // all slots connected to the TreeModel's itemRemoved signal) before deleting the root item prevents this behavior.
@@ -569,8 +553,6 @@ StatusTreeItem*  StatusTreeModel::getTopLevelItem(
 void StatusTreeModel::onItemRemoved(
         std::string guid)
 {
-    // __FLAG__
-    std::cout << "[StatusTreeModel] Calling onItemRemoved for item with guid: " << guid << std::endl;
     emit itemRemoved(guid);
 }
 

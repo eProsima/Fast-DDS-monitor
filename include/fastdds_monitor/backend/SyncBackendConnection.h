@@ -207,7 +207,7 @@ public:
             EntityId source_entity_id,
             ExtendedIncompatibleQosSample& sample);
 
-    //! Convert a given entity guid to string format 
+    //! Convert a given entity guid to string format
     std::string get_deserialized_guid(
             const backend::GUID_s& data);
 

@@ -1011,7 +1011,8 @@ bool Engine::update_entity_status(
     if (id == backend::ID_ALL)
     {
         auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
-                        std::string("No issues found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(""));
+                        std::string("No issues found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(
+                            ""));
         entity_status_model_->addTopLevelItem(empty_item);
     }
     else
@@ -1171,12 +1172,13 @@ bool Engine::update_entity_status(
                         auto incompatible_qos_item = new models::StatusTreeItem(id, kind, std::string(
                                             "Extended Incompatible QoS"),
                                         sample.status, std::string(""), description, "", true);
-                        
+
                         backend::ExtendedIncompatibleQoSStatusSeq status_seq = sample.extended_incompatible_qos_status;
 
                         for (auto const& status : status_seq)
                         {
-                            std::string remote_entity_guid = backend_connection_.get_deserialized_guid(status.remote_guid());
+                            std::string remote_entity_guid = backend_connection_.get_deserialized_guid(
+                                status.remote_guid());
                             controller_->status_counters.shared_errors[id][remote_entity_guid] = 0;
                             for (const uint32_t policy_id : status.current_incompatible_policies())
                             {
@@ -1192,10 +1194,11 @@ bool Engine::update_entity_status(
                                                 std::string("\">here</a></html>"),
                                                 "", true);
                                 auto remote_entity_item = new models::StatusTreeItem(id, kind,
-                                            std::string("Remote entity: " + remote_entity_guid),
-                                            sample.status, std::string(""), std::string(""), remote_entity_guid, false);
+                                                std::string("Remote entity: " + remote_entity_guid),
+                                                sample.status, std::string(""), std::string(
+                                                    ""), remote_entity_guid, false);
                                 entity_status_model_->addItem(incompatible_qos_item, policy_item);
-                                entity_status_model_->addItem(policy_item, remote_entity_item); 
+                                entity_status_model_->addItem(policy_item, remote_entity_item);
                                 controller_->status_counters.shared_errors[id][remote_entity_guid] += 1;
                             }
                         }
@@ -1830,7 +1833,7 @@ backend::Graph Engine::get_domain_view_graph (
 //     else
 //     {
 //         return backend::EntityId::invalid();
-//     }   
+//     }
 // }
 
 // void Engine::update_guids(

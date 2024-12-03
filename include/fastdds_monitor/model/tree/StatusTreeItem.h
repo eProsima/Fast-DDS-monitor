@@ -206,21 +206,23 @@ private:
     QVariant description_variant_;
     QVariant is_active_variant_;
 
-///////////////////////
-// Signals and slots //
-///////////////////////
+    ///////////////////////
+    // Signals and slots //
+    ///////////////////////
 
 public slots:
+
     void onItemRemoved(
             std::string guid);
-                    
+
 signals:
+
     // Notify when the node is removed from the tree
     // NOTE: Currently, the signal is only used to communicate item changes between top-level items and leaf items to update the Tree View when an endpoint becomes inactive.
     // Signal-slot connections between different types of nodes could lead to unexpected behaviors.
     void itemRemoved(
             std::string guid);
-    
+
 };
 
 } // namespace models

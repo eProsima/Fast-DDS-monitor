@@ -940,7 +940,6 @@ std::string SyncBackendConnection::get_deserialized_guid(
     return StatisticsBackend::deserialize_guid(data);
 }
 
-
 bool SyncBackendConnection::build_source_target_entities_vectors(
         DataKind data_kind,
         EntityId source_entity_id,

@@ -210,14 +210,17 @@ private:
 
     backend::EntityId current_filter_;
 
-///////////////////////
-// Signals and Slots //
-///////////////////////
+    ///////////////////////
+    // Signals and Slots //
+    ///////////////////////
 
 public slots:
+
     void onItemRemoved(
             std::string guid);
+
 signals:
+
     // Notify when the node is removed from the tree
     // NOTE: Currently, the signal is only used to communicate item changes between top-level items and leaf items to update the Status Tree View when an endpoint becomes inactive.
     // Signal-slot connections between different types of nodes could lead to unexpected behaviors.
