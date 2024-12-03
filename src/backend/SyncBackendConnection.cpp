@@ -1485,7 +1485,9 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         // If it didnt exist yet something has gone wrong in backend
         if (!new_entity)
         {
+            #ifdef QT_DEBUG
             qWarning() << "Trying to update an entity that did not exist";
+            #endif // ifdef QT_DEBUG
         }
 
         // Get alive status and metatraffic attribute of entity.
