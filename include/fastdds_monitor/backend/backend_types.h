@@ -28,6 +28,7 @@
 #include <fastdds_statistics_backend/types/app_names.h>
 #include <fastdds_statistics_backend/types/JSONTags.h>
 #include <fastdds_statistics_backend/types/types.hpp>
+#include <fastdds_statistics_backend/topic_types/types.hpp>
 
 namespace backend {
 
@@ -40,6 +41,7 @@ using StatusLevel = eprosima::statistics_backend::StatusLevel;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
 using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
+using GUID_s = eprosima::fastdds::statistics::detail::GUID_s;
 
 // Status types from backend
 using ConnectionListSample = eprosima::statistics_backend::ConnectionListSample;
@@ -50,6 +52,8 @@ using LivelinessChangedSample = eprosima::statistics_backend::LivelinessChangedS
 using LivelinessLostSample = eprosima::statistics_backend::LivelinessLostSample;
 using ProxySample = eprosima::statistics_backend::ProxySample;
 using SampleLostSample = eprosima::statistics_backend::SampleLostSample;
+using ExtendedIncompatibleQoSStatusSeq = eprosima::fastdds::statistics::ExtendedIncompatibleQoSStatusSeq_s;
+using ExtendedIncompatibleQoSStatus = eprosima::fastdds::statistics::ExtendedIncompatibleQoSStatus_s;
 //using StatusesSizeSample = eprosima::statistics_backend::StatusesSizeSample;
 
 //! Reference the ID_ALL in the project

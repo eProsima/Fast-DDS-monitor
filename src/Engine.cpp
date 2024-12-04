@@ -18,6 +18,8 @@
 #include <chrono>
 #include <sstream>
 
+#include <set>
+
 #include <QDateTime>
 #include <QDebug>
 #include <QQmlApplicationEngine>
@@ -1009,13 +1011,15 @@ bool Engine::update_entity_status(
     if (id == backend::ID_ALL)
     {
         auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
-                        std::string("No issues found"), backend::StatusLevel::OK_STATUS, std::string(""));
+                        std::string("No issues found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(
+                            ""));
         entity_status_model_->addTopLevelItem(empty_item);
     }
     else
     {
         backend::StatusLevel new_status = backend::StatusLevel::OK_STATUS;
         std::string description = backend::entity_status_description(kind);
+        std::string entity_guid = backend_connection_.get_guid(id);
 
         switch (kind)
         {
@@ -1028,7 +1032,7 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         std::string handle_string;
                         auto deadline_missed_item = new models::StatusTreeItem(id, kind, std::string("Deadline missed"),
@@ -1051,45 +1055,6 @@ bool Engine::update_entity_status(
                 }
                 break;
             }
-            case backend::StatusKind::INCOMPATIBLE_QOS:
-            {
-                backend::IncompatibleQosSample sample;
-                if (backend_connection_.get_status_data(id, sample))
-                {
-                    if (sample.status != backend::StatusLevel::OK_STATUS)
-                    {
-                        std::string fastdds_version = "v3.1.0";
-                        backend::StatusLevel entity_status = backend_connection_.get_status(id);
-                        auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description);
-                        new_status = sample.status;
-                        auto incompatible_qos_item = new models::StatusTreeItem(id, kind, std::string(
-                                            "Incompatible QoS"),
-                                        sample.status, std::string(""), description);
-                        for (eprosima::fastdds::statistics::QosPolicyCount_s policy :
-                                sample.incompatible_qos_status.policies())
-                        {
-                            if (policy.count() > 0)
-                            {
-                                auto policy_item = new models::StatusTreeItem(id, kind,
-                                                std::string(backend::policy_id_to_string(policy.policy_id()) + ":"),
-                                                sample.status, std::to_string(policy.count()),
-                                                std::string(
-                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ") +
-                                                std::string(
-                                                    "<a href=\"https://fast-dds.docs.eprosima.com/en/") + fastdds_version +
-                                                std::string("/fastdds/dds_layer/core/policy/standardQosPolicies.html") +
-                                                backend::policy_documentation_description(policy.policy_id()) +
-                                                std::string("\">here</a></html>"));
-                                entity_status_model_->addItem(incompatible_qos_item, policy_item);
-                            }
-                        }
-                        entity_status_model_->addItem(entity_item, incompatible_qos_item);
-                        counter = entity_item->recalculate_entity_counter();
-                    }
-                }
-                break;
-            }
             case backend::StatusKind::INCONSISTENT_TOPIC:
             {
                 backend::InconsistentTopicSample sample;
@@ -1099,7 +1064,7 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto inconsistent_topic_item =
                                 new models::StatusTreeItem(id, kind, std::string("Inconsistent topics:"),
@@ -1120,7 +1085,7 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto liveliness_changed_item =
                                 new models::StatusTreeItem(id, kind, std::string("Liveliness changed"),
@@ -1159,7 +1124,7 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto liveliness_lost_item = new models::StatusTreeItem(id, kind, std::string(
                                             "Liveliness lost:"),
@@ -1180,7 +1145,7 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description);
+                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto samples_lost_item = new models::StatusTreeItem(id, kind, std::string("Samples lost:"),
                                         sample.status, std::to_string(
@@ -1191,9 +1156,65 @@ bool Engine::update_entity_status(
                 }
                 break;
             }
+            case backend::StatusKind::EXTENDED_INCOMPATIBLE_QOS:
+            {
+                backend::ExtendedIncompatibleQosSample sample;
+                if (backend_connection_.get_status_data(id, sample))
+                {
+                    if (sample.status != backend::StatusLevel::OK_STATUS)
+                    {
+                        std::string fastdds_version = "v3.1.0";
+                        backend::StatusLevel entity_status = backend_connection_.get_status(id);
+                        auto entity_item = entity_status_model_->getTopLevelItem(
+                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
+                        new_status = sample.status;
 
+                        auto incompatible_qos_item = new models::StatusTreeItem(id, kind, std::string(
+                                            "Extended Incompatible QoS"),
+                                        sample.status, std::string(""), description, "", true);
+
+                        backend::ExtendedIncompatibleQoSStatusSeq status_seq = sample.extended_incompatible_qos_status;
+
+                        for (auto const& status : status_seq)
+                        {
+                            std::string remote_entity_guid = backend_connection_.get_deserialized_guid(
+                                status.remote_guid());
+                            controller_->status_counters.shared_errors[id][remote_entity_guid] = 0;
+                            for (const uint32_t policy_id : status.current_incompatible_policies())
+                            {
+                                auto policy_item = new models::StatusTreeItem(id, kind,
+                                                std::string(backend::policy_id_to_string(policy_id) + ":"),
+                                                sample.status, "",
+                                                std::string(
+                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ") +
+                                                std::string(
+                                                    "<a href=\"https://fast-dds.docs.eprosima.com/en/") + fastdds_version +
+                                                std::string("/fastdds/dds_layer/core/policy/standardQosPolicies.html") +
+                                                backend::policy_documentation_description(policy_id) +
+                                                std::string("\">here</a></html>"),
+                                                "", true);
+                                auto remote_entity_item = new models::StatusTreeItem(id, kind,
+                                                std::string("Remote entity: " + remote_entity_guid),
+                                                sample.status, std::string(""), std::string(
+                                                    ""), remote_entity_guid, false);
+                                entity_status_model_->addItem(incompatible_qos_item, policy_item);
+                                entity_status_model_->addItem(policy_item, remote_entity_item);
+                                controller_->status_counters.shared_errors[id][remote_entity_guid] += 1;
+                            }
+                        }
+
+                        entity_status_model_->addItem(entity_item, incompatible_qos_item);
+                        counter = entity_item->recalculate_entity_counter();
+                    }
+                }
+                break;
+            }
             case backend::StatusKind::CONNECTION_LIST:
             case backend::StatusKind::PROXY:
+            // Errors caused by incompatible QoS are counted twice (once for incompatible QoS and once for extended incompatible QoS).
+            // Incompatible QoS error counts must be ignored here to refresh counters correctly in case an entity causing an error is deleted,
+            // because the count attribute in IncompatibleQosSample will not be updated in that case.
+            case backend::StatusKind::INCOMPATIBLE_QOS:
             //case backend::StatusKind::STATUSES_SIZE:
             default:
             {
@@ -1203,6 +1224,7 @@ bool Engine::update_entity_status(
         }
         if (new_status != backend::StatusLevel::OK_STATUS)
         {
+            // Update entity errors and warnings counters
             if (new_status == backend::StatusLevel::ERROR_STATUS)
             {
                 std::map<backend::EntityId, uint32_t>::iterator it = controller_->status_counters.errors.find(id);
@@ -1260,14 +1282,14 @@ bool Engine::remove_inactive_entities_from_status_model(
         {
             // remove item from tree
             entity_status_model_->removeItem(entity_status_model_->getTopLevelItem(id, "",
-                    backend::StatusLevel::OK_STATUS, ""));
+                    backend::StatusLevel::OK_STATUS, "", entity_info["guid"]));
 
             // add empty item if removed last item
             if (entity_status_model_->rowCount(entity_status_model_->rootIndex()) == 0)
             {
                 entity_status_model_->addTopLevelItem(new models::StatusTreeItem(
                             backend::ID_ALL, std::string("No issues found"), backend::StatusLevel::OK_STATUS,
-                            std::string("")));
+                            std::string(""), std::string("")));
             }
 
             // update error counter
@@ -1276,13 +1298,27 @@ bool Engine::remove_inactive_entities_from_status_model(
             {
                 //element found;
                 controller_->status_counters.total_errors -= err_it->second;
-                if (controller_->status_counters.total_errors < 0)
-                {
-                    controller_->status_counters.total_errors = 0;
-                }
             }
+
             controller_->status_counters.errors.erase(id);
 
+            // Check if entity has associated errors in other entities
+            for (auto& sh_error_map : controller_->status_counters.shared_errors)
+            {
+                if (sh_error_map.second.find(entity_info["guid"]) != sh_error_map.second.end())
+                {
+                    controller_->status_counters.total_errors -= sh_error_map.second[entity_info["guid"]];
+                    controller_->status_counters.errors[sh_error_map.first] -= sh_error_map.second[entity_info["guid"]];
+                    sh_error_map.second.erase(entity_info["guid"]);
+                }
+            }
+
+            controller_->status_counters.shared_errors.erase(id);
+
+            if (controller_->status_counters.total_errors < 0)
+            {
+                controller_->status_counters.total_errors = 0;
+            }
             // update warning counter
             std::map<backend::EntityId, uint32_t>::iterator warn_it = controller_->status_counters.warnings.find(id);
             if (warn_it != controller_->status_counters.warnings.end())

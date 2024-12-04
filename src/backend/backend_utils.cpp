@@ -27,6 +27,7 @@
 #include <fastdds_monitor/model/model_types.h>
 #include <fastdds_monitor/utils.h>
 #include <fastdds_statistics_backend/types/JSONTags.h>
+#include <fastdds_statistics_backend/topic_types/types.hpp>
 
 #include <QDebug>
 
@@ -147,6 +148,8 @@ std::string status_kind_to_string(
             return "SAMPLE_LOST";
         case StatusKind::STATUSES_SIZE:
             return "STATUSES_SIZE";
+        case StatusKind::EXTENDED_INCOMPATIBLE_QOS:
+            return "EXTENDED_INCOMPATIBLE_QOS";
         case StatusKind::INVALID:
         default:
             return "INVALID";
@@ -517,6 +520,8 @@ std::string entity_status_description(
             return "Collection of Parameters describing the Proxy Data of the entity";
         case backend::StatusKind::SAMPLE_LOST:
             return "Tracks the number of times that the entity lost samples";
+        case backend::StatusKind::EXTENDED_INCOMPATIBLE_QOS:
+            return "Tracks the current incompatible QoS policies of the entity with another remote entity";
         //case backend::StatusKind::STATUSES_SIZE:
         //    return "";
         default:

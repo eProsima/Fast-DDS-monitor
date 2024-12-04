@@ -53,10 +53,12 @@ StatusTreeItem::StatusTreeItem()
     , id_(backend::ID_ALL)
     , kind_(backend::StatusKind::INVALID)
     , name_()
+    , guid_()
     , status_level_(backend::StatusLevel::OK_STATUS)
     , value_()
     , description_()
     , is_active_(true)
+    , delete_if_no_children_(false)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant())
@@ -73,10 +75,12 @@ StatusTreeItem::StatusTreeItem(
     , id_(backend::ID_ALL)
     , kind_(backend::StatusKind::INVALID)
     , name_(data.toString().toStdString())
+    , guid_()
     , status_level_(backend::StatusLevel::OK_STATUS)
     , value_()
     , description_()
     , is_active_(true)
+    , delete_if_no_children_(false)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant(QString::fromStdString(name_)))
@@ -91,15 +95,18 @@ StatusTreeItem::StatusTreeItem(
         const backend::EntityId& id,
         const std::string& name,
         const backend::StatusLevel& status_level,
-        const std::string& description)
+        const std::string& description,
+        const std::string& guid)
     : parent_item_(nullptr)
     , id_(id)
     , kind_(backend::StatusKind::INVALID)
     , name_(name)
+    , guid_(guid)
     , status_level_(status_level)
     , value_()
     , description_(description)
     , is_active_(true)
+    , delete_if_no_children_(true)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant(QString::fromStdString(name)))
@@ -121,10 +128,41 @@ StatusTreeItem::StatusTreeItem(
     , id_(id)
     , kind_(kind)
     , name_(name)
+    , guid_()
     , status_level_(status_level)
     , value_(value)
     , description_(description)
     , is_active_(true)
+    , delete_if_no_children_(false)
+    , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
+    , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
+    , name_variant_(QVariant(QString::fromStdString(name_)))
+    , status_level_variant_(QVariant(QString::fromStdString(backend::status_level_to_string(status_level_))))
+    , value_variant_(QVariant(QString::fromStdString(value)))
+    , description_variant_(QVariant(QString::fromStdString(description)))
+    , is_active_variant_(QVariant(true))
+{
+}
+
+StatusTreeItem::StatusTreeItem(
+        const backend::EntityId& id,
+        const backend::StatusKind& kind,
+        const std::string& name,
+        const backend::StatusLevel& status_level,
+        const std::string& value,
+        const std::string& description,
+        const std::string& guid,
+        bool delete_if_no_children)
+    : parent_item_(nullptr)
+    , id_(id)
+    , kind_(kind)
+    , name_(name)
+    , guid_(guid)
+    , status_level_(status_level)
+    , value_(value)
+    , description_(description)
+    , is_active_(true)
+    , delete_if_no_children_(delete_if_no_children)
     , id_variant_(QVariant(backend::backend_id_to_models_id(id_)))
     , kind_variant_(QVariant(QString::fromStdString(backend::status_kind_to_string(kind_))))
     , name_variant_(QVariant(QString::fromStdString(name_)))
@@ -138,6 +176,7 @@ StatusTreeItem::StatusTreeItem(
 StatusTreeItem::~StatusTreeItem()
 {
     qDeleteAll(child_items_);
+    emit itemRemoved(guid_);
 }
 
 StatusTreeItem* StatusTreeItem::parentItem()
@@ -168,6 +207,8 @@ void StatusTreeItem::removeChild(
         child_items_.removeAll(item);
         delete item;
     }
+
+    this->delete_if_no_children();
 }
 
 StatusTreeItem* StatusTreeItem::child(
@@ -179,6 +220,26 @@ StatusTreeItem* StatusTreeItem::child(
 int StatusTreeItem::childCount() const
 {
     return child_items_.count();
+}
+
+int StatusTreeItem::descendantCount() const
+{
+    int count = 0;
+    for (int i = 0; i < child_items_.count(); i++)
+    {
+        count += child_items_.value(i)->descendantCount();
+    }
+    return count + child_items_.count();
+}
+
+int StatusTreeItem::leafCount() const
+{
+    int count = 0;
+    for (int i = 0; i < child_items_.count(); i++)
+    {
+        count += child_items_.value(i)->leafCount();
+    }
+    return count + int(child_items_.isEmpty());
 }
 
 const QVariant& StatusTreeItem::entity_id() const
@@ -277,6 +338,11 @@ std::string StatusTreeItem::name_str()
     return name_;
 }
 
+std::string StatusTreeItem::guid_str()
+{
+    return guid_;
+}
+
 std::string StatusTreeItem::value_str()
 {
     return value_;
@@ -287,33 +353,61 @@ std::string StatusTreeItem::description_str()
     return description_;
 }
 
+bool StatusTreeItem::get_delete_if_no_children()
+{
+    return delete_if_no_children_;
+}
+
+void StatusTreeItem::set_delete_if_no_children(
+        bool delete_if_no_children)
+{
+    delete_if_no_children_ = delete_if_no_children;
+}
+
+void StatusTreeItem::delete_if_no_children()
+{
+    if (delete_if_no_children_ && child_items_.isEmpty())
+    {
+        remove();
+    }
+}
+
+void StatusTreeItem::remove()
+{
+    if (parent_item_)
+    {
+        parent_item_->removeChild(this);
+    }
+
+    else
+    {
+        delete this;
+    }
+}
+
 int StatusTreeItem::recalculate_entity_counter()
 {
     int count = 0;
     // check if top level item / entity item
     if (id_ != backend::ID_ALL && kind_ == backend::StatusKind::INVALID)
     {
-        for (int i = 0; i < child_items_.count(); i++)
-        {
-            try
-            {
-                if (child_items_.value(i)->childCount() > 0)
-                {
-                    for (int j = 0; j < child_items_.value(i)->childCount(); j++)
-                    {
-                        count += child_items_.value(i)->child(j)->value().toInt();
-                    }
-                }
-                count += child_items_.value(i)->value().toInt();
-            }
-            catch (...)
-            {
-            }
-        }
+        count = leafCount();
         value_ = std::to_string(count);
         value_variant_ = QVariant(QString::fromStdString(value_));
+        return count;
     }
     return count;
+}
+
+// Slots
+
+void StatusTreeItem::onItemRemoved(
+        std::string guid)
+{
+    if (guid_ == guid)
+    {
+        remove();
+    }
 }
 
 } // namespace models

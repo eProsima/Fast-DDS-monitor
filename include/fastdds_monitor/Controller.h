@@ -66,6 +66,9 @@ public:
     {
         std::map<backend::EntityId, uint32_t> errors;
         std::map<backend::EntityId, uint32_t> warnings;
+        // Represents the subset of errors that a entity shares with other entities, and are deleted when the entity becomes inactive
+        // Fist key is the entity id, second key is the remote entity guid and value is the number of errors shared
+        std::map<backend::EntityId, std::map<std::string, uint32_t>> shared_errors;
         int32_t total_errors = 0;
         int32_t total_warnings = 0;
     }
