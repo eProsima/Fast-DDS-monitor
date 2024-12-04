@@ -142,7 +142,7 @@ std::vector<EntityId> StatisticsBackend::get_entities(
             result.push_back(3);
             break;
 
-        case EntityKind::DOMAIN:
+        case EntityKind::DOMAIN_ENTITY:
             result.push_back(4);
             break;
 
@@ -189,7 +189,7 @@ EntityKind StatisticsBackend::get_type(
             return EntityKind::PROCESS;
 
         case 4:
-            return EntityKind::DOMAIN;
+            return EntityKind::DOMAIN_ENTITY;
 
         case 5:
             return EntityKind::TOPIC;

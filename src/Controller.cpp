@@ -60,7 +60,7 @@ void Controller::process_click(
 void Controller::domain_click(
         QString id)
 {
-    engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::DOMAIN);
+    engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::DOMAIN_ENTITY);
 }
 
 void Controller::topic_click(
