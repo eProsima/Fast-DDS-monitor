@@ -1790,63 +1790,6 @@ backend::Graph Engine::get_domain_view_graph (
     return backend_connection_.get_domain_view_graph(domain_id);
 }
 
-// std::set<backend::EntityId> Engine::get_incompatible_entities(
-//         const backend::EntityId& entity_id, uint32_t qos_policy_id)
-// {
-//     std::pair<backend::EntityId, uint32_t> key = std::make_pair(entity_id, qos_policy_id);
-//     auto it = incompatible_qos_policies_.find(key);
-//     if (it != incompatible_qos_policies_.end())
-//     {
-//         return it->second;
-//     }
-//     else
-//     {
-//         return std::set<backend::EntityId>();
-//     }
-// }
-
-// void Engine::update_incompatible_entities(
-//         const backend::EntityId& entity_id, const backend::EntityId& remote_entity_id, uint32_t qos_policy_id)
-// {
-//     std::pair<backend::EntityId, uint32_t> key = std::make_pair(entity_id, qos_policy_id);
-//     auto it = incompatible_qos_policies_.find(key);
-//     if (it != incompatible_qos_policies_.end())
-//     {
-//         it->second.insert(remote_entity_id);
-//     }
-//     else
-//     {
-//         std::set<backend::EntityId> remote_entities;
-//         remote_entities.insert(remote_entity_id);
-//         incompatible_qos_policies_.emplace(entity_id, remote_entities);
-//     }
-// }
-
-// backend::EntityId Engine::get_entity_id_from_guid(
-//         const std::string& guid)
-// {
-//     auto it = guid_entity_id_pairings_.find(guid);
-//     if (it != guid_entity_id_pairings_.end())
-//     {
-//         return it->second;
-//     }
-//     else
-//     {
-//         return backend::EntityId::invalid();
-//     }
-// }
-
-// void Engine::update_guids(
-//         const backend::EntityId& entity_id)
-// {
-//     if (entity_id == backend::ID_ALL || entity_id == backend::EntityId::invalid())
-//     {
-//         return;
-//     }
-//     std::string entity_guid = backend_connection_.get_guid(entity_id);
-//     guid_entity_id_pairings_.emplace(entity_guid, entity_id);
-// }
-
 bool EntityClicked::is_set() const
 {
     return kind != backend::EntityKind::INVALID;
