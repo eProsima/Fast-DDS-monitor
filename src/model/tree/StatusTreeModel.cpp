@@ -61,6 +61,7 @@ StatusTreeModel::StatusTreeModel(
 
 StatusTreeModel::~StatusTreeModel()
 {
+    disconnect_all_item_signals();
     delete root_item_;
 }
 
@@ -69,6 +70,11 @@ void StatusTreeModel::set_source_model(
 {
     source_model_ = source_model;
     filter(current_filter_);
+}
+
+void StatusTreeModel::disconnect_all_item_signals()
+{
+    QObject::disconnect(this, SIGNAL(itemRemoved(std::string)), nullptr, nullptr);
 }
 
 void StatusTreeModel::filter_proxy(
@@ -110,7 +116,9 @@ StatusTreeItem* StatusTreeModel::filtered_copy(
             source->name_str(),
             source->status_level(),
             source->value_str(),
-            source->description_str());
+            source->description_str(),
+            source->guid_str(),
+            source->get_delete_if_no_children());
         for (int i = 0; i < source->childCount(); i++)
         {
             addItem(destination, filtered_copy(source->child(i), entity_id));
@@ -325,6 +333,13 @@ void StatusTreeModel::addTopLevelItem(
         {
             is_empty_ = true;
         }
+
+        if (child->status_level() == backend::StatusLevel::ERROR_STATUS)
+        {
+            // Notify entity item destruction
+            QObject::connect(child, &StatusTreeItem::itemRemoved, this, &StatusTreeModel::onItemRemoved);
+        }
+
     }
 }
 
@@ -348,12 +363,19 @@ void StatusTreeModel::addItem(
             if (parent->child(i)->id() == child->id() && parent->child(i)->kind() == child->kind())
             {
                 emit layoutAboutToBeChanged();
+                // Prevent removing entity item if it is the only child
+                parent->set_delete_if_no_children(false);
                 beginRemoveRows(QModelIndex(), qMax(parent->childCount() - 1, 0), qMax(parent->childCount(), 0));
                 parent->removeChild(parent->child(i));
                 endRemoveRows();
+                parent->set_delete_if_no_children(true);
                 emit layoutChanged();
             }
         }
+    }
+    else if (child->isLeaf() && child->kind() == backend::StatusKind::EXTENDED_INCOMPATIBLE_QOS)
+    {
+        QObject::connect(this, &StatusTreeModel::itemRemoved, child, &StatusTreeItem::onItemRemoved);
     }
 
     emit layoutAboutToBeChanged();
@@ -428,6 +450,10 @@ void StatusTreeModel::clear()
 {
     emit layoutAboutToBeChanged();
     beginResetModel();
+    // NOTE: When the root item is deleted, all its children are also deleted. This causes every leaf node to receive a signal notifying the destruction
+    // of every entity item, which is unnecessary. Disconnecting all signal-slot communications between the TreeModel and leaf nodes (i.e., disconnecting
+    // all slots connected to the TreeModel's itemRemoved signal) before deleting the root item prevents this behavior.
+    disconnect_all_item_signals();
     delete root_item_;
     root_item_ = new StatusTreeItem();
     endResetModel();
@@ -504,7 +530,8 @@ StatusTreeItem*  StatusTreeModel::getTopLevelItem(
         const backend::EntityId& id,
         const std::string& data,
         const backend::StatusLevel& status,
-        const std::string& description)
+        const std::string& description,
+        const std::string& guid)
 {
     // For each entity item in the three (root)
     for (int i = 0; i < root_item_->childCount(); i++)
@@ -517,9 +544,16 @@ StatusTreeItem*  StatusTreeModel::getTopLevelItem(
     }
 
     // if not existing, create new topLevelItem
-    StatusTreeItem* new_entity_item = new StatusTreeItem(id, data, status, description);
+    StatusTreeItem* new_entity_item = new StatusTreeItem(id, data, status, description, guid);
     addTopLevelItem(new_entity_item);
     return new_entity_item;
+}
+
+// Slots
+void StatusTreeModel::onItemRemoved(
+        std::string guid)
+{
+    emit itemRemoved(guid);
 }
 
 } // namespace models

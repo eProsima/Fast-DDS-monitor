@@ -132,6 +132,10 @@ public:
     std::string get_data_type_name(
             backend::EntityId id);
 
+    //! Get the guid associated to a given entity from the Backend by calling \c get_info
+    std::string get_guid(
+            backend::EntityId id);
+
     //! Get the status level of an entity from the Backend by calling \c get_status
     StatusLevel get_status(
             backend::EntityId id);
@@ -198,6 +202,14 @@ public:
     bool get_status_data(
             EntityId source_entity_id,
             SampleLostSample& sample);
+
+    bool get_status_data(
+            EntityId source_entity_id,
+            ExtendedIncompatibleQosSample& sample);
+
+    //! Convert a given entity guid to string format
+    std::string get_deserialized_guid(
+            const backend::GUID_s& data);
 
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(

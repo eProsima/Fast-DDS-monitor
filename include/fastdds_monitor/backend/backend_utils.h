@@ -124,6 +124,9 @@ std::string entity_status_description(
 std::string policy_documentation_description(
         const uint32_t& id);
 
+std::string guid_s_to_string(
+        const backend::GUID_s& guid);
+
 } //namespace backend
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_BACKENDUTILS_H

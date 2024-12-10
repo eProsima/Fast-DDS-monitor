@@ -643,6 +643,12 @@ std::string SyncBackendConnection::get_data_type_name(
     return backend::get_info_value(get_info(id), "data_type");
 }
 
+std::string SyncBackendConnection::get_guid(
+        backend::EntityId id)
+{
+    return backend::get_info_value(get_info(id), "guid");
+}
+
 StatusLevel SyncBackendConnection:: get_status(
         EntityId id)
 {
@@ -906,6 +912,32 @@ bool SyncBackendConnection::get_status_data(
         qWarning() << "Bad Parameter retrieving sample " << e.what();
     }
     return false;
+}
+
+bool SyncBackendConnection::get_status_data(
+        EntityId id,
+        ExtendedIncompatibleQosSample& sample)
+{
+    try
+    {
+        StatisticsBackend::get_status_data(id, sample);
+        return true;
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error retrieving sample: " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter retrieving sample " << e.what();
+    }
+    return false;
+}
+
+std::string SyncBackendConnection::get_deserialized_guid(
+        const backend::GUID_s& data)
+{
+    return StatisticsBackend::deserialize_guid(data);
 }
 
 bool SyncBackendConnection::build_source_target_entities_vectors(
@@ -1453,7 +1485,9 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         // If it didnt exist yet something has gone wrong in backend
         if (!new_entity)
         {
+            #ifdef QT_DEBUG
             qWarning() << "Trying to update an entity that did not exist";
+            #endif // ifdef QT_DEBUG
         }
 
         // Get alive status and metatraffic attribute of entity.
