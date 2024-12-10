@@ -355,6 +355,7 @@ Item {
                         {
                             id: idl_text
                             text: ""
+                            selectionColor: Theme.eProsimaLightBlue
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: tabLayout.idl_text_margin_
