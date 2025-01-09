@@ -154,7 +154,7 @@ Please refer to section :ref:`monitor_domain` for further information.
 
 First, the :code:`Cancel` button is pressed so the user can see around the monitor and check its configurations,
 but no entities or data will be shown as there are not domains being monitored.
-You can always return to the :ref:`initialize_monitoring` dialog from :ref:`file_menu`.
+You can always return to the :ref:`initialize_monitoring` dialog from :ref:`application_menu_file`.
 
 Let's initialize monitoring in **domain 0** and pressing :code:`OK`.
 

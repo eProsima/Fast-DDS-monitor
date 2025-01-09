@@ -42,7 +42,7 @@ Overview
    configuration and physical deployment.
 #. **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
 
-.. figure:: /rst/figures/screenshots/usage_example/working_example.gif
+.. figure:: /rst/figures/screenshots/working_example.gif
     :align: center
 
 .. warning::

@@ -210,7 +210,7 @@ CMake installation
 
 .. Warning::
 
-Only use this installation method if the colcon_ installation method is not suitable for your needs.
+    Only use this installation method if the colcon_ installation method is not suitable for your needs.
 
 This section explains how to compile *eProsima Fast DDS Monitor* with CMake_, either
 :ref:`locally <local_installation_sl>` or :ref:`globally <global_installation_sl>`.
