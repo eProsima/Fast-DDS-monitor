@@ -80,4 +80,6 @@ This documentation is organized into the sections below.
 * :ref:`Getting Started <entities>`
 * :ref:`User Manual <initialize_monitoring>`
 * :ref:`Developer Manual <developer_manual_installation_sources_linux>`
+* :ref:`ROS2 <ros_section>`
+* :ref:`Docker Image <docker>`
 * :ref:`Release Notes <release_notes>`
