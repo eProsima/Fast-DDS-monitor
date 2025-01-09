@@ -208,7 +208,7 @@ Colcon installation
 CMake installation
 ==================
 
-.. warning:
+.. Warning::
 
 Only use this installation method if the colcon_ installation method is not suitable for your needs.
 

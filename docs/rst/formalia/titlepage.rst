@@ -42,6 +42,9 @@ Overview
    configuration and physical deployment.
 #. **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
 
+.. figure:: /rst/figures/screenshots/usage_example/working_example.gif
+    :align: center
+
 .. warning::
 
     In order to monitor a DDS network deployed using *Fast DDS* library, compiling the latter with statistics and
