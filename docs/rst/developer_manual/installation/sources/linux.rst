@@ -208,6 +208,10 @@ Colcon installation
 CMake installation
 ==================
 
+.. warning:
+
+Only use this installation method if the colcon_ installation method is not suitable for your needs.
+
 This section explains how to compile *eProsima Fast DDS Monitor* with CMake_, either
 :ref:`locally <local_installation_sl>` or :ref:`globally <global_installation_sl>`.
 
@@ -316,7 +320,7 @@ and execute the executable file that has been installed in :code:`<install-path>
 
     # If built has been done using colcon, all projects could be sourced as follows
     source install/setup.bash
-    ./<install-path>/fastdds_monitor/bin/fastdds_monitor
+    ./<build-path>/fastdds_monitor/fastdds_monitor
 
 Be sure that this executable has execute permissions.
 
