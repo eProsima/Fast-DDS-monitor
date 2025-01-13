@@ -24,7 +24,7 @@ of the application,
 (you might need to make the file executable by running ``chmod +x eProsima_Fast-DDS-Monitor-vX.X.X-Linux.run`` first)
 and follow the instructions it provides to install the program in a directory on the system.
 
-.. figure:: /rst/figures/installer.png
+.. figure:: /rst/figures/Installer.png
     :align: center
 
 *Fast DDS Monitor* portable format
