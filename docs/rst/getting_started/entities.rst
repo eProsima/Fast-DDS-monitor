@@ -46,7 +46,7 @@ for a more detailed explanation of the *DomainParticipant* entity in DDS.
 
 Each *DomainParticipant* can communicate only under a single *Domain*,
 (see :ref:`logical entities <logical_entities>` section), which creates a direct connection between each
-*DomainParticipant* and the *Domain* in which it operates. Additioanlly, from the
+*DomainParticipant* and the *Domain* in which it operates. Additionally, from the
 :ref:`entities diagram <fig_entities_diagram>` it can be seen that *DomainParticipant* entities are contained within
 a *Process*. This is because a system process (referred to as a *Process* entity) executes an application using
 *Fast DDS*, instantiating *DomainParticipants*. The same applies to *DataReaders* and *DataWriters* instantiated by a
@@ -57,7 +57,7 @@ a *Process*. This is because a system process (referred to as a *Process* entity
 
 DataWriter
 ----------
-*DataWriter* is the DDS entity reposible for publishing data.
+*DataWriter* is the DDS entity resposible for publishing data.
 Each *DataWriter* is directly contained within a single *DomainParticipant*.
 In addition, since a *DataWriter* is associated with the *Topic* it publishes under, a direct containment relationship
 can be defined between the *DataWriter* and the *Topic*.
@@ -75,7 +75,7 @@ DataReader
 *DataReader* is the DDS entity holding the subscribe function in the communication.
 As is the case with the *DataWriter*, each *DataReader* is directly contained within a single *DomainParticipant*.
 Furthermore, since a *DataReader* is associated to the *Topic* to which it is subscribed,
-a direct containment relationship an be establisjed between the *DataReader* and the *Topic*.
+a direct containment relationship an be established between the *DataReader* and the *Topic*.
 As a result, any *Topic* will contain all *DataReaders* subscribed to it.
 Therefore, each *DataReader* is directly connected to the *DomainParticipant* it belongs to,
 and with the *Topic* to which it is subscribed.

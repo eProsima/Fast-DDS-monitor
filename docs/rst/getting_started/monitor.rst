@@ -54,7 +54,7 @@ that could appear with the Simple Discovery Protocol and multicast.
 In configure this type of Domain monitoring, a string with different
 network addresses is required.
 This string consists of one or several network addresses in the format of ``ip_address:port``, where each address
-represents the IP-port pair where a Discovery Server is listening. Multiple network addreses are separated with
+represents the IP-port pair where a Discovery Server is listening. Multiple network addresses are separated with
 ``;``. It is only necessary to connect successfully to one of the specified addresses, as interconnected Discovery
 Servers create a redundant and robust network. However, connecting to all servers is not required.
 
@@ -68,8 +68,8 @@ one in an external network in address ``8.8.8.8:12345``.
 
 In order to clarify how to set this parameter, please visit the
 `Discovery Server CLI tutorial <https://fast-dds.docs.eprosima.com/en/latest/fastddscli/cli/cli.html#discovery>`_.
-The parameter of the Discovery Server *Init New Monitor* button in this application will be used additionally as the input
-to the CLI command.
+The parameter of the Discovery Server *Init New Monitor* button in this application will be used additionally as the
+input to the CLI command.
 
 .. warning::
     Due to the designed architecture for the communication of the Monitor application and the DDS entities,
