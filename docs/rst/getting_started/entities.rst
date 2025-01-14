@@ -57,7 +57,7 @@ a *Process*. This is because a system process (referred to as a *Process* entity
 
 DataWriter
 ----------
-*DataWriter* is the DDS entity resposible for publishing data.
+*DataWriter* is the DDS entity responsible for publishing data.
 Each *DataWriter* is directly contained within a single *DomainParticipant*.
 In addition, since a *DataWriter* is associated with the *Topic* it publishes under, a direct containment relationship
 can be defined between the *DataWriter* and the *Topic*.

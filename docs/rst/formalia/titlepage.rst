@@ -18,8 +18,8 @@ etc.), as well as record and compute in real time statistical measurements on th
 
 Furthermore, the user can check the status of the deployed DDS network at any time, i.e. see for each DDS
 Domain which DomainParticipants are instantiated, as well as their publishers and subscribers and the topics
-under which they publish or to which they subscribe respectively.
-It is also possible to see the physical architecture of the network on which the DDS applications that use *Fast DDS*
+they publish under or they subscribe to, respectively.
+It is also possible to visualize the physical architecture of the network on which the DDS applications that use *Fast DDS*
 are running.
 
 ##################
