@@ -53,6 +53,10 @@ are running.
    configuration and physical deployment.
 * **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
 
+<div align="center">
+    <img src="docs/rst/figures/screenshots/working_example2.gif" alt="Example of use">
+</div>
+
 ## Commercial support
 
 Looking for commercial support? Write us to info@eprosima.com
