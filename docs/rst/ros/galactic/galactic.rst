@@ -42,7 +42,7 @@ Execute Fast DDS Monitor
 Initiate Fast DDS Monitor by running the executable file created in the installation process.
 Once Fast DDS Monitor is launched, start a monitor in domain :code:`0` (default domain).
 
-.. figure:: /rst/figures/screenshots/usage_example/init_domain.png
+.. figure:: /rst/figures/screenshots/usage_example/Init_domain.png
     :align: center
 
 Execute ROS 2 demo nodes with statistics

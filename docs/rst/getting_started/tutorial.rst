@@ -166,7 +166,7 @@ Add physical and logical panels
 By default, the Monitor only displays the DDS panel which lists the DDS entities together with their configuration
 and available statistics information.
 In order to open the logical and the physical panels, click on the top right corner of the
-:ref:`left_panel:`, in button :code:`···` and add all the panels to visualize the whole information.
+:ref:`left_panel`, in button :code:`···` and add all the panels to visualize the whole information.
 
 .. figure:: /rst/figures/screenshots/usage_example/Add_panels.png
     :align: center
@@ -287,7 +287,7 @@ In our case, we are going to use :code:`20` bins.
 Selecting the :code:`Default initial timestamp` as the :code:`Start time`, the initial timestamp shall be the time at
 which the monitor was executed.
 Using :code:`Now` in option :code:`End time` will get all the data available until the moment the chart is created.
-Now for the :code:`Statistics kind` option, we are going to use :code:`SUM` as we want to know the ammount of
+Now for the :code:`Statistics kind` option, we are going to use :code:`SUM` as we want to know the amount of
 data sent in each time interval.
 
 .. figure:: /rst/figures/screenshots/usage_example/Data_count_configuration.png
@@ -298,7 +298,8 @@ This is very useful in order to create a new series similar to the one already c
 Here we are going to reuse all the information but we are going to change the :code:`Number of bins` to :code:`0`.
 Using the value :code:`0` means that we want to see all the different *datapoints* that the writer has stored.
 Be aware that option :code:`Statistics kind` do not have effect when :code:`Number of bins` is :code:`0`.
-Then, click :code:`Add & Close` and now you should be able to see both series represented in the :code:`DATA_COUNT` window.
+Then, click :code:`Add & Close` and now you should be able to see both series represented in the :code:`DATA_COUNT`
+window.
 
 .. figure:: /rst/figures/screenshots/usage_example/Data_count_chart.png
     :align: center
