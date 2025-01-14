@@ -59,8 +59,8 @@ Fast DDS libraries. These examples' path can be accessed from a terminal by typi
 
  $ goToExamples
 
-From this folder you can access all examples, both for DDS and RTPS. We detail the steps to launch two such
-examples below.
+From this folder you can access all examples, both for DDS and RTPS. We detail the steps to launch one such
+example below.
 
 Hello World Example
 ^^^^^^^^^^^^^^^^^^^
