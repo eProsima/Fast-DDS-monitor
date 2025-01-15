@@ -35,4 +35,4 @@ Not having any entity selected has the following effects in the application view
 - The :ref:`dds_panel` will list all DDS entities present in any Domain monitored by Fast DDS Monitor,
   i.e. it will be possible to view any DomainParticipant, DataWriter and DataReader regardless of the physical entity
   or the DDS logical entity under which they are located.
-- The information shown in the :ref:`info_panel_layout` is a brief summary of the current state of the application.
+- The information shown in the :ref:`info_panel_layout` becomes a brief summary of the current state of the application.

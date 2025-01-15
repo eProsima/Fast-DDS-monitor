@@ -126,6 +126,8 @@ This information is divided in two categories, which are shown in the different 
 First, the ``info`` tab contains the general information of the last entity clicked.
 Secondly, the ``Statistics`` tab contains a summary of the main statistical data regarding the last entity clicked.
 
+.. _info_subpanel_layout:
+
 Info Panel
 ^^^^^^^^^^
 This panel shows the main information of the last entity clicked.
