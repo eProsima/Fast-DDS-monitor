@@ -13,10 +13,10 @@ information about the state and the events of the monitor.
 Status SubPanel
 ===============
 
-In this panel it is displayed a brief information of the actual state of the *Fast DDS Monitor*,
+This panel displays brief information of the current state of the *Fast DDS Monitor*,
 
 * Entities
-    * *Domains*: A list of the Domains that has been initialized in the Monitor so far.
+    * *Domains*: A list of the Domains that have been initialized in the Monitor so far.
     * *Entities*: Total number of entities that are being tracked.
 
 .. _log_panel:
@@ -25,7 +25,7 @@ Log SubPanel
 ============
 
 This panel displays the events that the application has received.
-These events arise as *callbacks* that are generated because of new entities has arrived to
-the network or has been discovered, or because it has been any change in the DDS network state.
-Each callback contains the entities discovered by the Monitor and the time it has happened.
+These events arise as *callbacks* that are generated because new entities have arrived to
+the network or have been discovered, or because there has been any change in the DDS network state.
+Each callback contains the entities discovered by the Monitor and the time it happened.
 This list could be erased using :ref:`refresh_button`.
