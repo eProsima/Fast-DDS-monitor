@@ -26,7 +26,7 @@ displayed on the monitor for further user queries.
 Section :ref:`monitor_domain` contains all the definitions and explanation about what monitoring a domain means in the
 context of the application.
 
-Pressing this button, a new Dialog will be displayed requesting the user to introduce a number between 0 and 200, 
+Pressing this button, a new Dialog will be displayed requesting the user to introduce a number between 0 and 200,
 which will be the DDS Domain number. This will start a monitor in a specific DDS domain.
 The entities in this domain will be automatically discovered.
 
@@ -100,7 +100,7 @@ To know how to configure a historic *Chartbox*, please refer to the section :ref
 .. _display_dynamic_data_button:
 
 Display Real-Time Data
---------------------
+----------------------
 Create a new dynamic *Chartbox* in the :ref:`chart_panel_index`.
 To know how to configure a dynamic *Chartbox*, please refer to the section :ref:`dynamic_series`.
 
