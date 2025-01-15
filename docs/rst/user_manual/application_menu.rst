@@ -144,6 +144,8 @@ Clear Issues
 ------------
 This button clears the issues log.
 
+.. _view_menu:
+
 View
 ====
 
