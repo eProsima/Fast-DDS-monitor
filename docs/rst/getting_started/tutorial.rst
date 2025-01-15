@@ -272,7 +272,7 @@ Data Count Plot
 ---------------
 
 This section explains how to represent the data being monitored and retrieved by the DDS entities.
-First of all, click *Chart View* in the right panel to open the graph display. Then, go to
+First of all, click *Chart View* in the :ref:`chart_panel_index` to open the graph display. Then, go to
 *Edit->Display Historical Data*. This will open a Dialog where you should choose one of the topics
 in which you want to see the data collected. The :code:`DATA_COUNT` has been chosen for this tutorial.
 
