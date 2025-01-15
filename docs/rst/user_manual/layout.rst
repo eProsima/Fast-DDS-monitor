@@ -10,7 +10,7 @@ It will briefly explain the main menus and windows that could be seen, in order 
 with where to find the buttons and information.
 Below is a screenshot of the *Fast DDS Monitor* application in operation.
 
-.. figure:: /rst/figures/screenshots/App-run.png
+.. figure:: /rst/figures/screenshots/App_run.png
     :align: center
 
 .. _application_menu_layout:
@@ -154,8 +154,8 @@ Monitor Status Panel
 ====================
 
 In this panel, different data related to the entities being monitored or the current state of the application
-will be displayed. This panel contains two different subpanels, the :ref:`status_panel_layout` and the :ref:`log_panel_layout`.
-To change from one another, press on the name of the subpanel to be displayed.
+will be displayed. This panel contains two different subpanels, the :ref:`status_panel_layout` and the
+:ref:`log_panel_layout`. To change from one another, press on the name of the subpanel to be displayed.
 
 To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
 In order to hide the whole left sidebar, click *Hide Left sidebar* in the *View* menu.
@@ -236,8 +236,8 @@ To create a new *Chartbox* go to *Chart View* in the Main Panel default tab, and
 This button will create a new *Chartbox* where new series could be added, removed or modified.
 
 These *Chartboxes* can be moved along the *Chart View* tab.
-In order to move one of these charts, click on the *Chartbox* title and grab the object to its new desired location inside the
-main panel.
+In order to move one of these charts, click on the *Chartbox* title and grab the object to its new desired location
+inside the main panel.
 The rest of the *Chartboxes* will automatically rearrange when one of them is moved to a different position.
 
 .. figure:: /rst/figures/screenshots/chartbox.png
