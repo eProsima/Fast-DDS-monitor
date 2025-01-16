@@ -27,8 +27,8 @@ Create Historic Series Dialog
 =============================
 The :ref:`create_new_series_layout` allows users to create a new data series within a Chartbox.
 The fields in the dialog configure the data that will be displayed.
-When all the data has been set in the :ref:`create_historic_series_dialog`, press *Add* to create the series and continue
-with the same parameter set in order to create a new series.
+When all the data has been set in the :ref:`create_historic_series_dialog`, press *Add* to create the series and
+continue with the same parameter set in order to create a new series.
 Press *Add & Close* to create the series and close the dialog.
 Press *Close* to close the window without creating any series.
 
@@ -58,7 +58,7 @@ To see all the individual data points without accumulating them, set the *Number
 
 .. note::
 
-    When selecting *RAW_DATA* as the statistics kind, each bin will show the first data value recieved after
+    When selecting *RAW_DATA* as the statistics kind, each bin will show the first data value received after
     the previous data point.
 
 .. warning::

@@ -22,7 +22,7 @@ Create Dynamic Series Chartbox
 ==============================
 In order to create a new dynamic Chartbox in the central panel, use the button :ref:`display_dynamic_data_button` in
 the :ref:`edit_menu` or in :ref:`shortcuts_bar_layout`. A dynamic Chartbox can only contain series referring the
-same *DataKind*. A new dialog will appear asking to choose some parameters that will be shared among all the 
+same *DataKind*. A new dialog will appear asking to choose some parameters that will be shared among all the
 series created in this new Chartbox.
 
 Data Kind
