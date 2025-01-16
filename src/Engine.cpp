@@ -1050,7 +1050,7 @@ bool Engine::update_entity_status(
                         entity_status_model_->addItem(deadline_missed_item, total_count_item);
                         entity_status_model_->addItem(deadline_missed_item, last_instance_handle_item);
                         entity_status_model_->addItem(entity_item, deadline_missed_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1071,7 +1071,7 @@ bool Engine::update_entity_status(
                                         sample.status, std::to_string(
                                             sample.inconsistent_topic_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, inconsistent_topic_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1110,7 +1110,7 @@ bool Engine::update_entity_status(
                         entity_status_model_->addItem(liveliness_changed_item, not_alive_count_item);
                         entity_status_model_->addItem(liveliness_changed_item, last_publication_handle_item);
                         entity_status_model_->addItem(entity_item, liveliness_changed_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1131,7 +1131,7 @@ bool Engine::update_entity_status(
                                         sample.status, std::to_string(
                                             sample.liveliness_lost_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, liveliness_lost_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1151,7 +1151,7 @@ bool Engine::update_entity_status(
                                         sample.status, std::to_string(
                                             sample.sample_lost_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, samples_lost_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1204,7 +1204,7 @@ bool Engine::update_entity_status(
                         }
 
                         entity_status_model_->addItem(entity_item, incompatible_qos_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
