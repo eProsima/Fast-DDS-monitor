@@ -79,7 +79,7 @@ To execute each of the nodes, run the following commands in different terminals:
     ros2 run demo_nodes_cpp talker
 
 Remember to source your `ROS 2 installation
-<https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html?highlight=source#source-the-setup-script>`_
+<https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html#setup-environment>`_
 before every ros2 command.
 
 Monitoring network
