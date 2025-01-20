@@ -77,51 +77,15 @@ This does not change the Monitor behavior, but would change the data and informa
     :code:`hello_world_topic` in *Domain* :code:`0`.
     The following arguments indicate this process to run until the user press :code:`enter` (:code:`0` samples)
     and to write a message every tenth of a second (:code:`100` milliseconds period).
-
-Statistics topics
------------------
-
+    
 The environment variable :code:`FASTDDS_STATISTICS` activates the statistics writers for a *Fast DDS*
 application execution.
 This means that the *DomainParticipants* created within this variable will report the statistical data related
 to them and their sub-entities.
 
-For this example, only some of the available topics has been activated.
-This means that each participant will only report this specific data and it will not store or send any other data.
-This is very useful in order to limit the network traffic, as sending all the data highly increase the amount
-of DDS data sent.
-
-The topics that are going to be reported by this example are:
-
-* **HISTORY_LATENCY_TOPIC**: Reports the latency of the messages between the two entities.
-* **NETWORK_LATENCY_TOPIC**: Reports the network latency of the messages between the two entities.
-* **PUBLICATION_THROUGHPUT_TOPIC**: Reports the publication throughput of the user's DataWriters.
-* **SUBSCRIPTION_THROUGHPUT_TOPIC**: Reports the subscription throughput of the user's DataReaders.
-* **RTPS_SENT_TOPIC**: Reports the number of RTPS packets and bytes being sent by each DDS entity.
-* **RTPS_LOST_TOPIC**: Reports the number of RTPS packets and bytes that are being lost in the transport layer
-  (dropped somewhere in between) in the communication between each DDS entity and locator.
-* **HEARTBEAT_COUNT_TOPIC**: Reports the number of heartbeat messages sent by each user’s DataWriter.
-* **ACKNACK_COUNT_TOPIC**:  Reports the number of ACKNACK messages sent by each user’s DataReader.
-* **NACKFRAG_COUNT_TOPIC**: Reports the number of NACKFRAG messages sent by each user’s DataReader.
-* **GAP_COUNT_TOPIC**: Reports the number of gap messages sent by each user’s DataWriter.
-* **DATA_COUNT_TOPIC**: the total number of user’s data messages and data fragments (in case that the message size is
-  large enough to require RTPS fragmentation) that have been sent by each user’s DataWriter.
-* **RESENT_DATAS_TOPIC**: Reports the total number of user’s data messages and data fragments (in case that the message
-  size is large enough to require RTPS fragmentation) that have been necessary to resend by each user’s DataWriter.
-* **SAMPLE_DATAS_TOPIC**:  the number of user’s data messages (or data fragments in case that the message size is
-  large enough to require RTPS fragmentation) that have been sent by the user’s DataWriter to completely deliver a
-  single sample.
-* **PDP_PACKETS_TOPIC**: Reports the number of PDP discovery traffic RTPS packets transmitted by each DDS
-  DomainParticipant.
-* **EDP_PACKETS_TOPIC**: Reports the number of EDP discovery traffic RTPS packets transmitted by each DDS
-  DomainParticipant.
-* **DISCOVERY_TOPIC**: Reports the time when each local DomainParticipant discovers any remote DDS entity.
-* **PHYSICAL_DATA_TOPIC**: Reports the physical data of the participant.
-  This will make possible to see which host and context each entity is running in.
-
 Please refer to
 `Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/topic_names.html>`_
-for further information about these topics.
+for further information about the available statistical topics.
 
 **************************
 Fast DDS Monitor Execution
@@ -217,15 +181,20 @@ is running.
 .. figure:: /rst/figures/screenshots/usage_example/Information_publisher.png
     :align: center
 
-Discovery Callbacks
-===================
+Domain View
+===========
 
-Whenever a new entity is discovered by the Monitor there is an event registered in :ref:`log_panel_layout`.
-Checking this panel shows the time when every entity that is being monitored has been discovered.
-This panel is refreshed automatically whenever a new entity is discovered.
-Using the :ref:`refresh_button` this information is cleared until the current moment.
+Now that we have both our publisher and subscriber in execution, we can check the configurtion of the DDS network
+that has just been created. Click on *Domain View* in the :ref:`chart_panel_index` to open the Domain display. In
+this tab, we can see a graph describing the structure of our network: our single Host contains our sinlge User,
+which in turn contains both our Processes. Each Process is related to one of our Participants, either the publisher
+or the subscriber. It's easy to distinguish them in this view: with the vertical line representing our Topic, the 
+publisher contains the DataWriter, represented with an arrow that feeds into the Topic, while the subscriber contains
+the DataReader, represented with an arrow coming from the Topic.
 
-.. figure:: /rst/figures/screenshots/usage_example/Callbacks.png
+Since weŕe not going to be using this Tab anymore, click on the *X* to return to the :code:`New Tab` view.
+
+.. figure:: /rst/figures/screenshots/usage_example/Domain_view.png
     :align: center
 
 Summary of Statistical Data
