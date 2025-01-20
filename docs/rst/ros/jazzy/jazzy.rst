@@ -18,7 +18,7 @@ Installation from sources
 -------------------------
 
 Follow the `ROS 2 Jazzy installation from sources documentation
-<https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html>`_
+<https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html>`_.
 Fast DDS is downloaded with the rest of the packages.
 The only consideration here is to compile :code:`fastdds` library with the Statistics Module activated.
 When compiling with colcon, the following arguments must be provided:
