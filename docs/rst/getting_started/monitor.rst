@@ -70,13 +70,3 @@ In order to clarify how to set this parameter, please visit the
 `Discovery Server CLI tutorial <https://fast-dds.docs.eprosima.com/en/latest/fastddscli/cli/cli.html#discovery>`_.
 The parameter of the Discovery Server *Init New Monitor* button in this application will be used additionally as the
 input to the CLI command.
-
-.. warning::
-    Due to the designed architecture for the communication of the Monitor application and the DDS entities,
-    it is highly recommended not to initialize a *Discovery Server Monitor* with servers in different
-    *Discovery Server Networks* (do not connect a monitor to servers that are not connected).
-
-.. warning::
-    Do not initialize a *Discovery Server* monitoring in a *Discovery Server Network* where another *Discovery Server*
-    is already being monitored.
-    This will lead to undefined behavior.

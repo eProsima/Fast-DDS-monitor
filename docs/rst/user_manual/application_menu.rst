@@ -30,7 +30,7 @@ Pressing this button, a new Dialog will be displayed requesting the user to intr
 which will be the DDS Domain number. This will start a monitor in a specific DDS domain.
 The entities in this domain will be automatically discovered.
 
-.. warning::
+.. note::
     Starting a monitor in a Domain already initialized will prompt an error message,
     and create an issue that can be found in :ref:`issues_panel`. Selecting ``Retry`` allows the user to select
     a different Domain.
@@ -54,7 +54,7 @@ separated by ``;``.
 This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
-.. warning::
+.. note::
     Starting a monitor in a *Discovery Server* already initialized will prompt an error message,
     and create an issue that can be found in :ref:`issues_panel`. Selecting ``Retry`` allows the user to select
     a different *Discovery Server*.
