@@ -77,7 +77,7 @@ This does not change the Monitor behavior, but would change the data and informa
     :code:`hello_world_topic` in *Domain* :code:`0`.
     The following arguments indicate this process to run until the user press :code:`enter` (:code:`0` samples)
     and to write a message every tenth of a second (:code:`100` milliseconds period).
-    
+
 The environment variable :code:`FASTDDS_STATISTICS` activates the statistics writers for a *Fast DDS*
 application execution.
 This means that the *DomainParticipants* created within this variable will report the statistical data related
@@ -184,15 +184,15 @@ is running.
 Domain View
 ===========
 
-Now that we have both our publisher and subscriber in execution, we can check the configurtion of the DDS network
+Now that we have both our publisher and subscriber in execution, we can check the configuration of the DDS network
 that has just been created. Click on *Domain View* in the :ref:`chart_panel_index` to open the Domain display. In
-this tab, we can see a graph describing the structure of our network: our single Host contains our sinlge User,
+this tab, we can see a graph describing the structure of our network: our single Host contains our single User,
 which in turn contains both our Processes. Each Process is related to one of our Participants, either the publisher
-or the subscriber. It's easy to distinguish them in this view: with the vertical line representing our Topic, the 
+or the subscriber. It's easy to distinguish them in this view: with the vertical line representing our Topic, the
 publisher contains the DataWriter, represented with an arrow that feeds into the Topic, while the subscriber contains
 the DataReader, represented with an arrow coming from the Topic.
 
-Since weŕe not going to be using this Tab anymore, click on the *X* to return to the :code:`New Tab` view.
+Since we're not going to be using this Tab anymore, click on the *X* to return to the :code:`New Tab` view.
 
 .. figure:: /rst/figures/screenshots/usage_example/Domain_view.png
     :align: center
