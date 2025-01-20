@@ -4,7 +4,6 @@ eProsima Fast DDS Monitor Documentation
 
 .. image:: /rst/figures/Logo.png
   :height: 100px
-  :width: 100px
   :align: left
   :alt: eProsima
   :target: http://www.eprosima.com/
