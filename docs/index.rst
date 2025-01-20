@@ -73,7 +73,7 @@
 .. _index_ros:
 
 .. toctree::
-   :caption: ROS2
+   :caption: ROS 2
    :maxdepth: 2
    :numbered: 5
    :hidden:

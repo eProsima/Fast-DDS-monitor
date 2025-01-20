@@ -65,14 +65,6 @@ Find more about us at [eProsima’s webpage](https://eprosima.com/).
 
 ---
 
-**NOTE**
-
-In order to monitor a DDS network deployed using *Fast DDS* library, compiling the latter with statistics and
-explicitly activating the statistics module is required. See [Fast DDS with Statistics module](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/tutorial.html#fastdds-with-statistics)
-for more details.
-
----
-
 ## Documentation
 
 You can access the documentation online, which is hosted on [Read the Docs](https://fast-dds-monitor.readthedocs.io/en/latest/index.html).
@@ -81,6 +73,6 @@ You can access the documentation online, which is hosted on [Read the Docs](http
 * [Getting Started](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/entities.html)
 * [User Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html)
 * [Developer Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/developer_manual/installation/sources/linux.html)
-* [ROS2](https://fast-dds-monitor.readthedocs.io/en/latest/rst/ros/ros.html)
+* [ROS 2](https://fast-dds-monitor.readthedocs.io/en/latest/rst/ros/ros.html)
 * [Docker Image](https://fast-dds-monitor.readthedocs.io/en/latest/rst/docker/docker.html)
 * [Release Notes](https://fast-dds-monitor.readthedocs.io/en/latest/rst/notes/notes.html)

@@ -11,8 +11,7 @@ Installation
 
 First of all, follow the :ref:`installation_manual_linux` on this documentation to install Fast DDS Monitor.
 
-Fast DDS is installed by default in the ROS 2 Jazzy release.
-Still, to be able to monitor the activity of ROS 2 nodes, Fast DDS needs to be compiled with Statistics Module enabled.
+Fast DDS is installed by default in the ROS 2 Jazzy release, with Statistics Module enabled.
 
 Installation from sources
 -------------------------
@@ -20,12 +19,11 @@ Installation from sources
 Follow the `ROS 2 Jazzy installation from sources documentation
 <https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html>`_.
 Fast DDS is downloaded with the rest of the packages.
-The only consideration here is to compile :code:`fastdds` library with the Statistics Module activated.
 When compiling with colcon, the following arguments must be provided:
 
 .. code-block:: bash
 
-    colcon build --symlink-install --cmake-args -DFASTDDS_STATISTICS=ON
+    colcon build --symlink-install
 
 .. todo:
 
@@ -80,7 +78,7 @@ To execute each of the nodes, run the following commands in different terminals:
 
 Remember to source your `ROS 2 installation
 <https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html#setup-environment>`_
-before every ros2 command.
+before every :code:`ros2` command.
 
 Monitoring network
 ------------------

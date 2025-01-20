@@ -18,13 +18,9 @@ Fast DDS with Statistics module
 In order to show the *Fast DDS Monitor* application running and monitoring a real DDS network, this tutorial uses a
 *Fast DDS* example to create a simple and understandable DDS network.
 The example proposed by this tutorial uses the :code:`hello_world` example of *Fast DDS* repository.
-**Be aware that the statistics module is not compiled and used by default by Fast DDS and has to be specifically
-configured to send statistical data of an specific entity.**
 
 In order to execute this minimum DDS scenario where each entity publishes its statistical data, follow these steps:
 
-#. Compile *Fast DDS* library with CMake option :code:`FASTDDS_STATISTICS` to activate the statistics module
-   (:code:`-DFASTDDS_STATISTICS=ON`).
 #. Compile *Fast DDS* library with CMake option :code:`COMPILE_EXAMPLES` to build the examples
    (:code:`-DCOMPILE_EXAMPLES=ON`).
 #. Have *Fast DDS Monitor* installed or a working environment with *Fast DDS*, *Fast DDS Statistics Backend* and

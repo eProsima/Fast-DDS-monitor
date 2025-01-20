@@ -15,8 +15,8 @@ ROS 2 relies on DDS communication protocol to communicate different nodes.
 There are different RMWs (ROS MiddleWare) available in the latest ROS 2 versions.
 Make sure you are using Fast DDS as your ROS 2 middleware in order to receive statistical data and monitor your network.
 
-In the following sections, instructions for using Fast DDS with Statistics in the latest ROS2 version are provided,
-as well as a brief tutorial demonstrating the integration of Fast DDS Monitor with ROS2 in a simple scenario.
+In the following sections, instructions for using Fast DDS with Statistics in the latest ROS 2 version are provided,
+as well as a brief tutorial demonstrating the integration of Fast DDS Monitor with ROS 2 in a simple scenario.
 
 .. toctree::
    :maxdepth: 2
