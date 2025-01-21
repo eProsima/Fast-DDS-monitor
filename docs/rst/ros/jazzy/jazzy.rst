@@ -9,7 +9,7 @@ This section shows how to install and deploy some ROS 2 Jazzy nodes in order to 
 Installation
 ============
 
-First of all, follow the :ref:`installation_manual_linux` or the :ref:`installation_manual_windows`on this
+First of all, follow the :ref:`installation_manual_linux` or the :ref:`installation_manual_windows` on this
 documentation to install Fast DDS Monitor. Additionally, make sure to also have a ROS 2 Jazzy installation available.
 
 Execution
@@ -77,7 +77,7 @@ Domain View
 To easily inspect the structure of the DDS network created, open the *Domain View* in the :ref:`chart_panel_index`.
 In this tab, we can see a graph describing the structure of our network: our single Host contains our single User,
 which in turn contains both our Processes, each containing a number of DataReaders and DataWriters. We can see a
-number of Topics, presented as vertical gery lines, related to the code of the listener and talker. Only one of them,
+number of Topics, presented as vertical gray lines, related to the code of the listener and talker. Only one of them,
 :code:`rt/chatter`, relates two entities, a DataWriter and a DataReader: this is the Topic that is being
 used to exchange information.
 
