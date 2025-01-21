@@ -19,11 +19,11 @@ also display that icon.
 Error Messages
 ==============
 
-Error messages correspond to serious issues in the communication between DDS entities, preventing the comunication.
-The entitites that present these issues display an error icon close to their entitiy name. There is only one type of
-error that can be reported,  :code:`INCOMPATIBLE_QOS`.
+Error messages correspond to serious issues in the communication between DDS entities, preventing them from
+communicating. The entities that present these issues display an error icon close to their entity name.
+There is only one type of error that can be reported,  :code:`INCOMPATIBLE_QOS`.
 
-- :code:`INCOMPATIBLE_QOS`: This error is reported when the QoS of the DataWriter and DataReader are incompatible. 
+- :code:`INCOMPATIBLE_QOS`: This error is reported when the QoS of the DataWriter and DataReader are incompatible.
   This means that the DataWriter and DataReader have different QoS policies, and present a combination that prevents
   them from communicating. The error message informs the user about the entities that present the issue, and lists
   which specific QoS policies are incompatible. Finally, it also presents applicable links to the documentation.
@@ -38,7 +38,7 @@ The warning messages that can be reported are as following:
 - :code:`LIVELINESS_LOST`: This warning is reported when a DataWriter has lost liveliness. This warning also informs
   the user about the number of times the liveliness has been lost.
 
-- :code:`DEADLINE_MISSED`: This warning is reported when an enitty misses a deadline, and informs the user about the
+- :code:`DEADLINE_MISSED`: This warning is reported when an entity misses a deadline, and informs the user about the
   number of times a deadline has been missed.
 
 - :code:`SAMPLE_LOST`: This warning is reported when an entity has lost samples, informing the user about the number of

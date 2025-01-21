@@ -51,3 +51,4 @@ the documentation.
     /rst/user_manual/chart_panel/historic_series
     /rst/user_manual/chart_panel/dynamic_series
     /rst/user_manual/chart_panel/chartbox
+    /rst/user_manual/chart_panel/problem_summary
