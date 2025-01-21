@@ -1,33 +1,16 @@
 .. _ros_jazzy:
 
-#####
-Jazzy
-#####
+#################################
+Monitor Tutorial with ROS 2 Jazzy
+#################################
 
 This section shows how to install and deploy some ROS 2 Jazzy nodes in order to monitor them with Fast DDS Monitor.
 
 Installation
 ============
 
-First of all, follow the :ref:`installation_manual_linux` on this documentation to install Fast DDS Monitor.
-
-Fast DDS is installed by default in the ROS 2 Jazzy release, with Statistics Module enabled.
-
-Installation from sources
--------------------------
-
-Follow the `ROS 2 Jazzy installation from sources documentation
-<https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html>`_.
-Fast DDS is downloaded with the rest of the packages.
-When compiling with colcon, the following arguments must be provided:
-
-.. code-block:: bash
-
-    colcon build --symlink-install
-
-.. todo:
-
-    Add Installation from binaries option
+First of all, follow the :ref:`installation_manual_linux` or the :ref:`installation_manual_windows`on this
+documentation to install Fast DDS Monitor. Additionally, make sure to also have a ROS 2 Jazzy installation available.
 
 Execution
 =========
@@ -88,15 +71,30 @@ Now one should see in the :ref:`dds_panel_layout` two new Participants.
 .. figure:: /rst/figures/screenshots/jazzy_tutorial/Participants.png
     :align: center
 
+Domain View
+^^^^^^^^^^^
+
+To easily inspect the structure of the DDS network created, open the *Domain View* in the :ref:`chart_panel_index`.
+In this tab, we can see a graph describing the structure of our network: our single Host contains our single User,
+which in turn contains both our Processes, each containing a number of DataReaders and DataWriters. We can see a
+number of Topics, presented as vertical gery lines, related to the code of the listener and talker. Only one of them,
+:code:`rt/chatter`, relates two entities, a DataWriter and a DataReader: this is the Topic that is being
+used to exchange information.
+
+.. figure:: /rst/figures/screenshots/jazzy_tutorial/Domain_Graph.png
+    :align: center
+
 Alias
 ^^^^^
 
 Participants in ROS 2 are named :code:`/` by default.
-In order to differentiate them one could change the alias of the Participant (see :ref:`change_alias`).
+In order to differentiate them one could change the alias of the Participant (see :ref:`change_alias`). This can be
+done either from the :ref:`left_panel`, or from the Domain View panel, by pressing *righ click* on top of the entity.
 The :code:`talker` would be the one with a :code:`chatter` writer, and the :code:`listener` the one with a
-:code:`chatter` reader.
+:code:`chatter` reader. Since we're not going to be using this Tab anymore, click on the *X* to return to the
+:code:`New Tab` view.
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Alias.png
+.. figure:: /rst/figures/screenshots/jazzy_tutorial/Alias_new.png
     :align: center
 
 Physical data
@@ -113,7 +111,7 @@ Statistical data
 ^^^^^^^^^^^^^^^^
 
 To show statistical data about the communication between the :code:`talker` and the :code:`listener`,
-open the Chart View and follow the steps to :ref:`tutorial_create_dynamic_series` and plot this statistical data
+open the *Chart View* and follow the steps to :ref:`tutorial_create_dynamic_series` and plot this statistical data
 in a real time chart.
 
 .. figure:: /rst/figures/screenshots/jazzy_tutorial/Statistics.png

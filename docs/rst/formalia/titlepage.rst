@@ -44,6 +44,9 @@ Overview
 .. figure:: /rst/figures/screenshots/working_example2.gif
     :align: center
 
+The source code for the Monitor application and the documentation can be found in our
+`GitHub repository <https://github.com/eProsima/Fast-DDS-monitor>`_.
+
 ############
 Contributing
 ############
