@@ -35,7 +35,7 @@ To load this image into your Docker repository, from a terminal run
 
 .. code-block:: bash
 
- $ docker load -i ubuntu-fastdds-suite:<FastDDS-Version>.tar
+ $ docker load -i ubuntu-fastdds-suite\ <FastDDS-Version>.tar
 
 You can run this Docker container as follows
 
@@ -59,8 +59,8 @@ Fast DDS libraries. These examples' path can be accessed from a terminal by typi
 
  $ goToExamples
 
-From this folder you can access all examples, both for DDS and RTPS. We detail the steps to launch two such
-examples below.
+From this folder you can access all examples, both for DDS and RTPS. We detail the steps to launch one such
+example below.
 
 Hello World Example
 ^^^^^^^^^^^^^^^^^^^
@@ -70,9 +70,9 @@ This is a minimal example that will perform a Publisher/Subscriber match and sta
 .. code-block:: bash
 
  $ goToExamples
- $ cd HelloWorldExample/bin
- $ tmux new-session "./HelloWorldExample publisher 0 1000" \; \
- split-window "./HelloWorldExample subscriber" \; \
+ $ cd hello_world/bin
+ $ tmux new-session "./hello_world publisher 0 1000" \; \
+ split-window "./hello_world subscriber" \; \
  select-layout even-vertical
 
 This example is not constrained to the current instance. It is possible to run several instances of this
@@ -81,38 +81,16 @@ container to check the communication between them by running the following from 
 .. code-block:: bash
 
  $ goToExamples
- $ cd HelloWorldExample/bin
- $ ./HelloWorldExample publisher
+ $ cd hello_world/bin
+ $ ./hello_world publisher
 
 or
 
 .. code-block:: bash
 
  $ goToExamples
- $ cd HelloWorldExample/bin
- $ ./HelloWorldExample subscriber
-
-Benchmark Example
-^^^^^^^^^^^^^^^^^
-
-This example creates either a Publisher or a Subscriber and on a successful match starts sending samples. After a
-few seconds the process that launched the Publisher will show a report with the number of samples transmitted.
-
-On the subscriber side, run:
-
-.. code-block:: bash
-
- $ goToExamples
- $ cd Benchmark/bin
- $ ./Benchmark subscriber udp
-
-On the publisher side, run:
-
-.. code-block:: bash
-
- $ goToExamples
- $ cd Benchmark/bin
- $ ./Benchmark publisher udp
+ $ cd hello_world/bin
+ $ ./hello_world subscriber
 
 .. _fast_dds_suite_shapes_demo:
 

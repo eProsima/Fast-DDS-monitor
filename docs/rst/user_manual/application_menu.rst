@@ -15,44 +15,52 @@ File
 
 .. _init_monitor_button:
 
-Initialize Monitor
-------------------
+Initialize DDS Monitor
+----------------------
 
 Button to start monitoring a new DDS network.
 The entities of this network will be automatically discovered.
 Moreover, their connections, their configuration and statistical data reported by them will be built and
 displayed on the monitor for further user queries.
 
-Section :ref:`monitor_domain` contains all the definitions and explanation about what monitor a domain means in the
+Section :ref:`monitor_domain` contains all the definitions and explanation about what monitoring a domain means in the
 context of the application.
 
-Pressing this button, a new Dialog with two tabs will be displayed.
-Each tab allows to start a monitor in a DDS network deployed using the Simple Discovery Protocol (SDP)
-or the Fast DDS Discovery Server (DS).
-
-.. warning::
-    Starting a monitor in a domain or *Discovery Server* already initialize will duplicate the entities in them
-    and may lead to an undefined behavior.
-
-Simple Discovery
-^^^^^^^^^^^^^^^^
-This dialog requests the user to introduce a number between 0 and 200 which will be the DDS Domain number.
-This will start a monitor in a specific DDS domain.
+Pressing this button, a new Dialog will be displayed requesting the user to introduce a number between 0 and 200,
+which will be the DDS Domain number. This will start a monitor in a specific DDS domain.
 The entities in this domain will be automatically discovered.
 
-Discovery Server
-^^^^^^^^^^^^^^^^
-This dialog requests the user to introduce a list of network addresses in a specific string format to connect with one
-or more *Fast DDS Discovery Servers*.
+.. note::
+    Starting a monitor in a Domain already initialized will prompt an error message,
+    and create an issue that can be found in :ref:`issues_panel`. Selecting ``Retry`` allows the user to select
+    a different Domain.
+
+Initialize Discovery Server Monitor
+-----------------------------------
+
+Button to start monitoring a new DDS network.
+The entities of this network will be automatically discovered.
+Moreover, their connections, their configuration and statistical data reported by them will be built and
+displayed on the monitor for further user queries.
+
+Section :ref:`monitor_domain` contains all the definitions and explanation about what monitoring a domain means in the
+context of the application.
+
+Pressing this button, a new Dialog will be displayed requesting the user to introduce a list of network addresses in
+a specific string format to connect with one or more *Fast DDS Discovery Servers*.
 This string must contain the IP-port pair where the Discovery Server is listening in the format ``ip:port``
 separated by ``;``.
 
 This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
+.. note::
+    Starting a monitor in a *Discovery Server* already initialized will prompt an error message,
+    and create an issue that can be found in :ref:`issues_panel`. Selecting ``Retry`` allows the user to select
+    a different *Discovery Server*.
 
-Export to CSV
--------------
+Export Charts to CSV
+--------------------
 
 Export all the data displayed in the current Fast DDS Monitor session to a CSV file.
 Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
@@ -86,14 +94,14 @@ Edit
 
 Display Historical Data
 -----------------------
-Create a new historic *Chartbox* in the central panel.
+Create a new historic *Chartbox* in the :ref:`chart_panel_index`.
 To know how to configure a historic *Chartbox*, please refer to the section :ref:`historic_series`.
 
 .. _display_dynamic_data_button:
 
-Display Dynamic Data
---------------------
-Create a new dynamic *Chartbox* in the central panel.
+Display Real-Time Data
+----------------------
+Create a new dynamic *Chartbox* in the :ref:`chart_panel_index`.
 To know how to configure a dynamic *Chartbox*, please refer to the section :ref:`dynamic_series`.
 
 .. _clear_inactive_entities:
@@ -101,7 +109,7 @@ To know how to configure a dynamic *Chartbox*, please refer to the section :ref:
 Delete inactive entities
 ------------------------
 
-This button remove all the inactive entities from the database.
+This button removes all the inactive entities from the database.
 
 .. _delete_statistics_data:
 
@@ -115,8 +123,8 @@ This button clear the statistics data of all the entities.
 Scheduler Configuration
 -----------------------
 
-Creates a schedule to dump the database to a file, remove old data and/or remove inactive entities at
-a specified interval.
+Prompts a dialogue box allowing to create a schedule to dump the database to a file, remove old data and/or remove
+inactive entities at a specified interval.
 
 .. _refresh_button:
 
@@ -136,6 +144,8 @@ Clear Issues
 ------------
 This button clears the issues log.
 
+.. _view_menu:
+
 View
 ====
 
@@ -154,13 +164,13 @@ Hide/Show Metatraffic
 Entities utilized for sharing metatraffic data are not shown by default.
 These include Fast-DDS Statistics module topics and the ones used by ROS for metatraffic data exchange, as well as the
 endpoints to which these topics are bound.
-Same as with the hide/show inactive entities feature, when metatraffic entities are hidden they are no longer available
+As with the hide/show inactive entities feature, when metatraffic entities are hidden they are no longer available
 in the whole application framework.
 This button displays/hides the metatraffic entities detected by the monitor.
 
 Dashboard Layout
 ----------------
-Changes the size of the chart boxes displayed in the main panel of the application.
+Changes the size of the chart boxes displayed in the :ref:`chart_panel_index` of the application.
 Three mutually exclusive layout options are defined and explained below.
 
  * |dashboard_layout_1| **Large**: A single full-screen chart is displayed.
@@ -173,11 +183,15 @@ Hide the shortcuts superior toolbar if visible, or reveal it otherwise.
 
 Customize Shortcuts Toolbar
 ---------------------------
-Allow to show or hide independently the shortcut buttons in the shortcut toolbar.
+Allows to show or hide independently the shortcut buttons in the shortcut toolbar.
 
 Hide/Show Left sidebar
 ----------------------
 Hide the left sidebar if visible, or reveal it otherwise.
+
+Customize Left sidebar
+----------------------
+Allows to show or hide independently the different panels in the :ref:`left_panel`.
 
 Help
 ====
@@ -203,7 +217,7 @@ Link to the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
 
 Report Issue
 ------------
-Link to the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
+Link to create a new Issue in the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
 
 .. todo::
     Explain the form to add an issue.

@@ -138,7 +138,7 @@ For example, on Ubuntu use the command:
 eProsima dependencies
 ^^^^^^^^^^^^^^^^^^^^^
 
-If it already exists in the system an installation of *Fast DDS* library with version greater than `2.3.0` and
+If there is already in the system an installation of *Fast DDS* library with version greater than `2.3.0` and
 an installation of *Fast DDS Statistics Backend*, just source these
 libraries when building the *Fast DDS Monitor* by using the command:
 
@@ -146,7 +146,7 @@ libraries when building the *Fast DDS Monitor* by using the command:
 
     source <fastdds-installation-path>/install/setup.bash
 
-In other case, just download *Fast DDS* project from sources and build it together with *Fast DDS Monitor* using colcon
+Otherwise, just download *Fast DDS* project from sources and build it together with *Fast DDS Monitor* using colcon
 as it is explained in section :ref:`colcon_installation`.
 
 
@@ -207,6 +207,10 @@ Colcon installation
 
 CMake installation
 ==================
+
+.. Warning::
+
+    Only use this installation method if the colcon_ installation method is not suitable for your needs.
 
 This section explains how to compile *eProsima Fast DDS Monitor* with CMake_, either
 :ref:`locally <local_installation_sl>` or :ref:`globally <global_installation_sl>`.
@@ -297,7 +301,7 @@ Global installation
 
 To install *eProsima Fast DDS* system-wide instead of locally, remove all the flags that
 appear in the configuration steps of :code:`Fast-CDR`, :code:`Fast-DDS`, :code:`Fast-DDS-Statistics-Backend`, and
-:code:`Fast-DDS-Monitor`, and change the first in the configuration step of :code:`foonathan_memory_vendor` to the
+:code:`Fast-DDS-Monitor`, and change the flags in the configuration step of :code:`foonathan_memory_vendor` to the
 following:
 
 .. code-block:: bash
@@ -316,7 +320,7 @@ and execute the executable file that has been installed in :code:`<install-path>
 
     # If built has been done using colcon, all projects could be sourced as follows
     source install/setup.bash
-    ./<install-path>/fastdds_monitor/bin/fastdds_monitor
+    ./<build-path>/fastdds_monitor/fastdds_monitor
 
 Be sure that this executable has execute permissions.
 

@@ -38,63 +38,61 @@ For further information about each entity, please refer to the |DDSSpecification
 DomainParticipant
 -----------------
 *DomainParticipant* is the main entity in the DDS protocol.
-It represents a collection of *DataReaders/DataWriters*, and manage the whole DDS Discovery of other
+It represents a collection of *DataReaders/DataWriters*, and manages the whole DDS Discovery of other
 *DomainParticipants* and *DataReaders/DataWriters* within the DDS Domain to which it belongs.
 Refer to `DomainParticipant Fast DDS Documentation
 <https://fast-dds.docs.eprosima.com/en/latest/fastdds/dds_layer/domain/domainParticipant/domainParticipant.html>`_
 for a more detailed explanation of the *DomainParticipant* entity in DDS.
 
-Each *DomainParticipant* can only communicate under one *Domain*
-(see :ref:`logical entities <logical_entities>` section) and so it exists a direct connection between each
-*DomainParticipant* and the *Domain* in which it works.
-From the :ref:`entities diagram <fig_entities_diagram>` it can be seen that *DomainParticipant* entities
-are contained in a
-*Process*, this is because a system process (so-called *Process* entity) executes an application using *Fast DDS*
-that instantiates *DomainParticipants*.
-The same applies to *DataReaders/DataWriters* instantiated by a *DomainParticipant* belonging to a specific *Process*.
-Therefore, a *Process* can contain as many DDS entities as the *Fast DDS* application running in that *Process*
-has instantiated.
+Each *DomainParticipant* can communicate only under a single *Domain*,
+(see :ref:`logical entities <logical_entities>` section), which creates a direct connection between each
+*DomainParticipant* and the *Domain* in which it operates. Additionally, from the
+:ref:`entities diagram <fig_entities_diagram>` it can be seen that *DomainParticipant* entities are contained within
+a *Process*. This is because a system process (referred to as a *Process* entity) executes an application using
+*Fast DDS*, instantiating *DomainParticipants*. The same applies to *DataReaders* and *DataWriters* instantiated by a
+*DomainParticipant* belonging to a specific *Process*. Therefore, a *Process* can contain as many DDS entities as the
+*Fast DDS* application running in that *Process* has instantiated.
 
 .. _datawriter_entity:
 
 DataWriter
 ----------
-*DataWriter* is the DDS entity in charge of publishing data.
-Each *DataWriter* is directly contained in a single *DomainParticipant*.
-In addition, since a *DataWriter* is associated to the *Topic* under which it publishes,
-it is possible to define a direct containment relationship of a *DataWriter* in a *Topic*.
-Thus, the *Topic* will contain all the *DataWriters* that are publishing under it.
+*DataWriter* is the DDS entity responsible for publishing data.
+Each *DataWriter* is directly contained within a single *DomainParticipant*.
+In addition, since a *DataWriter* is associated with the *Topic* it publishes under, a direct containment relationship
+can be defined between the *DataWriter* and the *Topic*.
+Consequently, any *Topic* will contain all the *DataWriters* publishing under it.
 
-Therefore, each *DataWriter* is directly connected with the *DomainParticipant* it belongs,
-and with the *Topic* under which it publishes.
-Also, a *DataWriter* is associated with one or multiple *Locators* that would represent the physical communication
-channel this *DataWriter* is using to send data.
+Thus, each *DataWriter* is directly connected to the *DomainParticipant* it belongs to
+and the *Topic* under which it publishes.
+Finally, a *DataWriter* is associated with one or more *Locators*, representing the physical communication
+channels it uses to send data.
 
 .. _datareader_entity:
 
 DataReader
 ----------
-*DataReader* holds the subscribe function of the communication.
-As for the *DataWriter*, each *DataReader* is directly contained in a single *DomainParticipant*.
-In addition, since a *DataReader* is associated to the *Topic* to which it is subscribed, it is possible to define
-a direct containment relationship of a *DataReader* in a *Topic*.
-Thus, the *Topic* will contain all the *DataReaders* that are subscribed under it.
-Therefore, each *DataReader* is directly connected with the *DomainParticipant* to which it belongs,
+*DataReader* is the DDS entity holding the subscribe function in the communication.
+As is the case with the *DataWriter*, each *DataReader* is directly contained within a single *DomainParticipant*.
+Furthermore, since a *DataReader* is associated to the *Topic* to which it is subscribed,
+a direct containment relationship an be established between the *DataReader* and the *Topic*.
+As a result, any *Topic* will contain all *DataReaders* subscribed to it.
+Therefore, each *DataReader* is directly connected to the *DomainParticipant* it belongs to,
 and with the *Topic* to which it is subscribed.
 
 .. _locator_entity:
 
 Locator
 -------
-*Locator* represents the physical address and port that a *DataReader/DataWriter* uses to send or/and receive data.
-This entity is related with the physical division of the entities, as a *Locator* belongs to a unique *Host*
+*Locator* represents the physical address and port that a *DataReader/DataWriter* uses to send and/or receive data.
+This entity is related with the physical division of the entities, as any *Locator* belongs to a unique *Host*
 (see section :ref:`physical_entities`).
 However, the monitor treats this entity as a *DDS Entity* in order to simplify the entities' connection and improve
 comprehensibility.
 
-A *Locator* is connected with one or multiple *DataReader/DataWriter*, and so it is related with a *Host*
-by relating each of
-these *DataReader/DataWriter* with a *DomainParticipant* and each *DomainParticipant* with its *Host*.
+A *Locator* is connected with one or more *DataReaders/DataWriters*, and so it is related with a *Host*
+by connecting each of these *DataReader/DataWriter* with a *DomainParticipant* and each *DomainParticipant* with
+its *Host*.
 
 .. _logical_entities:
 
@@ -105,19 +103,19 @@ Logical Entities
 
 Domain
 ------
-*Domain* represents a logical abstraction in DDS protocol that divides the DDS network into partitions,
-making each *Domain* completely independent and unaware of others.
+*Domain* represents a logical abstraction in the DDS protocol that divides the DDS network into partitions,
+making each *Domain* completely independent and unaware of any others.
 This logical partition depends on the chosen discovery protocol.
 
-In case of using *Simple Discovery Protocol* (discovery protocol by default in Fast DDS) as the default discovery
+In case of using *Simple Discovery Protocol* (discovery protocol by default in *Fast DDS*) as discovery
 mechanism, the *Domain* will be represented by a number (domain ID), and every DDS entity in that *Domain* will discover
-the rest of entities deployed on the same *Domain*.
+the rest of entities deployed on it.
 In case of using *Discovery Server* as discovery protocol, the partition will be made by the *Discovery Server*
-or *Discovery Servers Net* to which the monitor connects. Please refer to
+or *Discovery Servers Net* the monitor connects to. Please refer to
 `Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/discovery/discovery_server.html>`_ for
 more information about this feature.
-Each entity connected to a *Discovery Server* on the same network will know all other entities with which it needs to
-communicate.
+Each entity connected to a *Discovery Server* on the same network will know all other entities it needs to
+communicate with.
 
 This entity inside the monitor is related with the *DomainParticipants* that communicate under this same *Domain*,
 and the *Topics* created in this *Domain*.
@@ -130,8 +128,8 @@ Topic
 Every *DataReader* subscribed to a *Topic* will receive the publications of every *DataWriter*
 publishing under the same *Topic*.
 
-This entity inside the monitor is directly connected with the *Domain* it belongs to,
-and with the *DataReaders*/*DataWriters* communicating under this *Topic*.
+This entity inside the monitor is directly connected to the *Domain* it belongs to,
+and the *DataReaders/DataWriters* communicating under said *Topic*.
 
 .. _physical_entities:
 
@@ -150,9 +148,9 @@ This entity is connected directly with the *Users* running in this *Host*.
 
 User
 ----
-*User* makes reference to the different users that could run in a *Host*.
+*User* makes reference to the different users that run in a *Host*.
 
-This entity is connected directly with the *Host* it belongs to, and the running *Processes* that are being executed
+This entity is connected directly with the *Host* it belongs to, and the *Processes* that are being executed
 within this *User*.
 
 .. _process_entity:
@@ -163,4 +161,4 @@ Process
 run more than one *DomainParticipant* in the same *Process*, and they do not require to be related with
 each other, not even under the same *Domain*.
 
-This entity is connected directly with the *User* to which it belongs, and the *Participants* running within it.
+This entity is directly connected to the *User* it belongs to, and the *Participants* running within it.

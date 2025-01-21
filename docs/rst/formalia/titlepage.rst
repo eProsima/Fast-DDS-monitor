@@ -2,9 +2,8 @@
 eProsima Fast DDS Monitor Documentation
 #######################################
 
-.. image:: /rst/figures/logo.png
+.. image:: /rst/figures/Logo.png
   :height: 100px
-  :width: 100px
   :align: left
   :alt: eProsima
   :target: http://www.eprosima.com/
@@ -18,9 +17,9 @@ etc.), as well as record and compute in real time statistical measurements on th
 
 Furthermore, the user can check the status of the deployed DDS network at any time, i.e. see for each DDS
 Domain which DomainParticipants are instantiated, as well as their publishers and subscribers and the topics
-under which they publish or to which they subscribe respectively.
-It is also possible to see the physical architecture of the network on which the DDS applications that use *Fast DDS*
-are running.
+they publish under or they subscribe to, respectively.
+It is also possible to visualize the physical architecture of the network on which the DDS applications that use
+*Fast DDS* are running.
 
 ##################
 Commercial Support
@@ -42,26 +41,17 @@ Overview
    configuration and physical deployment.
 #. **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
 
-.. warning::
+.. figure:: /rst/figures/screenshots/working_example2.gif
+    :align: center
 
-    In order to monitor a DDS network deployed using *Fast DDS* library, compiling the latter with statistics and
-    explicitly activating the statistics module is required. See :ref:`Fast DDS with Statistics module <fastdds-with-statistics>`
-    for more details.
+The source code for the Monitor application and the documentation can be found in our
+`GitHub repository <https://github.com/eProsima/Fast-DDS-monitor>`_.
 
-.. warning::
+############
+Contributing
+############
 
-    If Fast DDS has been compiled with statistics and they are explicitly enabled and
-    statistical data are not correctly received, only few data arrive or even none,
-    configure the Fast DDS endpoints publishing statistics data with a less restrictive memory constraints.
-    Please check the following
-    `documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/statistics/dds_layer/troubleshooting.html#troubleshooting>`_
-    for more details on how to do this.
-
-#################################
-Contributing to the documentation
-#################################
-
-*Fast DDS Monitor Documentation* is an open source project, and as such all contributions, both in the form of
+*Fast DDS Monitor* is an open source project, and as such all contributions, both in the form of
 feedback and content generation, are most welcomed.
 To make such contributions, please refer to the
 `Contribution Guidelines <https://github.com/eProsima/all-docs/blob/master/CONTRIBUTING.md>`_ hosted in our GitHub
@@ -77,4 +67,6 @@ This documentation is organized into the sections below.
 * :ref:`Getting Started <entities>`
 * :ref:`User Manual <initialize_monitoring>`
 * :ref:`Developer Manual <developer_manual_installation_sources_linux>`
+* :ref:`ROS 2 <ros_section>`
+* :ref:`Docker Image <docker>`
 * :ref:`Release Notes <release_notes>`

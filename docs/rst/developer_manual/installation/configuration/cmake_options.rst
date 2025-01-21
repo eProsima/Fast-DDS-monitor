@@ -33,6 +33,7 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
     *   - :class:`BUILD_TESTS`
         - Build the *Fast DDS Monitor* application and documentation |br|
           tests. Setting :class:`BUILD_TESTS` to ``ON`` sets |br|
+          :class:`BUILD_APP_TESTS` to ``ON`` and |br|
           :class:`BUILD_DOCUMENTATION_TESTS` to ``ON``.
         - ``OFF`` |br|
           ``ON``
@@ -51,7 +52,7 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
         - ``OFF``
     *   - :class:`BUILD_DOCUMENTATION`
         - Build the *Fast DDS Monitor* documentation. It is |br|
-          set to ``ON`` if :class:`BUILD_TESTS_DOCUMENTATION` is set |br|
+          set to ``ON`` if :class:`BUILD_DOCUMENTATION_TESTS` is set |br|
           to ``ON``.
         - ``OFF`` |br|
           ``ON``
@@ -60,8 +61,7 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
         - Build the *Fast DDS Statistics Backend* mocks, which is a |br|
           simulator of a *Fast DDS* application that generates random |br|
           statistics data for testing the *Fast DDS Monitor*. It is |br|
-          set to ``ON`` if :class:`BUILD_TESTS` is set |br|
-          to ``ON``, :class:`STATIC_MOCK` is set to ``ON``, or |br|
+          set to ``ON`` if :class:`STATIC_MOCK` is set to ``ON`` or |br|
           :class:`COMPLEX_MOCK` is set to ``ON``.
         - ``OFF`` |br|
           ``ON``
@@ -78,8 +78,8 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
     *   - :class:`COMPLEX_MOCK`
         - Build the *Fast DDS Statistics Backend* complex mock and link |br|
           the *Fast DDS Monitor* application against it. The complex |br|
-          mock is a simulator of a *Fast DDS* application that random |br|
-          statistics data for testing the *Fast DDS Monior* |br|
+          mock is a simulator of a *Fast DDS* application that generates |br|
+          random statistics data for testing the *Fast DDS Monitor* |br|
         - ``OFF`` |br|
           ``ON``
         - ``OFF``

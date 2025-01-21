@@ -6,9 +6,10 @@
 Shortcuts Bar
 #############
 
-This toolbar expose shortcuts to the buttons with the main functionality to interact with the
+This toolbar exposes shortcuts to buttons with the main functionality to interact with the
 *Fast DDS Monitor* application.
-This buttons functionality could be seen in :ref:`edit_menu`.
+These buttons functionality could be seen in :ref:`edit_menu` section of the
+:ref:`application_menu`.
 
 The meaning of each of the icons available in the shortcut bar is explained below:
 

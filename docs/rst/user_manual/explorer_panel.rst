@@ -7,21 +7,21 @@
 Explorer Panel
 ##############
 
-The left sidebar shows the various entities that the application has knowledge about and their available information.
+The left sidebar displays the various entities known to the application and their available information.
 It is recommended to check the section :ref:`entities` in order to get a better approach on the kind of entities
-that are displayed and the connection between them.
+that are displayed and the connections between them.
 
 .. _dds_panel:
 
 DDS Panel
 =========
-In this panel are displayed all the :ref:`dds_entities` that has been discovered by the monitor so far under every
+This panel displays all the :ref:`dds_entities` that have been discovered by the monitor so far under every
 DDS domain or Discovery Server monitored.
 This panel displays specific DDS entities related with the Fast DDS Monitor entity currently selected
 (see :ref:`selected_entity`).
 For example, it is possible to track the DDS entities created from an application running on a specific *Host*,
 *User*, or *Process*, as well as the DDS entities that are working on a specific DDS domain or are publishing or
-subscribed to a given topic.
+subscribed to a given *Topic*.
 Every entity in this panel is interactive:
 
 - Clicking in the Participant name or the Participant icon will expand or collapse the list of DataWriters/DataReaders
@@ -47,14 +47,13 @@ Similar to the :ref:`dds_panel`, every entity in this panel is interactive:
 
 Logical Panel
 =============
-This panel displays all the :ref:`logical_entities` that are being monitored.
-he DDS domains that Fast DDS Monitor is monitoring are the ones set by the user (see :ref:`monitor_domain`)
-and no new domains will or could be discovered apart from them since the Domains could not be discovered,
-but known beforehand.
-Therefore, this panel will only update the information.
+This panel displays all the :ref:`logical_entities` being monitored.
+The DDS domains monitored by Fast DDS Monitor those specified by the user (see :ref:`monitor_domain`).
+No additional domains will or can be discovered beyond these, as domains cannot be dynamically discovered
+and must be predefined. Therefore, this panel will only update the information.
 For example, having enabled the monitoring of Domain X,
 if an application using Fast DDS creates a new DomainParticipant in that domain with a DataWriter publishing in
-Topic Y, the information of that topic will appear in this view listed under Domain X to which
+Topic Y, the information of that topic will appear in this view listed under Domain X, to which
 the DomainParticipant discovered by the monitor belongs.
 
 Similar to the :ref:`dds_panel`, every entity in this panel is interactive:
@@ -68,7 +67,7 @@ Similar to the :ref:`dds_panel`, every entity in this panel is interactive:
 
 Info Panel
 ==========
-In this panel it is displayed the specific information of the entity that is currently **selected**
+This panel displays the specific information of the entity that is currently **selected**
 (see :ref:`selected_entity`).
 This information has some fields that are general for all the entity kinds, and some others that depends on
 the specific entity kind:
@@ -77,6 +76,11 @@ the specific entity kind:
 
     * **name**: internal name of the entity
     * **id**: internal unique id for each entity
+    * **kind**: kind of entity (e.g. host)
+    * **alive**: if the entity is alive or not
+    * **alias**: alias of the entity given by the user
+    * **metatraffic**: if the entity is processing metatraffic data or not
+    * **status**: status of the entity
 
 * **Process**
 
@@ -106,7 +110,7 @@ the specific entity kind:
 
 Statistics Panel
 ================
-In this panel it is displayed a summary of some data types of the entity that is currently **selected**
+This panel displays a summary of some data types of the entity that is currently **selected**
 (see :ref:`selected_entity`).
 Regarding the selected entity, the data will be fulfilled collecting all the data of all the entities related to the
 this one.
@@ -122,12 +126,6 @@ The data displayed is the following:
     *   - Data Kind
         - Statistic kind
         - Description
-    *   - `NETWORK_LATENCY`
-        - `MEDIAN`
-        - Median value of Network Latency |br|
-    *   - `NETWORK_LATENCY`
-        - `STANDARD_DEVIATION`
-        - Standard deviation of Network Latency |br|
     *   - `FASTDDS_LATENCY`
         - `MEDIAN`
         - Median value of Application Latency |br|
@@ -146,12 +144,6 @@ The data displayed is the following:
     *   - `SUBSCRIPTION_THROUGHPUT`
         - `STANDARD_DEVIATION`
         - Standard deviation  value of Subscription Throughput |br|
-    *   - `RTPS_BYTES_SENT`
-        - `MEDIAN`
-        - Median value of Total Bytes sent in RTPS packages |br|
-    *   - `RTPS_BYTES_LOST`
-        - `MEDIAN`
-        - Median value of Total Bytes lost in RTPS packages |br|
     *   - `RESENT_DATA`
         - `MEAN`
         - Mean value of Data packages that had to be resent |br|

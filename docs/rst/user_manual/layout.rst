@@ -10,7 +10,7 @@ It will briefly explain the main menus and windows that could be seen, in order 
 with where to find the buttons and information.
 Below is a screenshot of the *Fast DDS Monitor* application in operation.
 
-.. figure:: /rst/figures/screenshots/app-run.png
+.. figure:: /rst/figures/screenshots/App_run.png
     :align: center
 
 .. _application_menu_layout:
@@ -47,9 +47,9 @@ For the explanation of how to configure this bar refer to the section :ref:`shor
 
 Explorer Panel
 ==============
-In this panel it will be shown the different entities that has been discovered by the monitor.
+This panel shows the different entities that have been discovered by the monitor.
 They will be displayed in interactive lists that the user could expand or collapse.
-These entities are clickable as well, in order to inspect their information shown in this same panel
+These entities are clickable as well, in order to inspect their information shown in this same panel.
 
 This panel contains a mutable number of subpanels.
 The different panels that could be shown are the :ref:`dds_panel_layout`, the :ref:`physical_panel_layout`,
@@ -61,11 +61,10 @@ In order to know which kind of entities the application has and how are they div
 To add a new panel to display other relevant information, use the ``...`` button in the upper bar of the panel and
 select those subpanels that want to be show or hide.
 To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
-In order to hide the whole left sidebar, click in the ``<`` button in the upper panel or click
-*Hide Left sidebar* in the *View* menu..
+In order to hide the whole left sidebar, click *Hide Left sidebar* in the *View* menu.
 
 For more information about what is an entity and how they are organized refer to :ref:`entities`.
-For more information about what means to select an entity refer to :ref:`selected_entity`.
+For more information about what it means to select an entity refer to :ref:`selected_entity`.
 
 .. figure:: /rst/figures/screenshots/explorer_panel.png
     :align: center
@@ -76,10 +75,10 @@ For more information about what means to select an entity refer to :ref:`selecte
 DDS Panel
 ---------
 This subpanel shows the :ref:`dds_entities` of the monitor.
-This entities are the DDS *DomainParticipant*, the DDS *DataReader* and *DataWriter*, and the transport *Locators* that
+These entities are the DDS *DomainParticipant*, the DDS *DataReader* and *DataWriter*, and the transport *Locators* that
 each entity is using.
 This subpanel will be filled with the DDS entities that are related with the entity currently selected,
-so it could happen that not all the DDS entities discovered by the monitor appears in this subpanel at a certain point
+so it could happen that not all DDS entities discovered by the monitor appear in this subpanel at a certain point
 (see :ref:`selected_entity` for further details).
 
 .. todo::
@@ -95,11 +94,11 @@ For the explanation of this entities and the interaction with them refer to the 
 
 Physical Panel
 --------------
-In this subpanel it will appear the Entities discovered by the monitor that refers to physical entities.
+This subpanel shows the Entities discovered by the monitor that refer to physical entities.
 There are three different kind of physical entities, *Host*, *User* and *Process*.
 These entities refer to the main information of the machine and the context where an application using
 *Fast DDS* is running.
-For further explanation of this entities and the interaction with them refer to the section :ref:`physical_panel`.
+For further explanation of these entities and the interaction with them refer to the section :ref:`physical_panel`.
 
 .. figure:: /rst/figures/screenshots/physical_panel.png
     :align: center
@@ -108,7 +107,7 @@ For further explanation of this entities and the interaction with them refer to 
 
 Logical Panel
 -------------
-In this subpanel it will appear the Entities discovered by the monitor that refers to abstract entities in a
+This subpanel shows the Entities discovered by the monitor that refer to abstract entities in a
 DDS communication network.
 These entities are *Domain* and *Topic*.
 These entities refer to abstract partitions in a DDS network. Only entities in the same *Domain* could communicate
@@ -120,12 +119,14 @@ For further explanation of this entities and the interaction with them refer to 
 
 .. _info_panel_layout:
 
-Monitor Status Panel
---------------------
+Entity Info Panel
+-----------------
 This subpanel displays information regarding the last entity clicked.
-This information is divided in two categories and are shown in the different subpanel tabs.
+This information is divided in two categories, which are shown in the different subpanel tabs.
 First, the ``info`` tab contains the general information of the last entity clicked.
 Secondly, the ``Statistics`` tab contains a summary of the main statistical data regarding the last entity clicked.
+
+.. _info_subpanel_layout:
 
 Info Panel
 ^^^^^^^^^^
@@ -133,7 +134,7 @@ This panel shows the main information of the last entity clicked.
 This information differs depending on the kind of the entity, i.e. for a *DDS Entity*,
 the *QoS* information would be shown, while for a *Process*, its *process id* will be displayed.
 
-.. figure:: /rst/figures/screenshots/info_panel.png
+.. figure:: /rst/figures/screenshots/Info_panel.png
     :align: center
 
 For the explanation of this information refer to the section :ref:`info_panel`.
@@ -142,44 +143,40 @@ For the explanation of this information refer to the section :ref:`info_panel`.
 
 Statistics Panel
 ^^^^^^^^^^^^^^^^
-This panel shows a summary of the main statistic data related with the last entity clicked.
+This panel shows a summary of the main statistical data related with the last entity clicked.
 
 .. figure:: /rst/figures/screenshots/statistics_panel.png
     :align: center
 
 For the explanation of this information refer to the section :ref:`statistics_panel`.
 
-.. _status_panel_layout:
+.. _monitor_status_panel_layout:
 
 Monitor Status Panel
 ====================
 
-In this side bar it will be shown different data related with the entities that are being monitored or related
-with the actual state of the application.
-This side bar is divided in two different side bars.
-The upper one contains :ref:`info_panel_layout` and :ref:`statistics_panel_layout`.
-To change from one another press on the name of the tab an choose the panel desired to be displayed.
-The lower side bar contains :ref:`status_panel_layout`, :ref:`log_panel_layout` and
-:ref:`issues_panel_layout`.
-To change from one to another press on the name of the tab an choose the panel desired to be displayed.
+In this panel, different data related to the entities being monitored or the current state of the application
+will be displayed. This panel contains two different subpanels, the :ref:`status_panel_layout` and the
+:ref:`log_panel_layout`. To change from one another, press on the name of the subpanel to be displayed.
 
 To increase or decrease this sidebar size, grab the border of it and move it to the desired size.
-In order to hide the whole left sidebar, click in the ``<`` button in the upper panel or click
-*Hide Left sidebar* in the *View* menu.
+In order to hide the whole left sidebar, click *Hide Left sidebar* in the *View* menu.
+
+.. _status_panel_layout:
 
 Status Panel
 ------------
 
-This panel shows a collection of data related with the actual state of the application:
+This panel shows a collection of data related with the current state of the application:
 
 - Entities refer to the number of entities being monitored in the user application.
 
-- Domains is a collection of the *Domains* that has been initialized in the Monitor.
+- Domains is a collection of the *Domains* that have been initialized in the Monitor.
 
 .. figure:: /rst/figures/screenshots/status_panel.png
     :align: center
 
-For the explanation of this information refer to the section :ref:`status_panel`.
+For a thorough explanation of this information refer to the section :ref:`status_panel`.
 
 .. _log_panel_layout:
 
@@ -198,7 +195,7 @@ A callback may refer to:
 .. figure:: /rst/figures/screenshots/log_panel.png
     :align: center
 
-For the explanation of this information refer to the section :ref:`log_panel`.
+For a thorough explanation of this information refer to the section :ref:`log_panel`.
 
 .. _issues_panel_layout:
 
@@ -213,16 +210,16 @@ The events that the application reacts to in the current version are:
 .. figure:: /rst/figures/screenshots/issues_panel.png
     :align: center
 
-For the explanation of this information refer to the section :ref:`log_panel`.
+For a thorough explanation of this information refer to the section :ref:`issues_panel`.
 
 .. _main_panel_layout:
 
 Main Panel
 ==========
 The central window allows multiple tabs for different views.
-It is also displayed a collapsed menu with the possible problems that have been detected on the DDS entities.
-It will display the data charts, so-called *Chartbox*, that the user has configured.
-It will display a domain graph where the physical, logical and DDS entities from a domain are represented,
+It also displays a collapsed menu with the possible problems that have been detected on the DDS entities.
+It can display the data charts, so-called *Chartbox*, that the user has configured.
+It can also display a domain graph where the physical, logical and DDS entities from a domain are represented,
 focusing on the connection between endpoints through the topics, and the entities physical inheritance.
 
 .. figure:: /rst/figures/screenshots/main_panel.png
@@ -240,9 +237,9 @@ one or several entities in a specified time interval and with different accumula
 To create a new *Chartbox* go to *Chart View* in the Main Panel default tab, and click on *Create new chart* button.
 This button will create a new *Chartbox* where new series could be added, removed or modified.
 
-These Chartbox could be moved along the *Chart View* tab.
-In order to move one of this charts, press in the *Chartbox* title and grab the object to its new location inside the
-main panel.
+These *Chartboxes* can be moved along the *Chart View* tab.
+In order to move one of these charts, click on the *Chartbox* title and grab the object to its new desired location
+inside the main panel.
 The rest of the *Chartboxes* will automatically rearrange when one of them is moved to a different position.
 
 .. figure:: /rst/figures/screenshots/chartbox.png
@@ -257,12 +254,12 @@ Create Series Dialog
 This Dialog will appear every time a new Chartbox is created, or adding a new series by the button in the Chartbox
 *Series->AddSeries*.
 
-.. figure:: /rst/figures/screenshots/create_series_historical.png
+.. figure:: /rst/figures/screenshots/Create_series_historical.png
     :align: center
 
     Create historical series dialog
 
-.. figure:: /rst/figures/screenshots/create_series_dynamic.png
+.. figure:: /rst/figures/screenshots/Create_series_dynamic.png
     :align: center
 
     Create real-time series dialog
@@ -277,7 +274,7 @@ Domain View
 This view in the main panel shows the connections between DataWriters and DataReaders that belong to the same
 DDS Domain.
 They are represented encapsulated inside their physical entities (see :ref:`entities` relationship), and with a
-connection to the topic they are published and subscribed, respectively.
+connection to the topic they publish on or are subscribed to, respectively.
 
 .. figure:: /rst/figures/screenshots/domain_graph.png
     :align: center

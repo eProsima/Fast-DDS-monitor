@@ -7,13 +7,13 @@
 Chartbox
 ########
 
-In this section it is explained the main functionalities and interactions available within a :ref:`chartbox_layout`,
+This section explains the main functionalities and interactions available within a :ref:`chartbox_layout`,
 a window contained in the :ref:`main_panel_layout` that displays entities data with different configurations.
 
 To start a new Chartbox, press :ref:`display_historic_data_button` or :ref:`display_dynamic_data_button`
 in :ref:`edit_menu` or in :ref:`shortcuts_bar`.
-These chartbox will be displayed in the central panel with the title of the *DataKind* they refer to.
-In these charts it will be displayed the Series of data that the user initialize.
+Any Chartbox will be displayed in the central panel with the title of the *DataKind* they refer to.
+In these charts it will be displayed the Series of data that the user initializes.
 For how to set a new series please refer to :ref:`create_historic_series` or :ref:`create_dynamic_series`.
 
 .. _chartbox_chart_menu:
@@ -48,7 +48,7 @@ To return to the original time axis, and allow a dynamic update of the Y-axis, s
 
 Clear chart
 ^^^^^^^^^^^
-Eliminate every data configuration displayed in the Chartbox
+Eliminate every data configuration displayed in the Chartbox.
 
 Rename chart box
 ^^^^^^^^^^^^^^^^
@@ -70,7 +70,7 @@ Displays an informative dialog with the key combination to execute actions on th
 It is also possible to access this dialog by clicking on the |info| button displayed in the same chart box.
 
 
-.. figure:: /rst/figures/screenshots/chartbox_info.png
+.. figure:: /rst/figures/screenshots/Chartbox_info.png
     :align: center
 
 
@@ -140,12 +140,16 @@ Export to CSV
 Export the series data to a CSV file.
 Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
 
-Dynamic chartbox
+Set max data points
+^^^^^^^^^^^^^^^^^^^
+Set a limit on the number of data points displayed for this data series.
+
+Dynamic Chartbox
 ----------------
-The chartbox that holds dynamic series have some extra functionality.
-These chartbox could be stopped at any time (or played in case they are already stopped).
-This allows to stop the updating the axis, so zoom and move along the chart is available.
-The data presented in the chartbox will keep updating with the same time interval independently of the play status.
+The Chartbox that holds dynamic series have some extra functionality.
+These Chartbox could be stopped at any time (or played in case they are already stopped).
+This allows to stop the updating the axis, enabling zooming and moving along the chart.
+The data presented in the Chartbox will keep updating with the same time interval independently of the play status.
 
 To pause the real time update of the time axis, click on the Real-Time menu or on the |play|/|pause| button placed on
 the right side of the chart, or set the axes to a specific value with the :ref:`chartbox_chart_menu_set_axes` button.
