@@ -1047,6 +1047,31 @@ Item
                                                 color: participant_color_
                                                 radius: radius_
 
+                                                Rectangle {
+                                                    id: dds_vendor_icon
+                                                    visible: modelData["dds_vendor"] != "UNKNOWN"
+                                                    anchors.left: parent.left
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                    width: icon_size_ + 2*spacing_icon_label_
+                                                    height: icon_size_
+                                                    color: "transparent"
+
+                                                    Image {
+                                                        smooth: true
+                                                        visible: parent.visible
+                                                        anchors.horizontalCenter: parent.horizontalCenter
+                                                        source: modelData["dds_vendor"] == "UNKNOWN" ? "" :
+                                                                "/resources/images/app_icons/" + modelData["dds_vendor"] + ".svg"
+                                                        readonly property int amlip_offset_: 5
+                                                        // SAFEDDS is wider than it is tall, so its size is increased a little
+                                                        // bit to make it look like the same aspect ratio as the other icons
+                                                        sourceSize.width: modelData["dds_vendor"] == "SAFEDDS"
+                                                                ? parent.height + amlip_offset_ : parent.height
+                                                        sourceSize.height: modelData["dds_vendor"] == "SAFEDDS"
+                                                                ? parent.height + amlip_offset_ : parent.height
+                                                    }
+                                                }
+
                                                 RowLayout {
                                                     id: participantRowLayout
                                                     spacing: spacing_icon_label_
@@ -1054,7 +1079,7 @@ Item
 
                                                     Rectangle {
                                                         color: "transparent"
-                                                        width: first_indentation_
+                                                        width: icon_size_
                                                     }
                                                     Rectangle {
                                                         visible: modelData["status"] != "OK"
@@ -1075,7 +1100,10 @@ Item
                                                     }
                                                     Label {
                                                         text: modelData["alias"]
-                                                        Layout.rightMargin: spacing_icon_label_ + first_indentation_
+                                                    }
+                                                    Rectangle {
+                                                        color: "transparent"
+                                                        width: icon_size_
                                                     }
                                                 }
                                                 Rectangle {
@@ -1083,7 +1111,7 @@ Item
                                                     visible: modelData["app_id"] != "UNKNOWN_APP"
                                                     anchors.right: parent.right
                                                     anchors.verticalCenter: parent.verticalCenter
-                                                    width: participant_app_icon.visible ? icon_size_ + 2* spacing_icon_label_ : 0
+                                                    width: icon_size_ + 2*spacing_icon_label_
                                                     height: icon_size_
                                                     color: "transparent"
 
@@ -1590,6 +1618,7 @@ Item
                                                         "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
                                                         "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
                                                         "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
+                                                        "dds_vendor":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["dds_vendor"],
                                                         "endpoints":new_endpoints
                                                     }
                                                     accum_y += elements_spacing_
