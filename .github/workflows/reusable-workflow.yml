@@ -175,8 +175,7 @@ jobs:
         with:
           packages_names: fastdds_monitor
           cmake_build_type: 'Release'
-          cmake_args: '-DTHIRDPARTY=ON -DBUILD_DOCUMENTATION=ON -DBUILD_DOCUMENTATION_TESTS=ON -DBUILD_APP_TESTS=OFF'
-          colcon_meta_file: ${{ github.workspace }}/src/fastdds_monitor/.github/workflows/configurations/Linux/colcon.meta
+          colcon_meta_file: ${{ github.workspace }}/src/fastdds_monitor/.github/workflows/configurations/Linux/docs_colcon.meta
           workspace: ${{ github.workspace }}
           test_report_artifact: 'fastdds_monitor_documentation'
 
