@@ -574,7 +574,9 @@ Item
                 // Host delegated item box
                 delegate: Item
                 {
-                    height: host_tag.height + usersList.height
+                    height: modelData["alias"] == "Unknown"
+                        ? usersList.height
+                        : host_tag.height + usersList.height
                     width: hostRowLayout.implicitWidth > entity_box_width_
                         ? hostRowLayout.implicitWidth
                         : entity_box_width_
@@ -603,9 +605,10 @@ Item
                         implicitWidth: hostRowLayout.implicitWidth > entity_box_width_
                             ? hostRowLayout.implicitWidth
                             : entity_box_width_
-                        height: label_height_
+                        height: modelData["alias"] != "Unknown" ? label_height_ : 0
                         color: host_color_
                         radius: radius_
+                        visible: modelData["alias"] != "Unknown"
 
                         RowLayout {
                             id: hostRowLayout
@@ -717,7 +720,9 @@ Item
                         // User delegated item box
                         delegate: Item
                         {
-                            height: user_tag.height + processesList.height
+                            height: modelData["alias"] == "Unknown"
+                                ? processesList.height
+                                : user_tag.height + processesList.height
                             width: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                 ? userRowLayout.implicitWidth
                                 : entity_box_width_-(2*elements_spacing_)
@@ -747,9 +752,10 @@ Item
                                 implicitWidth: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                     ? userRowLayout.implicitWidth
                                     : entity_box_width_-(2*elements_spacing_)
-                                height: label_height_
+                                height: modelData["alias"] != "Unknown" ? label_height_ : 0
                                 color: user_color_
                                 radius: radius_
+                                visible: modelData["alias"] != "Unknown"
 
                                 RowLayout {
                                     id: userRowLayout
@@ -860,7 +866,9 @@ Item
                                 // Process delegated item box
                                 delegate: Item
                                 {
-                                    height: process_tag.height + participantsList.height
+                                    height: modelData["alias"] == "Unknown"
+                                        ? participantsList.height
+                                        : process_tag.height + participantsList.height
                                     width: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                         ? processRowLayout.implicitWidth
                                         : entity_box_width_-(4*elements_spacing_)
@@ -890,9 +898,10 @@ Item
                                         implicitWidth: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                             ? processRowLayout.implicitWidth
                                             : entity_box_width_-(4*elements_spacing_)
-                                        height: label_height_
+                                        height: modelData["alias"] != "Unknown" ? label_height_ : 0
                                         color: process_color_
                                         radius: radius_
+                                        visible: modelData["alias"] != "Unknown"
 
                                         RowLayout {
                                             id: processRowLayout
@@ -1220,7 +1229,7 @@ Item
                                                     {
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
                                                         var src_x = globalCoordinates.x + entity_box_width_-(8*elements_spacing_)
-                                                        var src_y = modelData["accum_y"] + (endpointComponent.height / 2)
+                                                        var src_y = globalCoordinates.y + (endpointComponent.height / 2)
                                                         var left_direction = modelData["kind"] == "DataReader"
                                                         var right_direction = modelData["kind"] == "DataWriter"
 
