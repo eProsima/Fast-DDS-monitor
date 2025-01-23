@@ -281,7 +281,7 @@ Item
                         anchors.topMargin: hover_text_offset_
                         ToolTip.text: modelData["alias"]
                         // Show hover only if text is elided
-                        ToolTip.visible: topic_tag_mouse_area.containsMouse && text_metrics.width > topic_tag.width
+                        ToolTip.visible: topic_tag_mouse_area.containsMouse && text_metrics.width > topic_tag_label.width
                         ToolTip.delay: hover_delay_
                     }
                 }
