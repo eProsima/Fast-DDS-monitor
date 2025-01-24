@@ -574,9 +574,7 @@ Item
                 // Host delegated item box
                 delegate: Item
                 {
-                    height: modelData["alias"] == "Unknown"
-                        ? usersList.height
-                        : host_tag.height + usersList.height
+                    height: host_tag.height + usersList.height
                     width: hostRowLayout.implicitWidth > entity_box_width_
                         ? hostRowLayout.implicitWidth
                         : entity_box_width_
@@ -720,9 +718,7 @@ Item
                         // User delegated item box
                         delegate: Item
                         {
-                            height: modelData["alias"] == "Unknown"
-                                ? processesList.height
-                                : user_tag.height + processesList.height
+                            height: user_tag.height + processesList.height
                             width: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                 ? userRowLayout.implicitWidth
                                 : entity_box_width_-(2*elements_spacing_)
@@ -866,9 +862,7 @@ Item
                                 // Process delegated item box
                                 delegate: Item
                                 {
-                                    height: modelData["alias"] == "Unknown"
-                                        ? participantsList.height
-                                        : process_tag.height + participantsList.height
+                                    height: process_tag.height + participantsList.height
                                     width: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                         ? processRowLayout.implicitWidth
                                         : entity_box_width_-(4*elements_spacing_)
