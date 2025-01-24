@@ -281,7 +281,7 @@ Item
                         anchors.topMargin: hover_text_offset_
                         ToolTip.text: modelData["alias"]
                         // Show hover only if text is elided
-                        ToolTip.visible: topic_tag_mouse_area.containsMouse && text_metrics.width > topic_tag.width
+                        ToolTip.visible: topic_tag_mouse_area.containsMouse && text_metrics.width > topic_tag_label.width
                         ToolTip.delay: hover_delay_
                     }
                 }
@@ -603,9 +603,10 @@ Item
                         implicitWidth: hostRowLayout.implicitWidth > entity_box_width_
                             ? hostRowLayout.implicitWidth
                             : entity_box_width_
-                        height: label_height_
+                        height: modelData["alias"] != "Unknown" ? label_height_ : 0
                         color: host_color_
                         radius: radius_
+                        visible: modelData["alias"] != "Unknown"
 
                         RowLayout {
                             id: hostRowLayout
@@ -747,9 +748,10 @@ Item
                                 implicitWidth: userRowLayout.implicitWidth > (entity_box_width_-(2*elements_spacing_))
                                     ? userRowLayout.implicitWidth
                                     : entity_box_width_-(2*elements_spacing_)
-                                height: label_height_
+                                height: modelData["alias"] != "Unknown" ? label_height_ : 0
                                 color: user_color_
                                 radius: radius_
+                                visible: modelData["alias"] != "Unknown"
 
                                 RowLayout {
                                     id: userRowLayout
@@ -890,9 +892,10 @@ Item
                                         implicitWidth: processRowLayout.implicitWidth > (entity_box_width_-(4*elements_spacing_))
                                             ? processRowLayout.implicitWidth
                                             : entity_box_width_-(4*elements_spacing_)
-                                        height: label_height_
+                                        height: modelData["alias"] != "Unknown" ? label_height_ : 0
                                         color: process_color_
                                         radius: radius_
+                                        visible: modelData["alias"] != "Unknown"
 
                                         RowLayout {
                                             id: processRowLayout
@@ -1038,6 +1041,31 @@ Item
                                                 color: participant_color_
                                                 radius: radius_
 
+                                                Rectangle {
+                                                    id: dds_vendor_icon
+                                                    visible: modelData["dds_vendor"] != "UNKNOWN"
+                                                    anchors.left: parent.left
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                    width: icon_size_ + 2*spacing_icon_label_
+                                                    height: icon_size_
+                                                    color: "transparent"
+
+                                                    Image {
+                                                        smooth: true
+                                                        visible: parent.visible
+                                                        anchors.horizontalCenter: parent.horizontalCenter
+                                                        source: modelData["dds_vendor"] == "UNKNOWN" ? "" :
+                                                                "/resources/images/app_icons/" + modelData["dds_vendor"] + ".svg"
+                                                        readonly property int amlip_offset_: 5
+                                                        // SAFEDDS is wider than it is tall, so its size is increased a little
+                                                        // bit to make it look like the same aspect ratio as the other icons
+                                                        sourceSize.width: modelData["dds_vendor"] == "SAFEDDS"
+                                                                ? parent.height + amlip_offset_ : parent.height
+                                                        sourceSize.height: modelData["dds_vendor"] == "SAFEDDS"
+                                                                ? parent.height + amlip_offset_ : parent.height
+                                                    }
+                                                }
+
                                                 RowLayout {
                                                     id: participantRowLayout
                                                     spacing: spacing_icon_label_
@@ -1045,7 +1073,7 @@ Item
 
                                                     Rectangle {
                                                         color: "transparent"
-                                                        width: first_indentation_
+                                                        width: icon_size_
                                                     }
                                                     Rectangle {
                                                         visible: modelData["status"] != "OK"
@@ -1066,7 +1094,10 @@ Item
                                                     }
                                                     Label {
                                                         text: modelData["alias"]
-                                                        Layout.rightMargin: spacing_icon_label_ + first_indentation_
+                                                    }
+                                                    Rectangle {
+                                                        color: "transparent"
+                                                        width: icon_size_
                                                     }
                                                 }
                                                 Rectangle {
@@ -1074,7 +1105,7 @@ Item
                                                     visible: modelData["app_id"] != "UNKNOWN_APP"
                                                     anchors.right: parent.right
                                                     anchors.verticalCenter: parent.verticalCenter
-                                                    width: participant_app_icon.visible ? icon_size_ + 2* spacing_icon_label_ : 0
+                                                    width: icon_size_ + 2*spacing_icon_label_
                                                     height: icon_size_
                                                     color: "transparent"
 
@@ -1220,7 +1251,7 @@ Item
                                                     {
                                                         var globalCoordinates = endpointComponent.mapToItem(mainSpace, 0, 0)
                                                         var src_x = globalCoordinates.x + entity_box_width_-(8*elements_spacing_)
-                                                        var src_y = modelData["accum_y"] + (endpointComponent.height / 2)
+                                                        var src_y = globalCoordinates.y + (endpointComponent.height / 2)
                                                         var left_direction = modelData["kind"] == "DataReader"
                                                         var right_direction = modelData["kind"] == "DataWriter"
 
@@ -1581,6 +1612,7 @@ Item
                                                         "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["status"],
                                                         "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
                                                         "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
+                                                        "dds_vendor":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["dds_vendor"],
                                                         "endpoints":new_endpoints
                                                     }
                                                     accum_y += elements_spacing_
