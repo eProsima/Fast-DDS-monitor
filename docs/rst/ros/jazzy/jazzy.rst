@@ -84,6 +84,20 @@ used to exchange information.
 .. figure:: /rst/figures/screenshots/jazzy_tutorial/Domain_Graph.png
     :align: center
 
+The *Domain View* allows us to access different possibilites. By pressing *right-click* on top of the Topic name, we can
+find several options, such as filtering the graph by the Topic (selecting *Filter topic graph*). Clicking on the 
+:code:`rt/chatter` Topic, we can easily see the entities exchanging information.
+
+.. figure:: /rst/figures/screenshots/jazzy_tutorial/Topic_filter.png
+    :align: center
+
+Additionally, we can access the we can access the IDL representation of any of the Topics, by pressing right-click over
+the Topic name, and choosing *Data type IDL view*. This opens a new Tab with the required information, which can be
+copied and pasted.
+
+.. figure:: /rst/figures/screenshots/jazzy_tutorial/IDL_img_jazzy.png
+    :align: center
+
 Alias
 ^^^^^
 
@@ -95,16 +109,6 @@ The :code:`talker` would be the one with a :code:`chatter` writer, and the :code
 :code:`New Tab` view.
 
 .. figure:: /rst/figures/screenshots/jazzy_tutorial/Alias_new.png
-    :align: center
-
-Physical data
-^^^^^^^^^^^^^
-
-In order to see the information of the Host and the physical context where every node is running, go to
-the :ref:`left_panel` and activate the :ref:`physical_panel`.
-There, the Host, User and Process of each node are displayed.
-
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Physical.png
     :align: center
 
 Statistical data
