@@ -963,7 +963,7 @@ backend::GUID_s SyncBackendConnection::get_serialize_guid(
     {
         return StatisticsBackend::serialize_guid(guid_str);
     }
-    catch(const std::exception& e)
+    catch (const std::exception& e)
     {
         qWarning() << "Error generating GUID from string " << e.what();
     }

@@ -118,7 +118,7 @@ public:
 
     //! Get entity by GUID in string format
     backend::EntityId get_entity_by_guid(
-        const std::string& guid);
+            const std::string& guid);
 
     //! Get a summary of important data collected from the backend related with the entity with id \c id
     EntityInfo get_summary(

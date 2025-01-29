@@ -242,7 +242,8 @@ int StatusTreeItem::leafCount() const
     return count + int(child_items_.isEmpty());
 }
 
-int StatusTreeItem::filteredLeafCount(backend::StatusLevel status_level) const
+int StatusTreeItem::filteredLeafCount(
+        backend::StatusLevel status_level) const
 {
     int count = 0;
     for (int i = 0; i < child_items_.count(); i++)
@@ -254,6 +255,7 @@ int StatusTreeItem::filteredLeafCount(backend::StatusLevel status_level) const
     }
     return count + int(child_items_.isEmpty() && status_level == status_level_);
 }
+
 const QVariant& StatusTreeItem::entity_id() const
 {
     return id_variant_;
@@ -397,7 +399,8 @@ void StatusTreeItem::remove()
     }
 }
 
-int StatusTreeItem::recalculate_entity_counter(backend::StatusLevel status_level)
+int StatusTreeItem::recalculate_entity_counter(
+        backend::StatusLevel status_level)
 {
     int count = 0;
     // check if top level item / entity item

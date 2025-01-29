@@ -174,7 +174,8 @@ public:
     void remove();
 
     //! Increases the issues (warnings or errors) counter of a top level entity item
-    int recalculate_entity_counter(backend::StatusLevel status_level);
+    int recalculate_entity_counter(
+            backend::StatusLevel status_level);
 
 private:
 
