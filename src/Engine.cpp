@@ -1193,8 +1193,23 @@ bool Engine::update_entity_status(
                                                 backend::policy_documentation_description(policy_id) +
                                                 std::string("\">here</a></html>"),
                                                 "", true);
+                                std::string remote_entity;
+                                backend::EntityId remote_entity_id = backend_connection_.get_entity_by_guid(remote_entity_guid);
+                                if (remote_entity_id.is_valid())
+                                {
+                                    EntityInfo entity_info = backend_connection_.get_info(remote_entity_id);
+                                    std::string remote_entity_kind = utils::to_string(
+                                        backend::entity_kind_to_QString(backend_connection_.get_type(remote_entity_id)));
+                                    std::stringstream ss;
+                                    ss << std::string(entity_info["alias"]) << " (" << remote_entity_kind << ")";
+                                    remote_entity = ss.str();
+                                }
+                                else
+                                {
+                                    remote_entity = remote_entity_guid;
+                                }
                                 auto remote_entity_item = new models::StatusTreeItem(id, kind,
-                                                std::string("Remote entity: " + remote_entity_guid),
+                                                std::string("Remote entity: " + remote_entity),
                                                 sample.status, std::string(""), std::string(
                                                     ""), remote_entity_guid, false);
                                 entity_status_model_->addItem(incompatible_qos_item, policy_item);
