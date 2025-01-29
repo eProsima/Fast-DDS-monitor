@@ -32,9 +32,14 @@ DataReader (showing publication and subscription cases, respectively).
     :align: center
 
 Filtering that graph by Topic, only the entities whose endpoints are publishing in, or subscribed to the selected
-Topic would be represented in the view.
+Topic would be represented in the view. The filtered graph open in a new Tab.
 
 .. figure:: /rst/figures/screenshots/shapes_topic.png
+    :align: center
+
+Additionally, one can access the data type IDL corresponding to each Topic through the *Domain view*.
+
+.. figure:: /rst/figures/screenshots/IDL_img.png
     :align: center
 
 If there are problems reported by a DDS entity, they are condensed by entity in the bottom layout Problem Summary

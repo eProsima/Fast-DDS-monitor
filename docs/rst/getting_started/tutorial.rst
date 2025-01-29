@@ -192,10 +192,19 @@ or the subscriber. It's easy to distinguish them in this view: with the vertical
 publisher contains the DataWriter, represented with an arrow that feeds into the Topic, while the subscriber contains
 the DataReader, represented with an arrow coming from the Topic.
 
-Since we're not going to be using this Tab anymore, click on the *X* to return to the :code:`New Tab` view.
-
 .. figure:: /rst/figures/screenshots/usage_example/Domain_view.png
     :align: center
+
+In this view, we have access to different functionalities, including filtering by Topic (right-click over the Topic
+name, and choose *Filter topic graph*, opening the filtered graph in a new Tab). Additionally, we can access the IDL
+representation of any of the Topics, by pressing right-click over the Topic name, and choosing *Data type IDL view*.
+This opens a new Tab with the required information, which can be copied and pasted.
+
+.. figure:: /rst/figures/screenshots/usage_example/IDL_img_tutorial.png
+    :align: center
+
+Since we're not going to be using these Tabs anymore, click on the *X* to close all Tabs and return to the
+:code:`New Tab` view.
 
 Summary of Statistical Data
 ===========================
