@@ -555,6 +555,22 @@ EntityKind SyncBackendConnection::get_type(
     }
 }
 
+backend::EntityId SyncBackendConnection::get_entity_by_guid(
+        const std::string& guid)
+{
+    try
+    {
+        return StatisticsBackend::get_entity_by_guid(guid);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting entity by guid " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
+        return EntityId::invalid();
+    }
+}
+
 std::vector<EntityId> SyncBackendConnection::get_entities(
         EntityKind entity_type,
         EntityId entity_id)
@@ -938,6 +954,20 @@ std::string SyncBackendConnection::get_deserialized_guid(
         const backend::GUID_s& data)
 {
     return StatisticsBackend::deserialize_guid(data);
+}
+
+backend::GUID_s SyncBackendConnection::get_serialize_guid(
+        const std::string& guid_str)
+{
+    try
+    {
+        return StatisticsBackend::serialize_guid(guid_str);
+    }
+    catch (const std::exception& e)
+    {
+        qWarning() << "Error generating GUID from string " << e.what();
+    }
+    return backend::GUID_s();
 }
 
 bool SyncBackendConnection::build_source_target_entities_vectors(

@@ -116,6 +116,10 @@ public:
     EntityKind get_type(
             backend::EntityId id);
 
+    //! Get entity by GUID in string format
+    backend::EntityId get_entity_by_guid(
+            const std::string& guid);
+
     //! Get a summary of important data collected from the backend related with the entity with id \c id
     EntityInfo get_summary(
             backend::EntityId id);
@@ -210,6 +214,10 @@ public:
     //! Convert a given entity guid to string format
     std::string get_deserialized_guid(
             const backend::GUID_s& data);
+
+    //! Convert a given entity guid in string format to GUID_s
+    backend::GUID_s get_serialize_guid(
+            const std::string& guid_str);
 
     //! Get info from an entity from the Backend
     std::vector<EntityId> get_entities(

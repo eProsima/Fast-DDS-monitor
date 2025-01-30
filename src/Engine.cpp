@@ -1020,7 +1020,7 @@ bool Engine::update_entity_status(
         backend::StatusLevel new_status = backend::StatusLevel::OK_STATUS;
         std::string description = backend::entity_status_description(kind);
         std::string entity_guid = backend_connection_.get_guid(id);
-
+        std::string entity_kind = utils::to_string(backend::entity_kind_to_QString(backend_connection_.get_type(id)));
         switch (kind)
         {
             case backend::StatusKind::DEADLINE_MISSED:
@@ -1032,7 +1032,8 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
+                            id, entity_kind + ": " + backend_connection_.get_name(
+                                id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         std::string handle_string;
                         auto deadline_missed_item = new models::StatusTreeItem(id, kind, std::string("Deadline missed"),
@@ -1050,7 +1051,7 @@ bool Engine::update_entity_status(
                         entity_status_model_->addItem(deadline_missed_item, total_count_item);
                         entity_status_model_->addItem(deadline_missed_item, last_instance_handle_item);
                         entity_status_model_->addItem(entity_item, deadline_missed_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1064,14 +1065,15 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
+                            id, entity_kind + ": " + backend_connection_.get_name(
+                                id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto inconsistent_topic_item =
                                 new models::StatusTreeItem(id, kind, std::string("Inconsistent topics:"),
                                         sample.status, std::to_string(
                                             sample.inconsistent_topic_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, inconsistent_topic_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1085,7 +1087,8 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
+                            id, entity_kind + ": " + backend_connection_.get_name(
+                                id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto liveliness_changed_item =
                                 new models::StatusTreeItem(id, kind, std::string("Liveliness changed"),
@@ -1110,7 +1113,7 @@ bool Engine::update_entity_status(
                         entity_status_model_->addItem(liveliness_changed_item, not_alive_count_item);
                         entity_status_model_->addItem(liveliness_changed_item, last_publication_handle_item);
                         entity_status_model_->addItem(entity_item, liveliness_changed_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1124,14 +1127,15 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
+                            id, entity_kind + ": " + backend_connection_.get_name(
+                                id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto liveliness_lost_item = new models::StatusTreeItem(id, kind, std::string(
                                             "Liveliness lost:"),
                                         sample.status, std::to_string(
                                             sample.liveliness_lost_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, liveliness_lost_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1145,13 +1149,14 @@ bool Engine::update_entity_status(
                     {
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
+                            id, entity_kind + ": " + backend_connection_.get_name(
+                                id), entity_status, description, entity_guid);
                         new_status = sample.status;
                         auto samples_lost_item = new models::StatusTreeItem(id, kind, std::string("Samples lost:"),
                                         sample.status, std::to_string(
                                             sample.sample_lost_status.total_count()), description);
                         entity_status_model_->addItem(entity_item, samples_lost_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;
@@ -1166,7 +1171,8 @@ bool Engine::update_entity_status(
                         std::string fastdds_version = "v3.1.0";
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, backend_connection_.get_name(id), entity_status, description, entity_guid);
+                            id, entity_kind + ": " + backend_connection_.get_name(
+                                id), entity_status, description, entity_guid);
                         new_status = sample.status;
 
                         auto incompatible_qos_item = new models::StatusTreeItem(id, kind, std::string(
@@ -1193,8 +1199,24 @@ bool Engine::update_entity_status(
                                                 backend::policy_documentation_description(policy_id) +
                                                 std::string("\">here</a></html>"),
                                                 "", true);
+                                std::string remote_entity;
+                                backend::EntityId remote_entity_id = backend_connection_.get_entity_by_guid(
+                                    remote_entity_guid);
+                                if (remote_entity_id.is_valid())
+                                {
+                                    EntityInfo entity_info = backend_connection_.get_info(remote_entity_id);
+                                    std::string remote_entity_kind = utils::to_string(
+                                        backend::entity_kind_to_QString(backend_connection_.get_type(remote_entity_id)));
+                                    std::stringstream ss;
+                                    ss << std::string(entity_info["alias"]) << " (" << remote_entity_kind << ")";
+                                    remote_entity = ss.str();
+                                }
+                                else
+                                {
+                                    remote_entity = remote_entity_guid;
+                                }
                                 auto remote_entity_item = new models::StatusTreeItem(id, kind,
-                                                std::string("Remote entity: " + remote_entity_guid),
+                                                std::string("Remote entity: " + remote_entity),
                                                 sample.status, std::string(""), std::string(
                                                     ""), remote_entity_guid, false);
                                 entity_status_model_->addItem(incompatible_qos_item, policy_item);
@@ -1204,7 +1226,7 @@ bool Engine::update_entity_status(
                         }
 
                         entity_status_model_->addItem(entity_item, incompatible_qos_item);
-                        counter = entity_item->recalculate_entity_counter();
+                        counter = entity_item->recalculate_entity_counter(sample.status);
                     }
                 }
                 break;

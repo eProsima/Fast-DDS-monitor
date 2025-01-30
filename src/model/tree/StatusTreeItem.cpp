@@ -242,6 +242,20 @@ int StatusTreeItem::leafCount() const
     return count + int(child_items_.isEmpty());
 }
 
+int StatusTreeItem::filteredLeafCount(
+        backend::StatusLevel status_level) const
+{
+    int count = 0;
+    for (int i = 0; i < child_items_.count(); i++)
+    {
+        if (child_items_.value(i)->status_level() == status_level)
+        {
+            count += child_items_.value(i)->filteredLeafCount(status_level);
+        }
+    }
+    return count + int(child_items_.isEmpty() && status_level == status_level_);
+}
+
 const QVariant& StatusTreeItem::entity_id() const
 {
     return id_variant_;
@@ -385,14 +399,16 @@ void StatusTreeItem::remove()
     }
 }
 
-int StatusTreeItem::recalculate_entity_counter()
+int StatusTreeItem::recalculate_entity_counter(
+        backend::StatusLevel status_level)
 {
     int count = 0;
     // check if top level item / entity item
     if (id_ != backend::ID_ALL && kind_ == backend::StatusKind::INVALID)
     {
-        count = leafCount();
-        value_ = std::to_string(count);
+        count = filteredLeafCount(status_level);
+        // update total number of issues (warnings + errors) related to this item
+        value_ = std::to_string(leafCount());
         value_variant_ = QVariant(QString::fromStdString(value_));
         return count;
     }

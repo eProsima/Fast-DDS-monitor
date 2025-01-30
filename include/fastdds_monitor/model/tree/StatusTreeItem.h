@@ -128,6 +128,10 @@ public:
     //! Return the number of leaf nodes of the subtree rooted at this node
     int leafCount() const;
 
+    //! Return the number of leaf nodes of the subtree rooted at this node with a specific status level
+    int filteredLeafCount(
+            backend::StatusLevel status_level) const;
+
     int row() const;
 
     //! Return true if the node is a leaf node (no children).
@@ -169,8 +173,9 @@ public:
     //! Remove item from tree and delete it
     void remove();
 
-    //! Increases the issues counter of a top level entity item
-    int recalculate_entity_counter();
+    //! Increases the issues (warnings or errors) counter of a top level entity item
+    int recalculate_entity_counter(
+            backend::StatusLevel status_level);
 
 private:
 
