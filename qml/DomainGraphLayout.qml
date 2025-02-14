@@ -123,7 +123,7 @@ Item
 
                 Rectangle {
                     anchors.fill: parent
-                    anchors.rightMargin: scrollbar_max_size_
+                    anchors.rightMargin: 2
                     anchors.leftMargin: 1
                     anchors.topMargin: 2
                     anchors.bottomMargin: 2
@@ -312,7 +312,7 @@ Item
         Flickable
         {
             id: topicSpace
-            anchors.top: parent.top; anchors.topMargin: label_height_ + 2* elements_spacing_
+            anchors.top: parent.top; anchors.topMargin: topicsList.count > 1 ? label_height_ + topicsList.yOffset + 2* elements_spacing_ : label_height_ + 2* elements_spacing_
             anchors.left: parent.left
             width: parent.width
             height: parent.height - (label_height_ + 2* elements_spacing_)
@@ -423,13 +423,11 @@ Item
         id: mainView
         anchors.left: parent.left ; anchors.top: parent.top; anchors.bottom: parent.bottom
         width: entity_box_width_ + elements_spacing_
-        anchors.topMargin: 2* elements_spacing_ + label_height_
+        anchors.topMargin: topicSpace.anchors.topMargin
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
-
         contentWidth: mainSpace.width
         contentHeight: mainSpace.height
-
         ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AlwaysOff }
         ScrollBar.vertical: ScrollBar {
             id: vertical_bar
@@ -1399,7 +1397,7 @@ Item
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
-        height: 2* elements_spacing_ + label_height_
+        height: topicsList.count > 1? label_height_ + topicsList.yOffset + 2* elements_spacing_: 2* elements_spacing_ + label_height_
         width: entity_box_width_ + 2*elements_spacing_
         color: "white"
 
