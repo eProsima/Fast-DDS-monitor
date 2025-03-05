@@ -396,9 +396,9 @@ Item
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
                             ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_
                             ,"arrow_head_color": topic_style_map_[topic_id] ? "grey" : "mid_grey"
-                            , "background_color": background_color.color
+                            ,"background_color": background_color.color
                             ,"endpoint_id": key
-                            , "show_fill_gap": false }
+                            ,"show_fill_gap": false }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
                     }
@@ -410,22 +410,13 @@ Item
         }
     }
 
-// Hide vertical bar and discontinuous points
-    Rectangle {
-        id: hideVerticalBar
-        anchors.top: parent.top
-        anchors.left: parent.left
-        height: parent.height
-        width: entity_box_width_ + 9*elements_spacing_
-        color: "white"
-    }
 
     // Left section background (over right section)
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
         height: parent.height
-        width: entity_box_width_ + 2*elements_spacing_
+        width: entity_box_width_ + 9*elements_spacing_
         color: "white"
     }
 
@@ -499,8 +490,7 @@ Item
             Component {
                 id: arrow_component
                 GraphConnection{
-                    id: conn
-                    
+                    id: conn             
                     Connections{
                         target: domainGraphLayout
 
@@ -1392,7 +1382,7 @@ Item
                                 ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
                                 ,"arrow_head_color": topic_style_map_[topic_id] ? topic_color_alias_ : topic_color2_alias_
                                 ,"endpoint_id": key
-                                , "show_fill_gap": true }
+                                ,"show_fill_gap": true }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
                         }
