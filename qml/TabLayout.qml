@@ -385,6 +385,17 @@ Item {
                                     idl_text.selectAll()
                                 }
                             }
+                            MenuItem {
+                                text: "Copy IDL title"
+                                onTriggered: {
+                                    if (clipboardHandler) {
+                                        let textToCopy = tabLayout.tab_model_[current_]["title"]
+                                        clipboardHandler.setClipboardText(textToCopy)
+                                    }else{
+                                        console.log("Clipboard not available")
+                                    }
+                                }
+                            }
                         }
 
                         TextEdit
