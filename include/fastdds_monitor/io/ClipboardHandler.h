@@ -8,7 +8,7 @@
 class ClipboardHandler : public QObject
 {
     Q_OBJECT
-    
+
 public:
 
     explicit ClipboardHandler(
@@ -30,6 +30,7 @@ public:
         QClipboard* clipboard = QGuiApplication::clipboard();
         return clipboard->text();
     }
+
 };
 
 #endif // CLIPBOARDHANDLER_H

@@ -18,4 +18,3 @@ QString ClipboardHandler::getClipboardText()
     QClipboard* clipboard = QGuiApplication::clipboard();
     return clipboard->text();
 }
-
