@@ -357,18 +357,10 @@ Item {
                             }
                             onPressed: {
                                 if(mouse.button & Qt.RightButton) {
-
-                                    // Save the current selection
                                     var start = idl_text.selectionStart
                                     var end = idl_text.selectionEnd
-                                    
-                                    // Keep the TextEdit focused to prevent deselection
                                     idl_text.focus = true
-                                    
-                                    // Show the context menu
                                     contextMenu.popup()
-                                    
-                                    // Restore the selection after right-click
                                     idl_text.select(start, end)
                                 }
                             }
