@@ -23,6 +23,7 @@ import QtGraphicalEffects 1.15
 import QtQuick.Dialogs 1.2
 
 import Theme 1.0
+import Clipboard 1.0
 
 ApplicationWindow {
     id: mainApplicationView

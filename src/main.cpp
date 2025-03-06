@@ -20,10 +20,13 @@
 #include <QApplication>
 #include <QDebug>
 #include <QQmlApplicationEngine>
+#include <QClipboard>
 #include <QtQml>
+#include <QQmlContext>
 #include <QtQuick/QQuickView>
 
 #include <fastdds_monitor/Engine.h>
+#include <fastdds_monitor/io/ClipboardHandler.h>
 
 int main(
         int argc,
@@ -41,6 +44,9 @@ int main(
     ******************************************************************************************************************/
 
     Engine engine;
+
+    qmlRegisterType<ClipboardHandler>("Clipboard", 1, 0, "ClipboardHandler");
+
     QObject* topLevel = engine.enable();
 
     QQuickWindow* window = qobject_cast<QQuickWindow*>(topLevel); \

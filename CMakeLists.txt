@@ -217,6 +217,7 @@ set(PROJECT_HEADERS
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/Controller.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/Engine.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/io/csv.h
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/io/ClipboardHandler.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/EndpointModelItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/LocatorModelItem.h
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/model/dds/ParticipantModelItem.h

@@ -20,6 +20,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
 import Theme 1.0
+import Clipboard 1.0
 
 Item {
     id: tabLayout
@@ -82,6 +83,10 @@ Item {
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
         }
+    }
+
+    ClipboardHandler {
+        id: clipboardHandler
     }
 
     // stack layout (where idx referred to the tab, which would contain different views)
@@ -342,11 +347,50 @@ Item {
 
                         MouseArea {
                             anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                             onWheel: {
                                 if(wheel.angleDelta.y > 0){
                                   vertical_bar.decrease()
                                 }else{
                                   vertical_bar.increase()
+                                }
+                            }
+                            onPressed: {
+                                if(mouse.button & Qt.RightButton) {
+
+                                    // Save the current selection
+                                    var start = idl_text.selectionStart
+                                    var end = idl_text.selectionEnd
+                                    
+                                    // Keep the TextEdit focused to prevent deselection
+                                    idl_text.focus = true
+                                    
+                                    // Show the context menu
+                                    contextMenu.popup()
+                                    
+                                    // Restore the selection after right-click
+                                    idl_text.select(start, end)
+                                }
+                            }
+                        }
+
+                        Menu {
+                            id: contextMenu
+                            MenuItem {
+                                text: "Copy"
+                                onTriggered: {
+                                    if (clipboardHandler) {
+                                        let textToCopy = idl_text.selectedText.length > 0 ? idl_text.selectedText : idl_text.text
+                                        clipboardHandler.setClipboardText(textToCopy)
+                                    }else{
+                                        console.log("Clipboard not available")
+                                    }
+                                }
+                            }
+                            MenuItem {
+                                text: "Select All"
+                                onTriggered: {
+                                    idl_text.selectAll()
                                 }
                             }
                         }
