@@ -102,7 +102,7 @@ Item
         id: topicView
         anchors.top: parent.top; anchors.bottom: parent.bottom
         anchors.left: parent.left; anchors.leftMargin: entity_box_width_ + elements_spacing_
-        width: parent.width - entity_box_width_ - 2*elements_spacing_
+        width: parent.width - entity_box_width_ - 9*elements_spacing_
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds
 
@@ -112,7 +112,7 @@ Item
         ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOff }
         ScrollBar.horizontal: ScrollBar {
             id: horizontal_bar
-            anchors.left: parent.left; anchors.leftMargin: elements_spacing_
+            anchors.left: parent.left; anchors.leftMargin: 9*elements_spacing_
             anchors.bottom: parent.bottom
             policy: ScrollBar.AlwaysOn
             visible: topicView.contentWidth > topicView.width
@@ -123,7 +123,7 @@ Item
 
                 Rectangle {
                     anchors.fill: parent
-                    anchors.rightMargin: scrollbar_max_size_
+                    anchors.rightMargin: 2
                     anchors.leftMargin: 1
                     anchors.topMargin: 2
                     anchors.bottomMargin: 2
@@ -148,7 +148,7 @@ Item
             id: topicsList
             property int yOffset: label_height_ + elements_spacing_
             model: domainGraphLayout.model ? domainGraphLayout.model["topics"] : undefined
-            anchors.left: parent.left; anchors.leftMargin: 2 * elements_spacing_
+            anchors.left: parent.left; anchors.leftMargin: 9 * elements_spacing_
             anchors.top: parent.top; anchors.topMargin: elements_spacing_;
             anchors.bottom: parent.bottom
             contentWidth: contentItem.childrenRect.width
@@ -200,7 +200,7 @@ Item
 
             function record_connections()
             {
-                var draw_width = 2*elements_spacing_
+                var draw_width = 9*elements_spacing_
 
                 // load topic sizes
                 topicsList.resize()
@@ -312,7 +312,7 @@ Item
         Flickable
         {
             id: topicSpace
-            anchors.top: parent.top; anchors.topMargin: label_height_ + 2* elements_spacing_
+            anchors.top: parent.top; anchors.topMargin: topicsList.count > 1 ? label_height_ + topicsList.yOffset + 2* elements_spacing_ : label_height_ + 2* elements_spacing_
             anchors.left: parent.left
             width: parent.width
             height: parent.height - (label_height_ + 2* elements_spacing_)
@@ -396,8 +396,9 @@ Item
                             ,"height":connection_thickness_, "z":200, "left_margin": 2*elements_spacing_
                             ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_
                             ,"arrow_head_color": topic_style_map_[topic_id] ? "grey" : "mid_grey"
-                            , "background_color": background_color.color
-                            ,"endpoint_id": key }
+                            ,"background_color": background_color.color
+                            ,"endpoint_id": key
+                            ,"show_fill_gap": false }
                         var connection_bar = arrow_component.createObject(topic_connections, input)
                         topic_painted_[topic_painted_.length] = key;
                     }
@@ -409,12 +410,13 @@ Item
         }
     }
 
+
     // Left section background (over right section)
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
         height: parent.height
-        width: entity_box_width_ + 2*elements_spacing_
+        width: entity_box_width_ + 9*elements_spacing_
         color: "white"
     }
 
@@ -423,13 +425,11 @@ Item
         id: mainView
         anchors.left: parent.left ; anchors.top: parent.top; anchors.bottom: parent.bottom
         width: entity_box_width_ + elements_spacing_
-        anchors.topMargin: 2* elements_spacing_ + label_height_
+        anchors.topMargin: topicSpace.anchors.topMargin
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
-
         contentWidth: mainSpace.width
         contentHeight: mainSpace.height
-
         ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AlwaysOff }
         ScrollBar.vertical: ScrollBar {
             id: vertical_bar
@@ -469,7 +469,7 @@ Item
             }
         }
 
-        // Scpace where entities will be represented
+        // Space where entities will be represented
         Rectangle
         {
             id: mainSpace
@@ -490,8 +490,7 @@ Item
             Component {
                 id: arrow_component
                 GraphConnection{
-                    id: conn
-
+                    id: conn             
                     Connections{
                         target: domainGraphLayout
 
@@ -1382,7 +1381,8 @@ Item
                                 ,"height":connection_thickness_, "z":200
                                 ,"arrow_color": topic_style_map_[topic_id] ? topic_color_ : topic_color2_, "background_color": background_color.color
                                 ,"arrow_head_color": topic_style_map_[topic_id] ? topic_color_alias_ : topic_color2_alias_
-                                ,"endpoint_id": key }
+                                ,"endpoint_id": key
+                                ,"show_fill_gap": true }
                             var connection_bar = arrow_component.createObject(mainSpace, input)
                             endpoint_painted_[endpoint_painted_.length] = key
                         }
@@ -1399,8 +1399,8 @@ Item
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
-        height: 2* elements_spacing_ + label_height_
-        width: entity_box_width_ + 2*elements_spacing_
+        height: topicsList.count > 1? label_height_ + topicsList.yOffset + 2* elements_spacing_: 2* elements_spacing_ + label_height_
+        width: entity_box_width_ + 9*elements_spacing_
         color: "white"
 
         // Refresh button

@@ -11,6 +11,8 @@ Item {
     property string background_color: "white"           // background color
     property string endpoint_id: ""                     // graph refferred entity id
     property bool hidden_arrow: false                   // associated topic is not visible
+    property bool show_fill_gap: true                   // defines if fill_gap component wih base_arrow extension and hidden topic icon  
+                                                        // should be displayed or not 
 
     // readonly private design properties
     readonly property int arrow_margin_: -3             // margins for background
@@ -23,6 +25,7 @@ Item {
     readonly property int left_arrow_margin_: -5        // left arrow margin
     readonly property int right_arrow_margin_: -2       // right arrow margin
     readonly property int hidden_arrow_margin_: 2       // hidden arrow margin
+    readonly property int elements_spacing_: 5          // spacing between elements
 
     // background to make connection overlap nicely with previous topics (looks like connection goes OVER the topic)
     Rectangle {
@@ -98,56 +101,77 @@ Item {
         color: arrow_color
     }
 
-    // hidden topic icon
     Rectangle {
-        visible: graphConnection.hidden_arrow
+        color: "transparent"
         anchors.verticalCenter: base_arrow.verticalCenter
         anchors.left: base_arrow.right
-        height: graphConnection.height - 2* arrow_margin_; width: 3*graphConnection.height + hidden_arrow_margin_*4
-        color: "white"
+        height: graphConnection.height - 2* arrow_margin_; width: 7*elements_spacing_
 
         Rectangle {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.right; anchors.leftMargin: -parent.height/2
-            height: parent.height; width: parent.height
-            radius: parent.height
+            id: fill_gap
+            anchors.fill: parent
             color: "white"
-        }
+            visible: graphConnection.show_fill_gap
+            
+            Rectangle {
+                id: fill_gap_base_arrow
+                visible: !graphConnection.hidden_arrow
+                anchors.top: parent.top; anchors.bottom: parent.bottom
+                anchors.left: parent.left; anchors.right: parent.right
+                anchors.topMargin: -arrow_margin_; anchors.bottomMargin: -arrow_margin_
+                color: arrow_color
+            }
+            // hidden topic icon
+            Rectangle {
+                visible: graphConnection.hidden_arrow
+                height: graphConnection.height - 2* arrow_margin_; width: 3*graphConnection.height + hidden_arrow_margin_*4
+                color: "white"
 
-        Rectangle {
-            id: spot_1
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left; anchors.leftMargin: hidden_arrow_margin_*2
-            height: graphConnection.height; width: graphConnection.height
-            radius: graphConnection.height
-            color: arrow_color
-        }
-        Rectangle {
-            id: spot_2
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: spot_1.right; anchors.leftMargin: hidden_arrow_margin_
-            height: graphConnection.height; width: graphConnection.height
-            radius: graphConnection.height
-            color: arrow_color
-        }
-        Rectangle {
-            id: spot_3
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: spot_2.right; anchors.leftMargin: hidden_arrow_margin_
-            height: graphConnection.height; width: graphConnection.height
-            radius: graphConnection.height
-            color: arrow_color
-        }
+                Rectangle {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.right; anchors.leftMargin: -parent.height/2
+                    height: parent.height; width: parent.height
+                    radius: parent.height
+                    color: "white"
+                }
 
-        Rectangle {
-            id: spot_0
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: spot_1.left; anchors.rightMargin: hidden_arrow_margin_*2-graphConnection.height/2 +1
-            height: graphConnection.height; width: graphConnection.height
-            radius: graphConnection.height
-            color: arrow_color
+                Rectangle {
+                    id: spot_1
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left; anchors.leftMargin: hidden_arrow_margin_*2
+                    height: graphConnection.height; width: graphConnection.height
+                    radius: graphConnection.height
+                    color: arrow_color
+                }
+                Rectangle {
+                    id: spot_2
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: spot_1.right; anchors.leftMargin: hidden_arrow_margin_
+                    height: graphConnection.height; width: graphConnection.height
+                    radius: graphConnection.height
+                    color: arrow_color
+                }
+                Rectangle {
+                    id: spot_3
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: spot_2.right; anchors.leftMargin: hidden_arrow_margin_
+                    height: graphConnection.height; width: graphConnection.height
+                    radius: graphConnection.height
+                    color: arrow_color
+                }
+
+                Rectangle {
+                    id: spot_0
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: spot_1.left; anchors.rightMargin: hidden_arrow_margin_*2-graphConnection.height/2 +1
+                    height: graphConnection.height; width: graphConnection.height
+                    radius: graphConnection.height
+                    color: arrow_color
+                }
+            }
         }
     }
+
 
     // right arrow if visible
     Item {
