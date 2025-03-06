@@ -1,13 +1,13 @@
 #include <fastdds_monitor/io/ClipboardHandler.h>
 
 ClipboardHandler::ClipboardHandler(
-        QObject *parent)
+        QObject* parent)
     : QObject(parent)
 {
 }
 
 void ClipboardHandler::setClipboardText(
-        const QString &text)
+        const QString& text)
 {
     QClipboard* clipboard = QGuiApplication::clipboard();
     clipboard->setText(text);
