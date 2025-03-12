@@ -475,11 +475,17 @@ public:
     //! Change metatraffic visible parameter
     void change_metatraffic_visible();
 
+    //! Change ros2 demangling active status
+    void change_ros2_demangling();
+
     //! Get if inactive entities must be visible
     bool inactive_visible() const;
 
     //! Get if metatraffic must be visible
     bool metatraffic_visible() const;
+
+    //! Get if ROS 2 demangling is active
+    bool ros2_demangling_active() const;
 
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     std::string get_data_kind_units(
@@ -537,6 +543,14 @@ public:
     //! Retrieve the IDL representation associated to a specific data type
     std::string get_type_idl(
             const backend::EntityId& entity_id);
+
+    //! Retrieve the original IDL representation associated to a specific data type, if demangled from ROS 2 (regular IDL otherwise)
+    std::string get_ros2_type_idl(
+        const backend::EntityId& entity_id);
+
+    //! Retrieve the demangled IDL name associated to a specific data type, if demangled from ROS 2 (regular name otherwise)
+    std::string get_ros2_type_name(
+        const backend::EntityId& entity_id);
 
     //! Retrieve the topic id associated to a specific endpoint
     models::EntityId get_endpoint_topic_id(
@@ -831,6 +845,9 @@ protected:
 
     //! Whether metatraffic must be visible in the model
     bool metatraffic_visible_;
+
+    //! Whether the ROS 2 demangling is active
+    bool ros2_demangling_active_;
 
     /**
      * Protect the dds model while a new monitor is being created

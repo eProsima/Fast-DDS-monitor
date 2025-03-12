@@ -337,6 +337,14 @@ public:
     std::string get_type_idl (
             const EntityId& entity_id);
 
+    //! Retrieve the original IDL representation associated to a specific data type in string format, if demangled from ROS 2 (regular IDL otherwise)
+    std::string get_ros2_type_idl (
+        const EntityId& entity_id);
+
+    //! Retrieve the demangled IDL name associated to a specific data type in string format, if demangled from ROS 2 (regular name otherwise)
+    std::string get_ros2_type_name (
+        const EntityId& entity_id);
+
 protected:
 
     void change_unit_magnitude(
