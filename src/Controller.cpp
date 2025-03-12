@@ -340,15 +340,15 @@ QString Controller::get_type_idl(
 }
 
 QString Controller::get_ros2_type_idl(
-    QString entity_id)
+        QString entity_id)
 {
-return utils::to_QString(engine_->get_ros2_type_idl(backend::models_id_to_backend_id(entity_id)));
+    return utils::to_QString(engine_->get_ros2_type_idl(backend::models_id_to_backend_id(entity_id)));
 }
 
 QString Controller::get_ros2_type_name(
-    QString entity_id)
+        QString entity_id)
 {
-return utils::to_QString(engine_->get_ros2_type_name(backend::models_id_to_backend_id(entity_id)));
+    return utils::to_QString(engine_->get_ros2_type_name(backend::models_id_to_backend_id(entity_id)));
 }
 
 QString Controller::get_endpoint_topic_id(

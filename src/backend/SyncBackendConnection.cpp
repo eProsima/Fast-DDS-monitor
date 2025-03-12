@@ -1048,31 +1048,31 @@ std::string SyncBackendConnection::get_type_idl(
 }
 
 std::string SyncBackendConnection::get_ros2_type_idl(
-    const EntityId& id)
+        const EntityId& id)
 {
-try
-{
-    return StatisticsBackend::get_ros2_type_idl(id);
-}
-catch (const std::exception& e)
-{
-    qWarning() << "Fail getting the original IDL type for entity id " << id.value() << ": " << e.what();
-    return "";
-}
+    try
+    {
+        return StatisticsBackend::get_ros2_type_idl(id);
+    }
+    catch (const std::exception& e)
+    {
+        qWarning() << "Fail getting the original IDL type for entity id " << id.value() << ": " << e.what();
+        return "";
+    }
 }
 
 std::string SyncBackendConnection::get_ros2_type_name(
-    const EntityId& id)
+        const EntityId& id)
 {
-try
-{
-    return StatisticsBackend::get_ros2_type_name(id);
-}
-catch (const std::exception& e)
-{
-    qWarning() << "Fail getting the demangled type name for entity id " << id.value() << ": " << e.what();
-    return "";
-}
+    try
+    {
+        return StatisticsBackend::get_ros2_type_name(id);
+    }
+    catch (const std::exception& e)
+    {
+        qWarning() << "Fail getting the demangled type name for entity id " << id.value() << ": " << e.what();
+        return "";
+    }
 }
 
 void SyncBackendConnection::change_unit_magnitude(

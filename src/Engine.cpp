@@ -1801,15 +1801,15 @@ std::string Engine::get_type_idl(
 }
 
 std::string Engine::get_ros2_type_idl(
-    const backend::EntityId& entity_id)
+        const backend::EntityId& entity_id)
 {
-return backend_connection_.get_ros2_type_idl(entity_id);
+    return backend_connection_.get_ros2_type_idl(entity_id);
 }
 
 std::string Engine::get_ros2_type_name(
-    const backend::EntityId& entity_id)
+        const backend::EntityId& entity_id)
 {
-return backend_connection_.get_ros2_type_name(entity_id);
+    return backend_connection_.get_ros2_type_name(entity_id);
 }
 
 models::EntityId Engine::get_endpoint_topic_id(
