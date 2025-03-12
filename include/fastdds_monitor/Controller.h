@@ -197,7 +197,6 @@ public slots:
 
     //! Change \c ros2_demangling_active status
     void change_ros2_demangling();
-    
 
     //! Call engine to refresh summary
     void refresh_summary();
@@ -291,10 +290,10 @@ public slots:
 
     QString get_ros2_type_idl (
             QString entity_id);
-                
+
     QString get_ros2_type_name (
             QString entity_id);
-                
+
     QString get_endpoint_topic_id(
             QString endpoint_id);
 
