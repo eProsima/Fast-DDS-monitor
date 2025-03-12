@@ -106,6 +106,7 @@ Item {
                 initialItem: customInitialItem == "chartsLayout" ? chartsLayout :
                         customInitialItem == "domainGraphLayout_component" ? domainGraphLayout_component :
                         customInitialItem == "idlView_component" ? idlView_component : view_selector
+                property string topic_IDL_ID: ""
 
                 // override push transition to none
                 pushEnter: Transition {}
@@ -308,6 +309,7 @@ Item {
                         height: parent.height
                         contentWidth: parent.width
                         contentHeight: idl_text.height + 2 * tabLayout.idl_text_margin_
+                        property bool is_ros2: false
                         ScrollBar.vertical: ScrollBar {
                             id: vertical_bar
                             policy: ScrollBar.AlwaysOn
@@ -344,7 +346,33 @@ Item {
                                 color: vertical_bar.pressed ? Theme.lightGrey : Theme.grey
                             }
                         }
-
+                        Loader {
+                            //Only create the info box if ROS 2 demangling could be applied
+                            anchors.fill: parent
+                            sourceComponent: is_ros2 ? ros2InfoBox : undefined
+                            Rectangle {
+                                id: ros2InfoBox
+                                property int padding: 10
+                                anchors.top: parent.top
+                                anchors.topMargin: padding * 2
+                                anchors.right: parent.right
+                                anchors.rightMargin: padding * 5
+                                width: ros2InfoText.implicitWidth + padding * 2
+                                height: ros2InfoText.implicitHeight + padding * 2
+                                color: Theme.white
+                                border.color: Theme.eProsimaDarkBlue
+                                border.width: 2
+                                radius: 10
+                                visible: is_ros2 && monitorMenuBar.ros2DemanglingActive
+                                Text {
+                                    id: ros2InfoText
+                                    anchors.centerIn: parent
+                                    text: "ROS 2 Demangling applied"
+                                    color: "firebrick"
+                                }
+                            }
+                        }
+                        
                         MouseArea {
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -427,6 +455,31 @@ Item {
                                     }
                                 }
                             }
+                        }
+                        Connections
+                        {
+                            target: monitorMenuBar
+
+                            function onRos2DemanglingChange(newValue){
+                                if (is_ros2)
+                                {
+                                    idl_text.text = newValue ? controller.get_type_idl(topic_IDL_ID) : controller.get_ros2_type_idl(topic_IDL_ID)
+                                    var i
+                                    for (i=0; i<tabLayout.tab_model_.length; i++)
+                                    {
+                                        if (tabLayout.tab_model_[i]["stack_id"] == stack.stack_id)
+                                        {
+                                            tabLayout.tab_model_[i]["title"] = newValue ? controller.get_ros2_type_name(topic_IDL_ID) : controller.get_data_type_name(topic_IDL_ID)
+                                            refresh_layout(i)
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Component.onCompleted: {
+                            is_ros2 = controller.get_ros2_type_name(topic_IDL_ID) != controller.get_data_type_name(topic_IDL_ID)
+                            console.log("is_ros2: " + is_ros2)
                         }
                     }
                 }
@@ -738,7 +791,7 @@ Item {
         create_new_custom_tab_("")
     }
 
-    function create_new_custom_tab_(component_identifier)
+    function create_new_custom_tab_(component_identifier, topic_IDL_ID)
     {
         var initial_component = component_identifier
         if (!allowed_stack_components_.includes(component_identifier))
@@ -748,7 +801,7 @@ Item {
         var idx = tabLayout.tab_model_.length
         tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "icon":"", "stack_id":last_index_}
         var new_stack = stack_component.createObject(null, {
-                "stack_id": tabLayout.tab_model_[idx]["stack_id"], "customInitialItem": initial_component })
+                "stack_id": tabLayout.tab_model_[idx]["stack_id"], "customInitialItem": initial_component , "topic_IDL_ID": topic_IDL_ID})
         last_index_++
         stack_layout.children.push(new_stack)
         refresh_layout(idx)
@@ -899,10 +952,10 @@ Item {
     }
 
     function open_idl_view(entityId) {
-        create_new_custom_tab_("idlView_component")
-        tabLayout.tab_model_[current_]["title"] = controller.get_data_type_name(entityId)
+        create_new_custom_tab_("idlView_component", entityId)
+        tabLayout.tab_model_[current_]["title"] = monitorMenuBar.ros2DemanglingActive ? controller.get_ros2_type_name(entityId) : controller.get_data_type_name(entityId)
         tabLayout.tab_model_[current_]["icon"] = "idl"
-        var content = controller.get_type_idl(entityId)
+        var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
         display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
         refresh_layout(current_)
     }
