@@ -359,7 +359,6 @@ Item {
                                 anchors.rightMargin: padding * 5
                                 width: ros2InfoText.implicitWidth + padding * 2
                                 height: ros2InfoText.implicitHeight + padding * 2
-                                //color: Theme.white
                                 border.color: Theme.eProsimaDarkBlue
                                 border.width: 2
                                 radius: 10
