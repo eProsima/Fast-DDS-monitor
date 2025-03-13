@@ -479,7 +479,6 @@ Item {
                         }
                         Component.onCompleted: {
                             is_ros2 = controller.get_ros2_type_name(topic_IDL_ID) != controller.get_data_type_name(topic_IDL_ID)
-                            console.log("is_ros2: " + is_ros2)
                         }
                     }
                 }
