@@ -63,6 +63,9 @@ Item {
     readonly property int elements_spacing_: 5
     readonly property int scrollbar_min_size_: 8
     readonly property int scrollbar_max_size_: 12
+    readonly property int ros2_info_box_padding_: 10
+    readonly property int ros2_info_box_border_width_: 2
+    readonly property int ros2_info_box_radius_: 10
     readonly property real scroll_speed_: 0.05
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
@@ -352,7 +355,7 @@ Item {
                             sourceComponent: is_ros2 ? ros2InfoBox : undefined
                             Rectangle {
                                 id: ros2InfoBox
-                                property int padding: 10
+                                property int padding: ros2_info_box_padding_
                                 anchors.top: parent.top
                                 anchors.topMargin: padding * 2
                                 anchors.right: parent.right
@@ -360,8 +363,8 @@ Item {
                                 width: ros2InfoText.implicitWidth + padding * 2
                                 height: ros2InfoText.implicitHeight + padding * 2
                                 border.color: Theme.eProsimaDarkBlue
-                                border.width: 2
-                                radius: 10
+                                border.width: ros2_info_box_border_width_
+                                radius: ros2_info_box_radius_
                                 visible: is_ros2 && monitorMenuBar.ros2DemanglingActive
                                 Text {
                                     id: ros2InfoText
@@ -786,7 +789,7 @@ Item {
 
     function create_new_tab()
     {
-        create_new_custom_tab_("")
+        create_new_custom_tab_("", "")
     }
 
     function create_new_custom_tab_(component_identifier, topic_IDL_ID)
@@ -944,7 +947,7 @@ Item {
     }
 
     function open_topic_view(domainEntityId, domainId, entityId) {
-        create_new_custom_tab_("domainGraphLayout_component")
+        create_new_custom_tab_("domainGraphLayout_component", "")
         open_domain_view_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, domainId)
         filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
     }

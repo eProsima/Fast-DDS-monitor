@@ -11,25 +11,16 @@ class ClipboardHandler : public QObject
 
 public:
 
-    explicit ClipboardHandler(
-            QObject* parent = nullptr)
-        : QObject(parent)
-    {
-    }
+    ClipboardHandler(
+            QObject* parent = nullptr);
+
+    ~ClipboardHandler();
 
     // Expose the clipboard object directly to QML
     Q_INVOKABLE void setClipboardText(
-            const QString& text)
-    {
-        QClipboard* clipboard = QGuiApplication::clipboard();
-        clipboard->setText(text);
-    }
+        const QString& text);
 
-    Q_INVOKABLE QString getClipboardText()
-    {
-        QClipboard* clipboard = QGuiApplication::clipboard();
-        return clipboard->text();
-    }
+    Q_INVOKABLE QString getClipboardText();
 
 };
 

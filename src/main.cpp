@@ -20,9 +20,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QQmlApplicationEngine>
-#include <QClipboard>
 #include <QtQml>
-#include <QQmlContext>
 #include <QtQuick/QQuickView>
 
 #include <fastdds_monitor/Engine.h>

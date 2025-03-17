@@ -6,6 +6,10 @@ ClipboardHandler::ClipboardHandler(
 {
 }
 
+ClipboardHandler::~ClipboardHandler()
+{
+}
+
 void ClipboardHandler::setClipboardText(
         const QString& text)
 {

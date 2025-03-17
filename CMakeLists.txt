@@ -255,6 +255,7 @@ set(PROJECT_SOURCES_NO_MAIN
     ${PROJECT_SOURCE_DIR}/src/Controller.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine.cpp
     ${PROJECT_SOURCE_DIR}/src/io/csv.cpp
+    ${PROJECT_SOURCE_DIR}/src/io/ClipboardHandler.cpp
     ${PROJECT_SOURCE_DIR}/src/model/dds/EndpointModelItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/dds/ParticipantModelItem.cpp
     ${PROJECT_SOURCE_DIR}/src/model/info/InfoModel.cpp
