@@ -349,29 +349,25 @@ Item {
                                 color: vertical_bar.pressed ? Theme.lightGrey : Theme.grey
                             }
                         }
-                        Loader {
-                            //Only create the info box if ROS 2 demangling could be applied
-                            anchors.fill: parent
-                            sourceComponent: is_ros2 ? ros2InfoBox : undefined
-                            Rectangle {
-                                id: ros2InfoBox
-                                property int padding: ros2_info_box_padding_
-                                anchors.top: parent.top
-                                anchors.topMargin: padding * 2
-                                anchors.right: parent.right
-                                anchors.rightMargin: padding * 5
-                                width: ros2InfoText.implicitWidth + padding * 2
-                                height: ros2InfoText.implicitHeight + padding * 2
-                                border.color: Theme.eProsimaDarkBlue
-                                border.width: ros2_info_box_border_width_
-                                radius: ros2_info_box_radius_
-                                visible: is_ros2 && monitorMenuBar.ros2DemanglingActive
-                                Text {
-                                    id: ros2InfoText
-                                    anchors.centerIn: parent
-                                    text: "ROS 2 Demangling applied"
-                                    color: "firebrick"
-                                }
+                        
+                        Rectangle {
+                            id: ros2InfoBox
+                            property int padding: ros2_info_box_padding_
+                            anchors.top: parent.top
+                            anchors.topMargin: padding * 2
+                            anchors.right: parent.right
+                            anchors.rightMargin: padding * 5
+                            width: ros2InfoText.implicitWidth + padding * 2
+                            height: ros2InfoText.implicitHeight + padding * 2
+                            border.color: Theme.eProsimaDarkBlue
+                            border.width: ros2_info_box_border_width_
+                            radius: ros2_info_box_radius_
+                            visible: is_ros2 && monitorMenuBar.ros2DemanglingActive
+                            Text {
+                                id: ros2InfoText
+                                anchors.centerIn: parent
+                                text: "ROS 2 Demangling applied"
+                                color: "firebrick"
                             }
                         }
                         
