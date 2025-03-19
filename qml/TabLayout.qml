@@ -359,7 +359,7 @@ Item {
                             anchors.top: parent.top
                             anchors.topMargin: tabLayout.idl_text_margin_
                             anchors.right: parent.right
-                            anchors.rightMargin: tabLayout.idl_text_margin_ * 1.5
+                            anchors.rightMargin: tabLayout.idl_text_margin_
                             width: {
                                 // Keep full width until left edge would cross collapse point
                                 var leftEdge = parent.width - anchors.rightMargin - defaultWidth
