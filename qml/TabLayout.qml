@@ -354,26 +354,41 @@ Item {
                             id: ros2InfoBox
                             property int padding: ros2_info_box_padding_
                             anchors.top: parent.top
-                            anchors.topMargin: padding * 2
+                            anchors.topMargin: tabLayout.idl_text_margin_
                             anchors.right: parent.right
-                            anchors.rightMargin: padding * 5
-                            width: ros2InfoText.implicitWidth + padding * 2
+                            anchors.rightMargin: tabLayout.idl_text_margin_ * 1.5
+                            width: Math.max(ros2InfoText.implicitWidth + padding * 2, ros2_info_box_border_width_ * 2)
                             height: ros2InfoText.implicitHeight + padding * 2
-                            border.color: Theme.eProsimaDarkBlue
+                            border.color: "black"
                             border.width: ros2_info_box_border_width_
                             radius: ros2_info_box_radius_
                             visible: is_ros2 && monitorMenuBar.ros2DemanglingActive
+                            z: idl_text.z + 1
                             Text {
                                 id: ros2InfoText
                                 anchors.centerIn: parent
                                 text: "ROS 2 Demangling applied"
-                                color: "firebrick"
+                                color: "black"
+                                elide: Text.ElideRight
+                            }
+                            MouseArea {
+                                id: ros2InfoBoxMouseArea
+                                //acceptedButtons: Qt.NoButton
+                                hoverEnabled: true
+                                anchors.fill: parent
+                            }                            
+                            ToolTip {
+                                //parent: ros2InfoBox.Window
+                                text: "Undo ROS 2 demangling in View->Revert ROS 2 Demangling"
+                                visible: ros2InfoBoxMouseArea.containsMouse && ros2InfoBox.visible
                             }
                         }
-                        
+
                         MouseArea {
+                            id: textMouseArea
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            hoverEnabled: true
                             onWheel: {
                                 if(wheel.angleDelta.y > 0){
                                   vertical_bar.decrease()

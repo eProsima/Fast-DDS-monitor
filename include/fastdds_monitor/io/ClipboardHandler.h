@@ -18,7 +18,7 @@ public:
 
     // Expose the clipboard object directly to QML
     Q_INVOKABLE void setClipboardText(
-        const QString& text);
+            const QString& text);
 
     Q_INVOKABLE QString getClipboardText();
 
