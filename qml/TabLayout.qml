@@ -349,16 +349,29 @@ Item {
                                 color: vertical_bar.pressed ? Theme.lightGrey : Theme.grey
                             }
                         }
-                        
+
                         Rectangle {
                             id: ros2InfoBox
                             property int padding: ros2_info_box_padding_
+                            property int defaultWidth: ros2InfoText.implicitWidth + padding * 2
+                            property int minWidth: border.width * 2
+                            property int collapsePoint: parent.width * 2 / 3
                             anchors.top: parent.top
                             anchors.topMargin: tabLayout.idl_text_margin_
                             anchors.right: parent.right
                             anchors.rightMargin: tabLayout.idl_text_margin_ * 1.5
-                            width: Math.max(ros2InfoText.implicitWidth + padding * 2, ros2_info_box_border_width_ * 2)
+                            width: {
+                                // Keep full width until left edge would cross collapse point
+                                var leftEdge = parent.width - anchors.rightMargin - defaultWidth
+                                if (leftEdge < collapsePoint) {
+                                // Start collapsing: shrink width, but don't go below minWidth
+                                return Math.max(parent.width - anchors.rightMargin - collapsePoint, minWidth)
+                                } else {
+                                    return defaultWidth
+                                }
+                            }
                             height: ros2InfoText.implicitHeight + padding * 2
+                            color: "transparent"
                             border.color: "black"
                             border.width: ros2_info_box_border_width_
                             radius: ros2_info_box_radius_
@@ -370,6 +383,10 @@ Item {
                                 text: "ROS 2 Demangling applied"
                                 color: "black"
                                 elide: Text.ElideRight
+                                clip: true
+                                width: parent.width
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
                             }
                             MouseArea {
                                 id: ros2InfoBoxMouseArea

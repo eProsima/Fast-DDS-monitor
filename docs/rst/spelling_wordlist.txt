@@ -13,6 +13,10 @@ DataReader
 datawriter
 DataWriter
 Debian
+demangled
+Demangled
+demangling
+Demangling
 eProsima
 Foonathan
 gtest
