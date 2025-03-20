@@ -56,6 +56,7 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
     width: dialog_width_
+
     onAccepted: {
         let advancedOptions = {}
         if (easyModeOptionCheckBox.checked) {
@@ -66,6 +67,7 @@ Dialog {
 
     contentItem: ColumnLayout {
         spacing: layout_horizontal_spacing_
+
         Row {
             spacing: dialogInitMonitor.layout_vertical_spacing_
 
@@ -104,39 +106,52 @@ Dialog {
 
             Column {
                 anchors.fill: parent
-                MouseArea {
+                spacing: layout_horizontal_spacing_
+                RowLayout {
                     width: parent.width
-                    height: advancedOptionsSubmenu.item_height_
-                    onClicked: {
-                        advancedOptionsSubmenu.isExpanded = !advancedOptionsSubmenu.isExpanded
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 2
+                        color: Theme.lightGrey
                     }
 
-                    Row {
-                        spacing: dialogInitMonitor.layout_vertical_spacing_
-                        Canvas {
-                            id: arrowIcon
-                            z: 2
-                            width: 10
-                            height: 20
-                            onPaint: {
-                                var ctx = getContext("2d")
-                                ctx.reset()
-                                ctx.moveTo(0, 6)
-                                ctx.lineTo(10, 10)
-                                ctx.lineTo(0, 14)
-                                ctx.closePath()
-                                ctx.fillStyle = "grey"
-                                ctx.fill()
+                    Rectangle {
+                        width: 175
+                        height: 30
+                        radius: 15
+                        color: advancedOptionsMouseArea.containsMouse ? Theme.grey : "transparent"
+                        Row {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: dialogInitMonitor.layout_vertical_spacing_
+                            leftPadding: 10
+
+                            IconSVG {
+                            anchors.verticalCenter: parent.verticalCenter
+                            name: advancedOptionsSubmenu.isExpanded ? "cross" : "plus"
+                            size: 12
+                            color: advancedOptionsMouseArea.containsMouse ? "white" : "grey"
                             }
-                            rotation: advancedOptionsSubmenu.isExpanded ? 90 : 0
+
+                            Label {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: "Advanced options"
+                                color: advancedOptionsMouseArea.containsMouse ? "white" : "grey"
+                            }
                         }
 
-                        Text {
-                            text: "Advanced Options"
+                        MouseArea {
+                            id: advancedOptionsMouseArea
+                            width: parent.width
+                            height: parent.height
+                            hoverEnabled: true
+                            onClicked: {
+                                advancedOptionsSubmenu.isExpanded = !advancedOptionsSubmenu.isExpanded
+                            }
                         }
                     }
                 }
-
+                
                 Column {
                     width: parent.width
                     visible: advancedOptionsSubmenu.isExpanded
