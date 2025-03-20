@@ -57,7 +57,11 @@ Dialog {
     y: (parent.height - height) / 2
     width: dialog_width_
     onAccepted: {
-        controller.init_monitor(simpleDiscoveryAnswer.value)
+        let advancedOptions = {}
+        if (easyModeOptionCheckBox.checked) {
+            advancedOptions["easy_mode_ip"] = easyModeOptionTextInput.text
+        }
+        controller.init_monitor(simpleDiscoveryAnswer.value, advancedOptions)
     }
 
     contentItem: ColumnLayout {
@@ -105,7 +109,6 @@ Dialog {
                     height: advancedOptionsSubmenu.item_height_
                     onClicked: {
                         advancedOptionsSubmenu.isExpanded = !advancedOptionsSubmenu.isExpanded
-                        console.log("Advanced Options clicked")
                     }
 
                     Row {

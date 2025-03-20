@@ -249,11 +249,12 @@ Engine::~Engine()
 }
 
 void Engine::init_monitor(
-        int domain)
+        int domain,
+        std::string easy_mode_ip /* = "" */)
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
-    backend::EntityId domain_id = backend_connection_.init_monitor(domain);
+    backend::EntityId domain_id = backend_connection_.init_monitor(domain, easy_mode_ip);
 
     if (domain_id.is_valid())
     {

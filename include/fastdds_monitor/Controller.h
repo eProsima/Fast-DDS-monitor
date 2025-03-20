@@ -23,6 +23,7 @@
 #define _EPROSIMA_FASTDDS_MONITOR_CONTROLLER_H
 
 #include <QDebug>
+#include <QMap>
 #include <QObject>
 #include <QtCharts/QVXYModelMapper>
 
@@ -80,7 +81,8 @@ public slots:
 
     //! Slot called by init a monitor with a domain number
     void init_monitor(
-            int domain);
+            int domain,
+            QVariantMap advanced_options);
 
     //! Slot called when initializing a monitor for a Discovery Server network
     void init_monitor(
