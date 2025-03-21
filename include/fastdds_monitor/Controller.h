@@ -192,6 +192,12 @@ public slots:
     //! Change \c metatraffic_visible status
     void change_metatraffic_visible();
 
+    //! Whether the ROS 2 demangling is active
+    bool ros2_demangling_active();
+
+    //! Change \c ros2_demangling_active status
+    void change_ros2_demangling();
+
     //! Call engine to refresh summary
     void refresh_summary();
 
@@ -280,6 +286,12 @@ public slots:
             QString domain_id);
 
     QString get_type_idl (
+            QString entity_id);
+
+    QString get_ros2_type_idl (
+            QString entity_id);
+
+    QString get_ros2_type_name (
             QString entity_id);
 
     QString get_endpoint_topic_id(

@@ -49,6 +49,7 @@ Engine::Engine()
     : enabled_(false)
     , inactive_visible_(true)
     , metatraffic_visible_(false)
+    , ros2_demangling_active_(true)
 {
 }
 
@@ -1659,6 +1660,15 @@ void Engine::change_metatraffic_visible()
     refresh_engine();
 }
 
+void Engine::change_ros2_demangling()
+{
+    ros2_demangling_active_ = !ros2_demangling_active_;
+    fill_physical_data_();
+    fill_logical_data_();
+    fill_dds_data_();
+    refresh_engine();
+}
+
 bool Engine::inactive_visible() const
 {
     return inactive_visible_;
@@ -1667,6 +1677,11 @@ bool Engine::inactive_visible() const
 bool Engine::metatraffic_visible() const
 {
     return metatraffic_visible_;
+}
+
+bool Engine::ros2_demangling_active() const
+{
+    return ros2_demangling_active_;
 }
 
 std::string Engine::get_data_kind_units(
@@ -1783,6 +1798,18 @@ std::string Engine::get_type_idl(
         const backend::EntityId& entity_id)
 {
     return backend_connection_.get_type_idl(entity_id);
+}
+
+std::string Engine::get_ros2_type_idl(
+        const backend::EntityId& entity_id)
+{
+    return backend_connection_.get_ros2_type_idl(entity_id);
+}
+
+std::string Engine::get_ros2_type_name(
+        const backend::EntityId& entity_id)
+{
+    return backend_connection_.get_ros2_type_name(entity_id);
 }
 
 models::EntityId Engine::get_endpoint_topic_id(

@@ -34,7 +34,7 @@ namespace statistics_backend {
  * The entities along the Database are referenced one to each other when they are directly related.
  * These entities hold a shared pointer to those connected entities.
  *
- * In order to simplify the logic, all Entities would containe \c EntityPointer instead of more.
+ * In order to simplify the logic, all Entities would contain \c EntityPointer instead of more
  * specific pointers for every subentity or superentity they have.
  */
 class Entity

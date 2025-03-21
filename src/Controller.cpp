@@ -224,6 +224,16 @@ void Controller::change_metatraffic_visible()
     engine_->change_metatraffic_visible();
 }
 
+bool Controller::ros2_demangling_active()
+{
+    return engine_->ros2_demangling_active();
+}
+
+void Controller::change_ros2_demangling()
+{
+    engine_->change_ros2_demangling();
+}
+
 void Controller::refresh_summary()
 {
     engine_->refresh_summary();
@@ -327,6 +337,18 @@ QString Controller::get_type_idl(
         QString entity_id)
 {
     return utils::to_QString(engine_->get_type_idl(backend::models_id_to_backend_id(entity_id)));
+}
+
+QString Controller::get_ros2_type_idl(
+        QString entity_id)
+{
+    return utils::to_QString(engine_->get_ros2_type_idl(backend::models_id_to_backend_id(entity_id)));
+}
+
+QString Controller::get_ros2_type_name(
+        QString entity_id)
+{
+    return utils::to_QString(engine_->get_ros2_type_name(backend::models_id_to_backend_id(entity_id)));
 }
 
 QString Controller::get_endpoint_topic_id(

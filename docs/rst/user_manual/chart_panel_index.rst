@@ -42,6 +42,16 @@ Additionally, one can access the data type IDL corresponding to each Topic throu
 .. figure:: /rst/figures/screenshots/IDL_img.png
     :align: center
 
+Pressing right-click on the IDL view, a context menu appears with the options to copy the selected text from the
+IDL to the clipboard (or the full IDL if nothing is selected), select the full text or copy the title to the
+clipboard. A special situation occurs when the type is a ROS 2 type, in which case by default the type IDL
+and name are shown demangled. This is accompanied by a sign on the upper-right corner of the IDL view informing
+the user. View->Revert ROS 2 Demangling allows to revert the demangling operation, and show the IDL of the type
+as is received by the monitor. View->Perform ROS 2 Demangling allows to perform the demangling operation again.
+
+.. figure:: /rst/figures/screenshots/IDL_demangled_context_menu.png
+    :align: center
+
 If there are problems reported by a DDS entity, they are condensed by entity in the bottom layout Problem Summary
 section. Inside the problem counter, the problem is described and, in some cases, followed by an applicable link to
 the documentation.

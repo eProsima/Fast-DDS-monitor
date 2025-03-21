@@ -20,6 +20,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
 import Theme 1.0
+import Clipboard 1.0
 
 Item {
     id: tabLayout
@@ -62,6 +63,9 @@ Item {
     readonly property int elements_spacing_: 5
     readonly property int scrollbar_min_size_: 8
     readonly property int scrollbar_max_size_: 12
+    readonly property int ros2_info_box_padding_: 10
+    readonly property int ros2_info_box_border_width_: 2
+    readonly property int ros2_info_box_radius_: 10
     readonly property real scroll_speed_: 0.05
     readonly property string selected_tab_color_: "#ffffff"
     readonly property string selected_shadow_tab_color_: "#c0c0c0"
@@ -84,6 +88,10 @@ Item {
         }
     }
 
+    ClipboardHandler {
+        id: clipboardHandler
+    }
+
     // stack layout (where idx referred to the tab, which would contain different views)
     StackLayout {
         id: stack_layout
@@ -101,6 +109,7 @@ Item {
                 initialItem: customInitialItem == "chartsLayout" ? chartsLayout :
                         customInitialItem == "domainGraphLayout_component" ? domainGraphLayout_component :
                         customInitialItem == "idlView_component" ? idlView_component : view_selector
+                property string topic_IDL_ID: ""
 
                 // override push transition to none
                 pushEnter: Transition {}
@@ -303,6 +312,7 @@ Item {
                         height: parent.height
                         contentWidth: parent.width
                         contentHeight: idl_text.height + 2 * tabLayout.idl_text_margin_
+                        property bool is_ros2: false
                         ScrollBar.vertical: ScrollBar {
                             id: vertical_bar
                             policy: ScrollBar.AlwaysOn
@@ -340,13 +350,108 @@ Item {
                             }
                         }
 
+                        Rectangle {
+                            id: ros2InfoBox
+                            property int padding: ros2_info_box_padding_
+                            property int defaultWidth: ros2InfoText.implicitWidth + padding * 2
+                            property int minWidth: border.width * 2
+                            property int collapsePoint: parent.width * 2 / 3
+                            anchors.top: parent.top
+                            anchors.topMargin: tabLayout.idl_text_margin_
+                            anchors.right: parent.right
+                            anchors.rightMargin: tabLayout.idl_text_margin_
+                            width: {
+                                // Keep full width until left edge would cross collapse point
+                                var leftEdge = parent.width - anchors.rightMargin - defaultWidth
+                                if (leftEdge < collapsePoint) {
+                                // Start collapsing: shrink width, but don't go below minWidth
+                                return Math.max(parent.width - anchors.rightMargin - collapsePoint, minWidth)
+                                } else {
+                                    return defaultWidth
+                                }
+                            }
+                            height: ros2InfoText.implicitHeight + padding * 2
+                            color: "transparent"
+                            border.color: "black"
+                            border.width: ros2_info_box_border_width_
+                            radius: ros2_info_box_radius_
+                            visible: is_ros2 && monitorMenuBar.ros2DemanglingActive
+                            z: idl_text.z + 1
+                            Text {
+                                id: ros2InfoText
+                                anchors.centerIn: parent
+                                text: "ROS 2 Demangling applied"
+                                color: "black"
+                                elide: Text.ElideRight
+                                clip: true
+                                width: parent.width
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                            }
+                            MouseArea {
+                                id: ros2InfoBoxMouseArea
+                                //acceptedButtons: Qt.NoButton
+                                hoverEnabled: true
+                                anchors.fill: parent
+                            }                            
+                            ToolTip {
+                                //parent: ros2InfoBox.Window
+                                text: "Undo ROS 2 demangling in View->Revert ROS 2 Demangling"
+                                visible: ros2InfoBoxMouseArea.containsMouse && ros2InfoBox.visible
+                            }
+                        }
+
                         MouseArea {
+                            id: textMouseArea
                             anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            hoverEnabled: true
                             onWheel: {
                                 if(wheel.angleDelta.y > 0){
                                   vertical_bar.decrease()
                                 }else{
                                   vertical_bar.increase()
+                                }
+                            }
+                            onPressed: {
+                                if(mouse.button & Qt.RightButton) {
+                                    var start = idl_text.selectionStart
+                                    var end = idl_text.selectionEnd
+                                    idl_text.focus = true
+                                    contextMenu.popup()
+                                    idl_text.select(start, end)
+                                }
+                            }
+                        }
+
+                        Menu {
+                            id: contextMenu
+                            MenuItem {
+                                text: "Copy"
+                                onTriggered: {
+                                    if (clipboardHandler) {
+                                        let textToCopy = idl_text.selectedText.length > 0 ? idl_text.selectedText : idl_text.text
+                                        clipboardHandler.setClipboardText(textToCopy)
+                                    }else{
+                                        console.log("Clipboard not available")
+                                    }
+                                }
+                            }
+                            MenuItem {
+                                text: "Select All"
+                                onTriggered: {
+                                    idl_text.selectAll()
+                                }
+                            }
+                            MenuItem {
+                                text: "Copy IDL title"
+                                onTriggered: {
+                                    if (clipboardHandler) {
+                                        let textToCopy = tabLayout.tab_model_[current_]["title"]
+                                        clipboardHandler.setClipboardText(textToCopy)
+                                    }else{
+                                        console.log("Clipboard not available")
+                                    }
                                 }
                             }
                         }
@@ -380,6 +485,30 @@ Item {
                                     }
                                 }
                             }
+                        }
+                        Connections
+                        {
+                            target: monitorMenuBar
+
+                            function onRos2DemanglingChange(newValue){
+                                if (is_ros2)
+                                {
+                                    idl_text.text = newValue ? controller.get_type_idl(topic_IDL_ID) : controller.get_ros2_type_idl(topic_IDL_ID)
+                                    var i
+                                    for (i=0; i<tabLayout.tab_model_.length; i++)
+                                    {
+                                        if (tabLayout.tab_model_[i]["stack_id"] == stack.stack_id)
+                                        {
+                                            tabLayout.tab_model_[i]["title"] = newValue ? controller.get_ros2_type_name(topic_IDL_ID) : controller.get_data_type_name(topic_IDL_ID)
+                                            refresh_layout(i)
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Component.onCompleted: {
+                            is_ros2 = controller.get_ros2_type_name(topic_IDL_ID) != controller.get_data_type_name(topic_IDL_ID)
                         }
                     }
                 }
@@ -688,10 +817,10 @@ Item {
 
     function create_new_tab()
     {
-        create_new_custom_tab_("")
+        create_new_custom_tab_("", "")
     }
 
-    function create_new_custom_tab_(component_identifier)
+    function create_new_custom_tab_(component_identifier, topic_IDL_ID)
     {
         var initial_component = component_identifier
         if (!allowed_stack_components_.includes(component_identifier))
@@ -701,7 +830,7 @@ Item {
         var idx = tabLayout.tab_model_.length
         tabLayout.tab_model_[idx] = {"idx" : idx, "title": "New Tab", "icon":"", "stack_id":last_index_}
         var new_stack = stack_component.createObject(null, {
-                "stack_id": tabLayout.tab_model_[idx]["stack_id"], "customInitialItem": initial_component })
+                "stack_id": tabLayout.tab_model_[idx]["stack_id"], "customInitialItem": initial_component , "topic_IDL_ID": topic_IDL_ID})
         last_index_++
         stack_layout.children.push(new_stack)
         refresh_layout(idx)
@@ -846,16 +975,16 @@ Item {
     }
 
     function open_topic_view(domainEntityId, domainId, entityId) {
-        create_new_custom_tab_("domainGraphLayout_component")
+        create_new_custom_tab_("domainGraphLayout_component", "")
         open_domain_view_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, domainId)
         filter_domain_view_by_topic_(tabLayout.tab_model_[current_]["stack_id"], domainEntityId, entityId)
     }
 
     function open_idl_view(entityId) {
-        create_new_custom_tab_("idlView_component")
-        tabLayout.tab_model_[current_]["title"] = controller.get_data_type_name(entityId)
+        create_new_custom_tab_("idlView_component", entityId)
+        tabLayout.tab_model_[current_]["title"] = monitorMenuBar.ros2DemanglingActive ? controller.get_ros2_type_name(entityId) : controller.get_data_type_name(entityId)
         tabLayout.tab_model_[current_]["icon"] = "idl"
-        var content = controller.get_type_idl(entityId)
+        var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
         display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
         refresh_layout(current_)
     }
