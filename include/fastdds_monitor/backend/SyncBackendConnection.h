@@ -78,10 +78,12 @@ public:
      * Calls the Backend \c init_monitor method in order to initialize a new monitor in a new Domain
      *
      * @param domain new domain number
+     * @param easy_mode_ip IP address of the remote discovery server used in ROS2 Easy Mode.
      * @return EntityId of the new Domain Entity created
      */
     EntityId init_monitor(
-            int domain);
+            int domain,
+            std::string easy_mode_ip = "");
 
     /**
      * @brief Init a monitor by setting a string with one or many locators of Discovery Servers

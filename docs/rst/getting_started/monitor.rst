@@ -40,6 +40,7 @@ No prior knowledge of the network or its architecture is required in order to cr
 monitor that connects with the *Participants* already running in the same network.
 In order to configure this kind of Domain monitoring, only the number of the Domain that is
 going to be tracked is needed.
+Additional options can be configured using the *Advanced Options* button (see :ref:`monitor_advanced_configuration`).
 
 .. _discovery_server_monitor:
 
@@ -70,3 +71,20 @@ In order to clarify how to set this parameter, please visit the
 `Discovery Server CLI tutorial <https://fast-dds.docs.eprosima.com/en/latest/fastddscli/cli/cli.html#discovery>`_.
 The parameter of the Discovery Server *Init New Monitor* button in this application will be used additionally as the
 input to the CLI command.
+
+.. _monitor_advanced_configuration:
+
+Advanced Options
+================
+*Fast DDS Monitor* allows configuring additional parameters using
+the *Advanced Options* button in the *Initialize Monitor* dialog.
+
+In case of enabling some of the supported advanced options, *OK* button will be enabled only if all inputs are correct,
+so user must ensure of introducing the right values.
+
+The list of supported advanced options is the following:
+
+- **Easy Mode**:
+  It allows the user to specify the IP address of the remote discovery server used in a
+  `ROS 2 Easy Mode <https://docs.vulcanexus.org/en/latest/rst/enhancements/easy_mode/easy_mode.html>`_ scenario.
+  In case of enabling this option, the user must introduce a valid IPv4 address in the text input.
