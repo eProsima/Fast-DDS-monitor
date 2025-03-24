@@ -26,6 +26,13 @@ on:
         type: string
         default: 'main'
 
+      fastdds-statistics-backend-branch:
+        description: >
+          'Branch or tag of Fast DDS Statistics Backend repository
+          (https://github.com/eProsima/Fast-DDS-statistics-backend)'
+        required: true
+        type: string
+
 env:
   default_dependencies_artifact_postfix: '_nightly'
 
@@ -64,6 +71,20 @@ jobs:
         uses: eProsima/eProsima-CI/multiplatform/install_fastdds_dependencies@v0
         with:
           cmake_build_type: ${{ matrix.cmake_build_type }}
+
+      - name: Get Fast DDS Statistics Backend branch
+        id: get_fastdds_statistics_backend_branch
+        uses: eProsima/eProsima-CI/ubuntu/get_related_branch_from_repo@v0
+        with:
+          remote_repository: eProsima/Fast-DDS-statistics-backend
+          fallback_branch: ${{ inputs.fastdds-statistics-backend-branch }}
+
+      - name: Download Fast DDS Statistics Backend
+        uses: eProsima/eProsima-CI/external/checkout@v0
+        with:
+          repository: eProsima/Fast-DDS-statistics-backend
+          path: ${{ github.workspace }}/src/fastdds_statistics_backend
+          ref: ${{ steps.get_fastdds_statistics_backend_branch.outputs.deduced_branch }}
 
       - name: Fetch Fast DDS Monitor repositories
         uses: eProsima/eProsima-CI/multiplatform/vcs_import@v0
