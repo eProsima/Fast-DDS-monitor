@@ -1,7 +1,7 @@
 .. _release_notes:
 
 .. TODO uncomment when there are forthcoming notes
-.. .. include:: forthcoming_version.rst
+.. include:: forthcoming_version.rst
 
 ##############
 Version v3.1.0
