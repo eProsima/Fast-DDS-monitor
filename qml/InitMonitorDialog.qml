@@ -86,9 +86,7 @@ Dialog {
                 Layout.alignment: Qt.AlignTop
                 Keys.onReturnPressed: {
                     // Prevent accepting the dialog if OK button is disabled
-                    console.log("Enter pressed")
                     if (dialogButtons.standardButton(Dialog.Ok).enabled) {
-                        console.log("Accepting dialog")
                         dialogInitMonitor.accept()
                     }
                 }
