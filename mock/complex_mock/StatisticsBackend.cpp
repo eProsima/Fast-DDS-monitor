@@ -72,8 +72,10 @@ EntityId StatisticsBackend::init_monitor(
         CallbackMask callback_mask,
         DataKindMask data_mask,
         std::string app_id,
-        std::string app_metadata)
+        std::string app_metadata,
+        std::string easy_mode_ip)
 {
+    static_cast<void>(easy_mode_ip);
     return init_monitor(std::to_string(domain), domain_listener, callback_mask, data_mask, app_id, app_metadata);
 }
 
