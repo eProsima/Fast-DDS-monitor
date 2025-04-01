@@ -10,7 +10,7 @@ It will briefly explain the main menus and windows that could be seen, in order 
 with where to find the buttons and information.
 Below is a screenshot of the *Fast DDS Monitor* application in operation.
 
-.. figure:: /rst/figures/screenshots/App_run.png
+.. thumbnail:: /rst/figures/screenshots/App_run.png
     :align: center
 
 .. _application_menu_layout:
@@ -242,7 +242,7 @@ In order to move one of these charts, click on the *Chartbox* title and grab the
 inside the main panel.
 The rest of the *Chartboxes* will automatically rearrange when one of them is moved to a different position.
 
-.. figure:: /rst/figures/screenshots/chartbox.png
+.. thumbnail:: /rst/figures/screenshots/chartbox.png
     :align: center
 
 For further information about how to create a chart refer to the section :ref:`chart_panel`.
@@ -276,7 +276,7 @@ DDS Domain.
 They are represented encapsulated inside their physical entities (see :ref:`entities` relationship), and with a
 connection to the topic they publish on or are subscribed to, respectively.
 
-.. figure:: /rst/figures/screenshots/domain_graph.png
+.. thumbnail:: /rst/figures/screenshots/domain_graph.png
     :align: center
 
 By clicking on any entity, its detailed information is displayed in the :ref:`info_panel`.
@@ -297,5 +297,5 @@ The entities that have reported a problem would display a warning or an error ic
 the severity of the problem.
 The entity representation in the domain graph may also display that icon.
 
-.. figure:: /rst/figures/screenshots/problem.png
+.. thumbnail:: /rst/figures/screenshots/problem.png
     :align: center

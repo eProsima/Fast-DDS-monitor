@@ -23,7 +23,7 @@ Execute Fast DDS Monitor
 Initiate Fast DDS Monitor by running the executable file created in the installation process.
 Once Fast DDS Monitor is launched, start a monitor in domain :code:`0` (default domain).
 
-.. figure:: /rst/figures/screenshots/usage_example/Init_domain.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Init_domain.png
     :align: center
 
 Execute ROS 2 demo nodes with statistics
@@ -68,7 +68,7 @@ Monitoring network
 
 Now one should see in the :ref:`dds_panel_layout` two new Participants.
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Participants.png
+.. thumbnail:: /rst/figures/screenshots/jazzy_tutorial/Participants.png
     :align: center
 
 Domain View
@@ -81,14 +81,14 @@ number of Topics, presented as vertical gray lines, related to the code of the l
 :code:`rt/chatter`, relates two entities, a DataWriter and a DataReader: this is the Topic that is being
 used to exchange information.
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Domain_Graph.png
+.. thumbnail:: /rst/figures/screenshots/jazzy_tutorial/Domain_Graph.png
     :align: center
 
 The *Domain View* allows us to access different possibilities. By pressing *right-click* on top of the Topic name, we
 can find several options, such as filtering the graph by the Topic (selecting *Filter topic graph*). Clicking on the
 :code:`rt/chatter` Topic, we can easily see the entities exchanging information.
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Topic_filter.png
+.. thumbnail:: /rst/figures/screenshots/jazzy_tutorial/Topic_filter.png
     :align: center
 
 Additionally, we can access the IDL representation of any of the Topics, by pressing right-click over
@@ -96,7 +96,7 @@ the Topic name, and choosing *Data type IDL view*. This opens a new Tab with the
 copied and pasted. Note that for ROS 2 topics, the IDL representation is demangled by default (can be undone in
 *View->Revert ROS 2 Demangling*).
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/IDL_img_jazzy2.png
+.. thumbnail:: /rst/figures/screenshots/jazzy_tutorial/IDL_img_jazzy2.png
     :align: center
 
 Alias
@@ -109,7 +109,7 @@ The :code:`talker` would be the one with a :code:`chatter` writer, and the :code
 :code:`chatter` reader. Since we're not going to be using this Tab anymore, click on the *X* to return to the
 :code:`New Tab` view.
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Alias_new.png
+.. thumbnail:: /rst/figures/screenshots/jazzy_tutorial/Alias_new.png
     :align: center
 
 Statistical data
@@ -119,7 +119,7 @@ To show statistical data about the communication between the :code:`talker` and 
 open the *Chart View* and follow the steps to :ref:`tutorial_create_dynamic_series` and plot this statistical data
 in a real time chart.
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Statistics.png
+.. thumbnail:: /rst/figures/screenshots/jazzy_tutorial/Statistics.png
     :align: center
 
 Introspect metatraffic topics
@@ -135,7 +135,7 @@ In order to see these topics in the monitor, click *View->Show Metatraffic* menu
 Now, these topics are shown in the logical panel, and also the Readers and Writers associated to them under their
 respective Participants.
 
-.. figure:: /rst/figures/screenshots/jazzy_tutorial/Metatraffic.png
+.. thumbnail:: /rst/figures/screenshots/jazzy_tutorial/Metatraffic.png
     :align: center
 
 Video Tutorial

@@ -100,7 +100,7 @@ The Monitor starts with no DDS entities running.
 First of all, the *Fast DDS Monitor* initial window is shown.
 Press :code:`Start monitoring!` in order to enter the application and start the monitoring.
 
-.. figure:: /rst/figures/screenshots/main.png
+.. thumbnail:: /rst/figures/screenshots/main.png
     :align: center
 
 Initiate monitoring
@@ -117,7 +117,7 @@ You can always return to the :ref:`initialize_monitoring` dialog from :ref:`appl
 
 Let's initialize monitoring in **domain 0** and pressing :code:`OK`.
 
-.. figure:: /rst/figures/screenshots/usage_example/Init_domain.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Init_domain.png
     :align: center
 
 Add physical and logical panels
@@ -128,7 +128,7 @@ and available statistics information.
 In order to open the logical and the physical panels, click on the top right corner of the
 :ref:`left_panel`, in button :code:`···` and add all the panels to visualize the whole information.
 
-.. figure:: /rst/figures/screenshots/usage_example/Add_panels.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Add_panels.png
     :align: center
 
 At this point, you are going to see the whole window of the application.
@@ -146,7 +146,7 @@ Now, execute the first DDS entity in our DDS network: a *DomainParticipant* with
 topic :code:`hello_world_topic` in domain :code:`0` following the steps given in :ref:`hello_world_example`.
 Once the subscriber is running our window will update and you could see new information in the left sidebar.
 
-.. figure:: /rst/figures/screenshots/usage_example/Execute_subscriber.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Execute_subscriber.png
     :align: center
 
 First of all, the number of entities discovered has increased.
@@ -164,7 +164,7 @@ There is also a new *Topic* :code:`hello_world_topic` under *Domain* :code:`0`.
 
 Making double click in any entity name we could see its specific information, such as name, backend id, QoS, etc.
 
-.. figure:: /rst/figures/screenshots/usage_example/Information_subscriber.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Information_subscriber.png
     :align: center
 
 Execute publisher
@@ -178,7 +178,7 @@ Specifically, a new *DomainParticipant* also called :code:`RTPSParticipant` with
 *Host* and *User*, there will be a new *Process* that represents the process where this new :code:`RTPSParticipant`
 is running.
 
-.. figure:: /rst/figures/screenshots/usage_example/Information_publisher.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Information_publisher.png
     :align: center
 
 Domain View
@@ -192,7 +192,7 @@ or the subscriber. It's easy to distinguish them in this view: with the vertical
 publisher contains the DataWriter, represented with an arrow that feeds into the Topic, while the subscriber contains
 the DataReader, represented with an arrow coming from the Topic.
 
-.. figure:: /rst/figures/screenshots/usage_example/Domain_view.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Domain_view.png
     :align: center
 
 In this view, we have access to different functionalities, including filtering by Topic (right-click over the Topic
@@ -200,7 +200,7 @@ name, and choose *Filter topic graph*, opening the filtered graph in a new Tab).
 representation of any of the Topics, by pressing right-click over the Topic name, and choosing *Data type IDL view*.
 This opens a new Tab with the required information, which can be copied and pasted.
 
-.. figure:: /rst/figures/screenshots/usage_example/IDL_img_tutorial.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/IDL_img_tutorial.png
     :align: center
 
 Since we're not going to be using these Tabs anymore, click on the *X* to close all Tabs and return to the
@@ -214,7 +214,7 @@ This panel shows a summary of the data retrieved by the entity that is clicked.
 In this case, you could only see the data that the entities are publishing, and the rest of *DataKinds* that
 are related to the topics that we are not using will remain without data.
 
-.. figure:: /rst/figures/screenshots/usage_example/Summary.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Summary.png
     :align: center
 
 .. _change_alias:
@@ -227,7 +227,7 @@ We are going to change the name of our *Publisher* and *Subscriber* *DomainParti
 and *DataWriter*, to make them easier to identify. For that, just do right-click over the entity name and menu with
 the available options for that entity will pop up. Click on *Change alias* to re-name the entity.
 
-.. figure:: /rst/figures/screenshots/usage_example/Alias_dialog.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Alias_dialog.png
     :align: center
 
 Set the new alias that you want for these entities.
@@ -250,7 +250,7 @@ First of all, click *Chart View* in the :ref:`chart_panel_index` to open the gra
 *Edit->Display Historical Data*. This will open a Dialog where you should choose one of the topics
 in which you want to see the data collected. The :code:`DATA_COUNT` has been chosen for this tutorial.
 
-.. figure:: /rst/figures/screenshots/usage_example/New_series_data_count.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/New_series_data_count.png
     :align: center
 
 Once done, a new Dialog will open asking you to configure the series that is going to be displayed.
@@ -264,7 +264,7 @@ Using :code:`Now` in option :code:`End time` will get all the data available unt
 Now for the :code:`Statistics kind` option, we are going to use :code:`SUM` as we want to know the amount of
 data sent in each time interval.
 
-.. figure:: /rst/figures/screenshots/usage_example/Data_count_configuration.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Data_count_configuration.png
     :align: center
 
 Clicking :code:`Add` the series will be created in the main window, but the Dialog will no close.
@@ -275,7 +275,7 @@ Be aware that option :code:`Statistics kind` do not have effect when :code:`Numb
 Then, click :code:`Add & Close` and now you should be able to see both series represented in the :code:`DATA_COUNT`
 window.
 
-.. figure:: /rst/figures/screenshots/usage_example/Data_count_chart.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Data_count_chart.png
     :align: center
 
 In this new chart created, you could see in the blue series the total amount of data packages sent in each time
@@ -301,7 +301,7 @@ In our example we are going choose both *DomainParticipants*, and this will give
 
 For simplicity, we will use the same bins, start time, and end time configuration parameters as in the previous example.
 
-.. figure:: /rst/figures/screenshots/usage_example/Latency_configuration.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Latency_configuration.png
     :align: center
 
 Now for the :code:`Statistics kind` option, we are going to use some of them in order to see more than one series of
@@ -314,7 +314,7 @@ The statistic kinds that we are going to use for this example are:
 * :code:`MIN` (yellow series)
 * :code:`STANDARD_DEVIATION` (purple series)
 
-.. figure:: /rst/figures/screenshots/usage_example/Latency_chart.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Latency_chart.png
     :align: center
 
 It is worth mentioning that the series name, its color, the axis, and some features of the chart box could be changed
@@ -340,7 +340,7 @@ This means you will be able to see the data of the last minute of the network.
 Finally, set an :code:`Update period` of 5 seconds.
 This will query for new data every 5 seconds and retrieve and display it in the chart.
 
-.. figure:: /rst/figures/screenshots/usage_example/New_dynamic_series_latency.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/New_dynamic_series_latency.png
     :align: center
 
 After this, a new Dialog will open asking to configure the series that is going to be displayed.
@@ -359,7 +359,7 @@ The statistic kinds that we are going to use for this example are:
 * :code:`MAX` (green series)
 * :code:`MIN` (yellow series)
 
-.. figure:: /rst/figures/screenshots/usage_example/Dynamic_latency_configuration.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Dynamic_latency_configuration.png
     :align: center
 
 This chart will be updated each 5 seconds, displaying the data collected by the monitor within the last 5 seconds.
@@ -369,7 +369,7 @@ For this propose, the *play/pause* button stops the axis's update, allowing to z
 Be aware that pausing the chart does not stop new points from appearing, as every 5 seconds the update of the data will
 still happen.
 
-.. figure:: /rst/figures/screenshots/usage_example/Dynamic_latency_chart.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Dynamic_latency_chart.png
     :align: center
 
 Latency DataPoints
@@ -385,7 +385,7 @@ Now you should be able to see a new series in purple that represents each of the
 This is very helpful to understand the :code:`Statistics kind`.
 As you can see, the :code:`MEAN`, :code:`MAX` and :code:`MIN` in each interval are calculated with these *DataPoints*.
 
-.. figure:: /rst/figures/screenshots/usage_example/Dynamic_all_latency_chart.png
+.. thumbnail:: /rst/figures/screenshots/usage_example/Dynamic_all_latency_chart.png
     :align: center
 
 It is worth mentioning that dynamic series can be configurable, just like historic series.

@@ -41,7 +41,7 @@ Overview
    configuration and physical deployment.
 #. **Troubleshooting**: detect at a glance the possible issues or anomalous events that may occur in the communication.
 
-.. figure:: /rst/figures/screenshots/working_example2.gif
+.. thumbnail:: /rst/figures/screenshots/working_example2.gif
     :align: center
 
 The source code for the Monitor application and the documentation can be found in our
