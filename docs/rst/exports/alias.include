@@ -1,39 +1,39 @@
 .. |FastDDSDocs| replace:: `Fast DDS Documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/>`__
 .. |DDSSpecification| replace:: `DDS specification <https://www.omg.org/spec/DDS/1.4/About-DDS/>`__
 
-.. |dashboard_layout_1| image:: /rst/../../resources/images/icons/originals/grid1.svg
+.. |dashboard_layout_1| image:: /rst/../../resources/images/icons/grid1/grid1_grey.svg
     :width: 20
     :alt: Dashboard Layout
 
-.. |dashboard_layout_2| image:: /rst/../../resources/images/icons/originals/grid2.svg
+.. |dashboard_layout_2| image:: /rst/../../resources/images/icons/grid2/grid2_grey.svg
     :width: 20
     :alt: Dashboard Layout
 
-.. |dashboard_layout_3| image:: /rst/../../resources/images/icons/originals/grid3.svg
+.. |dashboard_layout_3| image:: /rst/../../resources/images/icons/grid3/grid3_grey.svg
     :width: 20
     :alt: Dashboard Layout
 
-.. |historical_chart| image:: /rst/../../resources/images/icons/originals/historicalchart.svg
+.. |historical_chart| image:: /rst/../../resources/images/icons/historicalchart/historicalchart_grey.svg
     :width: 20
     :alt: Display Historical Data
 
-.. |dynamic_chart| image:: /rst/../../resources/images/icons/originals/dynamicchart.svg
+.. |dynamic_chart| image:: /rst/../../resources/images/icons/dynamicchart/dynamicchart_grey.svg
     :width: 20
     :alt: Display Real-Time Data
 
-.. |refresh| image:: /rst/../../resources/images/icons/originals/refresh.svg
+.. |refresh| image:: /rst/../../resources/images/icons/refresh/refresh_grey.svg
     :width: 20
     :alt: Refresh
 
-.. |clear_log| image:: /rst/../../resources/images/icons/originals/clearlog.svg
+.. |clear_log| image:: /rst/../../resources/images/icons/clearlog/clearlog_grey.svg
     :width: 20
     :alt: Clear Log
 
-.. |clear_issues| image:: /rst/../../resources/images/icons/originals/clearissues.svg
+.. |clear_issues| image:: /rst/../../resources/images/icons/clearissues/clearissues_grey.svg
     :width: 20
     :alt: Clear Issues
 
-.. |resize| image:: /rst/../../resources/images/icons/originals/resize.svg
+.. |resize| image:: /rst/../../resources/images/icons/resize/resize_grey.svg
     :width: 20
     :alt: Reset Chart Zoom
 
@@ -41,14 +41,14 @@
     :width: 20
     :alt: Interactive Chart Control Info
 
-.. |editaxis| image:: /rst/../../resources/images/icons/originals/editaxis.svg
+.. |editaxis| image:: /rst/../../resources/images/icons/editaxis/editaxis_grey.svg
     :width: 20
     :alt: Set Axes
 
-.. |play| image:: /rst/../../resources/images/icons/originals/play.svg
+.. |play| image:: /rst/../../resources/images/icons/play/play_grey.svg
     :width: 20
     :alt: Enable Real-Time
 
-.. |pause| image:: /rst/../../resources/images/icons/originals/pause.svg
+.. |pause| image:: /rst/../../resources/images/icons/pause/pause_grey.svg
     :width: 20
     :alt: Disable Real-Time

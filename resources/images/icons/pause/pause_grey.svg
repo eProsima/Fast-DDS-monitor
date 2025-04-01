@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="375pt"
+   height="374.999991pt"
+   viewBox="0 0 375 374.999991"
+   version="1.2"
+   id="svg4"
+   sodipodi:docname="pause_grey.svg"
+   inkscape:version="1.4 (e7c3feb, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="pt"
+     inkscape:zoom="2.332"
+     inkscape:cx="249.78559"
+     inkscape:cy="250"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g3" />
+  <defs
+     id="defs2">
+    <clipPath
+       id="clip1">
+      <path
+         d="M 61.226562 4.4375 L 164 4.4375 L 164 370.4375 L 61.226562 370.4375 Z M 61.226562 4.4375 "
+         id="path1" />
+    </clipPath>
+    <clipPath
+       id="clip2">
+      <path
+         d="M 207.15625 4.4375 L 310 4.4375 L 310 370.4375 L 207.15625 370.4375 Z M 207.15625 4.4375 "
+         id="path2" />
+    </clipPath>
+  </defs>
+  <g
+     id="surface1">
+    <g
+       clip-path="url(#clip1)"
+       clip-rule="nonzero"
+       id="g3">
+      <path
+         style="fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         d="m 106.02734,26.5625 c -12.234371,0 -22.191402,9.933594 -22.191402,22.148438 V 326.13672 c 0,12.20703 9.957031,22.14453 22.191402,22.14453 h 13.32032 c 12.23437,0 22.1914,-9.9375 22.1914,-22.14453 V 48.710938 c 0,-12.214844 -9.95703,-22.148438 -22.1914,-22.148438 z m 13.32032,343.86328 h -13.32032 c -24.472652,0 -44.378902,-19.86719 -44.378902,-44.28906 V 48.710938 c 0,-24.425782 19.90625,-44.292969 44.378902,-44.292969 h 13.32032 c 24.47656,0 44.38281,19.867187 44.38281,44.292969 V 326.13672 c 0,24.42187 -19.90625,44.28906 -44.38281,44.28906"
+         id="path3"
+         sodipodi:nodetypes="ssssssssscsssssssc" />
+    </g>
+    <g
+       clip-path="url(#clip2)"
+       clip-rule="nonzero"
+       id="g4">
+      <path
+         style="fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         d="m 251.95703,26.5625 c -12.23047,0 -22.1875,9.933594 -22.1875,22.148438 V 326.13672 c 0,12.20703 9.95703,22.14453 22.1875,22.14453 h 13.32031 c 12.23438,0 22.19141,-9.9375 22.19141,-22.14453 V 48.710938 c 0,-12.214844 -9.95703,-22.148438 -22.19141,-22.148438 z m 13.32031,343.86328 h -13.32031 c -24.47266,0 -44.37891,-19.86719 -44.37891,-44.28906 V 48.710938 c 0,-24.425782 19.90625,-44.292969 44.37891,-44.292969 h 13.32031 c 24.47657,0 44.38282,19.867187 44.38282,44.292969 V 326.13672 c 0,24.42187 -19.90625,44.28906 -44.38282,44.28906"
+         id="path4"
+         sodipodi:nodetypes="ssssssssscsssssssc" />
+    </g>
+  </g>
+</svg>
