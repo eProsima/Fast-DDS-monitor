@@ -8,11 +8,6 @@ The instructions for installing the *eProsima Fast DDS Monitor application* from
 `Qt` installation are provided in this page.
 It is organized as follows:
 
-.. contents::
-    :local:
-    :backlinks: none
-    :depth: 2
-
 .. _fastdds_lib_sl:
 
 Dependencies installation
@@ -230,25 +225,25 @@ Local installation
 
     * `Foonathan memory <https://github.com/foonathan/memory>`_
 
-        .. code-block:: bash
+      .. code-block:: bash
 
-            cd ~/Fast-DDS-Monitor
-            git clone https://github.com/eProsima/foonathan_memory_vendor.git
-            mkdir foonathan_memory_vendor/build
-            cd foonathan_memory_vendor/build
-            cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DBUILD_SHARED_LIBS=ON
-            cmake --build . --target install
+          cd ~/Fast-DDS-Monitor
+          git clone https://github.com/eProsima/foonathan_memory_vendor.git
+          mkdir foonathan_memory_vendor/build
+          cd foonathan_memory_vendor/build
+          cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DBUILD_SHARED_LIBS=ON
+          cmake --build . --target install
 
     * `Fast CDR <https://github.com/eProsima/Fast-CDR.git>`_
 
-        .. code-block:: bash
+      .. code-block:: bash
 
-            cd ~/Fast-DDS-Monitor
-            git clone https://github.com/eProsima/Fast-CDR.git
-            mkdir Fast-CDR/build
-            cd Fast-CDR/build
-            cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install
-            cmake --build . --target install
+          cd ~/Fast-DDS-Monitor
+          git clone https://github.com/eProsima/Fast-CDR.git
+          mkdir Fast-CDR/build
+          cd Fast-CDR/build
+          cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install
+          cmake --build . --target install
 
     * `Fast DDS <https://github.com/eProsima/Fast-DDS.git>`_
 
@@ -263,14 +258,14 @@ Local installation
 
     * `Fast DDS Statistics Backend <https://github.com/eProsima/Fast-DDS-statistics-backend.git>`_
 
-        .. code-block:: bash
+      .. code-block:: bash
 
-            cd ~/Fast-DDS-Monitor
-            git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
-            mkdir Fast-DDS-statistics-backend/build
-            cd Fast-DDS-statistics-backend/build
-            cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install
-            cmake --build . --target install
+          cd ~/Fast-DDS-Monitor
+          git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
+          mkdir Fast-DDS-statistics-backend/build
+          cd Fast-DDS-statistics-backend/build
+          cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install
+          cmake --build . --target install
 
 #.  Once all dependencies are installed, install *eProsima Fast DDS Monitor*:
 

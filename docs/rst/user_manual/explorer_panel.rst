@@ -74,36 +74,36 @@ the specific entity kind:
 
 * **General fields**
 
-    * **name**: internal name of the entity
-    * **id**: internal unique id for each entity
-    * **kind**: kind of entity (e.g. host)
-    * **alive**: if the entity is alive or not
-    * **alias**: alias of the entity given by the user
-    * **metatraffic**: if the entity is processing metatraffic data or not
-    * **status**: status of the entity
+  * **name**: internal name of the entity
+  * **id**: internal unique id for each entity
+  * **kind**: kind of entity (e.g. host)
+  * **alive**: if the entity is alive or not
+  * **alias**: alias of the entity given by the user
+  * **metatraffic**: if the entity is processing metatraffic data or not
+  * **status**: status of the entity
 
 * **Process**
 
-    * **pid**: Process Id in its host
+  * **pid**: Process Id in its host
 
 * **Topic**
 
-    * **type_name**: name of the data type of the topic
+  * **type_name**: name of the data type of the topic
 
 * **Participant**
 
-    * **GUID**: DDS GUID
-    * **QoS**: DDS QoS information
+  * **GUID**: DDS GUID
+  * **QoS**: DDS QoS information
 
 * **DataWriter**
 
-    * **GUID**: DDS GUID
-    * **QoS**: DDS QoS information
+  * **GUID**: DDS GUID
+  * **QoS**: DDS QoS information
 
 * **DataReader**
 
-    * **GUID**: DDS GUID
-    * **QoS**: DDS QoS information
+  * **GUID**: DDS GUID
+  * **QoS**: DDS QoS information
 
 
 .. _statistics_panel:
