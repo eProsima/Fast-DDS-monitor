@@ -444,7 +444,7 @@ EntityId SyncBackendConnection::init_monitor(
     try
     {
         return StatisticsBackend::init_monitor(domain, nullptr, CallbackMask::all(),
-                       DataKindMask::none(), FASTDDS_MONITOR_APP, easy_mode_ip);
+                       DataKindMask::none(), FASTDDS_MONITOR_APP, "", easy_mode_ip);
     }
     catch (const Error& e)
     {
