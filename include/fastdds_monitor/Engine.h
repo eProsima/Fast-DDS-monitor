@@ -141,9 +141,11 @@ public:
     /**
      * @brief Initialize a monitor in a domain by number
      * @param domain number of the domain
+     * @param easy_mode_ip IP address of the remote discovery server used in ROS2 Easy Mode.
      */
     void init_monitor(
-            int domain);
+            int domain,
+            std::string easy_mode_ip = "");
 
     /**
      * @brief Initialize a monitor in a domain by discovery server locators

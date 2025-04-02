@@ -438,12 +438,13 @@ bool SyncBackendConnection::unset_listener()
 }
 
 EntityId SyncBackendConnection::init_monitor(
-        int domain)
+        int domain,
+        std::string easy_mode_ip /* = "" */)
 {
     try
     {
         return StatisticsBackend::init_monitor(domain, nullptr, CallbackMask::all(),
-                       DataKindMask::none(), FASTDDS_MONITOR_APP);
+                       DataKindMask::none(), FASTDDS_MONITOR_APP, "", easy_mode_ip);
     }
     catch (const Error& e)
     {

@@ -28,9 +28,17 @@
 #include <fastdds_monitor/utils.h>
 
 void Controller::init_monitor(
-        int domain)
+        int domain,
+        QVariantMap advanced_options)
 {
-    engine_->init_monitor(domain);
+    /* Create engine input parameters from advance options */
+    // ROS2 Easy Mode IP
+    std::string easy_mode_ip = "";
+    if (advanced_options.contains("easy_mode_ip"))
+    {
+        easy_mode_ip = advanced_options["easy_mode_ip"].toString().toStdString();
+    }
+    engine_->init_monitor(domain, easy_mode_ip);
 }
 
 void Controller::init_monitor(
