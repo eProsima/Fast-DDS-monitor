@@ -133,7 +133,7 @@ to have a steady latency value, being less susceptible to strong but momentary l
 On the contrary, the series that calculates the average latency with the available data of the last 5 seconds shows a
 large variation due to the smaller number of data points available for the calculation of the statistic.
 
-.. figure:: /rst/figures/screenshots/Cumulative_chart.png
+.. thumbnail:: /rst/figures/screenshots/Cumulative_chart.png
     :align: center
 
 Quick explanation of the data displayed

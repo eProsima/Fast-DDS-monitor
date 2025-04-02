@@ -16,8 +16,8 @@ Status SubPanel
 This panel displays brief information of the current state of the *Fast DDS Monitor*,
 
 * Entities
-    * *Domains*: A list of the Domains that have been initialized in the Monitor so far.
-    * *Entities*: Total number of entities that are being tracked.
+  * *Domains*: A list of the Domains that have been initialized in the Monitor so far.
+  * *Entities*: Total number of entities that are being tracked.
 
 .. _log_panel:
 

@@ -28,18 +28,18 @@ arrows.
 Those arrows would start from the DataWriter and point to the Topic, or start from the Topic and point to the
 DataReader (showing publication and subscription cases, respectively).
 
-.. figure:: /rst/figures/screenshots/shapes_domain.png
+.. thumbnail:: /rst/figures/screenshots/shapes_domain.png
     :align: center
 
 Filtering that graph by Topic, only the entities whose endpoints are publishing in, or subscribed to the selected
 Topic would be represented in the view. The filtered graph open in a new Tab.
 
-.. figure:: /rst/figures/screenshots/shapes_topic.png
+.. thumbnail:: /rst/figures/screenshots/shapes_topic.png
     :align: center
 
 Additionally, one can access the data type IDL corresponding to each Topic through the *Domain view*.
 
-.. figure:: /rst/figures/screenshots/IDL_img.png
+.. thumbnail:: /rst/figures/screenshots/IDL_img.png
     :align: center
 
 Pressing right-click on the IDL view, a context menu appears with the options to copy the selected text from the
@@ -49,14 +49,14 @@ and name are shown demangled. This is accompanied by a sign on the upper-right c
 the user. View->Revert ROS 2 Demangling allows to revert the demangling operation, and show the IDL of the type
 as is received by the monitor. View->Perform ROS 2 Demangling allows to perform the demangling operation again.
 
-.. figure:: /rst/figures/screenshots/IDL_demangled_context_menu.png
+.. thumbnail:: /rst/figures/screenshots/IDL_demangled_context_menu.png
     :align: center
 
 If there are problems reported by a DDS entity, they are condensed by entity in the bottom layout Problem Summary
 section. Inside the problem counter, the problem is described and, in some cases, followed by an applicable link to
 the documentation.
 
-.. figure:: /rst/figures/screenshots/problem_detail.png
+.. thumbnail:: /rst/figures/screenshots/problem_detail.png
     :align: center
 
 .. toctree::

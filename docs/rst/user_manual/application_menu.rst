@@ -180,9 +180,9 @@ Dashboard Layout
 Changes the size of the chart boxes displayed in the :ref:`chart_panel_index` of the application.
 Three mutually exclusive layout options are defined and explained below.
 
- * |dashboard_layout_1| **Large**: A single full-screen chart is displayed.
- * |dashboard_layout_2| **Medium**: Adjusts the chart size to show two chart boxes per row.
- * |dashboard_layout_3| **Small**: Adjusts the chart size to show three chart boxes per row.
+* |dashboard_layout_1| **Large**: A single full-screen chart is displayed.
+* |dashboard_layout_2| **Medium**: Adjusts the chart size to show two chart boxes per row.
+* |dashboard_layout_3| **Small**: Adjusts the chart size to show three chart boxes per row.
 
 Hide/Show Shortcuts Toolbar
 ---------------------------

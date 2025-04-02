@@ -13,7 +13,7 @@ missed counter, for instance. The entities that have reported a problem would di
 close to the entity name, based on the severity of the problem. The entity representation in the domain graph may
 also display that icon.
 
-.. figure:: /rst/figures/screenshots/problem.png
+.. thumbnail:: /rst/figures/screenshots/problem.png
     :align: center
 
 Error Messages
