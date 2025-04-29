@@ -12,7 +12,7 @@ This release includes the following **features**:
     * Support Extended incompatible QoS incompatibilities.
     * Add IDL demangling functionality.
     * Support for ROS 2 Easy Mode.
-    * Update documentation theme to Furo.
+    * Update documentation theme to ``Furo``.
 
 This release includes the following **improvements**:
 
@@ -25,7 +25,7 @@ This release includes the following **improvements**:
 
 This release includes the following **fixes**:
 
-    * Change text selection color in idl view.
+    * Change text selection color in IDL view.
     * Fix documentation job in CI.
     * Fix counters and change endpoint names in problems view.
     * Fix graphical errors in DomainGraphLayout.
