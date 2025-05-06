@@ -217,6 +217,25 @@ const QVector<QPointF>& StatisticsData::get_data(
     return it->second->get_data(series_index);
 }
 
+QVariantList StatisticsData::get_points(
+        quint64 chartbox_id,
+        quint64 series_index)
+{
+    QVariantList list;
+    if (!contains_chartbox(chartbox_id)) {
+        return list;
+    }
+
+    const QVector<QPointF> points = get_data(chartbox_id, series_index);
+    for (const QPointF &pt : points) {
+        QVariantMap map;
+        map["x"] = pt.x();
+        map["y"] = pt.y();
+        list.append(map);
+    }
+    return list;
+}
+
 void StatisticsData::recalculate_y_axis(
         quint64 chartbox_id)
 {

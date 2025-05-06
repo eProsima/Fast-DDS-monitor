@@ -51,8 +51,18 @@ StatisticsChartView {
 
         // See each of the points and not just the line
         new_series.pointsVisible = true
-        // Stores a mapper array with every series in order to hjavascript not indiscriminately destroy the C++ mapper
+        // Stores a mapper array with every series in order to not indiscriminately destroy the C++ mapper
         mapper[mapper.length-1].series = new_series
+
+        // Create the hover line instance. Make sure the parent is the chart instance.
+        hoverItems[mapper.length-1] = {}
+        var hoverLineComponent = Qt.createComponent("HoverLine.qml");
+        hoverItems[mapper.length-1] = hoverLineComponent.createObject(chartView, {
+            chartPlotArea: chartView.plotArea, // Pass the chart's plotArea
+            chartX: chartView.plotArea.x,      // Pass X coordinate (if needed for computations)
+            chartY: chartView.plotArea.y,      // Pass Y coordinate
+            seriesColor: new_series.color       // Optionally specify a color
+        });
 
         new_series.acceptedButtons = Qt.MiddleButton
         new_series.clicked.connect(
@@ -74,6 +84,7 @@ StatisticsChartView {
         clearedChart()
         historicData.clear_charts(chartboxId);
         resetChartViewZoom();
+        hoverItems = []
         mapper = []
     }
 
@@ -94,5 +105,6 @@ StatisticsChartView {
 
     function customRemoveSeries(seriesIndex){
         mapper.splice(seriesIndex, 1)
+        hoverItems.splice(seriesIndex, 1)
     }
 }

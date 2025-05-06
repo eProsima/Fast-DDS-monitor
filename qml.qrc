@@ -27,6 +27,7 @@
         <file>qml/DynamicDataKindDialog.qml</file>
         <file>qml/DynamicDisplayStatisticsDialog.qml</file>
         <file>qml/DynamicStatisticsChartView.qml</file>
+        <file>qml/HoverLine.qml</file>
         <file>qml/EntitiesMenu.qml</file>
         <file>qml/EntityList.qml</file>
         <file>qml/ErrorDialog.qml</file>

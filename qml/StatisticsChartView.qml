@@ -38,6 +38,8 @@ ChartView {
     property var tooltipItem: tooltip
     property bool manuallySetAxes: false
 
+    property var hoverItems: []
+
     property real y_MAX_DEFAULT: controller.get_min_real()
     property real y_MIN_DEFAULT: controller.get_max_real()
     property real x_MAX_DEFAULT: controller.get_min_uint()
@@ -60,6 +62,7 @@ ChartView {
         tickCount: 5 // This does not work with nice numbers
         minorTickCount: 4 // Sub divisions (pretty)
         titleText: dataKind + " [" + controller.get_data_kind_units(dataKind) + "]"
+        labelsFont: Qt.font({pointSize: 8})
     }
 
     DateTimeAxis {
@@ -160,6 +163,14 @@ ChartView {
 
             onExited: {
                 chartViewMouseArea.cursorShape = Qt.ArrowCursor
+
+                for (let i = 0; i < hoverItems.length; ++i) {
+                    if (hoverItems[i].line)
+                        hoverItems[i].line.visible = false
+                    // Uncomment if circle and tooltip visuals are used:
+                    // if (hoverItems[i].circle)
+                    //     hoverItems[i].circle.visible = false
+                }
             }
 
             onPressed: {
@@ -222,6 +233,65 @@ ChartView {
                     manuallySetAxes = true
                 }
             }
+
+            onPositionChanged: {
+                const plotX = mouseX - chartView.plotArea.x;
+                const xAxis = chartView.axisX();
+                const xMin = toMsecsSinceEpoch(xAxis.min);
+                const xMax = toMsecsSinceEpoch(xAxis.max);
+                const xValue = xMin + (xMax - xMin) * (plotX / chartView.plotArea.width);
+
+                // For each series in the chart
+                hoverItems.forEach(function(item, j) {
+                    // Clean up existing hover visuals
+                    item.line.visible = false;
+                    // item.circle.visible = false;
+
+                    let series = mapper[j].series
+
+                    // Check if the series is visible
+                    if (series.opacity <= 0.0)
+                        return;
+
+                    let points = historicData.get_points(Number(sharedChartView.id), Number(j));
+
+                    // Filter points based on x-axis limits
+                    points = points.filter(function(point) {
+                        return point.x >= xAxis.min && point.x <= xAxis.max &&
+                               point.y >= axisY.min && point.y <= axisY.max;
+                    });
+
+                    // If there are no points in the filtered array, skip to the next series
+                    if (!points || points.length <= 0)
+                        return;
+
+                    // Find the closest point to the mouse position
+                    var closestPoint = null;
+                    var minDiff = Number.MAX_VALUE;
+                    for (var k = 0; k < points.length; ++k) {
+                        var diff = Math.abs(points[k].x - xValue);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closestPoint = points[k];
+                        }
+                    }
+
+                    if (!closestPoint)
+                        return;
+
+                    let chartPt = chartView.mapToPosition(Qt.point(closestPoint.x, closestPoint.y), series);
+
+                    // Update hover visuals
+                    hoverItems[j].line.pointX = chartPt.x;
+                    hoverItems[j].line.pointY = chartPt.y;
+                    hoverItems[j].line.visible = true;
+
+                    // hoverItems[j].circle.x = chartPt.x - 5;
+                    // hoverItems[j].circle.y = chartPt.y - 5;
+                    // hoverItems[j].circle.visible = true;
+                    // hoverItems[j].circle.requestPaint();
+                });
+            }
         }
     }
 
@@ -231,10 +301,14 @@ ChartView {
 
     function updateSeriesName(seriesIndex, newSeriesName) {
         series(seriesIndex).name = newSeriesName
+        for (let pt of historicData.get_points(chartboxId, seriesIndex)) {
+            console.log("x:", pt.x, "y:", pt.y);
+        }
     }
 
     function updateSeriesColor(seriesIndex, newSeriesColor) {
         series(seriesIndex).color = newSeriesColor
+        hoverItems[seriesIndex].line.color = newSeriesColor
     }
 
     function hideSeries(seriesIndex) {
@@ -276,7 +350,7 @@ ChartView {
 
     function checkAxes(min, max) {
         var axisMin, axisMax
-        if (min == y_MIN_DEFAULT || min == y_MAX_DEFAULT)
+        if (min === y_MIN_DEFAULT || min === y_MAX_DEFAULT)
         {
             axisMin = 0
         }
@@ -284,7 +358,7 @@ ChartView {
         {
             axisMin = min
         }
-        if (max == y_MIN_DEFAULT || max == y_MAX_DEFAULT)
+        if (max === y_MIN_DEFAULT || max === y_MAX_DEFAULT)
         {
             axisMax = 1
         }
@@ -292,7 +366,7 @@ ChartView {
         {
             axisMax = max
         }
-        if (axisMin == axisMax)
+        if (axisMin === axisMax)
         {
             axisMin = min - 1
             axisMax = max + 1
