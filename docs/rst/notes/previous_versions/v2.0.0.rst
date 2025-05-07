@@ -3,14 +3,14 @@ Version v2.0.0
 
 This release includes the following **features**:
 
-    * Split main view into tabs to open different views simultaneously
-    * Display a :ref:`domain graph<domain_graph>` view with the entities that belongs the domain
-    * Display connections between physical entities in nested groups
-    * Display connections between endpoints through topics in the domain graph
-    * Filter domain graph view per topic
-    * Display a :ref:`problem_summary` view in a new footer section.
-    * Filter problem summary per DDS entity
-    * Display eProsima products icon as part of the DDS entity information
+* Split main view into tabs to open different views simultaneously
+* Display a :ref:`domain graph<domain_graph>` view with the entities that belongs the domain
+* Display connections between physical entities in nested groups
+* Display connections between endpoints through topics in the domain graph
+* Filter domain graph view per topic
+* Display a :ref:`problem_summary` view in a new footer section.
+* Filter problem summary per DDS entity
+* Display eProsima products icon as part of the DDS entity information
 
 This release includes the following **dependencies update**:
 

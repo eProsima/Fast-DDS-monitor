@@ -3,9 +3,9 @@ Version v2.1.0
 
 This release includes the following **updates**:
 
-    * Add monitor service to statistics environment variable.
-    * Include SustainML nodes as recognized applications.
-    * Bump ``gitpython`` dependency for documentation.
+* Add monitor service to statistics environment variable.
+* Include SustainML nodes as recognized applications.
+* Bump ``gitpython`` dependency for documentation.
 
 This release includes the following **dependencies update**:
 

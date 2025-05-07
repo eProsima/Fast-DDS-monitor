@@ -13,8 +13,8 @@ This release includes the following **improvements**:
 * Blank text when open "*change alias*" dialog.
 * Documentation improvement:
 
-    * Fast DDS Suite documentation.
-    * Tutorial for ROS 2 galactic.
+  * Fast DDS Suite documentation.
+  * Tutorial for ROS 2 galactic.
 
 This release includes the following **bugfixes**:
 
