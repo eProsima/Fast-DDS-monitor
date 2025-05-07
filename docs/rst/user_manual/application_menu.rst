@@ -226,9 +226,6 @@ Report Issue
 ------------
 Link to create a new Issue in the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
 
-.. todo::
-    Explain the form to add an issue.
-
 About
 -----
 General information of the currently running *Fast DDS Monitor* application.
