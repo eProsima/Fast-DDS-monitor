@@ -1,7 +1,7 @@
 .. _release_notes:
 
 .. TODO uncomment when there are forthcoming notes
-.. include:: forthcoming_version.rst
+.. .. include:: forthcoming_version.rst
 
 ##############
 Version v3.2.0
@@ -9,26 +9,26 @@ Version v3.2.0
 
 This release includes the following **features**:
 
-    * Support Extended incompatible QoS incompatibilities.
-    * Add IDL demangling functionality.
-    * Support for ROS 2 Easy Mode.
-    * Update documentation theme to ``Furo``.
+* Support Extended incompatible QoS incompatibilities.
+* Add IDL demangling functionality.
+* Support for ROS 2 Easy Mode.
+* Update documentation theme to ``Furo``.
 
 This release includes the following **improvements**:
 
-    * Improve endpoints display and topic traceability.
-    * Improve topic view.
-    * Refactor Fast DDS Monitor documentation.
-    * Do not display unknown physical data.
-    * Add vendor icon to the user interface.
-    * Added IDL references.
+* Improve endpoints display and topic traceability.
+* Improve topic view.
+* Refactor Fast DDS Monitor documentation.
+* Do not display unknown physical data.
+* Add vendor icon to the user interface.
+* Added IDL references.
 
 This release includes the following **fixes**:
 
-    * Change text selection color in IDL view.
-    * Fix documentation job in CI.
-    * Fix counters and change endpoint names in problems view.
-    * Fix graphical errors in DomainGraphLayout.
+* Change text selection color in IDL view.
+* Fix documentation job in CI.
+* Fix counters and change endpoint names in problems view.
+* Fix graphical errors in DomainGraphLayout.
 
 This release includes the following **dependencies update**:
 
