@@ -19,11 +19,6 @@ The *value* refers to the real value of this *DataPoint* for this *DataKind* at 
 For example, each *DataPoint* of the *DataKind* ``DATA_COUNT`` has a timestamp and an integer value.
 This value is the number of ``Data packets`` a *DataWriter* sent since the last time that same data was reported.
 
-.. todo::
-
-    For a complete description of each *DataKind*, please refer to ...
-    Add link to backend documentation once there is a first version.
-
 Chart view
 ==========
 Every *DataKind* is represented similarly inside a *Chartbox*.
@@ -65,11 +60,6 @@ The *DataKind* refers to the specific data that the Chartbox will represent.
 There are several *DataKinds* that represent each of the data kinds that a Fast DDS network can report.
 (Be aware that by default a DDS network will not report most of this data, and in case of Fast DDS it must be
 configured beforehand in order to report it periodically).
-
-.. todo::
-
-    For a complete description of each *DataKind*, please refer to ...
-    Add link to backend documentation once there is a first version.
 
 .. _series_label_parameter:
 
@@ -133,10 +123,6 @@ following the steps described below:
 - Accumulate the data using the *cumulative function*.
 
 It is recommended to check some examples (:ref:`start_tutorial`) in order to better understand this functionality.
-
-.. todo::
-
-    Add link to backend documentation once there is a first version.
 
 .. _statistics_kind_parameter:
 

@@ -169,6 +169,3 @@ The data displayed is the following:
         - `SUM`
         - Total number of EDP packets sent |br|
 
-.. todo::
-
-    Fill descriptions
