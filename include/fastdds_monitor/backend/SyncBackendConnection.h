@@ -99,6 +99,14 @@ public:
     EntityId init_monitor(
             std::string discovery_server_locators);
 
+    //! Initialize a monitor using a profile name
+    EntityId init_monitor_with_profile(
+            const std::string& profile_name);
+
+    //! Load an XML file containing DDS profiles
+    std::vector<std::string> load_xml_profiles_file(
+        const std::string& xml_file);
+
     /////
     // Information query functions
 

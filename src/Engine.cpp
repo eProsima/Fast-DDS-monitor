@@ -25,6 +25,11 @@
 #include <QQmlApplicationEngine>
 #include <QtCore/QRandomGenerator>
 #include <qqmlcontext.h>
+#include <QFile>
+#include <QDir>
+#include <QIODevice>
+#include <QStringListModel>
+#include <QStandardItem>
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/Listener.h>
@@ -106,6 +111,9 @@ QObject* Engine::enable()
 
     historic_statistics_data_ = new HistoricStatisticsData();
     dynamic_statistics_data_ = new DynamicStatisticsData();
+
+    participant_xml_profiles_ = new QStringListModel();
+
     controller_ = new Controller(this);
 
     // Set the initial time
@@ -128,6 +136,9 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("historicData", historic_statistics_data_);
     rootContext()->setContextProperty("dynamicData", dynamic_statistics_data_);
+
+    rootContext()->setContextProperty("ParticipantXmlProfiles", participant_xml_profiles_);
+
     rootContext()->setContextProperty("controller", controller_);
 
     addImportPath(":/imports");
@@ -237,6 +248,12 @@ Engine::~Engine()
         {
             delete dynamic_statistics_data_;
         }
+
+        if (participant_xml_profiles_)
+        {
+            delete participant_xml_profiles_;
+        }
+
         // WARNING: destroying this object heads to an error in javascript because cannot access methods of null:
         // qrc:/qml/AboutDialog.qml:57: TypeError: Cannot call method '...' of null
         // The elements that fail are:
@@ -287,6 +304,26 @@ void Engine::init_monitor(
             "Error trying to initialize monitor in Discovery Server with locators: " +
             utils::to_string(discovery_server_locators),
             ErrorType::INIT_DS_MONITOR);
+    }
+}
+
+void Engine::init_monitor_with_profile(const QString& profile_name)
+{
+    std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
+    backend::EntityId domain_id = backend_connection_.init_monitor_with_profile(
+        profile_name.toStdString());
+
+    if (domain_id.is_valid())
+    {
+        shared_init_monitor_(domain_id);
+    }
+    else
+    {
+        process_error(
+            "Error trying to initialize monitor with profile " +
+            profile_name.toStdString(),
+            ErrorType::INIT_MONITOR_WITH_PROFILE);
     }
 }
 
@@ -1838,6 +1875,54 @@ backend::Graph Engine::get_domain_view_graph (
         const backend::EntityId& domain_id)
 {
     return backend_connection_.get_domain_view_graph(domain_id);
+}
+
+bool Engine::load_xml_profiles_file(const QString& file_path)
+{
+    // Resolve the file path
+    QUrl file_url(file_path);
+    QString local_file_path = file_url.toLocalFile();
+
+    QFile file(local_file_path);
+    if (!file.exists())
+    {
+        process_error("XML profiles file " + utils::to_string(local_file_path) + " does not exist.", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        return false;
+    }
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        process_error("XML profiles file " + utils::to_string(local_file_path) + " not found or cannot be opened.", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        return false;
+    }
+
+    if (!file.permissions().testFlag(QFileDevice::ReadUser))
+    {
+        process_error("XML profiles file " + utils::to_string(local_file_path) + " cannot be read due to insufficient permissions.", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        return false;
+    }
+
+    std::vector<std::string> profiles;
+    profiles = backend_connection_.load_xml_profiles_file(utils::to_string(local_file_path));
+
+    if (profiles.empty())
+    {
+        process_error("No participant profiles found or error loading XML profiles file " + utils::to_string(local_file_path) + ".", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        return false;
+    }
+
+    // Append new profiles to the existing list, avoiding duplicates
+    QStringList currentList = participant_xml_profiles_->stringList();
+    for (const auto& profile : profiles)
+    {
+        if (!currentList.contains(QString::fromStdString(profile)))
+        {
+            currentList.append(QString::fromStdString(profile));
+        }
+    }
+    participant_xml_profiles_->setStringList(currentList);
+
+    return true;
 }
 
 bool EntityClicked::is_set() const

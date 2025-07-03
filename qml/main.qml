@@ -95,6 +95,10 @@ ApplicationWindow {
         id: dialogDSInitMonitor
     }
 
+    InitMonitorWithProfileDialog {
+        id: initMonitorWithProfileDialog
+    }
+
     DumpFileDialog {
         id: dumpDialog
         clear: false
@@ -129,6 +133,10 @@ ApplicationWindow {
 
     SeriesSetMaxPointsDialog {
         id: seriesSetMaxPointsDialog
+    }
+
+    LoadXmlProfilesDialog {
+        id: loadXmlProfilesDialog
     }
 
     // Creates a connection between Controller::error(QString, int) signal and ErrorDialog

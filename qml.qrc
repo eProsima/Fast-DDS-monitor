@@ -40,9 +40,11 @@
         <file>qml/InfoToolTip.qml</file>
         <file>qml/InitDSMonitorDialog.qml</file>
         <file>qml/InitMonitorDialog.qml</file>
+        <file>qml/InitMonitorWithProfileDialog.qml</file>
         <file>qml/IssuesPanel.qml</file>
         <file>qml/IssueView.qml</file>
         <file>qml/LeftPanel.qml</file>
+        <file>qml/LoadXmlProfilesDialog.qml</file>
         <file>qml/LogicalView.qml</file>
         <file>qml/LogView.qml</file>
         <file>qml/main.qml</file>
