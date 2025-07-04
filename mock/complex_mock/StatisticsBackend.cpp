@@ -22,6 +22,8 @@
 #include <random>
 #include <vector>
 #include <iostream>
+#include <string>
+#include <map>
 
 #include <fastdds_statistics_backend/types/types.hpp>
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
@@ -101,6 +103,39 @@ EntityId StatisticsBackend::init_monitor(
         if (!discovery_server_locators.empty())
         {
             srand(discovery_server_locators[0]);
+        }
+        else
+        {
+            srand(0);
+        }
+    }
+
+    EntityId domain_id = Database::get_instance()->add_domain();
+    return domain_id;
+}
+
+// Add a new Domain in the Database
+// First Domain added sets the random seed
+EntityId StatisticsBackend::init_monitor_with_profile(
+        const std::string& profile_name,
+        DomainListener* domain_listener,
+        CallbackMask callback_mask,
+        DataKindMask data_mask,
+        std::string app_id,
+        std::string app_metadata)
+{
+    static_cast<void>(profile_name);
+    static_cast<void>(domain_listener);
+    static_cast<void>(callback_mask);
+    static_cast<void>(data_mask);
+    static_cast<void>(app_id);
+    static_cast<void>(app_metadata);
+
+    if (Database::get_instance()->count_domains() == 0)
+    {
+        if (!profile_name.empty())
+        {
+            srand(profile_name[0]);
         }
         else
         {

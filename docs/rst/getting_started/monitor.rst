@@ -42,6 +42,23 @@ In order to configure this kind of Domain monitoring, only the number of the Dom
 going to be tracked is needed.
 Additional options can be configured using the *Advanced Options* button (see :ref:`monitor_advanced_configuration`).
 
+.. _monitor_advanced_configuration:
+
+Advanced Options
+----------------
+*Fast DDS Monitor* allows configuring additional parameters using
+the *Advanced Options* button in the *Initialize Monitor* dialog.
+
+In case of enabling some of the supported advanced options, *OK* button will be enabled only if all inputs are correct,
+so user must ensure of introducing the right values.
+
+The list of supported advanced options is the following:
+
+- **Easy Mode**:
+  It allows the user to specify the IP address of the remote discovery server used in a
+  `ROS 2 Easy Mode <https://docs.vulcanexus.org/en/latest/rst/enhancements/easy_mode/easy_mode.html>`_ scenario.
+  In case of enabling this option, the user must introduce a valid IPv4 address in the text input.
+
 .. _discovery_server_monitor:
 
 Discovery Server Monitor
@@ -72,19 +89,29 @@ In order to clarify how to set this parameter, please visit the
 The parameter of the Discovery Server *Init New Monitor* button in this application will be used additionally as the
 input to the CLI command.
 
-.. _monitor_advanced_configuration:
+.. _add_monitor_using_dds_xml_profiles:
 
-Advanced Options
-================
-*Fast DDS Monitor* allows configuring additional parameters using
-the *Advanced Options* button in the *Initialize Monitor* dialog.
+DDS XML Profile configured Monitor
+==================================
 
-In case of enabling some of the supported advanced options, *OK* button will be enabled only if all inputs are correct,
-so user must ensure of introducing the right values.
+The *Fast DDS Monitor* allows users to configure and initialize monitoring using DDS XML profiles.
+These profiles define the configuration of DDS entities, such as DomainParticipants, Topics, and QoS settings.
 
-The list of supported advanced options is the following:
+To add a monitor using DDS XML profiles, follow these steps:
 
-- **Easy Mode**:
-  It allows the user to specify the IP address of the remote discovery server used in a
-  `ROS 2 Easy Mode <https://docs.vulcanexus.org/en/latest/rst/enhancements/easy_mode/easy_mode.html>`_ scenario.
-  In case of enabling this option, the user must introduce a valid IPv4 address in the text input.
+1. **Prepare the XML Profiles File**:
+   Create or edit an XML file that contains the configuration for the DDS entities.
+   Ensure the file includes the necessary profiles for the DomainParticipants and other entities you want to monitor.
+   Please refer to the `Fast DDS documentation <https://fast-dds.docs.eprosima.com/en/stable/fastdds/xml_configuration/xml_configuration.html>`_
+   for details on how to structure the XML profiles.
+
+2. **Load the XML Profiles File**:
+    Click on the *File -> Initialize DDS Monitor with Profile* button in the *Fast DDS Monitor* application menu.
+
+3. **Upload the XML File**:
+   In the dialog that appears, select the XML file you prepared in step 1.
+   The application will parse the file and load the profiles defined within it.
+
+4. **Select the Profile**:
+   After loading the XML file, you will see a list of available profiles.
+   Choose the profile you want to use for monitoring.

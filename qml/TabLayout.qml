@@ -56,7 +56,7 @@ Item {
     readonly property int tab_icons_margins_: 8
     readonly property int add_tab_width_: 50
     readonly property int timer_ms_interval_: 500
-    readonly property int dialog_width_: 300
+    readonly property int dialog_width_: 500
     readonly property int dialog_height_: 152
     readonly property int idl_text_margin_: 30
     readonly property int hover_text_offset_: 50
@@ -319,7 +319,7 @@ Item {
                             visible: idlView.contentHeight > idlView.height
                             stepSize: tabLayout.scroll_speed_
                             anchors.top: parent.top;        anchors.topMargin: 0
-                            anchors.right: parent.right;    
+                            anchors.right: parent.right;
                             hoverEnabled: true
 
                             contentItem: Item {
@@ -393,7 +393,7 @@ Item {
                                 //acceptedButtons: Qt.NoButton
                                 hoverEnabled: true
                                 anchors.fill: parent
-                            }                            
+                            }
                             ToolTip {
                                 //parent: ros2InfoBox.Window
                                 text: "Undo ROS 2 demangling in View->Revert ROS 2 Demangling"
@@ -734,9 +734,11 @@ Item {
             textRole: "name"
             valueRole: "id"
             displayText: currentIndex === -1
-                            ? ("Please choose a Domain ID")
-                            : ("DDS Domain " + currentText)
+                            ? ("Please choose a Domain ID or Particpant Profile")
+                            : currentText
             model: entityModelFirst
+
+            width: parent.width > implicitWidth ? parent.width : implicitWidth
 
             Component.onCompleted:
             {

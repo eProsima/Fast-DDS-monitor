@@ -33,9 +33,10 @@ class Engine;
 
 enum class ErrorType : int
 {
-    GENERIC = 0,            //! Generic error, just show the message
-    INIT_MONITOR = 1,       //! Error in @c init_monitor. Reopen the @c init dds monitor dialog
-    INIT_DS_MONITOR = 2     //! Error in @c init_monitor. Reopen the @c init discovery server monitor dialog
+    GENERIC = 0,                    //! Generic error, just show the message
+    INIT_MONITOR = 1,               //! Error in @c init_monitor. Reopen the @c init dds monitor dialog
+    INIT_DS_MONITOR = 2,            //! Error in @c init_monitor. Reopen the @c init discovery server monitor dialog
+    INIT_MONITOR_WITH_PROFILE = 3   //! Error in @c init_monitor_with_profile. Reopen the @c init dds monitor dialog with profile
 };
 
 /**
@@ -87,6 +88,14 @@ public slots:
     //! Slot called when initializing a monitor for a Discovery Server network
     void init_monitor(
             QString discovery_server_locators);
+
+    //! Slot called when initializing a monitor with a profile name
+    void init_monitor_with_profile(
+            QString profile_name);
+
+    //! Load an XML file containing DDS profiles
+    void load_xml_profiles_file(
+            QString file_path);
 
     //! Slot called when a Host entity is pressed
     void host_click(

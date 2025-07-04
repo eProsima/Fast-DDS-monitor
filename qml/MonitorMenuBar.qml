@@ -38,6 +38,10 @@ MenuBar {
             text: qsTr("Initialize Discovery Server Monitor")
             onTriggered: dialogDSInitMonitor.open()
         }
+        Action {
+            text: qsTr("Initialize DDS Monitor with Profile")
+            onTriggered: initMonitorWithProfileDialog.open()
+        }
         MenuSeparator { }
         Action {
             text: qsTr("Export Charts to &CSV")

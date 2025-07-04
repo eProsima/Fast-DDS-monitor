@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2023 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // This file is part of eProsima Fast DDS Monitor.
 //
@@ -17,24 +17,15 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs 1.3
 
-MessageDialog {
-    id: errorDialog
-    title: "Error"
-    icon: StandardIcon.Warning
-    text: "Error message has not been set"
-    standardButtons: StandardButton.Cancel | StandardButton.Retry
-
-    property int errorType // Dependeing on this value it would behave differently in Accept
+FileDialog {
+    id: xmlFileDialog
+    title: qsTr("Select XML File")
+    selectFolder: false
+    nameFilters: ["XML Files (*.xml)", "All Files (*)"]
 
     onAccepted: {
-        if (errorType == 1) {           // INIT_MONITOR
-            dialogInitMonitor.open()
-        } else if (errorType == 2) {    // INIT_DS_MONITOR
-            dialogDSInitMonitor.open()
-        } else if (errorType == 3) {    // INIT_MONITOR_WITH_PROFILE
-            initMonitorWithProfileDialog.open()
-        }
+        controller.load_xml_profiles_file(fileUrl)
     }
 }

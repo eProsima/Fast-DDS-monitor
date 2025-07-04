@@ -30,6 +30,7 @@
 #include <QtCharts/QVXYModelMapper>
 #include <QThread>
 #include <QWaitCondition>
+#include <QStringListModel>
 
 #include <fastdds_monitor/backend/Callback.h>
 #include <fastdds_monitor/backend/StatusCallback.h>
@@ -576,6 +577,12 @@ public:
     backend::Graph get_domain_view_graph (
             const backend::EntityId& domain_id);
 
+    //! Load an XML file containing DDS profiles
+    bool load_xml_profiles_file(const QString& file_path);
+
+    //! Initialize a monitor using a profile name
+    void init_monitor_with_profile(const QString& profile_name);
+
 signals:
 
     /**
@@ -863,6 +870,8 @@ protected:
 
     //! All status log
     backend::Info status_status_log_;
+
+    QStringListModel* participant_xml_profiles_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H
