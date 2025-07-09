@@ -32,13 +32,13 @@ Rectangle {
 
     width: dialog_width_
 
-    // onAccepted: {
-    //     let advancedOptions = {}
-    //     if (easyModeOptionCheckBox.checked) {
-    //         advancedOptions["easy_mode_ip"] = easyModeOptionTextInput.text
-    //     }
-    //     controller.init_monitor(simpleDiscoveryAnswer.value, advancedOptions)
-    // }
+    onAccepted: {
+        let advancedOptions = {}
+        if (easyModeOptionCheckBox.checked) {
+            advancedOptions["easy_mode_ip"] = easyModeOptionTextInput.text
+        }
+        controller.init_monitor(simpleDiscoveryAnswer.value, advancedOptions)
+    }
 
     ColumnLayout {
         spacing: layout_horizontal_spacing_

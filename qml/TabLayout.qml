@@ -734,7 +734,7 @@ Item {
             textRole: "name"
             valueRole: "id"
             displayText: currentIndex === -1
-                            ? ("Please choose a Domain ID or Particpant Profile")
+                            ? ("Please choose a Domain ID or Participant Profile")
                             : currentText
             model: entityModelFirst
 

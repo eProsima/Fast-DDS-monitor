@@ -104,7 +104,7 @@ EntityId StatisticsBackend::init_monitor(
 }
 
 // Prints a success message and returns an ID not used before (which do not represent any existing entity)
-EntityId StatisticsBackend::init_monitor(
+EntityId StatisticsBackend::init_monitor_with_profile(
         std::string profile_name,
         DomainListener* domain_listener,
         CallbackMask callback_mask,
