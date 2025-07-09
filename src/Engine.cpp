@@ -307,7 +307,8 @@ void Engine::init_monitor(
     }
 }
 
-void Engine::init_monitor_with_profile(const QString& profile_name)
+void Engine::init_monitor_with_profile(
+        const QString& profile_name)
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
@@ -1877,7 +1878,8 @@ backend::Graph Engine::get_domain_view_graph (
     return backend_connection_.get_domain_view_graph(domain_id);
 }
 
-bool Engine::load_xml_profiles_file(const QString& file_path)
+bool Engine::load_xml_profiles_file(
+        const QString& file_path)
 {
     // Resolve the file path
     QUrl file_url(file_path);
@@ -1886,19 +1888,23 @@ bool Engine::load_xml_profiles_file(const QString& file_path)
     QFile file(local_file_path);
     if (!file.exists())
     {
-        process_error("XML profiles file " + utils::to_string(local_file_path) + " does not exist.", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        process_error("XML profiles file " + utils::to_string(
+                    local_file_path) + " does not exist.", ErrorType::INIT_MONITOR_WITH_PROFILE);
         return false;
     }
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        process_error("XML profiles file " + utils::to_string(local_file_path) + " not found or cannot be opened.", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        process_error("XML profiles file " + utils::to_string(
+                    local_file_path) + " not found or cannot be opened.", ErrorType::INIT_MONITOR_WITH_PROFILE);
         return false;
     }
 
     if (!file.permissions().testFlag(QFileDevice::ReadUser))
     {
-        process_error("XML profiles file " + utils::to_string(local_file_path) + " cannot be read due to insufficient permissions.", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        process_error("XML profiles file " + utils::to_string(
+                    local_file_path) + " cannot be read due to insufficient permissions.",
+                ErrorType::INIT_MONITOR_WITH_PROFILE);
         return false;
     }
 
@@ -1907,7 +1913,8 @@ bool Engine::load_xml_profiles_file(const QString& file_path)
 
     if (profiles.empty())
     {
-        process_error("No participant profiles found or error loading XML profiles file " + utils::to_string(local_file_path) + ".", ErrorType::INIT_MONITOR_WITH_PROFILE);
+        process_error("No participant profiles found or error loading XML profiles file " +
+                utils::to_string(local_file_path) + ".", ErrorType::INIT_MONITOR_WITH_PROFILE);
         return false;
     }
 

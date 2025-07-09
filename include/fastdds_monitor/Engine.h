@@ -578,10 +578,12 @@ public:
             const backend::EntityId& domain_id);
 
     //! Load an XML file containing DDS profiles
-    bool load_xml_profiles_file(const QString& file_path);
+    bool load_xml_profiles_file(
+            const QString& file_path);
 
     //! Initialize a monitor using a profile name
-    void init_monitor_with_profile(const QString& profile_name);
+    void init_monitor_with_profile(
+            const QString& profile_name);
 
 signals:
 

@@ -1757,7 +1757,7 @@ bool SyncBackendConnection::data_kind_has_target(
 }
 
 std::vector<std::string> SyncBackendConnection::load_xml_profiles_file(
-    const std::string& xml_file)
+        const std::string& xml_file)
 {
     try
     {

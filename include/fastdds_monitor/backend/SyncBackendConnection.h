@@ -105,7 +105,7 @@ public:
 
     //! Load an XML file containing DDS profiles
     std::vector<std::string> load_xml_profiles_file(
-        const std::string& xml_file);
+            const std::string& xml_file);
 
     /////
     // Information query functions
