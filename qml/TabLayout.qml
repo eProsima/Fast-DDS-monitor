@@ -56,7 +56,7 @@ Item {
     readonly property int tab_icons_margins_: 8
     readonly property int add_tab_width_: 50
     readonly property int timer_ms_interval_: 500
-    readonly property int dialog_width_: 500
+    readonly property int dialog_width_: 300
     readonly property int dialog_height_: 152
     readonly property int idl_text_margin_: 30
     readonly property int hover_text_offset_: 50
