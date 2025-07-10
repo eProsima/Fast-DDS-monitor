@@ -104,6 +104,24 @@ EntityId StatisticsBackend::init_monitor(
 }
 
 // Prints a success message and returns an ID not used before (which do not represent any existing entity)
+EntityId StatisticsBackend::init_monitor_with_profile(
+        const std::string& profile_name,
+        DomainListener* domain_listener,
+        CallbackMask callback_mask,
+        DataKindMask data_mask,
+        std::string app_id,
+        std::string app_metadata)
+{
+    static_cast<void>(profile_name);
+    static_cast<void>(domain_listener);
+    static_cast<void>(callback_mask);
+    static_cast<void>(data_mask);
+    static_cast<void>(app_id);
+    static_cast<void>(app_metadata);
+    return EntityId(++ID);
+}
+
+// Prints a success message and returns an ID not used before (which do not represent any existing entity)
 EntityId StatisticsBackend::init_monitor(
         std::string discovery_server_locators,
         DomainListener* domain_listener,

@@ -23,6 +23,9 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #include <QDebug>
 
@@ -465,6 +468,27 @@ EntityId SyncBackendConnection::init_monitor(
     {
         return StatisticsBackend::init_monitor(
             discovery_server_locators,
+            nullptr, CallbackMask::all(), DataKindMask::none(), FASTDDS_MONITOR_APP);
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error initializing monitor " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter initializing monitor " << e.what();
+    }
+
+    return EntityId::invalid();
+}
+
+EntityId SyncBackendConnection::init_monitor_with_profile(
+        const std::string& profile_name)
+{
+    try
+    {
+        return StatisticsBackend::init_monitor_with_profile(
+            profile_name,
             nullptr, CallbackMask::all(), DataKindMask::none(), FASTDDS_MONITOR_APP);
     }
     catch (const Error& e)
@@ -1730,6 +1754,20 @@ bool SyncBackendConnection::data_kind_has_target(
         }
     }
     return true;
+}
+
+std::vector<std::string> SyncBackendConnection::load_xml_profiles_file(
+        const std::string& xml_file)
+{
+    try
+    {
+        return StatisticsBackend::load_xml_profiles_file(xml_file);
+    }
+    catch (const std::exception& e)
+    {
+        qWarning() << "Fail loading XML profiles file: " << xml_file.c_str() << " - " << e.what();
+        return std::vector<std::string>();
+    }
 }
 
 } //namespace backend

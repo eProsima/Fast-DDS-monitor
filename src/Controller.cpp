@@ -47,6 +47,18 @@ void Controller::init_monitor(
     engine_->init_monitor(discovery_server_locators);
 }
 
+void Controller::init_monitor_with_profile(
+        QString profile_name)
+{
+    engine_->init_monitor_with_profile(profile_name);
+}
+
+void Controller::load_xml_profiles_file(
+        QString file_path)
+{
+    engine_->load_xml_profiles_file(file_path);
+}
+
 void Controller::host_click(
         QString id)
 {
