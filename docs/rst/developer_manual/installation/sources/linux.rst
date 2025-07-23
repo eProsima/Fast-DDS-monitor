@@ -170,7 +170,7 @@ Colcon installation
 
         mkdir -p ~/Fast-DDS-Monitor/src
         cd ~/Fast-DDS-Monitor
-        wget https://raw.githubusercontent.com/eProsima/Fast-DDS-monitor/main/fastdds_monitor.repos
+        wget https://raw.githubusercontent.com/eProsima/Fast-DDS-monitor/v3.3.0/fastdds_monitor.repos
         vcs import src < fastdds_monitor.repos
 
     .. note::
