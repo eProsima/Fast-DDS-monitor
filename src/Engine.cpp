@@ -1208,7 +1208,7 @@ bool Engine::update_entity_status(
                 {
                     if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
-                        std::string fastdds_version = "v3.2.2";
+                        std::string fastdds_version = "v" + controller_->fastdds_version().toStdString();
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
                             id, entity_kind + ": " + backend_connection_.get_name(
