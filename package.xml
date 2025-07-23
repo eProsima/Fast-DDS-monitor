@@ -3,15 +3,14 @@
 <package format="3">
   <name>fastdds_monitor</name>
   <!-->There must be a release. Update version accordingly<-->
-  <version>3.2.0</version>
+  <version>3.3.0</version>
   <description>
-    Qt application written in C++ that plot the data from the Fast DDS Statistics Backend.
+    eProsima Fast DDS Monitor is a graphical desktop application aimed at monitoring DDS environments deployed using the eProsima Fast DDS library.
   </description>
   <!-->Update maintainer information<-->
   <maintainer email="RaulSanchezMateos@eprosima.com">Raul Sánchez-Mateos</maintainer>
   <maintainer email="juanlopez@eprosima.com">Juan López</maintainer>
-  <maintainer email="jesuspoderoso@eprosima.com">Jesús Poderoso</maintainer>
-  <maintainer email="jesusperez@eprosima.com">Jesús Pérez</maintainer>
+  <maintainer email="carlosespinoza@eprosima.com">Carlos Espinoza</maintainer>
   <license file="LICENSE">GNU general public license</license>
 
   <url type="website">https://www.eprosima.com/</url>
