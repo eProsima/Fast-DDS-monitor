@@ -52,6 +52,7 @@ using EntityInfo = backend::EntityInfo;
 
 Engine::Engine()
     : enabled_(false)
+    , proxy_visible_(false)
     , inactive_visible_(true)
     , metatraffic_visible_(false)
     , ros2_demangling_active_(true)
@@ -503,7 +504,7 @@ bool Engine::fill_first_entity_info_()
 bool Engine::fill_physical_data_()
 {
     physical_model_->clear();
-    return backend_connection_.update_physical_model(physical_model_, inactive_visible(), metatraffic_visible());
+    return backend_connection_.update_physical_model(physical_model_, inactive_visible(), metatraffic_visible(), proxy_visible());
 }
 
 bool Engine::update_host(
@@ -511,7 +512,7 @@ bool Engine::update_host(
         bool new_entity, /* true */
         bool last_clicked /* false */)
 {
-    return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
+    return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(), proxy_visible(),
                    last_clicked);
 }
 
@@ -520,7 +521,7 @@ bool Engine::update_user(
         bool new_entity, /* true */
         bool last_clicked /* false */)
 {
-    return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
+    return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(), proxy_visible(),
                    last_clicked);
 }
 
@@ -530,14 +531,14 @@ bool Engine::update_process(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_process(physical_model_, id, new_entity, inactive_visible(),
-                   metatraffic_visible(), last_clicked);
+                   metatraffic_visible(), proxy_visible(), last_clicked);
 }
 
 // LOGICAL PARTITION
 bool Engine::fill_logical_data_()
 {
     logical_model_->clear();
-    return backend_connection_.update_logical_model(logical_model_, inactive_visible(), metatraffic_visible());
+    return backend_connection_.update_logical_model(logical_model_, inactive_visible(), metatraffic_visible(), proxy_visible());
 }
 
 bool Engine::update_domain(
@@ -546,7 +547,7 @@ bool Engine::update_domain(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_domain(logical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
-                   last_clicked);
+                   proxy_visible(), last_clicked);
 }
 
 bool Engine::update_topic(
@@ -555,7 +556,7 @@ bool Engine::update_topic(
         bool last_clicked /* false */)
 {
     return backend_connection_.update_topic(logical_model_, id, new_entity, inactive_visible(), metatraffic_visible(),
-                   last_clicked);
+                   proxy_visible(), last_clicked);
 }
 
 // DDS PARTITION
@@ -563,7 +564,7 @@ bool Engine::fill_dds_data_()
 {
     participants_model_->clear();
     return backend_connection_.update_dds_model(participants_model_, last_entities_clicked_.physical_logical.id,
-                   inactive_visible(), metatraffic_visible());
+                   inactive_visible(), metatraffic_visible(), proxy_visible());
 }
 
 void Engine::reset_all_data()
@@ -591,7 +592,7 @@ void Engine::reset_physical_data()
 bool Engine::update_dds_data(
         const backend::EntityId& id /*ID_ALL*/)
 {
-    return backend_connection_.update_dds_model(participants_model_, id, inactive_visible(), metatraffic_visible());
+    return backend_connection_.update_dds_model(participants_model_, id, inactive_visible(), metatraffic_visible(), proxy_visible());
 }
 
 // Update the model with a new or updated entity
@@ -607,6 +608,7 @@ bool Engine::update_participant(
         last_entities_clicked_.physical_logical.id,
         inactive_visible(),
         metatraffic_visible(),
+        proxy_visible(),
         last_clicked);
 }
 
@@ -621,6 +623,7 @@ bool Engine::update_datawriter(
         new_entity,
         inactive_visible(),
         metatraffic_visible(),
+        proxy_visible(),
         last_clicked);
 }
 
@@ -635,6 +638,7 @@ bool Engine::update_datareader(
         new_entity,
         inactive_visible(),
         metatraffic_visible(),
+        proxy_visible(),
         last_clicked);
 }
 
@@ -649,6 +653,7 @@ bool Engine::update_locator(
         new_entity,
         inactive_visible(),
         metatraffic_visible(),
+        proxy_visible(),
         last_clicked);
 }
 
@@ -743,7 +748,8 @@ bool Engine::on_selected_entity_kind(
             source_entity_id_model_,
             entity_kind,
             inactive_visible(),
-            metatraffic_visible());
+            metatraffic_visible(),
+            proxy_visible());
     }
     else if (entity_model_id == "getDataDialogDestinationEntityId")
     {
@@ -752,7 +758,8 @@ bool Engine::on_selected_entity_kind(
             destination_entity_id_model_,
             entity_kind,
             inactive_visible(),
-            metatraffic_visible());
+            metatraffic_visible(),
+            proxy_visible());
     }
     else
     {
@@ -1681,6 +1688,15 @@ bool Engine::update_entity(
     return res;
 }
 
+void Engine::change_proxy_visible()
+{
+    proxy_visible_ = !proxy_visible_;
+    fill_physical_data_();
+    fill_logical_data_();
+    fill_dds_data_();
+    refresh_engine();
+}
+
 void Engine::change_inactive_visible()
 {
     inactive_visible_ = !inactive_visible_;
@@ -1706,6 +1722,11 @@ void Engine::change_ros2_demangling()
     fill_logical_data_();
     fill_dds_data_();
     refresh_engine();
+}
+
+bool Engine::proxy_visible() const
+{
+    return proxy_visible_;
 }
 
 bool Engine::inactive_visible() const

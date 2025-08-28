@@ -121,7 +121,8 @@ ListItem* SyncBackendConnection::create_locator_data_(
 bool SyncBackendConnection::update_host_item(
         ListItem* host_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     auto host_item_sublist = static_cast<SubListedListItem*>(host_item);
 
@@ -132,13 +133,15 @@ bool SyncBackendConnection::update_host_item(
         &SyncBackendConnection::update_user_item,
         &SyncBackendConnection::create_user_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 }
 
 bool SyncBackendConnection::update_user_item(
         ListItem* user_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     auto user_item_sublist = static_cast<SubListedListItem*>(user_item);
 
@@ -149,25 +152,29 @@ bool SyncBackendConnection::update_user_item(
         &SyncBackendConnection::update_process_item,
         &SyncBackendConnection::create_process_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 }
 
 bool SyncBackendConnection::update_process_item(
         ListItem* process_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     // Process does not have update
     static_cast<void>(process_item);
     static_cast<void>(inactive_visible);
     static_cast<void>(metatraffic_visible);
+    static_cast<void>(proxy_visible);
     return false;
 }
 
 bool SyncBackendConnection::update_domain_item(
         ListItem* domain_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     auto domain_item_sublist = static_cast<SubListedListItem*>(domain_item);
 
@@ -178,25 +185,29 @@ bool SyncBackendConnection::update_domain_item(
         &SyncBackendConnection::update_topic_item,
         &SyncBackendConnection::create_topic_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 }
 
 bool SyncBackendConnection::update_topic_item(
         ListItem* topic_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     // Process does not have update
     static_cast<void>(topic_item);
     static_cast<void>(inactive_visible);
     static_cast<void>(metatraffic_visible);
+    static_cast<void>(proxy_visible);
     return false;
 }
 
 bool SyncBackendConnection::update_participant_item(
         ListItem* participant_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     auto participant_item_sublist = static_cast<SubListedListItem*>(participant_item);
 
@@ -207,7 +218,8 @@ bool SyncBackendConnection::update_participant_item(
         &SyncBackendConnection::update_endpoint_item,
         &SyncBackendConnection::create_datareader_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 
     res = update_model_(
         participant_item_sublist->submodel(),
@@ -216,7 +228,8 @@ bool SyncBackendConnection::update_participant_item(
         &SyncBackendConnection::update_endpoint_item,
         &SyncBackendConnection::create_datawriter_data_,
         inactive_visible,
-        metatraffic_visible) || res;
+        metatraffic_visible,
+        proxy_visible) || res;
 
     return res;
 }
@@ -224,7 +237,8 @@ bool SyncBackendConnection::update_participant_item(
 bool SyncBackendConnection::update_endpoint_item(
         ListItem* endpoint_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     auto endpoint_item_sublist = static_cast<SubListedListItem*>(endpoint_item);
 
@@ -235,18 +249,21 @@ bool SyncBackendConnection::update_endpoint_item(
         &SyncBackendConnection::update_locator_item,
         &SyncBackendConnection::create_locator_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 }
 
 bool SyncBackendConnection::update_locator_item(
         ListItem* locator_item,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     // Locator does not have update
     static_cast<void>(locator_item);
     static_cast<void>(inactive_visible);
     static_cast<void>(metatraffic_visible);
+    static_cast<void>(proxy_visible);
     return false;
 }
 
@@ -254,7 +271,8 @@ bool SyncBackendConnection::update_locator_item(
 bool SyncBackendConnection::update_physical_model(
         models::ListModel* physical_model,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     qDebug() << "Update Physical Data";
 
@@ -265,13 +283,15 @@ bool SyncBackendConnection::update_physical_model(
         &SyncBackendConnection::update_host_item,
         &SyncBackendConnection::create_host_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 }
 
 bool SyncBackendConnection::update_logical_model(
         models::ListModel* logical_model,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     qDebug() << "Update Logical Data";
 
@@ -282,14 +302,16 @@ bool SyncBackendConnection::update_logical_model(
         &SyncBackendConnection::update_domain_item,
         &SyncBackendConnection::create_domain_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 }
 
 bool SyncBackendConnection::update_dds_model(
         models::ListModel* dds_model,
         EntityId id,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     qDebug() << "Update DDS Data";
 
@@ -300,21 +322,23 @@ bool SyncBackendConnection::update_dds_model(
         &SyncBackendConnection::update_participant_item,
         &SyncBackendConnection::create_participant_data_,
         inactive_visible,
-        metatraffic_visible);
+        metatraffic_visible,
+        proxy_visible);
 }
 
 bool SyncBackendConnection::update_get_data_dialog_entity_id(
         models::ListModel* entity_model,
         EntityKind entity_kind,
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     bool changed = false;
 
     for (auto entity_id : get_entities(entity_kind, ID_ALL))
     {
         // Only get entities active or non-metatraffic if requested so
-        if ((inactive_visible || get_alive(entity_id)) && (metatraffic_visible || !is_metatraffic(entity_id)))
+        if ((inactive_visible || get_alive(entity_id)) && (metatraffic_visible || !is_metatraffic(entity_id)) && (proxy_visible || !is_proxy(entity_id)))
         {
             entity_model->appendRow(new EntityItem(entity_id, entity_kind, get_info(entity_id)));
             changed = true;
@@ -326,12 +350,13 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(
 
 bool SyncBackendConnection::update_item_(
         ListItem* item,
-        bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool, bool),
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     bool res = update_item_info_(item);
-    return (this->*update_function)(item, inactive_visible, metatraffic_visible) || res;
+    return (this->*update_function)(item, inactive_visible, metatraffic_visible, proxy_visible) || res;
 }
 
 bool SyncBackendConnection::update_item_info_(
@@ -347,14 +372,15 @@ bool SyncBackendConnection::update_model_(
         ListModel* model,
         EntityKind type,
         EntityId id,
-        bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool),
+        bool (SyncBackendConnection::* update_function)(ListItem*, bool, bool, bool),
         ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
-        bool metatraffic_visible)
+        bool metatraffic_visible,
+        bool proxy_visible)
 {
     bool changed = false;
 
-    // For each User get all processes
+    // For each entity get all processes
     for (auto subentity_id : get_entities(type, id))
     {
         // Check if it exists already
@@ -366,8 +392,10 @@ bool SyncBackendConnection::update_model_(
         {
             // Only create the new entity if is alive or inactive are visible,
             // and if is metatraffic or metatraffic is visible
+            // and if is not a proxy or proxy are visible
             if ((inactive_visible || get_alive(subentity_id))
-                    && (metatraffic_visible || !is_metatraffic(subentity_id)))
+                    && (metatraffic_visible || !is_metatraffic(subentity_id))
+                    && (proxy_visible || !is_proxy(subentity_id)))
             {
                 // Creates the Item object and update its data
                 model->appendRow((this->*create_function)(subentity_id));
@@ -375,14 +403,15 @@ bool SyncBackendConnection::update_model_(
                 models::ListItem* subentity_item = model->find(subentity_id);
 
                 changed = update_item_(subentity_item, update_function, inactive_visible,
-                                metatraffic_visible) || changed;
+                                metatraffic_visible, proxy_visible) || changed;
             }
         }
 
         // In case this entity is inactive and inactive are not being displayed,
         // or if it is metatraffic and metatraffic are not being displayed, remove it
         else if ((!inactive_visible && !get_alive(subentity_id))
-                || (!metatraffic_visible && is_metatraffic(subentity_id)))
+                || (!metatraffic_visible && is_metatraffic(subentity_id))
+                || (!proxy_visible && is_proxy(subentity_id)))
         {
             models::ListItem* subentity_item = model->at(index);
 
@@ -399,7 +428,7 @@ bool SyncBackendConnection::update_model_(
         else
         {
             models::ListItem* subentity_item = model->at(index);
-            changed = update_item_(subentity_item, update_function, inactive_visible, metatraffic_visible)
+            changed = update_item_(subentity_item, update_function, inactive_visible, metatraffic_visible, proxy_visible)
                     || changed;
         }
     }
@@ -558,6 +587,22 @@ bool SyncBackendConnection::is_metatraffic(
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entity metatraffic attribute: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
+        return true;
+    }
+}
+
+bool SyncBackendConnection::is_proxy(
+        EntityId id)
+{
+    try
+    {
+        return StatisticsBackend::is_proxy(id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting entity proxy attribute: " << e.what();
         static_cast<void>(e); // In release qWarning does not compile and so e is not used
 
         return true;
@@ -1179,6 +1224,7 @@ bool SyncBackendConnection::update_host(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Host model is already physical model
@@ -1189,6 +1235,7 @@ bool SyncBackendConnection::update_host(
         &SyncBackendConnection::create_host_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1198,6 +1245,7 @@ bool SyncBackendConnection::update_user(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Get Host model where this user belongs
@@ -1216,6 +1264,7 @@ bool SyncBackendConnection::update_user(
         &SyncBackendConnection::create_user_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1225,6 +1274,7 @@ bool SyncBackendConnection::update_process(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Get Host model where this process belongs
@@ -1252,6 +1302,7 @@ bool SyncBackendConnection::update_process(
         &SyncBackendConnection::create_user_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1261,6 +1312,7 @@ bool SyncBackendConnection::update_domain(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Domain model is already logical model
@@ -1271,6 +1323,7 @@ bool SyncBackendConnection::update_domain(
         &SyncBackendConnection::create_domain_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1280,6 +1333,7 @@ bool SyncBackendConnection::update_topic(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Get Domain model where this Topic belongs
@@ -1298,6 +1352,7 @@ bool SyncBackendConnection::update_topic(
         &SyncBackendConnection::create_topic_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1308,6 +1363,7 @@ bool SyncBackendConnection::update_participant(
         EntityId related_entity_id,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Check if the participant belongs to the entity context
@@ -1327,6 +1383,7 @@ bool SyncBackendConnection::update_participant(
         &SyncBackendConnection::create_participant_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1336,6 +1393,7 @@ bool SyncBackendConnection::update_datawriter(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Get Host model where this datawriter belongs
@@ -1356,6 +1414,7 @@ bool SyncBackendConnection::update_datawriter(
         &SyncBackendConnection::create_datawriter_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1365,6 +1424,7 @@ bool SyncBackendConnection::update_datareader(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Get Host model where this datareader belongs
@@ -1385,6 +1445,7 @@ bool SyncBackendConnection::update_datareader(
         &SyncBackendConnection::create_datareader_data_,
         inactive_visible,
         metatraffic_visible,
+        proxy_visible,
         last_clicked);
 }
 
@@ -1394,6 +1455,7 @@ bool SyncBackendConnection::update_locator(
         bool new_entity,
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     bool res = false;
@@ -1442,6 +1504,7 @@ bool SyncBackendConnection::update_locator(
                     &SyncBackendConnection::create_locator_data_,
                     inactive_visible,
                     metatraffic_visible,
+                    proxy_visible,
                     last_clicked) || res;
             }
         }
@@ -1461,6 +1524,7 @@ bool SyncBackendConnection::update_locator(
                     &SyncBackendConnection::create_locator_data_,
                     inactive_visible,
                     metatraffic_visible,
+                    proxy_visible,
                     last_clicked) || res;
             }
         }
@@ -1557,6 +1621,7 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         ListItem* (SyncBackendConnection::* create_function)(EntityId),
         bool inactive_visible,
         bool metatraffic_visible,
+        bool proxy_visible,
         bool last_clicked)
 {
     // Check if element already exists
