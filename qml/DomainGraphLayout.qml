@@ -1510,6 +1510,7 @@ Item
             if (new_model["domain_info"]["domain_id"] == domain_id)
             {
                 var is_metatraffic_visible_ = controller.metatraffic_visible();
+                var is_proxy_visible_ = controller.proxy_visible();
 
                 // transform indexed model to array model (arrays required for the listviews)
                 for (var topic in new_model["topics"])
@@ -1550,7 +1551,8 @@ Item
                 {
                     var discard_host = true
                     var metatraffic_ = new_model["hosts"][host]["metatraffic"]
-                    if (metatraffic_ != true || is_metatraffic_visible_)
+                    var proxy = new_model["hosts"][host]["discovery_source"] == "proxy"
+                    if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                     {
                         accum_y += label_height_ + elements_spacing_
                         var new_users = []
@@ -1559,7 +1561,8 @@ Item
                         {
                             var discard_user = true
                             var metatraffic_ = new_model["hosts"][host]["users"][user]["metatraffic"]
-                            if (metatraffic_ != true || is_metatraffic_visible_)
+                            var proxy = new_model["hosts"][host]["users"][user]["discovery_source"] == "proxy"
+                            if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                             {
                                 accum_y += label_height_ + elements_spacing_
                                 var new_processes = []
@@ -1568,7 +1571,8 @@ Item
                                 {
                                     var discard_process = true
                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["metatraffic"]
-                                    if (metatraffic_ != true || is_metatraffic_visible_)
+                                    var proxy = new_model["hosts"][host]["users"][user]["processes"][process]["discovery_source"] == "proxy"
+                                    if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                                     {
                                         accum_y += label_height_ + elements_spacing_
                                         var new_participants = []
@@ -1577,14 +1581,16 @@ Item
                                         {
                                             var discard_participant = true
                                             var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["metatraffic"]
-                                            if (metatraffic_ != true || is_metatraffic_visible_)
+                                            var proxy = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["discovery_source"] == "proxy"
+                                            if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                                             {
                                                 accum_y += label_height_ + elements_spacing_
                                                 var new_endpoints = []
                                                 for (var endpoint in new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
                                                 {
                                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["metatraffic"]
-                                                    if (metatraffic_ != true || is_metatraffic_visible_)
+                                                    var proxy = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["discovery_source"] == "proxy"
+                                                    if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                                                     {
                                                         if ((!filtered_topics_.length) || (filtered_topics_.length > 0
                                                             && filtered_topics_.includes(new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"])))

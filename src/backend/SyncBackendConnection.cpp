@@ -408,7 +408,9 @@ bool SyncBackendConnection::update_model_(
         }
 
         // In case this entity is inactive and inactive are not being displayed,
-        // or if it is metatraffic and metatraffic are not being displayed, remove it
+        // or if it is metatraffic and metatraffic are not being displayed
+        // or if it is a proxy and proxy are not being displayed
+        // it must be removed from the model
         else if ((!inactive_visible && !get_alive(subentity_id))
                 || (!metatraffic_visible && is_metatraffic(subentity_id))
                 || (!proxy_visible && is_proxy(subentity_id)))
@@ -1642,7 +1644,8 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         // This is faster than asking for the whole info, which in some cases will not be needed.
         bool active = get_alive(id);
         bool metatraffic = is_metatraffic(id);
-        if ((inactive_visible || active) && (metatraffic_visible || !metatraffic))
+        bool proxy = is_proxy(id);
+        if ((inactive_visible || active) && (metatraffic_visible || !metatraffic) && (proxy_visible || !proxy))
         {
             ListItem* item = (this->*create_function)(id);
             item->clicked(last_clicked);
@@ -1669,10 +1672,11 @@ bool SyncBackendConnection::update_one_entity_in_model_(
         // not been uploaded yet.
         bool active = get_alive(id);
         bool metatraffic = is_metatraffic(id);
+        bool proxy = is_proxy(id);
 
         // If it is not alive and inactive are not visible,
         // or if it is metatraffic and metatraffic are not visible, this entity must be erased from model
-        if ((!inactive_visible && !active) || (!metatraffic_visible && metatraffic))
+        if ((!inactive_visible && !active) || (!metatraffic_visible && metatraffic) || (!proxy_visible && proxy))
         {
             // Remove the item from the model
             // This destroys the pointer of the item
