@@ -90,6 +90,10 @@ the specific entity kind:
 
   * **type_name**: name of the data type of the topic
 
+* **Domain**
+
+  * **domain_id**: The domainId used to identify the DDS domain.
+
 * **Participant**
 
   * **GUID**: DDS GUID
