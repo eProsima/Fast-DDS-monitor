@@ -162,3 +162,15 @@ run more than one *DomainParticipant* in the same *Process*, and they do not req
 each other, not even under the same *Domain*.
 
 This entity is directly connected to the *User* it belongs to, and the *Participants* running within it.
+
+Proxy Entities
+================
+
+.. _proxy_entities:
+
+If the monitor receives statistics from a writer that does not belong to any monitored domain, the entities associated
+with that data will be treated as *Proxy entities*. Those entities may contain limited information, as they are not
+directly discovered by the monitor, but rather inferred from the received statistics messages. In addition, these entities
+will be marked with the field ``discovery_source`` set to ``proxy`` , in contrast to the usual ``discovery``value for entities
+discovered through DDS discovery protocols. The user can choose to display or hide these entities using the "Hide/Show
+Proxy entities" option in the View Menu (see :ref:`view_menu`) and can also use them in the statistics charts.
