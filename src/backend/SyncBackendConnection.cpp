@@ -338,7 +338,8 @@ bool SyncBackendConnection::update_get_data_dialog_entity_id(
     for (auto entity_id : get_entities(entity_kind, ID_ALL))
     {
         // Only get entities active or non-metatraffic if requested so
-        if ((inactive_visible || get_alive(entity_id)) && (metatraffic_visible || !is_metatraffic(entity_id)) && (proxy_visible || !is_proxy(entity_id)))
+        if ((inactive_visible || get_alive(entity_id)) && (metatraffic_visible || !is_metatraffic(entity_id)) &&
+                (proxy_visible || !is_proxy(entity_id)))
         {
             entity_model->appendRow(new EntityItem(entity_id, entity_kind, get_info(entity_id)));
             changed = true;
@@ -430,7 +431,8 @@ bool SyncBackendConnection::update_model_(
         else
         {
             models::ListItem* subentity_item = model->at(index);
-            changed = update_item_(subentity_item, update_function, inactive_visible, metatraffic_visible, proxy_visible)
+            changed =
+                    update_item_(subentity_item, update_function, inactive_visible, metatraffic_visible, proxy_visible)
                     || changed;
         }
     }

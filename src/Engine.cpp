@@ -504,7 +504,8 @@ bool Engine::fill_first_entity_info_()
 bool Engine::fill_physical_data_()
 {
     physical_model_->clear();
-    return backend_connection_.update_physical_model(physical_model_, inactive_visible(), metatraffic_visible(), proxy_visible());
+    return backend_connection_.update_physical_model(physical_model_, inactive_visible(),
+                   metatraffic_visible(), proxy_visible());
 }
 
 bool Engine::update_host(
@@ -512,7 +513,8 @@ bool Engine::update_host(
         bool new_entity, /* true */
         bool last_clicked /* false */)
 {
-    return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(), proxy_visible(),
+    return backend_connection_.update_host(physical_model_, id, new_entity, inactive_visible(),
+                   metatraffic_visible(), proxy_visible(),
                    last_clicked);
 }
 
@@ -521,7 +523,8 @@ bool Engine::update_user(
         bool new_entity, /* true */
         bool last_clicked /* false */)
 {
-    return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible(), metatraffic_visible(), proxy_visible(),
+    return backend_connection_.update_user(physical_model_, id, new_entity, inactive_visible(),
+                   metatraffic_visible(), proxy_visible(),
                    last_clicked);
 }
 
@@ -538,7 +541,8 @@ bool Engine::update_process(
 bool Engine::fill_logical_data_()
 {
     logical_model_->clear();
-    return backend_connection_.update_logical_model(logical_model_, inactive_visible(), metatraffic_visible(), proxy_visible());
+    return backend_connection_.update_logical_model(logical_model_, inactive_visible(),
+                   metatraffic_visible(), proxy_visible());
 }
 
 bool Engine::update_domain(
@@ -592,7 +596,8 @@ void Engine::reset_physical_data()
 bool Engine::update_dds_data(
         const backend::EntityId& id /*ID_ALL*/)
 {
-    return backend_connection_.update_dds_model(participants_model_, id, inactive_visible(), metatraffic_visible(), proxy_visible());
+    return backend_connection_.update_dds_model(participants_model_, id, inactive_visible(),
+                   metatraffic_visible(), proxy_visible());
 }
 
 // Update the model with a new or updated entity
