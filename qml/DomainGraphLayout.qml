@@ -1500,7 +1500,7 @@ Item
             var new_model = JSON.parse(model_string)
 
             // Ensure expected graph was received
-            if (new_model["domain_info"]["domain_id"] == domain_id)
+            if (new_model["domain"] == domain_id)
             {
                 var is_metatraffic_visible_ = controller.metatraffic_visible();
 
@@ -1682,7 +1682,7 @@ Item
                 }
                 model = {
                     "kind": new_model["kind"],
-                    "domain": new_model["domain_info"]["domain_id"],
+                    "domain": new_model["domain"],
                     "topics": new_topics,
                     "hosts": new_hosts,
                 }
