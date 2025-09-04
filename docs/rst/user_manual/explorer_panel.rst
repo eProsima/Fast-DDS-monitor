@@ -82,7 +82,7 @@ the specific entity kind:
   * **metatraffic**: if the entity is processing metatraffic data or not
   * **status**: status of the entity
   * **discovery_source**: how the entity was discovered ("discovery" if using DDS discovery protocol,
-  "proxy" if discovered through statistics messages)
+    "proxy" if discovered through statistics messages)
 
 * **Process**
 
