@@ -159,6 +159,12 @@ QObject* Engine::enable()
         this,
         &Engine::new_status_callback_slot);
 
+    QObject::connect(
+        this,
+        &Engine::new_alert_callback_signal,
+        this,
+        &Engine::new_alert_callback_slot);
+
     // Set enable as True
     enabled_ = true;
 
@@ -935,6 +941,15 @@ void Engine::process_status_callback_queue()
     }
 }
 
+void Engine::process_alert_callback_queue()
+{
+    // It iterates while run_ is activate and the queue has elements
+    while (!alert_callback_queue_.empty())
+    {
+        process_alert_callback_();
+    }
+}
+
 bool Engine::are_callbacks_to_process_()
 {
     std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
@@ -945,6 +960,12 @@ bool Engine::are_status_callbacks_to_process_()
 {
     std::lock_guard<std::recursive_mutex> ml(status_callback_queue_mutex_);
     return status_callback_queue_.empty();
+}
+
+bool Engine::are_alert_callbacks_to_process_()
+{
+    std::lock_guard<std::recursive_mutex> ml(alert_callback_queue_mutex_);
+    return alert_callback_queue_.empty();
 }
 
 bool Engine::add_callback(
@@ -971,6 +992,18 @@ bool Engine::add_callback(
     return true;
 }
 
+bool Engine::add_callback(
+        backend::AlertCallback alert_callback)
+{
+    std::lock_guard<std::recursive_mutex> ml(alert_callback_queue_mutex_);
+    alert_callback_queue_.append(alert_callback);
+
+    // Emit signal to specify there are new data
+    emit new_alert_callback_signal();
+
+    return true;
+}
+
 void Engine::new_callback_slot()
 {
     process_callback_queue();
@@ -979,6 +1012,11 @@ void Engine::new_callback_slot()
 void Engine::new_status_callback_slot()
 {
     process_status_callback_queue();
+}
+
+void Engine::new_alert_callback_slot()
+{
+    process_alert_callback_queue();
 }
 
 bool Engine::process_callback_()
@@ -1009,6 +1047,21 @@ bool Engine::process_status_callback_()
     qDebug() << "Processing status callback: " << backend::backend_id_to_models_id(first_status_callback.entity_id);
 
     return read_callback_(first_status_callback);
+}
+
+bool Engine::process_alert_callback_()
+{
+    backend::AlertCallback first_alert_callback;
+
+    {
+        std::lock_guard<std::recursive_mutex> ml(alert_callback_queue_mutex_);
+        first_alert_callback = alert_callback_queue_.front();
+        alert_callback_queue_.pop_front();
+    }
+
+    qDebug() << "Processing alert callback: " << backend::backend_id_to_models_id(first_alert_callback.entity_id);
+
+    return read_callback_(first_alert_callback);
 }
 
 bool Engine::read_callback_(
@@ -1053,6 +1106,18 @@ bool Engine::read_callback_(
 
     // update status model
     return update_entity_status(status_callback.entity_id, status_callback.status_kind);
+}
+
+bool Engine::read_callback_(
+        backend::AlertCallback alert_callback)
+{
+    // It should not read callbacks while a domain is being initialized
+    std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
+    // Add callback to log model
+    add_log_callback_("New alert reported!", utils::now());
+
+    return true;
 }
 
 bool Engine::update_entity_status(

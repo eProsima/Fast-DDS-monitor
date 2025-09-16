@@ -33,6 +33,7 @@
 #include <QStringListModel>
 
 #include <fastdds_monitor/backend/Callback.h>
+#include <fastdds_monitor/backend/AlertCallback.h>
 #include <fastdds_monitor/backend/StatusCallback.h>
 #include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
@@ -385,6 +386,19 @@ public:
             backend::StatusCallback callback);
 
     /**
+     * @brief add an alert callback arrived from the backend to the alert callback queue
+     *
+     * Add an alert callback to the alert callback queue in order to process it afterwards by the main thread.
+     * Emit a signal that communicate the main thread that there are info to process in the alert callback queue.
+     * Add an alert callback issue.
+     *
+     * @param callback new alert callback to add
+     * @return true
+     */
+    bool add_callback(
+            backend::AlertCallback callback);
+
+    /**
      * @brief Refresh the view
      *
      * Erase the last entity clicked, and set it as \c ID_ALL so the info shown does nor reference any single entity.
@@ -433,6 +447,14 @@ public:
      * updated in the view when modified.
      */
     void process_status_callback_queue();
+
+    /**
+     * @brief Pop alert callbacks from the alert callback queues while non empty and update the models
+     *
+     * @warning This method must be executed from the main Thread (or at least a QThread) so the models are
+     * updated in the view when modified.
+     */
+    void process_alert_callback_queue();
 
     //! Refresh summary panel
     void refresh_summary();
@@ -608,6 +630,12 @@ signals:
      */
     void new_status_callback_signal();
 
+    /**
+     * Internal signal that communicate that there are alert callbacks to process by the main Thread.
+     * Arise from \c add_callback
+     */
+    void new_alert_callback_signal();
+
 public slots:
 
     /**
@@ -621,6 +649,12 @@ public slots:
      * callback queue by \c process_status_callback_queue
      */
     void new_status_callback_slot();
+
+    /**
+     * Receive the internal signal \c new_alert_callback_signal and start the process of alert
+     * callback queue by \c process_alert_callback_queue
+     */
+    void new_alert_callback_slot();
 
 protected:
 
@@ -743,11 +777,17 @@ protected:
     //! True if there are status callbacks in the callback queue
     bool are_status_callbacks_to_process_();
 
+    //! True if there are alert callbacks in the callback queue
+    bool are_alert_callbacks_to_process_();
+
     //! Pop a callback from callback queues and call \c read_callback for that callback
     bool process_callback_();
 
     //! Pop a status callback from callback queues and call \c read_callback for that status callback
     bool process_status_callback_();
+
+    //! Pop an alert callback from callback queues and call \c read_callback for that alert callback
+    bool process_alert_callback_();
 
     //! Update the model concerned by the entity in the callback
     bool read_callback_(
@@ -756,6 +796,10 @@ protected:
     //! Update the model concerned by the entity in the status callback
     bool read_callback_(
             backend::StatusCallback callback);
+
+    //! Update the model concerned by the entity in the alert callback
+    bool read_callback_(
+            backend::AlertCallback callback);
 
     //! Common method to demultiplex to update functions depending on the entity kind
     bool update_entity_generic(
@@ -851,11 +895,17 @@ protected:
     //! Mutex to protect \c status_callback_queue_
     std::recursive_mutex status_callback_queue_mutex_;
 
+    //! Mutex to protect \c alert_callback_queue_
+    std::recursive_mutex alert_callback_queue_mutex_;
+
     //! Queue of Callbacks that have arrived by the \c Listener and have not been processed
     QQueue<backend::Callback> callback_queue_;
 
     //! Queue of status Callbacks that have arrived by the \c Listener and have not been processed
     QQueue<backend::StatusCallback> status_callback_queue_;
+
+    //! Queue of alert Callbacks that have arrived by the \c Listener and have not been processed
+    QQueue<backend::AlertCallback> alert_callback_queue_;
 
     //! Object that manage all the communications with the QML view
     Controller* controller_;

@@ -32,6 +32,8 @@ Dialog {
 
     property bool activeOk: true
 
+    signal createAlert(string entityKind, string entityId, int noDataThreshold)
+
     Component.onCompleted: {
         standardButton(Dialog.Ok).text = qsTrId("Add")
         standardButton(Dialog.Cancel).text = qsTrId("Close")
@@ -50,7 +52,7 @@ Dialog {
             return
 
         if (activeOk) {
-            createAlert()
+            createAlert(getDataDialogSourceEntityId.currentText, sourceEntityId.currentText, noDataThreshold.value)
         }
         activeOk = true
     }
@@ -155,6 +157,16 @@ Dialog {
     }
 
     MessageDialog {
+        id: emptyAlertLabel
+        title: "Missing alert label"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The alert label field is empty. Please enter an alert label."
+        onAccepted: newDataAlertKindDialog.open()
+        onDiscard: newDataAlertKindDialog.close()
+    }
+
+    MessageDialog {
         id: emptyEntityIdDialog
         title: "Empty Entity Id"
         icon: StandardIcon.Warning
@@ -165,8 +177,12 @@ Dialog {
     }
 
     function checkInputs() {
-        if (currentTopic.currentIndex === -1 || alertTextField.text === "") {
+        if (currentTopic.currentIndex === -1) {
             emptyEntityIdDialog.open()
+            return false
+        }
+        if (alertTextField.text === "") {
+            emptyAlertLabel.open()
             return false
         }
 

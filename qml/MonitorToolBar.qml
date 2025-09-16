@@ -27,7 +27,7 @@ ToolBar {
     property bool isVisible: false
     property bool isVisibleDispData: false
     property bool isVisibleDispDynData: true
-    property bool isVisibleCreateAlert: true
+    property bool isVisibleCreateAlert: false
     property bool isVisibleRefresh: true
     property bool isVisibleClearLog: false
     property bool isVisibleClearIssues: false
@@ -78,7 +78,7 @@ ToolBar {
         }
 
         MonitorToolBarButton {
-            id: alertChart
+            id: createAlert
             iconName: "alert"
             tooltipText: "Create alert"
             visible: isVisibleCreateAlert

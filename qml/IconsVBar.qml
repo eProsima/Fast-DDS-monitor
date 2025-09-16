@@ -22,8 +22,8 @@ import QtQml.Models 2.12
 import Theme 1.0
 
 /*
-    Object to create the sidebar for shortcuts to DDS entity lists and information, monitor status and issues.
-    The accesses are arranged in a list containing the icons of each drop-down.
+    Object to create the sidebar for shortcuts to DDS entity lists and information, alerts,
+    monitor status and issues. The accesses are arranged in a list containing the icons of each drop-down.
     Each item in the list displays its corresponding display sidebar.
  */
 
@@ -40,6 +40,9 @@ Rectangle {
         id: iconsVBarModel
         ListElement {
             icon: "explorer"
+        }
+        ListElement {
+            icon: "alert"
         }
         ListElement {
             icon: "status"

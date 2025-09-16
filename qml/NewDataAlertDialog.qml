@@ -32,7 +32,7 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
-    signal createAlert()
+    signal createAlert(string topicId)
 
     Component.onCompleted: {
         standardButton(Dialog.Ok).text = qsTrId("Add")
@@ -46,7 +46,7 @@ Dialog {
         if (!checkInputs())
             return
 
-        createAlert()
+        createAlert(currentTopic.currentText)
     }
 
     onAboutToShow: {
@@ -89,8 +89,7 @@ Dialog {
         RowLayout {
             AdaptiveComboBox {
                 id: getDataDialogSourceEntityId
-                model: [
-                    "Topic"]
+                model: ["Topic"]
 
                 onActivated: {
                     activeOk = true
@@ -114,6 +113,16 @@ Dialog {
     }
 
     MessageDialog {
+        id: emptyAlertLabel
+        title: "Missing alert label"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The alert label field is empty. Please enter an alert label."
+        onAccepted: newDataAlertKindDialog.open()
+        onDiscard: newDataAlertKindDialog.close()
+    }
+
+    MessageDialog {
         id: emptyTopic
         title: "Topic not selected"
         icon: StandardIcon.Warning
@@ -124,8 +133,12 @@ Dialog {
     }
 
     function checkInputs() {
-        if (currentTopic.currentIndex === -1 || alertTextField.text === "") {
+        if (currentTopic.currentIndex === -1) {
             emptyTopic.open()
+            return false
+        }
+        if (alertTextField.text === "") {
+            emptyAlertLabel.open()
             return false
         }
 
@@ -133,8 +146,7 @@ Dialog {
     }
 
     function updateEntities() {
-        controller.update_available_entity_ids(getDataDialogSourceEntityId.currentText, "getDataDialogSourceEntityId")
-        regenerateSeriesLabel()
+        controller.update_available_entity_ids("Topic", "getDataDialogSourceEntityId")
     }
 
 }

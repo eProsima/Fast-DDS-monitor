@@ -28,6 +28,7 @@ RowLayout {
 
     enum LeftSubPanel {
         Explorer,
+        Alerts,
         Status,
         Issues
     }
@@ -38,7 +39,7 @@ RowLayout {
         domainGraph: 1
     })
 
-    property variant panelItem: [monitoringPanel, statusPanel, issuesPanel]
+    property variant panelItem: [monitoringPanel, alertsPanel, statusPanel, issuesPanel]
 
     property variant visiblePanel: panelItem[LeftPanel.LeftSubPanel.Explorer]
 
@@ -65,6 +66,12 @@ RowLayout {
         id: statusPanel
         Layout.fillHeight: true
         visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Status]) ? true : false
+    }
+
+    AlertsPanel {
+        id: alertsPanel
+        Layout.fillHeight: true
+        visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Alerts]) ? true : false
     }
 
     ChangeAliasDialog {
