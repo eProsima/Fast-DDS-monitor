@@ -79,7 +79,7 @@ ToolBar {
 
         MonitorToolBarButton {
             id: alertChart
-            iconName: "alerts"
+            iconName: "alert"
             tooltipText: "Create alert"
             visible: isVisibleCreateAlert
             onClicked: alertKindDialog.open()

@@ -51,8 +51,8 @@ Dialog {
 
     onAboutToShow: {
         getDataDialogSourceEntityId.currentIndex = 0
+        alertTextField.text = ""
         controller.update_available_entity_ids("Topic", "getDataDialogSourceEntityId")
-
     }
 
     GridLayout{
@@ -97,7 +97,7 @@ Dialog {
                 }
             }
             AdaptiveComboBox {
-                id: sourceEntityId
+                id: currentTopic
                 textRole: "nameId"
                 valueRole: "id"
                 displayText: currentIndex === -1
@@ -124,12 +124,17 @@ Dialog {
     }
 
     function checkInputs() {
-        if (currentTopic.currentIndex === -1) {
+        if (currentTopic.currentIndex === -1 || alertTextField.text === "") {
             emptyTopic.open()
             return false
         }
 
         return true
+    }
+
+    function updateEntities() {
+        controller.update_available_entity_ids(getDataDialogSourceEntityId.currentText, "getDataDialogSourceEntityId")
+        regenerateSeriesLabel()
     }
 
 }

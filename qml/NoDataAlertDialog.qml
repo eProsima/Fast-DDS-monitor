@@ -42,6 +42,7 @@ Dialog {
         getDataDialogSourceEntityId.currentIndex = 0
         updateAllEntities()
         sourceEntityId.currentIndex = -1
+        alertTextField.text = ""
     }
 
     onAccepted: {
@@ -84,7 +85,7 @@ Dialog {
             }
         }
         TextField {
-            id: alertLabelTextField
+            id: alertTextField
             placeholderText: ""
             selectByMouse: true
             maximumLength: 100
@@ -163,10 +164,12 @@ Dialog {
         onDiscard: noDataAlertDialog.close()
     }
 
+    function checkInputs() {
+        if (currentTopic.currentIndex === -1 || alertTextField.text === "") {
+            emptyEntityIdDialog.open()
+            return false
+        }
 
-    function updateEntities() {
-        controller.update_available_entity_ids(getDataDialogSourceEntityId.currentText, "getDataDialogSourceEntityId")
-        sourceEntityId.recalculateWidth()
-        regenerateSeriesLabel()
+        return true
     }
 }
