@@ -22,12 +22,13 @@ import QtQuick.Layouts 1.3
 import Theme 1.0
 
 Dialog {
-    id: newDataAlertKindDialog
+    id: newDataAlertDialog
     modal: false
     title: "Create new alert"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     property bool activeOk: true
+    property string currentTopic: ""
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
@@ -46,7 +47,8 @@ Dialog {
         if (!checkInputs())
             return
 
-        createAlert(currentTopic.currentText)
+        currentTopic = topicComboBox.currentText
+        createAlert(currentTopic)
     }
 
     onAboutToShow: {
@@ -96,7 +98,7 @@ Dialog {
                 }
             }
             AdaptiveComboBox {
-                id: currentTopic
+                id: topicComboBox
                 textRole: "nameId"
                 valueRole: "id"
                 displayText: currentIndex === -1
@@ -118,8 +120,8 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The alert label field is empty. Please enter an alert label."
-        onAccepted: newDataAlertKindDialog.open()
-        onDiscard: newDataAlertKindDialog.close()
+        onAccepted: newDataAlertDialog.open()
+        onDiscard: newDataAlertDialog.close()
     }
 
     MessageDialog {
@@ -128,12 +130,12 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The topic field is empty. Please choose a topic from the list."
-        onAccepted: newDataAlertKindDialog.open()
-        onDiscard: newDataAlertKindDialog.close()
+        onAccepted: newDataAlertDialog.open()
+        onDiscard: newDataAlertDialog.close()
     }
 
     function checkInputs() {
-        if (currentTopic.currentIndex === -1) {
+        if (topicComboBox.currentIndex === -1) {
             emptyTopic.open()
             return false
         }

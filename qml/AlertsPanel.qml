@@ -63,10 +63,11 @@ ColumnLayout {
 
                 Menu {
                     id: contextMenu
+                    height: 30
 
                     Action {
                         id: contextMenuDDSEntities
-                        text: "Create Alert"
+                        text: "Add Alert"
                         checkable: false
                         onTriggered: {
                             alertKindDialog.open()
@@ -75,7 +76,7 @@ ColumnLayout {
                     delegate: MenuItem {
                         id: menuItem
                         implicitWidth: 150
-                        implicitHeight: 30
+                        implicitHeight: contextMenu.height
 
                         indicator: Item {
                             implicitWidth: 30
@@ -115,23 +116,23 @@ ColumnLayout {
         }
     }
 
-    // Rectangle {
-    //     Layout.fillHeight: true
-    //     Layout.fillWidth: true
+    Rectangle {
+        Layout.fillHeight: true
+        Layout.fillWidth: true
 
-    //     ColumnLayout {
-    //         id: entityListLayout
-    //         SplitView.preferredHeight: parent.height / 4
-    //         spacing: 10
-    //         visible: true
-    //         clip: true
+        ColumnLayout {
+            id: alertListLayout
+            SplitView.preferredHeight: parent.height / 4
+            spacing: 10
+            visible: true
+            clip: true
 
-    //         EntityList {
-    //             id: entityList
-    //             Layout.fillWidth: true
-    //             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-    //             Layout.bottomMargin: 1
-    //         }
-    //     }
-    // }
+            AlertList {
+                id: alertList
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                Layout.bottomMargin: 1
+            }
+        }
+    }
 }

@@ -47,4 +47,12 @@ Menu {
         text: "Data type IDL view"
         onTriggered: openIDLView(menu.entityId)
     }
+    MenuItem {
+        text: "Set New Data Alarm"
+        onTriggered: {
+            newDataAlertDialog.currentTopic = menu.entityId
+            newDataAlertDialog.open()
+        }
+    }
 }
+

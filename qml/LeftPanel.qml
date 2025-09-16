@@ -195,4 +195,15 @@ RowLayout {
     function changeExplorerEntityInfo(status) {
         monitoringPanel.changeExplorerEntityInfo(status)
     }
+
+    function createNoDataAlert(entityKind, entityId, noDataThreshold) {
+        console.log("MOCK: Creating no   data alert for topic " + topicId)
+        // panels.createNoDataAlert(entityKind, entityId, noDataThreshold)
+        // controller.participant_click(entityId)
+    }
+
+    function createNewDataAlert(topicId) {
+        console.log("MOCK: Creating new data alert for topic " + topicId)
+        controller.set_alert(topicId)
+    }
 }

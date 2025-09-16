@@ -295,6 +295,11 @@ void Controller::set_alias(
         backend::string_to_entity_kind(entity_kind));
 }
 
+void Controller::set_alert(QString entity_id){
+    printf("Setting alert for entity %s from the controller\n", entity_id.toStdString().c_str());
+}
+
+
 QString Controller::get_data_kind_units(
         QString data_kind)
 {

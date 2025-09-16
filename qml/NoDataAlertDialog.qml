@@ -22,7 +22,7 @@ import QtQuick.Layouts 1.3
 import Theme 1.0
 
 Dialog {
-    id: noDataAlertKindDialog
+    id: noDataAlertDialog
     modal: false
     title: "Create new alert"
     standardButtons: Dialog.Ok | Dialog.Cancel
@@ -162,8 +162,8 @@ Dialog {
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The alert label field is empty. Please enter an alert label."
-        onAccepted: newDataAlertKindDialog.open()
-        onDiscard: newDataAlertKindDialog.close()
+        onAccepted: noDataAlertDialog.open()
+        onDiscard: noDataAlertDialog.close()
     }
 
     MessageDialog {
