@@ -968,6 +968,10 @@ Item {
         chartsLayout.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
     }
 
+    function createAlert(dataKind){
+        console.log("Creating alert of kind: " + dataKind)
+    }
+
     function chartsLayout_createScheduleClear(entities, data, updateData, updateClear){
         chartsLayout.createScheduleClear(entities, data, updateData, updateClear)
     }

@@ -99,6 +99,25 @@ Item
             }
         }
 
+        // Main Alerts tab
+        Tab {
+            title: "Alerts"
+            Rectangle {
+
+                color: "white"
+
+                // Main content of alerts tab: alert tree view with alerts per entity
+                StatusTreeView {
+                    id: status_tree_view
+                    anchors.fill: parent
+                    anchors.margins: 1
+
+                    model: entityStatusModel        // problems model: entity status proxy model
+                }
+            }
+        }
+
+
         // Tab main stlye
         style: TabViewStyle {
             frameOverlap: 1

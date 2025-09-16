@@ -74,6 +74,10 @@ MenuBar {
             text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
         }
+        Action {
+            text: qsTr("Create Alert")
+            onTriggered: alertKindDialog.open()
+        }
         MenuSeparator { }
         Action {
             text: qsTr("Delete inactive entities")

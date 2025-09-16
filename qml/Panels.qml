@@ -175,6 +175,10 @@ RowLayout {
         tabs.chartsLayout_createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
     }
 
+    function createAlert(alertKind){
+        tabs.createAlert(alertKind)
+    }
+
     function createScheduleClear(entities, data, updateData, updateClear){
         tabs.chartsLayout_createScheduleClear(entities, data, updateData, updateClear)
     }

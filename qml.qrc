@@ -16,6 +16,9 @@
         <file>qml/AboutDialog.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/AdaptiveMenu.qml</file>
+        <file>qml/AlertKindDialog.qml</file>
+        <file>qml/NewDataAlertDialog.qml</file>
+        <file>qml/NoDataAlertDialog.qml</file>
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>

@@ -119,6 +119,32 @@ ApplicationWindow {
         onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
     }
 
+    AlertKindDialog {
+        id: alertKindDialog
+        onCreateAlert: {
+            if (alertKind === "NEW_DATA_ON_TOPIC") newDataAlertDialog.open()
+            else if (alertKind === "NO_DATA_ON_TOPIC") noDataAlertDialog.open()
+        }
+    }
+
+    NewDataAlertDialog {
+        id: newDataAlertDialog
+        // onCreateAlert: {
+        //     if (alertKind === "NEW_DATA_ON_TOPIC") newDataAlertDialog.open()
+        //     else if (alertKind === "NO_DATA_ON_TOPIC") noDataAlertDialog.open()
+        // }
+    }
+
+
+    NoDataAlertDialog {
+        id: noDataAlertDialog
+        // onCreateAlert: {
+        //     if (alertKind === "NEW_DATA_ON_TOPIC") newDataAlertDialog.open()
+        //     else if (alertKind === "NO_DATA_ON_TOPIC") noDataAlertDialog.open()
+        // }
+    }
+
+
     ScheduleClearDialog {
         id: scheduleClear
     }

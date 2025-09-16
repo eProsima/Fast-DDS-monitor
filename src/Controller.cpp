@@ -342,6 +342,11 @@ QStringList Controller::get_data_kinds()
     return utils::to_QStringList(engine_->get_data_kinds());
 }
 
+QStringList Controller::get_alert_kinds()
+{
+    return utils::to_QStringList(engine_->get_alert_kinds());
+}
+
 bool Controller::data_kind_has_target(
         const QString& data_kind)
 {

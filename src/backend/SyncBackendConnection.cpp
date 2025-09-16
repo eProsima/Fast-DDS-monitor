@@ -1798,6 +1798,13 @@ std::vector<std::string> SyncBackendConnection::get_data_kinds()
         });
 }
 
+std::vector<std::string> SyncBackendConnection::get_alert_kinds()
+{
+    return std::vector<std::string>({
+            "NEW_DATA_ON_TOPIC",
+            "NO_DATA_ON_TOPIC"});
+}
+
 std::vector<std::pair<EntityKind, EntityKind>> SyncBackendConnection::get_data_supported_entity_kinds(
         DataKind data_kind)
 {

@@ -319,14 +319,17 @@ public:
     std::string get_data_kind_units(
             const DataKind data_kind);
 
-    //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
+    //! Retrieve a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
     std::vector<std::string> ds_supported_transports();
 
-    //! Retrive a string list containing the available statistic kinds.
+    //! Retrieve a string list containing the available statistic kinds.
     std::vector<std::string> get_statistic_kinds();
 
-    //! Retrive a string list containing the available data kinds.
+    //! Retrieve a string list containing the available data kinds.
     std::vector<std::string> get_data_kinds();
+
+    //! Retrieve a string list containing the available alert kinds.
+    std::vector<std::string> get_alert_kinds();
 
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(

@@ -1847,6 +1847,11 @@ std::vector<std::string> Engine::get_data_kinds()
     return backend_connection_.get_data_kinds();
 }
 
+std::vector<std::string> Engine::get_alert_kinds()
+{
+    return backend_connection_.get_alert_kinds();
+}
+
 std::string Engine::get_name(
         const backend::EntityId& entity_id)
 {
