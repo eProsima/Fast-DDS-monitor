@@ -229,9 +229,13 @@ public slots:
             QString new_alias,
             QString entity_kind);
 
-    //! Sets an alert
-    void set_alert(
-            QString entity_id);
+    //! Sets a no data alert
+    void set_no_data_alert(
+            QString entity_id, double threshold);
+
+    //! Sets a new data alert
+    void set_new_data_alert(
+            QString topic_id);
 
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     QString get_data_kind_units(

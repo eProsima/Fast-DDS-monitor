@@ -197,13 +197,15 @@ RowLayout {
     }
 
     function createNoDataAlert(entityKind, entityId, noDataThreshold) {
-        console.log("MOCK: Creating no   data alert for topic " + topicId)
+        // TODO: Remove
+        console.log("MOCK: Creating no data alert for topic " + topicId)
         // panels.createNoDataAlert(entityKind, entityId, noDataThreshold)
         // controller.participant_click(entityId)
     }
 
     function createNewDataAlert(topicId) {
+        // TODO: Remove
         console.log("MOCK: Creating new data alert for topic " + topicId)
-        controller.set_alert(topicId)
+        controller.set_new_data_alert(topicId)
     }
 }
