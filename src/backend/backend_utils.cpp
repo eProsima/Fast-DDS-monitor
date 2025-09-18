@@ -294,6 +294,25 @@ StatisticKind string_to_statistic_kind(
     }
 }
 
+AlertKind string_to_alert_kind(
+        const QString& alert_kind)
+{
+    static std::unordered_map<std::string, AlertKind> const conversionTable = {
+        {"NO_DATA", AlertKind::NO_DATA},
+        {"NEW_DATA",  AlertKind::NEW_DATA},
+    };
+
+    auto it = conversionTable.find(utils::to_string(alert_kind));
+    if (it != conversionTable.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return AlertKind::NONE;
+    }
+}
+
 std::string get_info_value(
         const EntityInfo& info,
         const std::string& key)
@@ -526,6 +545,20 @@ std::string entity_status_description(
         //    return "";
         default:
         case backend::StatusKind::INVALID:
+            return "";
+    }
+}
+
+std::string entity_alert_description(
+        const backend::AlertKind kind)
+{
+    switch (kind){
+        case backend::AlertKind::NO_DATA:
+            return "No data has been received for the entity in the defined time period";
+        case backend::AlertKind::NEW_DATA:
+            return "New data on the entity has been received";
+        default:
+        case backend::AlertKind::NONE:
             return "";
     }
 }

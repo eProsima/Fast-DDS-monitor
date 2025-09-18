@@ -295,14 +295,15 @@ void Controller::set_alias(
         backend::string_to_entity_kind(entity_kind));
 }
 
-    //! Sets a no data alert
-    void set_no_data_alert(
-            QString entity_id, double threshold);
-
-    //! Sets a new data alert
-    void set_new_data_alert(
-            QString topic_id);
-
+void Controller::set_alert(
+        QString alert_name,
+        QString entity_id,
+        QString alert_type,
+        double threshold)
+{
+    engine_->set_alert(utils::to_string(alert_name), backend::models_id_to_backend_id(entity_id),
+            backend::string_to_alert_kind(alert_type), threshold);
+}
 
 QString Controller::get_data_kind_units(
         QString data_kind)

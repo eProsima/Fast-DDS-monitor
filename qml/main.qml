@@ -123,8 +123,8 @@ ApplicationWindow {
     AlertKindDialog {
         id: alertKindDialog
         onCreateAlert: {
-            if (alertKind === "NEW_DATA_ON_TOPIC") newDataAlertDialog.open()
-            else if (alertKind === "NO_DATA_ON_TOPIC") noDataAlertDialog.open()
+            if (alertKind === "NEW_DATA") newDataAlertDialog.open()
+            else if (alertKind === "NO_DATA") noDataAlertDialog.open()
         }
     }
 

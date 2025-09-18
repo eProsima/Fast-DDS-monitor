@@ -283,6 +283,17 @@ public:
             backend::StatusKind kind);
 
     /**
+     * @brief Update the alert model with the status kind received
+     *
+     * @param id entity id
+     * @param kind AlertKind reported
+     * @return true if any change in model has been done
+     */
+    bool update_entity_alert(
+            const backend::EntityId& id,
+            backend::AlertKind kind);
+
+    /**
      * @brief Update the entity status counters and populate the model with empty message if empty
      *
      * @param id entity id
@@ -861,6 +872,9 @@ protected:
 
     //! Display and allow to filter Model for Fast DDS Monitor status view.
     models::StatusTreeModel* entity_status_proxy_model_;
+
+    //! Data Model for Fast DDS Monitor alert view. Collects all alerts detected by the monitor service
+    models::StatusTreeModel* entity_alert_model_;
 
     //! TODO
     models::ListModel* source_entity_id_model_;

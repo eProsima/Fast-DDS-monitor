@@ -225,6 +225,10 @@ public:
             EntityId source_entity_id,
             ExtendedIncompatibleQosSample& sample);
 
+    bool get_alert_data(
+            EntityId source_entity_id,
+            Alert& sample);
+
     //! Convert a given entity guid to string format
     std::string get_deserialized_guid(
             const backend::GUID_s& data);

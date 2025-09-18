@@ -107,6 +107,10 @@ backend::DataKind string_to_data_kind(
 backend::StatisticKind string_to_statistic_kind(
         const QString& statistic_kind);
 
+//! Retrieves the \c AlertKind related with its name in QString
+backend::AlertKind string_to_alert_kind(
+        const QString& alert_kind)
+
 //! recursive function to convert array json subelements to dictionaries indexed by numbers
 backend::EntityInfo refactor_json(
         backend::EntityInfo json_data);

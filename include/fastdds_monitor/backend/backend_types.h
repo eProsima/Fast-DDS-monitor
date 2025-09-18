@@ -39,6 +39,7 @@ using DataKind = eprosima::statistics_backend::DataKind;
 using StatusKind = eprosima::statistics_backend::StatusKind;
 using StatusLevel = eprosima::statistics_backend::StatusLevel;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
+using AlertKind = eprosima::statistics_backend::AlertKind;
 using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
 using GUID_s = eprosima::fastdds::statistics::detail::GUID_s;
