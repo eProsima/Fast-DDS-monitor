@@ -1610,7 +1610,6 @@ Item
                                                                 "discovery_source":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["discovery_source"],
                                                                 "topic": endpoint_topic,
                                                                 "accum_y":accum_y
-
                                                             }
                                                             endpoints_per_topic[endpoint_topic][endpoints_per_topic[endpoint_topic].length] = endpoint
                                                             accum_y += endpoint_height_ + elements_spacing_

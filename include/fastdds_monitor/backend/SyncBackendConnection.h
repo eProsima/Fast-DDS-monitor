@@ -390,6 +390,9 @@ public:
      * The orphan entities such as User with unknown Host or Process with unknown User are not added or updated.
      *
      * @param physical_model Physical model to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_physical_model(
@@ -412,6 +415,9 @@ public:
      * Nevertheless, it is in this method when the Domain enters the model.
      *
      * @param logical_model Logical model to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_logical_model(
@@ -464,6 +470,9 @@ public:
      * Update every subentity.
      *
      * @param host_item Host item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_host_item(
@@ -481,6 +490,9 @@ public:
      * Update every subentity.
      *
      * @param user_item user item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_user_item(
@@ -495,6 +507,9 @@ public:
      * Regenerate the info of this item from the info in the backend
      *
      * @param process_item process item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_process_item(
@@ -512,6 +527,9 @@ public:
      * Update every subentity.
      *
      * @param domain_item domain item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_domain_item(
@@ -526,6 +544,9 @@ public:
      * Regenerate the info of this item from the info in the backend
      *
      * @param topic_item topic item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_topic_item(
@@ -543,6 +564,9 @@ public:
      * Update every subentity.
      *
      * @param participant_item participant item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_participant_item(
@@ -560,6 +584,9 @@ public:
      * Update every subentity.
      *
      * @param endpoint_item endpoint item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_endpoint_item(
@@ -574,6 +601,9 @@ public:
      * Regenerate the info of this item from the info in the backend
      *
      * @param topic_item topic item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
      * @return true if any change has been made, false otherwise
      */
     bool update_locator_item(
@@ -615,6 +645,18 @@ protected:
 
 public:
 
+    /**
+     * @brief Update the host item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param host_item host item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_host(
             models::ListModel* physical_model,
             EntityId id,
@@ -624,6 +666,18 @@ public:
             bool proxy_visible,
             bool last_clicked);
 
+    /**
+    * @brief Update the user item with backend information
+    *
+    * Regenerate the info of this item from the info in the backend
+    *
+    * @param user_item user item to update
+    * @param inactive_visible whether inactive entities must be shown
+    * @param metatraffic_visible whether metatraffic entities must be shown
+    * @param proxy_visible whether proxy entities must be shown
+    * @param last_clicked whether this entity was the last clicked one
+    * @return true if any change has been made, false otherwise
+    */
     bool update_user(
             models::ListModel* physical_model,
             EntityId id,
@@ -633,6 +687,18 @@ public:
             bool proxy_visible,
             bool last_clicked);
 
+    /**
+     * @brief Update the process item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param process_item process item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_process(
             models::ListModel* physical_model,
             EntityId id,
@@ -642,6 +708,18 @@ public:
             bool proxy_visible,
             bool last_clicked);
 
+    /**
+     * @brief Update the domain item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param domain_item domain item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_domain(
             models::ListModel* logical_model,
             EntityId id,
@@ -651,6 +729,18 @@ public:
             bool proxy_visible,
             bool last_clicked);
 
+    /**
+     * @brief Update the topic item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param topic_item topic item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_topic(
             models::ListModel* logical_model,
             EntityId id,
@@ -660,6 +750,18 @@ public:
             bool proxy_visible,
             bool last_clicked);
 
+    /**
+     * @brief Update the participant item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param participant_item participant item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_participant(
             models::ListModel* dds_model,
             EntityId id,
@@ -669,7 +771,18 @@ public:
             bool metatraffic_visible,
             bool proxy_visible,
             bool last_clicked);
-
+    /**
+     * @brief Update the datawriter item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param datawriter_item datawriter item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_datawriter(
             models::ListModel* dds_model,
             EntityId id,
@@ -679,6 +792,18 @@ public:
             bool proxy_visible,
             bool last_clicked);
 
+    /**
+     * @brief Update the datareader item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param datareader_item datareader item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_datareader(
             models::ListModel* dds_model,
             EntityId id,
@@ -688,6 +813,18 @@ public:
             bool proxy_visible,
             bool last_clicked);
 
+    /**
+     * @brief Update the locator item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param locator_item locator item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_locator(
             models::ListModel* dds_model,
             EntityId id,
