@@ -91,6 +91,16 @@ QObject* Engine::enable()
     generate_new_log_info_();
     fill_log_();
 
+    // Creates a default json structure for alerts and fills the tree model with it
+    alert_model_ = new models::TreeModel();
+    generate_new_alert_info_();
+    fill_alert_();
+
+    // Creates a default json structure for statuses and fills the tree model with it
+    alert_message_model_ = new models::TreeModel();
+    generate_new_alert_message_info_();
+    fill_alert_message_();
+
     // Creates a default json structure for status messages and fills the tree model with it
     status_model_ = new models::TreeModel();
     generate_new_status_info_();
@@ -103,10 +113,6 @@ QObject* Engine::enable()
     // Creates the proxy model to allow filtering
     entity_status_proxy_model_ = new models::StatusTreeModel();
     entity_status_proxy_model_->set_source_model(entity_status_model_);
-
-    // Creates a default json structure for alerts and fills the tree model with it
-    entity_status_model_ = new models::StatusTreeModel();
-    update_entity_status(backend::ID_ALL, backend::AlertKind::NONE);
 
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
@@ -134,6 +140,8 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("logModel", log_model_);
     rootContext()->setContextProperty("statusModel", status_model_);
     rootContext()->setContextProperty("entityStatusModel", entity_status_proxy_model_);
+    rootContext()->setContextProperty("alertModel", alert_model_);
+    rootContext()->setContextProperty("alertMessageModel", alert_message_model_);
 
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
@@ -235,6 +243,16 @@ Engine::~Engine()
         if (entity_status_proxy_model_)
         {
             delete entity_status_proxy_model_;
+        }
+
+        if (alert_model_)
+        {
+            delete alert_model_;
+        }
+
+        if (alert_message_model_)
+        {
+            delete alert_message_model_;
         }
 
         // Auxiliar models
@@ -411,6 +429,18 @@ bool Engine::fill_issue_()
     return true;
 }
 
+bool Engine::fill_alert_()
+{
+    alert_model_->update(alert_info_);
+    return true;
+}
+
+bool Engine::fill_alert_message_()
+{
+    alert_message_model_->update(alert_message_info_);
+    return true;
+}
+
 bool Engine::fill_log_()
 {
     log_model_->update(log_info_);
@@ -421,6 +451,24 @@ bool Engine::fill_status_()
 {
     status_model_->update(status_info_);
     return true;
+}
+
+void Engine::generate_new_alert_info_()
+{
+    EntityInfo info;
+
+    info["Alerts"] = EntityInfo();
+
+    alert_info_ = info;
+}
+
+void Engine::generate_new_alert_message_info_()
+{
+    EntityInfo info;
+
+    info["Messages"] = EntityInfo();
+
+    alert_message_info_ = info;
 }
 
 void Engine::generate_new_issue_info_()
@@ -500,6 +548,32 @@ void Engine::clear_issue_info_()
 {
     issue_info_["Issues"] = EntityInfo();
     fill_issue_();
+}
+
+bool Engine::add_alert_info_(
+        std::string alert,
+        std::string time)
+{
+    alert_info_["Alerts"][time] = alert;
+    fill_alert_();
+
+    return true;
+}
+
+bool Engine::add_alert_message_info_(
+        std::string alert,
+        std::string time)
+{
+    alert_message_info_["Alerts"][time] = alert;
+    fill_alert_message_();
+
+    return true;
+}
+
+void Engine::clear_alert_info_()
+{
+    alert_info_["Alerts"] = EntityInfo();
+    fill_alert_();
 }
 
 bool Engine::fill_first_entity_info_()
@@ -1118,11 +1192,7 @@ bool Engine::read_callback_(
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
     // Add callback to log model
-    add_log_callback_("New alert reported!", utils::now());
-
-    // DO SOMETHING WITH THE GRAPHIC LAYOUT
-
-    return true;
+    return add_alert_message_info_("New alert reported!", utils::now());
 }
 
 bool Engine::update_entity_status(
@@ -1360,132 +1430,6 @@ bool Engine::update_entity_status(
             // because the count attribute in IncompatibleQosSample will not be updated in that case.
             case backend::StatusKind::INCOMPATIBLE_QOS:
             //case backend::StatusKind::STATUSES_SIZE:
-            default:
-            {
-                // No entity status updates, as always returns OK
-                break;
-            }
-        }
-        if (new_status != backend::StatusLevel::OK_STATUS)
-        {
-            // Update entity errors and warnings counters
-            if (new_status == backend::StatusLevel::ERROR_STATUS)
-            {
-                std::map<backend::EntityId, uint32_t>::iterator it = controller_->status_counters.errors.find(id);
-                if (it != controller_->status_counters.errors.end())
-                {
-                    controller_->status_counters.total_errors -= controller_->status_counters.errors[id];
-                }
-                controller_->status_counters.errors[id] = counter;
-                controller_->status_counters.total_errors += controller_->status_counters.errors[id];
-            }
-            else if (new_status == backend::StatusLevel::WARNING_STATUS)
-            {
-                std::map<backend::EntityId, uint32_t>::iterator it = controller_->status_counters.warnings.find(id);
-                if (it != controller_->status_counters.warnings.end())
-                {
-                    controller_->status_counters.total_warnings -= controller_->status_counters.warnings[id];
-                }
-                controller_->status_counters.warnings[id] = counter;
-                controller_->status_counters.total_warnings += controller_->status_counters.warnings[id];
-            }
-            // notify status model layout changed to refresh layout view
-            emit entity_status_proxy_model_->layoutAboutToBeChanged();
-
-            emit controller_->update_status_counters(
-                QString::number(controller_->status_counters.total_errors),
-                QString::number(controller_->status_counters.total_warnings));
-
-            // remove empty message if exists
-            if (entity_status_model_->is_empty())
-            {
-                entity_status_model_->removeEmptyItem();
-            }
-
-            // update view
-            entity_status_proxy_model_->set_source_model(entity_status_model_);
-
-            // notify status model layout changed to refresh layout view
-            emit entity_status_proxy_model_->layoutChanged();
-        }
-    }
-    return true;
-}
-
-bool Engine::update_entity_alert(
-            const backend::EntityId& id,
-            backend::AlertKind kind)
-{
-    int counter = 0;
-    if (id == backend::ID_ALL)
-    {
-        auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
-                        std::string("No alerts found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(""));
-        entity_alert_model_->addTopLevelItem(empty_item);
-    }
-    else
-    {
-        backend::StatusLevel new_status = backend::StatusLevel::OK_STATUS;
-        std::string description = backend::entity_alert_description(kind);
-        std::string entity_guid = backend_connection_.get_guid(id);
-        std::string entity_kind = utils::to_string(backend::entity_kind_to_QString(backend_connection_.get_type(id)));
-        switch (kind)
-        {
-            case backend::AlertKind::NO_DATA:
-            {
-                backend::DeadlineMissedSample sample;
-                if (backend_connection_.get_status_data(id, sample))
-                {
-                    if (sample.status != backend::StatusLevel::OK_STATUS)
-                    {
-                        backend::StatusLevel entity_status = backend_connection_.get_status(id);
-                        auto entity_item = entity_status_model_->getTopLevelItem(
-                            id, entity_kind + ": " + backend_connection_.get_name(
-                                id), entity_status, description, entity_guid);
-                        new_status = sample.status;
-                        std::string handle_string;
-                        auto deadline_missed_item = new models::StatusTreeItem(id, kind, std::string("Deadline missed"),
-                                        sample.status, std::string(""), description);
-                        auto total_count_item = new models::StatusTreeItem(id, kind, std::string("Total count:"),
-                                        sample.status,  std::to_string(
-                                            sample.deadline_missed_status.total_count()), std::string(""));
-                        for (uint8_t handler : sample.deadline_missed_status.last_instance_handle())
-                        {
-                            handle_string = handle_string + std::to_string(handler);
-                        }
-                        auto last_instance_handle_item = new models::StatusTreeItem(id, kind,
-                                        std::string("Last instance handle:"), sample.status, handle_string,
-                                        std::string(""));
-                        entity_status_model_->addItem(deadline_missed_item, total_count_item);
-                        entity_status_model_->addItem(deadline_missed_item, last_instance_handle_item);
-                        entity_status_model_->addItem(entity_item, deadline_missed_item);
-                        counter = entity_item->recalculate_entity_counter(sample.status);
-                    }
-                }
-                break;
-            }
-            case backend::StatusKind::NEW_DATA:
-            {
-                // backend::InconsistentTopicSample sample;
-                // if (backend_connection_.get_status_data(id, sample))
-                // {
-                //     if (sample.status != backend::StatusLevel::OK_STATUS)
-                //     {
-                //         backend::StatusLevel entity_status = backend_connection_.get_status(id);
-                //         auto entity_item = entity_status_model_->getTopLevelItem(
-                //             id, entity_kind + ": " + backend_connection_.get_name(
-                //                 id), entity_status, description, entity_guid);
-                //         new_status = sample.status;
-                //         auto inconsistent_topic_item =
-                //                 new models::StatusTreeItem(id, kind, std::string("Inconsistent topics:"),
-                //                         sample.status, std::to_string(
-                //                             sample.inconsistent_topic_status.total_count()), description);
-                //         entity_status_model_->addItem(entity_item, inconsistent_topic_item);
-                //         counter = entity_item->recalculate_entity_counter(sample.status);
-                //     }
-                // }
-                break;
-            }
             default:
             {
                 // No entity status updates, as always returns OK

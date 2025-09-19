@@ -97,6 +97,12 @@ public:
             EntityId entity_id,
             StatusKind data_kind) override;
 
+    //! Callback when an alert is reported
+    void on_alert_reported(
+            EntityId domain_id,
+            EntityId entity_id,
+            AlertKind data_kind) override;
+
 protected:
 
     //! Engine reference

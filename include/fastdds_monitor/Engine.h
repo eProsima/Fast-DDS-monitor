@@ -282,16 +282,6 @@ public:
             const backend::EntityId& id,
             backend::StatusKind kind);
 
-    /**
-     * @brief Update the alert model with the status kind received
-     *
-     * @param id entity id
-     * @param kind AlertKind reported
-     * @return true if any change in model has been done
-     */
-    bool update_entity_alert(
-            const backend::EntityId& id,
-            backend::AlertKind kind);
 
     /**
      * @brief Update the entity status counters and populate the model with empty message if empty
@@ -722,9 +712,33 @@ protected:
      */
     bool fill_status_();
 
+    /**
+     * @brief Clear and fill the Alert Model
+     *
+     * @return true if any change in any model has been done
+     */
+    bool fill_alert_();
+
+    /**
+     * @brief Clear and fill the Alert Message Model
+     *
+     * @return true if any change in any model has been done
+     */
+    bool fill_alert_message_();
+
     //! Add a new callback message to the Log model
     bool add_log_callback_(
             std::string callback,
+            std::string time);
+
+    //! Add a new alert message to the Alert model
+    bool add_alert_info_(
+            std::string alert,
+            std::string time);
+
+    //! Add a new alert message to the Alert Message model
+    bool add_alert_message_info_(
+            std::string alert,
             std::string time);
 
     //! Add a new issue message to the Issue model
@@ -736,6 +750,20 @@ protected:
     bool add_status_domain_(
             std::string name,
             std::string time);
+
+    /**
+     * Generates a new alert info model from the main schema
+     * The alert model schema has:
+     * - "Alerts" tag - to collect alerts
+     */
+    void generate_new_alert_info_();
+
+    /**
+     * Generates a new alert message info model from the main schema
+     * The Alert Message model schema has:
+     * - "Alert Messages" tag - to collect alert messages
+     */
+    void generate_new_alert_message_info_();
 
     /**
      * Generates a new issue info model from the main schema
@@ -759,6 +787,7 @@ protected:
      *   - "Entities" tag - to show the number of entities discovered
      */
     void generate_new_status_info_();
+
 
     //! Update the issue model "Entities" count adding \c n
     void sum_entity_number_issue(
@@ -825,6 +854,9 @@ protected:
     //! Clear issues panel information
     void clear_issue_info_();
 
+    //! Clear alerts panel information
+    void clear_alert_info_();
+
     /////
     // Variables
 
@@ -855,6 +887,18 @@ protected:
     //! Data that is represented in the Issue Model when this model is refreshed
     backend::Info issue_info_;
 
+    //! Data Model for Alerts. Collects alerts defined in the system
+    models::TreeModel* alert_model_;
+
+    //! Data that is represented in the Alert Model when this model is refreshed
+    backend::Info alert_info_;
+
+    //! Data Model for Alert Messages. Collects alert messages and info from the whole system
+    models::TreeModel* alert_message_model_;
+
+    //! Data that is represented in the Alert Message Model when this model is refreshed
+    backend::Info alert_message_info_;
+
     //! Data Model for Log. Collects logging messages from application execution
     models::TreeModel* log_model_;
 
@@ -872,9 +916,6 @@ protected:
 
     //! Display and allow to filter Model for Fast DDS Monitor status view.
     models::StatusTreeModel* entity_status_proxy_model_;
-
-    //! Data Model for Fast DDS Monitor alert view. Collects all alerts detected by the monitor service
-    models::StatusTreeModel* entity_alert_model_;
 
     //! TODO
     models::ListModel* source_entity_id_model_;

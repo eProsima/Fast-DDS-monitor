@@ -21,7 +21,9 @@ import QtQuick.Layouts 1.15
 import QtQml.Models 2.15
 import Theme 1.0
 
+
 Rectangle {
+
     id: alertList
     Layout.fillHeight: true
     Layout.fillWidth: true
@@ -70,10 +72,11 @@ Rectangle {
                 id: participantListColumn
 
                 Rectangle {
+
                     id: participantHighlightRect
                     width: alertList.width
                     height: participantIcon.height
-                    color: highligthRow(clicked)
+                    color: clicked ? Theme.eProsimaLightBlue : "transparent"
 
                     MouseArea {
                         anchors.fill: parent
@@ -153,7 +156,7 @@ Rectangle {
                                 id: endpointHighlightRect
                                 width: alertList.width
                                 height: endpointIcon.height
-                                color: highligthRow(clicked)
+                                color: clicked ? Theme.eProsimaLightBlue : "transparent"
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -237,7 +240,7 @@ Rectangle {
                                             id: locatorHighlightRect
                                             width: alertList.width
                                             height: locatorIcon.height
-                                            color: highligthRow(clicked)
+                                            color: clicked ? Theme.eProsimaLightBlue : "transparent"
 
                                             MouseArea {
                                                 anchors.fill: parent

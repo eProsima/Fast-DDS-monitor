@@ -26,10 +26,6 @@
 
 namespace backend {
 
-/*
- * Struct that store the alert callback information required by the GUI.
- * It encapsulates the domain id, entity id and the kind of the new alert reported.
- */
 struct AlertCallback
 {
     //! Void constructor to use copy constructor afterwards
@@ -41,10 +37,10 @@ struct AlertCallback
     AlertCallback(
             backend::EntityId domain_entity_id,
             backend::EntityId entity_id,
-            backend::StatusKind status_kind)
+            backend::AlertKind alert_kind)
         : domain_entity_id(domain_entity_id)
         , entity_id(entity_id)
-        , status_kind(status_kind)
+        , alert_kind(alert_kind)
     {
     }
 
@@ -52,10 +48,10 @@ struct AlertCallback
     backend::EntityId domain_entity_id;
     //! Information of the \c EntityId the callback refers
     backend::EntityId entity_id;
-    //! Information of the \c StatusKind the callback refers
-    backend::StatusKind status_kind;
+    //! Information of the \c AlertKind the callback refers
+    backend::AlertKind alert_kind;
 };
 
 } // namespace backend
 
-#endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_STATUS_CALLBACK_H
+#endif // _EPROSIMA_FASTDDS_MONITOR_BACKEND_ALERT_CALLBACK_H

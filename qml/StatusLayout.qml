@@ -107,29 +107,34 @@ Item
                 color: "white"
 
                 // Main content of alerts tab: alert tree view with alerts per entity
-                StatusTreeView {
-                    id: alerts_tree_view
+                TreeView {
+                    id: alertMessagesView
                     anchors.fill: parent
-                    anchors.margins: 1
-
-                    model: entityStatusModel        // problems model: entity status proxy model
-
-                    // display if hidden when alerts filtered (from right-click dialog)
-                    onEntity_status_filtered:{
-                        collapse_alerts_layout()
+                    model: alertMessageModel
+                    selectionMode: SelectionMode.NoSelection
+                    frameVisible: false
+                    itemDelegate: Item {
+                        Text {
+                            anchors.fill: parent
+                            elide: styleData.elideMode
+                            text: {
+                                // Error when undefined value.
+                                // Do not know when this could happen, but happens
+                                styleData.value ? styleData.value : ""
+                            }
+                        }
                     }
 
-                    // filter and clean filter signal-slots management
-                    Connections {
-                        target: alertsLayout
+                    TableViewColumn {
+                        width: parent.width / 2
+                        role: "name"
+                        title: "Name"
+                    }
 
-                        function onClean_filter_() {
-                            alerts_tree_view.clean_filter()
-                        }
-
-                        function onFocus_entity_(entityId) {
-                            alerts_tree_view.filter_model_by_id(entityId)
-                        }
+                    TableViewColumn {
+                        width: parent.width / 2
+                        role: "value"
+                        title: "Value"
                     }
                 }
             }

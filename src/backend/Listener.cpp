@@ -177,4 +177,13 @@ void Listener::on_status_reported(
     engine_->add_callback(StatusCallback(domain_id, entity_id, status_kind));
 }
 
+void Listener::on_alert_reported(
+        EntityId domain_id,
+        EntityId entity_id,
+        AlertKind alert_kind)
+{
+    engine_->add_callback(AlertCallback(domain_id, entity_id, alert_kind));
+}
+
+
 } //namespace backend
