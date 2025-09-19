@@ -99,22 +99,6 @@ Rectangle {
                             }
                         }
                     }
-
-                    RowLayout {
-                        spacing: spacingIconLabel
-
-                        IconSVG {
-                            id: participantIcon
-                            name: "participant"
-                            size: iconSize
-                            Layout.leftMargin: firstIndentation
-                            color: entityLabelColor(clicked, alive)
-                        }
-                        Label {
-                            text: name
-                            color: entityLabelColor(clicked, alive)
-                        }
-                    }
                 }
 
                 ListView {

@@ -76,7 +76,7 @@ ColumnLayout {
                     delegate: MenuItem {
                         id: menuItem
                         implicitWidth: 150
-                        implicitHeight: contextMenu.height
+                        implicitHeight: 30
 
                         indicator: Item {
                             implicitWidth: 30
@@ -120,18 +120,90 @@ ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
 
-        ColumnLayout {
-            id: alertListLayout
-            SplitView.preferredHeight: parent.height / 4
-            spacing: 10
-            visible: true
-            clip: true
+        SplitView {
+            orientation: Qt.Vertical
+            anchors.fill: parent
 
-            AlertList {
-                id: alertList
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                Layout.bottomMargin: 1
+            ColumnLayout {
+                id: alertListLayout
+                SplitView.preferredHeight: parent.height / 4
+                SplitView.minimumHeight: alertListTitle.height
+                spacing: 10
+                visible: true
+                clip: true
+
+                Rectangle {
+                    id: alertListTitle
+                    Layout.fillWidth: true
+                    height: infoTabBar.height
+                    Label {
+                        text: "Alert List"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Rectangle {
+                        color: Theme.eProsimaLightBlue
+                        height: 2
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                    }
+                }
+
+                AlertList {
+                    id: alertList
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                    Layout.bottomMargin: 1
+                }
+            }
+
+            Item {
+                id: alertInfo
+                visible: true
+                SplitView.fillHeight: true
+                SplitView.preferredHeight: parent.height / 4
+                SplitView.minimumHeight: infoTabBar.height
+                clip: true
+
+                Rectangle {
+                    id: infoSelectedAlert
+                    property string alert_id: "UNKNOWN_ALERT"
+                    anchors.top: infoTabBar.bottom
+                    anchors.left: parent.left
+                    width: parent.width
+                    height: infoTabBar.height
+
+                    TabBar {
+                        id: infoTabBar
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        width: parent.width
+                        TabButton {
+                            text: qsTr("Info")
+                        }
+                    }
+
+                    Rectangle
+                    {
+                        color: "transparent"
+                        anchors.top: infoTabBar.bottom
+                        height: infoTabBar.height
+                        width: parent.width
+
+                        Label {
+                            id: infoSelectedEntityLabel
+                            text: "No entity selected"
+                            font.pointSize: 10
+                            font.italic: true
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
+                            elide: Text.ElideRight
+                        }
+                    }
+                }
             }
         }
     }
