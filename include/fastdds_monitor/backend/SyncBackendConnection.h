@@ -225,10 +225,6 @@ public:
             EntityId source_entity_id,
             ExtendedIncompatibleQosSample& sample);
 
-    bool get_alert_data(
-            EntityId source_entity_id,
-            Alert& sample);
-
     //! Convert a given entity guid to string format
     std::string get_deserialized_guid(
             const backend::GUID_s& data);
@@ -845,6 +841,12 @@ public:
     void set_alias(
             const backend::EntityId& id,
             const std::string& new_alias);
+
+    //! Set a new alert in backend
+    void set_alert(
+            const std::string& alert_name,
+            const backend::AlertKind& alert_kind,
+            double threshold);
 
 protected:
 

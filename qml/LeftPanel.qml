@@ -206,6 +206,6 @@ RowLayout {
     function createNewDataAlert(topicId) {
         // TODO: Remove
         console.log("MOCK: Creating new data alert for topic " + topicId)
-        controller.set_new_data_alert(topicId)
+        controller.set_alert("test2", topicId, "NEW_DATA", 0);
     }
 }

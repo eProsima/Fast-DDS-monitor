@@ -1813,6 +1813,18 @@ void Engine::set_alias(
     }
 }
 
+void Engine::set_alert(
+        const std::string& alert_name,
+        const backend::AlertKind& alert_kind,
+        const double& threshold)
+{
+    // Adding alert to backend structures
+    backend_connection_.set_alert(alert_name, alert_kind, threshold);
+    // Adding alert to engine and GUI structures
+    // NOTE: We cannot do this if we don't know the backend ID maybe
+    add_alert_info_(alert_name, utils::now());
+}
+
 bool Engine::update_entity(
         const backend::EntityId& entity_updated,
         bool (Engine::* update_function)(const backend::EntityId&, bool, bool),

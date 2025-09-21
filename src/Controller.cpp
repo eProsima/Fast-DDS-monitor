@@ -301,8 +301,9 @@ void Controller::set_alert(
         QString alert_type,
         double threshold)
 {
-    // engine_->set_alert(utils::to_string(alert_name), backend::models_id_to_backend_id(entity_id),
-    //         backend::string_to_alert_kind(alert_type), threshold);
+    engine_->set_alert(utils::to_string(alert_name),
+            backend::string_to_alert_kind(alert_type),
+            threshold);
 }
 
 QString Controller::get_data_kind_units(

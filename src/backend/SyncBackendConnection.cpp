@@ -1222,6 +1222,22 @@ void SyncBackendConnection::set_alias(
     }
 }
 
+void SyncBackendConnection::set_alert(
+            const std::string& alert_name,
+            const backend::AlertKind& alert_kind,
+            double threshold)
+{
+    try
+    {
+        StatisticsBackend::set_alert(alert_name, alert_kind, threshold);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail setting new alert";
+        static_cast<void>(e);
+    }
+}
+
 bool SyncBackendConnection::update_host(
         models::ListModel* physical_model,
         EntityId id,

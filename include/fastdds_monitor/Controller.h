@@ -229,7 +229,7 @@ public slots:
             QString new_alias,
             QString entity_kind);
 
-    //! Sets a no data alert
+    //! Adds a new alert
     void set_alert(
             QString alert_name,
             QString entity_id,

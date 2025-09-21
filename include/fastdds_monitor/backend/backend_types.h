@@ -25,10 +25,12 @@
 
 #include <QString>
 
+#include <fastdds_statistics_backend/types/Alerts.hpp>
 #include <fastdds_statistics_backend/types/app_names.h>
 #include <fastdds_statistics_backend/types/JSONTags.h>
 #include <fastdds_statistics_backend/types/types.hpp>
 #include <fastdds_statistics_backend/topic_types/types.hpp>
+
 
 namespace backend {
 
@@ -40,6 +42,7 @@ using StatusKind = eprosima::statistics_backend::StatusKind;
 using StatusLevel = eprosima::statistics_backend::StatusLevel;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
 using AlertKind = eprosima::statistics_backend::AlertKind;
+using AlertInfo = eprosima::statistics_backend::Info;
 using EntityInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
 using GUID_s = eprosima::fastdds::statistics::detail::GUID_s;

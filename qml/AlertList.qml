@@ -75,7 +75,7 @@ Rectangle {
 
                     id: participantHighlightRect
                     width: alertList.width
-                    height: participantIcon.height
+                    height: participantItem.height
                     color: clicked ? Theme.eProsimaLightBlue : "transparent"
 
                     MouseArea {
