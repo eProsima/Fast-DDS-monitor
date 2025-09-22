@@ -98,7 +98,7 @@ public:
             StatusKind data_kind) override;
 
     //! Callback when an alert is reported
-    void on_alert_reported(
+    void on_alert_triggered(
             EntityId domain_id,
             EntityId entity_id,
             AlertKind data_kind) override;

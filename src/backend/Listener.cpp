@@ -177,7 +177,7 @@ void Listener::on_status_reported(
     engine_->add_callback(StatusCallback(domain_id, entity_id, status_kind));
 }
 
-void Listener::on_alert_reported(
+void Listener::on_alert_triggered(
         EntityId domain_id,
         EntityId entity_id,
         AlertKind alert_kind)
