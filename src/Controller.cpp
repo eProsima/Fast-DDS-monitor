@@ -224,6 +224,16 @@ QString Controller::git_commit()
     return utils::to_QString(GIT_COMMIT_HASH);
 }
 
+bool Controller::proxy_visible()
+{
+    return engine_->proxy_visible();
+}
+
+void Controller::change_proxy_visible()
+{
+    engine_->change_proxy_visible();
+}
+
 bool Controller::inactive_visible()
 {
     return engine_->inactive_visible();

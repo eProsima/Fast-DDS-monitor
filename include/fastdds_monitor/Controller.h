@@ -191,6 +191,12 @@ public slots:
     //! Returns the Fast DDS Monitor GitHub commit built
     QString git_commit();
 
+    //! Whether the proxy entities must be shown or hidden
+    bool proxy_visible();
+
+    //! Change \c proxy_visible status
+    void change_proxy_visible();
+
     //! Whether the inactive entities must be shown or hidden
     bool inactive_visible();
 

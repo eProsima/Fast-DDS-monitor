@@ -24,6 +24,7 @@ MenuBar {
 
     signal leftSidebarHidden
 
+    property bool proxy_visible: controller.proxy_visible()
     property bool inactive_visible: controller.inactive_visible()
     property bool metatraffic_visible: controller.metatraffic_visible()
     property bool ros2DemanglingActive: controller.ros2_demangling_active()
@@ -116,6 +117,13 @@ MenuBar {
     AdaptiveMenu {
         title: qsTr("&View")
         implicitWidth: 250
+        Action {
+            text: proxy_visible ? "Hide Proxy Entities" : "Show Proxy Entities"
+            onTriggered: {
+                proxy_visible = !proxy_visible
+                controller.change_proxy_visible()
+            }
+        }
         Action {
             text: inactive_visible ? "Hide Inactive Entities" : "Show Inactive Entities"
             onTriggered: {

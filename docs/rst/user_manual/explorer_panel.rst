@@ -81,6 +81,8 @@ the specific entity kind:
   * **alias**: alias of the entity given by the user
   * **metatraffic**: if the entity is processing metatraffic data or not
   * **status**: status of the entity
+  * **discovery_source**: how the entity was discovered ("discovery" if using DDS discovery protocol,
+    "proxy" if discovered through statistics messages)
 
 * **Process**
 

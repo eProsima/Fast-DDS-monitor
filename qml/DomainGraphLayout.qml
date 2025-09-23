@@ -95,6 +95,13 @@ Item
     readonly property string reader_color_: Theme.eProsimaYellow
     readonly property string writer_color_: Theme.eProsimaGreen
 
+    readonly property string proxy_host_color_: Theme.lightGrey
+    readonly property string proxy_user_color_: Theme.lightBlueProxy
+    readonly property string proxy_process_color_: Theme.darkBlueProxy
+    readonly property string proxy_participant_color_: Theme.whiteProxy
+    readonly property string proxy_reader_color_: Theme.yellowProxy
+    readonly property string proxy_writer_color_: Theme.greenProxy
+
 
     // Horizontal scroll view for topics section. This will contain also a Flickable that replicates entities height
     // and will move accordingly to display the connections
@@ -490,7 +497,7 @@ Item
             Component {
                 id: arrow_component
                 GraphConnection{
-                    id: conn             
+                    id: conn
                     Connections{
                         target: domainGraphLayout
 
@@ -590,7 +597,7 @@ Item
                         id: host_background
                         height: parent.height
                         width: parent.width
-                        color: host_color_
+                        color: modelData["discovery_source"] == "proxy" ? proxy_host_color_ : host_color_
                         radius: radius_
                     }
 
@@ -603,7 +610,7 @@ Item
                             ? hostRowLayout.implicitWidth
                             : entity_box_width_
                         height: modelData["alias"] != "Unknown" ? label_height_ : 0
-                        color: host_color_
+                        color: modelData["discovery_source"] == "proxy" ? proxy_host_color_ : host_color_
                         radius: radius_
                         visible: modelData["alias"] != "Unknown"
 
@@ -734,7 +741,7 @@ Item
                                 id: user_background
                                 height: parent.height
                                 width: parent.width
-                                color: user_color_
+                                color: modelData["discovery_source"] == "proxy" ? proxy_user_color_ : user_color_
                                 radius: radius_
                             }
 
@@ -748,7 +755,7 @@ Item
                                     ? userRowLayout.implicitWidth
                                     : entity_box_width_-(2*elements_spacing_)
                                 height: modelData["alias"] != "Unknown" ? label_height_ : 0
-                                color: user_color_
+                                color: modelData["discovery_source"] == "proxy" ? proxy_user_color_ : user_color_
                                 radius: radius_
                                 visible: modelData["alias"] != "Unknown"
 
@@ -878,7 +885,7 @@ Item
                                         id: process_background
                                         height: parent.height
                                         width: parent.width
-                                        color: process_color_
+                                        color: modelData["discovery_source"] == "proxy" ? proxy_process_color_ : process_color_
                                         radius: radius_
                                     }
 
@@ -892,7 +899,7 @@ Item
                                             ? processRowLayout.implicitWidth
                                             : entity_box_width_-(4*elements_spacing_)
                                         height: modelData["alias"] != "Unknown" ? label_height_ : 0
-                                        color: process_color_
+                                        color: modelData["discovery_source"] == "proxy" ? proxy_process_color_ : process_color_
                                         radius: radius_
                                         visible: modelData["alias"] != "Unknown"
 
@@ -1022,7 +1029,7 @@ Item
                                                 id: participant_background
                                                 height: parent.height
                                                 width: parent.width
-                                                color: participant_color_
+                                                color: modelData["discovery_source"] == "proxy" ? proxy_participant_color_ : participant_color_
                                                 radius: radius_
                                             }
 
@@ -1037,7 +1044,7 @@ Item
                                                     ? (participantRowLayout.implicitWidth + participant_app_icon.width)
                                                     : entity_box_width_-(6*elements_spacing_)
                                                 height: label_height_
-                                                color: participant_color_
+                                                color: modelData["discovery_source"] == "proxy" ? proxy_participant_color_ : participant_color_
                                                 radius: radius_
 
                                                 Rectangle {
@@ -1272,7 +1279,7 @@ Item
                                                         id: endpoint_background
                                                         width: parent.width
                                                         height: endpoint_height_
-                                                        color: modelData["kind"] == "DataReader" ? reader_color_ : writer_color_
+                                                        color: modelData["discovery_source"] == "proxy" ? modelData["kind"] == "DataReader" ? proxy_reader_color_ : proxy_writer_color_ : modelData["kind"] == "DataReader" ? reader_color_ : writer_color_
                                                         radius: radius_
                                                     }
 
@@ -1503,6 +1510,7 @@ Item
             if (new_model["domain_info"]["domain_id"] == domain_id)
             {
                 var is_metatraffic_visible_ = controller.metatraffic_visible();
+                var is_proxy_visible_ = controller.proxy_visible();
 
                 // transform indexed model to array model (arrays required for the listviews)
                 for (var topic in new_model["topics"])
@@ -1543,7 +1551,8 @@ Item
                 {
                     var discard_host = true
                     var metatraffic_ = new_model["hosts"][host]["metatraffic"]
-                    if (metatraffic_ != true || is_metatraffic_visible_)
+                    var proxy = new_model["hosts"][host]["discovery_source"] == "proxy"
+                    if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                     {
                         accum_y += label_height_ + elements_spacing_
                         var new_users = []
@@ -1552,7 +1561,8 @@ Item
                         {
                             var discard_user = true
                             var metatraffic_ = new_model["hosts"][host]["users"][user]["metatraffic"]
-                            if (metatraffic_ != true || is_metatraffic_visible_)
+                            var proxy = new_model["hosts"][host]["users"][user]["discovery_source"] == "proxy"
+                            if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                             {
                                 accum_y += label_height_ + elements_spacing_
                                 var new_processes = []
@@ -1561,7 +1571,8 @@ Item
                                 {
                                     var discard_process = true
                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["metatraffic"]
-                                    if (metatraffic_ != true || is_metatraffic_visible_)
+                                    var proxy = new_model["hosts"][host]["users"][user]["processes"][process]["discovery_source"] == "proxy"
+                                    if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                                     {
                                         accum_y += label_height_ + elements_spacing_
                                         var new_participants = []
@@ -1570,14 +1581,16 @@ Item
                                         {
                                             var discard_participant = true
                                             var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["metatraffic"]
-                                            if (metatraffic_ != true || is_metatraffic_visible_)
+                                            var proxy = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["discovery_source"] == "proxy"
+                                            if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                                             {
                                                 accum_y += label_height_ + elements_spacing_
                                                 var new_endpoints = []
                                                 for (var endpoint in new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"])
                                                 {
                                                     var metatraffic_ = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["metatraffic"]
-                                                    if (metatraffic_ != true || is_metatraffic_visible_)
+                                                    var proxy = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["discovery_source"] == "proxy"
+                                                    if ((metatraffic_ != true || is_metatraffic_visible_) && (proxy != true || is_proxy_visible_))
                                                     {
                                                         if ((!filtered_topics_.length) || (filtered_topics_.length > 0
                                                             && filtered_topics_.includes(new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"])))
@@ -1594,6 +1607,7 @@ Item
                                                                 "kind":kind,
                                                                 "alias":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["alias"],
                                                                 "status":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["status"],
+                                                                "discovery_source":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["discovery_source"],
                                                                 "topic": endpoint_topic,
                                                                 "accum_y":accum_y
                                                             }
@@ -1613,6 +1627,7 @@ Item
                                                         "app_id":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_id"],
                                                         "app_metadata":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["app_metadata"],
                                                         "dds_vendor":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["dds_vendor"],
+                                                        "discovery_source":new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["discovery_source"],
                                                         "endpoints":new_endpoints
                                                     }
                                                     accum_y += elements_spacing_
@@ -1632,6 +1647,7 @@ Item
                                                 "alias":new_model["hosts"][host]["users"][user]["processes"][process]["alias"],
                                                 "pid": new_model["hosts"][host]["users"][user]["processes"][process]["pid"],
                                                 "status":new_model["hosts"][host]["users"][user]["processes"][process]["status"],
+                                                "discovery_source":new_model["hosts"][host]["users"][user]["processes"][process]["discovery_source"],
                                                 "participants":new_participants
                                             }
                                             accum_y += elements_spacing_
@@ -1650,6 +1666,7 @@ Item
                                         "kind": "User",
                                         "alias":new_model["hosts"][host]["users"][user]["alias"],
                                         "status":new_model["hosts"][host]["users"][user]["status"],
+                                        "discovery_source":new_model["hosts"][host]["users"][user]["discovery_source"],
                                         "processes":new_processes
                                     }
                                     accum_y += elements_spacing_
@@ -1668,6 +1685,7 @@ Item
                                 "kind":"Host",
                                 "alias":new_model["hosts"][host]["alias"],
                                 "status":new_model["hosts"][host]["status"],
+                                "discovery_source":new_model["hosts"][host]["discovery_source"],
                                 "users":new_users
                             }
                             accum_y += elements_spacing_

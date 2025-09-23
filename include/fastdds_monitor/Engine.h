@@ -472,6 +472,9 @@ public:
         bool new_entity = true,
         bool last_clicked = false);
 
+    //! Change proxy visible parameter
+    void change_proxy_visible();
+
     //! Change inactive visible parameter
     void change_inactive_visible();
 
@@ -480,6 +483,9 @@ public:
 
     //! Change ros2 demangling active status
     void change_ros2_demangling();
+
+    //! Get if proxy entities must be visible
+    bool proxy_visible() const;
 
     //! Get if inactive entities must be visible
     bool inactive_visible() const;
@@ -850,6 +856,9 @@ protected:
 
     //! Time when the monitor has been started. It will be used as default timestamp
     backend::Timestamp initial_time_;
+
+    //! Whether the proxy entities must be visible in the model
+    bool proxy_visible_;
 
     //! Whether the inactive entities must be visible in the model
     bool inactive_visible_;
