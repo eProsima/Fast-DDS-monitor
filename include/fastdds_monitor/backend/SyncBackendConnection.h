@@ -667,17 +667,17 @@ public:
             bool last_clicked);
 
     /**
-    * @brief Update the user item with backend information
-    *
-    * Regenerate the info of this item from the info in the backend
-    *
-    * @param user_item user item to update
-    * @param inactive_visible whether inactive entities must be shown
-    * @param metatraffic_visible whether metatraffic entities must be shown
-    * @param proxy_visible whether proxy entities must be shown
-    * @param last_clicked whether this entity was the last clicked one
-    * @return true if any change has been made, false otherwise
-    */
+     * @brief Update the user item with backend information
+     *
+     * Regenerate the info of this item from the info in the backend
+     *
+     * @param user_item user item to update
+     * @param inactive_visible whether inactive entities must be shown
+     * @param metatraffic_visible whether metatraffic entities must be shown
+     * @param proxy_visible whether proxy entities must be shown
+     * @param last_clicked whether this entity was the last clicked one
+     * @return true if any change has been made, false otherwise
+     */
     bool update_user(
             models::ListModel* physical_model,
             EntityId id,

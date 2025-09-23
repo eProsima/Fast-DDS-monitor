@@ -156,7 +156,7 @@ the monitor's domain. These entities are called Proxy entities.
 In case they are shown, it will be possible to access the data related to them, while if they are hidden from the
 monitor, they will no longer be available in the whole application framework.
 The latter means that it will not be possible to plot charts with data relating to these entities.
-This button hides/reveals the currently proxy entities detected by the monitor and its default behaviour is to hide them.
+This button hides/reveals the currently proxy entities detected by the monitor, and its default behavior is to hide them.
 
 Hide/Show Inactive entities
 ---------------------------
