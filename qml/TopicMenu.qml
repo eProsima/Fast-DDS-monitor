@@ -53,5 +53,9 @@ Menu {
             openAlertDialogWithTopic(menu.domainEntityId, menu.entityId)
         }
     }
+    MenuItem {
+        text: "Spy topic data"
+        onTriggered: openSpyView(menu.entityId)
+    }
 }
 
