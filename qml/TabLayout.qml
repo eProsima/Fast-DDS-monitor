@@ -39,7 +39,7 @@ Item {
     property var tab_model_: [{"idx":0, "title":"New Tab", "icon":"", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
     readonly property var allowed_stack_components_:                        // list of allowed component names to be
-            ["view_selector", "chartsLayout", "domainGraphLayout_component", "idlView_component"] //  loaded in the tabs stack view
+            ["view_selector", "chartsLayout", "domainGraphLayout_component", "idlView_component", "spyView_component"] //  loaded in the tabs stack view
 
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
@@ -109,7 +109,9 @@ Item {
                 property string customInitialItem: "view_selector"
                 initialItem: customInitialItem == "chartsLayout" ? chartsLayout :
                         customInitialItem == "domainGraphLayout_component" ? domainGraphLayout_component :
-                        customInitialItem == "idlView_component" ? idlView_component : view_selector
+                        customInitialItem == "idlView_component" ? idlView_component :
+                        customInitialItem == "spyView_component" ? spyView_component : view_selector
+
                 property string topic_IDL_ID: ""
 
                 // override push transition to none
@@ -510,6 +512,53 @@ Item {
                         }
                         Component.onCompleted: {
                             is_ros2 = controller.get_ros2_type_name(topic_IDL_ID) != controller.get_data_type_name(topic_IDL_ID)
+                        }
+                    }
+                }
+
+                Component {
+                    id: spyView_component
+                    Flickable
+                    {
+                        id: spyView
+                        clip: true
+                        boundsBehavior: Flickable.StopAtBounds
+                        interactive: false
+                        anchors.fill: parent
+                        width: parent.width
+                        height: parent.height
+                        contentWidth: parent.width
+                        contentHeight: parent.height
+
+                        Rectangle {
+                            id: spyTopicData
+                            color: "blue"
+                            anchors.fill: parent
+                            anchors.margins: 10
+                        }
+
+                        Row {
+                            id: buttonContainer
+                            spacing: tabLayout.elements_spacing_
+                            anchors.top: parent.top; anchors.topMargin: 10
+                            anchors.right: parent.right; anchors.rightMargin: 10
+
+                            // TODO (Carlosspicur): Add button icons
+                            Button {
+                                id: copyButton
+                                text: "⧉"
+                                onClicked: {
+                                    console.log("Copy button clicked")
+                                }
+                            }
+
+                            Button {
+                                id: pausePlayButton
+                                text: "Pause/Play"
+                                onClicked: {
+                                    console.log("Pause/Play button clicked")
+                                }
+                            }
                         }
                     }
                 }
@@ -987,6 +1036,15 @@ Item {
         create_new_custom_tab_("idlView_component", entityId)
         tabLayout.tab_model_[current_]["title"] = monitorMenuBar.ros2DemanglingActive ? controller.get_ros2_type_name(entityId) : controller.get_data_type_name(entityId)
         tabLayout.tab_model_[current_]["icon"] = "idl"
+        var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
+        display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
+        refresh_layout(current_)
+    }
+
+    function open_spy_view(entityId) {
+        create_new_custom_tab_("spyView_component", entityId)
+        tabLayout.tab_model_[current_]["title"] = controller.get_name(entityId) + "_SpyView"
+        tabLayout.tab_model_[current_]["icon"] = "idl" // TODO (Carlosespicur): change icon
         var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
         display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
         refresh_layout(current_)

@@ -102,6 +102,7 @@ RowLayout {
             onFilter_entity_status_log: statusLayout.filter_entity_status_log(entityId)
             onOpen_idl_view: tabs.open_idl_view(entityId)
             onRemove_alert: panels.removeAlert(alertId)
+            onOpen_spy_view: tabs.open_spy_view(entityId)
         }
 
         Rectangle {
