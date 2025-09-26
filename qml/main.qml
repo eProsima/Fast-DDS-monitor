@@ -131,7 +131,7 @@ ApplicationWindow {
     NewDataAlertDialog {
         id: newDataAlertDialog
         onCreateAlert: {
-            panels.createNewDataAlert(topicId)
+            panels.createNewDataAlert(alert_name, host_name, user_name, topic_name, t_between_triggers)
         }
     }
 
@@ -139,7 +139,7 @@ ApplicationWindow {
     NoDataAlertDialog {
         id: noDataAlertDialog
         onCreateAlert: {
-            panels.createNoDataAlert(entityKind, entityId, noDataThreshold)
+            panels.createNoDataAlert(alert_name, host_name, user_name, topic_name, threshold, t_between_triggers)
         }
     }
 

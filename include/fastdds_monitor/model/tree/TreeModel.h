@@ -111,6 +111,9 @@ public:
     void update(
             json data);
 
+    //! Clear the model and create a new tree with new data without collapsing the view
+    void update_without_collapse(json& data);
+
     //! Return the role names of the values in nodes to acces them via \c data
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
@@ -145,6 +148,25 @@ protected:
             const json& json_data,
             TreeItem* parent,
             bool _first = true);
+
+     /**
+     * @brief Recursive function that fills an internal node with data in json format without
+     * collapsing the view
+     *
+     * @param parent Item from which the update is performed
+     * @param parent_index Index of the parent in the TreeModel
+     * @param json_data Data with the new version of the tree
+     */
+    void setup_model_data_without_collapse(TreeItem* parent, const QModelIndex& parent_index, const json& json_data);
+
+    /**
+     * @brief Iterates over the children of a node to find one with a specific name
+     * @param parent parent node where to search
+     * @param name name of the child node to search
+     * @return pointer to the child node if found, nullptr otherwise
+     */
+    TreeItem* find_child_by_name(TreeItem* parent, const QString& name) const;
+
 
 private:
 

@@ -487,8 +487,13 @@ public:
 
     void set_alert(
         const std::string& alert_name,
+        const std::string& host_name,
+        const std::string& user_name,
+        const std::string& topic_name,
         const backend::AlertKind& alert_kind,
-        const double& threshold);
+        double threshold,
+        const std::chrono::milliseconds& t_between_triggers,
+        const std::string& contact_info);
 
     /**
      * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the
@@ -742,9 +747,10 @@ protected:
             std::string time);
 
     //! Add a new alert message to the Alert Message model
-    bool add_alert_message_info_(
-            std::string alert,
-            std::string time);
+bool add_alert_message_info_(
+        std::string alert_name,
+        std::string msg,
+        std::string time);
 
     //! Add a new issue message to the Issue model
     bool add_issue_info_(
@@ -928,8 +934,12 @@ protected:
     //! TODO
     models::ListModel* destination_entity_id_model_;
 
-    //! Model to hold the data about the alerts created
-    models::ListModel* alert_entity_id_model_;
+    //! Model to hold the data about the hosts available for alert creation
+    models::ListModel* alert_host_id_model_;
+    //! Model to hold the data about the users available for alert creation
+    models::ListModel* alert_user_id_model_;
+    //! Model to hold the data about the topics available for alert creation
+    models::ListModel* alert_topic_id_model_;
 
     //! Ids of the last Entity clicked
     EntitiesClicked last_entities_clicked_;

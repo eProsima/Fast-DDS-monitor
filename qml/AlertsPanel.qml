@@ -46,70 +46,16 @@ ColumnLayout {
                 color: Theme.whiteSmoke
             }
             IconSVG {
-                name: "three_dots_menu"
+                name: "plus"
                 Layout.alignment: Qt.AlignRight
-                scalingFactor: 2
+                scalingFactor: 1.4
                 color: "white"
-
 
                 MouseArea {
                     anchors.fill: parent
 
                     onClicked: {
-                        contextMenu.y = parent.y + parent.height;
-                        contextMenu.open()
-                    }
-                }
-
-                Menu {
-                    id: contextMenu
-                    height: 30
-
-                    Action {
-                        id: contextMenuDDSEntities
-                        text: "Add Alert"
-                        checkable: false
-                        onTriggered: {
-                            alertKindDialog.open()
-                        }
-                    }
-                    delegate: MenuItem {
-                        id: menuItem
-                        implicitWidth: 150
-                        implicitHeight: 30
-
-                        indicator: Item {
-                            implicitWidth: 30
-                            implicitHeight: 30
-                            Rectangle {
-                                width: 16
-                                height: 16
-                                anchors.centerIn: parent
-                                visible: menuItem.checkable
-                                border.color: menuItem.highlighted ? Theme.eProsimaLightBlue :
-                                              !menuItem.checked ? Theme.grey : "black"
-                                radius: 3
-                                Rectangle {
-                                    width: 10
-                                    height: 10
-                                    anchors.centerIn: parent
-                                    visible: menuItem.checked
-                                    color: Theme.eProsimaLightBlue
-                                    radius: 2
-                                }
-                            }
-                        }
-
-                        contentItem: Text {
-                            leftPadding: 15
-                            text: menuItem.text
-                            opacity: enabled ? 1.0 : 0.3
-                            color: menuItem.highlighted ? Theme.eProsimaLightBlue :
-                                   !menuItem.checked ? Theme.grey : "black"
-                            horizontalAlignment: Text.AlignLeft
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideRight
-                        }
+                        alertKindDialog.open()
                     }
                 }
             }

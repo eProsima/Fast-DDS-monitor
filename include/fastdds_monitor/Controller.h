@@ -231,10 +231,14 @@ public slots:
 
     //! Adds a new alert
     void set_alert(
-            QString alert_name,
-            QString entity_id,
-            QString alert_type,
-            double threshold);
+        QString alert_name,
+        QString host_name,
+        QString user_name,
+        QString topic_name,
+        QString alert_type,
+        double threshold,
+        int time_between_triggers,
+        QString contact_info);
 
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     QString get_data_kind_units(

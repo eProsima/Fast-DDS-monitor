@@ -207,12 +207,12 @@ RowLayout {
         leftPanel.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
     }
 
-    function createNewDataAlert(topicId){
-        leftPanel.createNewDataAlert(topicId)
+    function createNewDataAlert(name, hostId, userId, topicId, t_between_triggers){
+        leftPanel.createNewDataAlert(name, hostId, userId, topicId, t_between_triggers)
     }
 
-    function createNoDataAlert(entityKind, entityId, noDataThreshold){
-        leftPanel.createNoDataAlert(entityKind, entityId, noDataThreshold)
+    function createNoDataAlert(name, hostId, userId, topicId, threshold, t_between_triggers){
+        leftPanel.createNoDataAlert(name, hostId, userId, topicId, threshold, t_between_triggers)
     }
 
 }

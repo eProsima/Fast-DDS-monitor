@@ -28,33 +28,44 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     property bool activeOk: true
+    property string currentAlertName: ""
+    property string currentHost: ""
+    property string currentUser: ""
     property string currentTopic: ""
+    property int currentThreshold: 5
+    property int currentTimeBetweenAlerts: 5000
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
-    signal createAlert(string topicId)
+    signal createAlert(string alert_name, string host_name, string user_name, string topic_name,
+                       int t_between_triggers)
 
     Component.onCompleted: {
         standardButton(Dialog.Ok).text = qsTrId("Add")
         standardButton(Dialog.Cancel).text = qsTrId("Close")
-
-        // Get the available topics from the backend
-        controller.update_available_entity_ids("Topic", "getDataDialogSourceEntityId")
     }
 
     onAccepted: {
         if (!checkInputs())
             return
 
+        currentAlertName = alertNameTextField.text
+        currentHost = hostComboBox.currentText
+        currentUser = userComboBox.currentText
         currentTopic = topicComboBox.currentText
-        createAlert(currentTopic)
+        currentTimeBetweenAlerts = noDataTimeBetweenAlerts.value
+        createAlert(currentAlertName, currentHost, currentUser, currentTopic, currentTimeBetweenAlerts)
     }
 
     onAboutToShow: {
-        getDataDialogSourceEntityId.currentIndex = 0
-        alertTextField.text = ""
-        controller.update_available_entity_ids("Topic", "getDataDialogSourceEntityId")
+        alertNameTextField.text = "<alert_name>"
+        hostComboBox.currentIndex = 0
+        topicComboBox.currentIndex = 0
+        userComboBox.currentIndex = 0
+        updateTopics()
+        updateUsers()
+        updateHosts()
     }
 
     GridLayout{
@@ -63,63 +74,136 @@ Dialog {
         rowSpacing: 20
 
         Label {
-            id: seriesLabel
-            text: "Alert label: "
+            id: alertNameLabel
+            text: "Alert name: "
             InfoToolTip {
-                text: "Name of the alert.\n"
+                text: "Name of the alert.\n"+
+                      "The alert name is autogerated\n" +
+                      "using the values given in this\n" +
+                      "dialog."
             }
         }
+
         TextField {
-            id: alertTextField
+            id: alertNameTextField
             placeholderText: ""
             selectByMouse: true
-            maximumLength: 50
+            maximumLength: 100
             Layout.fillWidth: true
 
             onTextEdited: activeOk = true
         }
 
-
         Label {
-            id: sourceEntityIdLabel
-            text: "Source Entity Id: "
+            id: hostLabel
+            text: "Host: "
             InfoToolTip {
-                text: "Entity from which the data\n" +
+                text: "Host name from which the data\n" +
                       "will be collected."
             }
         }
-        RowLayout {
-            AdaptiveComboBox {
-                id: getDataDialogSourceEntityId
-                model: ["Topic"]
 
-                onActivated: {
-                    activeOk = true
-                }
-            }
-            AdaptiveComboBox {
-                id: topicComboBox
-                textRole: "nameId"
+        AdaptiveComboBox {
+                id: hostComboBox
+                textRole: "host"
                 valueRole: "id"
                 displayText: currentIndex === -1
-                             ? ("Please choose a " + getDataDialogSourceEntityId.currentText + "...")
+                             ? ("Please choose a host...")
                              : currentText
-                model: entityModelFirst
+                model: alertHostModel
+                Component.onCompleted: currentIndex = -1
 
                 onActivated: {
                     activeOk = true
                 }
+        }
+
+        Label {
+            id: userLabel
+            text: "User: "
+            InfoToolTip {
+                text: "User name from which the data\n" +
+                      "will be collected."
             }
         }
 
+        AdaptiveComboBox {
+                id: userComboBox
+                textRole: "user"
+                valueRole: "id"
+                displayText: currentIndex === -1
+                             ? ("Please choose a user...")
+                             : currentText
+                model: alertUserModel
+                Component.onCompleted: currentIndex = -1
+
+                onActivated: {
+                    activeOk = true
+                }
+        }
+
+        Label {
+            id: topicLabel
+            text: "Topic: "
+            InfoToolTip {
+                text: "Topic name from which the data\n" +
+                      "will be collected."
+            }
+        }
+
+        AdaptiveComboBox {
+                id: topicComboBox
+                textRole: "topic"
+                valueRole: "id"
+                displayText: currentIndex === -1
+                             ? ("Please choose a topic...")
+                             : currentText
+                model: alertTopicModel
+                Component.onCompleted: currentIndex = -1
+
+                onActivated: {
+                    activeOk = true
+                }
+        }
+
+        Label {
+            text: "Threshold: "
+            InfoToolTip {
+                text: "Threshold of the throughput under which the alert will start triggering."
+            }
+        }
+
+        SpinBox {
+            id: noDataThreshold
+            editable: true
+            from: 1
+            to: 100
+            stepSize: 1
+            value: 5
+        }
+
+        Label {
+            text: "Time between alerts (ms): "
+            InfoToolTip {
+                text: "Minimum time between two consecutive alerts."
+            }
+        }
+        SpinBox {
+            id: noDataTimeBetweenAlerts
+            editable: true
+            from: 0
+            to: 10000
+            stepSize: 50
+            value: 5000
+        }
     }
 
     MessageDialog {
-        id: emptyAlertLabel
-        title: "Missing alert label"
+        id: emptyAlertName
+        title: "Missing alert name"
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The alert label field is empty. Please enter an alert label."
+        text: "The alert name field is empty. Please enter an alert name."
         onAccepted: newDataAlertDialog.open()
         onDiscard: newDataAlertDialog.close()
     }
@@ -139,16 +223,28 @@ Dialog {
             emptyTopic.open()
             return false
         }
-        if (alertTextField.text === "") {
-            emptyAlertLabel.open()
+        if (alertNameTextField.text === "") {
+            emptyAlertName.open()
             return false
         }
 
         return true
     }
 
-    function updateEntities() {
-        controller.update_available_entity_ids("Topic", "getDataDialogSourceEntityId")
+    function updateTopics() {
+        controller.update_available_entity_ids("Topic", "alertTopic")
     }
 
+    function updateUsers(){
+        controller.update_available_entity_ids("User", "alertUser")
+    }
+
+    function updateHosts(){
+        controller.update_available_entity_ids("Host", "alertHost")
+    }
+
+    function formatText(count, modelData) {
+        var data = count === 24 ? modelData + 1 : modelData;
+        return data.toString().length < 2 ? "0" + data : data;
+    }
 }

@@ -1224,12 +1224,17 @@ void SyncBackendConnection::set_alias(
 
 void SyncBackendConnection::set_alert(
             const std::string& alert_name,
+            const std::string& host_name,
+            const std::string& user_name,
+            const std::string& topic_name,
             const backend::AlertKind& alert_kind,
-            double threshold)
+            double threshold,
+            const std::chrono::milliseconds& t_between_triggers,
+            const std::string& contact_info)
 {
     try
     {
-        StatisticsBackend::set_alert(alert_name, alert_kind, threshold);
+        StatisticsBackend::set_alert(alert_name, host_name, user_name, topic_name, alert_kind, threshold, t_between_triggers, contact_info);
     }
     catch (const Exception& e)
     {

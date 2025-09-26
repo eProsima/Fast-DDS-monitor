@@ -295,15 +295,38 @@ void Controller::set_alias(
         backend::string_to_entity_kind(entity_kind));
 }
 
+std::string clean_entity_name(std::string original_name)
+{
+    size_t pos = original_name.find(':');
+    if (pos != std::string::npos) {
+        return original_name.substr(0, pos);
+    }
+    return original_name;
+}
+
 void Controller::set_alert(
         QString alert_name,
-        QString entity_id,
+        QString host_name,
+        QString user_name,
+        QString topic_name,
         QString alert_type,
-        double threshold)
+        double threshold,
+        int time_between_triggers,
+        QString contact_info)
 {
+
+    std::string clean_host_name = clean_entity_name(utils::to_string(host_name));
+    std::string clean_user_name = clean_entity_name(utils::to_string(user_name));
+    std::string clean_topic_name = clean_entity_name(utils::to_string(topic_name));
+
     engine_->set_alert(utils::to_string(alert_name),
+            clean_host_name,
+            clean_user_name,
+            clean_topic_name,
             backend::string_to_alert_kind(alert_type),
-            threshold);
+            threshold,
+            std::chrono::milliseconds(time_between_triggers),
+            utils::to_string(contact_info));
 }
 
 QString Controller::get_data_kind_units(

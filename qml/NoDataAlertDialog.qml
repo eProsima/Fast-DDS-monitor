@@ -32,7 +32,8 @@ Dialog {
 
     property bool activeOk: true
 
-    signal createAlert(string entityKind, string entityId, int noDataThreshold)
+    signal createAlert(string alert_name, string host_name, string user_name, string topic_name,
+                       int threshold, int t_between_triggers)
 
     Component.onCompleted: {
         standardButton(Dialog.Ok).text = qsTrId("Add")
@@ -51,22 +52,8 @@ Dialog {
         if (!checkInputs())
             return
 
-        if (activeOk) {
-            createAlert(getDataDialogSourceEntityId.currentText, sourceEntityId.currentText, noDataThreshold.value)
-        }
-        activeOk = true
-    }
-
-    onApplied: {
-        if (!checkInputs())
-            return
-
-        if (activeOk) {
-            createAlert()
-        }
-        activeOk = false
-        statisticKind.currentIndex = -1
-        cumulative.checked = false
+        currentTopic = topicComboBox.currentText
+        createAlert("fixed_name", "", "", currentTopic, noDataThreshold.value, 5000)
     }
 
     onClosed: activeOk = true

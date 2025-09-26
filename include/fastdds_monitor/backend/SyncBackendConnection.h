@@ -845,8 +845,13 @@ public:
     //! Set a new alert in backend
     void set_alert(
             const std::string& alert_name,
+            const std::string& host_name,
+            const std::string& user_name,
+            const std::string& topic_name,
             const backend::AlertKind& alert_kind,
-            double threshold);
+            double threshold,
+            const std::chrono::milliseconds& t_between_triggers,
+            const std::string& contact_info);
 
 protected:
 

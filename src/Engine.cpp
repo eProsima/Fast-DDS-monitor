@@ -119,6 +119,13 @@ QObject* Engine::enable()
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
+    alert_host_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::HOST, "alertHost");
+    alert_user_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::USER, "alertUser");
+    alert_topic_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::TOPIC, "alertTopic");
+
     historic_statistics_data_ = new HistoricStatisticsData();
     dynamic_statistics_data_ = new DynamicStatisticsData();
 
@@ -145,6 +152,9 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
+    rootContext()->setContextProperty("alertHostModel", alert_host_id_model_);
+    rootContext()->setContextProperty("alertTopicModel", alert_topic_id_model_);
+    rootContext()->setContextProperty("alertUserModel", alert_user_id_model_);
 
     rootContext()->setContextProperty("historicData", historic_statistics_data_);
     rootContext()->setContextProperty("dynamicData", dynamic_statistics_data_);
@@ -265,6 +275,20 @@ Engine::~Engine()
         {
             delete destination_entity_id_model_;
         }
+
+        if (alert_host_id_model_)
+        {
+            delete alert_host_id_model_;
+        }
+        if (alert_user_id_model_)
+        {
+            delete alert_user_id_model_;
+        }
+        if (alert_topic_id_model_)
+        {
+            delete alert_topic_id_model_;
+        }
+
 
         // Interactive models
         if (historic_statistics_data_)
@@ -437,7 +461,7 @@ bool Engine::fill_alert_()
 
 bool Engine::fill_alert_message_()
 {
-    alert_message_model_->update(alert_message_info_);
+    alert_message_model_->update_without_collapse(alert_message_info_);
     return true;
 }
 
@@ -466,7 +490,7 @@ void Engine::generate_new_alert_message_info_()
 {
     EntityInfo info;
 
-    info["Messages"] = EntityInfo();
+    info = EntityInfo();
 
     alert_message_info_ = info;
 }
@@ -561,10 +585,12 @@ bool Engine::add_alert_info_(
 }
 
 bool Engine::add_alert_message_info_(
-        std::string alert,
+        std::string alert_name,
+        std::string msg,
         std::string time)
 {
-    alert_message_info_["Alerts"][time] = alert;
+    alert_message_info_[alert_name][time] = msg;
+
     fill_alert_message_();
 
     return true;
@@ -572,7 +598,7 @@ bool Engine::add_alert_message_info_(
 
 void Engine::clear_alert_info_()
 {
-    alert_info_["Alerts"] = EntityInfo();
+    alert_info_ = EntityInfo();
     fill_alert_();
 }
 
@@ -848,6 +874,33 @@ bool Engine::on_selected_entity_kind(
             inactive_visible(),
             metatraffic_visible(),
             proxy_visible());
+    }
+    else if (entity_model_id == "alertHost")
+    {
+        alert_host_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_host_id_model_,
+            backend::EntityKind::HOST,
+            inactive_visible(),
+            metatraffic_visible());
+    }
+    else if (entity_model_id == "alertUser")
+    {
+        alert_user_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_user_id_model_,
+            backend::EntityKind::USER,
+            inactive_visible(),
+            metatraffic_visible());
+    }
+    else if (entity_model_id == "alertTopic")
+    {
+        alert_topic_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_topic_id_model_,
+            backend::EntityKind::TOPIC,
+            inactive_visible(),
+            metatraffic_visible());
     }
     else
     {
@@ -1187,12 +1240,25 @@ bool Engine::read_callback_(
 
 bool Engine::read_callback_(
         backend::AlertCallback alert_callback)
-{
+    {
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
-
     // Add callback to log model
-    return add_alert_message_info_("New alert reported!", utils::now());
+    switch (alert_callback.alert_info.get_alert_kind())
+    {
+        case backend::AlertKind::NEW_DATA:
+            return add_alert_message_info_(alert_callback.alert_info.get_alert_name(), "NEW_DATA alert triggered", utils::now());
+            break;
+        case backend::AlertKind::NO_DATA:
+            return add_alert_message_info_(alert_callback.alert_info.get_alert_name(), "NO_DATA alert triggered", utils::now());
+            break;
+        case backend::AlertKind::NONE:
+        default:
+            // Unknown alerts are ignored
+            break;
+    }
+
+    return false;
 }
 
 bool Engine::update_entity_status(
@@ -1815,11 +1881,21 @@ void Engine::set_alias(
 
 void Engine::set_alert(
         const std::string& alert_name,
+        const std::string& host_name,
+        const std::string& user_name,
+        const std::string& topic_name,
         const backend::AlertKind& alert_kind,
-        const double& threshold)
+        double threshold,
+        const std::chrono::milliseconds& t_between_triggers)
 {
     // Adding alert to backend structures
-    backend_connection_.set_alert(alert_name, alert_kind, threshold);
+    // backend_connection_.set_alert(alert_name, host_name, user_name, topic_name, alert_kind, threshold, t_between_triggers);
+    backend_connection_.set_alert(alert_name, "", "", "", alert_kind, threshold, t_between_triggers);
+
+    std::cout << "Alert " << alert_name << " created with host " << host_name << ", user " << user_name
+              << ", topic " << topic_name
+              << ", threshold " << threshold << " and time between triggers " << t_between_triggers.count() << " ms" << std::endl;
+
     // Adding alert to engine and GUI structures
     // NOTE: We cannot do this if we don't know the backend ID maybe
     add_alert_info_(alert_name, utils::now());

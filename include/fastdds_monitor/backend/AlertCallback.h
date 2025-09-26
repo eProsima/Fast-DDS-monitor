@@ -23,33 +23,31 @@
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_ALERT_CALLBACK_H
 
 #include <fastdds_monitor/backend/backend_types.h>
+#include <fastdds_statistics_backend/types/Alerts.hpp>
+
 
 namespace backend {
 
 struct AlertCallback
 {
-    //! Void constructor to use copy constructor afterwards
-    AlertCallback()
-    {
-    }
+    AlertCallback() = default;
 
-    //! Standard constructor with the two fields required
     AlertCallback(
             backend::EntityId domain_entity_id,
             backend::EntityId entity_id,
-            backend::AlertKind alert_kind)
-        : domain_entity_id(domain_entity_id)
+            backend::AlertInfo alert_info,
+            double trigger_data)
+        : domain_id(domain_entity_id)
         , entity_id(entity_id)
-        , alert_kind(alert_kind)
+        , alert_info(alert_info)
+        , trigger_data(trigger_data)
     {
     }
 
-    //! Information of the domain \c EntityId the callback refers
-    backend::EntityId domain_entity_id;
-    //! Information of the \c EntityId the callback refers
+    backend::EntityId domain_id;
     backend::EntityId entity_id;
-    //! Information of the \c AlertKind the callback refers
-    backend::AlertKind alert_kind;
+    backend::AlertInfo alert_info;
+    double trigger_data;
 };
 
 } // namespace backend
