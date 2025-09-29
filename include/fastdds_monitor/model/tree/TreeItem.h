@@ -63,6 +63,7 @@ public:
     TreeItem* child_item(
             int row);
 
+    //! Remove the child node in the position \c row
     void remove_child_item(
             int row);
 
