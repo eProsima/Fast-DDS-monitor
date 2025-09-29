@@ -101,6 +101,21 @@ QString entity_kind_to_QString(
     }
 }
 
+QString alert_kind_to_QString(
+        const AlertKind& alert_kind)
+{
+    switch (alert_kind)
+    {
+        case AlertKind::NEW_DATA:
+            return "New Data";
+        case AlertKind::NO_DATA:
+            return "No Data";
+        case AlertKind::INVALID:
+        default:
+            return "INVALID";
+    }
+}
+
 std::string statistic_kind_to_string(
         const StatisticKind& statistic_kind)
 {
@@ -309,7 +324,7 @@ AlertKind string_to_alert_kind(
     }
     else
     {
-        return AlertKind::NONE;
+        return AlertKind::INVALID;
     }
 }
 
@@ -558,7 +573,7 @@ std::string entity_alert_description(
         case backend::AlertKind::NEW_DATA:
             return "New data on the entity has been received";
         default:
-        case backend::AlertKind::NONE:
+        case backend::AlertKind::INVALID:
             return "";
     }
 }

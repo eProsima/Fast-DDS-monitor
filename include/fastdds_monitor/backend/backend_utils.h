@@ -79,6 +79,10 @@ bool get_info_metatraffic(
 QString entity_kind_to_QString(
         const EntityKind& entity_kind);
 
+//! Converts the \c AlertKind to QString
+QString alert_kind_to_QString(
+        const AlertKind& alert_kind);
+
 //! Converts the \c DataKind to string
 std::string data_kind_to_string(
         const DataKind& data_kind);
