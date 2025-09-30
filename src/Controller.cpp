@@ -301,10 +301,12 @@ void Controller::set_alias(
         backend::string_to_entity_kind(entity_kind));
 }
 
-std::string clean_entity_name(std::string original_name)
+std::string clean_entity_name(
+        std::string original_name)
 {
     size_t pos = original_name.find(':');
-    if (pos != std::string::npos) {
+    if (pos != std::string::npos)
+    {
         return original_name.substr(0, pos);
     }
     return original_name;

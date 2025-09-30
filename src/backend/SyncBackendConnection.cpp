@@ -380,8 +380,6 @@ bool SyncBackendConnection::update_alerts_model(
 
                 changed = update_alert_item_(alert_item, inactive_visible,
                                 metatraffic_visible) || changed;
-
-                std::cout << alert_item->info().dump() << std::endl;
             }
         }
 
@@ -397,8 +395,6 @@ bool SyncBackendConnection::update_alerts_model(
             delete alert_item;
 
             changed = true;
-                            std::cout << alert_item->info().dump() << std::endl;
-
         }
 
         // Otherwise just update the entity
@@ -407,8 +403,6 @@ bool SyncBackendConnection::update_alerts_model(
             models::AlertListItem* alert_item = alerts_model->at(index);
             changed = update_alert_item_(alert_item, inactive_visible, metatraffic_visible)
                     || changed;
-                                    std::cout << alert_item->info().dump() << std::endl;
-
         }
     }
 
@@ -528,7 +522,6 @@ bool SyncBackendConnection::update_model_(
 
     return changed;
 }
-
 
 bool SyncBackendConnection::set_listener(
         Listener* listener)
@@ -768,7 +761,8 @@ std::vector<EntityId> SyncBackendConnection::get_entities(
     }
 }
 
-std::vector<AlertId> SyncBackendConnection::get_alerts(){
+std::vector<AlertId> SyncBackendConnection::get_alerts()
+{
     try
     {
         return StatisticsBackend::get_alerts();
@@ -1343,18 +1337,19 @@ void SyncBackendConnection::set_alias(
 }
 
 void SyncBackendConnection::set_alert(
-            const std::string& alert_name,
-            const std::string& host_name,
-            const std::string& user_name,
-            const std::string& topic_name,
-            const backend::AlertKind& alert_kind,
-            double threshold,
-            const std::chrono::milliseconds& t_between_triggers,
-            const std::string& contact_info)
+        const std::string& alert_name,
+        const std::string& host_name,
+        const std::string& user_name,
+        const std::string& topic_name,
+        const backend::AlertKind& alert_kind,
+        double threshold,
+        const std::chrono::milliseconds& t_between_triggers,
+        const std::string& contact_info)
 {
     try
     {
-        StatisticsBackend::set_alert(alert_name, host_name, user_name, topic_name, alert_kind, threshold, t_between_triggers, contact_info);
+        StatisticsBackend::set_alert(alert_name, host_name, user_name, topic_name, alert_kind, threshold,
+                t_between_triggers, contact_info);
     }
     catch (const Exception& e)
     {

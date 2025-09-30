@@ -484,9 +484,9 @@ public:
      * @return true if any change has been made, false otherwise
      */
     bool update_alerts_model(
-        models::AlertListModel* alerts_model,
-        bool inactive_visible,
-        bool metatraffic_visible);
+            models::AlertListModel* alerts_model,
+            bool inactive_visible,
+            bool metatraffic_visible);
 
     /////
     // Entity update functions
@@ -670,12 +670,12 @@ protected:
         bool proxy_visible);
 
     bool update_alert_item_(
-        AlertListItem* item,
-        bool inactive_visible,
-        bool metatraffic_visible);
+            AlertListItem* item,
+            bool inactive_visible,
+            bool metatraffic_visible);
 
     bool update_alert_item_info_(
-        AlertListItem* item);
+            AlertListItem* item);
 
     /**************
      * UPDATE ONE *

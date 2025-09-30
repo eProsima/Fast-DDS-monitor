@@ -499,14 +499,14 @@ public:
             const backend::EntityKind& entity_kind);
 
     void set_alert(
-        const std::string& alert_name,
-        const std::string& host_name,
-        const std::string& user_name,
-        const std::string& topic_name,
-        const backend::AlertKind& alert_kind,
-        double threshold,
-        const std::chrono::milliseconds& t_between_triggers,
-        const std::string& contact_info);
+            const std::string& alert_name,
+            const std::string& host_name,
+            const std::string& user_name,
+            const std::string& topic_name,
+            const backend::AlertKind& alert_kind,
+            double threshold,
+            const std::chrono::milliseconds& t_between_triggers,
+            const std::string& contact_info);
 
     /**
      * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the
@@ -755,7 +755,7 @@ protected:
      * @return true if any change in any model has been done
      */
     bool fill_alert_summary_(
-                backend::AlertId id);
+            backend::AlertId id);
 
     /**
      * @brief Clear and fill the aler messages view
@@ -776,9 +776,9 @@ protected:
 
     //! Add a new alert message to the Alert Message model
     bool add_alert_message_info_(
-        std::string alert_name,
-        std::string msg,
-        std::string time);
+            std::string alert_name,
+            std::string msg,
+            std::string time);
 
     //! Add a new issue message to the Issue model
     bool add_issue_info_(

@@ -284,19 +284,25 @@ void TreeModel::update(
     emit updatedData();
 }
 
-TreeItem* TreeModel::find_child_by_name(TreeItem* parent, const QString& name) const
+TreeItem* TreeModel::find_child_by_name(
+        TreeItem* parent,
+        const QString& name) const
 {
     for (int i = 0; i < parent->child_count(); ++i)
     {
         TreeItem* child = parent->child_item(i);
         if (child->get_item_name().toString() == name)
+        {
             return child;
+        }
     }
     return nullptr;
 }
 
-
-void TreeModel::setup_model_data_without_collapse(TreeItem* parent, const QModelIndex& parent_index, const json& json_data)
+void TreeModel::setup_model_data_without_collapse(
+        TreeItem* parent,
+        const QModelIndex& parent_index,
+        const json& json_data)
 {
     QHash<QString, int> currentIndexByName;
     for (int i = 0; i < parent->child_count(); ++i)
@@ -322,13 +328,21 @@ void TreeModel::setup_model_data_without_collapse(TreeItem* parent, const QModel
             {
                 QString newValue;
                 if (it.value().is_string())
+                {
                     newValue = QString::fromUtf8(it.value().get<std::string>().c_str());
+                }
                 else if (it.value().is_number())
+                {
                     newValue = QString::number(it.value().get<int>());
+                }
                 else if (it.value().is_boolean())
+                {
                     newValue = (it.value().get<bool>() ? "true" : "false");
+                }
                 else
+                {
                     newValue = "-";
+                }
 
                 // Update value if changed
                 if (existingChild->get_item_value().toString() != newValue)
@@ -363,13 +377,21 @@ void TreeModel::setup_model_data_without_collapse(TreeItem* parent, const QModel
             if (it.value().is_primitive())
             {
                 if (it.value().is_string())
+                {
                     rowData << QString::fromUtf8(it.value().get<std::string>().c_str());
+                }
                 else if (it.value().is_number())
+                {
                     rowData << QString::number(it.value().get<int>());
+                }
                 else if (it.value().is_boolean())
+                {
                     rowData << (it.value().get<bool>() ? "true" : "false");
+                }
                 else
+                {
                     rowData << "-";
+                }
             }
             else
             {
@@ -407,7 +429,8 @@ void TreeModel::setup_model_data_without_collapse(TreeItem* parent, const QModel
     }
 }
 
-void TreeModel::update_without_collapse(json& data)
+void TreeModel::update_without_collapse(
+        json& data)
 {
     std::unique_lock<std::mutex> lock(update_mutex_);
     // Recursive function to update without collapsing

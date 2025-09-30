@@ -64,7 +64,8 @@ public:
             int row);
 
 
-    void remove_child_item(int row);
+    void remove_child_item(
+            int row);
 
     //! Count the number of children
     int child_count() const;

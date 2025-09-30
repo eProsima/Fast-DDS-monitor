@@ -473,7 +473,6 @@ bool Engine::fill_first_alert_summary_()
 bool Engine::fill_alert_list_()
 {
     alert_model_->clear();
-    std::cout << "Fill_alert_data called" << std::endl;
     return backend_connection_.update_alerts_model(alert_model_, inactive_visible(), metatraffic_visible());
 }
 
@@ -481,7 +480,6 @@ bool Engine::fill_alert_summary_(
         backend::AlertId id /*ID_ALL*/)
 {
     alerts_summary_model_->update(backend_connection_.get_info(id));
-    std::cout << "Fill_alert_summary called with info " << backend_connection_.get_info(id).dump() << std::endl;
     return true;
 }
 
@@ -860,71 +858,9 @@ bool Engine::entity_clicked(
 bool Engine::alert_clicked(
         backend::AlertId id)
 {
-    qDebug() << "Clicked alert: " ;
-    std::cout << "Clicked alert: "  << std::endl;
-
-
-    // auto click_result = last_entities_clicked_.click(id, kind);
+    qDebug() << "Clicked alert: ";
     bool res = false;
-
-    // if (std::get<2>(click_result).is_set())
-    // {
-    //     res = update_entity_generic(
-    //         std::get<2>(click_result).id,
-    //         std::get<2>(click_result).kind,
-    //         true,
-    //         false) || res;
-    // }
-
-    // if (std::get<1>(click_result).is_set())
-    // {
-    //     res = update_entity_generic(
-    //         std::get<1>(click_result).id,
-    //         std::get<1>(click_result).kind,
-    //         true,
-    //         false) || res;
-    // }
-
-    // switch (std::get<0>(click_result))
-    // {
-    //     case EntitiesClicked::EntityKindClicked::all:
-    //         // Reset dds model and update if needed
-    //         if (reset_dds)
-    //         {
-    //             reset_dds_data();
-    //         }
-    //         if (update_dds)
-    //         {
-    //             res = update_dds_data(id) || res;
-    //         }
-    //         break;
-
-    //     case EntitiesClicked::EntityKindClicked::dds:
-    //         res = update_entity_generic(id, kind, true, true) || res;
-    //         break;
-
-    //     case EntitiesClicked::EntityKindClicked::logical_physical:
-    //         // Update new entity
-    //         res = update_entity_generic(id, kind, true, true) || res;
-
-    //         // Reset dds model and update if needed
-    //         if (reset_dds)
-    //         {
-    //             reset_dds_data();
-    //         }
-    //         if (update_dds)
-    //         {
-    //             res = update_dds_data(id) || res;
-    //         }
-    //         break;
-
-    //     default:
-    //         break;
-    // }
-
-    // All entities
     res = fill_alert_summary_(id) || res;
-
     return res;
 }
 
@@ -1325,17 +1261,19 @@ bool Engine::read_callback_(
 
 bool Engine::read_callback_(
         backend::AlertCallback alert_callback)
-    {
+{
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
     // Add callback to log model
     switch (alert_callback.alert_info.get_alert_kind())
     {
         case backend::AlertKind::NEW_DATA:
-            return add_alert_message_info_(alert_callback.alert_info.get_alert_name(), "NEW_DATA alert triggered", utils::now());
+            return add_alert_message_info_(
+                alert_callback.alert_info.get_alert_name(), "NEW_DATA alert triggered", utils::now());
             break;
         case backend::AlertKind::NO_DATA:
-            return add_alert_message_info_(alert_callback.alert_info.get_alert_name(), "NO_DATA alert triggered", utils::now());
+            return add_alert_message_info_(
+                alert_callback.alert_info.get_alert_name(), "NO_DATA alert triggered", utils::now());
             break;
         case backend::AlertKind::INVALID:
         default:
@@ -1975,12 +1913,8 @@ void Engine::set_alert(
         const std::string& contact_info)
 {
     // Adding alert to backend structures
-    // backend_connection_.set_alert(alert_name, host_name, user_name, topic_name, alert_kind, threshold, t_between_triggers, contact_info);
-    backend_connection_.set_alert(alert_name, "", "", "", alert_kind, threshold, t_between_triggers, contact_info);
-
-    std::cout << "Alert " << alert_name << " created with host " << host_name << ", user " << user_name
-              << ", topic " << topic_name
-              << ", threshold " << threshold << " and time between triggers " << t_between_triggers.count() << " ms" << std::endl;
+    backend_connection_.set_alert(alert_name, host_name, user_name, topic_name, alert_kind, threshold,
+            t_between_triggers, contact_info);
 }
 
 bool Engine::update_entity(

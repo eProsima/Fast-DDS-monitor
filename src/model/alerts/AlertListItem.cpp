@@ -56,7 +56,7 @@ AlertListItem::AlertListItem(
         QObject* parent)
     : QObject(parent)
     // , id_(backend::AlertId::invalid())
-      , id_(-1)
+    , id_(-1)
 {
 }
 

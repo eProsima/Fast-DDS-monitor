@@ -104,7 +104,6 @@ public:
             const AlertInfo& alert,
             const double& data) override;
 
-
 protected:
 
     //! Engine reference

@@ -180,11 +180,10 @@ void Listener::on_status_reported(
 void Listener::on_alert_triggered(
         EntityId domain_id,
         EntityId entity_id,
-        const AlertInfo &alert,
-        const double &data)
+        const AlertInfo& alert,
+        const double& data)
 {
     engine_->add_callback(AlertCallback(domain_id, entity_id, alert, data));
 }
-
 
 } //namespace backend
