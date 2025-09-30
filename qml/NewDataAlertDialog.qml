@@ -32,14 +32,14 @@ Dialog {
     property string currentHost: ""
     property string currentUser: ""
     property string currentTopic: ""
-    property int currentThreshold: 5
     property int currentTimeBetweenAlerts: 5000
+    property string contactInfo: ""
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
     signal createAlert(string alert_name, string host_name, string user_name, string topic_name,
-                       int t_between_triggers)
+                       int t_between_triggers, string contact_info)
 
     Component.onCompleted: {
         standardButton(Dialog.Ok).text = qsTrId("Add")
@@ -55,14 +55,15 @@ Dialog {
         currentUser = userComboBox.currentText
         currentTopic = topicComboBox.currentText
         currentTimeBetweenAlerts = noDataTimeBetweenAlerts.value
-        createAlert(currentAlertName, currentHost, currentUser, currentTopic, currentTimeBetweenAlerts)
+        //contactInfo = ""
+        createAlert(currentAlertName, currentHost, currentUser, currentTopic, currentTimeBetweenAlerts, contactInfo)
     }
 
     onAboutToShow: {
         alertNameTextField.text = "<alert_name>"
-        hostComboBox.currentIndex = 0
-        topicComboBox.currentIndex = 0
-        userComboBox.currentIndex = 0
+        hostComboBox.currentIndex = -1
+        topicComboBox.currentIndex = -1
+        userComboBox.currentIndex = -1
         updateTopics()
         updateUsers()
         updateHosts()
@@ -105,8 +106,9 @@ Dialog {
 
         AdaptiveComboBox {
                 id: hostComboBox
-                textRole: "host"
+                textRole: "nameId"
                 valueRole: "id"
+                popup.y: height
                 displayText: currentIndex === -1
                              ? ("Please choose a host...")
                              : currentText
@@ -115,6 +117,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
@@ -129,8 +132,9 @@ Dialog {
 
         AdaptiveComboBox {
                 id: userComboBox
-                textRole: "user"
+                textRole: "nameId"
                 valueRole: "id"
+                popup.y: height
                 displayText: currentIndex === -1
                              ? ("Please choose a user...")
                              : currentText
@@ -139,6 +143,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
@@ -153,8 +158,9 @@ Dialog {
 
         AdaptiveComboBox {
                 id: topicComboBox
-                textRole: "topic"
+                textRole: "nameId"
                 valueRole: "id"
+                popup.y: height
                 displayText: currentIndex === -1
                              ? ("Please choose a topic...")
                              : currentText
@@ -163,23 +169,8 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
-        }
-
-        Label {
-            text: "Threshold: "
-            InfoToolTip {
-                text: "Threshold of the throughput under which the alert will start triggering."
-            }
-        }
-
-        SpinBox {
-            id: noDataThreshold
-            editable: true
-            from: 1
-            to: 100
-            stepSize: 1
-            value: 5
         }
 
         Label {
@@ -196,6 +187,7 @@ Dialog {
             stepSize: 50
             value: 5000
         }
+
     }
 
     MessageDialog {
@@ -208,21 +200,7 @@ Dialog {
         onDiscard: newDataAlertDialog.close()
     }
 
-    MessageDialog {
-        id: emptyTopic
-        title: "Topic not selected"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The topic field is empty. Please choose a topic from the list."
-        onAccepted: newDataAlertDialog.open()
-        onDiscard: newDataAlertDialog.close()
-    }
-
     function checkInputs() {
-        if (topicComboBox.currentIndex === -1) {
-            emptyTopic.open()
-            return false
-        }
         if (alertNameTextField.text === "") {
             emptyAlertName.open()
             return false
@@ -233,18 +211,26 @@ Dialog {
 
     function updateTopics() {
         controller.update_available_entity_ids("Topic", "alertTopic")
+        topicComboBox.recalculateWidth()
     }
 
     function updateUsers(){
         controller.update_available_entity_ids("User", "alertUser")
+        userComboBox.recalculateWidth()
     }
 
     function updateHosts(){
         controller.update_available_entity_ids("Host", "alertHost")
+        hostComboBox.recalculateWidth()
     }
 
-    function formatText(count, modelData) {
-        var data = count === 24 ? modelData + 1 : modelData;
-        return data.toString().length < 2 ? "0" + data : data;
+    function abbreviateEntityName(entityName){
+        return entityName.split(":")[0] + "<" + entityName_id_str[entityName_id_str.length-1]
+    }
+
+    function regenerateAlertName(){
+        alertNameTextField.text = abbreviateEntityName(hostComboBox.currentText)
+        alertNameTextField.text += "_" + abbreviateEntityName(userComboBox.currentText)
+        alertNameTextField.text += "_" + abbreviateEntityName(topicComboBox.currentText)
     }
 }

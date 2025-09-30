@@ -123,6 +123,9 @@ public slots:
     //! Slot called when a Locator entity is pressed
     void locator_click(
             QString id);
+    //! Slot called when an Alert entity is pressed
+    void alert_click(
+            QString id);
 
     //! Slot called when refresh button is pressed
     void refresh_click();

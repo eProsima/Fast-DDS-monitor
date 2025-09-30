@@ -28,6 +28,8 @@ namespace models {
 
 //! The type of EntityId within the models is a QString came by the conversion of backend \c EntityId into string
 using EntityId = QString;
+//! The type of AlertId within the models is a QString came by the conversion of backend \c AlertId into string
+using AlertId = QString;
 
 //! Reference the EntityId::all() in models
 constexpr const char* ID_ALL = "all";

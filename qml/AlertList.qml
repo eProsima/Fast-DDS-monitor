@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2025 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // This file is part of eProsima Fast DDS Monitor.
 //
@@ -24,15 +24,9 @@ import Theme 1.0
 
 Rectangle {
 
-    id: alertList
+    id: alertListRect
     Layout.fillHeight: true
     Layout.fillWidth: true
-
-    enum DDSEntity {
-        Participant,
-        Endpoint,
-        Locator
-    }
 
     property int verticalSpacing: 5
     property int spacingIconLabel: 8
@@ -42,12 +36,11 @@ Rectangle {
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
 
     ListView {
-        id: participantList
-        model: participantModel
-        delegate: participantListDelegate
+        id: alertList
+        model: alertModel
+        delegate: alertListDelegate
         clip: true
-        width: parent.width
-        height: parent.height
+        anchors.fill : parent
         spacing: verticalSpacing
         boundsBehavior: Flickable.StopAtBounds
 
@@ -57,208 +50,44 @@ Rectangle {
     }
 
     Component {
-        id: participantListDelegate
+        id: alertListDelegate
 
         Item {
-            id: participantItem
-            width: participantList.width
-            height: participantListColumn.childrenRect.height
+            id: alertItem
+            width: alertListRect.width
+            height: alertHighlightRect.height
+            property var alertId: id
+            property int alertIdx: index
 
-            property var participantId: id
-            property int participantIdx: index
-            property var endpointList: endpointList
+            Rectangle {
 
-            Column {
-                id: participantListColumn
+                id: alertHighlightRect
+                width: alertList.width
+                height: alertIcon.height
+                color: clicked ? Theme.eProsimaLightBlue : "transparent"
 
-                Rectangle {
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                    id: participantHighlightRect
-                    width: alertList.width
-                    height: participantItem.height
-                    color: clicked ? Theme.eProsimaLightBlue : "transparent"
-
-                    MouseArea {
-                        anchors.fill: parent
-                        acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                        onDoubleClicked: {
-                            if(endpointList.height === endpointList.collapseHeightFlag) {
-                                endpointList.height = 0;
-                            } else {
-                                if (endpointList.childrenRect.height != 0) {
-                                    endpointList.height = endpointList.collapseHeightFlag;
-                                }
-                            }
-                        }
-                        onClicked: {
-                            if(mouse.button & Qt.RightButton) {
-                                openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
-                            } else  {
-                                controller.participant_click(id)
-                            }
-                        }
+                    onClicked: {
+                        controller.alert_click(id)
                     }
                 }
 
-                ListView {
-                    id: endpointList
-                    model: participantModel.subModelFromEntityId(participantId)
-                    width: participantList.width
-                    height: 0
-                    contentHeight: contentItem.childrenRect.height
-                    clip: true
-                    spacing: verticalSpacing
-                    topMargin: verticalSpacing
-                    delegate: endpointListDelegate
-                    boundsBehavior: Flickable.StopAtBounds
+                RowLayout {
+                    spacing: spacingIconLabel
 
-                    property int collapseHeightFlag: childrenRect.height + endpointList.topMargin
-                }
-
-                Component {
-                    id: endpointListDelegate
-
-                    Item {
-                        id: endpointItem
-                        height: endpointListColumn.childrenRect.height
-
-                        property var endpointId: id
-                        property int endpointIdx: index
-                        property var locatorList: locatorList
-
-                        ListView.onAdd: {
-                            if(endpointList.height != 0) {
-                                endpointList.height = endpointList.collapseHeightFlag;
-                            }
-                        }
-
-                        Column {
-                            id: endpointListColumn
-
-                            Rectangle {
-                                id: endpointHighlightRect
-                                width: alertList.width
-                                height: endpointIcon.height
-                                color: clicked ? Theme.eProsimaLightBlue : "transparent"
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                                    onDoubleClicked: {
-                                        if(locatorList.height === locatorList.collapseHeightFlag) {
-                                            locatorList.height = 0;
-                                            endpointList.height =
-                                                    endpointList.height - locatorList.collapseHeightFlag;
-                                        } else {
-                                            if (locatorList.childrenRect.height != 0) {
-                                                locatorList.height = locatorList.collapseHeightFlag;
-                                                endpointList.height = endpointList.height + locatorList.height;
-                                            }
-                                        }
-                                    }
-                                    onClicked: {
-                                        if(mouse.button & Qt.RightButton) {
-                                            openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
-                                        } else {
-                                            controller.endpoint_click(id)
-                                        }
-                                    }
-                                }
-
-                                RowLayout {
-                                    spacing: spacingIconLabel
-
-                                    IconSVG {
-                                        id: endpointIcon
-                                        name: (kind == "DataReader") ? "datareader" : "datawriter"
-                                        size: iconSize
-                                        Layout.leftMargin: secondIndentation
-                                        color: entityLabelColor(clicked, alive)
-                                    }
-                                    Label {
-                                        text: name
-                                        color: entityLabelColor(clicked, alive)
-                                    }
-                                }
-                            }
-
-                            ListView {
-                                id: locatorList
-                                model: endpointList.model.subModelFromEntityId(endpointId)
-                                width: participantList.width
-                                height: 0
-                                contentHeight: contentItem.childrenRect.height
-                                clip: true
-                                delegate: locatorListDelegate
-                                spacing: verticalSpacing
-                                topMargin: verticalSpacing
-                                boundsBehavior: Flickable.StopAtBounds
-
-                                property int collapseHeightFlag: childrenRect.height + locatorList.topMargin
-                            }
-
-                            Component {
-                                id: locatorListDelegate
-
-                                Item {
-                                    id: locatorItem
-                                    width: parent.width
-                                    height: locatorListColumn.childrenRect.height
-
-                                    property int locatorIdx: index
-
-                                    ListView.onAdd: {
-                                        if(locatorList.height != 0) {
-                                            var prevHeight = locatorList.height
-                                            locatorList.height = locatorList.collapseHeightFlag
-                                            endpointList.height = endpointList.height + locatorList.height - prevHeight
-                                        }
-                                    }
-
-                                    Column {
-                                        id: locatorListColumn
-
-                                        Rectangle {
-                                            id: locatorHighlightRect
-                                            width: alertList.width
-                                            height: locatorIcon.height
-                                            color: clicked ? Theme.eProsimaLightBlue : "transparent"
-
-                                            MouseArea {
-                                                anchors.fill: parent
-                                                acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                                                onClicked: {
-                                                    if(mouse.button & Qt.RightButton) {
-                                                        openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
-                                                    } else {
-                                                        controller.locator_click(id)
-                                                    }
-                                                }
-                                            }
-
-                                            RowLayout {
-                                                spacing: spacingIconLabel
-
-                                                IconSVG {
-                                                    id: locatorIcon
-                                                    name: "locator"
-                                                    size: iconSize
-                                                    Layout.leftMargin: thirdIndentation
-                                                    color: entityLabelColor(clicked, alive)
-                                                }
-                                                Label {
-                                                    text: name
-                                                    color: entityLabelColor(clicked, alive)
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    IconSVG {
+                        id: alertIcon
+                        name: "alert"
+                        size: iconSize
+                        Layout.leftMargin: firstIndentation
+                        color: entityLabelColor(clicked, alive)
+                    }
+                    Label {
+                        text: name
+                        color: entityLabelColor(clicked, alive)
                     }
                 }
             }

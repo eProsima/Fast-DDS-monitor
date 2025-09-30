@@ -196,20 +196,20 @@ RowLayout {
         monitoringPanel.changeExplorerEntityInfo(status)
     }
 
-    function createAlert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers) {
+    function createAlert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info) {
         console.log("MOCK2: Creating alert for topic " + topicId + " with threshold " + threshold + " and time between triggers " + t_between_triggers)
-        controller.set_alert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers);
+        controller.set_alert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info);
     }
 
-    function createNoDataAlert(name, hostId, userId, topicId, threshold, t_between_triggers) {
+    function createNoDataAlert(name, hostId, userId, topicId, threshold, t_between_triggers, contact_info) {
         // TODO: Remove log
         console.log("MOCK: Creating no data alert for topic " + topicId + " with threshold " + threshold + " and time between triggers " + t_between_triggers)
-        createAlert(name, hostId, userId, topicId, "NO_DATA", threshold, t_between_triggers);
+        createAlert(name, hostId, userId, topicId, "NO_DATA", threshold, t_between_triggers, contact_info);
     }
 
-    function createNewDataAlert(name, hostId, userId, topicId, t_between_triggers) {
+    function createNewDataAlert(name, hostId, userId, topicId, t_between_triggers, contact_info) {
         // TODO: Remove log
         console.log("MOCK: Creating new data alert for topic " + topicId + " with time between triggers " + t_between_triggers)
-        createAlert(name, hostId, userId, topicId, "NEW_DATA", 0, t_between_triggers);
+        createAlert(name, hostId, userId, topicId, "NEW_DATA", 0, t_between_triggers, contact_info);
     }
 }

@@ -15,6 +15,8 @@ SOURCES += \
         src/Engine.cpp \
         src/io/csv.cpp \
         src/main.cpp \
+        src/model/alerts/AlertListModel.cpp \
+        src/model/alerts/AlertListItem.cpp \
         src/model/dds/EndpointModelItem.cpp \
         src/model/dds/ParticipantModelItem.cpp \
         src/model/info/InfoModel.cpp \

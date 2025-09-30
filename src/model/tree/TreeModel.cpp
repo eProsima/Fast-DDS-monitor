@@ -16,6 +16,8 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 #include <QStringList>
+#include <QHash>
+#include <QSet>
 
 #include <fastdds_monitor/model/tree/TreeItem.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>

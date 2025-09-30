@@ -38,6 +38,7 @@
 #include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
+#include <fastdds_monitor/model/alerts/AlertListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/model/info/InfoModel.h>
 #include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
@@ -337,6 +338,18 @@ public:
             backend::EntityKind kind,
             bool update_dds = true,
             bool reset_dds = true);
+
+
+    /**
+     * @brief Call the event chain when an alert is clicked
+     *
+     * For every alert it updates the summary model to reference this alert clicked.
+     *
+     * @param id Alert id of the alert clicked
+     * @return true if any change in any model has been done
+     */
+    bool alert_clicked(
+            backend::AlertId id);
 
     //! TODO
     bool on_selected_entity_kind(
@@ -723,14 +736,29 @@ protected:
     bool fill_status_();
 
     /**
-     * @brief Clear and fill the Alert Model
+     * @brief Update the alert summary model with an initial message that says there are
+     * no selected alerts
+     */
+    bool fill_first_alert_summary_();
+
+    /**
+     * @brief Clear and fill the alert list model
      *
      * @return true if any change in any model has been done
      */
-    bool fill_alert_();
+    bool fill_alert_list_();
 
     /**
-     * @brief Clear and fill the Alert Message Model
+     * @brief Clear and fill the alert summary for a selected alert
+     *
+     * @param id id of the alert to get the info
+     * @return true if any change in any model has been done
+     */
+    bool fill_alert_summary_(
+                backend::AlertId id);
+
+    /**
+     * @brief Clear and fill the aler messages view
      *
      * @return true if any change in any model has been done
      */
@@ -741,13 +769,13 @@ protected:
             std::string callback,
             std::string time);
 
-    //! Add a new alert message to the Alert model
-    bool add_alert_info_(
+    //! Add a new alert object to the Alert model
+    bool add_alert_(
             std::string alert,
             std::string time);
 
     //! Add a new alert message to the Alert Message model
-bool add_alert_message_info_(
+    bool add_alert_message_info_(
         std::string alert_name,
         std::string msg,
         std::string time);
@@ -761,13 +789,6 @@ bool add_alert_message_info_(
     bool add_status_domain_(
             std::string name,
             std::string time);
-
-    /**
-     * Generates a new alert info model from the main schema
-     * The alert model schema has:
-     * - "Alerts" tag - to collect alerts
-     */
-    void generate_new_alert_info_();
 
     /**
      * Generates a new alert message info model from the main schema
@@ -865,8 +886,11 @@ bool add_alert_message_info_(
     //! Clear issues panel information
     void clear_issue_info_();
 
-    //! Clear alerts panel information
+    //! Clear alerts info panel information
     void clear_alert_info_();
+
+    //! Clear alert messages information
+    void clear_alert_message_info_();
 
     /////
     // Variables
@@ -899,9 +923,15 @@ bool add_alert_message_info_(
     backend::Info issue_info_;
 
     //! Data Model for Alerts. Collects alerts defined in the system
-    models::TreeModel* alert_model_;
+    models::AlertListModel* alert_model_;
 
-    //! Data that is represented in the Alert Model when this model is refreshed
+    //! Alert buffer
+    backend::Info alert_data_;
+
+    //! Data Model for Info of the clicked alert
+    models::TreeModel* alerts_summary_model_;
+
+    //! Information about the selected alert
     backend::Info alert_info_;
 
     //! Data Model for Alert Messages. Collects alert messages and info from the whole system

@@ -155,6 +155,12 @@ std::vector<EntityId> StatisticsBackend::get_entities(
     return Database::get_instance()->get_entities(entity_type, entity_id);
 }
 
+// Get the alerts vector
+std::vector<AlertId> StatisticsBackend::get_alerts()
+{
+    return Database::get_instance()->get_alerts();
+}
+
 // Returns the EntityKind of the entity with id entity_id
 EntityKind StatisticsBackend::get_type(
         EntityId entity_id)

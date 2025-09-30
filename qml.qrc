@@ -19,6 +19,7 @@
         <file>qml/AlertKindDialog.qml</file>
         <file>qml/AlertList.qml</file>
         <file>qml/AlertsPanel.qml</file>
+        <file>qml/AlertSummary.qml</file>
         <file>qml/NewDataAlertDialog.qml</file>
         <file>qml/NoDataAlertDialog.qml</file>
         <file>qml/ChangeAliasDialog.qml</file>

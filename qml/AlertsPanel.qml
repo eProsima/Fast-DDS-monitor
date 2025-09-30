@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2025 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // This file is part of eProsima Fast DDS Monitor.
 //
@@ -22,7 +22,7 @@ import QtQml.Models 2.12
 import Theme 1.0
 
 /*
-    Sidebar containing the Status and the Log views.
+    Sidebar containing the Alerts
  */
 ColumnLayout {
     id: alertsPanel
@@ -81,7 +81,7 @@ ColumnLayout {
                 Rectangle {
                     id: alertListTitle
                     Layout.fillWidth: true
-                    height: infoTabBar.height
+                    height:  infoTabBar.height
                     Label {
                         text: "Alert List"
                         anchors.verticalCenter: parent.verticalCenter
@@ -105,49 +105,32 @@ ColumnLayout {
             }
 
             Item {
-                id: alertInfo
+                id: alertInfoLayout
                 visible: true
                 SplitView.fillHeight: true
                 SplitView.preferredHeight: parent.height / 4
                 SplitView.minimumHeight: infoTabBar.height
                 clip: true
 
-                Rectangle {
-                    id: infoSelectedAlert
-                    property string alert_id: "UNKNOWN_ALERT"
-                    anchors.top: infoTabBar.bottom
+                TabBar {
+                    id: infoTabBar
+                    anchors.top: parent.top
                     anchors.left: parent.left
                     width: parent.width
-                    height: infoTabBar.height
-
-                    TabBar {
-                        id: infoTabBar
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        width: parent.width
-                        TabButton {
-                            text: qsTr("Info")
-                        }
+                    TabButton {
+                        text: qsTr("Info")
                     }
+                }
 
-                    Rectangle
-                    {
-                        color: "transparent"
-                        anchors.top: infoTabBar.bottom
-                        height: infoTabBar.height
-                        width: parent.width
+                StackLayout {
+                    currentIndex: infoTabBar.currentIndex
+                    anchors.top: infoTabBar.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    width: parent.width
 
-                        Label {
-                            id: infoSelectedEntityLabel
-                            text: "No entity selected"
-                            font.pointSize: 10
-                            font.italic: true
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            width: parent.width
-                            horizontalAlignment: Text.AlignHCenter
-                            elide: Text.ElideRight
-                        }
+                    AlertSummary {
+                        id: alertSummaryView
                     }
                 }
             }

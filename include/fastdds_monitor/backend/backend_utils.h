@@ -79,6 +79,14 @@ bool get_info_metatraffic(
 QString entity_kind_to_QString(
         const EntityKind& entity_kind);
 
+//! Converts the \c AlertId in backend to models QString
+models::AlertId alert_backend_id_to_models_id(
+        const AlertId& id);
+
+//! Converts the \c AlertId in models QString to backend AlertId
+AlertId alert_models_id_to_backend_id(
+        const models::AlertId& id);
+
 //! Converts the \c AlertKind to QString
 QString alert_kind_to_QString(
         const AlertKind& alert_kind);

@@ -117,6 +117,13 @@ ListItem* SyncBackendConnection::create_locator_data_(
     return new LocatorModelItem(id, get_info(id));
 }
 
+AlertListItem* SyncBackendConnection::create_alert_data_(
+        backend::AlertId id)
+{
+    qDebug() << "Creating Alert " << backend::backend_id_to_models_id(id);
+    return new AlertListItem(id, get_info(id));
+}
+
 /// UPDATE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_host_item(
         ListItem* host_item,
@@ -326,6 +333,88 @@ bool SyncBackendConnection::update_dds_model(
         proxy_visible);
 }
 
+bool SyncBackendConnection::update_alert_item_(
+        AlertListItem* item,
+        bool inactive_visible,
+        bool metatraffic_visible)
+{
+    bool res = update_alert_item_info_(item);
+    return res;
+}
+
+bool SyncBackendConnection::update_alert_item_info_(
+        AlertListItem* item)
+{
+    // Query for this item info and update it
+    item->info(get_info(item->get_alert_id()));
+    item->triggerItemUpdate();
+    return true;
+}
+
+bool SyncBackendConnection::update_alerts_model(
+        AlertListModel* alerts_model,
+        bool inactive_visible,
+        bool metatraffic_visible)
+{
+    bool changed = false;
+
+    // For each User get all processes
+    for (auto& alert_id : get_alerts())
+    {
+        // AlertId alert_id = alert_tuple.first;
+        // AlertInfo alert_info = alert_tuple->second;
+        // Check if it exists already
+        int index = alerts_model->rowIndexFromId(alert_id);
+
+        // If it does not exist, it creates it and add a Row with it
+        // If it exists it updates its info
+        if (index == -1)
+        {
+            // Only create the new alert if is alive or inactive are visible
+            if ((inactive_visible || get_alive(alert_id)))
+            {
+                // Creates the Item object and update its data
+                alerts_model->appendRow(create_alert_data_(alert_id));
+                changed = true;
+                models::AlertListItem* alert_item = alerts_model->find(alert_id);
+
+                changed = update_alert_item_(alert_item, inactive_visible,
+                                metatraffic_visible) || changed;
+
+                std::cout << alert_item->info().dump() << std::endl;
+            }
+        }
+
+        // In case this entity is inactive and inactive are not being displayed
+        else if ((!inactive_visible && !get_alive(alert_id)))
+        {
+            models::AlertListItem* alert_item = alerts_model->at(index);
+
+            // Remove the row
+            alerts_model->removeRow(index);
+
+            // Remove its subentities and the object ListItem
+            delete alert_item;
+
+            changed = true;
+                            std::cout << alert_item->info().dump() << std::endl;
+
+        }
+
+        // Otherwise just update the entity
+        else
+        {
+            models::AlertListItem* alert_item = alerts_model->at(index);
+            changed = update_alert_item_(alert_item, inactive_visible, metatraffic_visible)
+                    || changed;
+                                    std::cout << alert_item->info().dump() << std::endl;
+
+        }
+    }
+
+    return changed;
+}
+
 bool SyncBackendConnection::update_get_data_dialog_entity_id(
         models::ListModel* entity_model,
         EntityKind entity_kind,
@@ -440,6 +529,7 @@ bool SyncBackendConnection::update_model_(
     return changed;
 }
 
+
 bool SyncBackendConnection::set_listener(
         Listener* listener)
 {
@@ -542,6 +632,22 @@ EntityInfo SyncBackendConnection::get_info(
     try
     {
         // Refactor json info so there are no vectors
+        return backend::refactor_json(StatisticsBackend::get_info(id));
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting entity info: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
+        return EntityInfo();
+    }
+}
+
+AlertSummary SyncBackendConnection::get_info(
+        AlertId id)
+{
+    try
+    {
         return backend::refactor_json(StatisticsBackend::get_info(id));
     }
     catch (const Exception& e)
@@ -659,6 +765,20 @@ std::vector<EntityId> SyncBackendConnection::get_entities(
         static_cast<void>(e); // In release qWarning does not compile and so e is not used
 
         return std::vector<EntityId>();
+    }
+}
+
+std::vector<AlertId> SyncBackendConnection::get_alerts(){
+    try
+    {
+        return StatisticsBackend::get_alerts();
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting alerts: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
+        return std::vector<AlertId>();
     }
 }
 

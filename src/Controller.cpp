@@ -108,6 +108,12 @@ void Controller::locator_click(
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::LOCATOR);
 }
 
+void Controller::alert_click(
+        QString id)
+{
+    engine_->alert_clicked(backend::alert_models_id_to_backend_id(id));
+}
+
 void Controller::update_available_entity_ids(
         QString entity_kind,
         QString entity_model_id)
