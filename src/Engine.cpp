@@ -438,6 +438,9 @@ void Engine::start_topic_spy(
         int domain,
         QString topic_name)
 {
+    // __FLAG__
+    std::cout << "Engine::start_topic_spy" << std::endl;
+    //////////////////////////////////
     auto it = active_monitors_.find(QString::number(domain));
     if (it != active_monitors_.end())
     {
@@ -463,6 +466,9 @@ void Engine::stop_topic_spy(
         int domain,
         QString topic_name)
 {
+    // __FLAG__
+    std::cout << "Engine::stop_topic_spy" << std::endl;
+    //////////////////////////////////
     auto it = active_monitors_.find(QString::number(domain));
     if (it != active_monitors_.end())
     {
