@@ -592,6 +592,43 @@ EntityId SyncBackendConnection::init_monitor_with_profile(
     return EntityId::invalid();
 }
 
+void SyncBackendConnection::start_topic_spy(
+        EntityId monitor_id,
+        const std::string& topic_name,
+        std::function<void(const std::string&)> on_data_received)
+{
+    try
+    {
+        StatisticsBackend::start_topic_spy(monitor_id, topic_name, on_data_received);
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error starting topic spy " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter starting topic spy " << e.what();
+    }
+}
+
+void SyncBackendConnection::stop_topic_spy(
+        EntityId monitor_id,
+        const std::string& topic_name)
+{
+    try
+    {
+        StatisticsBackend::stop_topic_spy(monitor_id, topic_name);
+    }
+    catch (const Error& e)
+    {
+        qWarning() << "Error stopping topic spy " << e.what();
+    }
+    catch (const BadParameter& e)
+    {
+        qWarning() << "Bad Parameter stopping topic spy " << e.what();
+    }
+}
+
 EntityInfo SyncBackendConnection::get_info(
         EntityId id)
 {

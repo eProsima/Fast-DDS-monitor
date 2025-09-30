@@ -22,14 +22,16 @@
 
 #include <QDateTime>
 #include <QDebug>
-#include <QQmlApplicationEngine>
-#include <QtCore/QRandomGenerator>
-#include <qqmlcontext.h>
-#include <QFile>
 #include <QDir>
+#include <QFile>
 #include <QIODevice>
-#include <QStringListModel>
+#include <QMap>
+#include <QQmlApplicationEngine>
+#include <qqmlcontext.h>
 #include <QStandardItem>
+#include <QString>
+#include <QStringListModel>
+#include <QtCore/QRandomGenerator>
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/Listener.h>
@@ -110,6 +112,9 @@ QObject* Engine::enable()
     generate_new_status_info_();
     fill_status_();
 
+    // Creates a default json structure for user data messages
+    user_data_model_ = new models::TreeModel();
+
     // Creates a default json structure for statuses and fills the tree model with it
     entity_status_model_ = new models::StatusTreeModel();
     update_entity_status(backend::ID_ALL, backend::StatusKind::INVALID);
@@ -152,6 +157,7 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("issueModel", issue_model_);
     rootContext()->setContextProperty("logModel", log_model_);
     rootContext()->setContextProperty("statusModel", status_model_);
+    rootContext()->setContextProperty("userDataModel", user_data_model_);
     rootContext()->setContextProperty("entityStatusModel", entity_status_proxy_model_);
     rootContext()->setContextProperty("alertModel", alert_model_);
     rootContext()->setContextProperty("alertMessageModel", alert_message_model_);
@@ -253,6 +259,11 @@ Engine::~Engine()
             delete status_model_;
         }
 
+        if (user_data_model_)
+        {
+            delete user_data_model_;
+        }
+
         if (entity_status_model_)
         {
             delete entity_status_model_;
@@ -340,11 +351,20 @@ void Engine::init_monitor(
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
+    if (active_monitors_.find(QString::number(domain)) != active_monitors_.end())
+    {
+        process_error(
+            "Monitor in DomainId: " + std::to_string(domain) + " already initialized",
+            ErrorType::INIT_MONITOR);
+        return;
+    }
+
     backend::EntityId domain_id = backend_connection_.init_monitor(domain, easy_mode_ip);
 
     if (domain_id.is_valid())
     {
         shared_init_monitor_(domain_id);
+        active_monitors_[QString::number(domain)] = domain_id;
     }
     else
     {
@@ -359,12 +379,21 @@ void Engine::init_monitor(
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
+    if (active_monitors_.find(discovery_server_locators) != active_monitors_.end())
+    {
+        process_error(
+            "Monitor with locators: " + utils::to_string(discovery_server_locators) + " already initialized",
+            ErrorType::INIT_MONITOR);
+        return;
+    }
+
     backend::EntityId domain_id = backend_connection_.init_monitor(
         utils::to_string(discovery_server_locators));
 
     if (domain_id.is_valid())
     {
         shared_init_monitor_(domain_id);
+        active_monitors_[discovery_server_locators] = domain_id;
     }
     else
     {
@@ -380,12 +409,21 @@ void Engine::init_monitor_with_profile(
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
 
+    if (active_monitors_.find(profile_name) != active_monitors_.end())
+    {
+        process_error(
+            "Monitor for profile: " + utils::to_string(profile_name) + " already initialized",
+            ErrorType::INIT_MONITOR);
+        return;
+    }
+
     backend::EntityId domain_id = backend_connection_.init_monitor_with_profile(
         profile_name.toStdString());
 
     if (domain_id.is_valid())
     {
         shared_init_monitor_(domain_id);
+        active_monitors_[profile_name] = domain_id;
     }
     else
     {
@@ -393,6 +431,50 @@ void Engine::init_monitor_with_profile(
             "Error trying to initialize monitor with profile " +
             profile_name.toStdString(),
             ErrorType::INIT_MONITOR_WITH_PROFILE);
+    }
+}
+
+void Engine::start_topic_spy(
+        int domain,
+        QString topic_name)
+{
+    auto it = active_monitors_.find(QString::number(domain));
+    if (it != active_monitors_.end())
+    {
+        // TODO (Carlosespicur): Remove placeholder callback
+        backend_connection_.start_topic_spy(it.value(), utils::to_string(topic_name),
+                [](const std::string& data)
+                {
+                    // PLACEHOLDER:
+                    std::cout << " Data: " << data << std::endl;
+                });
+    }
+    else
+    {
+        // TODO (Carlosespicur): Add specific error types for topic spy?
+        process_error(
+            "No monitor initialized in DomainId: " + std::to_string(domain) +
+            ". Start a monitor before spying a topic.",
+            ErrorType::GENERIC);
+    }
+}
+
+void Engine::stop_topic_spy(
+        int domain,
+        QString topic_name)
+{
+    auto it = active_monitors_.find(QString::number(domain));
+    if (it != active_monitors_.end())
+    {
+        backend_connection_.stop_topic_spy(it.value(), utils::to_string(topic_name));
+    }
+    else
+    {
+        // TODO (Carlosespicur): Add specific error types for topic spy?
+        process_error(
+            "No monitor initialized in DomainId: " + std::to_string(domain) +
+            ". Start a monitor before spying a topic.",
+            ErrorType::GENERIC);
     }
 }
 

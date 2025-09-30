@@ -53,6 +53,20 @@ void Controller::init_monitor_with_profile(
     engine_->init_monitor_with_profile(profile_name);
 }
 
+void Controller::start_topic_spy(
+        int domain,
+        QString topic_name)
+{
+    engine_->start_topic_spy(domain, topic_name);
+}
+
+void Controller::stop_topic_spy(
+        int domain,
+        QString topic_name)
+{
+    engine_->stop_topic_spy(domain, topic_name);
+}
+
 void Controller::load_xml_profiles_file(
         QString file_path)
 {
