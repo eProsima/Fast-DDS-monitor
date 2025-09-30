@@ -55,7 +55,7 @@ Menu {
     }
     MenuItem {
         text: "Spy topic data"
-        onTriggered: openSpyView(menu.entityId)
+        onTriggered: openSpyView(menu.domainId, menu.entityId)
     }
 }
 

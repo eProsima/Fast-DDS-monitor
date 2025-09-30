@@ -46,6 +46,9 @@ Item {
     signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
     signal filter_domain_view_by_topic_(int stack_id, int domain_entity_id, string topic_id)
     signal display_idl_content_(int stack_id, string content)
+    // TODO (Carlosespicur): Use stack_id?
+    signal open_spy_view_(string domain_id, string entity_id)
+    signal initialize_spy_view_(string domain_id, string entity_id)
 
     // Read only design properties
     readonly property int max_tabs_: 15
@@ -518,6 +521,7 @@ Item {
 
                 Component {
                     id: spyView_component
+
                     Flickable
                     {
                         id: spyView
@@ -529,6 +533,10 @@ Item {
                         height: parent.height
                         contentWidth: parent.width
                         contentHeight: parent.height
+
+                        property bool is_spying: false
+                        property string topic_id: ""
+                        property string domain_id: ""
 
                         Rectangle {
                             id: spyTopicData
@@ -557,7 +565,22 @@ Item {
                                 text: "Pause/Play"
                                 onClicked: {
                                     console.log("Pause/Play button clicked")
+                                    is_spying = !is_spying
+                                    is_spying ? controller.start_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
+                                                : controller.stop_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
                                 }
+                            }
+                        }
+
+                        Connections {
+                            target: tabLayout
+
+                            function onInitialize_spy_view_(domain_id, entity_id) {
+                                // __FLAG__
+                                console.log("Initialize spy view with entity_id: " + entity_id + " and domain_id: " + domain_id)
+                                /////////////////
+                                spyView.topic_id = entity_id
+                                spyView.domain_id = domain_id
                             }
                         }
                     }
@@ -579,6 +602,10 @@ Item {
                             refresh_layout(current_)
                             initialize_domain_view_(stack_id, entity_id, domain_id)
                         }
+                    }
+
+                    function onOpen_spy_view_(domain_id, entity_id) {
+                        initialize_spy_view_(domain_id, entity_id)
                     }
                 }
             }
@@ -1041,13 +1068,14 @@ Item {
         refresh_layout(current_)
     }
 
-    function open_spy_view(entityId) {
-        create_new_custom_tab_("spyView_component", entityId)
+    function open_spy_view(domainId, entityId) {
+        create_new_custom_tab_("spyView_component", "")
         tabLayout.tab_model_[current_]["title"] = controller.get_name(entityId) + "_SpyView"
         tabLayout.tab_model_[current_]["icon"] = "idl" // TODO (Carlosespicur): change icon
-        var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
-        display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
-        refresh_layout(current_)
+        open_spy_view_(domainId, entityId)
+        // var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
+        // display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
+        // refresh_layout(current_)
     }
 
     function refresh_domain_graph_view(domainEntityId, entityId) {
