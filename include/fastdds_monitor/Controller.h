@@ -93,6 +93,16 @@ public slots:
     void init_monitor_with_profile(
             QString profile_name);
 
+    //! Slot called when starting monitoring the user data of a specific topic in a given domain
+    void start_topic_spy(
+            int domain,
+            QString topic_name);
+
+    //! Slot called when stopping monitoring the user data of a specific topic in a given domain
+    void stop_topic_spy(
+            int domain,
+            QString topic_name);
+
     //! Load an XML file containing DDS profiles
     void load_xml_profiles_file(
             QString file_path);
