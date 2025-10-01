@@ -197,7 +197,6 @@ RowLayout {
     }
 
     function createAlert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info) {
-        console.log("MOCK2: Creating alert for topic " + topicId + " with threshold " + threshold + " and time between triggers " + t_between_triggers)
         controller.set_alert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info);
     }
 
