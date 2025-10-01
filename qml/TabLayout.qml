@@ -522,59 +522,11 @@ Item {
                 Component {
                     id: spyView_component
 
-                    Flickable
-                    {
+                    SpyView {
                         id: spyView
-                        clip: true
-                        boundsBehavior: Flickable.StopAtBounds
-                        interactive: false
-                        anchors.fill: parent
-                        width: parent.width
-                        height: parent.height
-                        contentWidth: parent.width
-                        contentHeight: parent.height
-
-                        property bool is_spying: false
-                        property string topic_id: ""
-                        property string domain_id: ""
-
-                        Rectangle {
-                            id: spyTopicData
-                            color: "blue"
-                            anchors.fill: parent
-                            anchors.margins: 10
-                        }
-
-                        Row {
-                            id: buttonContainer
-                            spacing: tabLayout.elements_spacing_
-                            anchors.top: parent.top; anchors.topMargin: 10
-                            anchors.right: parent.right; anchors.rightMargin: 10
-
-                            // TODO (Carlosspicur): Add button icons
-                            Button {
-                                id: copyButton
-                                text: "⧉"
-                                onClicked: {
-                                    console.log("Copy button clicked")
-                                }
-                            }
-
-                            Button {
-                                id: pausePlayButton
-                                text: "Pause/Play"
-                                onClicked: {
-                                    console.log("Pause/Play button clicked")
-                                    is_spying = !is_spying
-                                    is_spying ? controller.start_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
-                                                : controller.stop_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
-                                }
-                            }
-                        }
 
                         Connections {
                             target: tabLayout
-
                             function onInitialize_spy_view_(domain_id, entity_id) {
                                 // __FLAG__
                                 console.log("Initialize spy view with entity_id: " + entity_id + " and domain_id: " + domain_id)
