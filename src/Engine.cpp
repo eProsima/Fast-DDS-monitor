@@ -53,6 +53,7 @@
 #include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
 
 using EntityInfo = backend::EntityInfo;
+using UserDataInfo = backend::UserDataInfo;
 
 Engine::Engine()
     : enabled_(false)
@@ -438,18 +439,28 @@ void Engine::start_topic_spy(
         int domain,
         QString topic_name)
 {
-    // __FLAG__
-    std::cout << "Engine::start_topic_spy" << std::endl;
-    //////////////////////////////////
     auto it = active_monitors_.find(QString::number(domain));
     if (it != active_monitors_.end())
     {
         // TODO (Carlosespicur): Remove placeholder callback
         backend_connection_.start_topic_spy(it.value(), utils::to_string(topic_name),
-                [](const std::string& data)
+                [&](const std::string& data)
                 {
                     // PLACEHOLDER:
                     std::cout << " Data: " << data << std::endl;
+                    UserDataInfo json_data;
+
+                    try
+                    {
+                        json_data = UserDataInfo::parse(data);
+                        user_data_model_->update_without_clean(json_data);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        process_error(
+                            "Error parsing user data JSON: " + std::string(e.what()),
+                            ErrorType::GENERIC);
+                    }
                 });
     }
     else
@@ -466,9 +477,6 @@ void Engine::stop_topic_spy(
         int domain,
         QString topic_name)
 {
-    // __FLAG__
-    std::cout << "Engine::stop_topic_spy" << std::endl;
-    //////////////////////////////////
     auto it = active_monitors_.find(QString::number(domain));
     if (it != active_monitors_.end())
     {

@@ -78,6 +78,12 @@ QVariant TreeItem::get_item_value() const
     return item_data_.value(TreeItemData::VALUE);
 }
 
+void TreeItem::set_item_value(
+        const QVariant& value)
+{
+    item_data_[TreeItemData::VALUE] = value.toString();
+}
+
 QString TreeItem::name() const
 {
     return get_item_name().toString();

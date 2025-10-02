@@ -83,6 +83,9 @@ public:
     //! Return the value of the node
     QVariant get_item_value() const;
 
+    //! Set the value of the node
+    void set_item_value(const QVariant& value);
+
     //! Return the name of the node in string format
     QString name() const;
 
