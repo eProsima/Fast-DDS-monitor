@@ -902,7 +902,8 @@ bool Engine::on_selected_entity_kind(
             alert_host_id_model_,
             backend::EntityKind::HOST,
             inactive_visible(),
-            metatraffic_visible());
+            metatraffic_visible(),
+            proxy_visible());
     }
     else if (entity_model_id == "alertUser")
     {
@@ -911,7 +912,8 @@ bool Engine::on_selected_entity_kind(
             alert_user_id_model_,
             backend::EntityKind::USER,
             inactive_visible(),
-            metatraffic_visible());
+            metatraffic_visible(),
+            proxy_visible());
     }
     else if (entity_model_id == "alertTopic")
     {
@@ -920,7 +922,8 @@ bool Engine::on_selected_entity_kind(
             alert_topic_id_model_,
             backend::EntityKind::TOPIC,
             inactive_visible(),
-            metatraffic_visible());
+            metatraffic_visible(),
+            proxy_visible());
     }
     else
     {
