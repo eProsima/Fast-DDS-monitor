@@ -528,9 +528,6 @@ Item {
                         Connections {
                             target: tabLayout
                             function onInitialize_spy_view_(domain_id, entity_id) {
-                                // __FLAG__
-                                console.log("Initialize spy view with entity_id: " + entity_id + " and domain_id: " + domain_id)
-                                /////////////////
                                 spyView.topic_id = entity_id
                                 spyView.domain_id = domain_id
                             }

@@ -161,9 +161,6 @@ RowLayout {
     }
 
     function openSpyView(domainId, entityId) {
-        // __FLAG__
-        console.log("[openSpyView] domainId: " + domainId + " entityId: " + entityId)
-        /////////////////////
         leftPanel.open_spy_view(domainId, entityId)
     }
 

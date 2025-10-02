@@ -335,13 +335,8 @@ void TreeModel::setup_model_data_without_clean(TreeItem* parent, const QModelInd
                 // Update value if changed
                 if (existingChild->get_item_value().toString() != newValue)
                 {
-                    // Replace the value directly in TreeItem
-                    existingChild->data(TreeItem::VALUE); // ensure correct access
+                    existingChild->set_item_value(newValue);
                     existingChild->clear(); // if needed to reset children
-                    // Update internal value
-                    QList<QString> updatedData;
-                    updatedData << key << newValue;
-                    *existingChild = TreeItem(updatedData, parent);
                     // Notify QML about the change
                     QModelIndex changedIndex = createIndex(existingChild->row(), 1, existingChild);
                     emit dataChanged(changedIndex, changedIndex);
