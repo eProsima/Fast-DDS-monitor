@@ -77,7 +77,7 @@ MenuBar {
         }
         Action {
             text: qsTr("Create Alert")
-            onTriggered: alertKindDialog.open()
+            onTriggered: alertDialog.open()
         }
         MenuSeparator { }
         Action {

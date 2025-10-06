@@ -120,29 +120,12 @@ ApplicationWindow {
         onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
     }
 
-    AlertKindDialog {
-        id: alertKindDialog
+    AlertDialog {
+        id: alertDialog
         onCreateAlert: {
-            if (alertKind === "NEW_DATA") newDataAlertDialog.open()
-            else if (alertKind === "NO_DATA") noDataAlertDialog.open()
+            panels.createAlert(alert_name, host_name, user_name, topic_name, alert_type, threshold, t_between_triggers, contact_info)
         }
     }
-
-    NewDataAlertDialog {
-        id: newDataAlertDialog
-        onCreateAlert: {
-            panels.createNewDataAlert(alert_name, host_name, user_name, topic_name, t_between_triggers, contact_info)
-        }
-    }
-
-
-    NoDataAlertDialog {
-        id: noDataAlertDialog
-        onCreateAlert: {
-            panels.createNoDataAlert(alert_name, host_name, user_name, topic_name, threshold, t_between_triggers, contact_info)
-        }
-    }
-
 
     ScheduleClearDialog {
         id: scheduleClear

@@ -55,7 +55,7 @@ ColumnLayout {
                     anchors.fill: parent
 
                     onClicked: {
-                        alertKindDialog.open()
+                        alertDialog.open()
                     }
                 }
             }

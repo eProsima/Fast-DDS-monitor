@@ -199,12 +199,4 @@ RowLayout {
     function createAlert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info) {
         controller.set_alert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info);
     }
-
-    function createNoDataAlert(name, hostId, userId, topicId, threshold, t_between_triggers, contact_info) {
-        createAlert(name, hostId, userId, topicId, "NO_DATA", threshold, t_between_triggers, contact_info);
-    }
-
-    function createNewDataAlert(name, hostId, userId, topicId, t_between_triggers, contact_info) {
-        createAlert(name, hostId, userId, topicId, "NEW_DATA", 0, t_between_triggers, contact_info);
-    }
 }
