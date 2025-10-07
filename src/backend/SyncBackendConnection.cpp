@@ -334,9 +334,7 @@ bool SyncBackendConnection::update_dds_model(
 }
 
 bool SyncBackendConnection::update_alert_item_(
-        AlertListItem* item,
-        bool inactive_visible,
-        bool metatraffic_visible)
+        AlertListItem* item)
 {
     bool res = update_alert_item_info_(item);
     return res;
@@ -352,9 +350,7 @@ bool SyncBackendConnection::update_alert_item_info_(
 }
 
 bool SyncBackendConnection::update_alerts_model(
-        AlertListModel* alerts_model,
-        bool inactive_visible,
-        bool metatraffic_visible)
+        AlertListModel* alerts_model)
 {
     bool changed = false;
 
@@ -370,38 +366,18 @@ bool SyncBackendConnection::update_alerts_model(
         // If it exists it updates its info
         if (index == -1)
         {
-            // Only create the new alert if is alive or inactive are visible
-            if ((inactive_visible || get_alive(alert_id)))
-            {
                 // Creates the Item object and update its data
                 alerts_model->appendRow(create_alert_data_(alert_id));
                 changed = true;
                 models::AlertListItem* alert_item = alerts_model->find(alert_id);
 
-                changed = update_alert_item_(alert_item, inactive_visible,
-                                metatraffic_visible) || changed;
-            }
+                changed = update_alert_item_(alert_item) || changed;
         }
-
-        // In case this entity is inactive and inactive are not being displayed
-        else if ((!inactive_visible && !get_alive(alert_id)))
-        {
-            models::AlertListItem* alert_item = alerts_model->at(index);
-
-            // Remove the row
-            alerts_model->removeRow(index);
-
-            // Remove its subentities and the object ListItem
-            delete alert_item;
-
-            changed = true;
-        }
-
-        // Otherwise just update the entity
         else
         {
+            // Otherwise just update the entity
             models::AlertListItem* alert_item = alerts_model->at(index);
-            changed = update_alert_item_(alert_item, inactive_visible, metatraffic_visible)
+            changed = update_alert_item_(alert_item)
                     || changed;
         }
     }

@@ -769,10 +769,8 @@ protected:
             std::string callback,
             std::string time);
 
-    //! Add a new alert object to the Alert model
-    bool add_alert_(
-            std::string alert,
-            std::string time);
+    //! Updates the Alert model
+    bool update_alerts_();
 
     //! Add a new alert message to the Alert Message model
     bool add_alert_message_info_(

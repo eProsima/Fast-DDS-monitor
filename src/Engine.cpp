@@ -482,7 +482,7 @@ bool Engine::fill_first_alert_summary_()
 bool Engine::fill_alert_list_()
 {
     alert_model_->clear();
-    return backend_connection_.update_alerts_model(alert_model_, inactive_visible(), metatraffic_visible());
+    return backend_connection_.update_alerts_model(alert_model_);
 }
 
 bool Engine::fill_alert_summary_(
@@ -598,9 +598,7 @@ void Engine::clear_issue_info_()
     fill_issue_();
 }
 
-bool Engine::add_alert_(
-        std::string alert,
-        std::string time)
+bool Engine::update_alerts_()
 {
     fill_alert_list_();
     return true;
