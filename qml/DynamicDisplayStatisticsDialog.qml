@@ -15,15 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
-import Qt.labs.calendar 1.0
-import QtQuick.Controls 2.15
-import QtQuick.Controls 1.4 as QCC1
-import QtQuick.Controls.Styles 1.4
-import QtQml.Models 2.12
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import QtQuick.Controls
+
+import QtQml.Models
 import Theme 1.0
 
 Dialog {
@@ -41,9 +38,9 @@ Dialog {
     property var availableStatisticKinds: []
 
     Component.onCompleted: {
-        standardButton(Dialog.Apply).text = qsTrId("Add")
-        standardButton(Dialog.Ok).text = qsTrId("Add && Close")
-        standardButton(Dialog.Cancel).text = qsTrId("Close")
+        MessageDialog(Dialog.Apply).text = qsTrId("Add")
+        MessageDialog(Dialog.Ok).text = qsTrId("Add && Close")
+        MessageDialog(Dialog.Cancel).text = qsTrId("Close")
 
         // Get the available statistic kinds from the backend
         availableStatisticKinds = controller.get_statistic_kinds()
@@ -458,42 +455,70 @@ Dialog {
     MessageDialog {
         id: emptySourceEntityIdDialog
         title: "Empty Source Entity Id"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: dynamicDisplayStatisticsDialog.open()
-        onDiscard: dynamicDisplayStatisticsDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    dynamicDisplayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    dynamicDisplayStatisticsDialog.close()
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: emptyTargetEntityIdDialog
         title: "Empty Target Entity Id"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: dynamicDisplayStatisticsDialog.open()
-        onDiscard: dynamicDisplayStatisticsDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    dynamicDisplayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    dynamicDisplayStatisticsDialog.close()
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: emptyStatisticKind
         title: "Empty Statistic Kind"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The statistic kind field is empty. Please choose a statistic from the list."
-        onAccepted: dynamicDisplayStatisticsDialog.open()
-        onDiscard: dynamicDisplayStatisticsDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    dynamicDisplayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    dynamicDisplayStatisticsDialog.close()
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: emptyCumulativeInterval
         title: "Empty Cumulative Interval"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The cumulative time interval is zero. " +
               "Enter a valid time interval or check the \"From first data point\" option."
-        onAccepted: dynamicDisplayStatisticsDialog.open()
-        onDiscard: dynamicDisplayStatisticsDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    dynamicDisplayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    dynamicDisplayStatisticsDialog.close()
+                    break;
+            }
+        }
     }
 
     function createSeries() {

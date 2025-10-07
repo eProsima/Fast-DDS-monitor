@@ -19,7 +19,7 @@
 # Configure Qt project
 ###############################################################################
 # Set the qml.qrc file containing the QML and other resources of the application
-qt5_add_resources(QT_RESOURCES_SUBDIR ${PROJECT_SOURCE_DIR}/qml.qrc)
+qt_add_resources(QT_RESOURCES_SUBDIR ${PROJECT_SOURCE_DIR}/qml.qrc)
 
 # Additional compilation steps required by a Qt program
 # User Interface Compiler (UIC)
@@ -48,7 +48,7 @@ target_include_directories(BlackboxStaticMockTest PRIVATE
 target_link_libraries(BlackboxStaticMockTest
     fastdds
     fastcdr
-    ${QT5_LIBRARY_LINKS}
+    ${QT6_LIBRARY_LINKS}
     fastdds_statistics_backend
     static-backend-mock
     ${GTEST_LIBRARIES})

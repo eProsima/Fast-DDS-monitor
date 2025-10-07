@@ -20,7 +20,7 @@
 #include <fastdds_monitor/statistics/historic/HistoricDataChartBox.h>
 #include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
 
-QtCharts::QVXYModelMapper* HistoricStatisticsData::add_series(
+QVXYModelMapper* HistoricStatisticsData::add_series(
         quint64 chartbox_id,
         QVector<QPointF> new_series)
 {

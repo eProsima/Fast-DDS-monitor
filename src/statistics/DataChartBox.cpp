@@ -30,7 +30,7 @@ DataChartBox::~DataChartBox()
     clear_charts();
 }
 
-QtCharts::QVXYModelMapper* DataChartBox::add_series(
+QVXYModelMapper* DataChartBox::add_series(
         DataModel* data_model,
         quint64& new_series_index)
 {
@@ -43,7 +43,7 @@ QtCharts::QVXYModelMapper* DataChartBox::add_series(
     // Add it to series collection
     series_.insert({new_series_index, data_model});
 
-    auto mapper = new QtCharts::QVXYModelMapper();
+    auto mapper = new QVXYModelMapper();
     mapper->setModel(data_model);
     mapper->setXColumn(0);
     mapper->setYColumn(1);
@@ -55,11 +55,11 @@ QtCharts::QVXYModelMapper* DataChartBox::add_series(
     return mapper;
 }
 
-QtCharts::QVXYModelMapper* DataChartBox::add_series(
+QVXYModelMapper* DataChartBox::add_series(
         DataModel* data_model)
 {
     quint64 _foo;
-    return add_series(data_model, _foo);
+    auto mapper = new QVXYModelMapper();
 }
 
 void DataChartBox::delete_series_by_order_index(

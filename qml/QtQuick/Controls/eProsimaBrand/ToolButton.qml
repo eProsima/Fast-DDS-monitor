@@ -34,28 +34,54 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import QtQuick.Templates 2.12 as T
-import QtQuick.Controls.Universal 2.12
+import QtQuick
+import QtQuick.Templates as T
+import QtQuick.Controls
+import QtQuick.Controls.impl
+import QtQuick.Controls.Universal
 import Theme 1.0
 
-T.ToolBar {
+T.ToolButton {
     id: control
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            contentWidth + leftPadding + rightPadding)
+                            implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             contentHeight + topPadding + bottomPadding)
+                             implicitContentHeight + topPadding + bottomPadding)
+
+    padding: 6
+    spacing: 8
+
+    icon.width: 20
+    icon.height: 20
+    icon.color: Color.transparent(Universal.foreground, enabled ? 1.0 : 0.2)
+
+    property bool useSystemFocusVisuals: true
+
+    contentItem: IconLabel {
+        spacing: control.spacing
+        mirrored: control.mirrored
+        display: control.display
+
+        icon: control.icon
+        text: control.text
+        font: control.font
+        color: Color.transparent(control.Universal.foreground, enabled ? 1.0 : 0.2)
+    }
 
     background: Rectangle {
-        implicitHeight: 35 // AppBarThemeCompactHeight
-        color: control.Universal.chromeMediumColor
+        implicitWidth: 68
+        implicitHeight: 28 // AppBarThemeCompactHeight
+
+        color: control.enabled && (control.highlighted || control.checked) ? control.Universal.accent : "transparent"
 
         Rectangle {
-            color: Theme.grey
             width: parent.width
-            height: 2
-            anchors.bottom: parent.bottom
+            height: parent.height - control.spacing
+            anchors.centerIn: parent
+            radius: 10
+            visible: control.down || control.hovered
+            color: control.down ? control.Universal.listMediumColor : control.Universal.listLowColor
         }
     }
 }

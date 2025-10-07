@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
+import QtQuick
+import QtQuick.Controls
+
+import QtQuick.Window
 
 Item {
     id: logView

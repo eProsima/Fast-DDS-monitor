@@ -15,15 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
-import Qt.labs.calendar 1.0
-import QtQuick.Controls 2.15
-import QtQuick.Controls 1.4 as QCC1
-import QtQuick.Controls.Styles 1.4
-import QtQml.Models 2.12
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import QtQuick.Controls
+
 import Theme 1.0
 
 Dialog {
@@ -351,6 +347,7 @@ Dialog {
         }
     }
 
+    /* TODO-UPGRADE
     Dialog {
         id: startTimeCalendarDialog
         title: "Choose the start timestamp"
@@ -454,46 +451,76 @@ Dialog {
             }
         }
     }
+    */
 
     MessageDialog {
         id: wrongDatesDialog
         title: "Wrong Timestamps"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The start timestamp entered is posterior to the end timestamp."
         onAccepted: {
             displayStatisticsDialog.open()
+        }
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    displayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    break;
+            }
         }
     }
 
     MessageDialog {
         id: emptySourceEntityIdDialog
         title: "Empty Source Entity Id"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: displayStatisticsDialog.open()
-        onDiscard: displayStatisticsDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    displayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    displayStatisticsDialog.close()
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: emptyTargetEntityIdDialog
         title: "Empty Target Entity Id"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: displayStatisticsDialog.open()
-        onDiscard: displayStatisticsDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    displayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    displayStatisticsDialog.close()
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: emptyStatisticKind
         title: "Empty Statistic Kind"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The statistic kind field is empty. Please choose a statistic from the list."
-        onAccepted: displayStatisticsDialog.open()
-        onDiscard: displayStatisticsDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    displayStatisticsDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    displayStatisticsDialog.close()
+                    break;
+            }
+        }
     }
 
     function createSeries() {
@@ -587,5 +614,3 @@ Dialog {
         updateTargets()
     }
 }
-
-

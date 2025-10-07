@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.0
+import QtQuick
 
 Image {
     id: image
@@ -34,5 +34,3 @@ Image {
         return name ? ("/resources/images/icons/" + name + "_" + color + ".svg") : ""
     }
 }
-
-

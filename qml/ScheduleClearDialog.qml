@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Controls
+import QtQuick.Layouts
 import Theme 1.0
 
 Dialog {
@@ -94,7 +94,7 @@ Dialog {
                 text: "Search"
                 enabled: dumpOn
                 onClicked: {
-                    var dialog = Qt.createQmlObject('import QtQuick.Dialogs 1.2; FileDialog { selectFolder: true }', parent, "Folder Dialog");
+                    var dialog = Qt.createQmlObject('import QtQuick.Dialogs; FileDialog { selectFolder: true }', parent, "Folder Dialog");
                     dialog.accepted.connect(function() {
                         file_name = dialog.folder + "/"
                     });

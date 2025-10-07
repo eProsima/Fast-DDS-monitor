@@ -15,26 +15,35 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
 
 MessageDialog {
     id: errorDialog
     title: "Error"
-    icon: StandardIcon.Warning
     text: "Error message has not been set"
-    standardButtons: StandardButton.Cancel | StandardButton.Retry
+    buttons: MessageDialog.Cancel | MessageDialog.Retry
 
     property int errorType // Dependeing on this value it would behave differently in Accept
 
-    onAccepted: {
-        if (errorType == 1) {           // INIT_MONITOR
-            dialogInitMonitor.open()
-        } else if (errorType == 2) {    // INIT_DS_MONITOR
-            dialogDSInitMonitor.open()
-        } else if (errorType == 3) {    // INIT_MONITOR_WITH_PROFILE
-            initMonitorWithProfileDialog.open()
+    onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    if (errorType == 1) {           // INIT_MONITOR
+                        dialogInitMonitor.open()
+                    } else if (errorType == 2) {    // INIT_DS_MONITOR
+                        dialogDSInitMonitor.open()
+                    } else if (errorType == 3) {    // INIT_MONITOR_WITH_PROFILE
+                        initMonitorWithProfileDialog.open()
+                    }
+                    break;
+                case MessageDialog.Cancel:
+                    break;
+            }
         }
+
+    onAccepted: {
+
     }
 }

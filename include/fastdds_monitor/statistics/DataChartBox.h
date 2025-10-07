@@ -126,18 +126,18 @@ protected:
     /**
      * @brief Add new series and store in \c new_series_index the id of the new series
      */
-    QtCharts::QVXYModelMapper* add_series(
+        QVXYModelMapper* add_series(
             DataModel* data_model,
             quint64& new_series_index);
 
     /**
      * @brief Add new series
      */
-    QtCharts::QVXYModelMapper* add_series(
+        QVXYModelMapper* add_series(
             DataModel* data_model);
 
     //! Map of ModelMappers reference by unique id from this chartbox
-    std::map<quint64, QtCharts::QVXYModelMapper*> mappers_;
+        std::map<quint64, QVXYModelMapper*> mappers_;
     //! Map of \c DataModel reference by unique id from this chartbox
     std::map<quint64, DataModel*> series_;
 
