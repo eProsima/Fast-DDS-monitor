@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.0
-import QtCharts 2.1
-import QtQuick.Controls 2.15
+import QtQuick
+import QtCharts
+import QtQuick.Controls
 
 StatisticsChartView {
     id: chartView

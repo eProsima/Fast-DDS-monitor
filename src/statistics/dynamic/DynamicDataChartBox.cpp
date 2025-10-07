@@ -22,7 +22,7 @@
 #include <fastdds_monitor/statistics/dynamic/DynamicDataChartBox.h>
 #include <fastdds_monitor/utils.h>
 
-QtCharts::QVXYModelMapper* DynamicDataChartBox::add_series(
+QVXYModelMapper* DynamicDataChartBox::add_series(
         QString statistic_kind,
         bool cumulative,
         quint64 cumulative_interval,

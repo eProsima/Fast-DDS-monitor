@@ -1,6 +1,6 @@
 pragma Singleton
 
-import QtQuick 2.12
+import QtQuick
 
 QtObject {
     readonly property color eProsimaDarkBlue: "#09487e"

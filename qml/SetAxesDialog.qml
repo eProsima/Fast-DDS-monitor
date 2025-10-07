@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.15
-import QtQuick.Controls 1.4 as QCC1
+import QtQml
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import QtQuick.Controls
 import Theme 1.0
 
 Dialog {
@@ -240,22 +239,32 @@ Dialog {
     MessageDialog {
         id: wrongDatesDialog
         title: "Wrong Timestamps"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The start timestamp entered is posterior to the end timestamp."
-        onAccepted: {
-            setAxesDialog.open()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    setAxesDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    break;
+            }
         }
     }
 
     MessageDialog {
         id: wrongYDialog
         title: "Wrong Y Axis values"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The min Y min value must be lower than the Y max value."
-        onAccepted: {
-            setAxesDialog.open()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    setAxesDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    break;
+            }
         }
     }
 }

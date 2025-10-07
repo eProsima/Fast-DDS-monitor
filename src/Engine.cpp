@@ -142,6 +142,7 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("controller", controller_);
 
+    addImportPath(":/qml");
     addImportPath(":/imports");
     addImportPath(":/imports/TreeView");
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
@@ -772,7 +773,7 @@ bool Engine::on_selected_entity_kind(
     }
 }
 
-QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
+QVXYModelMapper* Engine::on_add_statistics_data_series(
         quint64 chartbox_id,
         backend::DataKind data_kind,
         backend::EntityId source_entity_id,

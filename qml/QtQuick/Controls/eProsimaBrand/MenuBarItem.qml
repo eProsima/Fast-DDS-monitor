@@ -34,48 +34,58 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import QtQuick.Templates 2.12 as T
-import QtQuick.Controls 2.12
-import QtQuick.Controls.impl 2.12
-import QtQuick.Controls.Universal 2.12
+import QtQuick
+import QtQuick.Templates as T
+import QtQuick.Controls
+import QtQuick.Controls.impl
+import QtQuick.Controls.Universal
 import Theme 1.0
 
-T.TabButton {
+T.MenuBarItem {
     id: control
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding)
+                             implicitContentHeight + topPadding + bottomPadding,
+                             implicitIndicatorHeight + topPadding + bottomPadding)
 
-    padding: 6 // PivotItemMargin
-    spacing: 8
+    padding: 5
+    topPadding: padding - 1
+    bottomPadding: padding + 1
+    spacing: 5
 
-    icon.width: 15
-    icon.height: 15
-    icon.color: Color.transparent(control.hovered ? control.Universal.baseMediumHighColor : control.Universal.foreground,
-                                                    control.checked || control.down || control.hovered ? 1.0 : 0.2)
-
-    background: Rectangle {
-        Rectangle {
-            visible: control.checked || control.down
-            color: Theme.eProsimaLightBlue
-            width: parent.width
-            height: 2
-            anchors.bottom: parent.bottom
-        }
-    }
+    icon.width: 10
+    icon.height: 10
+    icon.color: !enabled ? Universal.baseLowColor : Universal.baseHighColor
 
     contentItem: IconLabel {
         spacing: control.spacing
         mirrored: control.mirrored
         display: control.display
+        alignment: Qt.AlignLeft
 
         icon: control.icon
         text: control.text
         font: Theme.font
-        color: Color.transparent(control.hovered ? control.Universal.baseMediumHighColor : control.Universal.foreground,
-                                 control.checked || control.down || control.hovered ? 1.0 : 0.2)
+        color: !control.enabled ? control.Universal.baseLowColor : control.Universal.baseHighColor
+    }
+
+    background: Rectangle {
+        implicitWidth: 40
+        implicitHeight: 20
+
+        color: !control.enabled ? control.Universal.baseLowColor :
+                control.down ? control.Universal.listMediumColor :
+                control.highlighted ? control.Universal.listLowColor : "transparent"
+
+        Rectangle {
+            visible: control.highlighted ? true : false
+            color: Theme.eProsimaLightBlue
+            width: parent.width
+            height: 2
+            anchors.bottom: parent.bottom
+        }
+
     }
 }

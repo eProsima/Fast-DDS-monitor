@@ -34,7 +34,7 @@ void DynamicStatisticsData::update(
     d_chartbox->update(new_data, time_to);
 }
 
-QtCharts::QVXYModelMapper* DynamicStatisticsData::add_series(
+QVXYModelMapper* DynamicStatisticsData::add_series(
         quint64 chartbox_id,
         QString statistic_kind,
         bool cumulative,

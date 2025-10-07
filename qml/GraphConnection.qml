@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick
 
 Item {
     id: graphConnection
@@ -11,8 +11,8 @@ Item {
     property string background_color: "white"           // background color
     property string endpoint_id: ""                     // graph refferred entity id
     property bool hidden_arrow: false                   // associated topic is not visible
-    property bool show_fill_gap: true                   // defines if fill_gap component wih base_arrow extension and hidden topic icon  
-                                                        // should be displayed or not 
+    property bool show_fill_gap: true                   // defines if fill_gap component wih base_arrow extension and hidden topic icon
+                                                        // should be displayed or not
 
     // readonly private design properties
     readonly property int arrow_margin_: -3             // margins for background
@@ -112,7 +112,7 @@ Item {
             anchors.fill: parent
             color: "white"
             visible: graphConnection.show_fill_gap
-            
+
             Rectangle {
                 id: fill_gap_base_arrow
                 visible: !graphConnection.hidden_arrow

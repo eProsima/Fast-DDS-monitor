@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Controls
+import QtQuick.Layouts
 import Theme 1.0
 
 Dialog {
@@ -246,21 +246,35 @@ Dialog {
     MessageDialog {
         id: emptyTimeWindow
         title: "Empty Time Window"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The time window cannot be blank. Please set the time window duration."
-        onAccepted: dynamicDataKindDialog.open()
-        onDiscard: dynamicDataKindDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    dynamicDataKindDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    dynamicDataKindDialog.close()
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: emptyDataKind
         title: "Empty Data Kind"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The data kind field is empty. Please choose a data type from the list."
-        onAccepted: dynamicDataKindDialog.open()
-        onDiscard: dynamicDataKindDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    dynamicDataKindDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    dynamicDataKindDialog.close()
+                    break;
+            }
+        }
     }
 
     function checkInputs() {

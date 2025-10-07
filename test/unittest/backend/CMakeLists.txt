@@ -46,7 +46,7 @@ target_link_libraries(SyncBackendConnectionTest PUBLIC
     fastdds
     fastcdr
     fastdds_statistics_backend
-    ${QT5_LIBRARY_LINKS}
+    ${QT6_LIBRARY_LINKS}
     ${GTEST_LIBRARIES})
 
 get_win32_path_dependencies(SyncBackendConnectionTest TEST_FRIENDLY_PATH)

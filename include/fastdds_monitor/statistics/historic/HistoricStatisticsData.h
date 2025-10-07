@@ -45,9 +45,9 @@ public:
     using StatisticsData::StatisticsData;
 
     //! Add a new series in an internal chartbox
-    QtCharts::QVXYModelMapper* add_series(
-            quint64 chartbox_id,
-            QVector<QPointF> new_series);
+    QVXYModelMapper* add_series(
+        quint64 chartbox_id,
+        QVector<QPointF> new_series);
 
 public slots:
 
