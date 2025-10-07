@@ -104,6 +104,10 @@ public:
             const AlertInfo& alert,
             const double& data) override;
 
+    void on_alert_unmatched(
+        EntityId domain_id,
+        const AlertInfo& alert) override;
+
 protected:
 
     //! Engine reference

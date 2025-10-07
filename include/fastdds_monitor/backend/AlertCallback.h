@@ -28,9 +28,24 @@
 
 namespace backend {
 
+enum AlertCallbackKind
+{
+    ALERT_TRIGGERED,
+    ALERT_UNMATCHED
+};
+
 struct AlertCallback
 {
     AlertCallback() = default;
+
+    AlertCallback(
+            backend::EntityId domain_entity_id,
+            backend::AlertInfo alert_info)
+        : domain_id(domain_entity_id)
+        , alert_info(alert_info)
+        , kind(AlertCallbackKind::ALERT_UNMATCHED)
+    {
+    }
 
     AlertCallback(
             backend::EntityId domain_entity_id,
@@ -41,13 +56,16 @@ struct AlertCallback
         , entity_id(entity_id)
         , alert_info(alert_info)
         , trigger_data(trigger_data)
+        , kind(AlertCallbackKind::ALERT_TRIGGERED)
     {
     }
+
 
     backend::EntityId domain_id;
     backend::EntityId entity_id;
     backend::AlertInfo alert_info;
     double trigger_data;
+    AlertCallbackKind kind;
 };
 
 } // namespace backend

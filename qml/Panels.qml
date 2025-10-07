@@ -207,7 +207,7 @@ RowLayout {
         leftPanel.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
     }
 
-    function createAlert(name, hostId, userId, topicId, alert_type, t_between_triggers, contact_info){
-        leftPanel.createAlert(name, hostId, userId, topicId, alert_type, t_between_triggers, contact_info)
+    function createAlert(name, domainId, hostId, userId, topicId, alert_type, t_between_triggers){
+        leftPanel.createAlert(name, domainId, hostId, userId, topicId, alert_type, t_between_triggers)
     }
 }

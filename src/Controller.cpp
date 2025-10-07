@@ -314,27 +314,26 @@ std::string clean_entity_name(
 
 void Controller::set_alert(
         QString alert_name,
+        QString domain_id,
         QString host_name,
         QString user_name,
         QString topic_name,
         QString alert_type,
         double threshold,
-        int time_between_triggers,
-        QString contact_info)
+        int time_between_triggers)
 {
-
     std::string clean_host_name = clean_entity_name(utils::to_string(host_name));
     std::string clean_user_name = clean_entity_name(utils::to_string(user_name));
     std::string clean_topic_name = clean_entity_name(utils::to_string(topic_name));
 
     engine_->set_alert(utils::to_string(alert_name),
+            backend::models_id_to_backend_id(domain_id),
             clean_host_name,
             clean_user_name,
             clean_topic_name,
             backend::string_to_alert_kind(alert_type),
             threshold,
-            std::chrono::milliseconds(time_between_triggers),
-            utils::to_string(contact_info));
+            std::chrono::milliseconds(time_between_triggers));
 }
 
 QString Controller::get_data_kind_units(

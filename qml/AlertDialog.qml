@@ -34,22 +34,22 @@ Dialog {
     property bool activeOk: true
     property string currentKind: ""
     property string currentAlertName: ""
+    property string currentDomain: ""
     property string currentHost: ""
     property string currentUser: ""
     property string currentTopic: ""
-    property int currentThreshold: 5
+    property double currentThreshold: 0
     property int currentTimeBetweenAlerts: 5000
-    property string contactInfo: "sample@email.com"
 
     modal: false
-    title: "Create new alert"
+    title: "Add alert"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
     signal createAlert(string alert_name, string host_name, string user_name, string topic_name,
-                       string alert_type, int t_between_triggers, int threshold, string contact_info)
+                       string alert_type, int t_between_triggers, int threshold)
 
     Component.onCompleted: {
         availableAlertKinds = controller.get_alert_kinds()
@@ -63,20 +63,24 @@ Dialog {
 
         currentKind = alertKindComboBox.currentText
         currentAlertName = alertNameTextField.text
+        currentDomain = domainComboBox.currentText
         currentHost = manualHostCheckBox.checked ? manualHostText.text : hostComboBox.currentText
         currentUser = manualUserCheckBox.checked ? manualUserText.text : userComboBox.currentText
         currentTopic = manualTopicCheckBox.checked ? manualTopicText.text : topicComboBox.currentText
         currentTimeBetweenAlerts = alertTimeBetweenAlerts.value
-        currentThreshold = parseInt(alertThreshold.value)
-        createAlert(currentAlertName, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold, contactInfo)
+        currentThreshold = parseFloat(alertThreshold.text)
+
+        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold)
     }
 
     onAboutToShow: {
         alertKindComboBox.currentIndex = -1
-        alertNameTextField.text = "<alert_name>"
+        alertNameTextField.text = ""
+        domainComboBox.currentIndex = -1
         hostComboBox.currentIndex = -1
         topicComboBox.currentIndex = -1
         userComboBox.currentIndex = -1
+        updateDomains()
         updateTopics()
         updateUsers()
         updateHosts()
@@ -129,17 +133,41 @@ Dialog {
         }
 
         Label {
+            id: domainLabel
+            text: "Domain: "
+            InfoToolTip {
+                text: "Domain watched by the alert."
+            }
+        }
+
+        AdaptiveComboBox {
+                id: domainComboBox
+                enabled: true
+                textRole: "nameId"
+                valueRole: "id"
+                popup.y: height
+                displayText: currentIndex === -1
+                             ? ("Please choose a domain...")
+                             : currentText
+                model: alertDomainModel
+                Component.onCompleted: currentIndex = -1
+
+                onActivated: {
+                    activeOk = true
+                }
+        }
+
+        Label {
             id: hostLabel
             text: "Host: "
             InfoToolTip {
-                text: "Host name from which the data\n" +
-                      "will be collected."
+                text: "Host watched by the alert."
             }
         }
 
         AdaptiveComboBox {
                 id: hostComboBox
-                enabled: !manualHostCheckBox.checked
+                enabled: true
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height
@@ -158,8 +186,7 @@ Dialog {
             id: userLabel
             text: "User: "
             InfoToolTip {
-                text: "User name from which the data\n" +
-                      "will be collected."
+                text: "User watched by the alert."
             }
         }
 
@@ -184,8 +211,7 @@ Dialog {
             id: topicLabel
             text: "Topic: "
             InfoToolTip {
-                text: "Topic name from which the data\n" +
-                      "will be collected."
+                text: "Topic watched by the alert."
             }
         }
 
@@ -304,144 +330,142 @@ Dialog {
                     }
                 }
 
-                Column {
+                GridLayout{
+
+                    columns: 2
+                    rows: 3
+                    rowSpacing: 20
                     width: parent.width
                     visible: advancedOptionsSubmenu.isExpanded
                     height: advancedOptionsSubmenu.isExpanded ? advancedOptionsSubmenu.item_height_ : 0
-                    spacing: alertDialog.layout_horizontal_spacing_
+                    // spacing: alertDialog.layout_horizontal_spacing_
 
-                    Row {
-                        id: manualHost
-                        spacing: alertDialog.layout_vertical_spacing_
-                        CheckBox {
-                            id: manualHostCheckBox
-                            text: "Set host name manually"
-                            checked: false
 
-                            indicator: Rectangle {
-                                implicitWidth: 16
-                                implicitHeight: 16
-                                anchors.verticalCenter: parent.verticalCenter
-                                border.color: Theme.grey
-                                border.width: 2
-                                Rectangle {
-                                    visible: manualHostCheckBox.checked
-                                    color: Theme.eProsimaLightBlue
-                                    radius: 1
-                                    anchors.margins: 3
-                                    anchors.fill: parent
-                                }
-                            }
-                        }
+                    CheckBox {
+                        id: manualHostCheckBox
+                        text: "Set host name manually"
+                        checked: false
 
-                        TextField {
-                            id: manualHostText
-                            enabled: manualHostCheckBox.checked
-                            selectByMouse: true
-                            placeholderText: "manual_host_name"
-                            width: 130
-                            height: 5/6*advancedOptionsSubmenu.item_height_
+                        indicator: Rectangle {
+                            implicitWidth: 16
+                            implicitHeight: 16
                             anchors.verticalCenter: parent.verticalCenter
-
-                            background: Rectangle {
-                                color: !manualHostCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                                border.color: Theme.grey
-                            }
-
-                            onTextChanged: {
+                            border.color: Theme.grey
+                            border.width: 2
+                            Rectangle {
+                                visible: manualHostCheckBox.checked
+                                color: Theme.eProsimaLightBlue
+                                radius: 1
+                                anchors.margins: 3
+                                anchors.fill: parent
                             }
                         }
                     }
 
-                    Row {
-                        id: manualUser
-                        spacing: alertDialog.layout_vertical_spacing_
-                        CheckBox {
-                            id: manualUserCheckBox
-                            text: "Set user name manually"
-                            checked: false
+                    TextField {
+                        id: manualHostText
+                        enabled: manualHostCheckBox.checked
+                        selectByMouse: true
+                        placeholderText: "manual_host_name"
+                        width: 130
 
-                            indicator: Rectangle {
-                                implicitWidth: 16
-                                implicitHeight: 16
-                                anchors.verticalCenter: parent.verticalCenter
-                                border.color: Theme.grey
-                                border.width: 2
-                                Rectangle {
-                                    visible: manualUserCheckBox.checked
-                                    color: Theme.eProsimaLightBlue
-                                    radius: 1
-                                    anchors.margins: 3
-                                    anchors.fill: parent
-                                }
-                            }
+                        background: Rectangle {
+                            color: !manualHostCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
+                            border.color: Theme.grey
                         }
 
-                        TextField {
-                            id: manualUserText
-                            enabled: manualUserCheckBox.checked
-                            selectByMouse: true
-                            placeholderText: "manual_user_name"
-                            width: 130
-                            height: 5/6*advancedOptionsSubmenu.item_height_
+                        onTextChanged: {
+                        }
+                    }
+
+                    CheckBox {
+                        id: manualUserCheckBox
+                        text: "Set user name manually"
+                        checked: false
+
+                        indicator: Rectangle {
+                            implicitWidth: 16
+                            implicitHeight: 16
                             anchors.verticalCenter: parent.verticalCenter
-
-                            background: Rectangle {
-                                color: !manualUserCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                                border.color: Theme.grey
-                            }
-
-                            onTextChanged: {
+                            border.color: Theme.grey
+                            border.width: 2
+                            Rectangle {
+                                visible: manualUserCheckBox.checked
+                                color: Theme.eProsimaLightBlue
+                                radius: 1
+                                anchors.margins: 3
+                                anchors.fill: parent
                             }
                         }
                     }
 
-                    Row {
-                        id: manualTopic
-                        spacing: alertDialog.layout_vertical_spacing_
-                        CheckBox {
-                            id: manualTopicCheckBox
-                            text: "Set topic name manually"
-                            checked: false
+                    TextField {
+                        id: manualUserText
+                        enabled: manualUserCheckBox.checked
+                        selectByMouse: true
+                        placeholderText: "manual_user_name"
+                        width: 130
 
-                            indicator: Rectangle {
-                                implicitWidth: 16
-                                implicitHeight: 16
-                                anchors.verticalCenter: parent.verticalCenter
-                                border.color: Theme.grey
-                                border.width: 2
-                                Rectangle {
-                                    visible: manualTopicCheckBox.checked
-                                    color: Theme.eProsimaLightBlue
-                                    radius: 1
-                                    anchors.margins: 3
-                                    anchors.fill: parent
-                                }
-                            }
+                        background: Rectangle {
+                            color: !manualUserCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
+                            border.color: Theme.grey
                         }
 
-                        TextField {
-                            id: manualTopicText
-                            enabled: manualTopicCheckBox.checked
-                            selectByMouse: true
-                            placeholderText: "manual_topic_name"
-                            width: 130
-                            height: 5/6*advancedOptionsSubmenu.item_height_
+                        onTextChanged: {
+                        }
+                    }
+
+                    CheckBox {
+                        id: manualTopicCheckBox
+                        text: "Set topic name manually"
+                        checked: false
+
+                        indicator: Rectangle {
+                            implicitWidth: 16
+                            implicitHeight: 16
                             anchors.verticalCenter: parent.verticalCenter
-
-                            background: Rectangle {
-                                color: !manualTopicCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                                border.color: Theme.grey
+                            border.color: Theme.grey
+                            border.width: 2
+                            Rectangle {
+                                visible: manualTopicCheckBox.checked
+                                color: Theme.eProsimaLightBlue
+                                radius: 1
+                                anchors.margins: 3
+                                anchors.fill: parent
                             }
+                        }
+                    }
 
-                            onTextChanged: {
-                            }
+                    TextField {
+                        id: manualTopicText
+                        enabled: manualTopicCheckBox.checked
+                        selectByMouse: true
+                        placeholderText: "manual_topic_name"
+                        width: 130
+
+                        background: Rectangle {
+                            color: !manualTopicCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
+                            border.color: Theme.grey
+                        }
+
+                        onTextChanged: {
                         }
                     }
                 }
             }
         }
     }
+
+    MessageDialog {
+        id: emptyAlertKind
+        title: "Missing alert kind"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The alert kind field is empty. Please enter an alert kind."
+        onAccepted: alertDialog.open()
+        onDiscard: alertDialog.close()
+    }
+
 
     MessageDialog {
         id: emptyAlertName
@@ -453,13 +477,36 @@ Dialog {
         onDiscard: alertDialog.close()
     }
 
+    MessageDialog {
+        id: emptyAlertDomain
+        title: "Missing domain"
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Retry | StandardButton.Discard
+        text: "The domain field is empty. Please enter a domain."
+        onAccepted: alertDialog.open()
+        onDiscard: alertDialog.close()
+    }
+
     function checkInputs() {
+        if (alertKindComboBox.currentIndex === -1) {
+            emptyAlertKind.open()
+            return false
+        }
         if (alertNameTextField.text === "") {
             emptyAlertName.open()
             return false
         }
+        if (domainComboBox.currentIndex === -1) {
+            emptyAlertDomain.open()
+            return false
+        }
 
         return true
+    }
+
+    function updateDomains() {
+        controller.update_available_entity_ids("Domain", "alertDomain")
+        domainComboBox.recalculateWidth()
     }
 
     function updateTopics() {

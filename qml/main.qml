@@ -123,7 +123,7 @@ ApplicationWindow {
     AlertDialog {
         id: alertDialog
         onCreateAlert: {
-            panels.createAlert(alert_name, host_name, user_name, topic_name, alert_type, threshold, t_between_triggers, contact_info)
+            panels.createAlert(alert_name, domain_name, host_name, user_name, topic_name, alert_type, threshold, t_between_triggers)
         }
     }
 

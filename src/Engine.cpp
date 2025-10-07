@@ -123,6 +123,9 @@ QObject* Engine::enable()
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
+
+    alert_domain_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::DOMAIN, "alertDomain");
     alert_host_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "alertHost");
     alert_user_id_model_ = new models::ListModel(new models::EntityItem());
@@ -157,6 +160,7 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
+    rootContext()->setContextProperty("alertDomainModel", alert_domain_id_model_);
     rootContext()->setContextProperty("alertHostModel", alert_host_id_model_);
     rootContext()->setContextProperty("alertTopicModel", alert_topic_id_model_);
     rootContext()->setContextProperty("alertUserModel", alert_user_id_model_);
@@ -286,6 +290,11 @@ Engine::~Engine()
             delete destination_entity_id_model_;
         }
 
+
+        if (alert_domain_id_model_)
+        {
+            delete alert_domain_id_model_;
+        }
         if (alert_host_id_model_)
         {
             delete alert_host_id_model_;
@@ -891,6 +900,16 @@ bool Engine::on_selected_entity_kind(
         return backend_connection_.update_get_data_dialog_entity_id(
             destination_entity_id_model_,
             entity_kind,
+            inactive_visible(),
+            metatraffic_visible(),
+            proxy_visible());
+    }
+    else if (entity_model_id == "alertDomain")
+    {
+        alert_domain_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_domain_id_model_,
+            backend::EntityKind::DOMAIN,
             inactive_visible(),
             metatraffic_visible(),
             proxy_visible());
@@ -1907,17 +1926,17 @@ void Engine::set_alias(
 
 void Engine::set_alert(
         const std::string& alert_name,
+        const backend::EntityId& domain_id,
         const std::string& host_name,
         const std::string& user_name,
         const std::string& topic_name,
         const backend::AlertKind& alert_kind,
         double threshold,
-        const std::chrono::milliseconds& t_between_triggers,
-        const std::string& contact_info)
+        const std::chrono::milliseconds& t_between_triggers)
 {
     // Adding alert to backend structures
-    backend_connection_.set_alert(alert_name, host_name, user_name, topic_name, alert_kind, threshold,
-            t_between_triggers, contact_info);
+    backend_connection_.set_alert(alert_name, domain_id, host_name, user_name, topic_name, alert_kind, threshold,
+            t_between_triggers);
 }
 
 bool Engine::update_entity(

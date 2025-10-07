@@ -196,7 +196,7 @@ RowLayout {
         monitoringPanel.changeExplorerEntityInfo(status)
     }
 
-    function createAlert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info) {
-        controller.set_alert(name, hostId, userId, topicId, alert_type, threshold, t_between_triggers, contact_info);
+    function createAlert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers) {
+        controller.set_alert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers);
     }
 }

@@ -500,13 +500,13 @@ public:
 
     void set_alert(
             const std::string& alert_name,
+            const backend::EntityId& domain_id,
             const std::string& host_name,
             const std::string& user_name,
             const std::string& topic_name,
             const backend::AlertKind& alert_kind,
             double threshold,
-            const std::chrono::milliseconds& t_between_triggers,
-            const std::string& contact_info);
+            const std::chrono::milliseconds& t_between_triggers);
 
     /**
      * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the
@@ -964,6 +964,8 @@ protected:
     //! TODO
     models::ListModel* destination_entity_id_model_;
 
+    //! Model to hold the data about the domains available for alert creation
+    models::ListModel* alert_domain_id_model_;
     //! Model to hold the data about the hosts available for alert creation
     models::ListModel* alert_host_id_model_;
     //! Model to hold the data about the users available for alert creation

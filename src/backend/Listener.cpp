@@ -186,4 +186,11 @@ void Listener::on_alert_triggered(
     engine_->add_callback(AlertCallback(domain_id, entity_id, alert, data));
 }
 
+void Listener::on_alert_unmatched(
+        EntityId domain_id,
+        const AlertInfo& alert)
+{
+    engine_->add_callback(AlertCallback(domain_id, alert));
+}
+
 } //namespace backend
