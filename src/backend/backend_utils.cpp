@@ -105,37 +105,14 @@ models::AlertId alert_backend_id_to_models_id(
         const AlertId& id)
 {
     std::ostringstream stream;
-    // if (id == ID_ALL)
-    // {
-    //     stream << models::ID_ALL;
-    // }
-    // else if (id == ID_NONE)
-    // {
-    //     stream << models::ID_INVALID;
-    // }
-    // else
-    {
-        stream << id;
-    }
+    stream << id;
     return utils::to_QString(stream.str());
 }
 
 AlertId alert_models_id_to_backend_id(
         const models::AlertId& id)
 {
-    std::ostringstream stream;
-    // if (id == models::ID_ALL)
-    // {
-    //     return AlertId::all();
-    // }
-    // else if (id == models::ID_INVALID || id == "")
-    // {
-    //     return AlertId::invalid();
-    // }
-    // else
-    {
-        return AlertId(id.toInt());
-    }
+    return AlertId(id.toInt());
 }
 
 QString alert_kind_to_QString(

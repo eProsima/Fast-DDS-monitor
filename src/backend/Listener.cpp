@@ -183,14 +183,24 @@ void Listener::on_alert_triggered(
         AlertInfo& alert,
         const double& data)
 {
-    engine_->add_callback(AlertCallback(domain_id, entity_id, alert, data));
+    AlertCallback callback;
+    callback.domain_id = domain_id;
+    callback.entity_id = entity_id;
+    callback.alert_info = alert;
+    callback.trigger_data = data;
+    callback.kind = AlertCallbackKind::ALERT_TRIGGERED;
+    engine_->add_callback(callback);
 }
 
 void Listener::on_alert_unmatched(
         EntityId domain_id,
         AlertInfo& alert)
 {
-    engine_->add_callback(AlertCallback(domain_id, alert));
+    AlertCallback callback;
+    callback.domain_id = domain_id;
+    callback.alert_info = alert;
+    callback.kind = AlertCallbackKind::ALERT_UNMATCHED;
+    engine_->add_callback(callback);
 }
 
 } //namespace backend

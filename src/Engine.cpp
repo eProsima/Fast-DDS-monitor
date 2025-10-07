@@ -1284,6 +1284,11 @@ bool Engine::read_callback_(
 {
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+    if (alert_callback.kind == backend::AlertCallbackKind::ALERT_UNMATCHED)
+    {
+        return add_alert_message_info_(alert_callback.alert_info.get_alert_name(), "Alert unmatched: there are no entities that meet the alert conditions", utils::now());
+    }
+
     // Add callback to log model
     switch (alert_callback.alert_info.get_alert_kind())
     {
