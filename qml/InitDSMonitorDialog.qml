@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Dialogs
+import QtQuick.Controls
 import Theme 1.0
 
 Dialog {
@@ -179,8 +179,8 @@ Dialog {
                                 selectByMouse: true
                                 Layout.preferredWidth: discoveryServerIPLabel.width
                                 text: ip
-                                validator: RegExpValidator {
-                                    regExp: {
+                                validator: RegularExpressionValidator {
+                                    regularExpression: {
                                         if (discoveryServerTransportProtocol.currentText.includes("v4")) {
                                             return ipv4Regex()
                                         } else if (discoveryServerTransportProtocol.currentText.includes("v6")) {
@@ -272,40 +272,60 @@ Dialog {
     MessageDialog {
         id: wrongIP
         title: "Invalid Discovery Server IP"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discar
+        buttons:  MessageDialog.Retry | MessageDialog.Discard
         text: "The inserted Discovery Server IP " + ip + " is not a valid " + ipType +  "."
         property string ip: ""
         property string ipType: ""
-        onAccepted: initDSMonitorDialog.open()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    initDSMonitorDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: wrongPort
         title: "Invalid Discovery Server Port"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discard
+        buttons:  MessageDialog.Retry | MessageDialog.Discard
         text: "An invalid port has been inserted for the Discovery Server IP " + ip + ". " +
               "Please fill in the ports of all network addresses."
         property string ip: ""
-        onAccepted: initDSMonitorDialog.open()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    initDSMonitorDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: wrongLocator
         title: "Invalid Discovery Server Locator"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discard
+        buttons:  MessageDialog.Retry | MessageDialog.Discard
         text: "The locator of index " + locatorIdx + " has an empty IP address."
         property int locatorIdx: 0
-        onAccepted: initDSMonitorDialog.open()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    initDSMonitorDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    break;
+            }
+        }
     }
 
     MessageDialog {
         id: duplicatedLocators
         title: "Duplicated Discovery Server Locators"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discard
+        buttons:  MessageDialog.Retry | MessageDialog.Discard
         text: ""
         property var duplicates: []
 
@@ -317,7 +337,15 @@ Dialog {
             text = new_text
         }
 
-        onAccepted: initDSMonitorDialog.open()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    initDSMonitorDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    break;
+            }
+        }
     }
 
     /**

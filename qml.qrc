@@ -1,16 +1,17 @@
 <RCC>
     <qresource prefix="/">
-        <file>controls/Button.qml</file>
-        <file>controls/ComboBox.qml</file>
-        <file>controls/ItemDelegate.qml</file>
-        <file>controls/MenuBar.qml</file>
-        <file>controls/MenuBarItem.qml</file>
-        <file>controls/ScrollBar.qml</file>
-        <file>controls/SplitView.qml</file>
-        <file>controls/TabBar.qml</file>
-        <file>controls/TabButton.qml</file>
-        <file>controls/ToolBar.qml</file>
-        <file>controls/ToolButton.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/qmldir</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/Button.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ComboBox.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ItemDelegate.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/MenuBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/MenuBarItem.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ScrollBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/SplitView.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/TabBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/TabButton.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ToolBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ToolButton.qml</file>
         <file>imports/Theme/qmldir</file>
         <file>imports/Theme/Theme.qml</file>
         <file>qml/AboutDialog.qml</file>

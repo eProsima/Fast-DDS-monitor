@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQml.Models
 import Theme 1.0
 
 /*
@@ -361,6 +361,7 @@ ColumnLayout {
                     anchors.left: parent.left
                     width: parent.width
 
+                    /*
                     QosView {
                         id: qosView
                     }
@@ -368,6 +369,7 @@ ColumnLayout {
                     SummaryView {
                         id: summaryView
                     }
+                    */
                 }
             }
         }

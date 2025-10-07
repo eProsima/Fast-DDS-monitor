@@ -38,7 +38,7 @@ target_include_directories(UtilsTest PRIVATE
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
-target_link_libraries(UtilsTest PUBLIC ${QT5_LIBRARY_LINKS} ${GTEST_LIBRARIES})
+target_link_libraries(UtilsTest PUBLIC ${QT6_LIBRARY_LINKS} ${GTEST_LIBRARIES})
 
 get_win32_path_dependencies(UtilsTest TEST_FRIENDLY_PATH)
 
@@ -92,7 +92,7 @@ target_link_libraries(BackendUtilsTest PUBLIC
     fastdds
     fastcdr
     fastdds_statistics_backend
-    ${QT5_LIBRARY_LINKS}
+    ${QT6_LIBRARY_LINKS}
     ${GTEST_LIBRARIES})
 
 get_win32_path_dependencies(BackendUtilsTest TEST_FRIENDLY_PATH)

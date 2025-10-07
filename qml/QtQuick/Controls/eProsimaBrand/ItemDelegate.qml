@@ -34,60 +34,53 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import QtQuick.Templates 2.12 as T
-import QtQuick.Controls.Universal 2.12
+import QtQuick
+import QtQuick.Templates as T
+import QtQuick.Controls.impl
+import QtQuick.Controls.Universal
 
-T.ScrollBar {
+T.ItemDelegate {
     id: control
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding)
+                             implicitContentHeight + topPadding + bottomPadding,
+                             implicitIndicatorHeight + topPadding + bottomPadding)
 
-    visible: control.policy !== T.ScrollBar.AlwaysOff
-    minimumSize: orientation == Qt.Horizontal ? height / width : width / height
+    spacing: 0
 
-    // TODO: arrows
+    padding: 5
+    topPadding: padding - 1
+    bottomPadding: padding + 1
 
-    contentItem: Rectangle {
-        implicitWidth: control.interactive ? 6 : 3
-        implicitHeight: control.interactive ? 6: 3
+    icon.width: 20
+    icon.height: 20
+    icon.color: Color.transparent(Universal.foreground, enabled ? 1.0 : 0.2)
 
-        color: control.pressed ? control.Universal.baseMediumColor :
-               control.interactive && control.hovered ? control.Universal.baseMediumLowColor : control.Universal.chromeHighColor
-        opacity: 0.0
+    contentItem: IconLabel {
+        spacing: control.spacing
+        mirrored: control.mirrored
+        display: control.display
+        alignment: control.display === IconLabel.IconOnly || control.display === IconLabel.TextUnderIcon ? Qt.AlignCenter : Qt.AlignLeft
+
+        icon: control.icon
+        text: control.text
+        font: control.font
+        color: Color.transparent(control.Universal.foreground, enabled ? 1.0 : 0.2)
     }
 
     background: Rectangle {
-        implicitWidth: control.interactive ? 6: 3
-        implicitHeight: control.interactive ? 6: 3
+        visible: control.down || control.highlighted || control.visualFocus || control.hovered
+        color: control.down ? control.Universal.altMediumLowColor :
+               control.hovered ? control.Universal.altMediumLowColor : control.Universal.altMediumLowColor
+        Rectangle {
+            width: parent.width
+            height: parent.height
+            visible: control.visualFocus || control.highlighted
+            color: control.Universal.accent
+            opacity: 0.4
+        }
 
-        color: control.Universal.chromeLowColor
-        visible: control.size < 1.0
-        opacity: 0.0
     }
-
-    states: [
-        State {
-            name: "active"
-            when: control.policy === T.ScrollBar.AlwaysOn || (control.active && control.size < 1.0)
-        }
-    ]
-
-    transitions: [
-        Transition {
-            to: "active"
-            NumberAnimation { targets: [control.contentItem, control.background]; property: "opacity"; to: 1.0 }
-        },
-        Transition {
-            from: "active"
-            SequentialAnimation {
-                PropertyAction{ targets: [control.contentItem, control.background]; property: "opacity"; value: 1.0 }
-                PauseAnimation { duration: 3000 }
-                NumberAnimation { targets: [control.contentItem, control.background]; property: "opacity"; to: 0.0 }
-            }
-        }
-    ]
 }

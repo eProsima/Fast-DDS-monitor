@@ -171,7 +171,7 @@ public slots:
     static quint64 get_min_uint();
 
     //! Slot called when chart is to be built
-    QtCharts::QVXYModelMapper* add_statistics_data(
+        QVXYModelMapper* add_statistics_data(
             quint64 chartbox_id,
             QString data_kind,
             QString source_entity_id,

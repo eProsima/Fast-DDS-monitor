@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Dialogs
+import QtQuick.Controls
 import Theme 1.0
 
 Dialog {
@@ -207,8 +207,8 @@ Dialog {
                             height: 5/6*advancedOptionsSubmenu.item_height_
                             anchors.verticalCenter: parent.verticalCenter
 
-                            validator: RegExpValidator {
-                                regExp: /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$/
+                            validator: RegularExpressionValidator {
+                                regularExpression: /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$/
                             }
 
                             background: Rectangle {

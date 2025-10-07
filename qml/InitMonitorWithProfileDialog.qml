@@ -15,15 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
-import Qt.labs.calendar 1.0
-import QtQuick.Controls 2.15
-import QtQuick.Controls 1.4 as QCC1
-import QtQuick.Controls.Styles 1.4
-import QtQml.Models 2.12
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Controls as QCC1
+
+import QtQml.Models
 import Theme 1.0
 
 Dialog {
@@ -91,12 +89,19 @@ Dialog {
     MessageDialog {
         id: emptyXmlProfile
         title: "Empty DDS Profile"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
+        buttons: MessageDialog.Retry | MessageDialog.Discard
         text: "The DDS profile field is empty. " +
               "Please choose a profile from the list or upload a new one."
-        onAccepted: initMonitorWithProfileDialog.open()
-        onDiscard: initMonitorWithProfileDialog.close()
+        onButtonClicked: function (button, role) {
+            switch (button) {
+                case MessageDialog.Retry:
+                    initMonitorWithProfileDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    initMonitorWithProfileDialog.close()
+                    break;
+            }
+        }
     }
 
     function checkInputs() {

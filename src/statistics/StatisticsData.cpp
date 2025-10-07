@@ -31,8 +31,7 @@
 #include <fastdds_monitor/statistics/StatisticsData.h>
 #include <fastdds_monitor/utils.h>
 
-QT_CHARTS_USE_NAMESPACE
-
+// QtCharts namespace helper removed for Qt6; types are available directly (QAbstractSeries, QAbstractAxis, etc.)
 Q_DECLARE_METATYPE(
         QAbstractSeries*)
 

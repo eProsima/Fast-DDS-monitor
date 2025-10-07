@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 import Theme 1.0
 
@@ -58,15 +56,15 @@ Item
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
 
     // Main tab view with possibility of multiple tabs
-    TabView {
+    TabBar {
         id: tab_view
         anchors.top: parent.top
         anchors.bottom: separator_line.top
         width: parent.width
 
         // Main Problems tab
-        Tab {
-            title: "Problems"
+        TabButton {
+            text: "Problems"
             Rectangle {
 
                 color: "white"
@@ -142,142 +140,142 @@ Item
         }
 
 
-        // Tab main stlye
-        style: TabViewStyle {
-            frameOverlap: 1
-            // Each tab style: simple rounded rect header with text
-            tab: Rectangle {
-                color: styleData.selected ? "white" : Theme.lightGrey
-                implicitWidth: Math.max(text.width + 10, tabs_width_)
-                implicitHeight: tabs_height_
-                radius: 4
+//        // Tab main stlye
+//        style: TabViewStyle {
+//            frameOverlap: 1
+//            // Each tab style: simple rounded rect header with text
+//            tab: Rectangle {
+//                color: styleData.selected ? "white" : Theme.lightGrey
+//                implicitWidth: Math.max(text.width + 10, tabs_width_)
+//                implicitHeight: tabs_height_
+//                radius: 4
 
-                Rectangle {
-                    width: parent.width
-                    height: parent.height/2
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    color: parent.color
-                }
-                Text {
-                    id: text
-                    anchors.centerIn: parent
-                    text: styleData.title
-                }
-            }
-            // Tab bar style: would contain all tabs, and the custom menu on the right section
-            // (close, expand/collapse, and filter buttons, from right to left)
-            tabBar: Rectangle {
-                anchors.top: parent.top
-                width: parent.width
-                height: tabs_height_
-                color: grey_background_
+//                Rectangle {
+//                    width: parent.width
+//                    height: parent.height/2
+//                    anchors.bottom: parent.bottom
+//                    anchors.left: parent.left
+//                    color: parent.color
+//                }
+//                Text {
+//                    id: text
+//                    anchors.centerIn: parent
+//                    text: styleData.title
+//                }
+//            }
+//            // Tab bar style: would contain all tabs, and the custom menu on the right section
+//            // (close, expand/collapse, and filter buttons, from right to left)
+//            tabBar: Rectangle {
+//                anchors.top: parent.top
+//                width: parent.width
+//                height: tabs_height_
+//                color: grey_background_
 
-                // Close button
-                IconSVG {
-                    id: close_icon
-                    anchors.right: parent.right
-                    anchors.rightMargin: elements_spacing_ *2
-                    anchors.verticalCenter: parent.verticalCenter
-                    name: "cross"
-                    size: parent.height - elements_spacing_ *3/2
+//                // Close button
+//                IconSVG {
+//                    id: close_icon
+//                    anchors.right: parent.right
+//                    anchors.rightMargin: elements_spacing_ *2
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    name: "cross"
+//                    size: parent.height - elements_spacing_ *3/2
 
-                    MouseArea {
-                        anchors.centerIn: parent
-                        width: parent.width + 2*elements_spacing_
-                        height: parent.height + 2*elements_spacing_
+//                    MouseArea {
+//                        anchors.centerIn: parent
+//                        width: parent.width + 2*elements_spacing_
+//                        height: parent.height + 2*elements_spacing_
 
-                        onClicked: {
-                            close_status_layout()
-                        }
-                    }
-                }
+//                        onClicked: {
+//                            close_status_layout()
+//                        }
+//                    }
+//                }
 
-                // Container with expand and collapse buttons
-                Rectangle {
-                    id: rect
-                    anchors.right: close_icon.left
-                    anchors.rightMargin: elements_spacing_ *2
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.verticalCenterOffset: elements_spacing_/2
-                    width: parent.height - elements_spacing_
-                    height: parent.height - elements_spacing_
-                    color: "transparent"
+//                // Container with expand and collapse buttons
+//                Rectangle {
+//                    id: rect
+//                    anchors.right: close_icon.left
+//                    anchors.rightMargin: elements_spacing_ *2
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.verticalCenterOffset: elements_spacing_/2
+//                    width: parent.height - elements_spacing_
+//                    height: parent.height - elements_spacing_
+//                    color: "transparent"
 
-                    IconSVG {
-                        id: expand_icon
+//                    IconSVG {
+//                        id: expand_icon
 
-                        name: statusLayout.current_status === StatusLayout.Status.Expanded
-                                ? "collapse" : "expand"
-                        size: parent.width
-                    }
+//                        name: statusLayout.current_status === StatusLayout.Status.Expanded
+//                                ? "collapse" : "expand"
+//                        size: parent.width
+//                    }
 
-                    MouseArea {
-                        anchors.centerIn: parent
-                        width: parent.width + 2*elements_spacing_
-                        height: parent.height + 2*elements_spacing_
+//                    MouseArea {
+//                        anchors.centerIn: parent
+//                        width: parent.width + 2*elements_spacing_
+//                        height: parent.height + 2*elements_spacing_
 
-                        onClicked: {
-                            if (statusLayout.current_status === StatusLayout.Status.Expanded)
-                            {
-                                collapse_status_layout()
+//                        onClicked: {
+//                            if (statusLayout.current_status === StatusLayout.Status.Expanded)
+//                            {
+//                                collapse_status_layout()
 
-                            }
-                            else if (statusLayout.current_status === StatusLayout.Status.Collapsed)
-                            {
-                                expand_status_layout()
-                            }
-                        }
-                    }
-                }
+//                            }
+//                            else if (statusLayout.current_status === StatusLayout.Status.Collapsed)
+//                            {
+//                                expand_status_layout()
+//                            }
+//                        }
+//                    }
+//                }
 
-                // Container with filter buttons (filtered/not filtered icons)
-                Rectangle {
-                    id: filter_rect
-                    anchors.right: rect.left
-                    anchors.rightMargin: elements_spacing_ *2
-                    anchors.verticalCenter: parent.verticalCenter
-                    height: parent.height - elements_spacing_
-                    width: parent.height - elements_spacing_
-                    color: "transparent"
+//                // Container with filter buttons (filtered/not filtered icons)
+//                Rectangle {
+//                    id: filter_rect
+//                    anchors.right: rect.left
+//                    anchors.rightMargin: elements_spacing_ *2
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    height: parent.height - elements_spacing_
+//                    width: parent.height - elements_spacing_
+//                    color: "transparent"
 
-                    IconSVG {
-                        id: filter_empty_icon
-                        visible: !statusLayout.filter_visible_
-                        anchors.centerIn: parent
-                        name: "filter_empty"
-                        size: parent.width
-                    }
+//                    IconSVG {
+//                        id: filter_empty_icon
+//                        visible: !statusLayout.filter_visible_
+//                        anchors.centerIn: parent
+//                        name: "filter_empty"
+//                        size: parent.width
+//                    }
 
-                    IconSVG {
-                        id: filter_full_icon
-                        visible: statusLayout.filter_visible_
-                        anchors.centerIn: parent
-                        name: "filter_full"
-                        size: parent.width
-                    }
+//                    IconSVG {
+//                        id: filter_full_icon
+//                        visible: statusLayout.filter_visible_
+//                        anchors.centerIn: parent
+//                        name: "filter_full"
+//                        size: parent.width
+//                    }
 
-                    MouseArea {
-                        id: filter_btn
-                        anchors.fill: parent
-                        onClicked: statusLayout.clean_filter_()
-                    }
-                }
+//                    MouseArea {
+//                        id: filter_btn
+//                        anchors.fill: parent
+//                        onClicked: statusLayout.clean_filter_()
+//                    }
+//                }
 
-                // connections to update filter icons
-                Connections {
-                    target: statusLayout
+//                // connections to update filter icons
+//                Connections {
+//                    target: statusLayout
 
-                    function onFocus_entity_(entityId) {
-                        statusLayout.filter_visible_ = true
-                    }
+//                    function onFocus_entity_(entityId) {
+//                        statusLayout.filter_visible_ = true
+//                    }
 
-                    function onClean_filter_() {
-                        statusLayout.filter_visible_ = false
-                    }
-                }
-            }
-        }
+//                    function onClean_filter_() {
+//                        statusLayout.filter_visible_ = false
+//                    }
+//                }
+//            }
+//        }
     }
 
     Rectangle {
