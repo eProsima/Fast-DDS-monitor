@@ -48,10 +48,9 @@ Menu {
         onTriggered: openIDLView(menu.entityId)
     }
     MenuItem {
-        text: "Set New Data Alert"
+        text: "Set Alert"
         onTriggered: {
-            newDataAlertDialog.currentTopic = menu.entityId
-            newDataAlertDialog.open()
+            alertDialog.open()
         }
     }
 }
