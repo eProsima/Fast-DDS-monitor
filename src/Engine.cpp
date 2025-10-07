@@ -1289,11 +1289,11 @@ bool Engine::read_callback_(
     {
         case backend::AlertKind::NEW_DATA:
             return add_alert_message_info_(
-                alert_callback.alert_info.get_alert_name(), "NEW_DATA alert triggered", utils::now());
+                alert_callback.alert_info.get_alert_name(), "New data received, DATA_COUNT is " + std::to_string(alert_callback.trigger_data), utils::now());
             break;
         case backend::AlertKind::NO_DATA:
             return add_alert_message_info_(
-                alert_callback.alert_info.get_alert_name(), "NO_DATA alert triggered", utils::now());
+                alert_callback.alert_info.get_alert_name(), "SUBSCRIPTION_THROUGHPUT is " + std::to_string(alert_callback.trigger_data), utils::now());
             break;
         case backend::AlertKind::INVALID:
         default:

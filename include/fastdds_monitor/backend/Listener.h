@@ -101,12 +101,12 @@ public:
     void on_alert_triggered(
             EntityId domain_id,
             EntityId entity_id,
-            const AlertInfo& alert,
+            AlertInfo& alert,
             const double& data) override;
 
     void on_alert_unmatched(
         EntityId domain_id,
-        const AlertInfo& alert) override;
+        AlertInfo& alert) override;
 
 protected:
 

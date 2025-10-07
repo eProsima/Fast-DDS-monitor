@@ -40,7 +40,7 @@ struct AlertCallback
 
     AlertCallback(
             backend::EntityId domain_entity_id,
-            backend::AlertInfo alert_info)
+            backend::AlertInfo& alert_info)
         : domain_id(domain_entity_id)
         , alert_info(alert_info)
         , kind(AlertCallbackKind::ALERT_UNMATCHED)
@@ -50,7 +50,7 @@ struct AlertCallback
     AlertCallback(
             backend::EntityId domain_entity_id,
             backend::EntityId entity_id,
-            backend::AlertInfo alert_info,
+            backend::AlertInfo& alert_info,
             double trigger_data)
         : domain_id(domain_entity_id)
         , entity_id(entity_id)

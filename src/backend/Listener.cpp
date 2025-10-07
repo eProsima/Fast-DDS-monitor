@@ -180,7 +180,7 @@ void Listener::on_status_reported(
 void Listener::on_alert_triggered(
         EntityId domain_id,
         EntityId entity_id,
-        const AlertInfo& alert,
+        AlertInfo& alert,
         const double& data)
 {
     engine_->add_callback(AlertCallback(domain_id, entity_id, alert, data));
@@ -188,7 +188,7 @@ void Listener::on_alert_triggered(
 
 void Listener::on_alert_unmatched(
         EntityId domain_id,
-        const AlertInfo& alert)
+        AlertInfo& alert)
 {
     engine_->add_callback(AlertCallback(domain_id, alert));
 }

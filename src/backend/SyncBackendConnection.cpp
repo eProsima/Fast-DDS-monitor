@@ -357,8 +357,6 @@ bool SyncBackendConnection::update_alerts_model(
     // For each User get all processes
     for (auto& alert_id : get_alerts())
     {
-        // AlertId alert_id = alert_tuple.first;
-        // AlertInfo alert_info = alert_tuple->second;
         // Check if it exists already
         int index = alerts_model->rowIndexFromId(alert_id);
 

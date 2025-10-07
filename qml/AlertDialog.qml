@@ -48,8 +48,8 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
-    signal createAlert(string alert_name, string host_name, string user_name, string topic_name,
-                       string alert_type, int t_between_triggers, int threshold)
+    signal createAlert(string alert_name, string domain_name, string host_name, string user_name,
+                    string topic_name, string alert_type, int t_between_triggers, int threshold)
 
     Component.onCompleted: {
         availableAlertKinds = controller.get_alert_kinds()
