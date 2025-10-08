@@ -19,8 +19,8 @@ import QtQuick
 import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Controls
-
 import QtQml.Models
+
 import Theme 1.0
 
 Dialog {
@@ -38,9 +38,9 @@ Dialog {
     property var availableStatisticKinds: []
 
     Component.onCompleted: {
-        MessageDialog(Dialog.Apply).text = qsTrId("Add")
-        MessageDialog(Dialog.Ok).text = qsTrId("Add && Close")
-        MessageDialog(Dialog.Cancel).text = qsTrId("Close")
+        dynamicDisplayStatisticsDialog.standardButton(Dialog.Apply).text = qsTrId("Add")
+        dynamicDisplayStatisticsDialog.standardButton(Dialog.Ok).text = qsTrId("Add && Close")
+        dynamicDisplayStatisticsDialog.standardButton(Dialog.Cancel).text = qsTrId("Close")
 
         // Get the available statistic kinds from the backend
         availableStatisticKinds = controller.get_statistic_kinds()
