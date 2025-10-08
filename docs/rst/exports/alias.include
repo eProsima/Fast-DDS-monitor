@@ -33,6 +33,10 @@
     :width: 20
     :alt: Clear Issues
 
+.. |create_alert| image:: /rst/../../resources/images/icons/alert/alert_black.svg
+    :width: 20
+    :alt: Create Alert
+
 .. |resize| image:: /rst/../../resources/images/icons/resize/resize_grey.svg
     :width: 20
     :alt: Reset Chart Zoom
