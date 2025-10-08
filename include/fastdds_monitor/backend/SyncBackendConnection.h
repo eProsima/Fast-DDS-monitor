@@ -882,6 +882,10 @@ public:
             double threshold,
             const std::chrono::milliseconds& t_between_triggers);
 
+    //! Remove an alert in backend
+    void remove_alert(
+            const backend::AlertId& id);
+
 protected:
 
     ListModel* get_model_(

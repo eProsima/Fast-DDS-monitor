@@ -1949,6 +1949,12 @@ void Engine::set_alert(
             t_between_triggers);
 }
 
+void Engine::remove_alert(
+        const backend::AlertId& id)
+{
+    backend_connection_.remove_alert(id);
+}
+
 bool Engine::update_entity(
         const backend::EntityId& entity_updated,
         bool (Engine::* update_function)(const backend::EntityId&, bool, bool),

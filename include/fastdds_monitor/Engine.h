@@ -498,6 +498,7 @@ public:
             const std::string& new_alias,
             const backend::EntityKind& entity_kind);
 
+    //! Set an alert
     void set_alert(
             const std::string& alert_name,
             const backend::EntityId& domain_id,
@@ -507,6 +508,10 @@ public:
             const backend::AlertKind& alert_kind,
             double threshold,
             const std::chrono::milliseconds& t_between_triggers);
+
+    //! Remove an alert
+    void remove_alert(
+            const backend::AlertId& id);
 
     /**
      * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the

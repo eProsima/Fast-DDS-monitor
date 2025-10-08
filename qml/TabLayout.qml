@@ -31,6 +31,7 @@ Item {
     // Public signals
     signal openEntitiesMenu(string domainEntityId, string entityId, string currentAlias, string entityKind, int caller)
     signal openTopicMenu(string domainEntityId, string domainId, string entityId, string currentAlias, string entityKind, int caller)
+    signal openAlertsMenu(string alertId)
 
     // Private properties
     property int current_: 0                                                // current tab displayed

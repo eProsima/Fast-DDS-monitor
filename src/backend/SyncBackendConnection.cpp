@@ -1332,6 +1332,20 @@ void SyncBackendConnection::set_alert(
     }
 }
 
+void SyncBackendConnection::remove_alert(
+            const backend::AlertId& id)
+{
+    try
+    {
+        StatisticsBackend::remove_alert(id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail removing alert";
+        static_cast<void>(e);
+    }
+}
+
 bool SyncBackendConnection::update_host(
         models::ListModel* physical_model,
         EntityId id,

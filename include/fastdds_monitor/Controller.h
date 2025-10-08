@@ -243,6 +243,10 @@ public slots:
             double threshold,
             int time_between_triggers);
 
+    //! Removes an alert
+    void remove_alert(
+            QString id);
+
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     QString get_data_kind_units(
             QString data_kind);

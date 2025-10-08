@@ -336,6 +336,11 @@ void Controller::set_alert(
             std::chrono::milliseconds(time_between_triggers));
 }
 
+void Controller::remove_alert(QString id)
+{
+    engine_->remove_alert(backend::alert_models_id_to_backend_id(id));
+}
+
 QString Controller::get_data_kind_units(
         QString data_kind)
 {

@@ -73,7 +73,11 @@ Rectangle {
 
                     onClicked: {
                         alertHighlightRect.clicked = !alertHighlightRect.clicked
-                        controller.alert_click(id)
+                        if(mouse.button & Qt.RightButton) {
+                            openAlertsMenu(id)
+                        } else  {
+                            controller.alert_click(id)
+                        }
                     }
                 }
 
