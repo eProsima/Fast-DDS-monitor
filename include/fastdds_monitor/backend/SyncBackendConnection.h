@@ -474,7 +474,6 @@ public:
             bool metatraffic_visible,
             bool proxy_visible);
 
-
     /**
      * @brief Update the alerts model with every alert in the backend
      *

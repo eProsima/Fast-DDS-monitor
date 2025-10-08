@@ -31,7 +31,6 @@
 #include <fastdds_statistics_backend/types/types.hpp>
 #include <fastdds_statistics_backend/topic_types/types.hpp>
 
-
 namespace backend {
 
 //! Add a type of each kind with same name under \c backend namespace

@@ -104,6 +104,7 @@ public:
             AlertInfo& alert,
             const long double& data) override;
 
+    //! Callback when an alert is unmatched
     void on_alert_unmatched(
             EntityId domain_id,
             AlertInfo& alert) override;

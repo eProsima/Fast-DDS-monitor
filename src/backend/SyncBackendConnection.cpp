@@ -375,8 +375,7 @@ bool SyncBackendConnection::update_alerts_model(
         {
             // Otherwise just update the entity
             models::AlertListItem* alert_item = alerts_model->at(index);
-            changed = update_alert_item_(alert_item)
-                    || changed;
+            changed = update_alert_item_(alert_item) || changed;
         }
     }
 

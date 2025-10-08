@@ -283,7 +283,6 @@ public:
             const backend::EntityId& id,
             backend::StatusKind kind);
 
-
     /**
      * @brief Update the entity status counters and populate the model with empty message if empty
      *
@@ -338,7 +337,6 @@ public:
             backend::EntityKind kind,
             bool update_dds = true,
             bool reset_dds = true);
-
 
     /**
      * @brief Call the event chain when an alert is clicked
@@ -400,7 +398,7 @@ public:
             backend::StatusCallback callback);
 
     /**
-     * @brief add an alert callback arrived from the backend to the alert callback queue
+     * @brief Add an alert callback arrived from the backend to the alert callback queue
      *
      * Add an alert callback to the alert callback queue in order to process it afterwards by the main thread.
      * Emit a signal that communicate the main thread that there are info to process in the alert callback queue.
@@ -822,7 +820,6 @@ protected:
      *   - "Entities" tag - to show the number of entities discovered
      */
     void generate_new_status_info_();
-
 
     //! Update the issue model "Entities" count adding \c n
     void sum_entity_number_issue(

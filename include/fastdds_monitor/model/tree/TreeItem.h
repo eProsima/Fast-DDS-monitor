@@ -63,7 +63,6 @@ public:
     TreeItem* child_item(
             int row);
 
-
     void remove_child_item(
             int row);
 

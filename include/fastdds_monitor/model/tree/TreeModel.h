@@ -164,7 +164,7 @@ protected:
             const json& json_data);
 
     /**
-     * @brief Iterates over the children of a node to find one with a specific name
+     * @brief Iterates over a node to find a child with a specific name
      * @param parent parent node where to search
      * @param name name of the child node to search
      * @return pointer to the child node if found, nullptr otherwise

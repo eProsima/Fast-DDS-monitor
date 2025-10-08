@@ -123,7 +123,6 @@ QObject* Engine::enable()
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
 
-
     alert_domain_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::DOMAIN, "alertDomain");
     alert_host_id_model_ = new models::ListModel(new models::EntityItem());
@@ -290,7 +289,6 @@ Engine::~Engine()
             delete destination_entity_id_model_;
         }
 
-
         if (alert_domain_id_model_)
         {
             delete alert_domain_id_model_;
@@ -307,7 +305,6 @@ Engine::~Engine()
         {
             delete alert_topic_id_model_;
         }
-
 
         // Interactive models
         if (historic_statistics_data_)
@@ -1502,8 +1499,7 @@ bool Engine::update_entity_status(
                                                 std::string(backend::policy_id_to_string(policy_id) + ":"),
                                                 sample.status, "",
                                                 std::string(
-                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ")
-                                                +
+                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ") +
                                                 std::string(
                                                     "<a href=\"https://fast-dds.docs.eprosima.com/en/") +
                                                 fastdds_version +
