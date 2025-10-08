@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="18.163265228271484" height="18.163265228271484" fill="none" style=""><rect id="backgroundrect" width="100%" height="100%" x="0" y="0" fill="none" stroke="none" style="" class=""/><g class="currentLayer" style=""><title>Layer 1</title><path fill-rule="evenodd" clip-rule="evenodd" d="M8.354224460601806,0.5174896888732912 a1,1 0 0 1 1.4140000000000001,0 l8,8 a1,1 0 0 1 -1.4140000000000001,1.4140000000000001 L9.061224460601807,2.6384896888732907 l-7.293,7.293 a1,1 0 0 1 -1.4140000000000001,-1.4140000000000001 l8,-8 z" fill="#808080" id="svg_1" class="selected" fill-opacity="1" transform="rotate(-180 9.06122875213623,5.21845245361328) "/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="18.163265228271484" height="18.163265228271484" fill="none" style="">
+    <rect id="backgroundrect" width="100%" height="100%" x="0" y="0" fill="none" stroke="none" style="" class=""/>
+    <!-- translated so the currentLayer is centered inside the background rectangle -->
+    <g class="currentLayer" style="" transform="translate(0.020403862,3.863180161)">
+        <title>Layer 1</title>
+        <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M8.354224460601806,0.5174896888732912 a1,1 0 0 1 1.4140000000000001,0 l8,8 a1,1 0 0 1 -1.4140000000000001,1.4140000000000001 L9.061224460601807,2.6384896888732907 l-7.293,7.293 a1,1 0 0 1 -1.4140000000000001,-1.4140000000000001 l8,-8 z"
+            fill="#808080"
+            id="svg_1"
+            class="selected"
+            fill-opacity="1"
+            transform="rotate(-180 9.06122875213623,5.21845245361328)"
+        />
+    </g>
+</svg>

@@ -34,13 +34,5 @@ T.TabBar {
     background: Rectangle {
         anchors.fill: parent
         color: control.Universal.background
-
-        Rectangle {
-            visible: true
-            color: Theme.eProsimaLightBlue
-            width: parent.width
-            height: 2
-            anchors.bottom: parent.bottom
-        }
     }
 }

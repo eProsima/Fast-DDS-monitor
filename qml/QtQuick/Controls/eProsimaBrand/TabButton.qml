@@ -58,12 +58,23 @@ T.TabButton {
                                                     control.checked || control.down || control.hovered ? 1.0 : 0.2)
 
     background: Rectangle {
+        // Underline that matches the content width (text + icon)
         Rectangle {
+            id: underline
             visible: control.checked || control.down
             color: Theme.eProsimaLightBlue
-            width: parent.width
             height: 2
             anchors.bottom: parent.bottom
+
+            // Use the content's implicit width (natural text+icon size) so the
+            // underline doesn't stretch when the tab expands to fill the row.
+            // Center the underline on the content's visual center.
+            width: control.contentItem ? control.contentItem.implicitWidth : 0
+            x: control.contentItem ? (control.contentItem.x + control.contentItem.width/2 - width/2) : 0
+
+            Behavior on width { NumberAnimation { duration: 120 } }
+            Behavior on x { NumberAnimation { duration: 120 } }
+            Behavior on visible { NumberAnimation { duration: 80 } }
         }
     }
 
