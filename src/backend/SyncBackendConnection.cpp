@@ -1333,7 +1333,7 @@ void SyncBackendConnection::set_alert(
 }
 
 void SyncBackendConnection::remove_alert(
-            const backend::AlertId& id)
+        const backend::AlertId& id)
 {
     try
     {
