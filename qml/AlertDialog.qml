@@ -167,7 +167,7 @@ Dialog {
 
         AdaptiveComboBox {
                 id: hostComboBox
-                enabled: true
+                enabled:  !manualHostCheckBox.checked
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height

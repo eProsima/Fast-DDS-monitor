@@ -65,12 +65,14 @@ Rectangle {
                 width: alertList.width
                 height: alertIcon.height
                 color: clicked ? Theme.eProsimaLightBlue : "transparent"
+                property bool clicked : false
 
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
                     onClicked: {
+                        alertHighlightRect.clicked = !alertHighlightRect.clicked
                         controller.alert_click(id)
                     }
                 }
@@ -83,11 +85,11 @@ Rectangle {
                         name: "alert"
                         size: iconSize
                         Layout.leftMargin: firstIndentation
-                        color: entityLabelColor(clicked, alive)
+                        color: entityLabelColor(alertHighlightRect.clicked, alive)
                     }
                     Label {
                         text: name
-                        color: entityLabelColor(clicked, alive)
+                        color: entityLabelColor(alertHighlightRect.clicked, alive)
                     }
                 }
             }
