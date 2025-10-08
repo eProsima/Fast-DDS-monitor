@@ -105,8 +105,8 @@ public:
             const long double& data) override;
 
     void on_alert_unmatched(
-        EntityId domain_id,
-        AlertInfo& alert) override;
+            EntityId domain_id,
+            AlertInfo& alert) override;
 
 protected:
 

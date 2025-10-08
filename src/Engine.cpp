@@ -963,7 +963,8 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
     backend::Timestamp time_from =
             start_time_default ? initial_time_ : backend::Timestamp(std::chrono::milliseconds(start_time));
     backend::Timestamp time_to =
-            end_time_default ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(end_time));
+            end_time_default ? std::chrono::system_clock::now() :
+            backend::Timestamp(std::chrono::milliseconds(end_time));
 
     std::vector<backend::StatisticsData> statistic_data = backend_connection_.get_data(
         data_kind,
@@ -1286,7 +1287,8 @@ bool Engine::read_callback_(
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
     if (alert_callback.kind == backend::AlertCallbackKind::ALERT_UNMATCHED)
     {
-        return add_alert_message_info_(alert_callback.alert_info.get_alert_name(), "Alert unmatched: there are no entities that meet the alert conditions", utils::now());
+        return add_alert_message_info_(alert_callback.alert_info.get_alert_name(),
+                       "Alert unmatched: there are no entities that meet the alert conditions", utils::now());
     }
 
     // Add callback to log model
@@ -1294,11 +1296,13 @@ bool Engine::read_callback_(
     {
         case backend::AlertKind::NEW_DATA:
             return add_alert_message_info_(
-                alert_callback.alert_info.get_alert_name(), "New data received, DATA_COUNT is " + std::to_string(alert_callback.trigger_data), utils::now());
+                alert_callback.alert_info.get_alert_name(),
+                "New data received, DATA_COUNT is " + std::to_string(alert_callback.trigger_data), utils::now());
             break;
         case backend::AlertKind::NO_DATA:
             return add_alert_message_info_(
-                alert_callback.alert_info.get_alert_name(), "SUBSCRIPTION_THROUGHPUT is " + std::to_string(alert_callback.trigger_data), utils::now());
+                alert_callback.alert_info.get_alert_name(),
+                "SUBSCRIPTION_THROUGHPUT is " + std::to_string(alert_callback.trigger_data), utils::now());
             break;
         case backend::AlertKind::INVALID:
         default:
@@ -1498,9 +1502,11 @@ bool Engine::update_entity_status(
                                                 std::string(backend::policy_id_to_string(policy_id) + ":"),
                                                 sample.status, "",
                                                 std::string(
-                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ") +
+                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ")
+                                                +
                                                 std::string(
-                                                    "<a href=\"https://fast-dds.docs.eprosima.com/en/") + fastdds_version +
+                                                    "<a href=\"https://fast-dds.docs.eprosima.com/en/") +
+                                                fastdds_version +
                                                 std::string("/fastdds/dds_layer/core/policy/standardQosPolicies.html") +
                                                 backend::policy_documentation_description(policy_id) +
                                                 std::string("\">here</a></html>"),
@@ -1512,7 +1518,8 @@ bool Engine::update_entity_status(
                                 {
                                     EntityInfo entity_info = backend_connection_.get_info(remote_entity_id);
                                     std::string remote_entity_kind = utils::to_string(
-                                        backend::entity_kind_to_QString(backend_connection_.get_type(remote_entity_id)));
+                                        backend::entity_kind_to_QString(backend_connection_.get_type(
+                                            remote_entity_id)));
                                     std::stringstream ss;
                                     ss << std::string(entity_info["alias"]) << " (" << remote_entity_kind << ")";
                                     remote_entity = ss.str();

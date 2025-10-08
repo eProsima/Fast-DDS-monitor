@@ -364,12 +364,12 @@ bool SyncBackendConnection::update_alerts_model(
         // If it exists it updates its info
         if (index == -1)
         {
-                // Creates the Item object and update its data
-                alerts_model->appendRow(create_alert_data_(alert_id));
-                changed = true;
-                models::AlertListItem* alert_item = alerts_model->find(alert_id);
+            // Creates the Item object and update its data
+            alerts_model->appendRow(create_alert_data_(alert_id));
+            changed = true;
+            models::AlertListItem* alert_item = alerts_model->find(alert_id);
 
-                changed = update_alert_item_(alert_item) || changed;
+            changed = update_alert_item_(alert_item) || changed;
         }
         else
         {
