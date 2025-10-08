@@ -102,7 +102,7 @@ public:
             EntityId domain_id,
             EntityId entity_id,
             AlertInfo& alert,
-            const double& data) override;
+            const long double& data) override;
 
     void on_alert_unmatched(
         EntityId domain_id,

@@ -181,7 +181,7 @@ void Listener::on_alert_triggered(
         EntityId domain_id,
         EntityId entity_id,
         AlertInfo& alert,
-        const double& data)
+        const long double& data)
 {
     AlertCallback callback;
     callback.domain_id = domain_id;
