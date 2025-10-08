@@ -1,7 +1,38 @@
-// Copyright (C) 2017 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
-
-pragma ComponentBehavior: Bound
+/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the Qt Quick Controls 2 module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:LGPL3$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or later as published by the Free
+** Software Foundation and appearing in the file LICENSE.GPL included in
+** the packaging of this file. Please review the following information to
+** ensure the GNU General Public License version 2.0 requirements will be
+** met: http://www.gnu.org/licenses/gpl-2.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
 
 import QtQuick
 import QtQuick.Window
@@ -9,14 +40,14 @@ import QtQuick.Controls.impl
 import QtQuick.Templates as T
 import QtQuick.Controls.Universal
 
+import Theme 1.0
+
 T.ComboBox {
     id: control
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding,
-                             implicitIndicatorHeight + topPadding + bottomPadding)
+    implicitHeight: 27
 
     leftPadding: padding + (!control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
     rightPadding: padding + (control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
@@ -24,31 +55,18 @@ T.ComboBox {
     Universal.theme: editable && activeFocus ? Universal.Light : undefined
 
     delegate: ItemDelegate {
-        required property var model
-        required property int index
-
         width: ListView.view.width
-        // Make each item have the same height as the ComboBox control
-        implicitHeight: control.implicitHeight
-
-        text: model[control.textRole]
+        text: control.textRole ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole]) : modelData
         font.weight: control.currentIndex === index ? Font.DemiBold : Font.Normal
         highlighted: control.highlightedIndex === index
         hoverEnabled: control.hoverEnabled
-
-        // Highlight hovered item with theme accent and preserve contrast
-        background: Rectangle {
-            anchors.fill: parent
-            color: control.highlightedIndex === index ? control.Universal.accent : "transparent"
-            opacity: control.highlightedIndex === index ? 0.4 : 1.0
-        }
     }
 
     indicator: ColorImage {
         x: control.mirrored ? control.padding : control.width - width - control.padding
         y: control.topPadding + (control.availableHeight - height) / 2
         color: !control.enabled ? control.Universal.baseLowColor : control.Universal.baseMediumHighColor
-        source: "qrc:/qt-project.org/imports/QtQuick/Controls/Universal/images/downarrow.png"
+        source: "qrc:/qt-project.org/imports/QtQuick/Controls.2/Universal/images/downarrow.png"
 
         Rectangle {
             z: -1
@@ -57,16 +75,16 @@ T.ComboBox {
             color: control.activeFocus ? control.Universal.accent :
                    control.pressed ? control.Universal.baseMediumLowColor :
                    control.hovered ? control.Universal.baseLowColor : "transparent"
-            visible: control.editable && !control.contentItem.hovered && (control.pressed || control.hovered)
-            opacity: control.activeFocus && !control.pressed ? 0.4 : 1.0
+            visible: control.editable && !contentItem.hovered && (control.pressed || control.hovered)
+            opacity: 1.0
         }
     }
 
     contentItem: T.TextField {
         leftPadding: control.mirrored ? 1 : 12
         rightPadding: control.mirrored ? 10 : 1
-        topPadding: 5 - control.topPadding
-        bottomPadding: 7 - control.bottomPadding
+        topPadding: 0
+        bottomPadding: 0
 
         text: control.editable ? control.editText : control.displayText
 
@@ -77,6 +95,7 @@ T.ComboBox {
         validator: control.validator
         selectByMouse: control.selectTextByMouse
 
+        font: control.font
         color: !control.enabled ? control.Universal.chromeDisabledLowColor :
                 control.editable && control.activeFocus ? control.Universal.chromeBlackHighColor : control.Universal.foreground
         selectionColor: control.Universal.accent
@@ -86,29 +105,14 @@ T.ComboBox {
 
     background: Rectangle {
         implicitWidth: 120
-        implicitHeight: 32
+        implicitHeight: 10
 
-        border.width: control.flat ? 0 : 2 // ComboBoxBorderThemeThickness
-        border.color: !control.enabled ? control.Universal.baseLowColor :
-                       control.editable && control.activeFocus ? control.Universal.accent :
-                       control.down ? control.Universal.baseMediumLowColor :
-                       control.hovered ? control.Universal.baseMediumColor : control.Universal.baseMediumLowColor
-        color: !control.enabled ? control.Universal.baseLowColor :
-                control.down ? control.Universal.listMediumColor :
-                control.flat && control.hovered ? control.Universal.listLowColor :
-                control.editable && control.activeFocus ? control.Universal.background : control.Universal.altMediumLowColor
-        visible: !control.flat || control.pressed || control.hovered || control.visualFocus
-
-        Rectangle {
-            x: 2
-            y: 2
-            width: parent.width - 4
-            height: parent.height - 4
-
-            visible: control.visualFocus && !control.editable
-            color: control.Universal.accent
-            opacity: control.Universal.theme === Universal.Light ? 0.4 : 0.6
-        }
+        border.width: control.pressed ? 2 :
+                      control.hovered ? 2 : 0
+        border.color: Theme.grey
+        color: control.pressed ? Theme.whiteSmoke :
+               Theme.lightGrey
+        opacity: 1
     }
 
     popup: T.Popup {

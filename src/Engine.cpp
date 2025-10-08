@@ -178,9 +178,10 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("controller", controller_);
 
-    addImportPath(":/qml");
-    addImportPath(":/imports");
-    addImportPath(":/imports/TreeView");
+    addImportPath("qrc:/imports");
+    addImportPath("qrc:/qml/QtQuick/Controls");
+
+
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     // Connect Callback Listener to this object
