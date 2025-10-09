@@ -396,7 +396,7 @@ Set alert to watch events
 ============================
 
 This section describes how to create alerts to watch specific events in the monitored DDS network. First, click on
-the *Alerts* tab, that with the bell icon, in the left panel to open the Alerts view. In this tab, you can see a list
+the *Alerts* tab (marked with a bell icon) in the left panel to open the Alerts view. In this tab, you can see a list
 of all the defined alerts.
 
 .. thumbnail:: /rst/figures/screenshots/usage_example/alert_panel_pre.png
