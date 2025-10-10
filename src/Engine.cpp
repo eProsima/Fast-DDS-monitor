@@ -491,7 +491,8 @@ bool Engine::fill_alert_summary_(
 
 bool Engine::clear_alert_summary_()
 {
-    alerts_summary_model_->clear();
+    EntityInfo info = R"({})"_json;
+    alerts_summary_model_->update(info);
     return true;
 }
 
