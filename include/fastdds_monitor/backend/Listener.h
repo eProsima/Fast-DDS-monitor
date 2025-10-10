@@ -102,7 +102,7 @@ public:
             EntityId domain_id,
             EntityId entity_id,
             AlertInfo& alert,
-            const long double& data) override;
+            const std::string& data) override;
 
     //! Callback when an alert is unmatched
     void on_alert_unmatched(

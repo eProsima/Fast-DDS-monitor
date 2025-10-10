@@ -761,7 +761,12 @@ protected:
             backend::AlertId id);
 
     /**
-     * @brief Clear and fill the aler messages view
+     * @brief Clears the alert summary
+     */
+    bool clear_alert_summary_();
+
+    /**
+     * @brief Clear and fill the alert messages view
      *
      * @return true if any change in any model has been done
      */

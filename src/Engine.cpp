@@ -483,9 +483,15 @@ bool Engine::fill_alert_list_()
 }
 
 bool Engine::fill_alert_summary_(
-        backend::AlertId id /*ID_ALL*/)
+        backend::AlertId id)
 {
     alerts_summary_model_->update(backend_connection_.get_info(id));
+    return true;
+}
+
+bool Engine::clear_alert_summary_()
+{
+    alerts_summary_model_->clear();
     return true;
 }
 
@@ -510,8 +516,6 @@ bool Engine::fill_status_()
 void Engine::generate_new_alert_message_info_()
 {
     EntityInfo info;
-
-    info = EntityInfo();
 
     alert_message_info_ = info;
 }
@@ -1294,12 +1298,12 @@ bool Engine::read_callback_(
         case backend::AlertKind::NEW_DATA:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
-                "New data received, DATA_COUNT is " + std::to_string(alert_callback.trigger_data), utils::now());
+                "New data received, DATA_COUNT is " + alert_callback.trigger_data, utils::now());
             break;
         case backend::AlertKind::NO_DATA:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
-                "SUBSCRIPTION_THROUGHPUT is " + std::to_string(alert_callback.trigger_data), utils::now());
+                "SUBSCRIPTION_THROUGHPUT is " + alert_callback.trigger_data, utils::now());
             break;
         case backend::AlertKind::INVALID:
         default:
@@ -1943,12 +1947,17 @@ void Engine::set_alert(
     // Adding alert to backend structures
     backend_connection_.set_alert(alert_name, domain_id, host_name, user_name, topic_name, alert_kind, threshold,
             t_between_triggers);
+    // Update the list of alerts without using the refresh button
+    update_alerts_();
 }
 
 void Engine::remove_alert(
         const backend::AlertId& id)
 {
     backend_connection_.remove_alert(id);
+    // Update the list of alerts without using the refresh button
+    update_alerts_();
+    clear_alert_summary_();
 }
 
 bool Engine::update_entity(

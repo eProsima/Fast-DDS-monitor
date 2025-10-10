@@ -40,7 +40,7 @@ struct AlertCallback
     backend::EntityId domain_id;
     backend::EntityId entity_id;
     backend::AlertInfo alert_info;
-    double trigger_data;
+    std::string trigger_data;
     AlertCallbackKind kind;
 };
 
