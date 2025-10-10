@@ -158,7 +158,7 @@ std::vector<EntityId> StatisticsBackend::get_entities(
 // Get the alerts vector
 std::vector<AlertId> StatisticsBackend::get_alerts()
 {
-    return Database::get_instance()->get_alerts();
+    return Database::get_instance()->get_alerts_ids();
 }
 
 // Returns the EntityKind of the entity with id entity_id
@@ -332,6 +332,45 @@ void StatisticsBackend::set_alias(
         const std::string& alias)
 {
     Database::get_instance()->set_alias(entity_id, alias);
+}
+
+void StatisticsBackend::set_alert(
+        const std::string& alert_name,
+        const EntityId& domain_id,
+        const std::string& host_name,
+        const std::string& user_name,
+        const std::string& topic_name,
+        const AlertKind& alert_kind,
+        const double& threshold,
+        const std::chrono::milliseconds& t_between_triggers)
+{
+    switch (alert_kind)
+    {
+        case AlertKind::NEW_DATA:
+        {
+            NewDataAlertInfo new_data_alert(alert_name, domain_id, host_name, user_name, topic_name,
+                    t_between_triggers);
+            Database::get_instance()->insert_alert(new_data_alert);
+        }
+        break;
+        case AlertKind::NO_DATA:
+        {
+            NoDataAlertInfo no_data_alert(alert_name, domain_id, host_name, user_name, topic_name, threshold,
+                    t_between_triggers);
+            Database::get_instance()->insert_alert(no_data_alert);
+        }
+        break;
+        // Handle other alert kinds as needed
+        case AlertKind::INVALID:
+        default:
+            return;
+    }
+}
+
+void StatisticsBackend::remove_alert(
+        const AlertId& alert_id)
+{
+    Database::get_instance()->remove_alert(alert_id);
 }
 
 bool StatisticsBackend::is_active(
