@@ -166,8 +166,8 @@ Alert List
 This panel lists the alerts created by the user to monitor specific events in the DDS network.
 These alerts are created by clicking on the |create_alert| button in the Shortcuts Bar or in the
 *+* symbol in the upper right corner of the panel.
-Once created, the alerts will be listed in this panel, and the user can remove them by clicking
-on the |remove| button.
+Once created, the alerts will be listed in this panel, and the user can remove them by right clicking
+on the alert and selecting the remove option.
 
 .. _alert_data_layout:
 
