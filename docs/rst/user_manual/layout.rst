@@ -175,7 +175,7 @@ Alert Data
 ----------
 
 This panel shows the configuration values of the alert selected in the *Alert List*, including the
-alert name, its domain, the values of host, user and topic of the monitored entitities, its threshold
+alert name, its domain, the values of host, user and topic of the monitored entities, its threshold
 or the duration of the alert.
 
 .. _monitor_status_panel_layout:

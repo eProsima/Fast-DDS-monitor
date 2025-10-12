@@ -414,7 +414,6 @@ bool Database::get_active(
     }
 }
 
-
 AlertId Database::insert_alert(
         AlertInfo& alert_info)
 {
