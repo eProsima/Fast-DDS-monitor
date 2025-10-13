@@ -120,11 +120,11 @@ QString alert_kind_to_QString(
 {
     switch (alert_kind)
     {
-        case AlertKind::NEW_DATA:
+        case AlertKind::NEW_DATA_ALERT:
             return "New Data";
-        case AlertKind::NO_DATA:
+        case AlertKind::NO_DATA_ALERT:
             return "No Data";
-        case AlertKind::INVALID_DATA:
+        case AlertKind::INVALID_ALERT:
         default:
             return "INVALID";
     }
@@ -327,8 +327,8 @@ AlertKind string_to_alert_kind(
         const QString& alert_kind)
 {
     static std::unordered_map<std::string, AlertKind> const conversionTable = {
-        {"NO_DATA", AlertKind::NO_DATA},
-        {"NEW_DATA",  AlertKind::NEW_DATA},
+        {"NO_DATA", AlertKind::NO_DATA_ALERT},
+        {"NEW_DATA",  AlertKind::NEW_DATA_ALERT},
     };
 
     auto it = conversionTable.find(utils::to_string(alert_kind));
@@ -338,7 +338,7 @@ AlertKind string_to_alert_kind(
     }
     else
     {
-        return AlertKind::INVALID_DATA;
+        return AlertKind::INVALID_ALERT;
     }
 }
 
@@ -582,12 +582,12 @@ std::string entity_alert_description(
         const backend::AlertKind kind)
 {
     switch (kind){
-        case backend::AlertKind::NO_DATA:
+        case backend::AlertKind::NO_DATA_ALERT:
             return "No data has been received for the entity in the defined time period";
-        case backend::AlertKind::NEW_DATA:
+        case backend::AlertKind::NEW_DATA_ALERT:
             return "New data on the entity has been received";
         default:
-        case backend::AlertKind::INVALID_DATA:
+        case backend::AlertKind::INVALID_ALERT:
             return "";
     }
 }

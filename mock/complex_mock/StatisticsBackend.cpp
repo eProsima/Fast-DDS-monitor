@@ -346,14 +346,14 @@ void StatisticsBackend::set_alert(
 {
     switch (alert_kind)
     {
-        case AlertKind::NEW_DATA:
+        case AlertKind::NEW_DATA_ALERT:
         {
             NewDataAlertInfo new_data_alert(alert_name, domain_id, host_name, user_name, topic_name,
                     t_between_triggers);
             Database::get_instance()->insert_alert(new_data_alert);
         }
         break;
-        case AlertKind::NO_DATA:
+        case AlertKind::NO_DATA_ALERT:
         {
             NoDataAlertInfo no_data_alert(alert_name, domain_id, host_name, user_name, topic_name, threshold,
                     t_between_triggers);
@@ -361,7 +361,7 @@ void StatisticsBackend::set_alert(
         }
         break;
         // Handle other alert kinds as needed
-        case AlertKind::INVALID_DATA:
+        case AlertKind::INVALID_ALERT:
         default:
             return;
     }

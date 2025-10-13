@@ -1296,17 +1296,17 @@ bool Engine::read_callback_(
     // Add callback to log model
     switch (alert_callback.alert_info.get_alert_kind())
     {
-        case backend::AlertKind::NEW_DATA:
+        case backend::AlertKind::NEW_DATA_ALERT:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
                 "New data received, DATA_COUNT is " + alert_callback.trigger_data, utils::now());
             break;
-        case backend::AlertKind::NO_DATA:
+        case backend::AlertKind::NO_DATA_ALERT:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
                 "SUBSCRIPTION_THROUGHPUT is " + alert_callback.trigger_data, utils::now());
             break;
-        case backend::AlertKind::INVALID_DATA:
+        case backend::AlertKind::INVALID_ALERT:
         default:
             // Unknown alerts are ignored
             break;

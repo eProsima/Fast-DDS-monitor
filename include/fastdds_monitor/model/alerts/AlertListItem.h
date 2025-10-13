@@ -115,7 +115,7 @@ public:
      */
     backend::AlertKind backend_kind() const
     {
-        return backend::AlertKind::INVALID_DATA;
+        return backend::AlertKind::INVALID_ALERT;
     }
 
     /**
