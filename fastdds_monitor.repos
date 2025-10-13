@@ -14,7 +14,7 @@ repositories:
     fastdds_statistics_backend:
         type: git
         url: https://github.com/eProsima/Fast-DDS-statistics-backend.git
-        version: 3.x
+        version: 2.x
     fastdds_monitor:
         type: git
         url: https://github.com/eProsima/Fast-DDS-monitor.git
