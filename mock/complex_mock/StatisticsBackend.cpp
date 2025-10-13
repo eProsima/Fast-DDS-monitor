@@ -361,7 +361,7 @@ void StatisticsBackend::set_alert(
         }
         break;
         // Handle other alert kinds as needed
-        case AlertKind::INVALID:
+        case AlertKind::INVALID_DATA:
         default:
             return;
     }

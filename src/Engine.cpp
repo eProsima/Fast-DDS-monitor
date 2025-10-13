@@ -1306,7 +1306,7 @@ bool Engine::read_callback_(
                 alert_callback.alert_info.get_alert_name(),
                 "SUBSCRIPTION_THROUGHPUT is " + alert_callback.trigger_data, utils::now());
             break;
-        case backend::AlertKind::INVALID:
+        case backend::AlertKind::INVALID_DATA:
         default:
             // Unknown alerts are ignored
             break;
