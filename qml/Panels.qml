@@ -215,8 +215,8 @@ RowLayout {
         leftPanel.openAlertsMenu(alertId)
     }
 
-    function createAlert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers){
-        leftPanel.createAlert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers)
+    function createAlert(name, domainId, hostId, userId, topicId, alert_type, t_between_triggers, threshold, script_path){
+        leftPanel.createAlert(name, domainId, hostId, userId, topicId, alert_type, t_between_triggers, threshold, script_path)
     }
 
     function removeAlert(alertId){

@@ -320,11 +320,14 @@ void Controller::set_alert(
         QString topic_name,
         QString alert_type,
         double threshold,
-        int time_between_triggers)
+        int time_between_triggers,
+        QString script_path)
 {
     std::string clean_host_name = clean_entity_name(utils::to_string(host_name));
     std::string clean_user_name = clean_entity_name(utils::to_string(user_name));
     std::string clean_topic_name = clean_entity_name(utils::to_string(topic_name));
+    QUrl file_url(script_path);
+    std::string clean_script_path = utils::to_string(file_url.toLocalFile());
 
     engine_->set_alert(utils::to_string(alert_name),
             backend::models_id_to_backend_id(domain_id),
@@ -333,7 +336,8 @@ void Controller::set_alert(
             clean_topic_name,
             backend::string_to_alert_kind(alert_type),
             threshold,
-            std::chrono::milliseconds(time_between_triggers));
+            std::chrono::milliseconds(time_between_triggers),
+            clean_script_path);
 }
 
 void Controller::remove_alert(

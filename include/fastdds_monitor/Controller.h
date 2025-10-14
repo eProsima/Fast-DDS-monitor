@@ -241,7 +241,8 @@ public slots:
             QString topic_name,
             QString alert_type,
             double threshold,
-            int time_between_triggers);
+            int time_between_triggers,
+            QString script_path);
 
     //! Removes an alert
     void remove_alert(

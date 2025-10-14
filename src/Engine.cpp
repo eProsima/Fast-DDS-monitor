@@ -1943,11 +1943,12 @@ void Engine::set_alert(
         const std::string& topic_name,
         const backend::AlertKind& alert_kind,
         double threshold,
-        const std::chrono::milliseconds& t_between_triggers)
+        const std::chrono::milliseconds& t_between_triggers,
+        const std::string& script_path)
 {
     // Adding alert to backend structures
     backend_connection_.set_alert(alert_name, domain_id, host_name, user_name, topic_name, alert_kind, threshold,
-            t_between_triggers);
+            t_between_triggers, script_path);
     // Update the list of alerts without using the refresh button
     update_alerts_();
 }

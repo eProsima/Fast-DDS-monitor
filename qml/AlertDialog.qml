@@ -40,6 +40,7 @@ Dialog {
     property string currentTopic: ""
     property double currentThreshold: 0
     property int currentTimeBetweenAlerts: 5000
+    property string currentScriptPath: ""
 
     modal: false
     title: "Add alert"
@@ -49,7 +50,8 @@ Dialog {
     y: (parent.height - height) / 2
 
     signal createAlert(string alert_name, string domain_name, string host_name, string user_name,
-                    string topic_name, string alert_type, int t_between_triggers, int threshold)
+                    string topic_name, string alert_type, int t_between_triggers, int threshold,
+                    string script_path)
 
     Component.onCompleted: {
         availableAlertKinds = controller.get_alert_kinds()
@@ -70,7 +72,7 @@ Dialog {
         currentTimeBetweenAlerts = alertTimeBetweenAlerts.value
         currentThreshold = parseFloat(alertThreshold.text)
 
-        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold)
+        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold, currentScriptPath)
     }
 
     onAboutToShow: {
@@ -275,7 +277,7 @@ Dialog {
             readonly property int item_height_: alertDialog.item_height_
             readonly property int collapsed_options_box_height_: item_height_
             readonly property int options_box_body_height_: item_height_
-            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 3*options_box_body_height_
+            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 4*options_box_body_height_
 
             Layout.fillWidth: true
             Layout.preferredHeight: isExpanded
@@ -333,13 +335,12 @@ Dialog {
                 GridLayout{
 
                     columns: 2
-                    rows: 3
+                    rows: 4
                     rowSpacing: 20
                     width: parent.width
                     visible: advancedOptionsSubmenu.isExpanded
                     height: advancedOptionsSubmenu.isExpanded ? advancedOptionsSubmenu.item_height_ : 0
                     // spacing: alertDialog.layout_horizontal_spacing_
-
 
                     CheckBox {
                         id: manualHostCheckBox
@@ -367,7 +368,6 @@ Dialog {
                         enabled: manualHostCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_host_name"
-                        width: 130
 
                         background: Rectangle {
                             color: !manualHostCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -404,7 +404,6 @@ Dialog {
                         enabled: manualUserCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_user_name"
-                        width: 130
 
                         background: Rectangle {
                             color: !manualUserCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -441,7 +440,6 @@ Dialog {
                         enabled: manualTopicCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_topic_name"
-                        width: 130
 
                         background: Rectangle {
                             color: !manualTopicCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -450,6 +448,18 @@ Dialog {
 
                         onTextChanged: {
                         }
+                    }
+
+                    Label {
+                        text: "Script path: "
+                        InfoToolTip {
+                            text: "Path to a script that will be executed when the alert is triggered."
+                        }
+                    }
+                    Button {
+                        id: browseScriptButton
+                        text: "Browse files"
+                        onClicked: scriptFileDialog.open()
                     }
                 }
             }
@@ -465,7 +475,6 @@ Dialog {
         onAccepted: alertDialog.open()
         onDiscard: alertDialog.close()
     }
-
 
     MessageDialog {
         id: emptyAlertName
@@ -485,6 +494,26 @@ Dialog {
         text: "The domain field is empty. Please enter a domain."
         onAccepted: alertDialog.open()
         onDiscard: alertDialog.close()
+    }
+
+    FileDialog {
+        id: scriptFileDialog
+        title: "Select a script file"
+        width: 130
+        height: 300
+        nameFilters: [
+            "All files (*)",
+            "Shell scripts (*.sh)",
+            "Python scripts (*.py)",
+            "Batch files (*.bat)",
+            "PowerShell scripts (*.ps1)"
+        ]
+        selectExisting: true
+        folder: Qt.resolvedUrl(".")
+
+        onAccepted: {
+            currentScriptPath = fileUrl
+        }
     }
 
     function checkInputs() {
