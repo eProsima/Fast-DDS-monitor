@@ -55,6 +55,7 @@ ApplicationWindow {
         onToolBarHidden: toolBar.isVisible = !toolBar.isVisible
         onDispDataButtonHidden: toolBar.isVisibleDispData = !toolBar.isVisibleDispData
         onDispDynDataButtonHidden: toolBar.isVisibleDispDynData = !toolBar.isVisibleDispDynData
+        onCreateAlertButtonHidden: toolBar.isVisibleCreateAlert = !toolBar.isVisibleCreateAlert
         onRefreshButtonHidden: toolBar.isVisibleRefresh = !toolBar.isVisibleRefresh
         onClearLogButtonHidden: toolBar.isVisibleClearLog = !toolBar.isVisibleClearLog
         onDashboardLayoutButtonHidden: toolBar.isVisibleDashboardLayout = !toolBar.isVisibleDashboardLayout
@@ -117,6 +118,13 @@ ApplicationWindow {
     DynamicDataKindDialog {
         id: dynamicDataKindDialog
         onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
+    }
+
+    AlertDialog {
+        id: alertDialog
+        onCreateAlert: {
+            panels.createAlert(alert_name, domain_name, host_name, user_name, topic_name, alert_type, threshold, t_between_triggers)
+        }
     }
 
     ScheduleClearDialog {

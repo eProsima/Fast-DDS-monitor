@@ -10,6 +10,7 @@ MenuBar {
     signal initMonitorButtonHidden
     signal dispDataButtonHidden
     signal dispDynDataButtonHidden
+    signal createAlertButtonHidden
     signal refreshButtonHidden
     signal clearLogButtonHidden
     signal clearIssuesButtonHidden
@@ -73,6 +74,10 @@ MenuBar {
         Action {
             text: qsTr("Display Real-&Time Data")
             onTriggered: dynamicDataKindDialog.open()
+        }
+        Action {
+            text: qsTr("Create Alert")
+            onTriggered: alertDialog.open()
         }
         MenuSeparator { }
         Action {
@@ -350,6 +355,16 @@ MenuBar {
             }
             Label {
                 text: "Display Real-Time Data"
+            }
+            CheckBox {
+                id: createAlertCheckBox
+                checked: false
+                indicator.width: 20
+                indicator.height: 20
+                onCheckStateChanged: createAlertButtonHidden()
+            }
+            Label {
+                text: "Create Alert"
             }
             CheckBox {
                 id: refreshCheckBox

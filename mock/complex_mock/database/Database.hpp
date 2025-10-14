@@ -151,6 +151,28 @@ public:
     bool get_active(
             EntityId id);
 
+    /**
+     * @brief Setter for entity alert.
+     *
+     * @param alert_info The new alert information.
+     * @return The AlertId of the alert.
+     */
+    AlertId insert_alert(
+            AlertInfo& alert_info);
+
+    /**
+     * @brief Remove an alert from the database.
+     *
+     * @param alert_info The alert id
+     */
+    void remove_alert(
+            const AlertId& alert_id);
+
+    /**
+     * @brief Gets the lists of active alerts
+     */
+    std::vector<AlertId> get_alerts_ids() const;
+
 protected:
 
     /**
@@ -200,6 +222,11 @@ private:
 
     //! Store all the entities by key \c EntityId and value \c EntityPointer to the entity
     std::map<EntityId, EntityPointer> entities_;
+
+    //! Store all the alerts by key \c EntityId of the domain and value a map of key \c AlertId and value pointer to the alert info
+    std::map<EntityId, std::map<AlertId, std::shared_ptr<AlertInfo>>> alerts_;
+    //! The ID that will be assigned to the next alert.
+    std::atomic<uint32_t> next_alert_id_{0};
 
     /**
      * Store the callbacks that will be sent by the callback thread.

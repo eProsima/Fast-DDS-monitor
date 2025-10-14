@@ -28,6 +28,7 @@ RowLayout {
 
     enum LeftSubPanel {
         Explorer,
+        Alerts,
         Status,
         Issues
     }
@@ -38,7 +39,7 @@ RowLayout {
         domainGraph: 1
     })
 
-    property variant panelItem: [monitoringPanel, statusPanel, issuesPanel]
+    property variant panelItem: [monitoringPanel, alertsPanel, statusPanel, issuesPanel]
 
     property variant visiblePanel: panelItem[LeftPanel.LeftSubPanel.Explorer]
 
@@ -50,6 +51,7 @@ RowLayout {
     signal open_idl_view(string entityId)
     signal refresh_domain_graph_view(string domainEntityId, string entityId)
     signal filter_entity_status_log(string entityId)
+    signal remove_alert(string alertId)
 
     MonitoringPanel {
         id: monitoringPanel
@@ -67,6 +69,12 @@ RowLayout {
         visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Status]) ? true : false
     }
 
+    AlertsPanel {
+        id: alertsPanel
+        Layout.fillHeight: true
+        visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Alerts]) ? true : false
+    }
+
     ChangeAliasDialog {
         id: aliasDialog
     }
@@ -76,7 +84,12 @@ RowLayout {
         onChangeAlias: leftPanel.changeAlias(domainEntityId, entityId, currentAlias, entityKind)
         onFilterEntityStatusLog: leftPanel.filterEntityStatusLog(entityId)
         onOpenTopicView: leftPanel.openTopicView(domainEntityId, domainId, topicId)
-        }
+    }
+
+    AlertsMenu {
+        id: alertsMenu
+        onRemoveAlert: leftPanel.removeAlert(alertsMenu.alertId)
+    }
 
     TopicMenu {
         id: topicMenu
@@ -110,6 +123,11 @@ RowLayout {
         }
 
         entitiesMenu.popup()
+    }
+
+    function openAlertsMenu(alertId) {
+        alertsMenu.alertId = alertId
+        alertsMenu.popup()
     }
 
     function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
@@ -187,5 +205,13 @@ RowLayout {
 
     function changeExplorerEntityInfo(status) {
         monitoringPanel.changeExplorerEntityInfo(status)
+    }
+
+    function createAlert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers) {
+        controller.set_alert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers);
+    }
+
+    function removeAlert(alertId) {
+        controller.remove_alert(alertId)
     }
 }

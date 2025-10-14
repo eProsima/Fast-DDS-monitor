@@ -13,19 +13,19 @@ Menu {
     property string entityId: ""
     property string currentAlias: ""
     property string entityKind: ""
-    property string showGraphButtonName: ""  
+    property string showGraphButtonName: ""
 
     signal changeAlias(string domainEntityId, string entityId, string currentAlias, string entityKind)
     signal filterEntityStatusLog(string entityId)
     signal openTopicView(string domainEntityId, string domainId, string topicId)
-    
+
     //////////////////
     // Menu options //
     //////////////////
 
     Component {
         id: changeAlias
-        
+
         MenuItem {
             text: "Change alias"
             MouseArea {
@@ -86,12 +86,12 @@ Menu {
     ListModel {
         id: entityModel
     }
-    
+
     Repeater {
         model: entityModel
         delegate: Loader {
             sourceComponent: available ? option : null
-        }    
+        }
     }
 
     // Update model if some property change implies graphic changes in UI

@@ -16,6 +16,8 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 #include <QStringList>
+#include <QHash>
+#include <QSet>
 
 #include <fastdds_monitor/model/tree/TreeItem.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
@@ -279,6 +281,160 @@ void TreeModel::update(
     clear();
     setup_model_data(data, root_item_);
     endResetModel();
+    emit updatedData();
+}
+
+TreeItem* TreeModel::find_child_by_name(
+        TreeItem* parent,
+        const QString& name) const
+{
+    for (int i = 0; i < parent->child_count(); ++i)
+    {
+        TreeItem* child = parent->child_item(i);
+        if (child->get_item_name().toString() == name)
+        {
+            return child;
+        }
+    }
+    return nullptr;
+}
+
+void TreeModel::setup_model_data_without_collapse(
+        TreeItem* parent,
+        const QModelIndex& parent_index,
+        const json& json_data)
+{
+    QHash<QString, int> currentIndexByName;
+    for (int i = 0; i < parent->child_count(); ++i)
+    {
+        QString name = parent->child_item(i)->get_item_name().toString();
+        currentIndexByName[name] = i;
+    }
+
+    QSet<QString> newKeys;
+    int insertPos = parent->child_count();
+    int jsonIndex = 0;
+    for (auto it = json_data.begin(); it != json_data.end(); ++it, ++jsonIndex)
+    {
+        QString key = QString::fromUtf8(it.key().c_str());
+        newKeys.insert(key);
+
+        TreeItem* existingChild = find_child_by_name(parent, key);
+
+        if (existingChild)
+        {
+            // If the node exists, its content might be updated
+            if (it.value().is_primitive())
+            {
+                QString newValue;
+                if (it.value().is_string())
+                {
+                    newValue = QString::fromUtf8(it.value().get<std::string>().c_str());
+                }
+                else if (it.value().is_number())
+                {
+                    newValue = QString::number(it.value().get<int>());
+                }
+                else if (it.value().is_boolean())
+                {
+                    newValue = (it.value().get<bool>() ? "true" : "false");
+                }
+                else
+                {
+                    newValue = "-";
+                }
+
+                // Update value if changed
+                if (existingChild->get_item_value().toString() != newValue)
+                {
+                    // Replace the value directly in TreeItem
+                    existingChild->data(TreeItem::VALUE); // ensure correct access
+                    existingChild->clear(); // if needed to reset children
+                    // Update internal value
+                    QList<QString> updatedData;
+                    updatedData << key << newValue;
+                    *existingChild = TreeItem(updatedData, parent);
+                    // Notify QML about the change
+                    QModelIndex changedIndex = createIndex(existingChild->row(), 1, existingChild);
+                    emit dataChanged(changedIndex, changedIndex);
+                }
+            }
+            else
+            {
+                // Recurse deeper for nested structures
+                QModelIndex childIndex = createIndex(existingChild->row(), 0, existingChild);
+                setup_model_data_without_collapse(existingChild, childIndex, it.value());
+            }
+        }
+        else
+        {
+            // If it does not exist, it is inserted
+            beginInsertRows(parent_index, insertPos, insertPos);
+
+            QList<QString> rowData;
+            rowData << key;
+
+            if (it.value().is_primitive())
+            {
+                if (it.value().is_string())
+                {
+                    rowData << QString::fromUtf8(it.value().get<std::string>().c_str());
+                }
+                else if (it.value().is_number())
+                {
+                    rowData << QString::number(it.value().get<int>());
+                }
+                else if (it.value().is_boolean())
+                {
+                    rowData << (it.value().get<bool>() ? "true" : "false");
+                }
+                else
+                {
+                    rowData << "-";
+                }
+            }
+            else
+            {
+                rowData << "";
+            }
+
+            TreeItem* newChild = new TreeItem(rowData, parent);
+            parent->append_child(newChild);
+
+            endInsertRows();
+
+            if (!it.value().is_primitive())
+            {
+                QModelIndex newIndex = createIndex(insertPos, 0, newChild);
+                setup_model_data_without_collapse(newChild, newIndex, it.value());
+            }
+
+            insertPos++;
+        }
+    }
+
+    // Remove nodes that are not present in the data
+    for (int i = parent->child_count() - 1; i >= 0; --i)
+    {
+        TreeItem* child = parent->child_item(i);
+        QString name = child->get_item_name().toString();
+
+        if (!newKeys.contains(name))
+        {
+            beginRemoveRows(parent_index, i, i);
+            delete child;
+            parent->remove_child_item(i); // direct removal
+            endRemoveRows();
+        }
+    }
+}
+
+void TreeModel::update_without_collapse(
+        json& data)
+{
+    std::unique_lock<std::mutex> lock(update_mutex_);
+    // Recursive function to update without collapsing
+    setup_model_data_without_collapse(root_item_, QModelIndex(), data);
     emit updatedData();
 }
 

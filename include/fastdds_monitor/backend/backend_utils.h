@@ -79,6 +79,18 @@ bool get_info_metatraffic(
 QString entity_kind_to_QString(
         const EntityKind& entity_kind);
 
+//! Converts the \c AlertId in backend to models QString
+models::AlertId alert_backend_id_to_models_id(
+        const AlertId& id);
+
+//! Converts the \c AlertId in models QString to backend AlertId
+AlertId alert_models_id_to_backend_id(
+        const models::AlertId& id);
+
+//! Converts the \c AlertKind to QString
+QString alert_kind_to_QString(
+        const AlertKind& alert_kind);
+
 //! Converts the \c DataKind to string
 std::string data_kind_to_string(
         const DataKind& data_kind);
@@ -106,6 +118,10 @@ backend::DataKind string_to_data_kind(
 //! Retrieves the \c StatisticKind related with its name in QString
 backend::StatisticKind string_to_statistic_kind(
         const QString& statistic_kind);
+
+//! Retrieves the \c AlertKind related with its name in QString
+backend::AlertKind string_to_alert_kind(
+        const QString& alert_kind);
 
 //! recursive function to convert array json subelements to dictionaries indexed by numbers
 backend::EntityInfo refactor_json(

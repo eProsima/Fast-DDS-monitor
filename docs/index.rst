@@ -51,8 +51,10 @@
    /rst/user_manual/application_menu
    /rst/user_manual/shortcuts_bar
    /rst/user_manual/explorer_panel
+   /rst/user_manual/alerts_panel
    /rst/user_manual/status_panel
    /rst/user_manual/issues_panel
+   /rst/user_manual/alert_messages_panel
    /rst/user_manual/chart_panel_index
    /rst/user_manual/select_entity
    /rst/user_manual/export_data

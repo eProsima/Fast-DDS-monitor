@@ -414,5 +414,45 @@ bool Database::get_active(
     }
 }
 
+AlertId Database::insert_alert(
+        AlertInfo& alert_info)
+{
+    AlertId id = next_alert_id_++;
+    alert_info.set_id(id);
+    alerts_[alert_info.get_domain_id()].emplace(id, std::make_shared<AlertInfo>(alert_info));
+    return id;
+}
+
+void Database::remove_alert(
+        const AlertId& alert_id)
+{
+    // Iterate over all domains as ID is unique but domain is not known
+    for (auto& domain_it : alerts_)
+    {
+        auto alert_it = domain_it.second.find(alert_id);
+        if (alert_it != domain_it.second.end())
+        {
+            // If alert is found in this domain, it is removed
+            domain_it.second.erase(alert_it);
+            return;
+        }
+    }
+}
+
+std::vector<AlertId> Database::get_alerts_ids() const
+{
+    std::vector<AlertId> alertsIds;
+
+    for (const auto& domain_it: alerts_)
+    {
+        for (const auto& alert_it : domain_it.second)
+        {
+            alertsIds.push_back(alert_it.first);
+        }
+    }
+
+    return alertsIds;
+}
+
 } // namespace statistics_backend
 } // namespace eprosima

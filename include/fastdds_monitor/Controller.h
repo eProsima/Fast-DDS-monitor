@@ -123,6 +123,9 @@ public slots:
     //! Slot called when a Locator entity is pressed
     void locator_click(
             QString id);
+    //! Slot called when an Alert entity is pressed
+    void alert_click(
+            QString id);
 
     //! Slot called when refresh button is pressed
     void refresh_click();
@@ -229,6 +232,21 @@ public slots:
             QString new_alias,
             QString entity_kind);
 
+    //! Adds a new alert
+    void set_alert(
+            QString alert_name,
+            QString domain_name,
+            QString host_name,
+            QString user_name,
+            QString topic_name,
+            QString alert_type,
+            double threshold,
+            int time_between_triggers);
+
+    //! Removes an alert
+    void remove_alert(
+            QString id);
+
     //! Give a string with the name of the unit magnitud in which each DataKind is measured
     QString get_data_kind_units(
             QString data_kind);
@@ -273,6 +291,9 @@ public slots:
 
     //! Retrive a string list containing the available data kinds.
     QStringList get_data_kinds();
+
+    //! Retrive a string list containing the available alert kinds.
+    QStringList get_alert_kinds();
 
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(

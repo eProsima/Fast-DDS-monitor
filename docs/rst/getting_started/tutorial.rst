@@ -391,3 +391,33 @@ As you can see, the :code:`MEAN`, :code:`MAX` and :code:`MIN` in each interval a
 It is worth mentioning that dynamic series can be configurable, just like historic series.
 The label and color of each series is mutable, and the chart could zoom in and out and move along the axis
 while paused.
+
+Set alert to watch events
+============================
+
+This section describes how to create alerts to watch specific events in the monitored DDS network. First, click on
+the *Alerts* tab (marked with a bell icon) in the left panel to open the Alerts view. In this tab, you can see a list
+of all the defined alerts.
+
+.. thumbnail:: /rst/figures/screenshots/usage_example/alert_panel_pre.png
+    :align: center
+
+Click on the *+* button to create a new alert. This will open a dialog where you can configure the alert.
+
+.. thumbnail:: /rst/figures/screenshots/usage_example/alert_dialog.png
+    :align: center
+
+In this dialog, you can set the name of the alert, its type, the domain to monitor and the conditions for triggering the alert.
+
+If the alert type is *NEW_DATA*, the alert will be triggered when a positive `DATA_COUNT` is received from any entity that matches the fields
+`host`, `user` and `topic`. Note that the statistics must be enabled for the entities to be able to trigger alerts.
+
+If the alert type is *NO_DATA*, the alert will be triggered when a `PUBLICATION_THROUGHPUT` message is received from any entity that matches
+the fields `host`, `user` and `topic` and its value is lower than `threshold`.
+
+Once the alert is set up, it will appear in the list of alerts and its metadata will be shown below when clicked.
+
+.. thumbnail:: /rst/figures/screenshots/usage_example/alert_panel_post.png
+    :align: center
+
+To remove an alert, just right-click on it and choose the `Remove` option.`

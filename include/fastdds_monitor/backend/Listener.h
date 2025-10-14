@@ -97,6 +97,18 @@ public:
             EntityId entity_id,
             StatusKind data_kind) override;
 
+    //! Callback when an alert is triggered
+    void on_alert_triggered(
+            EntityId domain_id,
+            EntityId entity_id,
+            AlertInfo& alert,
+            const std::string& data) override;
+
+    //! Callback when an alert is unmatched
+    void on_alert_unmatched(
+            EntityId domain_id,
+            AlertInfo& alert) override;
+
 protected:
 
     //! Engine reference

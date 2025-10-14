@@ -25,6 +25,7 @@
 
 #include <QString>
 
+#include <fastdds_statistics_backend/types/Alerts.hpp>
 #include <fastdds_statistics_backend/types/app_names.h>
 #include <fastdds_statistics_backend/types/JSONTags.h>
 #include <fastdds_statistics_backend/types/types.hpp>
@@ -35,11 +36,15 @@ namespace backend {
 //! Add a type of each kind with same name under \c backend namespace
 using EntityId = eprosima::statistics_backend::EntityId;
 using EntityKind = eprosima::statistics_backend::EntityKind;
+using EntityInfo = eprosima::statistics_backend::Info;
 using DataKind = eprosima::statistics_backend::DataKind;
 using StatusKind = eprosima::statistics_backend::StatusKind;
 using StatusLevel = eprosima::statistics_backend::StatusLevel;
 using StatisticKind = eprosima::statistics_backend::StatisticKind;
-using EntityInfo = eprosima::statistics_backend::Info;
+using AlertId = eprosima::statistics_backend::AlertId;
+using AlertInfo = eprosima::statistics_backend::AlertInfo;
+using AlertKind = eprosima::statistics_backend::AlertKind;
+using AlertSummary = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
 using GUID_s = eprosima::fastdds::statistics::detail::GUID_s;
 

@@ -101,6 +101,7 @@ RowLayout {
             onRefresh_domain_graph_view: tabs.refresh_domain_graph_view(domainEntityId, entityId)
             onFilter_entity_status_log: statusLayout.filter_entity_status_log(entityId)
             onOpen_idl_view: tabs.open_idl_view(entityId)
+            onRemove_alert: panels.removeAlert(alertId)
         }
 
         Rectangle {
@@ -137,6 +138,9 @@ RowLayout {
                     }
                     onOpenTopicMenu: {
                         panels.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
+                    }
+                    onOpenAlertsMenu: {
+                        panels.openAlertsMenu(alertId)
                     }
                 }
                 StatusLayout {
@@ -205,5 +209,17 @@ RowLayout {
 
     function openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
         leftPanel.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
+    }
+
+    function openAlertsMenu(alertId) {
+        leftPanel.openAlertsMenu(alertId)
+    }
+
+    function createAlert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers){
+        leftPanel.createAlert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers)
+    }
+
+    function removeAlert(alertId){
+        leftPanel.removeAlert(alertId)
     }
 }

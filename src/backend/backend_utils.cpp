@@ -101,6 +101,35 @@ QString entity_kind_to_QString(
     }
 }
 
+models::AlertId alert_backend_id_to_models_id(
+        const AlertId& id)
+{
+    std::ostringstream stream;
+    stream << id;
+    return utils::to_QString(stream.str());
+}
+
+AlertId alert_models_id_to_backend_id(
+        const models::AlertId& id)
+{
+    return AlertId(id.toInt());
+}
+
+QString alert_kind_to_QString(
+        const AlertKind& alert_kind)
+{
+    switch (alert_kind)
+    {
+        case AlertKind::NEW_DATA_ALERT:
+            return "New Data";
+        case AlertKind::NO_DATA_ALERT:
+            return "No Data";
+        case AlertKind::INVALID_ALERT:
+        default:
+            return "INVALID";
+    }
+}
+
 std::string statistic_kind_to_string(
         const StatisticKind& statistic_kind)
 {
@@ -291,6 +320,25 @@ StatisticKind string_to_statistic_kind(
     else
     {
         return StatisticKind::NONE;
+    }
+}
+
+AlertKind string_to_alert_kind(
+        const QString& alert_kind)
+{
+    static std::unordered_map<std::string, AlertKind> const conversionTable = {
+        {"NO_DATA", AlertKind::NO_DATA_ALERT},
+        {"NEW_DATA",  AlertKind::NEW_DATA_ALERT},
+    };
+
+    auto it = conversionTable.find(utils::to_string(alert_kind));
+    if (it != conversionTable.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return AlertKind::INVALID_ALERT;
     }
 }
 
@@ -526,6 +574,20 @@ std::string entity_status_description(
         //    return "";
         default:
         case backend::StatusKind::INVALID:
+            return "";
+    }
+}
+
+std::string entity_alert_description(
+        const backend::AlertKind kind)
+{
+    switch (kind){
+        case backend::AlertKind::NO_DATA_ALERT:
+            return "No data has been received for the entity in the defined time period";
+        case backend::AlertKind::NEW_DATA_ALERT:
+            return "New data on the entity has been received";
+        default:
+        case backend::AlertKind::INVALID_ALERT:
             return "";
     }
 }

@@ -99,6 +99,48 @@ Item
             }
         }
 
+        // Main Alerts tab
+        Tab {
+            title: "Alerts"
+            Rectangle {
+
+                color: "white"
+
+                // Main content of alerts tab: alert tree view with alerts per entity
+                TreeView {
+                    id: alertMessagesView
+                    anchors.fill: parent
+                    model: alertMessageModel
+                    selectionMode: SelectionMode.NoSelection
+                    frameVisible: false
+                    itemDelegate: Item {
+                        Text {
+                            anchors.fill: parent
+                            elide: styleData.elideMode
+                            text: {
+                                // Error when undefined value.
+                                // Do not know when this could happen, but happens
+                                styleData.value ? styleData.value : ""
+                            }
+                        }
+                    }
+
+                    TableViewColumn {
+                        width: parent.width / 2
+                        role: "name"
+                        title: "Name"
+                    }
+
+                    TableViewColumn {
+                        width: parent.width / 2
+                        role: "value"
+                        title: "Value"
+                    }
+                }
+            }
+        }
+
+
         // Tab main stlye
         style: TabViewStyle {
             frameOverlap: 1
@@ -246,7 +288,7 @@ Item
         color: Theme.grey
     }
 
-    // footer (and ALWAYS displayed) error and warning counters bar section
+    // footer (and ALWAYS displayed) error, warning and alerts counters bar section
     Rectangle {
         id: icon_section
         anchors.bottom: parent.bottom
@@ -285,6 +327,21 @@ Item
         Label {
             id: warning_value
             anchors.left: warning_icon.right
+            anchors.leftMargin: elements_spacing_/2
+            anchors.verticalCenter: parent.verticalCenter
+            text: "0"
+        }
+        IconSVG {
+            id: alert_icon
+            anchors.left: warning_value.right
+            anchors.leftMargin: elements_spacing_
+            anchors.verticalCenter: parent.verticalCenter
+            name: "alert"
+            size: parent.height - elements_spacing_
+        }
+        Label {
+            id: alert_value
+            anchors.left: alert_icon.right
             anchors.leftMargin: elements_spacing_/2
             anchors.verticalCenter: parent.verticalCenter
             text: "0"

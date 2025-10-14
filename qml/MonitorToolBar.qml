@@ -27,6 +27,7 @@ ToolBar {
     property bool isVisible: false
     property bool isVisibleDispData: false
     property bool isVisibleDispDynData: true
+    property bool isVisibleCreateAlert: false
     property bool isVisibleRefresh: true
     property bool isVisibleClearLog: false
     property bool isVisibleClearIssues: false
@@ -74,6 +75,14 @@ ToolBar {
             tooltipText: "Display Real-Time Data"
             visible: isVisibleDispDynData
             onClicked: dynamicDataKindDialog.open()
+        }
+
+        MonitorToolBarButton {
+            id: createAlert
+            iconName: "alert"
+            tooltipText: "Create alert"
+            visible: isVisibleCreateAlert
+            onClicked: alertDialog.open()
         }
 
         MonitorToolBarButton {

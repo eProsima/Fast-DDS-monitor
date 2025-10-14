@@ -16,6 +16,11 @@
         <file>qml/AboutDialog.qml</file>
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/AdaptiveMenu.qml</file>
+        <file>qml/AlertDialog.qml</file>
+        <file>qml/AlertList.qml</file>
+        <file>qml/AlertsMenu.qml</file>
+        <file>qml/AlertsPanel.qml</file>
+        <file>qml/AlertSummary.qml</file>
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
@@ -81,6 +86,10 @@
         <file alias="loading_graph.gif">resources/images/loading_graph.gif</file>
     </qresource>
     <qresource prefix="/resources/images/icons">
+        <file alias="alert_black.svg">resources/images/icons/alert/alert_black.svg</file>
+        <file alias="alert_eProsimaLightBlue.svg">resources/images/icons/alert/alert_eProsimaLightBlue.svg</file>
+        <file alias="alert_grey.svg">resources/images/icons/alert/alert_grey.svg</file>
+        <file alias="alert_white.svg">resources/images/icons/alert/alert_white.svg</file>
         <file alias="clearissues_black.svg">resources/images/icons/clearissues/clearissues_black.svg</file>
         <file alias="clearissues_eProsimaLightBlue.svg">resources/images/icons/clearissues/clearissues_eProsimaLightBlue.svg</file>
         <file alias="clearissues_grey.svg">resources/images/icons/clearissues/clearissues_grey.svg</file>

@@ -33,10 +33,12 @@
 #include <QStringListModel>
 
 #include <fastdds_monitor/backend/Callback.h>
+#include <fastdds_monitor/backend/AlertCallback.h>
 #include <fastdds_monitor/backend/StatusCallback.h>
 #include <fastdds_monitor/backend/Listener.h>
 #include <fastdds_monitor/backend/SyncBackendConnection.h>
 #include <fastdds_monitor/Controller.h>
+#include <fastdds_monitor/model/alerts/AlertListModel.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
 #include <fastdds_monitor/model/info/InfoModel.h>
 #include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
@@ -336,6 +338,17 @@ public:
             bool update_dds = true,
             bool reset_dds = true);
 
+    /**
+     * @brief Call the event chain when an alert is clicked
+     *
+     * For every alert it updates the summary model to reference this alert clicked.
+     *
+     * @param id Alert id of the alert clicked
+     * @return true if any change in any model has been done
+     */
+    bool alert_clicked(
+            backend::AlertId id);
+
     //! TODO
     bool on_selected_entity_kind(
             backend::EntityKind entity_kind,
@@ -383,6 +396,19 @@ public:
      */
     bool add_callback(
             backend::StatusCallback callback);
+
+    /**
+     * @brief Add an alert callback arrived from the backend to the alert callback queue
+     *
+     * Add an alert callback to the alert callback queue in order to process it afterwards by the main thread.
+     * Emit a signal that communicate the main thread that there are info to process in the alert callback queue.
+     * Add an alert callback issue.
+     *
+     * @param callback new alert callback to add
+     * @return true
+     */
+    bool add_callback(
+            backend::AlertCallback callback);
 
     /**
      * @brief Refresh the view
@@ -434,6 +460,14 @@ public:
      */
     void process_status_callback_queue();
 
+    /**
+     * @brief Pop alert callbacks from the alert callback queues while non empty and update the models
+     *
+     * @warning This method must be executed from the main Thread (or at least a QThread) so the models are
+     * updated in the view when modified.
+     */
+    void process_alert_callback_queue();
+
     //! Refresh summary panel
     void refresh_summary();
 
@@ -461,6 +495,21 @@ public:
             const backend::EntityId& entity_id,
             const std::string& new_alias,
             const backend::EntityKind& entity_kind);
+
+    //! Set an alert
+    void set_alert(
+            const std::string& alert_name,
+            const backend::EntityId& domain_id,
+            const std::string& host_name,
+            const std::string& user_name,
+            const std::string& topic_name,
+            const backend::AlertKind& alert_kind,
+            double threshold,
+            const std::chrono::milliseconds& t_between_triggers);
+
+    //! Remove an alert
+    void remove_alert(
+            const backend::AlertId& id);
 
     /**
      * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the
@@ -532,14 +581,17 @@ public:
             const QString& file_name,
             bool clear);
 
-    //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
+    //! Retrieve a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
     std::vector<std::string> ds_supported_transports();
 
-    //! Retrive a string list containing the available statistic kinds.
+    //! Retrieve a string list containing the available statistic kinds.
     std::vector<std::string> get_statistic_kinds();
 
-    //! Retrive a string list containing the available data kinds.
+    //! Retrieve a string list containing the available data kinds.
     std::vector<std::string> get_data_kinds();
+
+    //! Retrieve a string list containing the available alert kinds.
+    std::vector<std::string> get_alert_kinds();
 
     //! Retrieve the name associated to a specific entity
     std::string get_name(
@@ -605,6 +657,12 @@ signals:
      */
     void new_status_callback_signal();
 
+    /**
+     * Internal signal that communicate that there are alert callbacks to process by the main Thread.
+     * Arise from \c add_callback
+     */
+    void new_alert_callback_signal();
+
 public slots:
 
     /**
@@ -618,6 +676,12 @@ public slots:
      * callback queue by \c process_status_callback_queue
      */
     void new_status_callback_slot();
+
+    /**
+     * Receive the internal signal \c new_alert_callback_signal and start the process of alert
+     * callback queue by \c process_alert_callback_queue
+     */
+    void new_alert_callback_slot();
 
 protected:
 
@@ -674,9 +738,52 @@ protected:
      */
     bool fill_status_();
 
+    /**
+     * @brief Update the alert summary model with an initial message that says there are
+     * no selected alerts
+     */
+    bool fill_first_alert_summary_();
+
+    /**
+     * @brief Clear and fill the alert list model
+     *
+     * @return true if any change in any model has been done
+     */
+    bool fill_alert_list_();
+
+    /**
+     * @brief Clear and fill the alert summary for a selected alert
+     *
+     * @param id id of the alert to get the info
+     * @return true if any change in any model has been done
+     */
+    bool fill_alert_summary_(
+            backend::AlertId id);
+
+    /**
+     * @brief Clears the alert summary
+     */
+    bool clear_alert_summary_();
+
+    /**
+     * @brief Clear and fill the alert messages view
+     *
+     * @return true if any change in any model has been done
+     */
+    bool fill_alert_message_();
+
     //! Add a new callback message to the Log model
     bool add_log_callback_(
             std::string callback,
+            std::string time);
+
+    //! Updates the Alert model
+    bool update_alerts_();
+
+    //! Add a new alert message to the Alert Message model
+    bool add_alert_message_info_(
+            std::string alert_name,
+            std::string msg,
             std::string time);
 
     //! Add a new issue message to the Issue model
@@ -688,6 +795,13 @@ protected:
     bool add_status_domain_(
             std::string name,
             std::string time);
+
+    /**
+     * Generates a new alert message info model from the main schema
+     * The Alert Message model schema has:
+     * - "Alert Messages" tag - to collect alert messages
+     */
+    void generate_new_alert_message_info_();
 
     /**
      * Generates a new issue info model from the main schema
@@ -740,11 +854,17 @@ protected:
     //! True if there are status callbacks in the callback queue
     bool are_status_callbacks_to_process_();
 
+    //! True if there are alert callbacks in the callback queue
+    bool are_alert_callbacks_to_process_();
+
     //! Pop a callback from callback queues and call \c read_callback for that callback
     bool process_callback_();
 
     //! Pop a status callback from callback queues and call \c read_callback for that status callback
     bool process_status_callback_();
+
+    //! Pop an alert callback from callback queues and call \c read_callback for that alert callback
+    bool process_alert_callback_();
 
     //! Update the model concerned by the entity in the callback
     bool read_callback_(
@@ -753,6 +873,10 @@ protected:
     //! Update the model concerned by the entity in the status callback
     bool read_callback_(
             backend::StatusCallback callback);
+
+    //! Update the model concerned by the entity in the alert callback
+    bool read_callback_(
+            backend::AlertCallback callback);
 
     //! Common method to demultiplex to update functions depending on the entity kind
     bool update_entity_generic(
@@ -766,6 +890,12 @@ protected:
 
     //! Clear issues panel information
     void clear_issue_info_();
+
+    //! Clear alerts info panel information
+    void clear_alert_info_();
+
+    //! Clear alert messages information
+    void clear_alert_message_info_();
 
     /////
     // Variables
@@ -797,6 +927,24 @@ protected:
     //! Data that is represented in the Issue Model when this model is refreshed
     backend::Info issue_info_;
 
+    //! Data Model for Alerts. Collects alerts defined in the system
+    models::AlertListModel* alert_model_;
+
+    //! Alert buffer
+    backend::Info alert_data_;
+
+    //! Data Model for Info of the clicked alert
+    models::TreeModel* alerts_summary_model_;
+
+    //! Information about the selected alert
+    backend::Info alert_info_;
+
+    //! Data Model for Alert Messages. Collects alert messages and info from the whole system
+    models::TreeModel* alert_message_model_;
+
+    //! Data that is represented in the Alert Message Model when this model is refreshed
+    backend::Info alert_message_info_;
+
     //! Data Model for Log. Collects logging messages from application execution
     models::TreeModel* log_model_;
 
@@ -820,6 +968,15 @@ protected:
 
     //! TODO
     models::ListModel* destination_entity_id_model_;
+
+    //! Model to hold the data about the domains available for alert creation
+    models::ListModel* alert_domain_id_model_;
+    //! Model to hold the data about the hosts available for alert creation
+    models::ListModel* alert_host_id_model_;
+    //! Model to hold the data about the users available for alert creation
+    models::ListModel* alert_user_id_model_;
+    //! Model to hold the data about the topics available for alert creation
+    models::ListModel* alert_topic_id_model_;
 
     //! Ids of the last Entity clicked
     EntitiesClicked last_entities_clicked_;
@@ -845,11 +1002,17 @@ protected:
     //! Mutex to protect \c status_callback_queue_
     std::recursive_mutex status_callback_queue_mutex_;
 
+    //! Mutex to protect \c alert_callback_queue_
+    std::recursive_mutex alert_callback_queue_mutex_;
+
     //! Queue of Callbacks that have arrived by the \c Listener and have not been processed
     QQueue<backend::Callback> callback_queue_;
 
     //! Queue of status Callbacks that have arrived by the \c Listener and have not been processed
     QQueue<backend::StatusCallback> status_callback_queue_;
+
+    //! Queue of alert Callbacks that have arrived by the \c Listener and have not been processed
+    QQueue<backend::AlertCallback> alert_callback_queue_;
 
     //! Object that manage all the communications with the QML view
     Controller* controller_;

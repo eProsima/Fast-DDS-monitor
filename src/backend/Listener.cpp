@@ -177,4 +177,30 @@ void Listener::on_status_reported(
     engine_->add_callback(StatusCallback(domain_id, entity_id, status_kind));
 }
 
+void Listener::on_alert_triggered(
+        EntityId domain_id,
+        EntityId entity_id,
+        AlertInfo& alert,
+        const std::string& data)
+{
+    AlertCallback callback;
+    callback.domain_id = domain_id;
+    callback.entity_id = entity_id;
+    callback.alert_info = alert;
+    callback.trigger_data = data;
+    callback.kind = AlertCallbackKind::ALERT_TRIGGERED;
+    engine_->add_callback(callback);
+}
+
+void Listener::on_alert_unmatched(
+        EntityId domain_id,
+        AlertInfo& alert)
+{
+    AlertCallback callback;
+    callback.domain_id = domain_id;
+    callback.alert_info = alert;
+    callback.kind = AlertCallbackKind::ALERT_UNMATCHED;
+    engine_->add_callback(callback);
+}
+
 } //namespace backend

@@ -108,6 +108,12 @@ void Controller::locator_click(
     engine_->entity_clicked(backend::models_id_to_backend_id(id), backend::EntityKind::LOCATOR);
 }
 
+void Controller::alert_click(
+        QString id)
+{
+    engine_->alert_clicked(backend::alert_models_id_to_backend_id(id));
+}
+
 void Controller::update_available_entity_ids(
         QString entity_kind,
         QString entity_model_id)
@@ -295,6 +301,47 @@ void Controller::set_alias(
         backend::string_to_entity_kind(entity_kind));
 }
 
+std::string clean_entity_name(
+        std::string original_name)
+{
+    size_t pos = original_name.find(':');
+    if (pos != std::string::npos)
+    {
+        return original_name.substr(0, pos);
+    }
+    return original_name;
+}
+
+void Controller::set_alert(
+        QString alert_name,
+        QString domain_id,
+        QString host_name,
+        QString user_name,
+        QString topic_name,
+        QString alert_type,
+        double threshold,
+        int time_between_triggers)
+{
+    std::string clean_host_name = clean_entity_name(utils::to_string(host_name));
+    std::string clean_user_name = clean_entity_name(utils::to_string(user_name));
+    std::string clean_topic_name = clean_entity_name(utils::to_string(topic_name));
+
+    engine_->set_alert(utils::to_string(alert_name),
+            backend::models_id_to_backend_id(domain_id),
+            clean_host_name,
+            clean_user_name,
+            clean_topic_name,
+            backend::string_to_alert_kind(alert_type),
+            threshold,
+            std::chrono::milliseconds(time_between_triggers));
+}
+
+void Controller::remove_alert(
+        QString id)
+{
+    engine_->remove_alert(backend::alert_models_id_to_backend_id(id));
+}
+
 QString Controller::get_data_kind_units(
         QString data_kind)
 {
@@ -340,6 +387,11 @@ QStringList Controller::get_statistic_kinds()
 QStringList Controller::get_data_kinds()
 {
     return utils::to_QStringList(engine_->get_data_kinds());
+}
+
+QStringList Controller::get_alert_kinds()
+{
+    return utils::to_QStringList(engine_->get_alert_kinds());
 }
 
 bool Controller::data_kind_has_target(

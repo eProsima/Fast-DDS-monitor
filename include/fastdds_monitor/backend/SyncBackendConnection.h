@@ -27,6 +27,8 @@
 
 #include <fastdds_monitor/backend/backend_types.h>
 #include <fastdds_monitor/backend/Listener.h>
+#include <fastdds_monitor/model/alerts/AlertListItem.h>
+#include <fastdds_monitor/model/alerts/AlertListModel.h>
 #include <fastdds_monitor/model/logical/DomainModelItem.h>
 #include <fastdds_monitor/model/logical/TopicModelItem.h>
 #include <fastdds_monitor/model/physical/HostModelItem.h>
@@ -113,6 +115,10 @@ public:
     //! Get info from an entity from the Backend
     EntityInfo get_info(
             EntityId id);
+
+    //! Get alert info from an alert from the Backend
+    AlertSummary get_info(
+            backend::AlertId id);
 
     //! Get the id of the topic associated to an endpoint
     backend::EntityId get_endpoint_topic_id(
@@ -238,6 +244,9 @@ public:
             EntityKind entity_type,
             EntityId entity_id = EntityId::all());
 
+    //! Get all alert ids from the Backend
+    std::vector<AlertId> get_alerts();
+
     //! Get the supported entity kinds of a given data kind
     std::vector<std::pair<EntityKind, EntityKind>> get_data_supported_entity_kinds(
             DataKind data_kind);
@@ -294,6 +303,10 @@ protected:
     ListItem* create_locator_data_(
             backend::EntityId id);
 
+    //! Create a new \c AlertListItem related with the backend alert with id \c id
+    AlertListItem* create_alert_data_(
+            backend::AlertId id);
+
     /************
      * GET DATA *
      ***********/
@@ -319,14 +332,17 @@ public:
     std::string get_data_kind_units(
             const DataKind data_kind);
 
-    //! Retrive a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
+    //! Retrieve a string vector containing the transport protocols supported by the Statistics Backend Discovery Server.
     std::vector<std::string> ds_supported_transports();
 
-    //! Retrive a string list containing the available statistic kinds.
+    //! Retrieve a string list containing the available statistic kinds.
     std::vector<std::string> get_statistic_kinds();
 
-    //! Retrive a string list containing the available data kinds.
+    //! Retrieve a string list containing the available data kinds.
     std::vector<std::string> get_data_kinds();
+
+    //! Retrieve a string list containing the available alert kinds.
+    std::vector<std::string> get_alert_kinds();
 
     //! Returns whether the data kind entered requires a target entity to be defined.
     bool data_kind_has_target(
@@ -457,6 +473,15 @@ public:
             bool inactive_visible,
             bool metatraffic_visible,
             bool proxy_visible);
+
+    /**
+     * @brief Update the alerts model with every alert in the backend
+     *
+     * @param alerts_model Alerts model to update
+     * @return true if any change has been made, false otherwise
+     */
+    bool update_alerts_model(
+            models::AlertListModel* alerts_model);
 
     /////
     // Entity update functions
@@ -638,6 +663,12 @@ protected:
         bool inactive_visible,
         bool metatraffic_visible,
         bool proxy_visible);
+
+    bool update_alert_item_(
+            AlertListItem* item);
+
+    bool update_alert_item_info_(
+            AlertListItem* item);
 
     /**************
      * UPDATE ONE *
@@ -838,6 +869,21 @@ public:
     void set_alias(
             const backend::EntityId& id,
             const std::string& new_alias);
+
+    //! Set a new alert in backend
+    void set_alert(
+            const std::string& alert_name,
+            const EntityId& domain_id,
+            const std::string& host_name,
+            const std::string& user_name,
+            const std::string& topic_name,
+            const backend::AlertKind& alert_kind,
+            double threshold,
+            const std::chrono::milliseconds& t_between_triggers);
+
+    //! Remove an alert in backend
+    void remove_alert(
+            const backend::AlertId& id);
 
 protected:
 

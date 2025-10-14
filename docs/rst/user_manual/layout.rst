@@ -146,6 +146,38 @@ This panel shows a summary of the main statistical data related with the last en
 
 For the explanation of this information refer to the section :ref:`statistics_panel`.
 
+.. _alerts_panel_layout:
+
+Alerts Panel
+============
+
+This panel shows the different alerts created by the user to monitor specific events in the DDS network.
+
+.. figure:: /rst/figures/screenshots/alert_panel.png
+    :align: center
+
+For the explanation of this information refer to the section :ref:`alerts_panel`.
+
+.. _alert_list_layout:
+
+Alert List
+----------
+
+This panel lists the alerts created by the user to monitor specific events in the DDS network.
+These alerts are created by clicking on the |create_alert| button in the Shortcuts Bar or in the
+*+* symbol in the upper right corner of the panel.
+Once created, the alerts will be listed in this panel, and the user can remove them by right clicking
+on the alert and selecting the remove option.
+
+.. _alert_data_layout:
+
+Alert Data
+----------
+
+This panel shows the configuration values of the alert selected in the *Alert List*, including the
+alert name, its domain, the values of host, user and topic of the monitored entities, its threshold
+or the duration of the alert.
+
 .. _monitor_status_panel_layout:
 
 Monitor Status Panel
@@ -207,6 +239,17 @@ The events that the application reacts to in the current version are:
     :align: center
 
 For a thorough explanation of this information refer to the section :ref:`issues_panel`.
+
+.. _alert_messages_panel_layout:
+
+Alert Messages Panel
+====================
+
+This panel lists the alert events that the application has detected based on the alerts created by the user.
+These alerts are shown in a tree structure, where the most recent alerts are shown at the bottom.
+
+.. figure:: /rst/figures/screenshots/alert_messages_panel.png
+    :align: center
 
 .. _main_panel_layout:
 

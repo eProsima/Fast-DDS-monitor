@@ -117,6 +117,13 @@ ListItem* SyncBackendConnection::create_locator_data_(
     return new LocatorModelItem(id, get_info(id));
 }
 
+AlertListItem* SyncBackendConnection::create_alert_data_(
+        backend::AlertId id)
+{
+    qDebug() << "Creating Alert " << backend::backend_id_to_models_id(id);
+    return new AlertListItem(id, get_info(id));
+}
+
 /// UPDATE PRIVATE FUNCTIONS
 bool SyncBackendConnection::update_host_item(
         ListItem* host_item,
@@ -324,6 +331,55 @@ bool SyncBackendConnection::update_dds_model(
         inactive_visible,
         metatraffic_visible,
         proxy_visible);
+}
+
+bool SyncBackendConnection::update_alert_item_(
+        AlertListItem* item)
+{
+    bool res = update_alert_item_info_(item);
+    return res;
+}
+
+bool SyncBackendConnection::update_alert_item_info_(
+        AlertListItem* item)
+{
+    // Query for this item info and update it
+    item->info(get_info(item->get_alert_id()));
+    item->triggerItemUpdate();
+    return true;
+}
+
+bool SyncBackendConnection::update_alerts_model(
+        AlertListModel* alerts_model)
+{
+    bool changed = false;
+
+    // For each User get all processes
+    for (auto& alert_id : get_alerts())
+    {
+        // Check if it exists already
+        int index = alerts_model->rowIndexFromId(alert_id);
+
+        // If it does not exist, it creates it and add a Row with it
+        // If it exists it updates its info
+        if (index == -1)
+        {
+            // Creates the Item object and update its data
+            alerts_model->appendRow(create_alert_data_(alert_id));
+            changed = true;
+            models::AlertListItem* alert_item = alerts_model->find(alert_id);
+
+            changed = update_alert_item_(alert_item) || changed;
+        }
+        else
+        {
+            // Otherwise just update the entity
+            models::AlertListItem* alert_item = alerts_model->at(index);
+            changed = update_alert_item_(alert_item) || changed;
+        }
+    }
+
+    return changed;
 }
 
 bool SyncBackendConnection::update_get_data_dialog_entity_id(
@@ -553,6 +609,22 @@ EntityInfo SyncBackendConnection::get_info(
     }
 }
 
+AlertSummary SyncBackendConnection::get_info(
+        AlertId id)
+{
+    try
+    {
+        return backend::refactor_json(StatisticsBackend::get_info(id));
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting entity info: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
+        return EntityInfo();
+    }
+}
+
 backend::EntityId SyncBackendConnection::get_endpoint_topic_id(
         backend::EntityId endpoint_id)
 {
@@ -659,6 +731,21 @@ std::vector<EntityId> SyncBackendConnection::get_entities(
         static_cast<void>(e); // In release qWarning does not compile and so e is not used
 
         return std::vector<EntityId>();
+    }
+}
+
+std::vector<AlertId> SyncBackendConnection::get_alerts()
+{
+    try
+    {
+        return StatisticsBackend::get_alerts();
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting alerts: " << e.what();
+        static_cast<void>(e); // In release qWarning does not compile and so e is not used
+
+        return std::vector<AlertId>();
     }
 }
 
@@ -1219,6 +1306,42 @@ void SyncBackendConnection::set_alias(
         qWarning() << "Fail setting new alias for entity: " << id.value();
         static_cast<void>(e); // In release qWarning does not compile and so e is not used
 
+    }
+}
+
+void SyncBackendConnection::set_alert(
+        const std::string& alert_name,
+        const backend::EntityId& domain_id,
+        const std::string& host_name,
+        const std::string& user_name,
+        const std::string& topic_name,
+        const backend::AlertKind& alert_kind,
+        double threshold,
+        const std::chrono::milliseconds& t_between_triggers)
+{
+    try
+    {
+        StatisticsBackend::set_alert(alert_name, domain_id, host_name, user_name, topic_name, alert_kind, threshold,
+                t_between_triggers);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail setting new alert";
+        static_cast<void>(e);
+    }
+}
+
+void SyncBackendConnection::remove_alert(
+        const backend::AlertId& id)
+{
+    try
+    {
+        StatisticsBackend::remove_alert(id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail removing alert";
+        static_cast<void>(e);
     }
 }
 
@@ -1796,6 +1919,13 @@ std::vector<std::string> SyncBackendConnection::get_data_kinds()
             "PDP_PACKETS",
             "EDP_PACKETS"
         });
+}
+
+std::vector<std::string> SyncBackendConnection::get_alert_kinds()
+{
+    return std::vector<std::string>({
+            "NEW_DATA",
+            "NO_DATA"});
 }
 
 std::vector<std::pair<EntityKind, EntityKind>> SyncBackendConnection::get_data_supported_entity_kinds(

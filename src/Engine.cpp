@@ -37,6 +37,8 @@
 #include <fastdds_monitor/Controller.h>
 #include <fastdds_monitor/Engine.h>
 #include <fastdds_monitor/io/csv.h>
+#include <fastdds_monitor/model/alerts/AlertListModel.h>
+#include <fastdds_monitor/model/alerts/AlertListItem.h>
 #include <fastdds_monitor/model/dds/ParticipantModelItem.h>
 #include <fastdds_monitor/model/logical/DomainModelItem.h>
 #include <fastdds_monitor/model/physical/HostModelItem.h>
@@ -91,6 +93,18 @@ QObject* Engine::enable()
     generate_new_log_info_();
     fill_log_();
 
+    // Creates a default json structure for alerts and fills the tree model with it
+    alert_model_ = new models::AlertListModel(new models::AlertListItem());
+    fill_alert_list_();
+
+    alerts_summary_model_ = new models::TreeModel();
+    fill_first_alert_summary_();
+
+    // Creates a default json structure for statuses and fills the tree model with it
+    alert_message_model_ = new models::TreeModel();
+    generate_new_alert_message_info_();
+    fill_alert_message_();
+
     // Creates a default json structure for status messages and fills the tree model with it
     status_model_ = new models::TreeModel();
     generate_new_status_info_();
@@ -104,11 +118,19 @@ QObject* Engine::enable()
     entity_status_proxy_model_ = new models::StatusTreeModel();
     entity_status_proxy_model_->set_source_model(entity_status_model_);
 
-
     source_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogSourceEntityId");
     destination_entity_id_model_ = new models::ListModel(new models::EntityItem());
     fill_available_entity_id_list_(backend::EntityKind::HOST, "getDataDialogDestinationEntityId");
+
+    alert_domain_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::DOMAIN, "alertDomain");
+    alert_host_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::HOST, "alertHost");
+    alert_user_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::USER, "alertUser");
+    alert_topic_id_model_ = new models::ListModel(new models::EntityItem());
+    fill_available_entity_id_list_(backend::EntityKind::TOPIC, "alertTopic");
 
     historic_statistics_data_ = new HistoricStatisticsData();
     dynamic_statistics_data_ = new DynamicStatisticsData();
@@ -131,9 +153,16 @@ QObject* Engine::enable()
     rootContext()->setContextProperty("logModel", log_model_);
     rootContext()->setContextProperty("statusModel", status_model_);
     rootContext()->setContextProperty("entityStatusModel", entity_status_proxy_model_);
+    rootContext()->setContextProperty("alertModel", alert_model_);
+    rootContext()->setContextProperty("alertMessageModel", alert_message_model_);
+    rootContext()->setContextProperty("alertsSummaryModel", alerts_summary_model_);
 
     rootContext()->setContextProperty("entityModelFirst", source_entity_id_model_);
     rootContext()->setContextProperty("entityModelSecond", destination_entity_id_model_);
+    rootContext()->setContextProperty("alertDomainModel", alert_domain_id_model_);
+    rootContext()->setContextProperty("alertHostModel", alert_host_id_model_);
+    rootContext()->setContextProperty("alertTopicModel", alert_topic_id_model_);
+    rootContext()->setContextProperty("alertUserModel", alert_user_id_model_);
 
     rootContext()->setContextProperty("historicData", historic_statistics_data_);
     rootContext()->setContextProperty("dynamicData", dynamic_statistics_data_);
@@ -158,6 +187,12 @@ QObject* Engine::enable()
         &Engine::new_status_callback_signal,
         this,
         &Engine::new_status_callback_slot);
+
+    QObject::connect(
+        this,
+        &Engine::new_alert_callback_signal,
+        this,
+        &Engine::new_alert_callback_slot);
 
     // Set enable as True
     enabled_ = true;
@@ -228,6 +263,21 @@ Engine::~Engine()
             delete entity_status_proxy_model_;
         }
 
+        if (alert_model_)
+        {
+            delete alert_model_;
+        }
+
+        if (alerts_summary_model_)
+        {
+            delete alerts_summary_model_;
+        }
+
+        if (alert_message_model_)
+        {
+            delete alert_message_model_;
+        }
+
         // Auxiliar models
         if (source_entity_id_model_)
         {
@@ -237,6 +287,23 @@ Engine::~Engine()
         if (destination_entity_id_model_)
         {
             delete destination_entity_id_model_;
+        }
+
+        if (alert_domain_id_model_)
+        {
+            delete alert_domain_id_model_;
+        }
+        if (alert_host_id_model_)
+        {
+            delete alert_host_id_model_;
+        }
+        if (alert_user_id_model_)
+        {
+            delete alert_user_id_model_;
+        }
+        if (alert_topic_id_model_)
+        {
+            delete alert_topic_id_model_;
         }
 
         // Interactive models
@@ -402,6 +469,39 @@ bool Engine::fill_issue_()
     return true;
 }
 
+bool Engine::fill_first_alert_summary_()
+{
+    EntityInfo info = R"({"No alerts active.":"Start an alert in a specific domain"})"_json;
+    alerts_summary_model_->update(info);
+    return true;
+}
+
+bool Engine::fill_alert_list_()
+{
+    alert_model_->clear();
+    return backend_connection_.update_alerts_model(alert_model_);
+}
+
+bool Engine::fill_alert_summary_(
+        backend::AlertId id)
+{
+    alerts_summary_model_->update(backend_connection_.get_info(id));
+    return true;
+}
+
+bool Engine::clear_alert_summary_()
+{
+    EntityInfo info = R"({})"_json;
+    alerts_summary_model_->update(info);
+    return true;
+}
+
+bool Engine::fill_alert_message_()
+{
+    alert_message_model_->update_without_collapse(alert_message_info_);
+    return true;
+}
+
 bool Engine::fill_log_()
 {
     log_model_->update(log_info_);
@@ -412,6 +512,13 @@ bool Engine::fill_status_()
 {
     status_model_->update(status_info_);
     return true;
+}
+
+void Engine::generate_new_alert_message_info_()
+{
+    EntityInfo info;
+
+    alert_message_info_ = info;
 }
 
 void Engine::generate_new_issue_info_()
@@ -491,6 +598,28 @@ void Engine::clear_issue_info_()
 {
     issue_info_["Issues"] = EntityInfo();
     fill_issue_();
+}
+
+bool Engine::update_alerts_()
+{
+    fill_alert_list_();
+    return true;
+}
+
+bool Engine::add_alert_message_info_(
+        std::string alert_name,
+        std::string msg,
+        std::string time)
+{
+    alert_message_info_[alert_name][time] = msg;
+    fill_alert_message_();
+    return true;
+}
+
+void Engine::clear_alert_message_info_()
+{
+    alert_message_info_ = EntityInfo();
+    fill_alert_message_();
 }
 
 bool Engine::fill_first_entity_info_()
@@ -735,6 +864,15 @@ bool Engine::entity_clicked(
     return res;
 }
 
+bool Engine::alert_clicked(
+        backend::AlertId id)
+{
+    qDebug() << "Clicked alert: ";
+    bool res = false;
+    res = fill_alert_summary_(id) || res;
+    return res;
+}
+
 bool Engine::fill_available_entity_id_list_(
         backend::EntityKind entity_kind,
         QString entity_model_id)
@@ -766,6 +904,46 @@ bool Engine::on_selected_entity_kind(
             metatraffic_visible(),
             proxy_visible());
     }
+    else if (entity_model_id == "alertDomain")
+    {
+        alert_domain_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_domain_id_model_,
+            backend::EntityKind::DOMAIN,
+            inactive_visible(),
+            metatraffic_visible(),
+            proxy_visible());
+    }
+    else if (entity_model_id == "alertHost")
+    {
+        alert_host_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_host_id_model_,
+            backend::EntityKind::HOST,
+            inactive_visible(),
+            metatraffic_visible(),
+            proxy_visible());
+    }
+    else if (entity_model_id == "alertUser")
+    {
+        alert_user_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_user_id_model_,
+            backend::EntityKind::USER,
+            inactive_visible(),
+            metatraffic_visible(),
+            proxy_visible());
+    }
+    else if (entity_model_id == "alertTopic")
+    {
+        alert_topic_id_model_->clear();
+        return backend_connection_.update_get_data_dialog_entity_id(
+            alert_topic_id_model_,
+            backend::EntityKind::TOPIC,
+            inactive_visible(),
+            metatraffic_visible(),
+            proxy_visible());
+    }
     else
     {
         return false;
@@ -787,7 +965,8 @@ QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
     backend::Timestamp time_from =
             start_time_default ? initial_time_ : backend::Timestamp(std::chrono::milliseconds(start_time));
     backend::Timestamp time_to =
-            end_time_default ? std::chrono::system_clock::now() : backend::Timestamp(std::chrono::milliseconds(end_time));
+            end_time_default ? std::chrono::system_clock::now() :
+            backend::Timestamp(std::chrono::milliseconds(end_time));
 
     std::vector<backend::StatisticsData> statistic_data = backend_connection_.get_data(
         data_kind,
@@ -839,6 +1018,7 @@ void Engine::refresh_engine(
 
     fill_physical_data_();
     fill_logical_data_();
+    fill_alert_list_();
 
     if (!maintain_clicked)
     {
@@ -935,6 +1115,15 @@ void Engine::process_status_callback_queue()
     }
 }
 
+void Engine::process_alert_callback_queue()
+{
+    // It iterates while run_ is activate and the queue has elements
+    while (!alert_callback_queue_.empty())
+    {
+        process_alert_callback_();
+    }
+}
+
 bool Engine::are_callbacks_to_process_()
 {
     std::lock_guard<std::recursive_mutex> ml(callback_queue_mutex_);
@@ -945,6 +1134,12 @@ bool Engine::are_status_callbacks_to_process_()
 {
     std::lock_guard<std::recursive_mutex> ml(status_callback_queue_mutex_);
     return status_callback_queue_.empty();
+}
+
+bool Engine::are_alert_callbacks_to_process_()
+{
+    std::lock_guard<std::recursive_mutex> ml(alert_callback_queue_mutex_);
+    return alert_callback_queue_.empty();
 }
 
 bool Engine::add_callback(
@@ -971,6 +1166,18 @@ bool Engine::add_callback(
     return true;
 }
 
+bool Engine::add_callback(
+        backend::AlertCallback alert_callback)
+{
+    std::lock_guard<std::recursive_mutex> ml(alert_callback_queue_mutex_);
+    alert_callback_queue_.append(alert_callback);
+
+    // Emit signal to specify there are new data
+    emit new_alert_callback_signal();
+
+    return true;
+}
+
 void Engine::new_callback_slot()
 {
     process_callback_queue();
@@ -979,6 +1186,11 @@ void Engine::new_callback_slot()
 void Engine::new_status_callback_slot()
 {
     process_status_callback_queue();
+}
+
+void Engine::new_alert_callback_slot()
+{
+    process_alert_callback_queue();
 }
 
 bool Engine::process_callback_()
@@ -1009,6 +1221,21 @@ bool Engine::process_status_callback_()
     qDebug() << "Processing status callback: " << backend::backend_id_to_models_id(first_status_callback.entity_id);
 
     return read_callback_(first_status_callback);
+}
+
+bool Engine::process_alert_callback_()
+{
+    backend::AlertCallback first_alert_callback;
+
+    {
+        std::lock_guard<std::recursive_mutex> ml(alert_callback_queue_mutex_);
+        first_alert_callback = alert_callback_queue_.front();
+        alert_callback_queue_.pop_front();
+    }
+
+    qDebug() << "Processing alert callback: " << backend::backend_id_to_models_id(first_alert_callback.entity_id);
+
+    return read_callback_(first_alert_callback);
 }
 
 bool Engine::read_callback_(
@@ -1053,6 +1280,39 @@ bool Engine::read_callback_(
 
     // update status model
     return update_entity_status(status_callback.entity_id, status_callback.status_kind);
+}
+
+bool Engine::read_callback_(
+        backend::AlertCallback alert_callback)
+{
+    // It should not read callbacks while a domain is being initialized
+    std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+    if (alert_callback.kind == backend::AlertCallbackKind::ALERT_UNMATCHED)
+    {
+        return add_alert_message_info_(alert_callback.alert_info.get_alert_name(),
+                       "Alert unmatched: there are no entities that meet the alert conditions", utils::now());
+    }
+
+    // Add callback to log model
+    switch (alert_callback.alert_info.get_alert_kind())
+    {
+        case backend::AlertKind::NEW_DATA_ALERT:
+            return add_alert_message_info_(
+                alert_callback.alert_info.get_alert_name(),
+                "New data received, DATA_COUNT is " + alert_callback.trigger_data, utils::now());
+            break;
+        case backend::AlertKind::NO_DATA_ALERT:
+            return add_alert_message_info_(
+                alert_callback.alert_info.get_alert_name(),
+                "SUBSCRIPTION_THROUGHPUT is " + alert_callback.trigger_data, utils::now());
+            break;
+        case backend::AlertKind::INVALID_ALERT:
+        default:
+            // Unknown alerts are ignored
+            break;
+    }
+
+    return false;
 }
 
 bool Engine::update_entity_status(
@@ -1246,7 +1506,8 @@ bool Engine::update_entity_status(
                                                 std::string(
                                                     "<html><style type=\"text/css\"></style>Check for compatible rules ") +
                                                 std::string(
-                                                    "<a href=\"https://fast-dds.docs.eprosima.com/en/") + fastdds_version +
+                                                    "<a href=\"https://fast-dds.docs.eprosima.com/en/") +
+                                                fastdds_version +
                                                 std::string("/fastdds/dds_layer/core/policy/standardQosPolicies.html") +
                                                 backend::policy_documentation_description(policy_id) +
                                                 std::string("\">here</a></html>"),
@@ -1258,7 +1519,8 @@ bool Engine::update_entity_status(
                                 {
                                     EntityInfo entity_info = backend_connection_.get_info(remote_entity_id);
                                     std::string remote_entity_kind = utils::to_string(
-                                        backend::entity_kind_to_QString(backend_connection_.get_type(remote_entity_id)));
+                                        backend::entity_kind_to_QString(backend_connection_.get_type(
+                                            remote_entity_id)));
                                     std::stringstream ss;
                                     ss << std::string(entity_info["alias"]) << " (" << remote_entity_kind << ")";
                                     remote_entity = ss.str();
@@ -1673,6 +1935,32 @@ void Engine::set_alias(
     }
 }
 
+void Engine::set_alert(
+        const std::string& alert_name,
+        const backend::EntityId& domain_id,
+        const std::string& host_name,
+        const std::string& user_name,
+        const std::string& topic_name,
+        const backend::AlertKind& alert_kind,
+        double threshold,
+        const std::chrono::milliseconds& t_between_triggers)
+{
+    // Adding alert to backend structures
+    backend_connection_.set_alert(alert_name, domain_id, host_name, user_name, topic_name, alert_kind, threshold,
+            t_between_triggers);
+    // Update the list of alerts without using the refresh button
+    update_alerts_();
+}
+
+void Engine::remove_alert(
+        const backend::AlertId& id)
+{
+    backend_connection_.remove_alert(id);
+    // Update the list of alerts without using the refresh button
+    update_alerts_();
+    clear_alert_summary_();
+}
+
 bool Engine::update_entity(
         const backend::EntityId& entity_updated,
         bool (Engine::* update_function)(const backend::EntityId&, bool, bool),
@@ -1708,6 +1996,7 @@ void Engine::change_inactive_visible()
     fill_physical_data_();
     fill_logical_data_();
     fill_dds_data_();
+    fill_alert_list_();
     refresh_engine();
 }
 
@@ -1717,6 +2006,7 @@ void Engine::change_metatraffic_visible()
     fill_physical_data_();
     fill_logical_data_();
     fill_dds_data_();
+    fill_alert_list_();
     refresh_engine();
 }
 
@@ -1726,6 +2016,7 @@ void Engine::change_ros2_demangling()
     fill_physical_data_();
     fill_logical_data_();
     fill_dds_data_();
+    fill_alert_list_();
     refresh_engine();
 }
 
@@ -1845,6 +2136,11 @@ std::vector<std::string> Engine::get_statistic_kinds()
 std::vector<std::string> Engine::get_data_kinds()
 {
     return backend_connection_.get_data_kinds();
+}
+
+std::vector<std::string> Engine::get_alert_kinds()
+{
+    return backend_connection_.get_alert_kinds();
 }
 
 std::string Engine::get_name(
