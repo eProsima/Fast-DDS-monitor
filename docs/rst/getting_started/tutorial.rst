@@ -415,6 +415,8 @@ If the alert type is *NEW_DATA*, the alert will be triggered when a positive `DA
 If the alert type is *NO_DATA*, the alert will be triggered when a `PUBLICATION_THROUGHPUT` message is received from any entity that matches
 the fields `host`, `user` and `topic` and its value is lower than `threshold`.
 
+If a script is provided, it will be executed every time the alert is triggered.
+
 Once the alert is set up, it will appear in the list of alerts and its metadata will be shown below when clicked.
 
 .. thumbnail:: /rst/figures/screenshots/usage_example/alert_panel_post.png
