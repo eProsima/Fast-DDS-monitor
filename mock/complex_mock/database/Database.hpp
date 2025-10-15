@@ -27,6 +27,7 @@
 
 #include <fastdds_statistics_backend/listener/PhysicalListener.hpp>
 #include <fastdds_statistics_backend/types/types.hpp>
+#include <fastdds_statistics_backend/types/Notifiers.hpp>
 
 #include "../entities/headers/Entity.hpp"
 
@@ -173,6 +174,33 @@ public:
      */
     std::vector<AlertId> get_alerts_ids() const;
 
+    /**
+     * @brief Insert a notifier into the database.
+     *
+     * @param notifier The new notifier.
+     * @return The NotifierId of the added notifier.
+     */
+    NotifierId insert_notifier(
+            Notifier& notifier);
+
+    /**
+     * @brief Trigger a notifier.
+     *
+     * @param notifier_id The NotifierId of the notifier to trigger.
+     * @param message The message to send with the notifier.
+     */
+    void trigger_notifier(
+            const NotifierId& notifier_id, std::string message);
+
+    /**
+     * @brief Remove a notifier from the database.
+     *
+     * @param notifier_id The NotifierId of the notifier to remove.
+     */
+    void remove_notifier(
+            const NotifierId& notifier_id);
+
+
 protected:
 
     /**
@@ -227,6 +255,9 @@ private:
     std::map<EntityId, std::map<AlertId, std::shared_ptr<AlertInfo>>> alerts_;
     //! The ID that will be assigned to the next alert.
     std::atomic<uint32_t> next_alert_id_{0};
+
+    //! Store all the notifiers by key \c NotifierId and value pointer to the notifier
+    NotifierManager notifiers_;
 
     /**
      * Store the callbacks that will be sent by the callback thread.

@@ -454,5 +454,24 @@ std::vector<AlertId> Database::get_alerts_ids() const
     return alertsIds;
 }
 
+NotifierId Database::insert_notifier(
+        Notifier& notifier)
+{
+    return notifiers_.add_notifier(notifier);
+}
+
+void Database::trigger_notifier(
+        const NotifierId& notifier_id, std::string message)
+{
+    notifiers_.notify(notifier_id, message);
+}
+
+void Database::remove_notifier(
+        const NotifierId& notifier_id)
+{
+    notifiers_.remove_notifier(notifier_id);
+}
+
+
 } // namespace statistics_backend
 } // namespace eprosima
