@@ -461,7 +461,8 @@ NotifierId Database::insert_notifier(
 }
 
 void Database::trigger_notifier(
-        const NotifierId& notifier_id, std::string message)
+        const NotifierId& notifier_id,
+        std::string message)
 {
     notifiers_.notify(notifier_id, message);
 }
@@ -471,7 +472,6 @@ void Database::remove_notifier(
 {
     notifiers_.remove_notifier(notifier_id);
 }
-
 
 } // namespace statistics_backend
 } // namespace eprosima

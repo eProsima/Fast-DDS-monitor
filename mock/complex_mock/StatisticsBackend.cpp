@@ -347,7 +347,7 @@ void StatisticsBackend::set_alert(
 {
 
     NotifierId notifier_id = INVALID_NOTIFIER_ID;
-    if(ScriptNotifier::is_valid_script(script_path))
+    if (ScriptNotifier::is_valid_script(script_path))
     {
         ScriptNotifier script_notifier(script_path);
         notifier_id = Database::get_instance()->insert_notifier(script_notifier);
@@ -360,7 +360,7 @@ void StatisticsBackend::set_alert(
             NewDataAlertInfo new_data_alert(alert_name, domain_id, host_name, user_name, topic_name,
                     t_between_triggers);
 
-            if(notifier_id != INVALID_NOTIFIER_ID)
+            if (notifier_id != INVALID_NOTIFIER_ID)
             {
                 // Setting notifier to the alert
                 new_data_alert.add_notifier(notifier_id);
@@ -374,7 +374,7 @@ void StatisticsBackend::set_alert(
             NoDataAlertInfo no_data_alert(alert_name, domain_id, host_name, user_name, topic_name, threshold,
                     t_between_triggers);
 
-            if(notifier_id != INVALID_NOTIFIER_ID)
+            if (notifier_id != INVALID_NOTIFIER_ID)
             {
                 // Setting notifier to the alert
                 no_data_alert.add_notifier(notifier_id);
