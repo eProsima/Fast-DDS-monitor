@@ -88,10 +88,10 @@ Rectangle {
                                 }
                             }
                         }
-                        onClicked: {
-                            if(mouse.button & Qt.RightButton) {
+                        onClicked: function(mouse) {
+                            if (mouse.button & Qt.RightButton) {
                                 openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
-                            } else  {
+                            } else {
                                 controller.participant_click(id)
                             }
                         }
@@ -171,8 +171,8 @@ Rectangle {
                                             }
                                         }
                                     }
-                                    onClicked: {
-                                        if(mouse.button & Qt.RightButton) {
+                                    onClicked: function(mouse) {
+                                        if (mouse.button & Qt.RightButton) {
                                             openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
                                         } else {
                                             controller.endpoint_click(id)
@@ -239,12 +239,12 @@ Rectangle {
                                             height: locatorIcon.height
                                             color: highligthRow(clicked)
 
-                                            MouseArea {
+                                                MouseArea {
                                                 anchors.fill: parent
                                                 acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                                                onClicked: {
-                                                    if(mouse.button & Qt.RightButton) {
+                                                onClicked: function(mouse) {
+                                                    if (mouse.button & Qt.RightButton) {
                                                         openEntitiesMenu(controller.get_domain_id(id), id, name, kind, openMenuCaller.leftPanel)
                                                     } else {
                                                         controller.locator_click(id)

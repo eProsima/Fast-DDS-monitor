@@ -33,10 +33,10 @@ MouseArea {
         onTriggered: parent.singleClick()
     }
 
-    onClicked: {
-        if(mouse.button & Qt.RightButton) {
+    onClicked: function(mouse) {
+        if (mouse.button & Qt.RightButton) {
             rightClick(mouse)
-        } else if(timer.running) {
+        } else if (timer.running) {
             doubleClick()
             timer.stop()
         } else {

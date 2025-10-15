@@ -71,7 +71,7 @@ T.ToolButton {
 
     background: Rectangle {
         implicitWidth: 68
-        implicitHeight: 28 // AppBarThemeCompactHeight
+        implicitHeight: 25 // AppBarThemeCompactHeight
 
         color: control.enabled && (control.highlighted || control.checked) ? control.Universal.accent : "transparent"
 

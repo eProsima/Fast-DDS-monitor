@@ -88,8 +88,8 @@ Rectangle {
                                 }
                             }
                         }
-                        onClicked: {
-                            if(mouse.button & Qt.RightButton) {
+                        onClicked: function(mouse) {
+                            if (mouse.button & Qt.RightButton) {
                                 openEntitiesMenu("", id, name, kind, openMenuCaller.leftPanel)
                             } else {
                                 controller.host_click(id)
@@ -172,8 +172,8 @@ Rectangle {
                                             }
                                         }
                                     }
-                                    onClicked: {
-                                        if(mouse.button & Qt.RightButton) {
+                                    onClicked: function(mouse) {
+                                        if (mouse.button & Qt.RightButton) {
                                             openEntitiesMenu("", id, name, kind, openMenuCaller.leftPanel)
                                         } else {
                                             controller.user_click(id)
@@ -244,13 +244,13 @@ Rectangle {
                                                 anchors.fill: parent
                                                 acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                                                onClicked: {
-                                                    if(mouse.button & Qt.RightButton) {
-                                                        openEntitiesMenu("", id, name, kind, openMenuCaller.leftPanel)
-                                                    } else {
-                                                        controller.process_click(id)
+                                                onClicked: function(mouse) {
+                                                        if (mouse.button & Qt.RightButton) {
+                                                            openEntitiesMenu("", id, name, kind, openMenuCaller.leftPanel)
+                                                        } else {
+                                                            controller.process_click(id)
+                                                        }
                                                     }
-                                                }
                                             }
 
                                             RowLayout {

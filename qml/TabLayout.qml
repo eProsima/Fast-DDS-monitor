@@ -241,10 +241,10 @@ Item {
                         id: domainGraphLayout
                         component_id: stack.stack_id
 
-                        onUpdate_tab_name: {
+                        onUpdate_tab_name: function(new_name, new_icon, stackId) {
                             for (var i = 0; i<tabLayout.tab_model_.length; i++)
                             {
-                                if (tabLayout.tab_model_[i]["stack_id"] == stack_id)
+                                if (tabLayout.tab_model_[i]["stack_id"] == stackId)
                                 {
                                     tabLayout.tab_model_[i]["title"] = new_name
                                     tabLayout.tab_model_[i]["icon"] = new_icon
@@ -267,10 +267,10 @@ Item {
                             }
                         }
 
-                        onOpenEntitiesMenu: {
+                        onOpenEntitiesMenu: function(domainEntityId, entityId, currentAlias, entityKind, caller) {
                             tabLayout.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller)
                         }
-                        onOpenTopicMenu: {
+                        onOpenTopicMenu: function(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
                             tabLayout.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
                         }
 
@@ -285,8 +285,8 @@ Item {
                         Connections {
                             target: tabLayout
 
-                            function onInitialize_domain_view_(stack_id, entity_id, domain_id) {
-                                if (domainGraphLayout.component_id == stack_id)
+                            function onInitialize_domain_view_(stackId, entity_id, domain_id) {
+                                if (domainGraphLayout.component_id == stackId)
                                 {
                                     domainGraphLayout.domain_entity_id = entity_id
                                     domainGraphLayout.domain_id = domain_id
@@ -294,8 +294,8 @@ Item {
                                 }
                             }
 
-                            function onFilter_domain_view_by_topic_(stack_id, domain_entity_id, topic_id) {
-                                if (domainGraphLayout.component_id == stack_id &&
+                            function onFilter_domain_view_by_topic_(stackId, domain_entity_id, topic_id) {
+                                if (domainGraphLayout.component_id == stackId &&
                                     domainGraphLayout.domain_entity_id == domain_entity_id)
                                 {
                                     domainGraphLayout.filter_model_by_topic(topic_id)
@@ -419,7 +419,7 @@ Item {
                                   vertical_bar.increase()
                                 }
                             }
-                            onPressed: {
+                            onPressed: function(mouse) {
                                 if(mouse.button & Qt.RightButton) {
                                     var start = idl_text.selectionStart
                                     var end = idl_text.selectionEnd
@@ -429,7 +429,6 @@ Item {
                                 }
                             }
                         }
-
                         Menu {
                             id: contextMenu
                             MenuItem {

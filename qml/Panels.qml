@@ -60,8 +60,7 @@ RowLayout {
         id: iconsVBar
         Layout.fillHeight: true
         width: 50
-
-        onIconClicked: {
+                onIconClicked: function(icon) {
             if (panels.showLeftSidebar) {
                 if (leftPanel.visiblePanel === leftPanel.panelItem[icon]) {
                     leftPanel.visiblePanel.visible = false
@@ -134,10 +133,10 @@ RowLayout {
                             }
                         }
                     }
-                    onOpenEntitiesMenu: {
+                    onOpenEntitiesMenu: function(domainEntityId, entityId, currentAlias, entityKind, caller) {
                         panels.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller)
                     }
-                    onOpenTopicMenu: {
+                    onOpenTopicMenu: function(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
                         panels.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
                     }
                     onOpenAlertsMenu: {
