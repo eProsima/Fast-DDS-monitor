@@ -398,7 +398,7 @@ Item {
                     Binding { target: loader.item; property: "rowHeight"; value: root.rowHeight; when: loader.status == Loader.Ready }
                     Binding { target: loader.item; property: "rowPadding"; value: root.rowPadding; when: loader.status == Loader.Ready }
                     Binding { target: loader.item; property: "rowSpacing"; value: root.rowSpacing; when: loader.status == Loader.Ready }
-                    Binding { target: loader.item; property: "fontMetrics"; value: root.selectedItemColor; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "fontMetrics"; value: root.fontMetrics; when: loader.status == Loader.Ready }
                 }
             }
         }

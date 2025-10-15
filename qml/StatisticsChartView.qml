@@ -162,7 +162,7 @@ ChartView {
                 chartViewMouseArea.cursorShape = Qt.ArrowCursor
             }
 
-            onPressed: {
+            onPressed: function(mouse) {
                 if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
                     mouse.accepted = false
                 } else {
@@ -179,7 +179,7 @@ ChartView {
                     manuallySetAxes = true
                 }
             }
-            onMouseXChanged: {
+            onMouseXChanged: function(mouse) {
                 if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                     if (pressedZoom){
                         zoomRect.width = mouseX - zoomRect.x
@@ -189,7 +189,7 @@ ChartView {
                     }
                 }
             }
-            onMouseYChanged: {
+            onMouseYChanged: function(mouse) {
                 if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                     if (pressedZoom){
                         zoomRect.height = mouseY - zoomRect.y
@@ -199,7 +199,7 @@ ChartView {
                     }
                 }
             }
-            onReleased: {
+            onReleased: function(mouse) {
                 if (pressedZoom) {
                     chartView.zoomIn(Qt.rect(zoomRect.x, zoomRect.y, zoomRect.width, zoomRect.height))
                     zoomRect.visible = false

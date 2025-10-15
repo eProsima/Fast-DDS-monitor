@@ -361,15 +361,13 @@ ColumnLayout {
                     anchors.left: parent.left
                     width: parent.width
 
-                    /*
                     QosView {
                         id: qosView
                     }
 
-                    SummaryView {
-                        id: summaryView
-                    }
-                    */
+                    // SummaryView {
+                    //     id: summaryView
+                    // }
                 }
             }
         }

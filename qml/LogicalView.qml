@@ -95,8 +95,8 @@ Rectangle {
                                 }
                             }
                         }
-                        onClicked: {
-                            if(mouse.button & Qt.RightButton) {
+                        onClicked: function(mouse) {
+                            if (mouse.button & Qt.RightButton) {
                                 openEntitiesMenu(domainId, id, name, kind, openMenuCaller.leftPanel)
                             } else {
                                 controller.domain_click(id)
@@ -165,8 +165,8 @@ Rectangle {
                                     anchors.fill: parent
                                     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                                    onClicked: {
-                                        if(mouse.button & Qt.RightButton) {
+                                    onClicked: function(mouse) {
+                                        if (mouse.button & Qt.RightButton) {
                                             openTopicMenu(domainId, domainName, id, name, kind, openMenuCaller.leftPanel)
                                         } else {
                                             controller.topic_click(id)

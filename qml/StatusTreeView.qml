@@ -66,11 +66,13 @@ Flickable {
     property alias selectionEnabled: tree.selectionEnabled
     property alias hoverEnabled: tree.hoverEnabled
 
-    property alias color: tree.color
-    property alias handleColor: tree.handleColor
-    property alias hoverColor: tree.hoverColor
-    property alias selectedColor: tree.selectedColor
-    property alias selectedItemColor: tree.selectedItemColor
+    // Color properties (do not alias to tree to avoid binding loops)
+    property color color: "black"
+    property color hoverColor: "lightgray"
+    // Themeable colors (defaults); avoid aliasing to prevent binding loops
+    property color handleColor: "black"
+    property color selectedColor: "silver"
+    property color selectedItemColor: "black"
 
     property alias rowHeight: tree.rowHeight
     property alias rowPadding: tree.rowPadding
@@ -128,11 +130,6 @@ Flickable {
         childCount: model.rowCount(parentIndex)
 
         itemLeftPadding: 0
-        color: root.color
-        handleColor: root.handleColor
-        hoverColor: root.hoverColor
-        selectedColor: root.selectedColor
-        selectedItemColor: root.selectedItemColor
         defaultIndicator: indicatorToString(handleStyle)
         z: 1
 
@@ -144,6 +141,13 @@ Flickable {
             }
         }
     }
+
+    // Forward theme/color properties to the tree instance (one-way bindings)
+    Binding { target: tree; property: "color"; value: root.color; when: true }
+    Binding { target: tree; property: "handleColor"; value: root.handleColor; when: true }
+    Binding { target: tree; property: "hoverColor"; value: root.hoverColor; when: true }
+    Binding { target: tree; property: "selectedColor"; value: root.selectedColor; when: true }
+    Binding { target: tree; property: "selectedItemColor"; value: root.selectedItemColor; when: true }
 
     Loader {
         id: highlightLoader

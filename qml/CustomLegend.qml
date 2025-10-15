@@ -111,7 +111,7 @@ Rectangle {
                 acceptedButtons: Qt.RightButton | Qt.LeftButton
                 propagateComposedEvents: true
 
-                onClicked: {
+                onClicked: function(mouse) {
                     if (mouse.button === Qt.RightButton) {
                         contextMenu.x = mouse.x;
                         contextMenu.y = mouse.y - contextMenu.contentHeight;

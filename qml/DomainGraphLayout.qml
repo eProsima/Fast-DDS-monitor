@@ -271,9 +271,9 @@ Item
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         hoverEnabled: true
-                        onClicked:
+                        onClicked: function(mouse)
                         {
-                            if(mouse.button & Qt.RightButton) {
+                            if (mouse.button & Qt.RightButton) {
                                 openTopicMenu(domain_entity_id, domain_id, modelData["id"], modelData["alias"], modelData["kind"], panels.openMenuCaller.domainGraph)
                             } else {
                                 controller.topic_click(modelData["id"])
@@ -346,7 +346,7 @@ Item
             }
 
             // Overriding mouse area to scroll horizontally on wheel event
-            MouseArea {
+                MouseArea {
                 anchors.fill: parent
                 preventStealing: true
 
@@ -366,12 +366,12 @@ Item
                         }
                     }
                 }
-                onClicked: mouse.accepted = false;
-                onPressed: mouse.accepted = false;
-                onReleased: mouse.accepted = false;
-                onDoubleClicked: mouse.accepted = false;
-                onPositionChanged: mouse.accepted = false;
-                onPressAndHold: mouse.accepted = false;
+                onClicked: function(mouse) { mouse.accepted = false; }
+                onPressed: function(mouse) { mouse.accepted = false; }
+                onReleased: function(mouse) { mouse.accepted = false; }
+                onDoubleClicked: function(mouse) { mouse.accepted = false; }
+                onPositionChanged: function(mouse) { mouse.accepted = false; }
+                onPressAndHold: function(mouse) { mouse.accepted = false; }
             }
         }
 
@@ -651,9 +651,9 @@ Item
                         {
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            onClicked:
+                            onClicked: function(mouse)
                             {
-                                if(mouse.button & Qt.RightButton) {
+                                if (mouse.button & Qt.RightButton) {
                                     openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"], openMenuCaller.domainGraph)
                                 } else {
                                     controller.host_click(modelData["id"])
@@ -796,9 +796,9 @@ Item
                                 {
                                     anchors.fill: parent
                                     acceptedButtons: Qt.LeftButton | Qt.RightButton
-                                    onClicked:
+                                    onClicked: function(mouse)
                                     {
-                                        if(mouse.button & Qt.RightButton) {
+                                        if (mouse.button & Qt.RightButton) {
                                             openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"], openMenuCaller.domainGraph)
                                         } else {
                                             controller.user_click(modelData["id"])
@@ -940,9 +940,9 @@ Item
                                         {
                                             anchors.fill: parent
                                             acceptedButtons: Qt.LeftButton | Qt.RightButton
-                                            onClicked:
+                                            onClicked: function(mouse)
                                             {
-                                                if(mouse.button & Qt.RightButton) {
+                                                if (mouse.button & Qt.RightButton) {
                                                     openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"], openMenuCaller.domainGraph)
                                                 } else {
                                                     controller.process_click(modelData["id"])
@@ -1135,9 +1135,9 @@ Item
                                                 {
                                                     anchors.fill: parent
                                                     acceptedButtons: Qt.LeftButton | Qt.RightButton
-                                                    onClicked:
+                                                    onClicked: function(mouse)
                                                     {
-                                                        if(mouse.button & Qt.RightButton) {
+                                                        if (mouse.button & Qt.RightButton) {
                                                             openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"], openMenuCaller.domainGraph)
                                                         } else {
                                                             controller.participant_click(modelData["id"])
@@ -1339,9 +1339,9 @@ Item
                                                         {
                                                             anchors.fill: parent
                                                             acceptedButtons: Qt.LeftButton | Qt.RightButton
-                                                            onClicked:
+                                                            onClicked: function(mouse)
                                                             {
-                                                                if(mouse.button & Qt.RightButton) {
+                                                                if (mouse.button & Qt.RightButton) {
                                                                     openEntitiesMenu(domain_entity_id, modelData["id"], modelData["alias"], modelData["kind"], openMenuCaller.domainGraph)
                                                                 } else {
                                                                     controller.endpoint_click(modelData["id"])
