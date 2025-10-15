@@ -82,16 +82,16 @@ RowLayout {
 
     EntitiesMenu {
         id: entitiesMenu
-        onChangeAlias: leftPanel.changeAlias(domainEntityId, entityId, currentAlias, entityKind)
-        onFilterEntityStatusLog: leftPanel.filterEntityStatusLog(entityId)
-        onOpenTopicView: leftPanel.openTopicView(domainEntityId, domainId, topicId)
+        onChangeAlias: function(domainEntityId, entityId, currentAlias, entityKind) { leftPanel.changeAlias(domainEntityId, entityId, currentAlias, entityKind) }
+        onFilterEntityStatusLog: function(entityId) { leftPanel.filterEntityStatusLog(entityId) }
+        onOpenTopicView: function(domainEntityId, domainId, topicId) { leftPanel.openTopicView(domainEntityId, domainId, topicId) }
     }
 
     AlertsMenu {
         id: alertsMenu
         onRemoveAlert: leftPanel.removeAlert(alertsMenu.alertId)
     }
-
+    
     TopicMenu {
         id: topicMenu
     }
