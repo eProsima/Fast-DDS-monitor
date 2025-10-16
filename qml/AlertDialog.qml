@@ -106,6 +106,7 @@ Dialog {
                          ? ("Please choose an alert kind...")
                          : currentText
             model: availableAlertKinds
+            Layout.fillWidth: true
 
             Component.onCompleted: currentIndex = -1
             onActivated: {
@@ -148,6 +149,7 @@ Dialog {
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height
+                Layout.fillWidth: true
                 displayText: currentIndex === -1
                              ? ("Please choose a domain...")
                              : currentText
@@ -173,6 +175,7 @@ Dialog {
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height
+                Layout.fillWidth: true
                 displayText: currentIndex === -1
                              ? ("Please choose a host...")
                              : currentText
@@ -198,6 +201,7 @@ Dialog {
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height
+                Layout.fillWidth: true
                 displayText: currentIndex === -1
                              ? ("Please choose a user...")
                              : currentText
@@ -222,6 +226,7 @@ Dialog {
                 enabled: !manualTopicCheckBox.checked
                 textRole: "nameId"
                 valueRole: "id"
+                Layout.fillWidth: true
                 popup.y: height
                 displayText: currentIndex === -1
                              ? ("Please choose a topic...")
@@ -272,13 +277,14 @@ Dialog {
         Rectangle {
             id: advancedOptionsSubmenu
             color: "transparent"
-
             property bool isExpanded: false
             readonly property int item_height_: alertDialog.item_height_
             readonly property int collapsed_options_box_height_: item_height_
             readonly property int options_box_body_height_: item_height_
             readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 4*options_box_body_height_
+            Layout.columnSpan: 2
 
+            width: parent.width
             Layout.fillWidth: true
             Layout.preferredHeight: isExpanded
                 ? expanded_options_box_height_ + 20
@@ -287,6 +293,9 @@ Dialog {
             Column {
                 anchors.fill: parent
                 spacing: layout_horizontal_spacing_
+                Layout.fillWidth: true
+                width: alertDialog.dialog_width_
+
                 RowLayout {
                     width: parent.width
 
@@ -340,12 +349,13 @@ Dialog {
                     width: parent.width
                     visible: advancedOptionsSubmenu.isExpanded
                     height: advancedOptionsSubmenu.isExpanded ? advancedOptionsSubmenu.item_height_ : 0
-                    // spacing: alertDialog.layout_horizontal_spacing_
+                    Layout.fillWidth: true
 
                     CheckBox {
                         id: manualHostCheckBox
                         text: "Set host name manually"
                         checked: false
+                        Layout.fillWidth: false
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -368,6 +378,7 @@ Dialog {
                         enabled: manualHostCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_host_name"
+                        Layout.fillWidth: true
 
                         background: Rectangle {
                             color: !manualHostCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -382,6 +393,7 @@ Dialog {
                         id: manualUserCheckBox
                         text: "Set user name manually"
                         checked: false
+                        Layout.fillWidth: false
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -404,6 +416,7 @@ Dialog {
                         enabled: manualUserCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_user_name"
+                        Layout.fillWidth: true
 
                         background: Rectangle {
                             color: !manualUserCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -418,6 +431,7 @@ Dialog {
                         id: manualTopicCheckBox
                         text: "Set topic name manually"
                         checked: false
+                        Layout.fillWidth: false
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -440,6 +454,8 @@ Dialog {
                         enabled: manualTopicCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_topic_name"
+                        Layout.fillWidth: true
+
 
                         background: Rectangle {
                             color: !manualTopicCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -450,16 +466,20 @@ Dialog {
                         }
                     }
 
-                    Label {
-                        text: "Script path: "
-                        InfoToolTip {
-                            text: "Path to a script that will be executed when the alert is triggered."
-                        }
-                    }
                     Button {
                         id: browseScriptButton
-                        text: "Browse files"
+                        text: "Add script notifier"
                         onClicked: scriptFileDialog.open()
+                        Layout.fillWidth: false
+
+                    }
+                    TextField {
+                        id: filePathField
+                        text: alertDialog.currentScriptPath
+                        readOnly: true
+                        placeholderText: "No file selected"
+                        implicitWidth: alertNameTextField.width
+                        Layout.fillWidth: true
                     }
                 }
             }
