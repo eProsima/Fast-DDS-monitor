@@ -40,6 +40,7 @@ Dialog {
     property string currentTopic: ""
     property double currentThreshold: 0
     property int currentTimeBetweenAlerts: 5000
+    property string currentScriptPath: ""
 
     modal: false
     title: "Add alert"
@@ -49,7 +50,8 @@ Dialog {
     y: (parent.height - height) / 2
 
     signal createAlert(string alert_name, string domain_name, string host_name, string user_name,
-                    string topic_name, string alert_type, int t_between_triggers, int threshold)
+                    string topic_name, string alert_type, int t_between_triggers, int threshold,
+                    string script_path)
 
     Component.onCompleted: {
         availableAlertKinds = controller.get_alert_kinds()
@@ -70,7 +72,7 @@ Dialog {
         currentTimeBetweenAlerts = alertTimeBetweenAlerts.value
         currentThreshold = parseFloat(alertThreshold.text)
 
-        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold)
+        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold, currentScriptPath)
     }
 
     onAboutToShow: {
@@ -104,6 +106,7 @@ Dialog {
                          ? ("Please choose an alert kind...")
                          : currentText
             model: availableAlertKinds
+            Layout.fillWidth: true
 
             Component.onCompleted: currentIndex = -1
             onActivated: {
@@ -146,6 +149,7 @@ Dialog {
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height
+                Layout.fillWidth: true
                 displayText: currentIndex === -1
                              ? ("Please choose a domain...")
                              : currentText
@@ -171,6 +175,7 @@ Dialog {
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height
+                Layout.fillWidth: true
                 displayText: currentIndex === -1
                              ? ("Please choose a host...")
                              : currentText
@@ -196,6 +201,7 @@ Dialog {
                 textRole: "nameId"
                 valueRole: "id"
                 popup.y: height
+                Layout.fillWidth: true
                 displayText: currentIndex === -1
                              ? ("Please choose a user...")
                              : currentText
@@ -220,6 +226,7 @@ Dialog {
                 enabled: !manualTopicCheckBox.checked
                 textRole: "nameId"
                 valueRole: "id"
+                Layout.fillWidth: true
                 popup.y: height
                 displayText: currentIndex === -1
                              ? ("Please choose a topic...")
@@ -270,13 +277,14 @@ Dialog {
         Rectangle {
             id: advancedOptionsSubmenu
             color: "transparent"
-
             property bool isExpanded: false
             readonly property int item_height_: alertDialog.item_height_
             readonly property int collapsed_options_box_height_: item_height_
             readonly property int options_box_body_height_: item_height_
-            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 3*options_box_body_height_
+            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 4*options_box_body_height_
+            Layout.columnSpan: 2
 
+            width: parent.width
             Layout.fillWidth: true
             Layout.preferredHeight: isExpanded
                 ? expanded_options_box_height_ + 20
@@ -285,6 +293,9 @@ Dialog {
             Column {
                 anchors.fill: parent
                 spacing: layout_horizontal_spacing_
+                Layout.fillWidth: true
+                width: alertDialog.dialog_width_
+
                 RowLayout {
                     width: parent.width
 
@@ -333,18 +344,18 @@ Dialog {
                 GridLayout{
 
                     columns: 2
-                    rows: 3
+                    rows: 4
                     rowSpacing: 20
                     width: parent.width
                     visible: advancedOptionsSubmenu.isExpanded
                     height: advancedOptionsSubmenu.isExpanded ? advancedOptionsSubmenu.item_height_ : 0
-                    // spacing: alertDialog.layout_horizontal_spacing_
-
+                    Layout.fillWidth: true
 
                     CheckBox {
                         id: manualHostCheckBox
                         text: "Set host name manually"
                         checked: false
+                        Layout.fillWidth: false
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -367,7 +378,7 @@ Dialog {
                         enabled: manualHostCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_host_name"
-                        width: 130
+                        Layout.fillWidth: true
 
                         background: Rectangle {
                             color: !manualHostCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -382,6 +393,7 @@ Dialog {
                         id: manualUserCheckBox
                         text: "Set user name manually"
                         checked: false
+                        Layout.fillWidth: false
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -404,7 +416,7 @@ Dialog {
                         enabled: manualUserCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_user_name"
-                        width: 130
+                        Layout.fillWidth: true
 
                         background: Rectangle {
                             color: !manualUserCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -419,6 +431,7 @@ Dialog {
                         id: manualTopicCheckBox
                         text: "Set topic name manually"
                         checked: false
+                        Layout.fillWidth: false
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -441,7 +454,8 @@ Dialog {
                         enabled: manualTopicCheckBox.checked
                         selectByMouse: true
                         placeholderText: "manual_topic_name"
-                        width: 130
+                        Layout.fillWidth: true
+
 
                         background: Rectangle {
                             color: !manualTopicCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
@@ -450,6 +464,22 @@ Dialog {
 
                         onTextChanged: {
                         }
+                    }
+
+                    Button {
+                        id: browseScriptButton
+                        text: "Add script notifier"
+                        onClicked: scriptFileDialog.open()
+                        Layout.fillWidth: false
+
+                    }
+                    TextField {
+                        id: filePathField
+                        text: alertDialog.currentScriptPath
+                        readOnly: true
+                        placeholderText: "No file selected"
+                        implicitWidth: alertNameTextField.width
+                        Layout.fillWidth: true
                     }
                 }
             }
@@ -465,7 +495,6 @@ Dialog {
         onAccepted: alertDialog.open()
         onDiscard: alertDialog.close()
     }
-
 
     MessageDialog {
         id: emptyAlertName
@@ -485,6 +514,26 @@ Dialog {
         text: "The domain field is empty. Please enter a domain."
         onAccepted: alertDialog.open()
         onDiscard: alertDialog.close()
+    }
+
+    FileDialog {
+        id: scriptFileDialog
+        title: "Select a script file"
+        width: 130
+        height: 300
+        nameFilters: [
+            "All files (*)",
+            "Shell scripts (*.sh)",
+            "Python scripts (*.py)",
+            "Batch files (*.bat)",
+            "PowerShell scripts (*.ps1)"
+        ]
+        selectExisting: true
+        folder: Qt.resolvedUrl(".")
+
+        onAccepted: {
+            currentScriptPath = fileUrl
+        }
     }
 
     function checkInputs() {

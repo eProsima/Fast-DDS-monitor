@@ -505,7 +505,8 @@ public:
             const std::string& topic_name,
             const backend::AlertKind& alert_kind,
             double threshold,
-            const std::chrono::milliseconds& t_between_triggers);
+            const std::chrono::milliseconds& t_between_triggers,
+            const std::string& script_path);
 
     //! Remove an alert
     void remove_alert(

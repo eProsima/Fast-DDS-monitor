@@ -342,14 +342,30 @@ void StatisticsBackend::set_alert(
         const std::string& topic_name,
         const AlertKind& alert_kind,
         const double& threshold,
-        const std::chrono::milliseconds& t_between_triggers)
+        const std::chrono::milliseconds& t_between_triggers,
+        const std::string& script_path)
 {
+
+    NotifierId notifier_id = INVALID_NOTIFIER_ID;
+    if (ScriptNotifier::is_valid_script(script_path))
+    {
+        ScriptNotifier script_notifier(script_path);
+        notifier_id = Database::get_instance()->insert_notifier(script_notifier);
+    }
+
     switch (alert_kind)
     {
         case AlertKind::NEW_DATA_ALERT:
         {
             NewDataAlertInfo new_data_alert(alert_name, domain_id, host_name, user_name, topic_name,
                     t_between_triggers);
+
+            if (notifier_id != INVALID_NOTIFIER_ID)
+            {
+                // Setting notifier to the alert
+                new_data_alert.add_notifier(notifier_id);
+            }
+
             Database::get_instance()->insert_alert(new_data_alert);
         }
         break;
@@ -357,6 +373,13 @@ void StatisticsBackend::set_alert(
         {
             NoDataAlertInfo no_data_alert(alert_name, domain_id, host_name, user_name, topic_name, threshold,
                     t_between_triggers);
+
+            if (notifier_id != INVALID_NOTIFIER_ID)
+            {
+                // Setting notifier to the alert
+                no_data_alert.add_notifier(notifier_id);
+            }
+
             Database::get_instance()->insert_alert(no_data_alert);
         }
         break;
