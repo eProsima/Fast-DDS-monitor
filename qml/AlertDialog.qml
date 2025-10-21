@@ -356,6 +356,9 @@ Dialog {
                         text: "Set host name manually"
                         checked: false
                         Layout.fillWidth: false
+                        InfoToolTip {
+                            text: "Set the host name manually. When chosen, the host combo box will be disabled."
+                        }
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -389,7 +392,9 @@ Dialog {
                         text: "Set user name manually"
                         checked: false
                         Layout.fillWidth: false
-
+                        InfoToolTip {
+                            text: "Set the user name manually. When chosen, the user combo box will be disabled."
+                        }
                         indicator: Rectangle {
                             implicitWidth: 16
                             implicitHeight: 16
@@ -422,7 +427,9 @@ Dialog {
                         text: "Set topic name manually"
                         checked: false
                         Layout.fillWidth: false
-
+                        InfoToolTip {
+                            text: "Set the topic name manually. When chosen, the topic combo box will be disabled."
+                        }
                         indicator: Rectangle {
                             implicitWidth: 16
                             implicitHeight: 16
@@ -455,6 +462,9 @@ Dialog {
                         text: "Add script notifier"
                         onClicked: scriptFileDialog.open()
                         Layout.fillWidth: false
+                        InfoToolTip {
+                            text: "The provided script will be executed everytime the alert is triggered."
+                        }
 
                     }
                     TextField {
@@ -464,6 +474,7 @@ Dialog {
                         placeholderText: "No file selected"
                         implicitWidth: alertNameTextField.width
                         Layout.fillWidth: true
+                    }
                 }
             }
         }
