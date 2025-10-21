@@ -105,7 +105,7 @@ public:
             const std::string& data) override;
 
     //! Callback when an alert is unmatched
-    void on_alert_unmatched(
+    void on_alert_timeout(
             EntityId domain_id,
             AlertInfo& alert) override;
 

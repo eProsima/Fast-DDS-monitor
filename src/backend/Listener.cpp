@@ -192,7 +192,7 @@ void Listener::on_alert_triggered(
     engine_->add_callback(callback);
 }
 
-void Listener::on_alert_unmatched(
+void Listener::on_alert_timeout(
         EntityId domain_id,
         AlertInfo& alert)
 {

@@ -379,12 +379,7 @@ Dialog {
                         selectByMouse: true
                         placeholderText: "manual_host_name"
                         Layout.fillWidth: true
-
-                        background: Rectangle {
-                            color: !manualHostCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                            border.color: Theme.grey
-                        }
-
+                        selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
                         }
                     }
@@ -417,12 +412,7 @@ Dialog {
                         selectByMouse: true
                         placeholderText: "manual_user_name"
                         Layout.fillWidth: true
-
-                        background: Rectangle {
-                            color: !manualUserCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                            border.color: Theme.grey
-                        }
-
+                        selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
                         }
                     }
@@ -455,13 +445,7 @@ Dialog {
                         selectByMouse: true
                         placeholderText: "manual_topic_name"
                         Layout.fillWidth: true
-
-
-                        background: Rectangle {
-                            color: !manualTopicCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                            border.color: Theme.grey
-                        }
-
+                        selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
                         }
                     }
@@ -480,7 +464,6 @@ Dialog {
                         placeholderText: "No file selected"
                         implicitWidth: alertNameTextField.width
                         Layout.fillWidth: true
-                    }
                 }
             }
         }
@@ -520,7 +503,7 @@ Dialog {
         id: scriptFileDialog
         title: "Select a script file"
         width: 130
-        height: 300
+        // height: 300
         nameFilters: [
             "All files (*)",
             "Shell scripts (*.sh)",
