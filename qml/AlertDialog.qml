@@ -644,10 +644,28 @@ Dialog {
         }
     }
 
-    function open_with_topic(domain_id, topic_name) {
+    function open_with_topic(domain_id, topic_id) {
         alertDialog.open()
-        advancedOptionsSubmenu.isExpanded = true
-        manualTopicCheckBox.checked = true
-        manualTopicText.text = topic_name
+        selectDomainById(domain_id)
+        selectTopicById(topic_id)
+        regenerateAlertName()
+    }
+
+    function selectDomainById(domainId) {
+        for (let i = 0; i < alertDomainModel.count; i++) {
+            if (alertDomainModel.get(i).id === domainId) {
+                domainComboBox.currentIndex = i
+                return
+            }
+        }
+    }
+
+    function selectTopicById(topicId) {
+        for (let i = 0; i < alertTopicModel.count; i++) {
+            if (alertTopicModel.get(i).id === topicId) {
+                topicComboBox.currentIndex = i
+                return
+            }
+        }
     }
 }
