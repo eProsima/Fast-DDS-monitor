@@ -265,7 +265,7 @@ Dialog {
         }
 
         Label {
-            text: "Threshold (" + thresholdUnits + "): "
+            text: thresholdUnits !== " " ? "Threshold (" + thresholdUnits + "): " : "Threshold: "
             InfoToolTip {
                 text: "Threshold of the throughput under which the alert will start triggering."
             }
@@ -642,5 +642,12 @@ Dialog {
         } else if (topicComboBox.currentIndex > 0) {
             alertNameTextField.text += "_" + abbreviateEntityName(topicComboBox.currentText)
         }
+    }
+
+    function open_with_topic(domain_id, topic_name) {
+        alertDialog.open()
+        advancedOptionsSubmenu.isExpanded = true
+        manualTopicCheckBox.checked = true
+        manualTopicText.text = topic_name
     }
 }

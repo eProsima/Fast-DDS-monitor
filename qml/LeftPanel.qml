@@ -109,6 +109,10 @@ RowLayout {
         aliasDialog.open()
     }
 
+    function openAlertDialogWithTopic(domainEntityId, topicName) {
+        alertDialog.open_with_topic(domainEntityId, topicName)
+    }
+
     function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller) {
         entitiesMenu.domainEntityId = domainEntityId
         entitiesMenu.entityId = entityId

@@ -50,7 +50,7 @@ Menu {
     MenuItem {
         text: "Set Alert"
         onTriggered: {
-            alertDialog.open()
+            openAlertDialogWithTopic(menu.domainEntityId, menu.currentAlias)
         }
     }
 }
