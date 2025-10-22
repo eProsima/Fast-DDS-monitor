@@ -30,6 +30,7 @@ Dialog {
                                            // advanced options submenu (title + options)
     readonly property int dialog_width_: 300 // Width of the dialog
 
+    property bool manual_name_provided: false
     property var availableAlertKinds: []
     property bool activeOk: true
     property string currentKind: ""
@@ -111,6 +112,7 @@ Dialog {
             Component.onCompleted: currentIndex = -1
             onActivated: {
                 activeOk = true
+                regenerateAlertName()
             }
         }
 
@@ -132,7 +134,15 @@ Dialog {
             maximumLength: 100
             Layout.fillWidth: true
 
-            onTextEdited: activeOk = true
+            onTextEdited: {
+                activeOk = true
+                if (alertNameTextField.text !== "") {
+                    manual_name_provided = true
+                }
+                else {
+                    manual_name_provided = false
+                }
+            }
         }
 
         Label {
@@ -184,6 +194,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
@@ -210,6 +221,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
@@ -236,6 +248,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
@@ -374,6 +387,10 @@ Dialog {
                                 anchors.fill: parent
                             }
                         }
+
+                        onCheckedChanged: {
+                            regenerateAlertName()
+                        }
                     }
 
                     TextField {
@@ -384,6 +401,7 @@ Dialog {
                         Layout.fillWidth: true
                         selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
+                            regenerateAlertName()
                         }
                     }
 
@@ -409,6 +427,9 @@ Dialog {
                                 anchors.fill: parent
                             }
                         }
+                        onCheckedChanged: {
+                            regenerateAlertName()
+                        }
                     }
 
                     TextField {
@@ -419,6 +440,7 @@ Dialog {
                         Layout.fillWidth: true
                         selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
+                            regenerateAlertName()
                         }
                     }
 
@@ -444,6 +466,9 @@ Dialog {
                                 anchors.fill: parent
                             }
                         }
+                        onCheckedChanged: {
+                            regenerateAlertName()
+                        }
                     }
 
                     TextField {
@@ -454,6 +479,7 @@ Dialog {
                         Layout.fillWidth: true
                         selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
+                            regenerateAlertName()
                         }
                     }
 
@@ -572,11 +598,22 @@ Dialog {
     }
 
     function regenerateAlertName(){
+
+        if (manual_name_provided === true) {
+            // User has modified the alert name, do not auto-generate
+            return
+        }
+
         alertNameTextField.text = ""
+
+        if (alertKindComboBox.currentIndex !== -1) {
+            alertNameTextField.text += alertKindComboBox.currentText
+        }
+
         if (manualHostCheckBox.checked && manualHostText.text !== "") {
-            alertNameTextField.text += abbreviateEntityName(manualHostText.text)
+            alertNameTextField.text += "_" + abbreviateEntityName(manualHostText.text)
         } else if (hostComboBox.currentIndex !== -1) {
-            alertNameTextField.text += abbreviateEntityName(hostComboBox.currentText)
+            alertNameTextField.text += "_" +abbreviateEntityName(hostComboBox.currentText)
         }
 
         if (manualUserCheckBox.checked && manualUserText.text !== "") {
@@ -589,10 +626,6 @@ Dialog {
             alertNameTextField.text += "_" + abbreviateEntityName(manualTopicText.text)
         } else if (topicComboBox.currentIndex !== -1) {
             alertNameTextField.text += "_" + abbreviateEntityName(topicComboBox.currentText)
-        }
-
-        if (alertKindComboBox.currentIndex !== -1) {
-            alertNameTextField.text += "_" + alertKindComboBox.currentText
         }
     }
 }
