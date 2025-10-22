@@ -70,7 +70,7 @@ Dialog {
         currentHost = manualHostCheckBox.checked ? manualHostText.text : hostComboBox.currentText
         currentUser = manualUserCheckBox.checked ? manualUserText.text : userComboBox.currentText
         currentTopic = manualTopicCheckBox.checked ? manualTopicText.text : topicComboBox.currentText
-        currentTimeBetweenAlerts = alertTimeBetweenAlerts.value
+        currentTimeBetweenAlerts = parseInt(alertTimeBetweenAlerts.text)
         currentThreshold = parseFloat(alertThreshold.text)
 
         createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold, currentScriptPath)
@@ -266,10 +266,12 @@ Dialog {
                 target: alertKindComboBox
                 onCurrentTextChanged: {
                     if (alertKindComboBox.currentText === "NEW_DATA") {
-                        alertThreshold.text = "0"
+                        alertThreshold.text = "0.000"
                     }
                 }
             }
+            validator: DoubleValidator { bottom: 0.000; top: 999999.000; decimals: 3}
+            Layout.fillWidth: true
         }
 
         Label {
@@ -278,13 +280,11 @@ Dialog {
                 text: "Minimum time between two consecutive alerts."
             }
         }
-        SpinBox {
+        TextField {
             id: alertTimeBetweenAlerts
-            editable: true
-            from: 0
-            to: 10000
-            stepSize: 50
-            value: 5000
+            text: "5000"
+            validator: IntValidator { bottom: 0; top: 999999; }
+            Layout.fillWidth: true
         }
 
         Rectangle {
@@ -563,6 +563,10 @@ Dialog {
         }
         if (alertNameTextField.text === "") {
             emptyAlertName.open()
+            return false
+        }
+        if (domainComboBox.currentIndex === -1) {
+            emptyAlertDomain.open()
             return false
         }
         if (domainComboBox.currentIndex === -1) {
