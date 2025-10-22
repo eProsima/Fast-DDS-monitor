@@ -39,6 +39,7 @@ Dialog {
     property string currentHost: ""
     property string currentUser: ""
     property string currentTopic: ""
+    property string thresholdUnits: ""
     property double currentThreshold: 0
     property int currentTimeBetweenAlerts: 5000
     property string currentScriptPath: ""
@@ -113,6 +114,13 @@ Dialog {
             onActivated: {
                 activeOk = true
                 regenerateAlertName()
+                if (currentText === "NO_DATA") {
+                    alertDialog.thresholdUnits = "bytes/sec"
+                } else if (currentText === "NEW_DATA") {
+                    alertDialog.thresholdUnits = "# of data fragments"
+                } else {
+                    alertDialog.thresholdUnits = ""
+                }
             }
         }
 
@@ -253,7 +261,7 @@ Dialog {
         }
 
         Label {
-            text: "Threshold: "
+            text: "Threshold (" + thresholdUnits + "): "
             InfoToolTip {
                 text: "Threshold of the throughput under which the alert will start triggering."
             }
