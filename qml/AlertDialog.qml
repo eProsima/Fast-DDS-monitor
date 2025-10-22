@@ -84,6 +84,10 @@ Dialog {
         hostComboBox.currentIndex = 0
         topicComboBox.currentIndex = 0
         userComboBox.currentIndex = 0
+        manualHostText.text = ""
+        manualUserText.text = ""
+        manualTopicText.text = ""
+        filePathField.text = ""
         updateDomains()
         updateTopics()
         updateUsers()
