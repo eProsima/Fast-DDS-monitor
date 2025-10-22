@@ -81,9 +81,9 @@ Dialog {
         alertKindComboBox.currentIndex = -1
         alertNameTextField.text = ""
         domainComboBox.currentIndex = -1
-        hostComboBox.currentIndex = -1
-        topicComboBox.currentIndex = -1
-        userComboBox.currentIndex = -1
+        hostComboBox.currentIndex = 0
+        topicComboBox.currentIndex = 0
+        userComboBox.currentIndex = 0
         updateDomains()
         updateTopics()
         updateUsers()
@@ -276,6 +276,9 @@ Dialog {
                     if (alertKindComboBox.currentText === "NEW_DATA") {
                         alertThreshold.text = "0.000"
                     }
+                    if (alertKindComboBox.currentText === "NO_DATA") {
+                        alertThreshold.text = "500.000"
+                    }
                 }
             }
             validator: DoubleValidator { bottom: 0.000; top: 999999.000; decimals: 3}
@@ -405,7 +408,7 @@ Dialog {
                         id: manualHostText
                         enabled: manualHostCheckBox.checked
                         selectByMouse: true
-                        placeholderText: "manual_host_name"
+                        placeholderText: "host_name"
                         Layout.fillWidth: true
                         selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
@@ -444,7 +447,7 @@ Dialog {
                         id: manualUserText
                         enabled: manualUserCheckBox.checked
                         selectByMouse: true
-                        placeholderText: "manual_user_name"
+                        placeholderText: "user_name"
                         Layout.fillWidth: true
                         selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
@@ -483,7 +486,7 @@ Dialog {
                         id: manualTopicText
                         enabled: manualTopicCheckBox.checked
                         selectByMouse: true
-                        placeholderText: "manual_topic_name"
+                        placeholderText: "topic_name"
                         Layout.fillWidth: true
                         selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
@@ -577,10 +580,6 @@ Dialog {
             emptyAlertDomain.open()
             return false
         }
-        if (domainComboBox.currentIndex === -1) {
-            emptyAlertDomain.open()
-            return false
-        }
 
         return true
     }
@@ -624,19 +623,19 @@ Dialog {
 
         if (manualHostCheckBox.checked && manualHostText.text !== "") {
             alertNameTextField.text += "_" + abbreviateEntityName(manualHostText.text)
-        } else if (hostComboBox.currentIndex !== -1) {
+        } else if (hostComboBox.currentIndex > 0) {
             alertNameTextField.text += "_" +abbreviateEntityName(hostComboBox.currentText)
         }
 
         if (manualUserCheckBox.checked && manualUserText.text !== "") {
             alertNameTextField.text += "_" + abbreviateEntityName(manualUserText.text)
-        } else if (userComboBox.currentIndex !== -1) {
+        } else if (userComboBox.currentIndex > 0) {
             alertNameTextField.text += "_" + abbreviateEntityName(userComboBox.currentText)
         }
 
         if (manualTopicCheckBox.checked && manualTopicText.text !== "") {
             alertNameTextField.text += "_" + abbreviateEntityName(manualTopicText.text)
-        } else if (topicComboBox.currentIndex !== -1) {
+        } else if (topicComboBox.currentIndex > 0) {
             alertNameTextField.text += "_" + abbreviateEntityName(topicComboBox.currentText)
         }
     }

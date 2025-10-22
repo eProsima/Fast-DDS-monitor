@@ -907,6 +907,7 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertDomain")
     {
         alert_domain_id_model_->clear();
+        // Adding empty option
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_domain_id_model_,
             backend::EntityKind::DOMAIN,
@@ -917,6 +918,9 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertHost")
     {
         alert_host_id_model_->clear();
+        EntityInfo json_obj;
+        json_obj["name"] = "ALL";
+        alert_host_id_model_->appendRow(new models::EntityItem(backend::EntityId::all(), entity_kind, json_obj));
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_host_id_model_,
             backend::EntityKind::HOST,
@@ -927,6 +931,9 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertUser")
     {
         alert_user_id_model_->clear();
+        EntityInfo json_obj;
+        json_obj["name"] = "ALL";
+        alert_user_id_model_->appendRow(new models::EntityItem(backend::EntityId::all(), entity_kind, json_obj));
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_user_id_model_,
             backend::EntityKind::USER,
@@ -937,6 +944,9 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertTopic")
     {
         alert_topic_id_model_->clear();
+        EntityInfo json_obj;
+        json_obj["name"] = "ALL";
+        alert_topic_id_model_->appendRow(new models::EntityItem(backend::EntityId::all(), entity_kind, json_obj));
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_topic_id_model_,
             backend::EntityKind::TOPIC,
