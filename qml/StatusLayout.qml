@@ -39,6 +39,7 @@ Item
 
     // Private properties
     property bool filter_visible_: false
+    property bool alert_icon_state: false
 
     // Private signals
     signal focus_entity_(int entityId)
@@ -336,15 +337,15 @@ Item
             anchors.left: warning_value.right
             anchors.leftMargin: elements_spacing_
             anchors.verticalCenter: parent.verticalCenter
-            name: "alert"
+            name: alert_icon_state > 0 ? "alert_on" : "alert_off"
             size: parent.height - elements_spacing_
-        }
-        Label {
-            id: alert_value
-            anchors.left: alert_icon.right
-            anchors.leftMargin: elements_spacing_/2
-            anchors.verticalCenter: parent.verticalCenter
-            text: "0"
+            Connections {
+                target: alertMessageModel
+                function onUpdatedData() {
+                    // Re-evaluate manually when model changes
+                    alert_icon_state = alertMessageModel.rowCount() > 0 ? true : false
+                }
+            }
         }
 
         Connections
@@ -361,7 +362,7 @@ Item
             onClicked: {
                 if (current_status === StatusLayout.Status.Collapsed)
                 {
-                   close_status_layout()
+                    close_status_layout()
                 }
                 else
                 {
