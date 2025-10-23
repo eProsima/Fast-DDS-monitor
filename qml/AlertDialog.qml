@@ -89,6 +89,7 @@ Dialog {
         manualUserText.text = ""
         manualTopicText.text = ""
         filePathField.text = ""
+        thresholdUnits = ""
         updateDomains()
         updateTopics()
         updateUsers()
@@ -266,7 +267,7 @@ Dialog {
         }
 
         Label {
-            text: thresholdUnits !== " " ? "Threshold (" + thresholdUnits + "): " : "Threshold: "
+            text: thresholdUnits !== "" ? "Threshold (" + thresholdUnits + "): " : "Threshold: "
             InfoToolTip {
                 text: "Threshold of the throughput under which the alert will start triggering."
             }
@@ -277,7 +278,7 @@ Dialog {
             enabled: alertKindComboBox.currentText !== "NEW_DATA"
             Connections {
                 target: alertKindComboBox
-                onCurrentTextChanged: {
+                function onCurrentTextChanged() {
                     if (alertKindComboBox.currentText === "NEW_DATA") {
                         alertThreshold.text = "0.000"
                     }
