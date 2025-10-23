@@ -50,6 +50,7 @@ Dialog {
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
+    height: implicitHeight
 
     signal createAlert(string alert_name, string domain_name, string host_name, string user_name,
                     string topic_name, string alert_type, int t_between_triggers, int threshold,
@@ -309,14 +310,14 @@ Dialog {
             readonly property int item_height_: alertDialog.item_height_
             readonly property int collapsed_options_box_height_: item_height_
             readonly property int options_box_body_height_: item_height_
-            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 4*options_box_body_height_
+            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 5*options_box_body_height_
             Layout.columnSpan: 2
 
             width: parent.width
             Layout.fillWidth: true
             Layout.preferredHeight: isExpanded
-                ? expanded_options_box_height_ + 20
-                : collapsed_options_box_height_ + 20
+                ? expanded_options_box_height_
+                : collapsed_options_box_height_
 
             Column {
                 anchors.fill: parent
