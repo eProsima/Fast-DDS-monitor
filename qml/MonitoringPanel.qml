@@ -32,6 +32,9 @@ ColumnLayout {
     readonly property int logo_width_: 1080
     readonly property int max_logo_width_: 300
     readonly property int logo_margin_: 10
+    // Default height each SplitView section requests initially; avoids binding
+    // preferred sizes to parent height, which can create circular dependencies.
+    readonly property int default_split_section_height_: 220
 
     signal explorerDDSEntitiesChanged(bool status)
     signal explorerPhysicalChanged(bool status)
@@ -164,12 +167,13 @@ ColumnLayout {
         Layout.fillWidth: true
 
         SplitView {
+            id: mainSplit
             orientation: Qt.Vertical
             anchors.fill: parent
 
             ColumnLayout {
                 id: entityListLayout
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: entityListTitle.height
                 spacing: 10
                 visible: true
@@ -204,7 +208,7 @@ ColumnLayout {
             ColumnLayout {
                 id: physicalViewLayout
                 SplitView.fillHeight: true
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: physicalViewTitle.height
                 spacing: 10
                 visible: false
@@ -238,7 +242,7 @@ ColumnLayout {
 
             ColumnLayout {
                 id: logicalViewLayout
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: logicalViewTitle.height
                 spacing: 10
                 visible: false
@@ -274,7 +278,7 @@ ColumnLayout {
                 id: entityInfo
                 visible: true
                 SplitView.fillHeight: true
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: infoTabBar.height
                 clip: true
 
@@ -283,6 +287,7 @@ ColumnLayout {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     width: parent.width
+                    currentIndex: 0
                     TabButton {
                         text: qsTr("Info")
                     }
@@ -354,19 +359,26 @@ ColumnLayout {
                     }
                 }
 
-                StackLayout {
-                    currentIndex: infoTabBar.currentIndex
+                Item {
+                    id: infoStackItem
                     anchors.top: infoSelectedEntity.bottom
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
-                    width: parent.width
+                    anchors.right: parent.right
 
+                    // Show/hide children based on the TabBar's currentIndex to
+                    // avoid using a Layout-managed container which may create
+                    // circular size dependencies with anchored children.
                     QosView {
                         id: qosView
                     }
 
+                    // SummaryView could be added here and shown when
+                    // infoTabBar.currentIndex === 1
                     // SummaryView {
                     //     id: summaryView
+                    //     anchors.fill: parent
+                    //     visible: infoTabBar.currentIndex === 1
                     // }
                 }
             }
