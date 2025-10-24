@@ -125,7 +125,7 @@ Item {
             IconSVG {
                 id: close_icon
                 name: "cross"
-                size: parent.height
+                size: parent.height - 3
                 MouseArea {
                     anchors.fill: parent
                     onClicked: close_status_layout()
