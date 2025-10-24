@@ -73,16 +73,16 @@ QVariant TreeModel::data(
         return QVariant();
     }
 
-    TreeItem* child_item = get_item(index);
+    TreeItem* item = get_item(index);
 
-    if (child_item != nullptr)
+    if (item != nullptr)
     {
         switch (role)
         {
             case treeModelNameRole:
-                return child_item->get_item_name();
+                return item->get_item_name();
             case treeModelValueRole:
-                return child_item->get_item_value();
+                return item->get_item_value();
             default:
                 return QVariant();
         }
@@ -248,6 +248,9 @@ void TreeModel::setup_model_data(
                 last_child = true;
             }
         }
+        else {
+            data << QString();
+        }
 
         TreeItem* current_child = new TreeItem(data, parent);
         if (!last_child)
@@ -260,13 +263,6 @@ void TreeModel::setup_model_data(
 
 
         last_child = false;
-    }
-
-    // Add a final void element to avoid TreeView collapse fail
-    if (_first)
-    {
-        TreeItem* empty_child = new TreeItem(data, parent);
-        parent->append_child(empty_child);
     }
 }
 
