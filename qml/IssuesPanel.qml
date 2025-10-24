@@ -53,13 +53,11 @@ ColumnLayout {
         Layout.fillWidth: true
         spacing: 0
 
-        /*
         IssueView {
             id: issueView
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
         }
-        */
     }
 }
