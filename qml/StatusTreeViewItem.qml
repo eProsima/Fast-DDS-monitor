@@ -96,16 +96,20 @@ Item {
         implicitWidth: 20
         implicitHeight: 20
         Layout.leftMargin: parent.spacing
-        rotation: currentRow.expanded ? 90 : 0
+        // 'collapse' icon points DOWN by default
+        // We want: expanded -> down (0deg), collapsed -> right (-90deg)
+        rotation: currentRow.expanded ? 0 : -90
         opacity: currentRow.hasChildren
         color: "transparent"
 
-        Text {
+        // Smooth rotation when toggling
+        Behavior on rotation { NumberAnimation { duration: 100; easing.type: Easing.OutQuart } }
+
+        IconSVG {
             anchors.centerIn: parent
-            text: defaultIndicator
-            font: root.font
-            antialiasing: true
-            color: currentRow.isSelectedIndex ? root.selectedItemColor : root.handleColor
+            name: "collapse"
+            color: "grey"
+            size: 10
         }
     }
 
