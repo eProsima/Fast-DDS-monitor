@@ -17,16 +17,16 @@
 
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtQml.Models
 
 import Theme 1.0
 
 Item {
     id: qos_view
-    // Fill the parent Item in MonitoringPanel. MonitoringPanel now uses a
-    // plain Item to host this view (not a Layout-managed container), so using
-    // anchors is safe and avoids layout recursion.
-    anchors.fill: parent
+    // This item is managed by a StackLayout in MonitoringPanel, so use Layout.*
+    Layout.fillWidth: true
+    Layout.fillHeight: true
     // Column width properties used by header and delegate
 
     TreeView {
@@ -85,6 +85,8 @@ Item {
 
             readonly property real indentation: 20
             readonly property real padding: 5
+            // Wider gutter on the left side of column 1 to ease grabbing the resize handle
+            readonly property real gutter: 10
 
             // Assigned to by TreeView:
             required property TreeView treeView
@@ -147,7 +149,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: (column === 0)
                                       ? (padding + (isTreeNode ? (depth + 1) * indentation : 0))
-                                      : padding
+                                      : gutter
                 clip: true
                 readOnly: true
                 selectByMouse: true

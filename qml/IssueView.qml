@@ -17,45 +17,143 @@
 
 import QtQuick
 import QtQuick.Controls
-
-import QtQuick.Window
+import QtQuick.Layouts
+import QtQml.Models
+import Theme 1.0
 
 Item {
     id: issueView
-    visible: true
+    // Likely hosted within a Layout container -> use Layout.* rather than anchors on root
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
     TreeView {
-        id: issue_tree_view
+        id: treeView
         anchors.fill: parent
+        clip: true
+        resizableColumns: true
+        boundsBehavior: Flickable.StopAtBounds
+
         model: issueModel
-        selectionMode: SelectionMode.NoSelection
-        frameVisible: false
-        itemDelegate: Item {
-            Text {
-                anchors.fill: parent
-                elide: styleData.elideMode
-                text: styleData.value
+
+        ScrollBar.vertical: CustomScrollBar {}
+        ScrollBar.horizontal: CustomScrollBar {}
+
+        Component.onCompleted: {
+            Qt.callLater(function () {
+                treeView.expandRecursively()
+            })
+        }
+
+        // Debounced resize of the Value column (column 1) to fill remaining space
+        Timer {
+            id: valueColTimer
+            interval: 0
+            running: false
+            repeat: false
+            onTriggered: treeView.applyValueColumnWidth()
+        }
+
+        function updateValueColumnWidth() {
+            // Schedule for next tick to avoid re-entrant polish loops
+            valueColTimer.start()
+        }
+
+        function applyValueColumnWidth() {
+            treeView.setColumnWidth(1, issueView.width - treeView.columnWidth(0))
+        }
+
+        onWidthChanged: updateValueColumnWidth()
+        // This is a TreeView property signal; in case it fires during polish, debounce avoids loops
+        onLayoutChanged: updateValueColumnWidth()
+
+        Connections {
+            target: treeView.model
+            function onUpdatedData() {
+                Qt.callLater(function () { treeView.expandRecursively() })
             }
         }
 
-        TableViewColumn {
-            width: parent.width / 2
-            role: "name"
-            title: "Name"
-        }
+        // Bind selection model to the same model so selection works reliably
+        selectionModel: ItemSelectionModel { model: treeView.model }
 
-        TableViewColumn {
-            width: parent.width / 2
-            role: "value"
-            title: "Value"
-        }
+        delegate: Item {
+            implicitWidth: column === 0 ? issueView.width / 2 : issueView.width - treeView.columnWidth(0)
+            implicitHeight: label.implicitHeight * 1.05
 
-        Component.onCompleted: leftPanel.expandAll(issue_tree_view, issueModel)
+            readonly property real indentation: 20
+            readonly property real padding: 5
+            // Wider gutter on the left of column 1 to make the resize handle easy to grab
+            readonly property real gutter: 10
 
-        Connections {
-            target: issueModel
-            function onUpdatedData() {
-                leftPanel.expandAll(issue_tree_view, issueModel)
+            // Assigned to by TreeView:
+            required property TreeView treeView
+            required property bool isTreeNode
+            required property bool expanded
+            required property bool hasChildren
+            required property int depth
+            required property int row
+            required property int column
+            required property bool current
+
+            // Rotate indicator when expanded by the user
+            property Animation indicatorAnimation: NumberAnimation {
+                target: indicator
+                property: "rotation"
+                from: expanded ? -90 : 0
+                to: expanded ? 0 : -90
+                duration: 100
+                easing.type: Easing.OutQuart
+            }
+            TableView.onPooled: indicatorAnimation.complete()
+            TableView.onReused: if (current) indicatorAnimation.start()
+            onExpandedChanged: indicator.rotation = expanded ? 0 : -90
+
+            Rectangle {
+                id: background
+                anchors.fill: parent
+                color: (treeView.alternatingRows && row % 2 !== 0) ? Theme.whiteSmoke : "white"
+            }
+
+            IconSVG {
+                id: indicator
+                x: padding + (column === 0 ? (depth * indentation) : 0)
+                anchors.verticalCenter: parent.verticalCenter
+                visible: column === 0 && isTreeNode && hasChildren
+                name: "collapse"
+                color: "grey"
+                size: 10
+
+                TapHandler {
+                    onSingleTapped: {
+                        let index = treeView.index(row, column)
+                        treeView.selectionModel.setCurrentIndex(index, ItemSelectionModel.NoUpdate)
+                        treeView.toggleExpanded(row)
+                    }
+                }
+            }
+
+            // Selectable, read-only text for each cell
+            TextInput {
+                id: label
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: (column === 0)
+                                      ? (padding + (isTreeNode ? (depth + 1) * indentation : 0))
+                                      : gutter
+                clip: true
+                readOnly: true
+                selectByMouse: true
+                echoMode: TextInput.Normal
+                selectionColor: Theme.eProsimaLightBlue
+                focus: false
+                text: {
+                    if (column === 0 && typeof model.name !== 'undefined' && model.name !== null)
+                        return String(model.name)
+                    if (column === 1 && typeof model.value !== 'undefined' && model.value !== null)
+                        return String(model.value)
+                    return ""
+                }
             }
         }
     }

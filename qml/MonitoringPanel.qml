@@ -359,27 +359,20 @@ ColumnLayout {
                     }
                 }
 
-                Item {
-                    id: infoStackItem
+                StackLayout {
+                    currentIndex: infoTabBar.currentIndex
                     anchors.top: infoSelectedEntity.bottom
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
-                    anchors.right: parent.right
+                    width: parent.width
 
-                    // Show/hide children based on the TabBar's currentIndex to
-                    // avoid using a Layout-managed container which may create
-                    // circular size dependencies with anchored children.
                     QosView {
                         id: qosView
                     }
 
-                    // SummaryView could be added here and shown when
-                    // infoTabBar.currentIndex === 1
-                    // SummaryView {
-                    //     id: summaryView
-                    //     anchors.fill: parent
-                    //     visible: infoTabBar.currentIndex === 1
-                    // }
+                    SummaryView {
+                        id: summaryView
+                    }
                 }
             }
         }

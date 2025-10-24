@@ -69,7 +69,6 @@ ColumnLayout {
             Layout.alignment: Qt.AlignTop
             Layout.fillHeight: true
 
-            /*
             StatusView {
                 id: statusView
             }
@@ -77,7 +76,6 @@ ColumnLayout {
             LogView {
                 id: logView
             }
-            */
         }
     }
 }
