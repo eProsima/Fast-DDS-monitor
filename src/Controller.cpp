@@ -321,6 +321,7 @@ void Controller::set_alert(
         QString alert_type,
         double threshold,
         int time_between_triggers,
+        int alert_timeout,
         QString script_path)
 {
     std::string clean_host_name = clean_entity_name(utils::to_string(host_name));
@@ -337,6 +338,7 @@ void Controller::set_alert(
             backend::string_to_alert_kind(alert_type),
             threshold,
             std::chrono::milliseconds(time_between_triggers),
+            std::chrono::milliseconds(alert_timeout),
             clean_script_path);
 }
 

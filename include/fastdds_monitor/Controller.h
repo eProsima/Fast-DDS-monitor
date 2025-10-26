@@ -242,6 +242,7 @@ public slots:
             QString alert_type,
             double threshold,
             int time_between_triggers,
+            int alert_timeout,
             QString script_path);
 
     //! Removes an alert

@@ -42,6 +42,7 @@ Dialog {
     property string thresholdUnits: ""
     property double currentThreshold: 0
     property int currentTimeBetweenAlerts: 5000
+    property int currentAlertTimeout: 7000
     property string currentScriptPath: ""
 
     modal: false
@@ -54,7 +55,7 @@ Dialog {
 
     signal createAlert(string alert_name, string domain_name, string host_name, string user_name,
                     string topic_name, string alert_type, int t_between_triggers, int threshold,
-                    string script_path)
+                    int alert_timeout, string script_path)
 
     Component.onCompleted: {
         availableAlertKinds = controller.get_alert_kinds()
@@ -73,9 +74,11 @@ Dialog {
         currentUser = manualUserCheckBox.checked ? manualUserText.text : userComboBox.currentText
         currentTopic = manualTopicCheckBox.checked ? manualTopicText.text : topicComboBox.currentText
         currentTimeBetweenAlerts = parseInt(alertTimeBetweenAlerts.text)
+        currentAlertTimeout = parseInt(alertTimeout.text)
         currentThreshold = parseFloat(alertThreshold.text)
 
-        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold, currentScriptPath)
+        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts,
+                    currentThreshold, currentAlertTimeout, currentScriptPath)
     }
 
     onAboutToShow: {
@@ -300,6 +303,20 @@ Dialog {
         TextField {
             id: alertTimeBetweenAlerts
             text: "5000"
+            validator: IntValidator { bottom: 0; top: 999999; }
+            Layout.fillWidth: true
+        }
+
+        Label {
+            text: "Alert timeout (ms): "
+            InfoToolTip {
+                text: "Time before the alert reports a timeout message."
+            }
+        }
+        TextField {
+            id: alertTimeout
+            enabled: alertKindComboBox.currentText !== "NEW_DATA"
+            text: "10000"
             validator: IntValidator { bottom: 0; top: 999999; }
             Layout.fillWidth: true
         }

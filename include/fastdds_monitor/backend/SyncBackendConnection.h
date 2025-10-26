@@ -880,6 +880,7 @@ public:
             const backend::AlertKind& alert_kind,
             double threshold,
             const std::chrono::milliseconds& t_between_triggers,
+            const std::chrono::milliseconds& alert_timeout,
             const std::string& script_path);
 
     //! Remove an alert in backend
