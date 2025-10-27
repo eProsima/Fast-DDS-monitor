@@ -128,6 +128,13 @@ ApplicationWindow {
         }
     }
 
+    AlertsSettingsDialog {
+        id: alertsSettingsDialog
+        onSetAlertsPollingTime: {
+            controller.set_alerts_polling_time(pollingTime)
+        }
+    }
+
     ScheduleClearDialog {
         id: scheduleClear
     }

@@ -348,6 +348,13 @@ void Controller::remove_alert(
     engine_->remove_alert(backend::alert_models_id_to_backend_id(id));
 }
 
+void Controller::set_alerts_polling_time(
+            int polling_time)
+{
+    engine_->set_alerts_polling_time(std::chrono::milliseconds(polling_time));
+}
+
+
 QString Controller::get_data_kind_units(
         QString data_kind)
 {

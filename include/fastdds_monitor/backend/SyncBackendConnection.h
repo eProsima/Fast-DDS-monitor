@@ -887,6 +887,10 @@ public:
     void remove_alert(
             const backend::AlertId& id);
 
+    //! Set the alerts polling time
+    void set_alerts_polling_time(
+            const std::chrono::milliseconds& polling_time);
+
 protected:
 
     ListModel* get_model_(

@@ -17,6 +17,7 @@
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/AdaptiveMenu.qml</file>
         <file>qml/AlertDialog.qml</file>
+        <file>qml/AlertsSettingsDialog.qml</file>
         <file>qml/AlertList.qml</file>
         <file>qml/AlertsMenu.qml</file>
         <file>qml/AlertsPanel.qml</file>

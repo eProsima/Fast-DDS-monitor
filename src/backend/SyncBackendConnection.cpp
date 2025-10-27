@@ -1347,6 +1347,20 @@ void SyncBackendConnection::remove_alert(
     }
 }
 
+void SyncBackendConnection::set_alerts_polling_time(
+            const std::chrono::milliseconds& polling_time)
+{
+    try
+    {
+        StatisticsBackend::set_alerts_polling_time(polling_time);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail setting alerts polling time";
+        static_cast<void>(e);
+    }
+}
+
 bool SyncBackendConnection::update_host(
         models::ListModel* physical_model,
         EntityId id,

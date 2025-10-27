@@ -1972,6 +1972,12 @@ void Engine::remove_alert(
     clear_alert_summary_();
 }
 
+void Engine::set_alerts_polling_time(
+            const std::chrono::milliseconds& polling_time)
+{
+    backend_connection_.set_alerts_polling_time(polling_time);
+}
+
 bool Engine::update_entity(
         const backend::EntityId& entity_updated,
         bool (Engine::* update_function)(const backend::EntityId&, bool, bool),

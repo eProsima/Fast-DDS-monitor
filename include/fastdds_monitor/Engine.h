@@ -513,6 +513,10 @@ public:
     void remove_alert(
             const backend::AlertId& id);
 
+    //! Set the alerts polling time
+    void set_alerts_polling_time(
+            const std::chrono::milliseconds& polling_time);
+
     /**
      * This methods updates the info and summary if the entity clicked (the entity that is being shown) is the
      * entity updated.
