@@ -110,17 +110,8 @@ Item {
         Row {
             id: buttonContainer
             spacing: spyView.elements_spacing_
-            anchors.top: parent.top; anchors.topMargin: 10
-            anchors.right: parent.right; anchors.rightMargin: 10
-
-            // TODO (Carlosspicur): Add button icons
-            Button {
-                id: copyButton
-                text: "⧉"
-                onClicked: {
-                    console.log("Copy button clicked")
-                }
-            }
+            anchors.top: parent.top; anchors.topMargin: spyView.elements_spacing_
+            anchors.right: parent.right; anchors.rightMargin: spyView.elements_spacing_
 
             Button {
                 id: pausePlayButton
