@@ -420,7 +420,8 @@ If the alert type is *NO_DATA*, the alert will be triggered when a `PUBLICATION_
 the fields `host`, `user` and `topic` and its value is lower than `threshold`.
 
 If a timeout period is defined, the alert will trigger a timeout message with this periodicity. `NEW_DATA` alerts don't support timeout due to
-their event-driven nature.
+their event-driven nature. However, the user can define a more relaxed polling time to collect timeout messages in the `Edit->Alerts Configuration` option
+from the upper menu.
 
 Finally, if a script is provided, it will be executed every time the alert is triggered. Note that the script must have executable permissions in the
 host OS.

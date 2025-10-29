@@ -126,6 +126,13 @@ Scheduler Configuration
 Prompts a dialogue box allowing to create a schedule to dump the database to a file, remove old data and/or remove
 inactive entities at a specified interval.
 
+.. _alerts_configuration:
+
+Alerts Configuration
+--------------------
+
+Prompts a dialogue box allowing to edit the notification and alert system settings.
+
 .. _refresh_button:
 
 Refresh
