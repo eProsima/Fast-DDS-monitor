@@ -594,7 +594,7 @@ bool Engine::clear_alert_summary_()
 
 bool Engine::fill_alert_message_()
 {
-    alert_message_model_->update_without_collapse(alert_message_info_);
+    alert_message_model_->update_without_clean(alert_message_info_);
     return true;
 }
 
