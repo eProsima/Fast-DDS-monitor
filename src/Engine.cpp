@@ -446,8 +446,6 @@ void Engine::start_topic_spy(
         backend_connection_.start_topic_spy(it.value(), utils::to_string(topic_name),
                 [&](const std::string& data)
                 {
-                    // PLACEHOLDER:
-                    std::cout << " Data: " << data << std::endl;
                     UserDataInfo json_data;
 
                     try
