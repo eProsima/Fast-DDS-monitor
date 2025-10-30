@@ -31,7 +31,7 @@ namespace backend {
 enum AlertCallbackKind
 {
     ALERT_TRIGGERED,
-    ALERT_UNMATCHED
+    ALERT_TIMEOUT
 };
 
 struct AlertCallback

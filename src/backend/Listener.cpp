@@ -199,7 +199,7 @@ void Listener::on_alert_timeout(
     AlertCallback callback;
     callback.domain_id = domain_id;
     callback.alert_info = alert;
-    callback.kind = AlertCallbackKind::ALERT_UNMATCHED;
+    callback.kind = AlertCallbackKind::ALERT_TIMEOUT;
     engine_->add_callback(callback);
 }
 
