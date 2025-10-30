@@ -349,11 +349,10 @@ void Controller::remove_alert(
 }
 
 void Controller::set_alerts_polling_time(
-            int polling_time)
+        int polling_time)
 {
     engine_->set_alerts_polling_time(std::chrono::milliseconds(polling_time));
 }
-
 
 QString Controller::get_data_kind_units(
         QString data_kind)

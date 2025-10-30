@@ -1348,7 +1348,7 @@ void SyncBackendConnection::remove_alert(
 }
 
 void SyncBackendConnection::set_alerts_polling_time(
-            const std::chrono::milliseconds& polling_time)
+        const std::chrono::milliseconds& polling_time)
 {
     try
     {
