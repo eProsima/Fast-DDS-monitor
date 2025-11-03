@@ -25,7 +25,7 @@ Dialog {
     id: alertsSettingsDialog
     modal: false
     title: "Alerts Configuration"
-    standardButtons: Dialog.Ok | Dialog.Help | Dialog.Cancel
+    standardButtons: Dialog.Ok | Dialog.Cancel
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2

@@ -1301,7 +1301,7 @@ bool Engine::read_callback_(
     {
         return add_alert_message_info_(
             alert_callback.alert_info.get_alert_name(), "Alert " +
-                        alert_callback.alert_info.get_alert_name() + " timed out",
+            alert_callback.alert_info.get_alert_name() + " timed out",
             utils::now());
     }
 
@@ -1312,7 +1312,7 @@ bool Engine::read_callback_(
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
                 "Entity " + alert_callback.entity_guid +
-                        " emitted a DATA_COUNT sample of " + alert_callback.trigger_data,  utils::now());
+                " emitted a DATA_COUNT sample of " + alert_callback.trigger_data,  utils::now());
             break;
         case backend::AlertKind::NO_DATA_ALERT:
             return add_alert_message_info_(
@@ -1961,20 +1961,6 @@ void Engine::set_alert(
         const std::chrono::milliseconds& alert_timeout,
         const std::string& script_path)
 {
-    // Log eeverything
-    std::cout << "Setting alert with parameters: "
-              << "\n\t Name: " << alert_name
-        // << "\n\t Domain ID: " << domain_id.to_string()
-              << "\n\t Host Name: " << host_name
-              << "\n\t User Name: " << user_name
-              << "\n\t Topic Name: " << topic_name
-        //<< "\n\t Alert Kind: " << backend::alert_kind_to_string(alert_kind)
-              << "\n\t Threshold: " << threshold
-              << "\n\t Time Between Triggers (ms): " << t_between_triggers.count()
-              << "\n\t Alert Timeout (ms): " << alert_timeout.count()
-              << "\n\t Script Path: " << script_path
-              << std::endl;
-
     // Adding alert to backend structures
     backend_connection_.set_alert(alert_name, domain_id, host_name, user_name, topic_name, alert_kind, threshold,
             t_between_triggers, alert_timeout, script_path);
