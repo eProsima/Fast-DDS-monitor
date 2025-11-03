@@ -1311,14 +1311,13 @@ bool Engine::read_callback_(
         case backend::AlertKind::NEW_DATA_ALERT:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
-                "Alert " +
-                        alert_callback.alert_info.get_alert_name() + " was triggered. Entity " + alert_callback.entity_guid +
+                "Entity " + alert_callback.entity_guid +
                         " emitted a DATA_COUNT sample of " + alert_callback.trigger_data,  utils::now());
             break;
         case backend::AlertKind::NO_DATA_ALERT:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
-                "Alert " + alert_callback.alert_info.get_alert_name() + " was triggered. Entity " + alert_callback.entity_guid  +
+                "Entity " + alert_callback.entity_guid  +
                 " emitted a SUBSCRIPTION_THROUGHPUT sample of " + alert_callback.trigger_data, utils::now());
             break;
         case backend::AlertKind::INVALID_ALERT:
