@@ -574,7 +574,6 @@ Dialog {
         id: scriptFileDialog
         title: "Select a script file"
         width: 130
-        // height: 300
         nameFilters: [
             "All files (*)",
             "Shell scripts (*.sh)",
