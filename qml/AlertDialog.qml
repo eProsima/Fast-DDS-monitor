@@ -587,6 +587,7 @@ Dialog {
 
         onAccepted: {
             currentScriptPath = fileUrl
+            filePathField.text = currentScriptPath
         }
     }
 
