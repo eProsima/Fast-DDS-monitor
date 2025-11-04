@@ -343,6 +343,7 @@ void StatisticsBackend::set_alert(
         const AlertKind& alert_kind,
         const double& threshold,
         const std::chrono::milliseconds& t_between_triggers,
+        const std::chrono::milliseconds& t_timeout,
         const std::string& script_path)
 {
 
@@ -358,7 +359,7 @@ void StatisticsBackend::set_alert(
         case AlertKind::NEW_DATA_ALERT:
         {
             NewDataAlertInfo new_data_alert(alert_name, domain_id, host_name, user_name, topic_name,
-                    t_between_triggers);
+                    t_between_triggers, t_timeout);
 
             if (notifier_id != INVALID_NOTIFIER_ID)
             {
@@ -372,7 +373,7 @@ void StatisticsBackend::set_alert(
         case AlertKind::NO_DATA_ALERT:
         {
             NoDataAlertInfo no_data_alert(alert_name, domain_id, host_name, user_name, topic_name, threshold,
-                    t_between_triggers);
+                    t_between_triggers, t_timeout);
 
             if (notifier_id != INVALID_NOTIFIER_ID)
             {
