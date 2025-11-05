@@ -321,6 +321,7 @@ void Controller::set_alert(
         QString alert_type,
         double threshold,
         int time_between_triggers,
+        int alert_timeout,
         QString script_path)
 {
     std::string clean_host_name = clean_entity_name(utils::to_string(host_name));
@@ -337,6 +338,7 @@ void Controller::set_alert(
             backend::string_to_alert_kind(alert_type),
             threshold,
             std::chrono::milliseconds(time_between_triggers),
+            std::chrono::milliseconds(alert_timeout),
             clean_script_path);
 }
 
@@ -344,6 +346,12 @@ void Controller::remove_alert(
         QString id)
 {
     engine_->remove_alert(backend::alert_models_id_to_backend_id(id));
+}
+
+void Controller::set_alerts_polling_time(
+        int polling_time)
+{
+    engine_->set_alerts_polling_time(std::chrono::milliseconds(polling_time));
 }
 
 QString Controller::get_data_kind_units(

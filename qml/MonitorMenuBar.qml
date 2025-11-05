@@ -98,6 +98,12 @@ MenuBar {
                 scheduleClear.open()
             }
         }
+        Action {
+            text: qsTr("Alerts Configuration")
+            onTriggered: {
+                alertsSettingsDialog.open()
+            }
+        }
         MenuSeparator { }
         Action {
             id: editMenuRefresh

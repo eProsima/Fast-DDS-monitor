@@ -181,6 +181,7 @@ void Listener::on_alert_triggered(
         EntityId domain_id,
         EntityId entity_id,
         AlertInfo& alert,
+        const std::string& entity_guid,
         const std::string& data)
 {
     AlertCallback callback;
@@ -189,17 +190,18 @@ void Listener::on_alert_triggered(
     callback.alert_info = alert;
     callback.trigger_data = data;
     callback.kind = AlertCallbackKind::ALERT_TRIGGERED;
+    callback.entity_guid = entity_guid;
     engine_->add_callback(callback);
 }
 
-void Listener::on_alert_unmatched(
+void Listener::on_alert_timeout(
         EntityId domain_id,
         AlertInfo& alert)
 {
     AlertCallback callback;
     callback.domain_id = domain_id;
     callback.alert_info = alert;
-    callback.kind = AlertCallbackKind::ALERT_UNMATCHED;
+    callback.kind = AlertCallbackKind::ALERT_TIMEOUT;
     engine_->add_callback(callback);
 }
 

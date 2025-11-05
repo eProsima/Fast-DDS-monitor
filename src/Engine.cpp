@@ -907,6 +907,7 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertDomain")
     {
         alert_domain_id_model_->clear();
+        // Adding empty option
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_domain_id_model_,
             backend::EntityKind::DOMAIN,
@@ -917,6 +918,9 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertHost")
     {
         alert_host_id_model_->clear();
+        EntityInfo json_obj;
+        json_obj["name"] = "ALL";
+        alert_host_id_model_->appendRow(new models::EntityItem(backend::EntityId::all(), entity_kind, json_obj));
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_host_id_model_,
             backend::EntityKind::HOST,
@@ -927,6 +931,9 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertUser")
     {
         alert_user_id_model_->clear();
+        EntityInfo json_obj;
+        json_obj["name"] = "ALL";
+        alert_user_id_model_->appendRow(new models::EntityItem(backend::EntityId::all(), entity_kind, json_obj));
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_user_id_model_,
             backend::EntityKind::USER,
@@ -937,6 +944,9 @@ bool Engine::on_selected_entity_kind(
     else if (entity_model_id == "alertTopic")
     {
         alert_topic_id_model_->clear();
+        EntityInfo json_obj;
+        json_obj["name"] = "ALL";
+        alert_topic_id_model_->appendRow(new models::EntityItem(backend::EntityId::all(), entity_kind, json_obj));
         return backend_connection_.update_get_data_dialog_entity_id(
             alert_topic_id_model_,
             backend::EntityKind::TOPIC,
@@ -1287,10 +1297,12 @@ bool Engine::read_callback_(
 {
     // It should not read callbacks while a domain is being initialized
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
-    if (alert_callback.kind == backend::AlertCallbackKind::ALERT_UNMATCHED)
+    if (alert_callback.kind == backend::AlertCallbackKind::ALERT_TIMEOUT)
     {
-        return add_alert_message_info_(alert_callback.alert_info.get_alert_name(),
-                       "Alert unmatched: there are no entities that meet the alert conditions", utils::now());
+        return add_alert_message_info_(
+            alert_callback.alert_info.get_alert_name(), "Alert " +
+            alert_callback.alert_info.get_alert_name() + " timed out",
+            utils::now());
     }
 
     // Add callback to log model
@@ -1299,12 +1311,14 @@ bool Engine::read_callback_(
         case backend::AlertKind::NEW_DATA_ALERT:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
-                "New data received, DATA_COUNT is " + alert_callback.trigger_data, utils::now());
+                "Entity " + alert_callback.entity_guid +
+                " emitted a DATA_COUNT sample of " + alert_callback.trigger_data,  utils::now());
             break;
         case backend::AlertKind::NO_DATA_ALERT:
             return add_alert_message_info_(
                 alert_callback.alert_info.get_alert_name(),
-                "SUBSCRIPTION_THROUGHPUT is " + alert_callback.trigger_data, utils::now());
+                "Entity " + alert_callback.entity_guid  +
+                " emitted a SUBSCRIPTION_THROUGHPUT sample of " + alert_callback.trigger_data, utils::now());
             break;
         case backend::AlertKind::INVALID_ALERT:
         default:
@@ -1944,11 +1958,12 @@ void Engine::set_alert(
         const backend::AlertKind& alert_kind,
         double threshold,
         const std::chrono::milliseconds& t_between_triggers,
+        const std::chrono::milliseconds& alert_timeout,
         const std::string& script_path)
 {
     // Adding alert to backend structures
     backend_connection_.set_alert(alert_name, domain_id, host_name, user_name, topic_name, alert_kind, threshold,
-            t_between_triggers, script_path);
+            t_between_triggers, alert_timeout, script_path);
     // Update the list of alerts without using the refresh button
     update_alerts_();
 }
@@ -1960,6 +1975,12 @@ void Engine::remove_alert(
     // Update the list of alerts without using the refresh button
     update_alerts_();
     clear_alert_summary_();
+}
+
+void Engine::set_alerts_polling_time(
+        const std::chrono::milliseconds& polling_time)
+{
+    backend_connection_.set_alerts_polling_time(polling_time);
 }
 
 bool Engine::update_entity(

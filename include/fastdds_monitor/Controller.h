@@ -242,7 +242,12 @@ public slots:
             QString alert_type,
             double threshold,
             int time_between_triggers,
+            int alert_timeout,
             QString script_path);
+
+    // Set the alerts polling time
+    void set_alerts_polling_time(
+            int polling_time);
 
     //! Removes an alert
     void remove_alert(

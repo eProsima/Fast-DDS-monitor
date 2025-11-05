@@ -109,6 +109,10 @@ RowLayout {
         aliasDialog.open()
     }
 
+    function openAlertDialogWithTopic(domainEntityId, topicId) {
+        alertDialog.open_with_topic(domainEntityId, topicId)
+    }
+
     function openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller) {
         entitiesMenu.domainEntityId = domainEntityId
         entitiesMenu.entityId = entityId
@@ -207,8 +211,8 @@ RowLayout {
         monitoringPanel.changeExplorerEntityInfo(status)
     }
 
-    function createAlert(name, domainId, hostId, userId, topicId, alert_type, t_between_triggers, threshold, script_path) {
-        controller.set_alert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers, script_path);
+    function createAlert(name, domainId, hostId, userId, topicId, alert_type, t_between_triggers, threshold, alert_timeout, script_path) {
+        controller.set_alert(name, domainId, hostId, userId, topicId, alert_type, threshold, t_between_triggers, alert_timeout, script_path);
     }
 
     function removeAlert(alertId) {

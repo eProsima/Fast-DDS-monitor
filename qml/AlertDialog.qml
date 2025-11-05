@@ -30,6 +30,7 @@ Dialog {
                                            // advanced options submenu (title + options)
     readonly property int dialog_width_: 300 // Width of the dialog
 
+    property bool manual_name_provided: false
     property var availableAlertKinds: []
     property bool activeOk: true
     property string currentKind: ""
@@ -38,8 +39,10 @@ Dialog {
     property string currentHost: ""
     property string currentUser: ""
     property string currentTopic: ""
+    property string thresholdUnits: ""
     property double currentThreshold: 0
     property int currentTimeBetweenAlerts: 5000
+    property int currentAlertTimeout: 7000
     property string currentScriptPath: ""
 
     modal: false
@@ -48,10 +51,11 @@ Dialog {
 
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
+    height: implicitHeight
 
     signal createAlert(string alert_name, string domain_name, string host_name, string user_name,
                     string topic_name, string alert_type, int t_between_triggers, int threshold,
-                    string script_path)
+                    int alert_timeout, string script_path)
 
     Component.onCompleted: {
         availableAlertKinds = controller.get_alert_kinds()
@@ -69,19 +73,26 @@ Dialog {
         currentHost = manualHostCheckBox.checked ? manualHostText.text : hostComboBox.currentText
         currentUser = manualUserCheckBox.checked ? manualUserText.text : userComboBox.currentText
         currentTopic = manualTopicCheckBox.checked ? manualTopicText.text : topicComboBox.currentText
-        currentTimeBetweenAlerts = alertTimeBetweenAlerts.value
+        currentTimeBetweenAlerts = parseInt(alertTimeBetweenAlerts.text)
+        currentAlertTimeout = parseInt(alertTimeout.text)
         currentThreshold = parseFloat(alertThreshold.text)
 
-        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts, currentThreshold, currentScriptPath)
+        createAlert(currentAlertName, currentDomain, currentHost, currentUser, currentTopic, currentKind, currentTimeBetweenAlerts,
+                    currentThreshold, currentAlertTimeout, currentScriptPath)
     }
 
     onAboutToShow: {
         alertKindComboBox.currentIndex = -1
         alertNameTextField.text = ""
         domainComboBox.currentIndex = -1
-        hostComboBox.currentIndex = -1
-        topicComboBox.currentIndex = -1
-        userComboBox.currentIndex = -1
+        hostComboBox.currentIndex = 0
+        topicComboBox.currentIndex = 0
+        userComboBox.currentIndex = 0
+        manualHostText.text = ""
+        manualUserText.text = ""
+        manualTopicText.text = ""
+        filePathField.text = ""
+        thresholdUnits = ""
         updateDomains()
         updateTopics()
         updateUsers()
@@ -111,6 +122,14 @@ Dialog {
             Component.onCompleted: currentIndex = -1
             onActivated: {
                 activeOk = true
+                regenerateAlertName()
+                if (currentText === "NO_DATA") {
+                    alertDialog.thresholdUnits = "bytes/sec"
+                } else if (currentText === "NEW_DATA") {
+                    alertDialog.thresholdUnits = "# of data fragments"
+                } else {
+                    alertDialog.thresholdUnits = ""
+                }
             }
         }
 
@@ -132,7 +151,15 @@ Dialog {
             maximumLength: 100
             Layout.fillWidth: true
 
-            onTextEdited: activeOk = true
+            onTextEdited: {
+                activeOk = true
+                if (alertNameTextField.text !== "") {
+                    manual_name_provided = true
+                }
+                else {
+                    manual_name_provided = false
+                }
+            }
         }
 
         Label {
@@ -184,6 +211,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
@@ -210,6 +238,7 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
@@ -236,11 +265,12 @@ Dialog {
 
                 onActivated: {
                     activeOk = true
+                    regenerateAlertName()
                 }
         }
 
         Label {
-            text: "Threshold: "
+            text: thresholdUnits !== "" ? "Threshold (" + thresholdUnits + "): " : "Threshold: "
             InfoToolTip {
                 text: "Threshold of the throughput under which the alert will start triggering."
             }
@@ -251,12 +281,17 @@ Dialog {
             enabled: alertKindComboBox.currentText !== "NEW_DATA"
             Connections {
                 target: alertKindComboBox
-                onCurrentTextChanged: {
+                function onCurrentTextChanged() {
                     if (alertKindComboBox.currentText === "NEW_DATA") {
-                        alertThreshold.text = "0"
+                        alertThreshold.text = "0.000"
+                    }
+                    if (alertKindComboBox.currentText === "NO_DATA") {
+                        alertThreshold.text = "500.000"
                     }
                 }
             }
+            validator: DoubleValidator { bottom: 0.000; top: 999999.000; decimals: 3}
+            Layout.fillWidth: true
         }
 
         Label {
@@ -265,13 +300,25 @@ Dialog {
                 text: "Minimum time between two consecutive alerts."
             }
         }
-        SpinBox {
+        TextField {
             id: alertTimeBetweenAlerts
-            editable: true
-            from: 0
-            to: 10000
-            stepSize: 50
-            value: 5000
+            text: "5000"
+            validator: IntValidator { bottom: 0; top: 999999; }
+            Layout.fillWidth: true
+        }
+
+        Label {
+            text: "Alert timeout (ms): "
+            InfoToolTip {
+                text: "Time before the alert reports a timeout message."
+            }
+        }
+        TextField {
+            id: alertTimeout
+            enabled: alertKindComboBox.currentText !== "NEW_DATA"
+            text: "10000"
+            validator: IntValidator { bottom: 0; top: 999999; }
+            Layout.fillWidth: true
         }
 
         Rectangle {
@@ -281,14 +328,14 @@ Dialog {
             readonly property int item_height_: alertDialog.item_height_
             readonly property int collapsed_options_box_height_: item_height_
             readonly property int options_box_body_height_: item_height_
-            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 4*options_box_body_height_
+            readonly property int expanded_options_box_height_: collapsed_options_box_height_ + 5*options_box_body_height_
             Layout.columnSpan: 2
 
             width: parent.width
             Layout.fillWidth: true
             Layout.preferredHeight: isExpanded
-                ? expanded_options_box_height_ + 20
-                : collapsed_options_box_height_ + 20
+                ? expanded_options_box_height_
+                : collapsed_options_box_height_
 
             Column {
                 anchors.fill: parent
@@ -356,6 +403,9 @@ Dialog {
                         text: "Set host name manually"
                         checked: false
                         Layout.fillWidth: false
+                        InfoToolTip {
+                            text: "Set the host name manually. When chosen, the host combo box will be disabled."
+                        }
 
                         indicator: Rectangle {
                             implicitWidth: 16
@@ -371,21 +421,21 @@ Dialog {
                                 anchors.fill: parent
                             }
                         }
+
+                        onCheckedChanged: {
+                            regenerateAlertName()
+                        }
                     }
 
                     TextField {
                         id: manualHostText
                         enabled: manualHostCheckBox.checked
                         selectByMouse: true
-                        placeholderText: "manual_host_name"
+                        placeholderText: "host_name"
                         Layout.fillWidth: true
-
-                        background: Rectangle {
-                            color: !manualHostCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                            border.color: Theme.grey
-                        }
-
+                        selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
+                            regenerateAlertName()
                         }
                     }
 
@@ -394,7 +444,9 @@ Dialog {
                         text: "Set user name manually"
                         checked: false
                         Layout.fillWidth: false
-
+                        InfoToolTip {
+                            text: "Set the user name manually. When chosen, the user combo box will be disabled."
+                        }
                         indicator: Rectangle {
                             implicitWidth: 16
                             implicitHeight: 16
@@ -409,21 +461,20 @@ Dialog {
                                 anchors.fill: parent
                             }
                         }
+                        onCheckedChanged: {
+                            regenerateAlertName()
+                        }
                     }
 
                     TextField {
                         id: manualUserText
                         enabled: manualUserCheckBox.checked
                         selectByMouse: true
-                        placeholderText: "manual_user_name"
+                        placeholderText: "user_name"
                         Layout.fillWidth: true
-
-                        background: Rectangle {
-                            color: !manualUserCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                            border.color: Theme.grey
-                        }
-
+                        selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
+                            regenerateAlertName()
                         }
                     }
 
@@ -432,7 +483,9 @@ Dialog {
                         text: "Set topic name manually"
                         checked: false
                         Layout.fillWidth: false
-
+                        InfoToolTip {
+                            text: "Set the topic name manually. When chosen, the topic combo box will be disabled."
+                        }
                         indicator: Rectangle {
                             implicitWidth: 16
                             implicitHeight: 16
@@ -447,22 +500,20 @@ Dialog {
                                 anchors.fill: parent
                             }
                         }
+                        onCheckedChanged: {
+                            regenerateAlertName()
+                        }
                     }
 
                     TextField {
                         id: manualTopicText
                         enabled: manualTopicCheckBox.checked
                         selectByMouse: true
-                        placeholderText: "manual_topic_name"
+                        placeholderText: "topic_name"
                         Layout.fillWidth: true
-
-
-                        background: Rectangle {
-                            color: !manualTopicCheckBox.checked ? "#a0a0a0" : Theme.whiteSmoke
-                            border.color: Theme.grey
-                        }
-
+                        selectionColor: Theme.eProsimaLightBlue
                         onTextChanged: {
+                            regenerateAlertName()
                         }
                     }
 
@@ -471,6 +522,9 @@ Dialog {
                         text: "Add script notifier"
                         onClicked: scriptFileDialog.open()
                         Layout.fillWidth: false
+                        InfoToolTip {
+                            text: "The provided script will be executed everytime the alert is triggered."
+                        }
 
                     }
                     TextField {
@@ -520,7 +574,6 @@ Dialog {
         id: scriptFileDialog
         title: "Select a script file"
         width: 130
-        height: 300
         nameFilters: [
             "All files (*)",
             "Shell scripts (*.sh)",
@@ -533,6 +586,7 @@ Dialog {
 
         onAccepted: {
             currentScriptPath = fileUrl
+            filePathField.text = currentScriptPath
         }
     }
 
@@ -578,27 +632,59 @@ Dialog {
     }
 
     function regenerateAlertName(){
+
+        if (manual_name_provided === true) {
+            // User has modified the alert name, do not auto-generate
+            return
+        }
+
         alertNameTextField.text = ""
+
+        if (alertKindComboBox.currentIndex !== -1) {
+            alertNameTextField.text += alertKindComboBox.currentText
+        }
+
         if (manualHostCheckBox.checked && manualHostText.text !== "") {
-            alertNameTextField.text += abbreviateEntityName(manualHostText.text)
-        } else if (hostComboBox.currentIndex !== -1) {
-            alertNameTextField.text += abbreviateEntityName(hostComboBox.currentText)
+            alertNameTextField.text += "_" + abbreviateEntityName(manualHostText.text)
+        } else if (hostComboBox.currentIndex > 0) {
+            alertNameTextField.text += "_" +abbreviateEntityName(hostComboBox.currentText)
         }
 
         if (manualUserCheckBox.checked && manualUserText.text !== "") {
             alertNameTextField.text += "_" + abbreviateEntityName(manualUserText.text)
-        } else if (userComboBox.currentIndex !== -1) {
+        } else if (userComboBox.currentIndex > 0) {
             alertNameTextField.text += "_" + abbreviateEntityName(userComboBox.currentText)
         }
 
         if (manualTopicCheckBox.checked && manualTopicText.text !== "") {
             alertNameTextField.text += "_" + abbreviateEntityName(manualTopicText.text)
-        } else if (topicComboBox.currentIndex !== -1) {
+        } else if (topicComboBox.currentIndex > 0) {
             alertNameTextField.text += "_" + abbreviateEntityName(topicComboBox.currentText)
         }
+    }
 
-        if (alertKindComboBox.currentIndex !== -1) {
-            alertNameTextField.text += "_" + alertKindComboBox.currentText
+    function open_with_topic(domain_id, topic_id) {
+        alertDialog.open()
+        selectDomainById(domain_id)
+        selectTopicById(topic_id)
+        regenerateAlertName()
+    }
+
+    function selectDomainById(domainId) {
+        for (let i = 0; i < alertDomainModel.count; i++) {
+            if (alertDomainModel.get(i).id === domainId) {
+                domainComboBox.currentIndex = i
+                return
+            }
+        }
+    }
+
+    function selectTopicById(topicId) {
+        for (let i = 0; i < alertTopicModel.count; i++) {
+            if (alertTopicModel.get(i).id === topicId) {
+                topicComboBox.currentIndex = i
+                return
+            }
         }
     }
 }

@@ -409,13 +409,22 @@ Click on the *+* button to create a new alert. This will open a dialog where you
 
 In this dialog, you can set the name of the alert, its type, the domain to monitor and the conditions for triggering the alert.
 
+In general, all alerts filter the triggering entities using the fields `host`, `user` and `topic`. If any of these fields is left empty
+or the `ALL` option is selected, all entities will be compliant with that part of the filter. Note that the filter does not act like a regular expression,
+but like a simple equality check between strings. Also mind that the 3 conditions must be met for an entity to be compliant with the alert filter.
+
 If the alert type is *NEW_DATA*, the alert will be triggered when a positive `DATA_COUNT` is received from any entity that matches the fields
-`host`, `user` and `topic`. Note that the statistics must be enabled for the entities to be able to trigger alerts.
+`host`, `user` and `topic`.
 
 If the alert type is *NO_DATA*, the alert will be triggered when a `PUBLICATION_THROUGHPUT` message is received from any entity that matches
 the fields `host`, `user` and `topic` and its value is lower than `threshold`.
 
-If a script is provided, it will be executed every time the alert is triggered. Note that the script must be executable.
+If a timeout period is defined, the alert will trigger a timeout message with this periodicity. `NEW_DATA` alerts don't support timeout due to
+their event-driven nature. However, the user can define a more relaxed polling time to collect timeout messages in the `Edit->Alerts Configuration` option
+from the upper menu.
+
+Finally, if a script is provided, it will be executed every time the alert is triggered. Note that the script must have executable permissions in the
+host OS.
 
 Once the alert is set up, it will appear in the list of alerts and its metadata will be shown below when clicked.
 

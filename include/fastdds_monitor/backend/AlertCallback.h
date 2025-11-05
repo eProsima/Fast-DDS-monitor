@@ -31,7 +31,7 @@ namespace backend {
 enum AlertCallbackKind
 {
     ALERT_TRIGGERED,
-    ALERT_UNMATCHED
+    ALERT_TIMEOUT
 };
 
 struct AlertCallback
@@ -39,6 +39,7 @@ struct AlertCallback
     AlertCallback() = default;
     backend::EntityId domain_id;
     backend::EntityId entity_id;
+    std::string entity_guid;
     backend::AlertInfo alert_info;
     std::string trigger_data;
     AlertCallbackKind kind;

@@ -17,6 +17,7 @@
         <file>qml/AdaptiveComboBox.qml</file>
         <file>qml/AdaptiveMenu.qml</file>
         <file>qml/AlertDialog.qml</file>
+        <file>qml/AlertsSettingsDialog.qml</file>
         <file>qml/AlertList.qml</file>
         <file>qml/AlertsMenu.qml</file>
         <file>qml/AlertsPanel.qml</file>
@@ -86,6 +87,8 @@
         <file alias="loading_graph.gif">resources/images/loading_graph.gif</file>
     </qresource>
     <qresource prefix="/resources/images/icons">
+        <file alias="alert_on_black.svg">resources/images/icons/alert/alert_on_black.svg</file>
+        <file alias="alert_off_black.svg">resources/images/icons/alert/alert_off_black.svg</file>
         <file alias="alert_black.svg">resources/images/icons/alert/alert_black.svg</file>
         <file alias="alert_eProsimaLightBlue.svg">resources/images/icons/alert/alert_eProsimaLightBlue.svg</file>
         <file alias="alert_grey.svg">resources/images/icons/alert/alert_grey.svg</file>
