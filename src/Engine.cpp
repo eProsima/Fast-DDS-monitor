@@ -446,24 +446,21 @@ void Engine::start_topic_spy(
         backend_connection_.start_topic_spy(it.value(), utils::to_string(topic_name),
                 [&](const std::string& data)
                 {
-                    UserDataInfo json_data;
+                    nlohmann::ordered_json json_data;
 
                     try
                     {
-                        json_data = UserDataInfo::parse(data);
+                        json_data = backend::refactor_json_ordered(UserDataInfo::parse(data));
                         user_data_model_->update_without_clean(json_data);
                     }
                     catch (const std::exception& e)
                     {
-                        process_error(
-                            "Error parsing user data JSON: " + std::string(e.what()),
-                            ErrorType::GENERIC);
+                        
                     }
                 });
     }
     else
     {
-        // TODO (Carlosespicur): Add specific error types for topic spy?
         process_error(
             "No monitor initialized in DomainId: " + std::to_string(domain) +
             ". Start a monitor before spying a topic.",
@@ -592,7 +589,8 @@ bool Engine::clear_alert_summary_()
 
 bool Engine::fill_alert_message_()
 {
-    alert_message_model_->update_without_clean(alert_message_info_);
+    nlohmann::ordered_json alert_info = backend::refactor_json_ordered(alert_message_info_);
+    alert_message_model_->update_without_clean(alert_info);
     return true;
 }
 

@@ -127,6 +127,11 @@ backend::AlertKind string_to_alert_kind(
 backend::EntityInfo refactor_json(
         backend::EntityInfo json_data);
 
+//! recursive function to convert array json subelements to dictionaries indexed by numbers
+// Keeps the order
+nlohmann::ordered_json refactor_json_ordered(
+        backend::EntityInfo json_data);
+
 //! Serialize the timestamp of a given data value
 std::string timestamp_to_string(
         const backend::Timestamp timestamp);

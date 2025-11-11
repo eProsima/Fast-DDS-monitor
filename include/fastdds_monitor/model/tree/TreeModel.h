@@ -32,6 +32,7 @@
 #include <fastdds_monitor/model/tree/TreeItem.h>
 
 using json = backend::EntityInfo;
+using ordered_json = nlohmann::ordered_json;
 
 namespace models {
 
@@ -112,7 +113,7 @@ public:
             json data);
 
     //! Update the tree with new data without cleaning the entire model
-    void update_without_clean(json& data);
+    void update_without_clean(ordered_json& data);
 
     //! Return the role names of the values in nodes to acces them via \c data
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
@@ -157,7 +158,7 @@ protected:
      * @param parent_index Index of the parent in the TreeModel
      * @param json_data Data with the new version of the tree
      */
-    void setup_model_data_without_clean(TreeItem* parent, const QModelIndex& parent_index, const json& json_data);
+    void setup_model_data_without_clean(TreeItem* parent, const QModelIndex& parent_index, const ordered_json& json_data);
 
     /**
      * @brief Iterates over the children of a node to find one with a specific name

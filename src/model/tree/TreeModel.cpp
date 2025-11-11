@@ -298,7 +298,7 @@ TreeItem* TreeModel::find_child_by_name(TreeItem* parent, const QString& name) c
     return nullptr;
 }
 
-void TreeModel::setup_model_data_without_clean(TreeItem* parent, const QModelIndex& parent_index, const json& json_data)
+void TreeModel::setup_model_data_without_clean(TreeItem* parent, const QModelIndex& parent_index, const ordered_json& json_data)
 {
     QHash<QString, int> currentIndexByName;
     for (int i = 0; i < parent->child_count(); ++i)
@@ -404,7 +404,7 @@ void TreeModel::setup_model_data_without_clean(TreeItem* parent, const QModelInd
     }
 }
 
-void TreeModel::update_without_clean(json& data)
+void TreeModel::update_without_clean(ordered_json& data)
 {
     std::unique_lock<std::mutex> lock(update_mutex_);
     // Recursive function to update without cleaning the entire model
