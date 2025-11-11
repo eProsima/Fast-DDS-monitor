@@ -22,7 +22,6 @@ import QtQuick.Window 2.2
 
 Item {
     id: spyView
-
     // Public properties
     property var model: userDataModel                       // User Data JSON model
     property string domain_id                               // ID of the domain where the topic is
@@ -46,7 +45,8 @@ Item {
         contentWidth: parent.width
         contentHeight: parent.height
 
-        TableView {
+        TreeView {
+
             id: treeView
             anchors.fill: parent
             anchors.topMargin: buttonContainer.height + buttonContainer.anchors.topMargin + elements_spacing_

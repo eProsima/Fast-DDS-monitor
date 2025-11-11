@@ -1022,9 +1022,6 @@ Item {
         tabLayout.tab_model_[current_]["title"] = controller.get_name(entityId) + "_SpyView"
         tabLayout.tab_model_[current_]["icon"] = "idl" // TODO (Carlosespicur): change icon
         open_spy_view_(domainId, entityId)
-        // var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
-        // display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
-        // refresh_layout(current_)
     }
 
     function refresh_domain_graph_view(domainEntityId, entityId) {
