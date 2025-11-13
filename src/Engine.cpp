@@ -455,7 +455,7 @@ void Engine::start_topic_spy(
                     }
                     catch (const std::exception& e)
                     {
-                        
+                        // Exceptions are ignored to avoid breaking the topic spy
                     }
                 });
     }

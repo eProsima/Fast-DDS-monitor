@@ -33,6 +33,11 @@ Item {
     // Read-only design properties
     readonly property int elements_spacing_: 10
 
+    // Used to store expanded/collapsed state of the tree items, all the attemps
+    // to use a more sophisticated update method have failed.
+    property var expandedState: ({})
+
+
     Flickable
     {
         id: userDataView
@@ -74,26 +79,24 @@ Item {
                 text: styleData.value
             }
 
-            function expandAll() {
-                for(var i=0; i < model.rowCount(); i++) {
-                    var index = model.index(i, 0)
-                    if (!isExpanded(index)) {
-                        expand(index)
-                    }
-                    if (model.rowCount(index) > 0) {
-                        expandChilds(index)
+            function saveExpanded(parentIndex) {
+                for (var i = 0; i < model.rowCount(parentIndex); ++i) {
+                    var idx = model.index(i, 0, parentIndex)
+                    var key = model.data(idx, Qt.DisplayRole)
+                    if (isExpanded(idx)) {
+                        spyView.expandedState[idx] = true
+                        saveExpanded(idx)
                     }
                 }
             }
 
-            function expandChilds(parent) {
-                for(var i=0; i < model.rowCount(parent); i++) {
-                    var index = model.index(i, 0, parent)
-                    if (!isExpanded(index)) {
-                        expand(index)
-                    }
-                    if (model.rowCount(index) > 0) {
-                        expandChilds(index)
+            function restoreExpanded(parentIndex) {
+                for (var i = 0; i < model.rowCount(parentIndex); ++i) {
+                    var idx = model.index(i, 0, parentIndex)
+                    var key = model.data(idx, Qt.DisplayRole)
+                    if (spyView.expandedState[idx]) {
+                        expand(idx)
+                        restoreExpanded(idx)
                     }
                 }
             }
@@ -101,8 +104,23 @@ Item {
             Connections {
                 target: spyView.model
                 function onUpdatedData() {
+                    // Save current scroll position to restore it later
+                    var flick = treeView.flickableItem
+                    var oldY = flick.contentY
+                    var oldX = flick.contentX
+                    // Save collapsed/expanded state
+                    treeView.saveExpanded(model.invalidIndex())
+                    // Reset the model to force a refresh
                     treeView.model = null
                     treeView.model = spyView.model
+                    // Wait for full rebuild before restoring previous state
+                    Qt.callLater(function() {
+                        // Restore expanded state
+                        treeView.restoreExpanded(model.invalidIndex())
+                        // Restore scroll position
+                        flick.contentY = oldY
+                        flick.contentX = oldX
+                    })
                 }
             }
         }
