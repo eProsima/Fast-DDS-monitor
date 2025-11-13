@@ -168,6 +168,12 @@ protected:
      */
     TreeItem* find_child_by_name(TreeItem* parent, const QString& name) const;
 
+    /**
+     * @brief Helper method to return an invalid QModelIndex to QML
+     * @return An invalid QModelIndex
+     */
+     Q_INVOKABLE QModelIndex invalidIndex() const { return QModelIndex(); };
+
 private:
 
     //! Parent node of the items tree
