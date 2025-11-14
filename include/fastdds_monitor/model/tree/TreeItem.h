@@ -63,9 +63,9 @@ public:
     TreeItem* child_item(
             int row);
 
-    //! Remove the child node in the position \c row
-    void remove_child_item(
-            int row);
+    //! Remove the child node in the position \c row from the container
+    // and returns a pointer to it. Does not free the memory.
+    TreeItem* take_child_item(int row);
 
     //! Count the number of children
     int child_count() const;
