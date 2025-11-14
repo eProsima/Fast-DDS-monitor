@@ -323,7 +323,6 @@ void TreeModel::setup_model_data_without_clean(
         newKeys.insert(key);
 
         TreeItem* existingChild = find_child_by_name(parent, key);
-
         if (existingChild)
         {
             // If the node exists, its content might be updated
@@ -351,9 +350,10 @@ void TreeModel::setup_model_data_without_clean(
                 if (existingChild->get_item_value().toString() != newValue)
                 {
                     existingChild->set_item_value(newValue);
-                    existingChild->clear(); // if needed to reset children
-                    existingChild->set_item_value(newValue);
-                    // // Notify QML about the change
+
+                    // NOTE: If TreeView worked properly, this emit dataChanged
+                    // would update the model data in the view, but it is not
+                    // working. Left here for future migrations to Qt6
                     QModelIndex changedIndex = index(existingChild->row(), 1, parent_index);
                     emit dataChanged(changedIndex, changedIndex);
                 }

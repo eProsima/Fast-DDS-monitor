@@ -46,9 +46,8 @@ Item {
     signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
     signal filter_domain_view_by_topic_(int stack_id, int domain_entity_id, string topic_id)
     signal display_idl_content_(int stack_id, string content)
-    // TODO (Carlosespicur): Use stack_id?
-    signal open_spy_view_(string domain_id, string entity_id)
-    signal initialize_spy_view_(string domain_id, string entity_id)
+    signal open_spy_view_(string domain_id, string entity_id, string entity_name)
+    signal initialize_spy_view_(string domain_id, string entity_id, string entity_name)
 
     // Read only design properties
     readonly property int max_tabs_: 15
@@ -527,9 +526,10 @@ Item {
 
                         Connections {
                             target: tabLayout
-                            function onInitialize_spy_view_(domain_id, entity_id) {
+                            function onInitialize_spy_view_(domain_id, entity_id, entity_name) {
                                 spyView.topic_id = entity_id
                                 spyView.domain_id = domain_id
+                                spyView.topic_name = entity_name
                             }
                         }
                     }
@@ -553,8 +553,8 @@ Item {
                         }
                     }
 
-                    function onOpen_spy_view_(domain_id, entity_id) {
-                        initialize_spy_view_(domain_id, entity_id)
+                    function onOpen_spy_view_(domain_id, entity_id, entity_name) {
+                        initialize_spy_view_(domain_id, entity_id, entity_name)
                     }
                 }
             }
@@ -1019,9 +1019,10 @@ Item {
 
     function open_spy_view(domainId, entityId) {
         create_new_custom_tab_("spyView_component", "")
-        tabLayout.tab_model_[current_]["title"] = controller.get_name(entityId) + "_SpyView"
-        tabLayout.tab_model_[current_]["icon"] = "idl" // TODO (Carlosespicur): change icon
-        open_spy_view_(domainId, entityId)
+        var entityName = controller.get_name(entityId)
+        tabLayout.tab_model_[current_]["title"] = entityName + "_SpyView"
+        tabLayout.tab_model_[current_]["icon"] = "idl"
+        open_spy_view_(domainId, entityId, entityName)
     }
 
     function refresh_domain_graph_view(domainEntityId, entityId) {
