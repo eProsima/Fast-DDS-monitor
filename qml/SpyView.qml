@@ -26,6 +26,7 @@ Item {
     property var model: userDataModel                       // User Data JSON model
     property string domain_id                               // ID of the domain where the topic is
     property string topic_id                                // ID of the topic to spy
+    property string topic_name                              // Name of the topic to spy
 
     // Private properties
     property bool is_active_: false                         // Whether the spy is active or not
@@ -60,8 +61,9 @@ Item {
             model: spyView.model
             headerVisible: false
             frameVisible: false
+            selectionMode: SelectionMode.NoSelection
 
-            Component.onCompleted: expandAll()
+            // Component.onCompleted: expandAll()
 
             TableViewColumn {
                 role: "name"
@@ -79,12 +81,55 @@ Item {
                 text: styleData.value
             }
 
+            // Expand all tree items
+            function expandAll() {
+                expandChilds(treeView.model.invalidIndex())
+            }
+
+            // Expand all child items of a given parent
+            function expandChilds(parent) {
+                for(var i=0; i < model.rowCount(parent); i++) {
+                    var index = model.index(i, 0, parent)
+                    if (!isExpanded(index)) {
+                        expand(index)
+                        var path = pathFromIndex(index)
+                        spyView.expandedState[path] = true
+                    }
+                    if (model.rowCount(index) > 0) {
+                        expandChilds(index)
+                    }
+                }
+            }
+
+            // Collapse all tree items
+            function collapseAll() {
+                collapseChilds(treeView.model.invalidIndex())
+            }
+
+            // Expand all child items of a given parent
+            function collapseChilds(parent) {
+                for(var i=0; i < model.rowCount(parent); i++) {
+                    var index = model.index(i, 0, parent)
+                    if (isExpanded(index)) {
+                        if (model.rowCount(index) > 0) {
+                            collapseChilds(index)
+                        }
+                        collapse(index)
+                        var path = pathFromIndex(index)
+                        delete spyView.expandedState[path]
+                    }
+                }
+            }
+
             function saveExpanded(parentIndex) {
                 for (var i = 0; i < model.rowCount(parentIndex); ++i) {
                     var idx = model.index(i, 0, parentIndex)
-                    var key = model.data(idx, Qt.DisplayRole)
+                    var key = model.data(idx, model.nameRole())
                     if (isExpanded(idx)) {
-                        spyView.expandedState[idx] = true
+                        var path = pathFromIndex(idx)
+                        if (path != "") {
+                            spyView.expandedState[path] = true
+                        }
                         saveExpanded(idx)
                     }
                 }
@@ -92,13 +137,54 @@ Item {
 
             function restoreExpanded(parentIndex) {
                 for (var i = 0; i < model.rowCount(parentIndex); ++i) {
-                    var idx = model.index(i, 0, parentIndex)
-                    var key = model.data(idx, Qt.DisplayRole)
-                    if (spyView.expandedState[idx]) {
-                        expand(idx)
+                    var idx  = model.index(i, 0, parentIndex)
+                    var key  =  model.data(idx, model.nameRole())
+                    var path = pathFromIndex(idx)
+                    if (path in spyView.expandedState) {
+                        if (spyView.expandedState[path]) {
+                            expand(idx)
+                        }
                         restoreExpanded(idx)
                     }
                 }
+            }
+
+            // Computes the complete path of an index in the tree (in the json)
+            // concatenating all the keys from root to the index and "/" as separator
+            function pathFromIndex(idx) {
+                if (!idx || !idx.valid)
+                    return ""
+
+                var keys = []
+                var current = idx
+                while (current.valid) {
+                    var key = model.data(current, model.nameRole())
+                    keys.unshift(key)
+                    current = model.parent(current)
+                }
+                return keys.join("/")
+            }
+
+            // Computes the index in the tree from a complete path in the json
+            // returning the invalid index if not found
+            function indexFromPath(path) {
+                var keys = path.split("/")
+                var currentIndex = model.index(0, 0, model.invalidIndex())
+                for (var key_i = 0; key_i < keys.length; ++key_i) {
+                    var found = false
+                    for (var row_j = 0; row_j < model.rowCount(currentIndex); ++row_j) {
+                        var childIndex = model.index(row_j, 0, currentIndex)
+                        if (model.data(childIndex, model.nameRole()) === keys[key_i]) {
+                            currentIndex = childIndex
+                            found = true
+                            break
+                        }
+                    }
+                    if (!found) {
+                        return model.invalidIndex()
+                    }
+                }
+                return currentIndex
             }
 
             Connections {
@@ -109,20 +195,33 @@ Item {
                     var oldY = flick.contentY
                     var oldX = flick.contentX
                     // Save collapsed/expanded state
+                    console.log("Updating SpyView model, saving expanded state and scroll position")
                     treeView.saveExpanded(model.invalidIndex())
                     // Reset the model to force a refresh
+                    console.log("Resetting model")
                     treeView.model = null
                     treeView.model = spyView.model
                     // Wait for full rebuild before restoring previous state
                     Qt.callLater(function() {
                         // Restore expanded state
+                        console.log("Restoring expanded state")
                         treeView.restoreExpanded(model.invalidIndex())
                         // Restore scroll position
+                        console.log("Restoring scroll position")
                         flick.contentY = oldY
                         flick.contentX = oldX
+                        console.log("End of update")
                     })
                 }
             }
+        }
+
+        Text {
+            id: rowTitle
+            text: topic_name + " Data"
+            verticalAlignment: Text.AlignVCenter
+            anchors.top: parent.top; anchors.topMargin: spyView.elements_spacing_
+            anchors.left: parent.left; anchors.leftMargin: spyView.elements_spacing_
         }
 
         Row {
@@ -133,12 +232,27 @@ Item {
 
             Button {
                 id: pausePlayButton
-                text: "Pause/Play"
+                text: spyView.is_active_ ? "Pause" : "Play"
                 onClicked: {
-                    console.log("Pause/Play button clicked")
                     spyView.is_active_ = !spyView.is_active_
                     spyView.is_active_ ? controller.start_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
                                 : controller.stop_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
+                }
+            }
+
+            Button {
+                id: expandButton
+                text: "Expand All"
+                onClicked: {
+                    treeView.expandAll()
+                }
+            }
+
+            Button {
+                id: collapseButton
+                text: "Collapse All"
+                onClicked: {
+                    treeView.collapseAll()
                 }
             }
         }

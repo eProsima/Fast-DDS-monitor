@@ -122,6 +122,14 @@ public:
     TreeItem* get_item(
             const QModelIndex& index) const;
 
+    // Return the value of the name role
+    Q_INVOKABLE
+    int nameRole() const { return TreeModelRoles::treeModelNameRole; }
+
+    // Return the value of the value role
+    Q_INVOKABLE
+    int valueRole() const { return TreeModelRoles::treeModelValueRole; }
+
 signals:
 
     //! Signal that communicate that the model has been modified
