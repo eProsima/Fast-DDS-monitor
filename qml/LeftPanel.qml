@@ -49,6 +49,7 @@ RowLayout {
     signal explorerEntityInfoChanged(bool status)
     signal open_topic_view(string domainEntityId, string domainId, string entityId)
     signal open_idl_view(string entityId)
+    signal open_spy_view(string domainId, string entityId)
     signal refresh_domain_graph_view(string domainEntityId, string entityId)
     signal filter_entity_status_log(string entityId)
     signal remove_alert(string alertId)
@@ -157,6 +158,10 @@ RowLayout {
 
     function openIDLView(entityId) {
         leftPanel.open_idl_view(entityId)
+    }
+
+    function openSpyView(domainId, entityId) {
+        leftPanel.open_spy_view(domainId, entityId)
     }
 
     function refreshDomainGraphView(domainEntityId, entityId) {

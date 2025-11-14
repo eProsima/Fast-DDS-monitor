@@ -32,6 +32,7 @@
 #include <fastdds_monitor/model/tree/TreeItem.h>
 
 using json = backend::EntityInfo;
+using ordered_json = nlohmann::ordered_json;
 
 namespace models {
 
@@ -111,9 +112,8 @@ public:
     void update(
             json data);
 
-    //! Clear the model and create a new tree with new data without collapsing the view
-    void update_without_collapse(
-            json& data);
+    //! Update the tree with new data without cleaning the entire model
+    void update_without_clean(ordered_json& data);
 
     //! Return the role names of the values in nodes to acces them via \c data
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
@@ -121,6 +121,14 @@ public:
     //! Retrieve the item in the position \c index
     TreeItem* get_item(
             const QModelIndex& index) const;
+
+    // Return the value of the name role
+    Q_INVOKABLE
+    int nameRole() const { return TreeModelRoles::treeModelNameRole; }
+
+    // Return the value of the value role
+    Q_INVOKABLE
+    int valueRole() const { return TreeModelRoles::treeModelValueRole; }
 
 signals:
 
@@ -152,26 +160,27 @@ protected:
 
     /**
      * @brief Recursive function that fills an internal node with data in json format without
-     * collapsing the view
+     * cleaning the entire model.
      *
      * @param parent Item from which the update is performed
      * @param parent_index Index of the parent in the TreeModel
      * @param json_data Data with the new version of the tree
      */
-    void setup_model_data_without_collapse(
-            TreeItem* parent,
-            const QModelIndex& parent_index,
-            const json& json_data);
+    void setup_model_data_without_clean(TreeItem* parent, const QModelIndex& parent_index, const ordered_json& json_data);
 
     /**
-     * @brief Iterates over a node to find a child with a specific name
+     * @brief Iterates over the children of a node to find one with a specific name
      * @param parent parent node where to search
      * @param name name of the child node to search
      * @return pointer to the child node if found, nullptr otherwise
      */
-    TreeItem* find_child_by_name(
-            TreeItem* parent,
-            const QString& name) const;
+    TreeItem* find_child_by_name(TreeItem* parent, const QString& name) const;
+
+    /**
+     * @brief Helper method to return an invalid QModelIndex to QML
+     * @return An invalid QModelIndex
+     */
+     Q_INVOKABLE QModelIndex invalidIndex() const { return QModelIndex(); };
 
 private:
 

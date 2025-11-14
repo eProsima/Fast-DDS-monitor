@@ -45,6 +45,7 @@ using AlertId = eprosima::statistics_backend::AlertId;
 using AlertInfo = eprosima::statistics_backend::AlertInfo;
 using AlertKind = eprosima::statistics_backend::AlertKind;
 using AlertSummary = eprosima::statistics_backend::Info;
+using UserDataInfo = eprosima::statistics_backend::Info;
 using Timestamp = eprosima::statistics_backend::Timestamp;
 using GUID_s = eprosima::fastdds::statistics::detail::GUID_s;
 

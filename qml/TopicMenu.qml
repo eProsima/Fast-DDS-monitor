@@ -48,10 +48,14 @@ Menu {
         onTriggered: openIDLView(menu.entityId)
     }
     MenuItem {
-        text: "Set Alert"
+        text: "Set alert"
         onTriggered: {
             openAlertDialogWithTopic(menu.domainEntityId, menu.entityId)
         }
+    }
+    MenuItem {
+        text: "Spy topic data"
+        onTriggered: openSpyView(menu.domainId, menu.entityId)
     }
 }
 
