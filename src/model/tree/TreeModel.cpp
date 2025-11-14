@@ -361,7 +361,7 @@ void TreeModel::setup_model_data_without_clean(
             else
             {
                 // Recurse deeper for nested structures
-                QModelIndex childIndex = index(existingChild->row(), 1, parent_index);
+                QModelIndex childIndex = index(existingChild->row(), 0, parent_index);
                 setup_model_data_without_clean(existingChild, childIndex, it.value());
             }
         }
@@ -421,9 +421,9 @@ void TreeModel::setup_model_data_without_clean(
         if (!newKeys.contains(name))
         {
             beginRemoveRows(parent_index, i, i);
-            delete child;
-            parent->remove_child_item(i); // direct removal
+            child = parent->take_child_item(i);
             endRemoveRows();
+            delete child;
         }
     }
 }

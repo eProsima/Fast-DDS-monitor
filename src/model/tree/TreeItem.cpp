@@ -46,10 +46,10 @@ TreeItem* TreeItem::child_item(
     return child_items_.value(row);
 }
 
-void TreeItem::remove_child_item(
+TreeItem* TreeItem::take_child_item(
         int row)
 {
-    child_items_.removeAt(row);
+    return child_items_.takeAt(row);
 }
 
 int TreeItem::child_count() const

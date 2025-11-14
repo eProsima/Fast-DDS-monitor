@@ -48,7 +48,7 @@ Menu {
         onTriggered: openIDLView(menu.entityId)
     }
     MenuItem {
-        text: "Set Alert"
+        text: "Set alert"
         onTriggered: {
             alertDialog.open()
         }
