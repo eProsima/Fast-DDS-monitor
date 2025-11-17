@@ -442,7 +442,6 @@ void Engine::start_topic_spy(
     auto it = active_monitors_.find(QString::number(domain));
     if (it != active_monitors_.end())
     {
-        // TODO (Carlosespicur): Remove placeholder callback
         backend_connection_.start_topic_spy(it.value(), utils::to_string(topic_name),
                 [&](const std::string& data)
                 {
@@ -482,7 +481,6 @@ void Engine::stop_topic_spy(
     }
     else
     {
-        // TODO (Carlosespicur): Add specific error types for topic spy?
         process_error(
             "No monitor initialized in DomainId: " + std::to_string(domain) +
             ". Start a monitor before spying a topic.",
@@ -1850,7 +1848,6 @@ bool Engine::update_entity_generic(
 
 void Engine::refresh_summary()
 {
-    // TODO check what is happening when 2 refreshes are done
     fill_summary_(last_entities_clicked_.dds.id);
 }
 

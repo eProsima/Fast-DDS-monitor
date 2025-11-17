@@ -84,8 +84,6 @@ Item {
             frameVisible: false
             selectionMode: SelectionMode.NoSelection
 
-            // Component.onCompleted: expandAll()
-
             TableViewColumn {
                 role: "name"
                 title: "JSON view"
