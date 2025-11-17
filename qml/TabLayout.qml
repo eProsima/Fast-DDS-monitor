@@ -40,6 +40,7 @@ Item {
     property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
     readonly property var allowed_stack_components_:                        // list of allowed component names to be
             ["view_selector", "chartsLayout", "domainGraphLayout_component", "idlView_component", "spyView_component"] //  loaded in the tabs stack view
+    property int spy_view_index_ : -1                                        // index of the spy view tab if opened. -1 if not created yet
 
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
@@ -527,9 +528,7 @@ Item {
                         Connections {
                             target: tabLayout
                             function onInitialize_spy_view_(domain_id, entity_id, entity_name) {
-                                spyView.topic_id = entity_id
-                                spyView.domain_id = domain_id
-                                spyView.topic_name = entity_name
+                                spyView.initialize(domain_id, entity_id, entity_name)
                             }
                         }
                     }
@@ -865,6 +864,22 @@ Item {
         stack_layout.currentIndex = tabLayout.tab_model_[idx]["stack_id"]
     }
 
+    function create_or_reuse_spy_tab_(component_identifier)
+    {
+        if (spy_view_index_ === -1)
+        {
+            // If spy view tab not created yet, create it
+            console.log("Creating new Spy View tab")
+            create_new_custom_tab_(component_identifier, "")
+            spy_view_index_ = current_
+            return
+        }
+
+        // If already created, just switch to it
+        console.log("Switching to existing Spy View tab")
+        refresh_layout(spy_view_index_)
+    }
+
     // the given idx update current tab displayed (if != current)
     function refresh_layout(idx)
     {
@@ -973,6 +988,10 @@ Item {
             // perform changes in the view
             refresh_layout(new_current)
         }
+
+        if (idx == spy_view_index_) {
+            spy_view_index_ = -1
+        }
     }
 
     // Inherited ChartsLayout functions
@@ -1018,9 +1037,9 @@ Item {
     }
 
     function open_spy_view(domainId, entityId) {
-        create_new_custom_tab_("spyView_component", "")
         var entityName = controller.get_name(entityId)
-        tabLayout.tab_model_[current_]["title"] = entityName + "_SpyView"
+        create_or_reuse_spy_tab_("spyView_component", "")
+        tabLayout.tab_model_[current_]["title"] =  "Spy View"
         tabLayout.tab_model_[current_]["icon"] = "idl"
         open_spy_view_(domainId, entityId, entityName)
     }

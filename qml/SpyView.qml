@@ -38,6 +38,27 @@ Item {
     // to use a more sophisticated update method have failed.
     property var expandedState: ({})
 
+    function start_spy() {
+        if (!spyView.is_active_) {
+            controller.start_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
+            spyView.is_active_ = true
+        }
+    }
+
+    function stop_spy() {
+        if (spyView.is_active_) {
+            controller.stop_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
+            spyView.is_active_ = false
+        }
+    }
+
+    function initialize(domainId, topicId, topicName) {
+        stop_spy()
+        domain_id = domainId
+        topic_id = topicId
+        topic_name = topicName
+        start_spy()
+    }
 
     Flickable
     {
@@ -195,22 +216,17 @@ Item {
                     var oldY = flick.contentY
                     var oldX = flick.contentX
                     // Save collapsed/expanded state
-                    console.log("Updating SpyView model, saving expanded state and scroll position")
                     treeView.saveExpanded(model.invalidIndex())
                     // Reset the model to force a refresh
-                    console.log("Resetting model")
                     treeView.model = null
                     treeView.model = spyView.model
                     // Wait for full rebuild before restoring previous state
                     Qt.callLater(function() {
                         // Restore expanded state
-                        console.log("Restoring expanded state")
                         treeView.restoreExpanded(model.invalidIndex())
                         // Restore scroll position
-                        console.log("Restoring scroll position")
                         flick.contentY = oldY
                         flick.contentX = oldX
-                        console.log("End of update")
                     })
                 }
             }

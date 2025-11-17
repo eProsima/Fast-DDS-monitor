@@ -167,6 +167,7 @@ RowLayout {
     function refreshDomainGraphView(domainEntityId, entityId) {
         leftPanel.refresh_domain_graph_view(domainEntityId, entityId)
     }
+
     function filterEntityStatusLog(entityId){
         leftPanel.filter_entity_status_log(entityId)
     }
