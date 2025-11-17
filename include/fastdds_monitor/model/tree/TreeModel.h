@@ -130,6 +130,10 @@ public:
     Q_INVOKABLE
     int valueRole() const { return TreeModelRoles::treeModelValueRole; }
 
+    // Copy the current data in json format to clipboard
+    Q_INVOKABLE
+    void copy_json_to_clipboard() const;
+
 signals:
 
     //! Signal that communicate that the model has been modified
@@ -189,6 +193,8 @@ private:
 
     mutable std::mutex update_mutex_;
 
+    // Local copy of the last inserted data to allow copy to clipboard
+    ordered_json data_to_copy_;
 };
 
 } // namespace models

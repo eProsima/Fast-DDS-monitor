@@ -208,6 +208,11 @@ Item {
                 return currentIndex
             }
 
+            // Copy the current data in json format to clipboard
+            function copyData() {
+                model.copy_json_to_clipboard()
+            }
+
             Connections {
                 target: spyView.model
                 function onUpdatedData() {
@@ -269,6 +274,14 @@ Item {
                 text: "Collapse All"
                 onClicked: {
                     treeView.collapseAll()
+                }
+            }
+
+            Button {
+                id: copyButton
+                text: "Copy JSON"
+                onClicked: {
+                    treeView.copyData()
                 }
             }
         }

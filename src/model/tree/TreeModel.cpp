@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
+#include <QApplication>
+#include <QClipboard>
 #include <QHash>
 #include <QSet>
 #include <QString>
 #include <QStringList>
-#include <QHash>
-#include <QSet>
 
 #include <fastdds_monitor/model/tree/TreeItem.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
@@ -434,7 +434,14 @@ void TreeModel::update_without_clean(
     std::unique_lock<std::mutex> lock(update_mutex_);
     // Recursive function to update without cleaning the entire model
     setup_model_data_without_clean(root_item_, QModelIndex(), data);
+    data_to_copy_ = data;
     emit updatedData();
+}
+
+void TreeModel::copy_json_to_clipboard() const
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(QString::fromStdString(data_to_copy_.dump()));
 }
 
 } // namespace models
