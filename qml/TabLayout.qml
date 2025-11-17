@@ -869,14 +869,12 @@ Item {
         if (spy_view_index_ === -1)
         {
             // If spy view tab not created yet, create it
-            console.log("Creating new Spy View tab")
             create_new_custom_tab_(component_identifier, "")
             spy_view_index_ = current_
             return
         }
 
         // If already created, just switch to it
-        console.log("Switching to existing Spy View tab")
         refresh_layout(spy_view_index_)
     }
 
