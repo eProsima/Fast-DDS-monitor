@@ -440,7 +440,7 @@ void TreeModel::update_without_clean(
 
 void TreeModel::copy_json_to_clipboard() const
 {
-    QClipboard *clipboard = QApplication::clipboard();
+    QClipboard* clipboard = QApplication::clipboard();
     clipboard->setText(QString::fromStdString(data_to_copy_.dump()));
 }
 

@@ -113,7 +113,8 @@ public:
             json data);
 
     //! Update the tree with new data without cleaning the entire model
-    void update_without_clean(ordered_json& data);
+    void update_without_clean(
+            ordered_json& data);
 
     //! Return the role names of the values in nodes to acces them via \c data
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
@@ -124,11 +125,17 @@ public:
 
     // Return the value of the name role
     Q_INVOKABLE
-    int nameRole() const { return TreeModelRoles::treeModelNameRole; }
+    int nameRole() const
+    {
+        return TreeModelRoles::treeModelNameRole;
+    }
 
     // Return the value of the value role
     Q_INVOKABLE
-    int valueRole() const { return TreeModelRoles::treeModelValueRole; }
+    int valueRole() const
+    {
+        return TreeModelRoles::treeModelValueRole;
+    }
 
     // Copy the current data in json format to clipboard
     Q_INVOKABLE
@@ -170,7 +177,10 @@ protected:
      * @param parent_index Index of the parent in the TreeModel
      * @param json_data Data with the new version of the tree
      */
-    void setup_model_data_without_clean(TreeItem* parent, const QModelIndex& parent_index, const ordered_json& json_data);
+    void setup_model_data_without_clean(
+            TreeItem* parent,
+            const QModelIndex& parent_index,
+            const ordered_json& json_data);
 
     /**
      * @brief Iterates over the children of a node to find one with a specific name
@@ -178,13 +188,18 @@ protected:
      * @param name name of the child node to search
      * @return pointer to the child node if found, nullptr otherwise
      */
-    TreeItem* find_child_by_name(TreeItem* parent, const QString& name) const;
+    TreeItem* find_child_by_name(
+            TreeItem* parent,
+            const QString& name) const;
 
     /**
      * @brief Helper method to return an invalid QModelIndex to QML
      * @return An invalid QModelIndex
      */
-     Q_INVOKABLE QModelIndex invalidIndex() const { return QModelIndex(); };
+    Q_INVOKABLE QModelIndex invalidIndex() const
+    {
+        return QModelIndex();
+    }
 
 private:
 

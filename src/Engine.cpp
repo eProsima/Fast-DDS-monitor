@@ -451,7 +451,8 @@ void Engine::start_topic_spy(
                     try
                     {
                         json_data = backend::refactor_json_ordered(UserDataInfo::parse(data));
-                        QMetaObject::invokeMethod(user_data_model_, [this,json_data]() mutable {
+                        QMetaObject::invokeMethod(user_data_model_, [this, json_data]() mutable
+                        {
                             user_data_model_->update_without_clean(json_data);
                         }, Qt::QueuedConnection);
                     }
