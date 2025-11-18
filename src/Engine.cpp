@@ -455,7 +455,7 @@ void Engine::start_topic_spy(
                             user_data_model_->update_without_clean(json_data);
                         }, Qt::QueuedConnection);
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception& /*e*/)
                     {
                         // Exceptions are ignored to avoid breaking the topic spy
                     }
