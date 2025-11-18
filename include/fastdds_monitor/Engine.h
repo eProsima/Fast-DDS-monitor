@@ -161,6 +161,8 @@ public:
 
     /**
      * @brief Start monitoring the user data of a specific topic in a given domain
+     *
+     *
      * @param domain domain where the user data is being published
      * @param topic_name name of the topic where the user data is being published
      */
@@ -170,6 +172,8 @@ public:
 
     /**
      * @brief Stop monitoring the user data of a specific topic in a given domain
+     *
+     *
      * @param domain domain where the user data is being published
      * @param topic_name name of the topic where the user data is being published
      */
@@ -1076,6 +1080,7 @@ protected:
 
     QStringListModel* participant_xml_profiles_;
 
+    //! A Qt Dictionary for active monitors
     QMap<QString, backend::EntityId> active_monitors_;
 };
 

@@ -156,7 +156,7 @@ Item {
 
             function restoreExpanded(parentIndex) {
                 for (var i = 0; i < model.rowCount(parentIndex); ++i) {
-                    var idx  = model.index(i, 0, parentIndex)
+                    var idx  =  model.index(i, 0, parentIndex)
                     var key  =  model.data(idx, model.nameRole())
                     var path = pathFromIndex(idx)
                     if (path in spyView.expandedState) {
