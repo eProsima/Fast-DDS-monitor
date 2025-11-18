@@ -63,7 +63,9 @@ public:
     TreeItem* child_item(
             int row);
 
-    void remove_child_item(
+    //! Remove the child node in the position \c row from the container
+    // and returns a pointer to it. Does not free the memory.
+    TreeItem* take_child_item(
             int row);
 
     //! Count the number of children
@@ -81,6 +83,10 @@ public:
 
     //! Return the value of the node
     QVariant get_item_value() const;
+
+    //! Set the value of the node
+    void set_item_value(
+            const QVariant& value);
 
     //! Return the name of the node in string format
     QString name() const;

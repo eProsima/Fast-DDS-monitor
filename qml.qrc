@@ -61,16 +61,17 @@
         <file>qml/MonitorToolBarButton.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
-        <file>qml/StatusTreeView.qml</file>
-        <file>qml/StatusTreeViewItem.qml</file>
         <file>qml/QosView.qml</file>
         <file>qml/ScheduleClearDialog.qml</file>
         <file>qml/SeriesSetMaxPointsDialog.qml</file>
         <file>qml/SetAxesDialog.qml</file>
+        <file>qml/SpyView.qml</file>
         <file>qml/StatisticsChartBox.qml</file>
         <file>qml/StatisticsChartView.qml</file>
-        <file>qml/StatusPanel.qml</file>
         <file>qml/StatusLayout.qml</file>
+        <file>qml/StatusPanel.qml</file>
+        <file>qml/StatusTreeView.qml</file>
+        <file>qml/StatusTreeViewItem.qml</file>
         <file>qml/StatusView.qml</file>
         <file>qml/SummaryView.qml</file>
         <file>qml/TabLayout.qml</file>

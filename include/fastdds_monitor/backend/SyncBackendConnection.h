@@ -22,6 +22,8 @@
 #ifndef _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 #define _EPROSIMA_FASTDDS_MONITOR_BACKEND_SYNCBACKENDCONNECTION_H
 
+#include <functional>
+
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
 #include <fastdds_statistics_backend/types/types.hpp>
 
@@ -104,6 +106,28 @@ public:
     //! Initialize a monitor using a profile name
     EntityId init_monitor_with_profile(
             const std::string& profile_name);
+
+    /**
+     * @brief Starts a topic spy on a given topic.
+     *
+     * @param monitor_id The entity ID of the monitor.
+     * @param topic_name The name of the topic to spy on.
+     * @param on_data_received Callback function to be called when new data in the introspected topic is received.
+     */
+    void start_topic_spy(
+            EntityId monitor_id,
+            const std::string& topic_name,
+            std::function<void(const std::string&)> on_data_received);
+
+    /**
+     * @brief Stops a topic spy on a given topic.
+     *
+     * @param monitor_id The entity ID of the monitor.
+     * @param topic_name The name of the topic to stop spying on.
+     */
+    void stop_topic_spy(
+            EntityId monitor_id,
+            const std::string& topic_name);
 
     //! Load an XML file containing DDS profiles
     std::vector<std::string> load_xml_profiles_file(

@@ -15,9 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-#include <QStringList>
+#include <QApplication>
+#include <QClipboard>
 #include <QHash>
 #include <QSet>
+#include <QString>
+#include <QStringList>
 
 #include <fastdds_monitor/model/tree/TreeItem.h>
 #include <fastdds_monitor/model/tree/TreeModel.h>
@@ -299,10 +302,10 @@ TreeItem* TreeModel::find_child_by_name(
     return nullptr;
 }
 
-void TreeModel::setup_model_data_without_collapse(
+void TreeModel::setup_model_data_without_clean(
         TreeItem* parent,
         const QModelIndex& parent_index,
-        const json& json_data)
+        const ordered_json& json_data)
 {
     QHash<QString, int> currentIndexByName;
     for (int i = 0; i < parent->child_count(); ++i)
@@ -320,7 +323,6 @@ void TreeModel::setup_model_data_without_collapse(
         newKeys.insert(key);
 
         TreeItem* existingChild = find_child_by_name(parent, key);
-
         if (existingChild)
         {
             // If the node exists, its content might be updated
@@ -347,23 +349,20 @@ void TreeModel::setup_model_data_without_collapse(
                 // Update value if changed
                 if (existingChild->get_item_value().toString() != newValue)
                 {
-                    // Replace the value directly in TreeItem
-                    existingChild->data(TreeItem::VALUE); // ensure correct access
-                    existingChild->clear(); // if needed to reset children
-                    // Update internal value
-                    QList<QString> updatedData;
-                    updatedData << key << newValue;
-                    *existingChild = TreeItem(updatedData, parent);
-                    // Notify QML about the change
-                    QModelIndex changedIndex = createIndex(existingChild->row(), 1, existingChild);
+                    existingChild->set_item_value(newValue);
+
+                    // NOTE: If TreeView worked properly, this emit dataChanged
+                    // would update the model data in the view, but it is not
+                    // working. Left here for future migrations to Qt6
+                    QModelIndex changedIndex = index(existingChild->row(), 1, parent_index);
                     emit dataChanged(changedIndex, changedIndex);
                 }
             }
             else
             {
                 // Recurse deeper for nested structures
-                QModelIndex childIndex = createIndex(existingChild->row(), 0, existingChild);
-                setup_model_data_without_collapse(existingChild, childIndex, it.value());
+                QModelIndex childIndex = index(existingChild->row(), 0, parent_index);
+                setup_model_data_without_clean(existingChild, childIndex, it.value());
             }
         }
         else
@@ -406,7 +405,7 @@ void TreeModel::setup_model_data_without_collapse(
             if (!it.value().is_primitive())
             {
                 QModelIndex newIndex = createIndex(insertPos, 0, newChild);
-                setup_model_data_without_collapse(newChild, newIndex, it.value());
+                setup_model_data_without_clean(newChild, newIndex, it.value());
             }
 
             insertPos++;
@@ -422,20 +421,27 @@ void TreeModel::setup_model_data_without_collapse(
         if (!newKeys.contains(name))
         {
             beginRemoveRows(parent_index, i, i);
-            delete child;
-            parent->remove_child_item(i); // direct removal
+            child = parent->take_child_item(i);
             endRemoveRows();
+            delete child;
         }
     }
 }
 
-void TreeModel::update_without_collapse(
-        json& data)
+void TreeModel::update_without_clean(
+        ordered_json& data)
 {
     std::unique_lock<std::mutex> lock(update_mutex_);
-    // Recursive function to update without collapsing
-    setup_model_data_without_collapse(root_item_, QModelIndex(), data);
+    // Recursive function to update without cleaning the entire model
+    setup_model_data_without_clean(root_item_, QModelIndex(), data);
+    data_to_copy_ = data;
     emit updatedData();
+}
+
+void TreeModel::copy_json_to_clipboard() const
+{
+    QClipboard* clipboard = QApplication::clipboard();
+    clipboard->setText(QString::fromStdString(data_to_copy_.dump()));
 }
 
 } // namespace models

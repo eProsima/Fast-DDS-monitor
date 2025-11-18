@@ -421,21 +421,21 @@ backend::EntityInfo refactor_json(
 {
     if (json_data.is_array())
     {
-        // In this case it is already a correct json
-        // Iterate over elements and refactor them
+        // Iterate over elements in list and refactor them
+        // into a json with indexes as keys
+        // Example:
+        // List ['a', 'b'] -> Object {'0': 'a', '1': 'b'}
         int counter = 0;
         backend::EntityInfo new_json;
         for (auto& element : json_data)
         {
             new_json[std::to_string(counter++)] = refactor_json(element);
         }
-
         return new_json;
     }
     else if (json_data.is_object())
     {
-        // In this case it is already a correct json
-        // Iterate over elements and refactor them
+        // Search recursively in all subobjects
         for (auto& element : json_data.items())
         {
             json_data[element.key()] = refactor_json(element.value());
@@ -444,6 +444,41 @@ backend::EntityInfo refactor_json(
 
     // Otherwise is primitive or null and it is already correct
     return json_data;
+}
+
+nlohmann::ordered_json refactor_json_ordered(
+        backend::EntityInfo json_data)
+{
+    nlohmann::ordered_json json_data_ordered;
+    if (json_data.is_array())
+    {
+        // Iterate over elements in list and refactor them
+        // into a json with indexes as keys
+        // Example:
+        // List ['a', 'b'] -> Object {'0': 'a', '1': 'b'}
+        int counter = 0;
+        nlohmann::ordered_json new_json;
+        for (auto& element : json_data)
+        {
+            new_json[std::to_string(counter++)] = refactor_json_ordered(element);
+        }
+        return new_json;
+    }
+    else if (json_data.is_object())
+    {
+        // Search recursively in all subobjects
+        for (auto& element : json_data.items())
+        {
+            json_data_ordered[element.key()] = refactor_json_ordered(element.value());
+        }
+    }
+    else
+    {
+        json_data_ordered = json_data;
+    }
+
+    // Otherwise is primitive or null and it is already correct
+    return json_data_ordered;
 }
 
 std::string timestamp_to_string(

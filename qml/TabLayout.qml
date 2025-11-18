@@ -39,13 +39,16 @@ Item {
     property var tab_model_: [{"idx":0, "title":"New Tab", "icon":"", "stack_id": 0}]  // tab model for tab bad and tab management
     property bool disable_chart_selection_: false                           // flag to disable multiple chart view tabs
     readonly property var allowed_stack_components_:                        // list of allowed component names to be
-            ["view_selector", "chartsLayout", "domainGraphLayout_component", "idlView_component"] //  loaded in the tabs stack view
+            ["view_selector", "chartsLayout", "domainGraphLayout_component", "idlView_component", "spyView_component"] //  loaded in the tabs stack view
+    property int spy_view_index_ : -1                                        // index of the spy view tab if opened. -1 if not created yet
 
     // private signals
     signal open_domain_view_(int stack_id, int entity_id, int domain_id)
     signal initialize_domain_view_(int stack_id, int entity_id, int domain_id)
     signal filter_domain_view_by_topic_(int stack_id, int domain_entity_id, string topic_id)
     signal display_idl_content_(int stack_id, string content)
+    signal open_spy_view_(string domain_id, string entity_id, string entity_name)
+    signal initialize_spy_view_(string domain_id, string entity_id, string entity_name)
 
     // Read only design properties
     readonly property int max_tabs_: 15
@@ -109,7 +112,9 @@ Item {
                 property string customInitialItem: "view_selector"
                 initialItem: customInitialItem == "chartsLayout" ? chartsLayout :
                         customInitialItem == "domainGraphLayout_component" ? domainGraphLayout_component :
-                        customInitialItem == "idlView_component" ? idlView_component : view_selector
+                        customInitialItem == "idlView_component" ? idlView_component :
+                        customInitialItem == "spyView_component" ? spyView_component : view_selector
+
                 property string topic_IDL_ID: ""
 
                 // override push transition to none
@@ -514,6 +519,21 @@ Item {
                     }
                 }
 
+                Component {
+                    id: spyView_component
+
+                    SpyView {
+                        id: spyView
+
+                        Connections {
+                            target: tabLayout
+                            function onInitialize_spy_view_(domain_id, entity_id, entity_name) {
+                                spyView.initialize(domain_id, entity_id, entity_name)
+                            }
+                        }
+                    }
+                }
+
                 Connections {
                     target: tabLayout
 
@@ -530,6 +550,10 @@ Item {
                             refresh_layout(current_)
                             initialize_domain_view_(stack_id, entity_id, domain_id)
                         }
+                    }
+
+                    function onOpen_spy_view_(domain_id, entity_id, entity_name) {
+                        initialize_spy_view_(domain_id, entity_id, entity_name)
                     }
                 }
             }
@@ -840,6 +864,20 @@ Item {
         stack_layout.currentIndex = tabLayout.tab_model_[idx]["stack_id"]
     }
 
+    function create_or_reuse_spy_tab_(component_identifier)
+    {
+        if (spy_view_index_ === -1)
+        {
+            // If spy view tab not created yet, create it
+            create_new_custom_tab_(component_identifier, "")
+            spy_view_index_ = current_
+            return
+        }
+
+        // If already created, just switch to it
+        refresh_layout(spy_view_index_)
+    }
+
     // the given idx update current tab displayed (if != current)
     function refresh_layout(idx)
     {
@@ -948,6 +986,10 @@ Item {
             // perform changes in the view
             refresh_layout(new_current)
         }
+
+        if (idx == spy_view_index_) {
+            spy_view_index_ = -1
+        }
     }
 
     // Inherited ChartsLayout functions
@@ -990,6 +1032,14 @@ Item {
         var content = monitorMenuBar.ros2DemanglingActive ? controller.get_type_idl(entityId) : controller.get_ros2_type_idl(entityId)
         display_idl_content_(tabLayout.tab_model_[current_]["stack_id"], content)
         refresh_layout(current_)
+    }
+
+    function open_spy_view(domainId, entityId) {
+        var entityName = controller.get_name(entityId)
+        create_or_reuse_spy_tab_("spyView_component", "")
+        tabLayout.tab_model_[current_]["title"] =  "Spy View"
+        tabLayout.tab_model_[current_]["icon"] = "idl"
+        open_spy_view_(domainId, entityId, entityName)
     }
 
     function refresh_domain_graph_view(domainEntityId, entityId) {

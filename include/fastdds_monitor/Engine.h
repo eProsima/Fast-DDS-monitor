@@ -25,12 +25,14 @@
 #include <atomic>
 #include <tuple>
 
+#include <QMap>
 #include <QQmlApplicationEngine>
 #include <QQueue>
+#include <QString>
+#include <QStringListModel>
 #include <QtCharts/QVXYModelMapper>
 #include <QThread>
 #include <QWaitCondition>
-#include <QStringListModel>
 
 #include <fastdds_monitor/backend/Callback.h>
 #include <fastdds_monitor/backend/AlertCallback.h>
@@ -156,6 +158,28 @@ public:
      */
     void init_monitor(
             QString discovery_server_locators);
+
+    /**
+     * @brief Start monitoring the user data of a specific topic in a given domain
+     *
+     *
+     * @param domain domain where the user data is being published
+     * @param topic_name name of the topic where the user data is being published
+     */
+    void start_topic_spy(
+            int domain,
+            QString topic_name);
+
+    /**
+     * @brief Stop monitoring the user data of a specific topic in a given domain
+     *
+     *
+     * @param domain domain where the user data is being published
+     * @param topic_name name of the topic where the user data is being published
+     */
+    void stop_topic_spy(
+            int domain,
+            QString topic_name);
 
     /////
     // PHYSICAL PARTITION
@@ -960,6 +984,9 @@ protected:
     //! Data Model for Fast DDS Monitor status. Collects the total amount of entities discovered by the monitor
     models::TreeModel* status_model_;
 
+    //! User data Model for Fast DDS Monitor topic spy view
+    models::TreeModel* user_data_model_;
+
     //! Data that is represented in the Status Model when this model is refreshed
     backend::Info status_info_;
 
@@ -1052,6 +1079,9 @@ protected:
     backend::Info status_status_log_;
 
     QStringListModel* participant_xml_profiles_;
+
+    //! A Qt Dictionary for active monitors
+    QMap<QString, backend::EntityId> active_monitors_;
 };
 
 #endif // _EPROSIMA_FASTDDS_MONITOR_ENGINE_H
