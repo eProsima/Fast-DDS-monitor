@@ -420,9 +420,7 @@ void TreeModel::setup_model_data_without_clean(
 
         if (!newKeys.contains(name))
         {
-            beginRemoveRows(parent_index, i, i);
             child = parent->take_child_item(i);
-            endRemoveRows();
             delete child;
         }
     }
