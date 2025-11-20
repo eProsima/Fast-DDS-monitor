@@ -211,6 +211,7 @@ Engine::~Engine()
 {
     if  (enabled_)
     {
+        enabled_ = false;
         // First free the listener to stop new entities from appear
         if (listener_)
         {
@@ -450,10 +451,16 @@ void Engine::start_topic_spy(
                     try
                     {
                         json_data = backend::refactor_json_ordered(UserDataInfo::parse(data));
-                        QMetaObject::invokeMethod(user_data_model_, [this, json_data]() mutable
+                        if (this->enabled_)
                         {
-                            user_data_model_->update_without_clean(json_data);
-                        }, Qt::QueuedConnection);
+                            QMetaObject::invokeMethod(user_data_model_, [this, json_data]() mutable
+                            {
+                                if (user_data_model_)
+                                {
+                                    user_data_model_->update_without_clean(json_data);
+                                }
+                            }, Qt::QueuedConnection);
+                        }
                     }
                     catch (const std::exception& /*e*/)
                     {

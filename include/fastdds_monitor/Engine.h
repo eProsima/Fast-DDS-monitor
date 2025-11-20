@@ -931,7 +931,7 @@ protected:
     // Variables
 
     //! Set to true if the engine is being enabled
-    bool enabled_;
+    std::atomic<bool> enabled_;
 
     //! Reference to the \c Listener that is being set to the backend as callback communicator
     backend::Listener* listener_;
