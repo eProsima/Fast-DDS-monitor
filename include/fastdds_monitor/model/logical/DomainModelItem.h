@@ -45,7 +45,7 @@ public:
     //! Overwriter entity kind
     virtual backend::EntityKind backend_kind() const override
     {
-        return backend::EntityKind::DOMAIN;
+        return backend::EntityKind::DOMAIN_ENTITY;
     }
 
 };

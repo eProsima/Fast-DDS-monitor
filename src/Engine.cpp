@@ -511,7 +511,7 @@ void Engine::shared_init_monitor_(
         // This, entity_clicked must be called but do not update dds model (but reset it)
         update_entity(domain_id, &Engine::update_domain, true, false);
 
-        entity_clicked(domain_id, backend::EntityKind::DOMAIN, false);
+        entity_clicked(domain_id, backend::EntityKind::DOMAIN_ENTITY, false);
 
         emit controller_->monitorInitialized();
     }
@@ -1820,7 +1820,7 @@ bool Engine::update_entity_generic(
             return update_entity(
                 entity_id, &Engine::update_process, !is_update, is_last_clicked);
 
-        case backend::EntityKind::DOMAIN:
+        case backend::EntityKind::DOMAIN_ENTITY:
             return update_entity(
                 entity_id, &Engine::update_domain, !is_update, is_last_clicked);
 
@@ -2018,7 +2018,7 @@ void Engine::set_alias(
             update_entity(entity_id, &Engine::update_process, false);
             break;
 
-        case backend::EntityKind::DOMAIN:
+        case backend::EntityKind::DOMAIN_ENTITY:
             update_entity(entity_id, &Engine::update_domain, false);
             break;
 
@@ -2420,7 +2420,7 @@ EntitiesClicked::click(
         case backend::EntityKind::HOST:
         case backend::EntityKind::USER:
         case backend::EntityKind::PROCESS:
-        case backend::EntityKind::DOMAIN:
+        case backend::EntityKind::DOMAIN_ENTITY:
         case backend::EntityKind::TOPIC:
             std::get<2>(result) = unclick_dds();
             std::get<1>(result) = physical_logical.set(clicked_entity, clicked_kind);
