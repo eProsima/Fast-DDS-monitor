@@ -84,7 +84,10 @@ Rectangle {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton
                         hoverEnabled: true
-                        onClicked: colorDialog.open()
+                        onClicked: {
+                            colorDialog.selectedColor = seriesColor
+                            colorDialog.open()
+                        }
                         onEntered: legendDelegateMouseArea.cursorShape = Qt.PointingHandCursor
                         onExited: legendDelegateMouseArea.cursorShape = Qt.ArrowCursor
                     }
@@ -134,7 +137,10 @@ Rectangle {
                 }
                 MenuItem {
                     text: "Change color"
-                    onTriggered: colorDialog.open()
+                    onTriggered: {
+                        colorDialog.selectedColor = seriesColor
+                        colorDialog.open()
+                    }
                 }
                 MenuItem {
                     text: hidden ? "Display series" : "Hide series"
@@ -145,7 +151,6 @@ Rectangle {
                     onTriggered: seriesToCSV(index, seriesModel.get(index).seriesName)
                 }
                 MenuItem {
-                    // TODO this should not be shown in historic series
                     text: "Set max data points"
                     onTriggered: setMaxPoints(index, maxPoints)
                 }
@@ -196,14 +201,15 @@ Rectangle {
             ColorDialog {
                 id: colorDialog
                 title: "Please choose a color for the series " + seriesName
+                selectedColor: seriesColor
                 onAccepted: {
-                    seriesModel.setProperty(index, "seriesColor", colorDialog.color.toString())
-                    seriesModel.setProperty(index, "originalSeriesColor", colorDialog.color.toString())
-                    seriesColorUpdated(index, colorDialog.color);
+                    var chosenColor = colorDialog.selectedColor
+                    seriesModel.setProperty(index, "seriesColor", chosenColor.toString())
+                    seriesModel.setProperty(index, "originalSeriesColor", chosenColor.toString())
+                    seriesColorUpdated(index, chosenColor);
                 }
             }
         }
-
     }
 
     function addLeyend(name, color) {

@@ -23,7 +23,7 @@ FileDialog {
     id: csvDialog
     title: qsTr("Export charts to CSV file")
     fileMode: FileDialog.SaveFile
-    defaultSuffix: ".csv"
+    defaultSuffix: "csv"
     nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
 
     property var chartboxIds: []
@@ -34,7 +34,7 @@ FileDialog {
 
     onAccepted: {
         controller.save_csv(
-            csvDialog.fileUrl,
+            csvDialog.selectedFile,
             chartboxIds,
             seriesIds,
             dataKinds,

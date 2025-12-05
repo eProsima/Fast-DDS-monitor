@@ -94,11 +94,15 @@ Dialog {
                 text: "Search"
                 enabled: dumpOn
                 onClicked: {
-                    var dialog = Qt.createQmlObject('import QtQuick.Dialogs; FileDialog { selectFolder: true }', parent, "Folder Dialog");
-                    dialog.accepted.connect(function() {
-                        file_name = dialog.folder + "/"
-                    });
-                    dialog.open();
+                    folderDialog.open()
+                }
+            }
+
+            FolderDialog {
+                id: folderDialog
+                onAccepted: {
+                    var folderPath = selectedFolder.toString()
+                    file_name = folderPath + "/"
                 }
             }
         }

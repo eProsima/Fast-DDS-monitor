@@ -129,7 +129,7 @@ ChartView {
 
             focus: true
 
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 if (chartViewMouseArea.containsMouse) {
                     if (event.key === Qt.Key_Control) {
                         chartViewMouseArea.cursorShape = Qt.OpenHandCursor
@@ -144,7 +144,7 @@ ChartView {
                 event.accepted = true;
             }
 
-            Keys.onReleased: {
+            Keys.onReleased: function(event) {
                 if (chartViewMouseArea.containsMouse) {
                     chartViewMouseArea.cursorShape = Qt.PointingHandCursor
                 } else {
@@ -210,7 +210,7 @@ ChartView {
                     mouse.accepted = false
                 }
             }
-            onWheel: {
+            onWheel: function(wheel) {
                 if(!(wheel.modifiers & Qt.ControlModifier)) {
                     wheel.accepted = false
                 } else {
