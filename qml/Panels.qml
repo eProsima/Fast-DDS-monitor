@@ -51,7 +51,7 @@ RowLayout {
             iconsVBar.iconClicked(0)
         }
     }
-    onChangeChartboxLayout: {
+    onChangeChartboxLayout: function(chartsPerRow) {
         tabs.chartsLayout_boxesPerRow(chartsPerRow)
         tabs.chartsLayout_exitFullScreen()
     }
@@ -92,16 +92,16 @@ RowLayout {
             SplitView.minimumWidth: parent.width / 6
             visible: panels.showLeftSidebar
             clip: true
-            onExplorerDDSEntitiesChanged: panels.explorerDDSEntitiesChanged(status)
-            onExplorerPhysicalChanged: panels.explorerPhysicalChanged(status)
-            onExplorerLogicalChanged: panels.explorerLogicalChanged(status)
-            onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
-            onOpen_topic_view: tabs.open_topic_view(domainEntityId, domainId, entityId)
-            onRefresh_domain_graph_view: tabs.refresh_domain_graph_view(domainEntityId, entityId)
-            onFilter_entity_status_log: statusLayout.filter_entity_status_log(entityId)
-            onOpen_idl_view: tabs.open_idl_view(entityId)
-            onRemove_alert: panels.removeAlert(alertId)
-            onOpen_spy_view: tabs.open_spy_view(domainId, entityId)
+            onExplorerDDSEntitiesChanged: function(status) { panels.explorerDDSEntitiesChanged(status) }
+            onExplorerPhysicalChanged: function(status) { panels.explorerPhysicalChanged(status) }
+            onExplorerLogicalChanged: function(status) { panels.explorerLogicalChanged(status) }
+            onExplorerEntityInfoChanged: function(status) { panels.explorerEntityInfoChanged(status) }
+            onOpen_topic_view: function(domainEntityId, domainId, entityId) { tabs.open_topic_view(domainEntityId, domainId, entityId) }
+            onRefresh_domain_graph_view: function(domainEntityId, entityId) { tabs.refresh_domain_graph_view(domainEntityId, entityId) }
+            onFilter_entity_status_log: function(entityId) { statusLayout.filter_entity_status_log(entityId) }
+            onOpen_idl_view: function(entityId) { tabs.open_idl_view(entityId) }
+            onRemove_alert: function(alertId) { panels.removeAlert(alertId) }
+            onOpen_spy_view: function(entityId) { tabs.open_spy_view(entityId) }
         }
 
         Rectangle {

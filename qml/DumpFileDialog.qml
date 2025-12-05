@@ -22,7 +22,7 @@ import QtQuick.Dialogs
 FileDialog {
     title: qsTr("Dump database")
     fileMode: FileDialog.SaveFile
-    defaultSuffix: ".json"
+    defaultSuffix: "json"
     nameFilters: [ "JSON files (*.json)", "All files (*)" ]
 
     property bool clear
@@ -30,11 +30,11 @@ FileDialog {
     onAccepted: {
         if (clear) {
             controller.dump(
-                dumpDialogClear.fileUrl,
+                selectedFile,
                 true)
         } else {
             controller.dump(
-                dumpDialog.fileUrl,
+                selectedFile,
                 false)
         }
     }

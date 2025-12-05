@@ -350,7 +350,7 @@ Item
                 anchors.fill: parent
                 preventStealing: true
 
-                onWheel: {
+                onWheel: function(wheel) {
                     if (topicView.contentWidth > topicView.width)
                     {
                         if (wheel.angleDelta.y > 0) {
@@ -1602,6 +1602,9 @@ Item
                                                                 kind = "DataReader"
                                                             }
                                                             var endpoint_topic = new_model["hosts"][host]["users"][user]["processes"][process]["participants"][participant]["endpoints"][endpoint]["topic"]
+                                                            if (!endpoints_per_topic[endpoint_topic]) {
+                                                                endpoints_per_topic[endpoint_topic] = []
+                                                            }
                                                             new_endpoints[new_endpoints.length] = {
                                                                 "id":endpoint,
                                                                 "kind":kind,

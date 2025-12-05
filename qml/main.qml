@@ -61,31 +61,31 @@ ApplicationWindow {
         onDashboardLayoutButtonHidden: toolBar.isVisibleDashboardLayout = !toolBar.isVisibleDashboardLayout
         onClearIssuesButtonHidden: toolBar.isVisibleClearIssues = !toolBar.isVisibleClearIssues
         onLeftSidebarHidden: panels.openCloseLeftSideBar()
-        onChangeChartboxLayout: {
+        onChangeChartboxLayout: function(chartsPerRow) {
             panels.changeChartboxLayout(chartsPerRow)
             toolBar.changeChartboxLayoutIcon(chartsPerRow)
         }
         onSaveAllCSV: {
             panels.saveAllCSV()
         }
-        onExplorerDDSEntitiesChanged: panels.changeExplorerDDSEntities(status)
-        onExplorerPhysicalChanged: panels.changeExplorerPhysical(status)
-        onExplorerLogicalChanged: panels.changeExplorerLogical(status)
-        onExplorerEntityInfoChanged: panels.changeExplorerEntityInfo(status)
+        onExplorerDDSEntitiesChanged: function(status) { panels.changeExplorerDDSEntities(status) }
+        onExplorerPhysicalChanged: function(status) { panels.changeExplorerPhysical(status) }
+        onExplorerLogicalChanged: function(status) { panels.changeExplorerLogical(status) }
+        onExplorerEntityInfoChanged: function(status) { panels.changeExplorerEntityInfo(status) }
     }
 
     header: MonitorToolBar {
         id: toolBar
-        onChangeChartboxLayout: monitorMenuBar.changeChartboxLayoutViewMenu(chartsPerRow)
+        onChangeChartboxLayout: function(chartsPerRow) { monitorMenuBar.changeChartboxLayoutViewMenu(chartsPerRow) }
     }
 
     Panels {
         id: panels
         visible: false
-        onExplorerDDSEntitiesChanged: monitorMenuBar.changeExplorerDDSEntities(status)
-        onExplorerPhysicalChanged: monitorMenuBar.changeExplorerPhysical(status)
-        onExplorerLogicalChanged: monitorMenuBar.changeExplorerLogical(status)
-        onExplorerEntityInfoChanged: monitorMenuBar.changeExplorerEntityInfo(status)
+        onExplorerDDSEntitiesChanged: function(status) { monitorMenuBar.changeExplorerDDSEntities(status) }
+        onExplorerPhysicalChanged: function(status) { monitorMenuBar.changeExplorerPhysical(status) }
+        onExplorerLogicalChanged: function(status) { monitorMenuBar.changeExplorerLogical(status) }
+        onExplorerEntityInfoChanged: function(status) { monitorMenuBar.changeExplorerEntityInfo(status) }
     }
 
     InitMonitorDialog {
@@ -112,12 +112,16 @@ ApplicationWindow {
 
     HistoricDataKindDialog {
         id: dataKindDialog
-        onCreateChart: panels.createHistoricChart(dataKind)
+        onCreateChart: function(dataKind) {
+            panels.createHistoricChart(dataKind)
+        }
     }
 
     DynamicDataKindDialog {
         id: dynamicDataKindDialog
-        onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
+        onCreateChart: function(dataKind, timeWindowSeconds, updatePeriod, maxPoints) {
+            panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
+        }
     }
 
     AlertDialog {

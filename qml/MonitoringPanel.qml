@@ -86,7 +86,7 @@ ColumnLayout {
                             entityListLayout.visible = checked
                             explorerDDSEntitiesChanged(checked)
                         }
-                        onCheckedChanged: entityListLayout.visible = checked
+                        onCheckedChanged: function() { entityListLayout.visible = checked }
                     }
                     Action {
                         id: contextMenuPhysical
@@ -96,7 +96,7 @@ ColumnLayout {
                             physicalViewLayout.visible = checked
                             explorerPhysicalChanged(checked)
                         }
-                        onCheckedChanged: physicalViewLayout.visible = checked
+                        onCheckedChanged: function() {  physicalViewLayout.visible = checked }
                     }
                     Action {
                         id: contextMenuLogical
@@ -106,7 +106,7 @@ ColumnLayout {
                             logicalViewLayout.visible = checked
                             explorerLogicalChanged(checked)
                         }
-                        onCheckedChanged: logicalViewLayout.visible = checked
+                        onCheckedChanged: function() {  logicalViewLayout.visible = checked }
                     }
                     Action {
                         id: contextMenuEntityInfo
@@ -117,7 +117,7 @@ ColumnLayout {
                             entityInfo.visible = checked
                             explorerEntityInfoChanged(checked)
                         }
-                        onCheckedChanged: entityInfo.visible = checked
+                        onCheckedChanged: function() {  entityInfo.visible = checked  }
                     }
                     delegate: MenuItem {
                         id: menuItem

@@ -26,6 +26,6 @@ FileDialog {
     nameFilters: ["XML Files (*.xml)", "All Files (*)"]
 
     onAccepted: {
-        controller.load_xml_profiles_file(fileUrl)
+        controller.load_xml_profiles_file(selectedFile)
     }
 }

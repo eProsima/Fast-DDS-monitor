@@ -86,7 +86,10 @@ Item {
     ChartsLayout {
         visible: disable_chart_selection_
         id: chartsLayout
-        anchors.fill: stack_layout
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: tab_list.bottom
+        anchors.bottom: parent.bottom
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
         }
@@ -412,7 +415,7 @@ Item {
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
                             hoverEnabled: true
-                            onWheel: {
+                            onWheel: function(wheel) {
                                 if(wheel.angleDelta.y > 0){
                                   vertical_bar.decrease()
                                 }else{

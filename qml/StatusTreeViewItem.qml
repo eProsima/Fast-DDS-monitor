@@ -193,7 +193,7 @@ Item {
 
         Repeater {
             id: repeater
-            model: childCount
+            model: root.model ? childCount : 0  // Only create delegates when model exists
             Layout.fillWidth: true
 
             delegate: ColumnLayout {

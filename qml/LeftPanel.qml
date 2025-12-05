@@ -58,10 +58,10 @@ RowLayout {
         id: monitoringPanel
         Layout.fillHeight: true
         visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Explorer]) ? true : false
-        onExplorerDDSEntitiesChanged: leftPanel.explorerDDSEntitiesChanged(status)
-        onExplorerPhysicalChanged: leftPanel.explorerPhysicalChanged(status)
-        onExplorerLogicalChanged: leftPanel.explorerLogicalChanged(status)
-        onExplorerEntityInfoChanged: leftPanel.explorerEntityInfoChanged(status)
+        onExplorerDDSEntitiesChanged: function(status) { leftPanel.explorerDDSEntitiesChanged(status) }
+        onExplorerPhysicalChanged: function(status) { leftPanel.explorerPhysicalChanged(status) }
+        onExplorerLogicalChanged: function(status) { leftPanel.explorerLogicalChanged(status) }
+        onExplorerEntityInfoChanged: function(status) { leftPanel.explorerEntityInfoChanged(status) }
     }
 
     StatusPanel {
