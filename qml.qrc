@@ -63,7 +63,7 @@
         <file>qml/MonitorToolBarButton.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
-	<file>qml/ReusableTreeView.qml</file>
+        <file>qml/ReusableTreeView.qml</file>
         <file>qml/StatusTreeView.qml</file>
         <file>qml/StatusTreeViewItem.qml</file>
         <file>qml/QosView.qml</file>
