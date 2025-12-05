@@ -133,6 +133,9 @@ Flickable {
         defaultIndicator: indicatorToString(handleStyle)
         z: 1
 
+        // Only initialize when model is ready
+        visible: root.model !== null && root.model !== undefined
+
         Connections {
             target: root.model
             ignoreUnknownSignals: true

@@ -162,6 +162,44 @@ Rectangle {
         MenuBar {
             id: controlPanel
             Layout.fillWidth: true
+            
+            background: Rectangle {
+                implicitHeight: 30
+                color: "#e5e6e3"  // Original background color
+                
+                Rectangle {
+                    width: parent.width
+                    height: 2
+                    anchors.bottom: parent.bottom
+                    color: "#5c5c5a"  // Bottom border color
+                }
+            }
+
+            delegate: MenuBarItem {
+                id: menuBarItem
+                
+                implicitWidth: Math.max(contentItem.implicitWidth + leftPadding + rightPadding, 40)
+                implicitHeight: 28
+                
+                padding: 0
+                leftPadding: 5
+                rightPadding: 5
+                
+                contentItem: Text {
+                    text: menuBarItem.text
+                    font: menuBarItem.font
+                    opacity: enabled ? 1.0 : 0.3
+                    color: "black"
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+                
+                background: Rectangle {
+                    opacity: enabled ? 1 : 0.3
+                    color: menuBarItem.highlighted ? "#d0d0d0" : "transparent"
+                }
+            }
 
             signal addHistoricSeries(
                 string dataKind,
@@ -186,7 +224,8 @@ Rectangle {
             signal dynamicPause()
             signal dynamicContinue()
 
-            onAddHistoricSeries: statisticsChartViewLoader.item.addHistoricSeries(
+            onAddHistoricSeries: function(dataKind, seriesLabel, sourceEntityId, targetEntityId, bins, startTime, startTimeDefault, endTime, endTimeDefault, statisticKind) {
+                statisticsChartViewLoader.item.addHistoricSeries(
                                     dataKind,
                                     seriesLabel,
                                     sourceEntityId,
@@ -196,15 +235,18 @@ Rectangle {
                                     startTimeDefault,
                                     endTime,
                                     endTimeDefault,
-                                    statisticKind);
-            onAddDynamicSeries: statisticsChartViewLoader.item.addDynamicSeries(
+                                    statisticKind)
+            }
+            onAddDynamicSeries: function(seriesLabel, sourceEntityId, targetEntityId, statisticKind, cumulative, cumulative_interval, maxPoints) {
+                statisticsChartViewLoader.item.addDynamicSeries(
                                     seriesLabel,
                                     sourceEntityId,
                                     targetEntityId,
                                     statisticKind,
                                     cumulative,
                                     cumulative_interval,
-                                    maxPoints);
+                                    maxPoints)
+            }
             onClearChart: statisticsChartViewLoader.item.clearChart();
             onDynamicContinue: statisticsChartViewLoader.item.dynamicContinue();
             onDynamicPause: statisticsChartViewLoader.item.dynamicPause();
@@ -217,7 +259,7 @@ Rectangle {
                 }
                 Action {
                     text: "Set axes"
-                     onTriggered: statisticsChartViewLoader.item.userSetAxes()
+                    onTriggered: statisticsChartViewLoader.item.userSetAxes()
                 }
                 Action {
                     text: "Clear chart"
@@ -242,13 +284,26 @@ Rectangle {
 
                         // All the labels of the series in order of index of each series
                         var seriesNum = customLegend.getNumberOfSeries()
-
+                        
+                        var chartboxIds = []
+                        var seriesIds = []
+                        var dataKinds = []
+                        var chartTitles = []
+                        
+                        for (var i = 0; i < seriesNum; i++) {
+                            chartboxIds.push(chartboxId)
+                            seriesIds.push(i)
+                            dataKinds.push(dataKind)
+                            chartTitles.push(chartTitle)
+                        }
+                        
                         saveCSV(
-                            Array(seriesNum).fill(chartboxId),
-                            [...Array(seriesNum).keys()], // Numbers from 0 to <seriesNum>
-                            Array(seriesNum).fill(dataKind),
-                            Array(seriesNum).fill(chartTitle),
-                            customLegend.getAllLabels())
+                            chartboxIds,
+                            seriesIds,
+                            dataKinds,
+                            chartTitles,
+                            customLegend.getAllLabels()
+                        )
                     }
                 }
                 MenuSeparator { }
@@ -510,11 +565,19 @@ Rectangle {
             id: customLegend
             Layout.fillWidth: true
             Layout.margins: 10
-            onSeriesNameUpdated: statisticsChartViewLoader.item.updateSeriesName(seriesIndex, newSeriesName)
-            onSeriesColorUpdated: statisticsChartViewLoader.item.updateSeriesColor(seriesIndex, newSeriesColor)
-            onSeriesHidden: statisticsChartViewLoader.item.hideSeries(seriesIndex)
-            onSeriesDisplayed: statisticsChartViewLoader.item.displaySeries(seriesIndex)
-            onSeriesRemoved: {
+            onSeriesNameUpdated: function(seriesIndex, newSeriesName) {
+                statisticsChartViewLoader.item.updateSeriesName(seriesIndex, newSeriesName)
+            }
+            onSeriesColorUpdated: function(seriesIndex, newSeriesColor) {
+                statisticsChartViewLoader.item.updateSeriesColor(seriesIndex, newSeriesColor)
+            }
+            onSeriesHidden: function(seriesIndex) {
+                statisticsChartViewLoader.item.hideSeries(seriesIndex)
+            }
+            onSeriesDisplayed: function(seriesIndex) {
+                statisticsChartViewLoader.item.displaySeries(seriesIndex)
+            }
+            onSeriesRemoved: function(seriesIndex) {
                 statisticsChartViewLoader.item.removeSeries(statisticsChartViewLoader.item.series(seriesIndex))
                 removeLegend(seriesIndex)
                 if(isDynamic) {
@@ -525,7 +588,7 @@ Rectangle {
                     statisticsChartViewLoader.item.customRemoveSeries(seriesIndex)
                 }
             }
-            onSeriesToCSV: {
+            onSeriesToCSV: function(seriesIndex, seriesLabel) {
                 // Export one series as CSV
                 saveCSV(
                     [chartboxId],
@@ -534,7 +597,7 @@ Rectangle {
                     [chartTitle],
                     [seriesLabel])
             }
-            onSetMaxPoints: {
+            onSetMaxPoints: function(seriesIndex, maxPoints) {
                 // Export one series as CSV
                 seriesSetMaxPoints(chartboxId, seriesIndex, maxPoints)
             }

@@ -68,7 +68,7 @@ Rectangle {
             gridView.firstIndexDrag = -1
         }
 
-        onWheel: {
+        onWheel: function(wheel) {
             if (!fullScreen) {
                 if (wheel.angleDelta.y > 0) {
                     gridViewScrollBar.decrease()
