@@ -38,6 +38,20 @@ Item {
     property var treeStructure: ({})
 
     property bool expandOnUpdate: true
+    property bool enableCopySubtree: true
+
+    function expandAll() {
+        treeView.expandRecursively()
+    }
+
+    function collapseAll() {
+        // Manual collapse is more reliable than collapseRecursively()
+        for (var i = treeView.rows - 1; i >= 0; i--) {
+            if (treeView.isExpanded(i)) {
+                treeView.collapse(i)
+            }
+        }
+    }
 
     TreeView {
         id: treeView
@@ -263,7 +277,7 @@ Item {
                 
                 MenuItem {
                     text: "Copy Property"
-                    visible: !reusableTreeView.selectedRowHasChildren
+                    visible: !reusableTreeView.selectedRowHasChildren || (!enableCopySubtree && reusableTreeView.selectedRowHasChildren)
                     height: visible ? implicitHeight : 0
                     onTriggered: {
                         clipboardHelper.text = reusableTreeView.selectedRowName
@@ -299,7 +313,7 @@ Item {
                 
                 MenuItem {
                     text: "Copy Subtree"
-                    visible: reusableTreeView.selectedRowHasChildren
+                    visible: reusableTreeView.selectedRowHasChildren && enableCopySubtree
                     height: visible ? implicitHeight : 0
                     onTriggered: {
                         var allText = collectAllChildren()
