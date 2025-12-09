@@ -40,7 +40,7 @@ public:
     using DataChartBox::DataChartBox;
 
     //! Add new series
-        QVXYModelMapper* add_series(
+    QVXYModelMapper* add_series(
             QVector<QPointF> new_series);
 };
 

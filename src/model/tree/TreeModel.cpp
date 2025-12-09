@@ -248,7 +248,8 @@ void TreeModel::setup_model_data(
                 last_child = true;
             }
         }
-        else {
+        else
+        {
             data << QString();
         }
 
@@ -304,7 +305,7 @@ void TreeModel::setup_model_data_without_clean(
         const ordered_json& json_data)
 {
     QSet<QString> newKeys;
-    
+
     for (auto it = json_data.begin(); it != json_data.end(); ++it)
     {
         QString key = QString::fromUtf8(it.key().c_str());
@@ -407,11 +408,11 @@ void TreeModel::update_without_clean(
 {
     std::unique_lock<std::mutex> lock(update_mutex_);
     emit layoutAboutToBeChanged();
-    
+
     setup_model_data_without_clean(root_item_, QModelIndex(), data);
-    
+
     data_to_copy_ = data;
-    
+
     emit layoutChanged();
     emit updatedData();
 }
