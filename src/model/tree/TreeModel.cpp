@@ -213,7 +213,7 @@ TreeItem* TreeModel::get_item(
 void TreeModel::setup_model_data(
         const json& json_data,
         TreeItem* parent,
-        bool _first /* = true */)
+        bool /*_first = true */)
 {
     QList<QString> data;
 
