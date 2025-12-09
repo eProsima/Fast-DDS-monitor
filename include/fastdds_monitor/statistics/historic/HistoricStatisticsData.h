@@ -46,8 +46,8 @@ public:
 
     //! Add a new series in an internal chartbox
     QVXYModelMapper* add_series(
-        quint64 chartbox_id,
-        QVector<QPointF> new_series);
+            quint64 chartbox_id,
+            QVector<QPointF> new_series);
 
 public slots:
 

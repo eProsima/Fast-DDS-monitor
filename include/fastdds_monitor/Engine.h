@@ -187,7 +187,7 @@ public:
     /**
      * @brief Update the internal physical model with a host notification
      * @param id host id to create or update
-    QVXYModelMapper* on_add_statistics_data_series(
+       QVXYModelMapper* on_add_statistics_data_series(
      */
     bool update_host(
             const backend::EntityId& id,
@@ -383,7 +383,7 @@ public:
      *
      * Calls get_data with the params given and appends the new series to \c statistics_data_ (historic data)
      */
-        QVXYModelMapper* on_add_statistics_data_series(
+    QVXYModelMapper* on_add_statistics_data_series(
             quint64 chartbox_id,
             backend::DataKind data_kind,
             backend::EntityId source_entity_id,

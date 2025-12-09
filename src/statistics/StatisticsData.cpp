@@ -33,7 +33,7 @@
 
 // QtCharts namespace helper removed for Qt6; types are available directly (QAbstractSeries, QAbstractAxis, etc.)
 Q_DECLARE_METATYPE(
-        QAbstractSeries*)
+    QAbstractSeries*)
 
 Q_DECLARE_METATYPE(
     QAbstractAxis*)
