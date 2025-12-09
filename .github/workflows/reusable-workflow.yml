@@ -89,7 +89,7 @@ jobs:
           packages: sphinx doc8 sphinx_rtd_theme sphinxcontrib.spelling sphinxcontrib-imagehelper GitPython
 
       - name: Install Qt
-        uses: eProsima/eProsima-CI/external/install_qt@v0
+        uses: eProsima/eProsima-CI/external/install_qt@feature/qt6
         with:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
@@ -162,7 +162,7 @@ jobs:
           requirements_file_name: ${{ github.workspace }}/src/fastdds_monitor/docs/requirements.txt
 
       - name: Install Qt
-        uses: eProsima/eProsima-CI/external/install_qt@v0
+        uses: eProsima/eProsima-CI/external/install_qt@feature/qt6
         with:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
@@ -215,7 +215,7 @@ jobs:
           packages: sphinx==7.3.6 doc8==0.10.1 sphinx_rtd_theme==2.0.0 sphinxcontrib.spelling==8.0.0 sphinxcontrib-imagehelper==1.1.1 GitPython
 
       - name: Install Qt
-        uses: eProsima/eProsima-CI/external/install_qt@v0
+        uses: eProsima/eProsima-CI/external/install_qt@feature/qt6
         with:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
