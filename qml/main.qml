@@ -126,15 +126,16 @@ ApplicationWindow {
 
     AlertDialog {
         id: alertDialog
-        onCreateAlert: {
+        onCreateAlert: function(alert_name, domain_name, host_name, user_name, topic_name, alert_type,
+                                t_between_triggers, threshold, alert_timeout, script_path) {
             panels.createAlert(alert_name, domain_name, host_name, user_name, topic_name, alert_type,
-                                t_between_triggers, threshold, alert_timeout, script_path)
+                            t_between_triggers, threshold, alert_timeout, script_path)
         }
     }
 
     AlertsSettingsDialog {
         id: alertsSettingsDialog
-        onSetAlertsPollingTime: {
+        onSetAlertsPollingTime: function(pollingTime) {
             controller.set_alerts_polling_time(pollingTime)
         }
     }

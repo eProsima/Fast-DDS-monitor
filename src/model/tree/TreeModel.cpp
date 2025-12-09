@@ -303,17 +303,9 @@ void TreeModel::setup_model_data_without_clean(
         const QModelIndex& parent_index,
         const ordered_json& json_data)
 {
-    QHash<QString, int> currentIndexByName;
-    for (int i = 0; i < parent->child_count(); ++i)
-    {
-        QString name = parent->child_item(i)->get_item_name().toString();
-        currentIndexByName[name] = i;
-    }
-
     QSet<QString> newKeys;
-    int insertPos = parent->child_count();
-    int jsonIndex = 0;
-    for (auto it = json_data.begin(); it != json_data.end(); ++it, ++jsonIndex)
+    
+    for (auto it = json_data.begin(); it != json_data.end(); ++it)
     {
         QString key = QString::fromUtf8(it.key().c_str());
         newKeys.insert(key);
@@ -346,12 +338,6 @@ void TreeModel::setup_model_data_without_clean(
                 if (existingChild->get_item_value().toString() != newValue)
                 {
                     existingChild->set_item_value(newValue);
-
-                    // NOTE: If TreeView worked properly, this emit dataChanged
-                    // would update the model data in the view, but it is not
-                    // working. Left here for future migrations to Qt6
-                    QModelIndex changedIndex = index(existingChild->row(), 1, parent_index);
-                    emit dataChanged(changedIndex, changedIndex);
                 }
             }
             else
@@ -363,9 +349,6 @@ void TreeModel::setup_model_data_without_clean(
         }
         else
         {
-            // If it does not exist, it is inserted
-            beginInsertRows(parent_index, insertPos, insertPos);
-
             QList<QString> rowData;
             rowData << key;
 
@@ -396,15 +379,12 @@ void TreeModel::setup_model_data_without_clean(
             TreeItem* newChild = new TreeItem(rowData, parent);
             parent->append_child(newChild);
 
-            endInsertRows();
-
+            // Process children recursively
             if (!it.value().is_primitive())
             {
-                QModelIndex newIndex = createIndex(insertPos, 0, newChild);
+                QModelIndex newIndex = index(parent->child_count() - 1, 0, parent_index);
                 setup_model_data_without_clean(newChild, newIndex, it.value());
             }
-
-            insertPos++;
         }
     }
 
@@ -416,8 +396,8 @@ void TreeModel::setup_model_data_without_clean(
 
         if (!newKeys.contains(name))
         {
-            child = parent->take_child_item(i);
-            delete child;
+            TreeItem* removed = parent->take_child_item(i);
+            delete removed;
         }
     }
 }
@@ -426,9 +406,13 @@ void TreeModel::update_without_clean(
         ordered_json& data)
 {
     std::unique_lock<std::mutex> lock(update_mutex_);
-    // Recursive function to update without cleaning the entire model
+    emit layoutAboutToBeChanged();
+    
     setup_model_data_without_clean(root_item_, QModelIndex(), data);
+    
     data_to_copy_ = data;
+    
+    emit layoutChanged();
     emit updatedData();
 }
 

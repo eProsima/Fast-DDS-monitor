@@ -24,25 +24,20 @@ import Theme 1.0
 Item {
     id: statusLayout
 
-    // Public properties
     enum Status { Closed, Expanded, Collapsed }
     property int current_status: StatusLayout.Status.Closed
     required property int footer_height
 
-    // Public signals
     signal close_status_layout()
     signal expand_status_layout()
     signal collapse_status_layout()
 
-    // Private properties
     property bool filter_visible_: false
     property bool alert_icon_state: false
 
-    // Private signals
     signal focus_entity_(int entityId)
     signal clean_filter_()
 
-    // Read only design properties (sizes and colors)
     readonly property int tabs_height_: 30
     readonly property int elements_spacing_: 8
     readonly property int separator_line_: 2
@@ -60,7 +55,6 @@ Item {
         height: tabs_height_
         color: "white"
 
-        // Left-aligned TabBar
         TabBar {
             id: headerTabBar
             anchors.left: parent.left
@@ -72,9 +66,14 @@ Item {
                 width: implicitWidth
                 onClicked: pages.currentIndex = 0
             }
+
+            TabButton {
+                text: qsTr("Alerts")
+                width: implicitWidth
+                onClicked: pages.currentIndex = 1
+            }
         }
 
-        // Right-side icons row (same-line as tabs)
         Row {
             id: iconsRow
             anchors.right: parent.right
@@ -84,15 +83,15 @@ Item {
             height: tab_header.height - elements_spacing_ * 3 / 2
 
             IconSVG {
-                id: filter_icon;
+                id: filter_icon
                 name: statusLayout.filter_visible_ ? "filter_full" : "filter_empty"
-                size: parent.height;
+                size: parent.height
                 MouseArea {
-                    anchors.fill: parent;
+                    anchors.fill: parent
                     onClicked: statusLayout.clean_filter_()
                 }
             }
-            // connections to update filter icons
+
             Connections {
                 target: statusLayout
 
@@ -134,58 +133,57 @@ Item {
         }
     }
 
-    // Main Alerts tab
-    Tab {
-        title: "Alerts"
-        Rectangle {
+    StackLayout {
+        id: pages
+        anchors.top: tab_header.bottom
+        anchors.bottom: separator_line.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        currentIndex: headerTabBar.currentIndex
 
+        // Problems Tab (index 0)
+        Rectangle {
             color: "white"
 
-            // Main content of alerts tab: alert tree view with alerts per entity
-            TreeView {
-                id: alertMessagesView
+            StatusTreeView {
+                id: status_tree_view
                 anchors.fill: parent
-                model: alertMessageModel
-                selectionMode: SelectionMode.NoSelection
-                frameVisible: false
-                itemDelegate: Item {
-                    Text {
-                        anchors.fill: parent
-                        elide: styleData.elideMode
-                        text: {
-                            // Error when undefined value.
-                            // Do not know when this could happen, but happens
-                            styleData.value ? styleData.value : ""
-                        }
+                anchors.margins: 1
+
+                model: entityStatusModel
+
+                // Display if hidden when problems filtered (from right-click dialog)
+                onEntity_status_filtered: {
+                    collapse_status_layout()
+                }
+
+                // Filter and clean filter signal-slots management
+                Connections {
+                    target: statusLayout
+
+                    function onClean_filter_() {
+                        status_tree_view.clean_filter()
                     }
-                }
 
-                TableViewColumn {
-                    width: parent.width / 2
-                    role: "name"
-                    title: "Name"
-                }
-
-                TableViewColumn {
-                    width: parent.width / 2
-                    role: "value"
-                    title: "Value"
+                    function onFocus_entity_(entityId) {
+                        status_tree_view.filter_model_by_id(entityId)
+                    }
                 }
             }
         }
+
+        // Alerts Tab (index 1)
+        Rectangle {
+            color: "white"
+            
+            ReusableTreeView {
+                anchors.fill: parent
+                treeModel: alertMessageModel
+                columnSplitRatio: 0.5
+                expandOnUpdate: false
+            }
+        }
     }
-
-
-//        // Tab main stlye
-//        style: TabViewStyle {
-//            frameOverlap: 1
-//            // Each tab style: simple rounded rect header with text
-//            tab: Rectangle {
-//                color: styleData.selected ? "white" : Theme.lightGrey
-//                implicitWidth: Math.max(text.width + 10, tabs_width_)
-//                implicitHeight: tabs_height_
-//                radius: 4
-    // Pages area controlled by the TabBar
 
     Rectangle {
         id: separator_line
@@ -195,7 +193,6 @@ Item {
         color: Theme.grey
     }
 
-    // footer (and ALWAYS displayed) error, warning and alerts counters bar section
     Rectangle {
         id: icon_section
         anchors.bottom: parent.bottom
@@ -203,7 +200,6 @@ Item {
         width: parent.width
         color: grey_background_
 
-        // Close status so only this section is displayed, when component is loaded
         Component.onCompleted: {
             close_status_layout()
         }
@@ -241,18 +237,19 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             text: "0"
         }
+
         IconSVG {
             id: alert_icon
             anchors.left: warning_value.right
             anchors.leftMargin: elements_spacing_
             anchors.verticalCenter: parent.verticalCenter
-            name: alert_icon_state > 0 ? "alert_on" : "alert_off"
+            name: alert_icon_state ? "alert_on" : "alert_off"
             size: parent.height - elements_spacing_
+
             Connections {
                 target: alertMessageModel
                 function onUpdatedData() {
-                    // Re-evaluate manually when model changes
-                    alert_icon_state = alertMessageModel.rowCount() > 0 ? true : false
+                    alert_icon_state = alertMessageModel.rowCount() > 0
                 }
             }
         }
@@ -268,12 +265,10 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                if (current_status === StatusLayout.Status.Collapsed)
-                {
+                if (current_status === StatusLayout.Status.Collapsed) {
                     close_status_layout()
                 }
-                else
-                {
+                else {
                     collapse_status_layout()
                 }
             }

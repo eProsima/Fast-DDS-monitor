@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Controls
+import QtQuick.Layouts
+
 import Theme 1.0
 
 Dialog {
@@ -30,7 +31,7 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
-    property int pollingTime: 2000 // milliseconds
+    property int pollingTime: 2000
 
     signal setAlertsPollingTime(int pollingTime)
 
@@ -39,14 +40,9 @@ Dialog {
         setAlertsPollingTime(pollingTime)
     }
 
-    onAboutToShow: {
-    }
-
-    GridLayout{
-
+    GridLayout {
         columns: 2
         rowSpacing: 20
-
 
         Label {
             text: "Polling time (ms): "
@@ -54,6 +50,7 @@ Dialog {
                 text: "Alerts timeouts are checked with this periodicity, given in ms."
             }
         }
+
         TextField {
             id: pollingTimeField
             Layout.fillWidth: true

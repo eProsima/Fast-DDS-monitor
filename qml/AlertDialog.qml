@@ -15,20 +15,19 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Controls
+import QtQuick.Layouts
 import Theme 1.0
 
 Dialog {
     id: alertDialog
 
-    readonly property int layout_vertical_spacing_: 10 // vertical spacing between the components in a row
-    readonly property int layout_horizontal_spacing_: 15 // horizontal spacing between rows
-    readonly property int item_height_: 40 // Height of header item and each item of
-                                           // advanced options submenu (title + options)
-    readonly property int dialog_width_: 300 // Width of the dialog
+    readonly property int layout_vertical_spacing_: 10
+    readonly property int layout_horizontal_spacing_: 15
+    readonly property int item_height_: 40
+    readonly property int dialog_width_: 300
 
     property bool manual_name_provided: false
     property var availableAlertKinds: []
@@ -88,10 +87,15 @@ Dialog {
         hostComboBox.currentIndex = 0
         topicComboBox.currentIndex = 0
         userComboBox.currentIndex = 0
+        manual_name_provided = false
+        manualHostCheckBox.checked = false
+        manualUserCheckBox.checked = false
+        manualTopicCheckBox.checked = false
         manualHostText.text = ""
         manualUserText.text = ""
         manualTopicText.text = ""
         filePathField.text = ""
+        currentScriptPath = ""
         thresholdUnits = ""
         updateDomains()
         updateTopics()
@@ -543,37 +547,51 @@ Dialog {
     MessageDialog {
         id: emptyAlertKind
         title: "Missing alert kind"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The alert kind field is empty. Please enter an alert kind."
-        onAccepted: alertDialog.open()
-        onDiscard: alertDialog.close()
+        buttons: MessageDialog.Retry | MessageDialog.Discard
+        
+        onButtonClicked: function(button, role) {
+            if (button === MessageDialog.Retry) {
+                alertDialog.open()
+            } else if (button === MessageDialog.Discard) {
+                alertDialog.close()
+            }
+        }
     }
 
     MessageDialog {
         id: emptyAlertName
         title: "Missing alert name"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The alert name field is empty. Please enter an alert name."
-        onAccepted: alertDialog.open()
-        onDiscard: alertDialog.close()
+        buttons: MessageDialog.Retry | MessageDialog.Discard
+        
+        onButtonClicked: function(button, role) {
+            if (button === MessageDialog.Retry) {
+                alertDialog.open()
+            } else if (button === MessageDialog.Discard) {
+                alertDialog.close()
+            }
+        }
     }
 
     MessageDialog {
         id: emptyAlertDomain
         title: "Missing domain"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
         text: "The domain field is empty. Please enter a domain."
-        onAccepted: alertDialog.open()
-        onDiscard: alertDialog.close()
+        buttons: MessageDialog.Retry | MessageDialog.Discard
+        
+        onButtonClicked: function(button, role) {
+            if (button === MessageDialog.Retry) {
+                alertDialog.open()
+            } else if (button === MessageDialog.Discard) {
+                alertDialog.close()
+            }
+        }
     }
 
     FileDialog {
         id: scriptFileDialog
         title: "Select a script file"
-        width: 130
         nameFilters: [
             "All files (*)",
             "Shell scripts (*.sh)",
@@ -581,11 +599,10 @@ Dialog {
             "Batch files (*.bat)",
             "PowerShell scripts (*.ps1)"
         ]
-        selectExisting: true
-        folder: Qt.resolvedUrl(".")
-
+        fileMode: FileDialog.OpenFile
+        currentFolder: Qt.resolvedUrl(".")
         onAccepted: {
-            currentScriptPath = fileUrl
+            currentScriptPath = selectedFile
             filePathField.text = currentScriptPath
         }
     }
@@ -634,7 +651,6 @@ Dialog {
     function regenerateAlertName(){
 
         if (manual_name_provided === true) {
-            // User has modified the alert name, do not auto-generate
             return
         }
 

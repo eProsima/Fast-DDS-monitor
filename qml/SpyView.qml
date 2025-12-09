@@ -15,27 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQml.Models
+
+import Theme 1.0
 
 Item {
     id: spyView
-    // Public properties
-    property var model: userDataModel                       // User Data JSON model
-    property string domain_id                               // ID of the domain where the topic is
-    property string topic_id                                // ID of the topic to spy
-    property string topic_name                              // Name of the topic to spy
+    property var model: userDataModel
+    property string domain_id
+    property string topic_id
+    property string topic_name
 
-    // Private properties
-    property bool is_active_: false                         // Whether the spy is active or not
+    property bool is_active_: false
 
-    // Read-only design properties
     readonly property int elements_spacing_: 10
 
-    // Used to store expanded/collapsed state of the tree items, all the attemps
-    // to use a more sophisticated update method have failed.
     property var expandedState: ({})
 
     function start_spy() {
@@ -60,8 +57,7 @@ Item {
         start_spy()
     }
 
-    Flickable
-    {
+    Flickable {
         id: userDataView
         clip: true
         boundsBehavior: Flickable.StopAtBounds
@@ -73,63 +69,111 @@ Item {
         contentHeight: parent.height
 
         TreeView {
-
             id: treeView
             anchors.fill: parent
             anchors.topMargin: buttonContainer.height + buttonContainer.anchors.topMargin + elements_spacing_
             anchors.leftMargin: elements_spacing_
             anchors.rightMargin: elements_spacing_
             model: spyView.model
-            headerVisible: false
-            frameVisible: false
-            selectionMode: SelectionMode.NoSelection
+            clip: true
 
-            TableViewColumn {
-                role: "name"
-                title: "JSON view"
-                width: 400
-            }
+            ScrollBar.vertical: CustomScrollBar {}
+            ScrollBar.horizontal: CustomScrollBar {}
 
-            TableViewColumn {
-                role: "value"
-                title: "JSON view"
-                width: 400
-            }
+            delegate: Item {
+                id: delegateRoot
+                implicitWidth: treeView.width
+                implicitHeight: 30
 
-            itemDelegate: Text {
-                text: styleData.value
-            }
+                required property TreeView treeView
+                required property bool isTreeNode
+                required property bool expanded
+                required property bool hasChildren
+                required property int depth
+                required property int row
+                required property int column
 
-            // Expand all tree items
-            function expandAll() {
-                expandChilds(treeView.model.invalidIndex())
-            }
+                property var modelDisplay: (typeof model.display !== 'undefined' && model.display !== null) ? String(model.display) : ""
 
-            // Expand all child items of a given parent
-            function expandChilds(parent) {
-                for(var i=0; i < model.rowCount(parent); i++) {
-                    var index = model.index(i, 0, parent)
-                    if (!isExpanded(index)) {
-                        expand(index)
-                        var path = pathFromIndex(index)
-                        spyView.expandedState[path] = true
-                    }
-                    if (model.rowCount(index) > 0) {
-                        expandChilds(index)
+                Rectangle {
+                    anchors.fill: parent
+                    color: "transparent"
+
+                    Row {
+                        anchors.fill: parent
+                        anchors.leftMargin: depth * 20
+                        spacing: 5
+
+                        Item {
+                            width: 20
+                            height: parent.height
+                            visible: column === 0 && isTreeNode && hasChildren
+
+                            IconSVG {
+                                anchors.centerIn: parent
+                                name: "collapse"
+                                size: 10
+                                rotation: expanded ? 0 : -90
+                                color: "grey"
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: treeView.toggleExpanded(row)
+                            }
+                        }
+
+                        Text {
+                            width: (treeView.width / 2) - (depth * 20) - 30
+                            height: parent.height
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideRight
+                            text: modelDisplay
+                            visible: column === 0
+                        }
+
+                        Text {
+                            width: treeView.width / 2
+                            height: parent.height
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideRight
+                            text: modelDisplay
+                            visible: column === 1
+                        }
                     }
                 }
             }
 
-            // Collapse all tree items
-            function collapseAll() {
-                collapseChilds(treeView.model.invalidIndex())
+            function expandAll() {
+                expandChilds(treeView.model ? treeView.model.index(0, 0) : null)
             }
 
-            // Expand all child items of a given parent
-            function collapseChilds(parent) {
-                for(var i=0; i < model.rowCount(parent); i++) {
+            function expandChilds(parent) {
+                if (!model || !parent) return
+
+                for(var i = 0; i < model.rowCount(parent); i++) {
                     var index = model.index(i, 0, parent)
-                    if (isExpanded(index)) {
+                    if (index && index.valid) {
+                        expand(index)
+                        var path = pathFromIndex(index)
+                        spyView.expandedState[path] = true
+                        if (model.rowCount(index) > 0) {
+                            expandChilds(index)
+                        }
+                    }
+                }
+            }
+
+            function collapseAll() {
+                collapseChilds(treeView.model ? treeView.model.index(0, 0) : null)
+            }
+
+            function collapseChilds(parent) {
+                if (!model || !parent) return
+
+                for(var i = 0; i < model.rowCount(parent); i++) {
+                    var index = model.index(i, 0, parent)
+                    if (index && index.valid) {
                         if (model.rowCount(index) > 0) {
                             collapseChilds(index)
                         }
@@ -141,12 +185,13 @@ Item {
             }
 
             function saveExpanded(parentIndex) {
+                if (!model || !parentIndex) return
+
                 for (var i = 0; i < model.rowCount(parentIndex); ++i) {
                     var idx = model.index(i, 0, parentIndex)
-                    var key = model.data(idx, model.nameRole())
-                    if (isExpanded(idx)) {
+                    if (idx && idx.valid && isExpanded(idx)) {
                         var path = pathFromIndex(idx)
-                        if (path != "") {
+                        if (path !== "") {
                             spyView.expandedState[path] = true
                         }
                         saveExpanded(idx)
@@ -155,12 +200,13 @@ Item {
             }
 
             function restoreExpanded(parentIndex) {
+                if (!model || !parentIndex) return
+
                 for (var i = 0; i < model.rowCount(parentIndex); ++i) {
-                    var idx  =  model.index(i, 0, parentIndex)
-                    var key  =  model.data(idx, model.nameRole())
-                    var path = pathFromIndex(idx)
-                    if (path in spyView.expandedState) {
-                        if (spyView.expandedState[path]) {
+                    var idx = model.index(i, 0, parentIndex)
+                    if (idx && idx.valid) {
+                        var path = pathFromIndex(idx)
+                        if (path in spyView.expandedState && spyView.expandedState[path]) {
                             expand(idx)
                         }
                         restoreExpanded(idx)
@@ -168,8 +214,6 @@ Item {
                 }
             }
 
-            // Computes the complete path of an index in the tree (in the json)
-            // concatenating all the keys from root to the index and "/" as separator
             function pathFromIndex(idx) {
                 if (!idx || !idx.valid)
                     return ""
@@ -177,57 +221,35 @@ Item {
                 var keys = []
                 var current = idx
                 while (current.valid) {
-                    var key = model.data(current, model.nameRole())
+                    var key = model.data(current, 0) // Use role 0 for display
                     keys.unshift(key)
                     current = model.parent(current)
                 }
                 return keys.join("/")
             }
 
-            // Computes the index in the tree from a complete path in the json
-            // returning the invalid index if not found
-            function indexFromPath(path) {
-                var keys = path.split("/")
-                var currentIndex = model.index(0, 0, model.invalidIndex())
-                for (var key_i = 0; key_i < keys.length; ++key_i) {
-                    var found = false
-                    for (var row_j = 0; row_j < model.rowCount(currentIndex); ++row_j) {
-                        var childIndex = model.index(row_j, 0, currentIndex)
-                        if (model.data(childIndex, model.nameRole()) === keys[key_i]) {
-                            currentIndex = childIndex
-                            found = true
-                            break
-                        }
-                    }
-                    if (!found) {
-                        return model.invalidIndex()
-                    }
-                }
-                return currentIndex
-            }
-
-            // Copy the current data in json format to clipboard
             function copyData() {
-                model.copy_json_to_clipboard()
+                if (model && typeof model.copy_json_to_clipboard === 'function') {
+                    model.copy_json_to_clipboard()
+                }
             }
 
             Connections {
                 target: spyView.model
                 function onUpdatedData() {
-                    // Save current scroll position to restore it later
                     var flick = treeView.flickableItem
+                    if (!flick) return
+
                     var oldY = flick.contentY
                     var oldX = flick.contentX
-                    // Save collapsed/expanded state
-                    treeView.saveExpanded(model.invalidIndex())
-                    // Reset the model to force a refresh
+
+                    treeView.saveExpanded(model ? model.index(0, 0) : null)
+
                     treeView.model = null
                     treeView.model = spyView.model
-                    // Wait for full rebuild before restoring previous state
+
                     Qt.callLater(function() {
-                        // Restore expanded state
-                        treeView.restoreExpanded(model.invalidIndex())
-                        // Restore scroll position
+                        treeView.restoreExpanded(model ? model.index(0, 0) : null)
                         flick.contentY = oldY
                         flick.contentX = oldX
                     })
@@ -239,15 +261,19 @@ Item {
             id: rowTitle
             text: topic_name + " Data"
             verticalAlignment: Text.AlignVCenter
-            anchors.top: parent.top; anchors.topMargin: spyView.elements_spacing_
-            anchors.left: parent.left; anchors.leftMargin: spyView.elements_spacing_
+            anchors.top: parent.top
+            anchors.topMargin: spyView.elements_spacing_
+            anchors.left: parent.left
+            anchors.leftMargin: spyView.elements_spacing_
         }
 
         Row {
             id: buttonContainer
             spacing: spyView.elements_spacing_
-            anchors.top: parent.top; anchors.topMargin: spyView.elements_spacing_
-            anchors.right: parent.right; anchors.rightMargin: spyView.elements_spacing_
+            anchors.top: parent.top
+            anchors.topMargin: spyView.elements_spacing_
+            anchors.right: parent.right
+            anchors.rightMargin: spyView.elements_spacing_
 
             Button {
                 id: pausePlayButton
