@@ -101,7 +101,7 @@ RowLayout {
             onFilter_entity_status_log: function(entityId) { statusLayout.filter_entity_status_log(entityId) }
             onOpen_idl_view: function(entityId) { tabs.open_idl_view(entityId) }
             onRemove_alert: function(alertId) { panels.removeAlert(alertId) }
-            onOpen_spy_view: function(entityId) { tabs.open_spy_view(entityId) }
+            onOpen_spy_view: function(domainId, entityId) { tabs.open_spy_view(domainId, entityId) }
         }
 
         Rectangle {
