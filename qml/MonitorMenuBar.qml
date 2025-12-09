@@ -1,6 +1,6 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
+import QtQuick 6.10
+import QtQuick.Controls 6.10
+import QtQuick.Layouts 6.10
 import Theme 1.0
 
 MenuBar {

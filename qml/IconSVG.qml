@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick
+import QtQuick 6.10
 
 Image {
     id: image

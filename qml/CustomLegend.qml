@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick
-import QtCharts
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Dialogs
+import QtQuick 6.10
+import QtCharts 6.10
+import QtQuick.Controls 6.10
+import QtQuick.Layouts 6.10
+import QtQuick.Dialogs 6.10
 
 Rectangle {
     id: legend
