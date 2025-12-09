@@ -40,10 +40,10 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 
-import QtQuick
-import QtQuick.Window
-import QtQuick.Controls
-import QtQml
+import QtQuick 6.10
+import QtQuick.Window 6.10
+import QtQuick.Controls 6.10
+import QtQml 6.10
 
 Flickable {
     id: root

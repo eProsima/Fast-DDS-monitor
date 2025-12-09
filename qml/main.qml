@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
-import QtQuick.Dialogs
+import QtQuick 6.10
+import QtQuick.Layouts 6.10
+import QtQuick.Window 6.10
+import QtQuick.Controls 6.10
+import Qt5Compat.GraphicalEffects 1.0
+import QtQuick.Dialogs 6.10
 
 import Theme 1.0
 
