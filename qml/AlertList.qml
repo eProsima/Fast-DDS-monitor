@@ -15,15 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQml.Models 2.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+
 import Theme 1.0
 
-
 Rectangle {
-
     id: alertListRect
     Layout.fillHeight: true
     Layout.fillWidth: true
@@ -40,7 +38,7 @@ Rectangle {
         model: alertModel
         delegate: alertListDelegate
         clip: true
-        anchors.fill : parent
+        anchors.fill: parent
         spacing: verticalSpacing
         boundsBehavior: Flickable.StopAtBounds
 
@@ -56,32 +54,34 @@ Rectangle {
             id: alertItem
             width: alertListRect.width
             height: alertHighlightRect.height
-            property var alertId: id
-            property int alertIdx: index
+
+            required property var id
+            required property int index
+            required property string name
+            required property bool alive
 
             Rectangle {
-
                 id: alertHighlightRect
                 width: alertList.width
-                height: alertIcon.height
+                height: alertIcon.height + 10
                 color: clicked ? Theme.eProsimaLightBlue : "transparent"
-                property bool clicked : false
+                property bool clicked: false
 
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                    onClicked: {
+                    onClicked: function(mouse) {
                         alertHighlightRect.clicked = !alertHighlightRect.clicked
-                        if(mouse.button & Qt.RightButton) {
-                            openAlertsMenu(id)
-                        } else  {
-                            controller.alert_click(id)
+                        if (mouse.button & Qt.RightButton) {
+                            openAlertsMenu(alertItem.id)
+                        } else {
+                            controller.alert_click(alertItem.id)
                         }
                     }
                 }
 
                 RowLayout {
+                    anchors.verticalCenter: parent.verticalCenter
                     spacing: spacingIconLabel
 
                     IconSVG {
@@ -89,11 +89,12 @@ Rectangle {
                         name: "alert"
                         size: iconSize
                         Layout.leftMargin: firstIndentation
-                        color: entityLabelColor(alertHighlightRect.clicked, alive)
+                        color: entityLabelColor(alertHighlightRect.clicked, alertItem.alive)
                     }
+
                     Label {
-                        text: name
-                        color: entityLabelColor(alertHighlightRect.clicked, alive)
+                        text: alertItem.name
+                        color: entityLabelColor(alertHighlightRect.clicked, alertItem.alive)
                     }
                 }
             }

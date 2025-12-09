@@ -23,7 +23,7 @@
         <file>qml/AlertList.qml</file>
         <file>qml/AlertsMenu.qml</file>
         <file>qml/AlertsPanel.qml</file>
-        <file>qml/AlertSummary.qml</file>
+        <file>qml/AlertsSummaryView.qml</file>
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
@@ -64,8 +64,6 @@
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
         <file>qml/ReusableTreeView.qml</file>
-        <file>qml/StatusTreeView.qml</file>
-        <file>qml/StatusTreeViewItem.qml</file>
         <file>qml/QosView.qml</file>
         <file>qml/ScheduleClearDialog.qml</file>
         <file>qml/SeriesSetMaxPointsDialog.qml</file>

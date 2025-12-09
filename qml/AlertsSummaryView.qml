@@ -18,17 +18,13 @@
 import QtQuick
 import QtQuick.Controls
 
-import Theme 1.0
-
-Menu {
-    id: alertsMenu
+Item {
+    id: alertsSummaryView
+    visible: true
     
-    property string alertId: ""
-    
-    signal removeAlert(string alertId)
-
-    MenuItem {
-        text: "Remove Alert"
-        onTriggered: alertsMenu.removeAlert(alertsMenu.alertId)
+    ReusableTreeView {
+        anchors.fill: parent
+        treeModel: alertsSummaryModel
+        columnSplitRatio: 0.5
     }
 }

@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2025 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // This file is part of eProsima Fast DDS Monitor.
 //
@@ -36,6 +36,8 @@ Item {
     property bool selectedRowHasChildren: false
     property var rowDataMap: ({})
     property var treeStructure: ({})
+
+    property bool expandOnUpdate: true
 
     TreeView {
         id: treeView
@@ -81,7 +83,9 @@ Item {
             function onUpdatedData() {
                 reusableTreeView.rowDataMap = {}
                 reusableTreeView.treeStructure = {}
-                Qt.callLater(function () { treeView.expandRecursively() })
+                if (expandOnUpdate) {
+                    Qt.callLater(function () { treeView.expandRecursively() })
+                }
             }
         }
 
@@ -117,6 +121,13 @@ Item {
             Component.onCompleted: {
                 indicator.rotation = expanded ? 0 : -90
                 
+                if (!reusableTreeView.rowDataMap) {
+                    reusableTreeView.rowDataMap = {}
+                }
+                if (!reusableTreeView.treeStructure) {
+                    reusableTreeView.treeStructure = {}
+                }
+                
                 if (!reusableTreeView.rowDataMap[row]) {
                     reusableTreeView.rowDataMap[row] = {depth: depth}
                 }
@@ -144,15 +155,21 @@ Item {
             
             onModelNameChanged: {
                 if (column === 0) {
+                    if (!reusableTreeView.rowDataMap) {
+                        reusableTreeView.rowDataMap = {}
+                    }
                     if (!reusableTreeView.rowDataMap[row]) {
                         reusableTreeView.rowDataMap[row] = {depth: depth}
                     }
                     reusableTreeView.rowDataMap[row].name = modelName
                 }
             }
-            
+
             onModelValueChanged: {
                 if (column === 1) {
+                    if (!reusableTreeView.rowDataMap) {
+                        reusableTreeView.rowDataMap = {}
+                    }
                     if (!reusableTreeView.rowDataMap[row]) {
                         reusableTreeView.rowDataMap[row] = {depth: depth}
                     }
