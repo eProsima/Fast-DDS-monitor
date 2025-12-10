@@ -155,7 +155,7 @@ To install this Qt version, refer to `Qt Downloads <https://www.qt.io/download>`
 
 .. note::
 
-    When going through the installation steps, make sure the box of component *Qt Charts* is checked.
+    When going through the installation steps, make sure the box of components *Qt Charts* and *Qt 5 Compatibility module* are checked.
 
 
 .. _colcon_installation:
