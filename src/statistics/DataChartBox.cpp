@@ -55,6 +55,13 @@ QVXYModelMapper* DataChartBox::add_series(
     return mapper;
 }
 
+QVXYModelMapper* DataChartBox::add_series(
+        DataModel* data_model)
+{
+    quint64 _foo;
+    return add_series(data_model, _foo);
+}
+
 void DataChartBox::delete_series_by_order_index(
         quint64 series_order_index)
 {
