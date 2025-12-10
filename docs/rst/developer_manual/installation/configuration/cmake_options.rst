@@ -26,8 +26,8 @@ These options allow the developer to enable/disable certain *Fast DDS Monitor* s
     *   - :class:`QT_PATH`
         - Path to the directory where Qt has been installed. This |br|
           argument is required to find the Qt binaries. An example |br|
-          of the path to the Qt 5.15 installation directory is: |br|
-          ``/opt/Qt/5.15.2/gcc_64``.
+          of the path to the Qt 6.10 installation directory is: |br|
+          ``/opt/Qt/6.10.1/gcc_64``.
         - -
         - -
     *   - :class:`BUILD_TESTS`
