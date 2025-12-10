@@ -209,8 +209,7 @@ TreeItem* TreeModel::get_item(
 
 void TreeModel::setup_model_data(
         const json& json_data,
-        TreeItem* parent,
-        bool /*_first = true */)
+        TreeItem* parent)
 {
     QList<QString> data;
 
@@ -253,7 +252,7 @@ void TreeModel::setup_model_data(
         TreeItem* current_child = new TreeItem(data, parent);
         if (!last_child)
         {
-            setup_model_data(static_cast<json>(it.value()), current_child, false);
+            setup_model_data(static_cast<json>(it.value()), current_child);
         }
 
         parent->append_child(current_child);
