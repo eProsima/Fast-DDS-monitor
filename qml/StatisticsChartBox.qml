@@ -19,7 +19,6 @@ import QtQuick 6.10
 import QtQuick.Controls 6.10
 import QtQuick.Window 6.10
 import QtQuick.Layouts 6.10
-import Qt5Compat.GraphicalEffects 1.0
 import Theme 1.0
 
 Rectangle {
