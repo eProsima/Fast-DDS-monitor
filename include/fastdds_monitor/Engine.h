@@ -187,7 +187,7 @@ public:
     /**
      * @brief Update the internal physical model with a host notification
      * @param id host id to create or update
-       QVXYModelMapper* on_add_statistics_data_series(
+     * @return true if any change in model has been done
      */
     bool update_host(
             const backend::EntityId& id,
