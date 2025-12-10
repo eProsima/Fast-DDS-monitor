@@ -89,12 +89,13 @@ jobs:
           packages: sphinx doc8 sphinx_rtd_theme sphinxcontrib.spelling sphinxcontrib-imagehelper GitPython
 
       - name: Install Qt
-        uses: eProsima/eProsima-CI/external/install_qt@feature/qt6
+        uses: eProsima/eProsima-CI/external/install_qt@v0
         with:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
           arch: ${{ matrix.os.aarch }}
           setup-python: 'false'
+          version: '6.10.1'
 
       - name: Install OpenSSL in windows
         if: runner.os == 'Windows'
@@ -162,12 +163,13 @@ jobs:
           requirements_file_name: ${{ github.workspace }}/src/fastdds_monitor/docs/requirements.txt
 
       - name: Install Qt
-        uses: eProsima/eProsima-CI/external/install_qt@feature/qt6
+        uses: eProsima/eProsima-CI/external/install_qt@v0
         with:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
           setup-python: 'false'
           arch: 'linux_gcc_64'
+          version: '6.10.1'
 
       - name: Compile and run tests
         uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
@@ -216,12 +218,13 @@ jobs:
           packages: sphinx==7.3.6 doc8==0.10.1 sphinx_rtd_theme==2.0.0 sphinxcontrib.spelling==8.0.0 sphinxcontrib-imagehelper==1.1.1 GitPython
 
       - name: Install Qt
-        uses: eProsima/eProsima-CI/external/install_qt@feature/qt6
+        uses: eProsima/eProsima-CI/external/install_qt@v0
         with:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
           setup-python: 'false'
           arch: 'linux_gcc_64'
+          version: '6.10.1'
 
       - name: Install OpenSSL in windows
         if: runner.os == 'Windows'
