@@ -6,8 +6,6 @@ import Theme 1.0
 MenuBar {
     id: monitorMenuBar
 
-    delegate: MenuBarItem { }
-
     signal toolBarHidden
     signal initMonitorButtonHidden
     signal dispDataButtonHidden
