@@ -24,8 +24,8 @@ import Theme 1.0
 Dialog {
     id: alertDialog
 
-    readonly property int layout_vertical_spacing_: 10
-    readonly property int layout_horizontal_spacing_: 15
+    readonly property int layout_vertical_spacing_: 10 // vertical spacing between the components in a row
+    readonly property int layout_horizontal_spacing_: 15 // horizontal spacing between rows
     readonly property int item_height_: 40 // Height of header item and each item of
                                            // advanced options submenu (title + options)
     readonly property int dialog_width_: 300 // Width of the dialog
