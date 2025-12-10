@@ -31,7 +31,7 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
-    property int pollingTime: 2000
+    property int pollingTime: 2000 // milliseconds
 
     signal setAlertsPollingTime(int pollingTime)
 

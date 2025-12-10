@@ -26,8 +26,9 @@ Dialog {
 
     readonly property int layout_vertical_spacing_: 10
     readonly property int layout_horizontal_spacing_: 15
-    readonly property int item_height_: 40
-    readonly property int dialog_width_: 300
+    readonly property int item_height_: 40 // Height of header item and each item of
+                                           // advanced options submenu (title + options)
+    readonly property int dialog_width_: 300 // Width of the dialog
 
     property bool manual_name_provided: false
     property var availableAlertKinds: []
@@ -651,6 +652,7 @@ Dialog {
     function regenerateAlertName(){
 
         if (manual_name_provided === true) {
+            // User has modified the alert name, do not auto-generate
             return
         }
 
