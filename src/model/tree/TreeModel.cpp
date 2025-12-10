@@ -148,7 +148,7 @@ QModelIndex TreeModel::parent(
     }
 
     TreeItem* parent_item = child_item->parent_item();
-    
+
     // Check if parent is root or null before calling row()
     if (parent_item == nullptr || parent_item == root_item_)
     {
@@ -420,7 +420,7 @@ void TreeModel::update_without_clean(
         ordered_json& data)
 {
     std::unique_lock<std::mutex> lock(update_mutex_);
-    
+
     setup_model_data_without_clean(root_item_, QModelIndex(), data);
 
     data_to_copy_ = data;
