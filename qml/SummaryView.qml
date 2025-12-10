@@ -29,4 +29,13 @@ Item {
         treeModel: summaryModel
         columnSplitRatio: 0.5
     }
+
+    // Timer to refresh summary every 10 seconds
+    Timer {
+        id: timer
+        interval: 10000
+        running: true
+        repeat: true
+        onTriggered: controller.refresh_summary()
+    }
 }
