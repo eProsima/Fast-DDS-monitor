@@ -552,10 +552,13 @@ Dialog {
         buttons: MessageDialog.Retry | MessageDialog.Discard
         
         onButtonClicked: function(button, role) {
-            if (button === MessageDialog.Retry) {
-                alertDialog.open()
-            } else if (button === MessageDialog.Discard) {
-                alertDialog.close()
+            switch (button) {
+                case MessageDialog.Retry:
+                    alertDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    alertDialog.close()
+                    break;
             }
         }
     }
@@ -567,10 +570,13 @@ Dialog {
         buttons: MessageDialog.Retry | MessageDialog.Discard
         
         onButtonClicked: function(button, role) {
-            if (button === MessageDialog.Retry) {
-                alertDialog.open()
-            } else if (button === MessageDialog.Discard) {
-                alertDialog.close()
+            switch (button) {
+                case MessageDialog.Retry:
+                    alertDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    alertDialog.close()
+                    break;
             }
         }
     }
@@ -582,10 +588,13 @@ Dialog {
         buttons: MessageDialog.Retry | MessageDialog.Discard
         
         onButtonClicked: function(button, role) {
-            if (button === MessageDialog.Retry) {
-                alertDialog.open()
-            } else if (button === MessageDialog.Discard) {
-                alertDialog.close()
+            switch (button) {
+                case MessageDialog.Retry:
+                    alertDialog.open()
+                    break;
+                case MessageDialog.Discard:
+                    alertDialog.close()
+                    break;
             }
         }
     }
