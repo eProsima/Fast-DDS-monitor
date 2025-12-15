@@ -33,8 +33,8 @@ endif()
 ###############################################################################
 # Version
 ###############################################################################
-set(PRODUCT_MAJOR_VERSION 3)
-set(PRODUCT_MINOR_VERSION 4)
+set(PRODUCT_MAJOR_VERSION 4)
+set(PRODUCT_MINOR_VERSION 0)
 set(PRODUCT_PATCH_VERSION 0)
 set(PRODUCT_VERSION_STR ${PRODUCT_MAJOR_VERSION}.${PRODUCT_MINOR_VERSION}.${PRODUCT_PATCH_VERSION})
 

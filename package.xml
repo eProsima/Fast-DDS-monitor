@@ -3,7 +3,7 @@
 <package format="3">
   <name>fastdds_monitor</name>
   <!-->There must be a release. Update version accordingly<-->
-  <version>3.4.0</version>
+  <version>4.0.0</version>
   <description>
     eProsima Fast DDS Monitor is a graphical desktop application aimed at monitoring DDS environments deployed using the eProsima Fast DDS library.
   </description>
