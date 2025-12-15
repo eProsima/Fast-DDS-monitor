@@ -13,7 +13,7 @@
             "cmake-args":
             [
                 "-DBUILD_MOCK=ON",
-                "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/6.10.1",
+                "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/6.8.3",
                 "-DBUILD_APP_TESTS=OFF",
                 "-DCMAKE_CXX_FLAGS='-Werror'",
                 "-DBUILD_DOCUMENTATION=ON",

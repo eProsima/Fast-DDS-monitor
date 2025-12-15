@@ -13,7 +13,7 @@
             "cmake-args":
             [
                 "-DCMAKE_BUILD_TYPE=Release",
-                "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/6.10.1",
+                "-DQT_PATH=$GITHUB_WORKSPACE/qt_installation/Qt/6.8.3",
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
             ]
         }

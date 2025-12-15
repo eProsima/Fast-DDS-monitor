@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick.Controls 6.10
+import QtQuick.Controls 6.8
 
 ScrollBar {
     id: scrollBar
