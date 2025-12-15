@@ -1,5 +1,5 @@
-import QtQuick 6.10
-import QtQuick.Controls 6.10
+import QtQuick 6.8
+import QtQuick.Controls 6.8
 import Theme 1.0
 
 /*
