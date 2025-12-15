@@ -15,6 +15,8 @@ jobs:
         - fastdds_ref: 'v2'
           monitor_ref: '2.x'
         - fastdds_ref: 'v3'
+          monitor_ref: '3.x'
+        - fastdds_ref: 'v3'
           monitor_ref: 'main'
     name: reusable_tests
     uses: ./.github/workflows/reusable-workflow.yml
