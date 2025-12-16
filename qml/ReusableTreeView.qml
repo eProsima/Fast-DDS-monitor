@@ -257,7 +257,7 @@ Item {
                 text: column === 0 ? delegateRoot.modelName : delegateRoot.modelValue
                 color: isRowSelected ? "white" : "black"
                 
-                font.pixelSize: 15
+                font.pointSize: Theme.font.pointSize
                 elide: Text.ElideRight
                 
                 MouseArea {
