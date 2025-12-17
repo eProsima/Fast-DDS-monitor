@@ -213,13 +213,7 @@ Item {
                             
                             contextMenu.popup()
                         } else if (mouse.button === Qt.LeftButton) {
-                            reusableTreeView.selectedRow = (reusableTreeView.selectedRow === row) ? -1 : row
-                        }
-                    }
-                    
-                    onExited: {
-                        if (!contextMenu.visible) {
-                            reusableTreeView.selectedRow = -1
+                            reusableTreeView.selectedRow = row
                         }
                     }
                 }
