@@ -62,6 +62,7 @@ Rectangle {
         model: iconsVBarModel
         delegate: iconsVBarViewDelegate
         clip: true
+        interactive: false
     }
 
     Component {
