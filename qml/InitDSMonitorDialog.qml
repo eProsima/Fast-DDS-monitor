@@ -60,9 +60,19 @@ Dialog {
         }
 
         GridLayout {
+            id: dialogGridLayout
             Layout.fillWidth: true
             columns: 5
             columnSpacing: 10
+
+            Component.onCompleted: {
+                // Set widths after layout is initialized to avoid circular dependency
+                Qt.callLater(function() {
+                    discoveryServerTransportProtocolLabel.Layout.preferredWidth = dialogGridLayout.width / 3
+                    discoveryServerIPLabel.Layout.preferredWidth = dialogGridLayout.width / 3
+                    discoveryServerPortLabel.Layout.preferredWidth = dialogGridLayout.width / 5
+                })
+            }
 
             Label {
                 id: discoveryServerLocatorLabel
@@ -83,7 +93,7 @@ Dialog {
             Label {
                 id: discoveryServerTransportProtocolLabel
                 text: "Transport Protocol"
-                Layout.preferredWidth: parent.width / 3
+                Layout.preferredWidth: 200  // Will be set dynamically
                 InfoToolTip {
                     text: 'Transport protocol of the\n' +
                           'Discovery Server network\n' +
@@ -93,7 +103,7 @@ Dialog {
             Label {
                 id: discoveryServerIPLabel
                 text: "IP"
-                Layout.preferredWidth: parent.width / 3
+                Layout.preferredWidth: 200  // Will be set dynamically
                 InfoToolTip {
                     text: 'IP of the Discovery Server\n' +
                           'network address.\n'
@@ -102,7 +112,7 @@ Dialog {
             Label {
                 id: discoveryServerPortLabel
                 text: "Port"
-                Layout.preferredWidth: parent.width / 5
+                Layout.preferredWidth: 120  // Will be set dynamically
                 InfoToolTip {
                     text: 'Port of the Discovery Server\n' +
                           'network address.'
