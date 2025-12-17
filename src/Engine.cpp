@@ -1597,6 +1597,11 @@ bool Engine::update_entity_status(
                     if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         std::string fastdds_version = "v" + controller_->fastdds_version().toStdString();
+                        // Remove tweak version only if format is "vX.Y.Z.W"
+                        if (std::count(fastdds_version.begin(), fastdds_version.end(), '.') == 3)
+                        {
+                            fastdds_version = fastdds_version.substr(0, fastdds_version.find_last_of('.'));
+                        }
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
                             id, entity_kind + ": " + backend_connection_.get_name(
