@@ -126,8 +126,8 @@ Flickable {
         id: tree
 
         model: root.model
-        parentIndex: model.rootIndex()
-        childCount: model.rowCount(parentIndex)
+        parentIndex: root.model ? root.model.rootIndex() : null
+        childCount: root.model ? root.model.rowCount(parentIndex) : 0
 
         itemLeftPadding: 0
         defaultIndicator: indicatorToString(handleStyle)
