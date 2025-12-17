@@ -168,7 +168,7 @@ Item {
                     "Entity ID:  " + currentRow.currentId : currentRow.currentDescription
             font.pointSize: Theme.font.pointSize
             font.italic: true
-            onLinkActivated: Qt.openUrlExternally(link)
+            onLinkActivated: function(link) { Qt.openUrlExternally(link) }
 
             MouseArea {
                 visible: currentRow.currentDescription.includes("href")
@@ -233,6 +233,10 @@ Item {
                     }
 
                     function focus(){
+                        // Don't process clicks on the "all" or root node
+                        if (_prop.currentId === "all" || ! _prop.currentId || _prop.currentId === "-2") {
+                            return
+                        }
                         controller.endpoint_click(_prop.currentId)
                         controller.participant_click(_prop.currentId)
                     }
