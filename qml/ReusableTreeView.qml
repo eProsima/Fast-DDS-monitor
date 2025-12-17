@@ -30,7 +30,6 @@ Item {
     property real columnSplitRatio: 0.5
     
     // Internal state
-    property int selectedRow: -1
     property string selectedRowName: ""
     property string selectedRowValue: ""
     property bool selectedRowHasChildren: false
@@ -126,8 +125,6 @@ Item {
             property var modelName: (column === 0 && typeof model.name !== 'undefined' && model.name !== null) ? String(model.name) : ""
             property var modelValue: (column === 1 && typeof model.value !== 'undefined' && model.value !== null) ? String(model.value) : ""
 
-            property bool isRowSelected: reusableTreeView.selectedRow === row
-
             onExpandedChanged: {
                 indicator.rotation = expanded ? 0 : -90
             }
@@ -194,26 +191,20 @@ Item {
             Rectangle {
                 id: background
                 anchors.fill: parent
-                color: isRowSelected ? Theme.eProsimaLightBlue : 
-                       (treeView.alternatingRows && row % 2 !== 0) ? Theme.whiteSmoke : "white"
+                color: (treeView.alternatingRows && row % 2 !== 0) ? Theme.whiteSmoke : "white"
                 
                 MouseArea {
                     anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    hoverEnabled: true
+                    acceptedButtons: Qt.RightButton
                     
                     onClicked: function(mouse) {
                         if (mouse.button === Qt.RightButton) {
-                            reusableTreeView.selectedRow = row
-                            
                             var rowData = reusableTreeView.rowDataMap[row] || {}
                             reusableTreeView.selectedRowName = rowData.name || ""
                             reusableTreeView.selectedRowValue = rowData.value || ""
                             reusableTreeView.selectedRowHasChildren = rowData.hasChildren || false
                             
                             contextMenu.popup()
-                        } else if (mouse.button === Qt.LeftButton) {
-                            reusableTreeView.selectedRow = row
                         }
                     }
                 }
@@ -225,7 +216,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: column === 0 && isTreeNode && hasChildren
                 name: "collapse"
-                color: isRowSelected ? "white" : "grey"
+                color: "grey"
                 size: 10
                 rotation: expanded ? 0 : -90
 
@@ -249,7 +240,7 @@ Item {
                 anchors.rightMargin: padding
                 clip: true
                 text: column === 0 ? delegateRoot.modelName : delegateRoot.modelValue
-                color: isRowSelected ? "white" : "black"
+                color: "black"
                 
                 font.pointSize: Theme.font.pointSize
                 elide: Text.ElideRight
@@ -278,7 +269,6 @@ Item {
                         clipboardHelper.text = reusableTreeView.selectedRowName
                         clipboardHelper.selectAll()
                         clipboardHelper.copy()
-                        reusableTreeView.selectedRow = -1
                     }
                 }
                 
@@ -290,7 +280,6 @@ Item {
                         clipboardHelper.text = reusableTreeView.selectedRowValue
                         clipboardHelper.selectAll()
                         clipboardHelper.copy()
-                        reusableTreeView.selectedRow = -1
                     }
                 }
                 
@@ -302,7 +291,6 @@ Item {
                         clipboardHelper.text = reusableTreeView.selectedRowName + ": " + reusableTreeView.selectedRowValue
                         clipboardHelper.selectAll()
                         clipboardHelper.copy()
-                        reusableTreeView.selectedRow = -1
                     }
                 }
                 
@@ -315,18 +303,13 @@ Item {
                         clipboardHelper.text = allText
                         clipboardHelper.selectAll()
                         clipboardHelper.copy()
-                        reusableTreeView.selectedRow = -1
                     }
-                }
-                
-                onClosed: {
-                    reusableTreeView.selectedRow = -1
                 }
             }
             
             function collectAllChildren() {
                 var result = ""
-                var parentRowIndex = reusableTreeView.selectedRow
+                var parentRowIndex = row
                 
                 var parentData = reusableTreeView.rowDataMap[parentRowIndex] || {}
                 result += (parentData.name || "") + ": " + (parentData.value || "") + "\n"
