@@ -775,7 +775,7 @@ Item {
 
             onActivated: {
                 domain_id_dialog.enable_ok_button = true
-                custom_combobox.recalculateWidth()
+                Qt.callLater(custom_combobox.recalculateWidth)
             }
         }
 

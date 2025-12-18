@@ -620,13 +620,13 @@ Dialog {
 
     function updateSources() {
         controller.update_available_entity_ids(getDataDialogSourceEntityId.currentText, "getDataDialogSourceEntityId")
-        sourceEntityId.recalculateWidth()
+        Qt.callLater(sourceEntityId.recalculateWidth)
         regenerateSeriesLabel()
     }
 
     function updateTargets() {
         controller.update_available_entity_ids(getDataDialogTargetEntityId.currentText, "getDataDialogDestinationEntityId")
-        targetEntityId.recalculateWidth()
+        Qt.callLater(targetEntityId.recalculateWidth)
         regenerateSeriesLabel()
     }
 

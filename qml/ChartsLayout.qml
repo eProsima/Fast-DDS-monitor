@@ -175,7 +175,7 @@ Rectangle {
                     smooth: true
                     maxPoints: model.maxPoints
 
-                    onFullScreen: chartBoxFullScreen(chartBoxIdx)
+                    onFullScreen: function(chartBoxIdx) { chartBoxFullScreen(chartBoxIdx) }
 
                     states: [
                         State {

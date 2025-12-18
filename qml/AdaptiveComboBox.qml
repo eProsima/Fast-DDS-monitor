@@ -23,12 +23,11 @@ ComboBox {
 
     property int textWidth
     property int desiredWidth : leftPadding + textWidth + indicator.width + rightPadding
-    property int maximumWidth : parent.width
 
-    implicitWidth: desiredWidth < maximumWidth ? desiredWidth : maximumWidth
+    implicitWidth: desiredWidth
 
-    Component.onCompleted: recalculateWidth()
-    onModelChanged: recalculateWidth()
+    Component.onCompleted: Qt.callLater(recalculateWidth)
+    onModelChanged: Qt.callLater(recalculateWidth)
 
     TextMetrics {
         id: minMetrics
