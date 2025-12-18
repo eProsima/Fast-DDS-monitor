@@ -3,11 +3,11 @@
 
 pragma ComponentBehavior: Bound
 
-import QtQuick
-import QtQuick.Window
-import QtQuick.Controls.impl
-import QtQuick.Templates as T
-import QtQuick.Controls.Universal
+import QtQuick 6.8
+import QtQuick.Window 6.8
+import QtQuick.Controls.impl 6.8
+import QtQuick.Templates 6.8 as T
+import QtQuick.Controls.Universal 6.8
 
 T.ComboBox {
     id: tComboBox

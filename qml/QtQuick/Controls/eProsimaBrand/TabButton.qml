@@ -34,11 +34,11 @@
 **
 ****************************************************************************/
 
-import QtQuick
-import QtQuick.Templates as T
-import QtQuick.Controls
-import QtQuick.Controls.impl
-import QtQuick.Controls.Universal
+import QtQuick 6.8
+import QtQuick.Templates 6.8 as T
+import QtQuick.Controls 6.8
+import QtQuick.Controls.impl 6.8
+import QtQuick.Controls.Universal 6.8
 import Theme 1.0
 
 T.TabButton {
