@@ -19,31 +19,26 @@ import QtQuick 6.8
 import QtQuick.Controls 6.8
 import QtQuick.Dialogs 6.8
 
-MessageDialog {
+Dialog {
     id: errorDialog
     title: "Error"
-    text: "Error message has not been set"
-    buttons: MessageDialog.Cancel | MessageDialog.Retry
-
-    property int errorType // Dependeing on this value it would behave differently in Accept
-
-    onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    if (errorType == 1) {           // INIT_MONITOR
-                        dialogInitMonitor.open()
-                    } else if (errorType == 2) {    // INIT_DS_MONITOR
-                        dialogDSInitMonitor.open()
-                    } else if (errorType == 3) {    // INIT_MONITOR_WITH_PROFILE
-                        initMonitorWithProfileDialog.open()
-                    }
-                    break;
-                case MessageDialog.Cancel:
-                    break;
-            }
-        }
-
+    modal: true
+    standardButtons: Dialog.Cancel | Dialog.Retry
+    
+    property int errorType // Depending on this value it would behave differently in Accept
+    property string errorText: "Error message has not been set"
+    
+    Label {
+        text: errorDialog.errorText
+    }
+    
     onAccepted: {
-
+        if (errorType == 1) {           // INIT_MONITOR
+            dialogInitMonitor.open()
+        } else if (errorType == 2) {    // INIT_DS_MONITOR
+            dialogDSInitMonitor.open()
+        } else if (errorType == 3) {    // INIT_MONITOR_WITH_PROFILE
+            initMonitorWithProfileDialog.open()
+        }
     }
 }

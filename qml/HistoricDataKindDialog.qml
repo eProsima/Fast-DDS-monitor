@@ -68,20 +68,19 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyDataKind
         title: "Empty Data Kind"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The data kind field is empty. Please choose a data type from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    dataKindDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    dataKindDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The data kind field is empty. Please choose a data type from the list."
+        }
+        onAccepted: {
+            dataKindDialog.open()
+        }
+        onRejected: {
+            dataKindDialog.close()
         }
     }
 

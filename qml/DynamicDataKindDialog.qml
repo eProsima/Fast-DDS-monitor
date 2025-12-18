@@ -243,37 +243,35 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyTimeWindow
         title: "Empty Time Window"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The time window cannot be blank. Please set the time window duration."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    dynamicDataKindDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    dynamicDataKindDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The time window cannot be blank. Please set the time window duration."
+        }
+        onAccepted: {
+            dynamicDataKindDialog.open()
+        }
+        onRejected: {
+            dynamicDataKindDialog.close()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyDataKind
         title: "Empty Data Kind"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The data kind field is empty. Please choose a data type from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    dynamicDataKindDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    dynamicDataKindDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The data kind field is empty. Please choose a data type from the list."
+        }
+        onAccepted: {
+            dynamicDataKindDialog.open()
+        }
+        onRejected: {
+            dynamicDataKindDialog.close()
         }
     }
 
