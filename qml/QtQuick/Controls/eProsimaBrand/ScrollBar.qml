@@ -34,9 +34,9 @@
 **
 ****************************************************************************/
 
-import QtQuick
-import QtQuick.Templates as T
-import QtQuick.Controls.Universal
+import QtQuick 6.8
+import QtQuick.Templates 6.8 as T
+import QtQuick.Controls.Universal 6.8
 
 T.ScrollBar {
     id: tScrollBar
