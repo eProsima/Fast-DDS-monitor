@@ -7,7 +7,7 @@ import QtQuick.Controls.impl
 import QtQuick.Controls.Universal
 
 T.MenuItem {
-    id: control
+    id: tMenuItem
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -25,57 +25,57 @@ T.MenuItem {
     icon.color: !enabled ? Universal.baseLowColor : Universal.baseHighColor
 
     contentItem: IconLabel {
-        readonly property real arrowPadding: control.subMenu && control.arrow ? control.arrow.width + control.spacing : 0
-        readonly property real indicatorPadding: control.checkable && control.indicator ? control.indicator.width + control.spacing : 0
-        leftPadding: !control.mirrored ? indicatorPadding : arrowPadding
-        rightPadding: control.mirrored ? indicatorPadding : arrowPadding
+        readonly property real arrowPadding: tMenuItem.subMenu && tMenuItem.arrow ? tMenuItem.arrow.width + tMenuItem.spacing : 0
+        readonly property real indicatorPadding: tMenuItem.checkable && tMenuItem.indicator ? tMenuItem.indicator.width + tMenuItem.spacing : 0
+        leftPadding: !tMenuItem.mirrored ? indicatorPadding : arrowPadding
+        rightPadding: tMenuItem.mirrored ? indicatorPadding : arrowPadding
 
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
+        spacing: tMenuItem.spacing
+        mirrored: tMenuItem.mirrored
+        display: tMenuItem.display
         alignment: Qt.AlignLeft
 
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: !control.enabled ? control.Universal.baseLowColor : control.Universal.baseHighColor
+        icon: tMenuItem.icon
+        text: tMenuItem.text
+        font: tMenuItem.font
+        color: !tMenuItem.enabled ? tMenuItem.Universal.baseLowColor : tMenuItem.Universal.baseHighColor
     }
 
     arrow: ColorImage {
-        x: control.mirrored ? control.leftPadding : control.width - width - control.rightPadding
-        y: control.topPadding + (control.availableHeight - height) / 2
+        x: tMenuItem.mirrored ? tMenuItem.leftPadding : tMenuItem.width - width - tMenuItem.rightPadding
+        y: tMenuItem.topPadding + (tMenuItem.availableHeight - height) / 2
 
-        visible: control.subMenu
-        mirror: control.mirrored
-        color: !enabled ? control.Universal.baseLowColor : control.Universal.baseHighColor
+        visible: tMenuItem.subMenu
+        mirror: tMenuItem.mirrored
+        color: !enabled ? tMenuItem.Universal.baseLowColor : tMenuItem.Universal.baseHighColor
         source: "qrc:/qt-project.org/imports/QtQuick/Controls/Universal/images/rightarrow.png"
     }
 
     indicator: ColorImage {
-        x: control.text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) : control.leftPadding + (control.availableWidth - width) / 2
-        y: control.topPadding + (control.availableHeight - height) / 2
+        x: tMenuItem.text ? (tMenuItem.mirrored ? tMenuItem.width - width - tMenuItem.rightPadding : tMenuItem.leftPadding) : tMenuItem.leftPadding + (tMenuItem.availableWidth - width) / 2
+        y: tMenuItem.topPadding + (tMenuItem.availableHeight - height) / 2
 
-        visible: control.checked
-        color: !control.enabled ? control.Universal.baseLowColor : control.down ? control.Universal.baseHighColor : control.Universal.baseMediumHighColor
-        source: !control.checkable ? "" : "qrc:/qt-project.org/imports/QtQuick/Controls/Universal/images/checkmark.png"
+        visible: tMenuItem.checked
+        color: !tMenuItem.enabled ? tMenuItem.Universal.baseLowColor : tMenuItem.down ? tMenuItem.Universal.baseHighColor : tMenuItem.Universal.baseMediumHighColor
+        source: !tMenuItem.checkable ? "" : "qrc:/qt-project.org/imports/QtQuick/Controls/Universal/images/checkmark.png"
     }
 
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
 
-        color: !control.enabled ? control.Universal.baseLowColor :
-                control.down ? control.Universal.listMediumColor :
-                control.highlighted ? control.Universal.listLowColor : control.Universal.altMediumLowColor
+        color: !tMenuItem.enabled ? tMenuItem.Universal.baseLowColor :
+                tMenuItem.down ? tMenuItem.Universal.listMediumColor :
+                tMenuItem.highlighted ? tMenuItem.Universal.listLowColor : tMenuItem.Universal.altMediumLowColor
 
         Rectangle {
             x: 1; y: 1
             width: parent.width - 2
             height: parent.height - 2
 
-            visible: control.visualFocus
-            color: control.Universal.accent
-            opacity: control.Universal.theme === Universal.Light ? 0.4 : 0.6
+            visible: tMenuItem.visualFocus
+            color: tMenuItem.Universal.accent
+            opacity: tMenuItem.Universal.theme === Universal.Light ? 0.4 : 0.6
         }
     }
 }

@@ -42,7 +42,7 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.ToolButton {
-    id: control
+    id: tToolButton
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -59,29 +59,29 @@ T.ToolButton {
     property bool useSystemFocusVisuals: true
 
     contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
+        spacing: tToolButton.spacing
+        mirrored: tToolButton.mirrored
+        display: tToolButton.display
 
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: Color.transparent(control.Universal.foreground, enabled ? 1.0 : 0.2)
+        icon: tToolButton.icon
+        text: tToolButton.text
+        font: tToolButton.font
+        color: Color.transparent(tToolButton.Universal.foreground, enabled ? 1.0 : 0.2)
     }
 
     background: Rectangle {
         implicitWidth: 68
         implicitHeight: 25 // AppBarThemeCompactHeight
 
-        color: control.enabled && (control.highlighted || control.checked) ? control.Universal.accent : "transparent"
+        color: tToolButton.enabled && (tToolButton.highlighted || tToolButton.checked) ? tToolButton.Universal.accent : "transparent"
 
         Rectangle {
             width: parent.width
-            height: parent.height - control.spacing
+            height: parent.height - tToolButton.spacing
             anchors.centerIn: parent
             radius: 10
-            visible: control.down || control.hovered
-            color: control.down ? control.Universal.listMediumColor : control.Universal.listLowColor
+            visible: tToolButton.down || tToolButton.hovered
+            color: tToolButton.down ? tToolButton.Universal.listMediumColor : tToolButton.Universal.listLowColor
         }
     }
 }

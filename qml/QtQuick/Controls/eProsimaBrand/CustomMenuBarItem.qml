@@ -9,7 +9,7 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.MenuBarItem {
-    id: control
+    id: tMenuBarItem
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -27,33 +27,33 @@ T.MenuBarItem {
     icon.color: !enabled ? Universal.baseLowColor : Universal.baseHighColor
 
     contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
+        spacing: tMenuBarItem.spacing
+        mirrored: tMenuBarItem.mirrored
+        display: tMenuBarItem.display
         alignment: Qt.AlignLeft
 
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: !control.enabled ? control.Universal.baseLowColor : control.Universal.baseHighColor
+        icon: tMenuBarItem.icon
+        text: tMenuBarItem.text
+        font: tMenuBarItem.font
+        color: !tMenuBarItem.enabled ? tMenuBarItem.Universal.baseLowColor : tMenuBarItem.Universal.baseHighColor
     }
 
     background: Rectangle {
         implicitWidth: 40
         implicitHeight: 20
 
-        color: !control.enabled ? control.Universal.baseLowColor :
-                control.down ? control.Universal.listMediumColor :
-                control.highlighted ? control.Universal.listLowColor : "transparent"
+        color: !tMenuBarItem.enabled ? tMenuBarItem.Universal.baseLowColor :
+                tMenuBarItem.down ? tMenuBarItem.Universal.listMediumColor :
+                tMenuBarItem.highlighted ? tMenuBarItem.Universal.listLowColor : "transparent"
 
         Rectangle {
             x: 1; y: 1
             width: parent.width - 2
             height: parent.height - 2
 
-            visible: control.visualFocus
-            color: control.Universal.accent
-            opacity: control.Universal.theme === Universal.Light ? 0.4 : 0.6
+            visible: tMenuBarItem.visualFocus
+            color: tMenuBarItem.Universal.accent
+            opacity: tMenuBarItem.Universal.theme === Universal.Light ? 0.4 : 0.6
         }
     }
 }

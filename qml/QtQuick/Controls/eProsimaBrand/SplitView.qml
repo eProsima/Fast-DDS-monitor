@@ -41,15 +41,15 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.SplitView {
-    id: control
+    id: tSplitView
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
     handle: Rectangle {
-        implicitWidth: control.orientation === Qt.Horizontal ? 3 : control.width
-        implicitHeight: control.orientation === Qt.Horizontal ? control.height : 3
+        implicitWidth: tSplitView.orientation === Qt.Horizontal ? 3 : tSplitView.width
+        implicitHeight: tSplitView.orientation === Qt.Horizontal ? tSplitView.height : 3
         color: T.SplitHandle.pressed ? Theme.eProsimaLightBlue
             : (T.SplitHandle.hovered ? Theme.grey : Theme.grey)
     }
