@@ -32,6 +32,7 @@ Rectangle {
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
+    property int selectedIndex: -1
 
     ListView {
         id: alertList
@@ -64,17 +65,21 @@ Rectangle {
                 id: alertHighlightRect
                 width: alertList.width
                 height: alertIcon.height + 10
-                color: clicked ? Theme.eProsimaLightBlue : "transparent"
-                property bool clicked: false
+                color: alertListRect.selectedIndex === alertItem.index ? Theme.eProsimaLightBlue : "transparent"
 
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
                     onClicked: function(mouse) {
-                        alertHighlightRect.clicked = !alertHighlightRect.clicked
                         if (mouse.button & Qt.RightButton) {
+                            alertListRect.selectedIndex = alertItem.index
                             openAlertsMenu(alertItem.id)
                         } else {
+                            if (alertListRect.selectedIndex === alertItem.index) {
+                                alertListRect.selectedIndex = -1
+                            } else {
+                                alertListRect.selectedIndex = alertItem.index
+                            }
                             controller.alert_click(alertItem.id)
                         }
                     }
@@ -89,12 +94,12 @@ Rectangle {
                         name: "alert"
                         size: iconSize
                         Layout.leftMargin: firstIndentation
-                        color: entityLabelColor(alertHighlightRect.clicked, alertItem.alive)
+                        color: entityLabelColor(alertListRect.selectedIndex === alertItem.index, alertItem.alive)
                     }
 
                     Label {
                         text: alertItem.name
-                        color: entityLabelColor(alertHighlightRect.clicked, alertItem.alive)
+                        color: entityLabelColor(alertListRect.selectedIndex === alertItem.index, alertItem.alive)
                     }
                 }
             }
