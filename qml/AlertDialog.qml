@@ -545,57 +545,54 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyAlertKind
         title: "Missing alert kind"
-        text: "The alert kind field is empty. Please enter an alert kind."
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        
-        onButtonClicked: function(button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    alertDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    alertDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The alert kind field is empty. Please enter an alert kind."
+        }
+        onAccepted: {
+            alertDialog.open()
+        }
+        onRejected: {
+            alertDialog.close()
         }
     }
 
-    MessageDialog {
+
+    Dialog {
         id: emptyAlertName
         title: "Missing alert name"
-        text: "The alert name field is empty. Please enter an alert name."
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        
-        onButtonClicked: function(button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    alertDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    alertDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The alert name field is empty. Please enter an alert name."
+        }
+        onAccepted: {
+            alertDialog.open()
+        }
+        onRejected: {
+            alertDialog.close()
         }
     }
 
-    MessageDialog {
+
+    
+    Dialog {
         id: emptyAlertDomain
         title: "Missing domain"
-        text: "The domain field is empty. Please enter a domain."
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        
-        onButtonClicked: function(button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    alertDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    alertDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The domain field is empty. Please enter a domain."
+        }
+        onAccepted: {
+            alertDialog.open()
+        }
+        onRejected: {
+            alertDialog.close()
         }
     }
 

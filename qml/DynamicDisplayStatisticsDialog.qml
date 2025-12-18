@@ -452,72 +452,69 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptySourceEntityIdDialog
         title: "Empty Source Entity Id"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    dynamicDisplayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    dynamicDisplayStatisticsDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
+        }
+        onAccepted: {
+            dynamicDisplayStatisticsDialog.open()
+        }
+        onRejected: {
+            dynamicDisplayStatisticsDialog.close()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyTargetEntityIdDialog
         title: "Empty Target Entity Id"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    dynamicDisplayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    dynamicDisplayStatisticsDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
+        }
+        onAccepted: {
+            dynamicDisplayStatisticsDialog.open()
+        }
+        onRejected: {
+            dynamicDisplayStatisticsDialog.close()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyStatisticKind
         title: "Empty Statistic Kind"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The statistic kind field is empty. Please choose a statistic from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    dynamicDisplayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    dynamicDisplayStatisticsDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The statistic kind field is empty. Please choose a statistic from the list."
+        }
+        onAccepted: {
+            dynamicDisplayStatisticsDialog.open()
+        }
+        onRejected: {
+            dynamicDisplayStatisticsDialog.close()
         }
     }
 
-    MessageDialog {
+    
+    Dialog {
         id: emptyCumulativeInterval
         title: "Empty Cumulative Interval"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The cumulative time interval is zero. " +
-              "Enter a valid time interval or check the \"From first data point\" option."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    dynamicDisplayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    dynamicDisplayStatisticsDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The cumulative time interval is zero. " +
+                "Enter a valid time interval or check the \"From first data point\" option."
+        }
+        onAccepted: {
+            dynamicDisplayStatisticsDialog.open()
+        }
+        onRejected: {
+            dynamicDisplayStatisticsDialog.close()
         }
     }
 

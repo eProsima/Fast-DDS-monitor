@@ -279,82 +279,75 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongIP
         title: "Invalid Discovery Server IP"
-        buttons:  MessageDialog.Retry | MessageDialog.Discard
-        text: "The inserted Discovery Server IP " + ip + " is not a valid " + ipType +  "."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
         property string ip: ""
         property string ipType: ""
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    initDSMonitorDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    break;
-            }
+        Label {
+            text: "The inserted Discovery Server IP " + wrongIP.ip +
+            " is not a valid " + wrongIP.ipType + "."
+        }
+        onAccepted: {
+            initDSMonitorDialog.open()
         }
     }
 
-    MessageDialog {
+
+    Dialog {
         id: wrongPort
         title: "Invalid Discovery Server Port"
-        buttons:  MessageDialog.Retry | MessageDialog.Discard
-        text: "An invalid port has been inserted for the Discovery Server IP " + ip + ". " +
-              "Please fill in the ports of all network addresses."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
         property string ip: ""
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    initDSMonitorDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    break;
-            }
+        Label {
+            text: "An invalid port has been inserted for the Discovery Server IP " +
+                wrongPort.ip + ". Please fill in the ports of all network addresses."
+        }
+        onAccepted: {
+            initDSMonitorDialog.open()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongLocator
         title: "Invalid Discovery Server Locator"
-        buttons:  MessageDialog.Retry | MessageDialog.Discard
-        text: "The locator of index " + locatorIdx + " has an empty IP address."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
         property int locatorIdx: 0
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    initDSMonitorDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    break;
-            }
+        Label {
+            text: "The locator of index " + wrongLocator.locatorIdx + " has an empty IP address."
+        }
+        onAccepted: {
+            initDSMonitorDialog.open()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: duplicatedLocators
         title: "Duplicated Discovery Server Locators"
-        buttons:  MessageDialog.Retry | MessageDialog.Discard
-        text: ""
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        
         property var duplicates: []
-
+        
         onDuplicatesChanged: {
             var new_text = "The following duplicate locators have been found:\n"
             for (var i = 0; i < duplicates.length; i++) {
                 new_text = new_text.concat("    • " + duplicates[i] + "\n")
             }
-            text = new_text
+            duplicatesLabel.text = new_text
         }
-
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    initDSMonitorDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    break;
-            }
+        
+        Label {
+            id: duplicatesLabel
+            text: ""
+        }
+        
+        onAccepted: {
+            initDSMonitorDialog.open()
         }
     }
 

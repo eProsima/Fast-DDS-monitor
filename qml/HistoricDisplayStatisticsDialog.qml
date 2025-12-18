@@ -571,73 +571,64 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongDatesDialog
         title: "Wrong Timestamps"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The start timestamp entered is posterior to the end timestamp."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The start timestamp entered is posterior to the end timestamp."
+        }
         onAccepted: {
             displayStatisticsDialog.open()
         }
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    displayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    break;
-            }
-        }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptySourceEntityIdDialog
         title: "Empty Source Entity Id"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    displayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    displayStatisticsDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
+        }
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+        onRejected: {
+            displayStatisticsDialog.close()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyTargetEntityIdDialog
         title: "Empty Target Entity Id"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    displayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    displayStatisticsDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
+        }
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+        onRejected: {
+            displayStatisticsDialog.close()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyStatisticKind
         title: "Empty Statistic Kind"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The statistic kind field is empty. Please choose a statistic from the list."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    displayStatisticsDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    displayStatisticsDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The statistic kind field is empty. Please choose a statistic from the list."
+        }
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+        onRejected: {
+            displayStatisticsDialog.close()
         }
     }
 

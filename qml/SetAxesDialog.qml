@@ -334,35 +334,29 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongDatesDialog
         title: "Wrong Timestamps"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The start timestamp entered is posterior to the end timestamp."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    setAxesDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The start timestamp entered is posterior to the end timestamp."
+        }
+        onAccepted: {
+            setAxesDialog.open()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongYDialog
         title: "Wrong Y Axis values"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The min Y min value must be lower than the Y max value."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    setAxesDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The min Y min value must be lower than the Y max value."
+        }
+        onAccepted: {
+            setAxesDialog.open()
         }
     }
 }

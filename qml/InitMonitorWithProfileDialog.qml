@@ -85,21 +85,20 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyXmlProfile
         title: "Empty DDS Profile"
-        buttons: MessageDialog.Retry | MessageDialog.Discard
-        text: "The DDS profile field is empty. " +
-              "Please choose a profile from the list or upload a new one."
-        onButtonClicked: function (button, role) {
-            switch (button) {
-                case MessageDialog.Retry:
-                    initMonitorWithProfileDialog.open()
-                    break;
-                case MessageDialog.Discard:
-                    initMonitorWithProfileDialog.close()
-                    break;
-            }
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The DDS profile field is empty. " +
+                "Please choose a profile from the list or upload a new one."
+        }
+        onAccepted: {
+            initMonitorWithProfileDialog.open()
+        }
+        onRejected: {
+            initMonitorWithProfileDialog.close()
         }
     }
 
