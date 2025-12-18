@@ -9,7 +9,7 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.Button {
-    id: control
+    id: tButton
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -27,14 +27,14 @@ T.Button {
     property bool useSystemFocusVisuals: true
 
     contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
+        spacing: tButton.spacing
+        mirrored: tButton.mirrored
+        display: tButton.display
 
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: Color.transparent(control.Universal.foreground, enabled ? 1.0 : 0.2)
+        icon: tButton.icon
+        text: tButton.text
+        font: tButton.font
+        color: Color.transparent(tButton.Universal.foreground, enabled ? 1.0 : 0.2)
     }
 
     background: Rectangle {
@@ -42,7 +42,7 @@ T.Button {
         implicitHeight: 32
         radius: 5
 
-        color: control.pressed ? Theme.whiteSmoke :
+        color: tButton.pressed ? Theme.whiteSmoke :
                Theme.lightGrey
 
         Rectangle {
@@ -50,7 +50,7 @@ T.Button {
             height: parent.height
             radius: parent.radius
             color: "transparent"
-            visible: control.hovered
+            visible: tButton.hovered
             border.width: 2 // ButtonBorderThemeThickness
             border.color: Theme.grey
         }

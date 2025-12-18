@@ -4,7 +4,7 @@ Button 1.0 Button.qml
 ComboBox 1.0 ComboBox.qml
 ItemDelegate 1.0 ItemDelegate.qml
 MenuBar 1.0 MenuBar.qml
-MenuBarItem 1.0 MenuBarItem.qml
+CustomMenuBarItem 1.0 CustomMenuBarItem.qml
 MenuItem 1.0 MenuItem.qml
 ScrollBar 1.0 ScrollBar.qml
 SplitView 1.0 SplitView.qml

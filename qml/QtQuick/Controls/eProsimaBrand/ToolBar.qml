@@ -40,7 +40,7 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.ToolBar {
-    id: control
+    id: tToolBar
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
@@ -49,7 +49,7 @@ T.ToolBar {
 
     background: Rectangle {
         implicitHeight: 35 // AppBarThemeCompactHeight
-        color: control.Universal.chromeMediumColor
+        color: tToolBar.Universal.chromeMediumColor
 
         Rectangle {
             color: Theme.grey

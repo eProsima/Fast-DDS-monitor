@@ -174,31 +174,7 @@ Rectangle {
                 }
             }
 
-            delegate: MenuBarItem {
-                id: menuBarItem
-                
-                implicitWidth: Math.max(contentItem.implicitWidth + leftPadding + rightPadding, 40)
-                implicitHeight: 28
-                
-                padding: 0
-                leftPadding: 5
-                rightPadding: 5
-                
-                contentItem: Text {
-                    text: menuBarItem.text
-                    font: menuBarItem.font
-                    opacity: enabled ? 1.0 : 0.3
-                    color: "black"
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    elide: Text.ElideRight
-                }
-                
-                background: Rectangle {
-                    opacity: enabled ? 1 : 0.3
-                    color: menuBarItem.highlighted ? "#d0d0d0" : "transparent"
-                }
-            }
+            delegate: CustomMenuBarItem { }
 
             signal addHistoricSeries(
                 string dataKind,

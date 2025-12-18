@@ -39,54 +39,54 @@ import QtQuick.Templates as T
 import QtQuick.Controls.Universal
 
 T.ScrollBar {
-    id: control
+    id: tScrollBar
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    visible: control.policy !== T.ScrollBar.AlwaysOff
+    visible: tScrollBar.policy !== T.ScrollBar.AlwaysOff
     minimumSize: orientation == Qt.Horizontal ? height / width : width / height
 
     // TODO: arrows
 
     contentItem: Rectangle {
-        implicitWidth: control.interactive ? 6 : 3
-        implicitHeight: control.interactive ? 6: 3
+        implicitWidth: tScrollBar.interactive ? 6 : 3
+        implicitHeight: tScrollBar.interactive ? 6: 3
 
-        color: control.pressed ? control.Universal.baseMediumColor :
-               control.interactive && control.hovered ? control.Universal.baseMediumLowColor : control.Universal.chromeHighColor
+        color: tScrollBar.pressed ? tScrollBar.Universal.baseMediumColor :
+               tScrollBar.interactive && tScrollBar.hovered ? tScrollBar.Universal.baseMediumLowColor : tScrollBar.Universal.chromeHighColor
         opacity: 0.0
     }
 
     background: Rectangle {
-        implicitWidth: control.interactive ? 6: 3
-        implicitHeight: control.interactive ? 6: 3
+        implicitWidth: tScrollBar.interactive ? 6: 3
+        implicitHeight: tScrollBar.interactive ? 6: 3
 
-        color: control.Universal.chromeLowColor
-        visible: control.size < 1.0
+        color: tScrollBar.Universal.chromeLowColor
+        visible: tScrollBar.size < 1.0
         opacity: 0.0
     }
 
     states: [
         State {
             name: "active"
-            when: control.policy === T.ScrollBar.AlwaysOn || (control.active && control.size < 1.0)
+            when: tScrollBar.policy === T.ScrollBar.AlwaysOn || (tScrollBar.active && tScrollBar.size < 1.0)
         }
     ]
 
     transitions: [
         Transition {
             to: "active"
-            NumberAnimation { targets: [control.contentItem, control.background]; property: "opacity"; to: 1.0 }
+            NumberAnimation { targets: [tScrollBar.contentItem, tScrollBar.background]; property: "opacity"; to: 1.0 }
         },
         Transition {
             from: "active"
             SequentialAnimation {
-                PropertyAction{ targets: [control.contentItem, control.background]; property: "opacity"; value: 1.0 }
+                PropertyAction{ targets: [tScrollBar.contentItem, tScrollBar.background]; property: "opacity"; value: 1.0 }
                 PauseAnimation { duration: 3000 }
-                NumberAnimation { targets: [control.contentItem, control.background]; property: "opacity"; to: 0.0 }
+                NumberAnimation { targets: [tScrollBar.contentItem, tScrollBar.background]; property: "opacity"; to: 0.0 }
             }
         }
     ]

@@ -40,7 +40,7 @@ import QtQuick.Controls.impl
 import QtQuick.Controls.Universal
 
 T.ItemDelegate {
-    id: control
+    id: tItemDelegate
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -59,26 +59,26 @@ T.ItemDelegate {
     icon.color: Color.transparent(Universal.foreground, enabled ? 1.0 : 0.2)
 
     contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
-        alignment: control.display === IconLabel.IconOnly || control.display === IconLabel.TextUnderIcon ? Qt.AlignCenter : Qt.AlignLeft
+        spacing: tItemDelegate.spacing
+        mirrored: tItemDelegate.mirrored
+        display: tItemDelegate.display
+        alignment: tItemDelegate.display === IconLabel.IconOnly || tItemDelegate.display === IconLabel.TextUnderIcon ? Qt.AlignCenter : Qt.AlignLeft
 
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: Color.transparent(control.Universal.foreground, enabled ? 1.0 : 0.2)
+        icon: tItemDelegate.icon
+        text: tItemDelegate.text
+        font: tItemDelegate.font
+        color: Color.transparent(tItemDelegate.Universal.foreground, enabled ? 1.0 : 0.2)
     }
 
     background: Rectangle {
-        visible: control.down || control.highlighted || control.visualFocus || control.hovered
-        color: control.down ? control.Universal.altMediumLowColor :
-               control.hovered ? control.Universal.altMediumLowColor : control.Universal.altMediumLowColor
+        visible: tItemDelegate.down || tItemDelegate.highlighted || tItemDelegate.visualFocus || tItemDelegate.hovered
+        color: tItemDelegate.down ? tItemDelegate.Universal.altMediumLowColor :
+               tItemDelegate.hovered ? tItemDelegate.Universal.altMediumLowColor : tItemDelegate.Universal.altMediumLowColor
         Rectangle {
             width: parent.width
             height: parent.height
-            visible: control.visualFocus || control.highlighted
-            color: control.Universal.accent
+            visible: tItemDelegate.visualFocus || tItemDelegate.highlighted
+            color: tItemDelegate.Universal.accent
             opacity: 0.4
         }
 

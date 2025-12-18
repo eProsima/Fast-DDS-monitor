@@ -9,28 +9,28 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.MenuBar {
-    id: control
+    id: tMenuBar
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    delegate: MenuBarItem { }
+    delegate: CustomMenuBarItem { }
 
     contentItem: Row {
-        spacing: control.spacing
+        spacing: tMenuBar.spacing
         Repeater {
-            model: control.contentModel
+            model: tMenuBar.contentModel
         }
     }
 
     background: Rectangle {
         implicitHeight: 20
-        color: control.Universal.chromeMediumColor
+        color: tMenuBar.Universal.chromeMediumColor
 
         Rectangle {
-            color: control.Universal.baseMediumColor
+            color: tMenuBar.Universal.baseMediumColor
             width: parent.width
             height: 2
             anchors.bottom: parent.bottom

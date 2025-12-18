@@ -8,7 +8,7 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.TabBar {
-    id: control
+    id: tTabBar
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
@@ -16,10 +16,10 @@ T.TabBar {
                              contentHeight)
 
     contentItem: ListView {
-        model: control.contentModel
-        currentIndex: control.currentIndex
+        model: tTabBar.contentModel
+        currentIndex: tTabBar.currentIndex
 
-        spacing: control.spacing
+        spacing: tTabBar.spacing
         orientation: ListView.Horizontal
         boundsBehavior: Flickable.StopAtBounds
         flickableDirection: Flickable.AutoFlickIfNeeded
@@ -33,6 +33,6 @@ T.TabBar {
 
     background: Rectangle {
         anchors.fill: parent
-        color: control.Universal.background
+        color: tTabBar.Universal.background
     }
 }

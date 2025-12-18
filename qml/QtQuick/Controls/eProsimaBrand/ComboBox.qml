@@ -10,7 +10,7 @@ import QtQuick.Templates as T
 import QtQuick.Controls.Universal
 
 T.ComboBox {
-    id: control
+    id: tComboBox
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -18,8 +18,8 @@ T.ComboBox {
                              implicitContentHeight + topPadding + bottomPadding,
                              implicitIndicatorHeight + topPadding + bottomPadding)
 
-    leftPadding: padding + (!control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
-    rightPadding: padding + (control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
+    leftPadding: padding + (!tComboBox.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
+    rightPadding: padding + (tComboBox.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
 
     Universal.theme: editable && activeFocus ? Universal.Light : undefined
 
@@ -28,59 +28,59 @@ T.ComboBox {
         required property int index
 
         width: ListView.view.width
-        // Make each item have the same height as the ComboBox control
-        implicitHeight: control.implicitHeight
+        // Make each item have the same height as the ComboBox tComboBox
+        implicitHeight: tComboBox.implicitHeight
 
-        text: model[control.textRole]
-        font.weight: control.currentIndex === index ? Font.DemiBold : Font.Normal
-        highlighted: control.highlightedIndex === index
-        hoverEnabled: control.hoverEnabled
+        text: model[tComboBox.textRole]
+        font.weight: tComboBox.currentIndex === index ? Font.DemiBold : Font.Normal
+        highlighted: tComboBox.highlightedIndex === index
+        hoverEnabled: tComboBox.hoverEnabled
 
         // Highlight hovered item with theme accent and preserve contrast
         background: Rectangle {
             anchors.fill: parent
-            color: control.highlightedIndex === index ? control.Universal.accent : "transparent"
-            opacity: control.highlightedIndex === index ? 0.4 : 1.0
+            color: tComboBox.highlightedIndex === index ? tComboBox.Universal.accent : "transparent"
+            opacity: tComboBox.highlightedIndex === index ? 0.4 : 1.0
         }
     }
 
     indicator: ColorImage {
-        x: control.mirrored ? control.padding : control.width - width - control.padding
-        y: control.topPadding + (control.availableHeight - height) / 2
-        color: !control.enabled ? control.Universal.baseLowColor : control.Universal.baseMediumHighColor
+        x: tComboBox.mirrored ? tComboBox.padding : tComboBox.width - width - tComboBox.padding
+        y: tComboBox.topPadding + (tComboBox.availableHeight - height) / 2
+        color: !tComboBox.enabled ? tComboBox.Universal.baseLowColor : tComboBox.Universal.baseMediumHighColor
         source: "qrc:/qt-project.org/imports/QtQuick/Controls/Universal/images/downarrow.png"
 
         Rectangle {
             z: -1
             width: parent.width
             height: parent.height
-            color: control.activeFocus ? control.Universal.accent :
-                   control.pressed ? control.Universal.baseMediumLowColor :
-                   control.hovered ? control.Universal.baseLowColor : "transparent"
-            visible: control.editable && !control.contentItem.hovered && (control.pressed || control.hovered)
-            opacity: control.activeFocus && !control.pressed ? 0.4 : 1.0
+            color: tComboBox.activeFocus ? tComboBox.Universal.accent :
+                   tComboBox.pressed ? tComboBox.Universal.baseMediumLowColor :
+                   tComboBox.hovered ? tComboBox.Universal.baseLowColor : "transparent"
+            visible: tComboBox.editable && !tComboBox.contentItem.hovered && (tComboBox.pressed || tComboBox.hovered)
+            opacity: tComboBox.activeFocus && !tComboBox.pressed ? 0.4 : 1.0
         }
     }
 
     contentItem: T.TextField {
-        leftPadding: control.mirrored ? 1 : 12
-        rightPadding: control.mirrored ? 10 : 1
-        topPadding: 5 - control.topPadding
-        bottomPadding: 7 - control.bottomPadding
+        leftPadding: tComboBox.mirrored ? 1 : 12
+        rightPadding: tComboBox.mirrored ? 10 : 1
+        topPadding: 5 - tComboBox.topPadding
+        bottomPadding: 7 - tComboBox.bottomPadding
 
-        text: control.editable ? control.editText : control.displayText
+        text: tComboBox.editable ? tComboBox.editText : tComboBox.displayText
 
-        enabled: control.editable
-        autoScroll: control.editable
-        readOnly: control.down
-        inputMethodHints: control.inputMethodHints
-        validator: control.validator
-        selectByMouse: control.selectTextByMouse
+        enabled: tComboBox.editable
+        autoScroll: tComboBox.editable
+        readOnly: tComboBox.down
+        inputMethodHints: tComboBox.inputMethodHints
+        validator: tComboBox.validator
+        selectByMouse: tComboBox.selectTextByMouse
 
-        color: !control.enabled ? control.Universal.chromeDisabledLowColor :
-                control.editable && control.activeFocus ? control.Universal.chromeBlackHighColor : control.Universal.foreground
-        selectionColor: control.Universal.accent
-        selectedTextColor: control.Universal.chromeWhiteColor
+        color: !tComboBox.enabled ? tComboBox.Universal.chromeDisabledLowColor :
+                tComboBox.editable && tComboBox.activeFocus ? tComboBox.Universal.chromeBlackHighColor : tComboBox.Universal.foreground
+        selectionColor: tComboBox.Universal.accent
+        selectedTextColor: tComboBox.Universal.chromeWhiteColor
         verticalAlignment: Text.AlignVCenter
     }
 
@@ -88,16 +88,16 @@ T.ComboBox {
         implicitWidth: 120
         implicitHeight: 32
 
-        border.width: control.flat ? 0 : 2 // ComboBoxBorderThemeThickness
-        border.color: !control.enabled ? control.Universal.baseLowColor :
-                       control.editable && control.activeFocus ? control.Universal.accent :
-                       control.down ? control.Universal.baseMediumLowColor :
-                       control.hovered ? control.Universal.baseMediumColor : control.Universal.baseMediumLowColor
-        color: !control.enabled ? control.Universal.baseLowColor :
-                control.down ? control.Universal.listMediumColor :
-                control.flat && control.hovered ? control.Universal.listLowColor :
-                control.editable && control.activeFocus ? control.Universal.background : control.Universal.altMediumLowColor
-        visible: !control.flat || control.pressed || control.hovered || control.visualFocus
+        border.width: tComboBox.flat ? 0 : 2 // ComboBoxBorderThemeThickness
+        border.color: !tComboBox.enabled ? tComboBox.Universal.baseLowColor :
+                       tComboBox.editable && tComboBox.activeFocus ? tComboBox.Universal.accent :
+                       tComboBox.down ? tComboBox.Universal.baseMediumLowColor :
+                       tComboBox.hovered ? tComboBox.Universal.baseMediumColor : tComboBox.Universal.baseMediumLowColor
+        color: !tComboBox.enabled ? tComboBox.Universal.baseLowColor :
+                tComboBox.down ? tComboBox.Universal.listMediumColor :
+                tComboBox.flat && tComboBox.hovered ? tComboBox.Universal.listLowColor :
+                tComboBox.editable && tComboBox.activeFocus ? tComboBox.Universal.background : tComboBox.Universal.altMediumLowColor
+        visible: !tComboBox.flat || tComboBox.pressed || tComboBox.hovered || tComboBox.visualFocus
 
         Rectangle {
             x: 2
@@ -105,34 +105,34 @@ T.ComboBox {
             width: parent.width - 4
             height: parent.height - 4
 
-            visible: control.visualFocus && !control.editable
-            color: control.Universal.accent
-            opacity: control.Universal.theme === Universal.Light ? 0.4 : 0.6
+            visible: tComboBox.visualFocus && !tComboBox.editable
+            color: tComboBox.Universal.accent
+            opacity: tComboBox.Universal.theme === Universal.Light ? 0.4 : 0.6
         }
     }
 
     popup: T.Popup {
-        width: control.width
-        height: Math.min(contentItem.implicitHeight, control.Window.height - topMargin - bottomMargin)
+        width: tComboBox.width
+        height: Math.min(contentItem.implicitHeight, tComboBox.Window.height - topMargin - bottomMargin)
         topMargin: 8
         bottomMargin: 8
 
-        Universal.theme: control.Universal.theme
-        Universal.accent: control.Universal.accent
+        Universal.theme: tComboBox.Universal.theme
+        Universal.accent: tComboBox.Universal.accent
 
         contentItem: ListView {
             clip: true
             implicitHeight: contentHeight
-            model: control.delegateModel
-            currentIndex: control.highlightedIndex
+            model: tComboBox.delegateModel
+            currentIndex: tComboBox.highlightedIndex
             highlightMoveDuration: 0
 
             T.ScrollIndicator.vertical: ScrollIndicator { }
         }
 
         background: Rectangle {
-            color: control.Universal.chromeMediumLowColor
-            border.color: control.Universal.chromeHighColor
+            color: tComboBox.Universal.chromeMediumLowColor
+            border.color: tComboBox.Universal.chromeHighColor
             border.width: 1 // FlyoutBorderThemeThickness
         }
     }

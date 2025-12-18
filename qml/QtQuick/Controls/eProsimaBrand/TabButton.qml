@@ -42,7 +42,7 @@ import QtQuick.Controls.Universal
 import Theme 1.0
 
 T.TabButton {
-    id: control
+    id: tTabButton
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -54,14 +54,14 @@ T.TabButton {
 
     icon.width: 15
     icon.height: 15
-    icon.color: Color.transparent(control.hovered ? control.Universal.baseMediumHighColor : control.Universal.foreground,
-                                                    control.checked || control.down || control.hovered ? 1.0 : 0.2)
+    icon.color: Color.transparent(tTabButton.hovered ? tTabButton.Universal.baseMediumHighColor : tTabButton.Universal.foreground,
+                                                    tTabButton.checked || tTabButton.down || tTabButton.hovered ? 1.0 : 0.2)
 
     background: Rectangle {
         // Underline that matches the content width (text + icon)
         Rectangle {
             id: underline
-            visible: control.checked || control.down
+            visible: tTabButton.checked || tTabButton.down
             color: Theme.eProsimaLightBlue
             height: 2
             anchors.bottom: parent.bottom
@@ -69,8 +69,8 @@ T.TabButton {
             // Use the content's implicit width (natural text+icon size) so the
             // underline doesn't stretch when the tab expands to fill the row.
             // Center the underline on the content's visual center.
-            width: control.contentItem ? control.contentItem.implicitWidth : 0
-            x: control.contentItem ? (control.contentItem.x + control.contentItem.width/2 - width/2) : 0
+            width: tTabButton.contentItem ? tTabButton.contentItem.implicitWidth : 0
+            x: tTabButton.contentItem ? (tTabButton.contentItem.x + tTabButton.contentItem.width/2 - width/2) : 0
 
             Behavior on width { NumberAnimation { duration: 120 } }
             Behavior on x { NumberAnimation { duration: 120 } }
@@ -79,14 +79,14 @@ T.TabButton {
     }
 
     contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
+        spacing: tTabButton.spacing
+        mirrored: tTabButton.mirrored
+        display: tTabButton.display
 
-        icon: control.icon
-        text: control.text
+        icon: tTabButton.icon
+        text: tTabButton.text
         font: Theme.font
-        color: Color.transparent(control.hovered ? control.Universal.baseMediumHighColor : control.Universal.foreground,
-                                 control.checked || control.down || control.hovered ? 1.0 : 0.2)
+        color: Color.transparent(tTabButton.hovered ? tTabButton.Universal.baseMediumHighColor : tTabButton.Universal.foreground,
+                                 tTabButton.checked || tTabButton.down || tTabButton.hovered ? 1.0 : 0.2)
     }
 }

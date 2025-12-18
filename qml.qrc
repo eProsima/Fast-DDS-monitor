@@ -5,7 +5,7 @@
         <file>qml/QtQuick/Controls/eProsimaBrand/ComboBox.qml</file>
         <file>qml/QtQuick/Controls/eProsimaBrand/ItemDelegate.qml</file>
         <file>qml/QtQuick/Controls/eProsimaBrand/MenuBar.qml</file>
-        <file>qml/QtQuick/Controls/eProsimaBrand/MenuBarItem.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/CustomMenuBarItem.qml</file>
         <file>qml/QtQuick/Controls/eProsimaBrand/MenuItem.qml</file>
         <file>qml/QtQuick/Controls/eProsimaBrand/ScrollBar.qml</file>
         <file>qml/QtQuick/Controls/eProsimaBrand/SplitView.qml</file>
