@@ -28,6 +28,7 @@ ComboBox {
 
     Component.onCompleted: Qt.callLater(recalculateWidth)
     onModelChanged: Qt.callLater(recalculateWidth)
+    onDisplayTextChanged: Qt.callLater(recalculateWidth)
 
     TextMetrics {
         id: minMetrics
@@ -46,6 +47,8 @@ ComboBox {
         textMetrics.font = font
         popupMetrics.font = popup.font
         textWidth = minMetrics.width
+        textMetrics.text = displayText
+        textWidth = Math.max(textMetrics.width, textWidth)
         for (var i = 0; i < count; i++){
             textMetrics.text = textAt(i)
             popupMetrics.text = textAt(i)

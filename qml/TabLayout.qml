@@ -730,7 +730,7 @@ Item {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
-        width: dialog_width_
+        width: Math.max(dialog_width_, Math.min(custom_combobox.implicitWidth + 40, parent.width * 0.8))
 
         modal: true
         title: "Select DDS Domain"
@@ -761,7 +761,8 @@ Item {
                             : currentText
             model: entityModelFirst
 
-            width: parent.width > implicitWidth ? parent.width : implicitWidth
+            anchors.left: parent.left
+            anchors.right: parent.right
 
             Component.onCompleted:
             {
