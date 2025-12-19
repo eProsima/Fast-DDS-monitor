@@ -126,7 +126,6 @@ Item {
             treeModel: spyView.model
             columnSplitRatio: 0.5
             expandOnUpdate: false
-            enableCopySubtree: false
         }
     }
 }

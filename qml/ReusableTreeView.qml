@@ -34,10 +34,8 @@ Item {
     property string selectedRowValue: ""
     property bool selectedRowHasChildren: false
     property var rowDataMap: ({})
-    property var treeStructure: ({})
 
     property bool expandOnUpdate: true
-    property bool enableCopySubtree: true
 
     function expandAll() {
         treeView.expandRecursively()
@@ -95,7 +93,6 @@ Item {
             target: treeView.model
             function onUpdatedData() {
                 reusableTreeView.rowDataMap = {}
-                reusableTreeView.treeStructure = {}
                 if (expandOnUpdate) {
                     Qt.callLater(function () { treeView.expandRecursively() })
                 }
@@ -135,9 +132,6 @@ Item {
                 if (!reusableTreeView.rowDataMap) {
                     reusableTreeView.rowDataMap = {}
                 }
-                if (!reusableTreeView.treeStructure) {
-                    reusableTreeView.treeStructure = {}
-                }
                 
                 if (!reusableTreeView.rowDataMap[row]) {
                     reusableTreeView.rowDataMap[row] = {depth: depth}
@@ -146,19 +140,6 @@ Item {
                 if (column === 0) {
                     reusableTreeView.rowDataMap[row].name = modelName
                     reusableTreeView.rowDataMap[row].hasChildren = hasChildren
-                    
-                    if (depth > 0) {
-                        for (var i = row - 1; i >= 0; i--) {
-                            if (reusableTreeView.rowDataMap[i] && reusableTreeView.rowDataMap[i].depth === depth - 1) {
-                                if (!reusableTreeView.treeStructure[i]) {
-                                    reusableTreeView.treeStructure[i] = []
-                                }
-                                reusableTreeView.treeStructure[i].push(row)
-                                reusableTreeView.rowDataMap[row].parentRow = i
-                                break
-                            }
-                        }
-                    }
                 } else if (column === 1) {
                     reusableTreeView.rowDataMap[row].value = modelValue
                 }
@@ -263,7 +244,7 @@ Item {
                 
                 MenuItem {
                     text: "Copy Property"
-                    visible: !reusableTreeView.selectedRowHasChildren || (!enableCopySubtree && reusableTreeView.selectedRowHasChildren)
+                    visible: true
                     height: visible ? implicitHeight : 0
                     onTriggered: {
                         clipboardHelper.text = reusableTreeView.selectedRowName
@@ -293,51 +274,6 @@ Item {
                         clipboardHelper.copy()
                     }
                 }
-                
-                MenuItem {
-                    text: "Copy Subtree"
-                    visible: reusableTreeView.selectedRowHasChildren && enableCopySubtree
-                    height: visible ? implicitHeight : 0
-                    onTriggered: {
-                        var allText = collectAllChildren()
-                        clipboardHelper.text = allText
-                        clipboardHelper.selectAll()
-                        clipboardHelper.copy()
-                    }
-                }
-            }
-            
-            function collectAllChildren() {
-                var result = ""
-                var parentRowIndex = row
-                
-                var parentData = reusableTreeView.rowDataMap[parentRowIndex] || {}
-                result += (parentData.name || "") + ": " + (parentData.value || "") + "\n"
-                
-                function traverseChildren(parentRow, indent) {
-                    var children = reusableTreeView.treeStructure[parentRow]
-                    if (!children || children.length === 0) {
-                        return
-                    }
-                    
-                    for (var i = 0; i < children.length; i++) {
-                        var childRow = children[i]
-                        var childData = reusableTreeView.rowDataMap[childRow] || {}
-                        
-                        var childName = childData.name || ""
-                        var childValue = childData.value || ""
-                        
-                        result += indent + childName + ": " + childValue + "\n"
-                        
-                        if (childData.hasChildren) {
-                            traverseChildren(childRow, indent + "  ")
-                        }
-                    }
-                }
-                
-                traverseChildren(parentRowIndex, "  ")
-                
-                return result
             }
         }
         
