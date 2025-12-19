@@ -163,7 +163,7 @@ ApplicationWindow {
     Connections {
         target: controller
         function onError(errorMsg, errorType) {
-            errorDialog.text = errorMsg
+            errorDialog.errorText = errorMsg
             errorDialog.errorType = errorType
             errorDialog.open()
         }

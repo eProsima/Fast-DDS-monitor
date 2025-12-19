@@ -25,11 +25,16 @@ Dialog {
     modal: true
     standardButtons: Dialog.Cancel | Dialog.Retry
     
-    property int errorType // Depending on this value it would behave differently in Accept
+    property int errorType: 0 // Depending on this value it would behave differently in Accept
     property string errorText: "Error message has not been set"
+    
+    anchors.centerIn: parent
+    width: 400
     
     Label {
         text: errorDialog.errorText
+        wrapMode: Text.WordWrap
+        width: parent.width
     }
     
     onAccepted: {
