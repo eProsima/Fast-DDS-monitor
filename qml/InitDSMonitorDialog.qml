@@ -286,9 +286,11 @@ Dialog {
         standardButtons: Dialog.Retry | Dialog.Discard
         property string ip: ""
         property string ipType: ""
-        Label {
-            text: "The inserted Discovery Server IP " + wrongIP.ip +
-            " is not a valid " + wrongIP.ipType + "."
+        ColumnLayout {
+            Label {
+                text: "The inserted Discovery Server IP " + wrongIP.ip +
+                " is not a valid " + wrongIP.ipType + "."
+            }
         }
         onAccepted: {
             initDSMonitorDialog.open()
@@ -302,9 +304,11 @@ Dialog {
         modal: true
         standardButtons: Dialog.Retry | Dialog.Discard
         property string ip: ""
-        Label {
-            text: "An invalid port has been inserted for the Discovery Server IP " +
-                wrongPort.ip + ". Please fill in the ports of all network addresses."
+        ColumnLayout {
+            Label {
+                text: "An invalid port has been inserted for the Discovery Server IP " +
+                    wrongPort.ip + ". Please fill in the ports of all network addresses."
+            }
         }
         onAccepted: {
             initDSMonitorDialog.open()
@@ -317,8 +321,10 @@ Dialog {
         modal: true
         standardButtons: Dialog.Retry | Dialog.Discard
         property int locatorIdx: 0
-        Label {
-            text: "The locator of index " + wrongLocator.locatorIdx + " has an empty IP address."
+        ColumnLayout {
+            Label {
+                text: "The locator of index " + wrongLocator.locatorIdx + " has an empty IP address."
+            }
         }
         onAccepted: {
             initDSMonitorDialog.open()
@@ -341,9 +347,11 @@ Dialog {
             duplicatesLabel.text = new_text
         }
         
-        Label {
-            id: duplicatesLabel
-            text: ""
+        ColumnLayout {
+            Label {
+                id: duplicatesLabel
+                text: ""
+            }
         }
         
         onAccepted: {
