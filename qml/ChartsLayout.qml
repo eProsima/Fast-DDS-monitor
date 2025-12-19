@@ -23,8 +23,6 @@ import Theme 1.0
 
 Rectangle {
     id: chartsLayout
-    Layout.fillWidth: true
-    Layout.fillHeight: true
 
     property int boxesPerRow: 2
     property int actualBoxesPerRow: Math.min(fullScreen ? 1 : boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)

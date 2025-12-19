@@ -86,10 +86,6 @@ Item {
     ChartsLayout {
         visible: disable_chart_selection_
         id: chartsLayout
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: tab_list.bottom
-        anchors.bottom: parent.bottom
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
         }
