@@ -178,6 +178,7 @@ Item {
             
             ReusableTreeView {
                 anchors.fill: parent
+                anchors.margins: 4
                 treeModel: alertMessageModel
                 columnSplitRatio: 0.5
                 expandOnUpdate: false

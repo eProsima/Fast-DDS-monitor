@@ -755,7 +755,7 @@ protected:
     bool fill_issue_();
 
     /**
-     * @brief Initialize the Issue Model with a placeholder "No issues detected" entry
+     * @brief Initialize the Issue Model with a placeholder "No issues found" entry
      *
      * @return true always (indicates the model has been updated)
      */
@@ -808,6 +808,14 @@ protected:
      * @return true if any change in any model has been done
      */
     bool fill_alert_message_();
+
+    /**
+     * @brief Initialize the Alert Message Model with a placeholder
+     * "No alert messages found" entry
+     *
+     * @return true always (indicates the model has been updated)
+     */
+    bool fill_first_alert_message_();
 
     //! Add a new callback message to the Log model
     bool add_log_callback_(
