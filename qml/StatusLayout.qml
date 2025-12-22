@@ -70,7 +70,10 @@ Item {
             TabButton {
                 text: qsTr("Alerts")
                 width: implicitWidth
-                onClicked: pages.currentIndex = 1
+                onClicked: {
+                    pages.currentIndex = 1
+                    alert_icon_state = false
+                }
             }
         }
 
@@ -154,6 +157,9 @@ Item {
 
                 // Display if hidden when problems filtered (from right-click dialog)
                 onEntity_status_filtered: {
+                    if (pages.currentIndex === 1) {
+                        alert_icon_state = false
+                    }
                     collapse_status_layout()
                 }
 
@@ -250,9 +256,21 @@ Item {
             Connections {
                 target: alertMessageModel
                 function onUpdatedData() {
-                    alert_icon_state = alertMessageModel.rowCount() > 0
+                    var leafCount = countLeafNodes(alertMessageModel)
+                    if (pages.currentIndex !== 1 || statusLayout.current_status === StatusLayout.Status.Closed) {
+                        alert_icon_state = leafCount > 0
+                    }
+                    alert_value.text = leafCount
                 }
             }
+        }
+
+        Label {
+            id: alert_value
+            anchors.left: alert_icon.right
+            anchors.leftMargin: elements_spacing_ / 2
+            anchors.verticalCenter: parent.verticalCenter
+            text: "0"
         }
 
         Connections {
@@ -270,6 +288,9 @@ Item {
                     close_status_layout()
                 }
                 else {
+                    if (pages.currentIndex === 1) {
+                        alert_icon_state = false
+                    }
                     collapse_status_layout()
                 }
             }
@@ -278,5 +299,36 @@ Item {
 
     function filter_entity_status_log(entityId) {
         statusLayout.focus_entity_(entityId)
+    }
+
+    function countLeafNodes(model) {
+        if (!model) return 0
+        
+        var count = 0
+        var stack = []
+        
+        // Start with all top-level items
+        var topLevelCount = model.rowCount()
+        for (var i = 0; i < topLevelCount; i++) {
+            stack.push(model.index(i, 0))
+        }
+        
+        // Process the stack
+        while (stack.length > 0) {
+            var currentIndex = stack.pop()
+            var childCount = model.rowCount(currentIndex)
+            
+            if (childCount > 0) {
+                // Has children, add them to the stack
+                for (var j = 0; j < childCount; j++) {
+                    stack.push(model.index(j, 0, currentIndex))
+                }
+            } else {
+                // No children, it's a leaf
+                count++
+            }
+        }
+        
+        return count
     }
 }
