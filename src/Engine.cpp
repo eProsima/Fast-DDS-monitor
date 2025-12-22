@@ -89,7 +89,7 @@ QObject* Engine::enable()
     // Creates a default structure for issue json and fills the tree model with it
     issue_model_ = new models::TreeModel();
     generate_new_issue_info_();
-    fill_issue_();
+    fill_first_issue_();
 
     // Creates a default json structure for logging messages and fills the tree model with it
     log_model_ = new models::TreeModel();
@@ -570,6 +570,13 @@ bool Engine::fill_issue_()
     return true;
 }
 
+bool Engine::fill_first_issue_()
+{
+    EntityInfo info = R"({"No issues detected.":"-"})"_json;
+    issue_model_->update(info);
+    return true;
+}
+
 bool Engine::fill_first_alert_summary_()
 {
     EntityInfo info = R"({"No alerts active.":"Start an alert in a specific domain"})"_json;
@@ -625,11 +632,7 @@ void Engine::generate_new_alert_message_info_()
 
 void Engine::generate_new_issue_info_()
 {
-    EntityInfo info;
-
-    info["Issues"] = EntityInfo();
-
-    issue_info_ = info;
+    issue_info_ = EntityInfo();
 }
 
 void Engine::generate_new_log_info_()
@@ -690,7 +693,7 @@ bool Engine::add_issue_info_(
         std::string issue,
         std::string time)
 {
-    issue_info_["Issues"][time] = issue;
+    issue_info_[time] = issue;
     fill_issue_();
 
     return true;
@@ -698,8 +701,8 @@ bool Engine::add_issue_info_(
 
 void Engine::clear_issue_info_()
 {
-    issue_info_["Issues"] = EntityInfo();
-    fill_issue_();
+    issue_info_ = EntityInfo();
+    fill_first_issue_();
 }
 
 bool Engine::update_alerts_()
