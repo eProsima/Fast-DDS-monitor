@@ -207,7 +207,6 @@ ColumnLayout {
 
             ColumnLayout {
                 id: physicalViewLayout
-                SplitView.fillHeight: true
                 SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: physicalViewTitle.height
                 spacing: 10
@@ -277,7 +276,6 @@ ColumnLayout {
             Item {
                 id: entityInfo
                 visible: true
-                SplitView.fillHeight: true
                 SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: infoTabBar.height
                 clip: true
