@@ -869,6 +869,9 @@ Item {
         {
             // If spy view tab not created yet, create it
             create_new_custom_tab_(component_identifier, "")
+            tabLayout.tab_model_[current_]["title"] =  "Spy View"
+            tabLayout.tab_model_[current_]["icon"] = "idl"
+            refresh_layout(current_)
             spy_view_index_ = current_
             return
         }
@@ -1036,8 +1039,6 @@ Item {
     function open_spy_view(domainId, entityId) {
         var entityName = controller.get_name(entityId)
         create_or_reuse_spy_tab_("spyView_component", "")
-        tabLayout.tab_model_[current_]["title"] =  "Spy View"
-        tabLayout.tab_model_[current_]["icon"] = "idl"
         open_spy_view_(domainId, entityId, entityName)
     }
 
