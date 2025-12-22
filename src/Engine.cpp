@@ -106,7 +106,7 @@ QObject* Engine::enable()
     // Creates a default json structure for statuses and fills the tree model with it
     alert_message_model_ = new models::TreeModel();
     generate_new_alert_message_info_();
-    fill_alert_message_();
+    fill_first_alert_message_();
 
     // Creates a default json structure for status messages and fills the tree model with it
     status_model_ = new models::TreeModel();
@@ -572,15 +572,22 @@ bool Engine::fill_issue_()
 
 bool Engine::fill_first_issue_()
 {
-    EntityInfo info = R"({"No issues detected.":"-"})"_json;
+    EntityInfo info = R"({"No issues found":"-"})"_json;
     issue_model_->update(info);
     return true;
 }
 
 bool Engine::fill_first_alert_summary_()
 {
-    EntityInfo info = R"({"No alerts active.":"Start an alert in a specific domain"})"_json;
+    EntityInfo info = R"({"No alerts active":"Start an alert in a specific domain"})"_json;
     alerts_summary_model_->update(info);
+    return true;
+}
+
+bool Engine::fill_first_alert_message_()
+{
+    EntityInfo info = R"({"No alert messages found":"-"})"_json;
+    alert_message_model_->update(info);
     return true;
 }
 
@@ -729,7 +736,7 @@ void Engine::clear_alert_message_info_()
 
 bool Engine::fill_first_entity_info_()
 {
-    EntityInfo info = R"({"No monitors active.":"Start a monitor in a specific domain"})"_json;
+    EntityInfo info = R"({"No monitors active":"Start a monitor in a specific domain"})"_json;
     info_model_->update(info);
     return true;
 }
@@ -1442,7 +1449,7 @@ bool Engine::update_entity_status(
     if (id == backend::ID_ALL)
     {
         auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
-                        std::string("No issues found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(
+                        std::string("No problems found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(
                             ""));
         entity_status_model_->addTopLevelItem(empty_item);
     }
@@ -1748,7 +1755,7 @@ bool Engine::remove_inactive_entities_from_status_model(
             if (entity_status_model_->rowCount(entity_status_model_->rootIndex()) == 0)
             {
                 entity_status_model_->addTopLevelItem(new models::StatusTreeItem(
-                            backend::ID_ALL, std::string("No issues found"), backend::StatusLevel::OK_STATUS,
+                            backend::ID_ALL, std::string("No problems found"), backend::StatusLevel::OK_STATUS,
                             std::string(""), std::string("")));
             }
 

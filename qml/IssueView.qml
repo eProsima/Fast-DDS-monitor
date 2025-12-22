@@ -26,6 +26,7 @@ Item {
 
     ReusableTreeView {
         anchors.fill: parent
+        anchors.margins: 4
         treeModel: issueModel
         columnSplitRatio: 0.5
     }
