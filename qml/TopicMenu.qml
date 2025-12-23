@@ -31,6 +31,15 @@ Menu {
     property string entityKind: ""
     property string showGraphButtonName: ""
 
+    function canSpyOnTopic() {
+        if (entityId == "") return false;
+        var topicName = controller.get_name(entityId)
+        // Filter out statistics topics, monitor service, and metatraffic topics
+        return !topicName.startsWith("_fastdds_statistics_") && 
+               !topicName.startsWith("_fastdds_monitor_service") &&
+               !topicName.includes("METATRAFFIC")
+    }
+
     MenuItem {
         text: "Change alias"
         onTriggered: changeAlias(menu.domainEntityId, menu.entityId, menu.currentAlias, menu.entityKind)
@@ -55,7 +64,10 @@ Menu {
     }
     MenuItem {
         text: "Spy topic data"
+        enabled: topicMenu.canSpyOnTopic()
         onTriggered: openSpyView(menu.domainId, menu.entityId)
+        ToolTip.visible: hovered && !enabled
+        ToolTip.text: "Built-in Fast-DDS topics cannot be spied on"
     }
 }
 
