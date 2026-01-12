@@ -27,6 +27,10 @@ ChartView {
     antialiasing: true
     legend.visible: false
 
+    layer.enabled: true
+    layer.smooth: true
+    layer.samples: 8
+
     margins.bottom: 0
     margins.left: 0
     margins.right: 10
