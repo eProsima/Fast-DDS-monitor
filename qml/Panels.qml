@@ -88,8 +88,8 @@ RowLayout {
 
         LeftPanel {
             id: leftPanel
-            SplitView.preferredWidth: parent.width / 4
-            SplitView.minimumWidth: parent.width / 6
+            SplitView.preferredWidth: Math.floor(parent.width / 4)
+            SplitView.minimumWidth: Math.floor(parent.width / 6)
             visible: panels.showLeftSidebar
             clip: true
             onExplorerDDSEntitiesChanged: function(status) { panels.explorerDDSEntitiesChanged(status) }
