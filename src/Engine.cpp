@@ -1635,7 +1635,8 @@ bool Engine::update_entity_status(
                                                 std::string(backend::policy_id_to_string(policy_id) + ":"),
                                                 sample.status, "",
                                                 std::string(
-                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ") +
+                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ")
+                                                +
                                                 std::string(
                                                     "<a href=\"https://fast-dds.docs.eprosima.com/en/") +
                                                 fastdds_version +
