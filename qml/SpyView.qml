@@ -42,8 +42,15 @@ Item {
         }
     }
 
+    function clear_model() {
+        if (spyView.model && spyView.model.clear) {
+            spyView.model.clear()
+        }
+    }
+
     function initialize(domainId, topicId, topicName) {
         stop_spy()
+        clear_model()
         domain_id = domainId
         topic_id = topicId
         topic_name = topicName
@@ -115,6 +122,16 @@ Item {
                             spyView.model.copy_json_to_clipboard()
                         }
                     }
+                }
+                Button {
+                    id: clearButton
+                    text:  "Clear"
+                    enabled:  spyView.topic_id !== ""
+                    onClicked: {
+                        clear_model()
+                    }
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Clear displayed data"
                 }
             }
         }

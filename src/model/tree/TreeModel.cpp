@@ -45,9 +45,6 @@ TreeModel::TreeModel(
 
 TreeModel::~TreeModel()
 {
-    beginResetModel();
-    root_item_->clear();
-    endResetModel();
     delete root_item_;
 }
 
@@ -265,7 +262,11 @@ void TreeModel::setup_model_data(
 
 void TreeModel::clear()
 {
+    beginResetModel();
     root_item_->clear();
+    data_to_copy_ = ordered_json();  // Also clear the clipboard data
+    endResetModel();
+    emit updatedData();
 }
 
 void TreeModel::update(
@@ -274,7 +275,7 @@ void TreeModel::update(
     std::unique_lock<std::mutex> lock(update_mutex_);
 
     beginResetModel();
-    clear();
+    root_item_->clear();
     setup_model_data(data, root_item_);
     endResetModel();
     emit updatedData();

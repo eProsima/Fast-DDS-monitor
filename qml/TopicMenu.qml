@@ -34,10 +34,7 @@ Menu {
     function canSpyOnTopic() {
         if (entityId == "") return false;
         var topicName = controller.get_name(entityId)
-        // Filter out statistics topics, monitor service, and metatraffic topics
-        return !topicName.startsWith("_fastdds_statistics_") && 
-               !topicName.startsWith("_fastdds_monitor_service") &&
-               !topicName.includes("METATRAFFIC")
+        return !topicName.includes("METATRAFFIC")
     }
 
     MenuItem {
