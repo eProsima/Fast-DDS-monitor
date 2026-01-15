@@ -10,7 +10,6 @@ Version v4.0.0
 This release includes the following **features**:
 
 * Migrate from Qt5 to Qt6
-* Enable spying statistics topics
 
 This release has no **dependencies update**:
 
