@@ -15,16 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
+import QtQml.Models 6.8
 import Theme 1.0
 
 Rectangle {
     id: chartsLayout
-    Layout.fillWidth: true
-    Layout.fillHeight: true
 
     property int boxesPerRow: 2
     property int actualBoxesPerRow: Math.min(fullScreen ? 1 : boxesPerRow, (gridView.count === 0) ? 1 : gridView.count)
@@ -68,7 +66,7 @@ Rectangle {
             gridView.firstIndexDrag = -1
         }
 
-        onWheel: {
+        onWheel: function(wheel) {
             if (!fullScreen) {
                 if (wheel.angleDelta.y > 0) {
                     gridViewScrollBar.decrease()
@@ -175,7 +173,7 @@ Rectangle {
                     smooth: true
                     maxPoints: model.maxPoints
 
-                    onFullScreen: chartBoxFullScreen(chartBoxIdx)
+                    onFullScreen: function(chartBoxIdx) { chartBoxFullScreen(chartBoxIdx) }
 
                     states: [
                         State {

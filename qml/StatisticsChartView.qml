@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtCharts 2.1
-import QtQuick.Controls 2.15
+import QtQuick 6.8
+import QtCharts 6.8
+import QtQuick.Controls 6.8
 import Theme 1.0
 
 ChartView {
@@ -26,6 +26,10 @@ ChartView {
     theme: ChartView.ChartThemeLight
     antialiasing: true
     legend.visible: false
+
+    layer.enabled: true
+    layer.smooth: true
+    layer.samples: 8
 
     margins.bottom: 0
     margins.left: 0
@@ -129,7 +133,7 @@ ChartView {
 
             focus: true
 
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 if (chartViewMouseArea.containsMouse) {
                     if (event.key === Qt.Key_Control) {
                         chartViewMouseArea.cursorShape = Qt.OpenHandCursor
@@ -144,7 +148,7 @@ ChartView {
                 event.accepted = true;
             }
 
-            Keys.onReleased: {
+            Keys.onReleased: function(event) {
                 if (chartViewMouseArea.containsMouse) {
                     chartViewMouseArea.cursorShape = Qt.PointingHandCursor
                 } else {
@@ -162,7 +166,7 @@ ChartView {
                 chartViewMouseArea.cursorShape = Qt.ArrowCursor
             }
 
-            onPressed: {
+            onPressed: function(mouse) {
                 if (!((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier))) {
                     mouse.accepted = false
                 } else {
@@ -179,7 +183,7 @@ ChartView {
                     manuallySetAxes = true
                 }
             }
-            onMouseXChanged: {
+            onMouseXChanged: function(mouse) {
                 if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                     if (pressedZoom){
                         zoomRect.width = mouseX - zoomRect.x
@@ -189,7 +193,7 @@ ChartView {
                     }
                 }
             }
-            onMouseYChanged: {
+            onMouseYChanged: function(mouse) {
                 if ((mouse.modifiers & Qt.ShiftModifier) || (mouse.modifiers & Qt.ControlModifier)){
                     if (pressedZoom){
                         zoomRect.height = mouseY - zoomRect.y
@@ -199,7 +203,7 @@ ChartView {
                     }
                 }
             }
-            onReleased: {
+            onReleased: function(mouse) {
                 if (pressedZoom) {
                     chartView.zoomIn(Qt.rect(zoomRect.x, zoomRect.y, zoomRect.width, zoomRect.height))
                     zoomRect.visible = false
@@ -210,7 +214,7 @@ ChartView {
                     mouse.accepted = false
                 }
             }
-            onWheel: {
+            onWheel: function(wheel) {
                 if(!(wheel.modifiers & Qt.ControlModifier)) {
                     wheel.accepted = false
                 } else {

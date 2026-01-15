@@ -106,7 +106,7 @@ public:
             const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
     //! Eliminates and release the parent node and all its children
-    void clear();
+    Q_INVOKABLE void clear();
 
     //! Clear the model and create a new tree with new data
     void update(
@@ -166,8 +166,7 @@ protected:
      */
     static void setup_model_data(
             const json& json_data,
-            TreeItem* parent,
-            bool _first = true);
+            TreeItem* parent);
 
     /**
      * @brief Recursive function that fills an internal node with data in json format without

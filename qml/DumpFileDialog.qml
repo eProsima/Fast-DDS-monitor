@@ -15,17 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Dialogs 6.8
 
 FileDialog {
     title: qsTr("Dump database")
-    folder: shortcuts.documents
-    selectMultiple: false
-    selectExisting: false
-    selectFolder: false
-    defaultSuffix: ".json"
+    fileMode: FileDialog.SaveFile
+    defaultSuffix: "json"
     nameFilters: [ "JSON files (*.json)", "All files (*)" ]
 
     property bool clear
@@ -33,11 +30,11 @@ FileDialog {
     onAccepted: {
         if (clear) {
             controller.dump(
-                dumpDialogClear.fileUrl,
+                selectedFile,
                 true)
         } else {
             controller.dump(
-                dumpDialog.fileUrl,
+                selectedFile,
                 false)
         }
     }

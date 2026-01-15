@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.1
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.15
-import QtGraphicalEffects 1.15
+import QtQuick 6.8
+import QtQuick.Layouts 6.8
+import QtQuick.Window 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Effects 6.8
 
 import Theme 1.0
 
@@ -115,7 +115,7 @@ ColumnLayout {
 
             Item {
                 anchors.fill: parent;
-
+                
                 Rectangle {
                     id: btnShadow
                     antialiasing: true
@@ -136,7 +136,15 @@ ColumnLayout {
                             color: "black"
                         }
                     }
+                    
+                    layer.enabled: true
+                    layer.effect: MultiEffect {
+                        maskEnabled: true
+                        maskSource: mask
+                        opacity: 0.65
+                    }
                 }
+                
                 Rectangle {
                     id: mask
                     color: "transparent"
@@ -145,18 +153,7 @@ ColumnLayout {
                     border.width: 3
                     border.color: "black"
                     anchors.fill: btnShadow
-                }
-                OpacityMask {
-                    opacity: 0.65
-                    anchors.fill: btnShadow
-                    source: ShaderEffectSource {
-                        sourceItem: btnShadow
-                        hideSource: true
-                    }
-                    maskSource: ShaderEffectSource {
-                        sourceItem: mask
-                        hideSource: true
-                    }
+                    visible: false
                 }
             }
 

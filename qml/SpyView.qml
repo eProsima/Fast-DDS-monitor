@@ -15,28 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import Theme 1.0
 
 Item {
     id: spyView
-    // Public properties
-    property var model: userDataModel                       // User Data JSON model
-    property string domain_id                               // ID of the domain where the topic is
-    property string topic_id                                // ID of the topic to spy
-    property string topic_name                              // Name of the topic to spy
-
-    // Private properties
-    property bool is_active_: false                         // Whether the spy is active or not
-
-    // Read-only design properties
+    property var model: userDataModel
+    property string domain_id
+    property string topic_id
+    property string topic_name
+    property bool is_active_: false
     readonly property int elements_spacing_: 10
-
-    // Used to store expanded/collapsed state of the tree items, all the attemps
-    // to use a more sophisticated update method have failed.
-    property var expandedState: ({})
 
     function start_spy() {
         if (!spyView.is_active_) {
@@ -52,236 +42,107 @@ Item {
         }
     }
 
+    function clear_model() {
+        if (spyView.model && spyView.model.clear) {
+            spyView.model.clear()
+        }
+    }
+
     function initialize(domainId, topicId, topicName) {
         stop_spy()
+        clear_model()
         domain_id = domainId
         topic_id = topicId
         topic_name = topicName
         start_spy()
     }
 
-    Flickable
-    {
-        id: userDataView
-        clip: true
-        boundsBehavior: Flickable.StopAtBounds
-        interactive: false
+    Column {
         anchors.fill: parent
-        width: parent.width
-        height: parent.height
-        contentWidth: parent.width
-        contentHeight: parent.height
+        spacing: elements_spacing_
 
-        TreeView {
+        Rectangle {
+            width: parent.width
+            height: 40
+            color: "transparent"
 
-            id: treeView
-            anchors.fill: parent
-            anchors.topMargin: buttonContainer.height + buttonContainer.anchors.topMargin + elements_spacing_
-            anchors.leftMargin: elements_spacing_
-            anchors.rightMargin: elements_spacing_
-            model: spyView.model
-            headerVisible: false
-            frameVisible: false
-            selectionMode: SelectionMode.NoSelection
-
-            TableViewColumn {
-                role: "name"
-                title: "JSON view"
-                width: 400
+            Text {
+                id: rowTitle
+                text: (topic_name || "No Topic") + " Data"
+                verticalAlignment: Text.AlignVCenter
+                anchors.left: parent.left
+                anchors.leftMargin: elements_spacing_
+                anchors.verticalCenter: parent.verticalCenter
             }
 
-            TableViewColumn {
-                role: "value"
-                title: "JSON view"
-                width: 400
-            }
+            Row {
+                id: buttonContainer
+                spacing: elements_spacing_
+                anchors.right: parent.right
+                anchors.rightMargin: elements_spacing_
+                anchors.verticalCenter: parent.verticalCenter
 
-            itemDelegate: Text {
-                text: styleData.value
-            }
-
-            // Expand all tree items
-            function expandAll() {
-                expandChilds(treeView.model.invalidIndex())
-            }
-
-            // Expand all child items of a given parent
-            function expandChilds(parent) {
-                for(var i=0; i < model.rowCount(parent); i++) {
-                    var index = model.index(i, 0, parent)
-                    if (!isExpanded(index)) {
-                        expand(index)
-                        var path = pathFromIndex(index)
-                        spyView.expandedState[path] = true
-                    }
-                    if (model.rowCount(index) > 0) {
-                        expandChilds(index)
-                    }
-                }
-            }
-
-            // Collapse all tree items
-            function collapseAll() {
-                collapseChilds(treeView.model.invalidIndex())
-            }
-
-            // Expand all child items of a given parent
-            function collapseChilds(parent) {
-                for(var i=0; i < model.rowCount(parent); i++) {
-                    var index = model.index(i, 0, parent)
-                    if (isExpanded(index)) {
-                        if (model.rowCount(index) > 0) {
-                            collapseChilds(index)
-                        }
-                        collapse(index)
-                        var path = pathFromIndex(index)
-                        delete spyView.expandedState[path]
-                    }
-                }
-            }
-
-            function saveExpanded(parentIndex) {
-                for (var i = 0; i < model.rowCount(parentIndex); ++i) {
-                    var idx = model.index(i, 0, parentIndex)
-                    var key = model.data(idx, model.nameRole())
-                    if (isExpanded(idx)) {
-                        var path = pathFromIndex(idx)
-                        if (path != "") {
-                            spyView.expandedState[path] = true
-                        }
-                        saveExpanded(idx)
-                    }
-                }
-            }
-
-            function restoreExpanded(parentIndex) {
-                for (var i = 0; i < model.rowCount(parentIndex); ++i) {
-                    var idx  =  model.index(i, 0, parentIndex)
-                    var key  =  model.data(idx, model.nameRole())
-                    var path = pathFromIndex(idx)
-                    if (path in spyView.expandedState) {
-                        if (spyView.expandedState[path]) {
-                            expand(idx)
-                        }
-                        restoreExpanded(idx)
-                    }
-                }
-            }
-
-            // Computes the complete path of an index in the tree (in the json)
-            // concatenating all the keys from root to the index and "/" as separator
-            function pathFromIndex(idx) {
-                if (!idx || !idx.valid)
-                    return ""
-
-                var keys = []
-                var current = idx
-                while (current.valid) {
-                    var key = model.data(current, model.nameRole())
-                    keys.unshift(key)
-                    current = model.parent(current)
-                }
-                return keys.join("/")
-            }
-
-            // Computes the index in the tree from a complete path in the json
-            // returning the invalid index if not found
-            function indexFromPath(path) {
-                var keys = path.split("/")
-                var currentIndex = model.index(0, 0, model.invalidIndex())
-                for (var key_i = 0; key_i < keys.length; ++key_i) {
-                    var found = false
-                    for (var row_j = 0; row_j < model.rowCount(currentIndex); ++row_j) {
-                        var childIndex = model.index(row_j, 0, currentIndex)
-                        if (model.data(childIndex, model.nameRole()) === keys[key_i]) {
-                            currentIndex = childIndex
-                            found = true
-                            break
+                Button {
+                    id: pausePlayButton
+                    text: spyView.is_active_ ? "Pause" : "Play"
+                    enabled: spyView.topic_id !== ""
+                    onClicked: {
+                        if (spyView.is_active_) {
+                            spyView.stop_spy()
+                        } else {
+                            spyView.start_spy()
                         }
                     }
-                    if (!found) {
-                        return model.invalidIndex()
+                }
+
+                Button {
+                    id: expandAllButton
+                    text: "Expand All"
+                    enabled: spyView.topic_id !== ""
+                    onClicked: {
+                        reusableTree.expandAll()
                     }
                 }
-                return currentIndex
-            }
 
-            // Copy the current data in json format to clipboard
-            function copyData() {
-                model.copy_json_to_clipboard()
-            }
+                Button {
+                    id: collapseAllButton
+                    text: "Collapse All"
+                    enabled: spyView.topic_id !== ""
+                    onClicked: {
+                        reusableTree.collapseAll()
+                    }
+                }
 
-            Connections {
-                target: spyView.model
-                function onUpdatedData() {
-                    // Save current scroll position to restore it later
-                    var flick = treeView.flickableItem
-                    var oldY = flick.contentY
-                    var oldX = flick.contentX
-                    // Save collapsed/expanded state
-                    treeView.saveExpanded(model.invalidIndex())
-                    // Reset the model to force a refresh
-                    treeView.model = null
-                    treeView.model = spyView.model
-                    // Wait for full rebuild before restoring previous state
-                    Qt.callLater(function() {
-                        // Restore expanded state
-                        treeView.restoreExpanded(model.invalidIndex())
-                        // Restore scroll position
-                        flick.contentY = oldY
-                        flick.contentX = oldX
-                    })
+                Button {
+                    id: copyButton
+                    text: "Copy JSON"
+                    enabled: spyView.topic_id !== ""
+                    onClicked: {
+                        if (spyView.model && spyView.model.copy_json_to_clipboard) {
+                            spyView.model.copy_json_to_clipboard()
+                        }
+                    }
+                }
+                Button {
+                    id: clearButton
+                    text:  "Clear"
+                    enabled:  spyView.topic_id !== ""
+                    onClicked: {
+                        clear_model()
+                    }
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Clear displayed data"
                 }
             }
         }
 
-        Text {
-            id: rowTitle
-            text: topic_name + " Data"
-            verticalAlignment: Text.AlignVCenter
-            anchors.top: parent.top; anchors.topMargin: spyView.elements_spacing_
-            anchors.left: parent.left; anchors.leftMargin: spyView.elements_spacing_
-        }
-
-        Row {
-            id: buttonContainer
-            spacing: spyView.elements_spacing_
-            anchors.top: parent.top; anchors.topMargin: spyView.elements_spacing_
-            anchors.right: parent.right; anchors.rightMargin: spyView.elements_spacing_
-
-            Button {
-                id: pausePlayButton
-                text: spyView.is_active_ ? "Pause" : "Play"
-                onClicked: {
-                    spyView.is_active_ = !spyView.is_active_
-                    spyView.is_active_ ? controller.start_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
-                                : controller.stop_topic_spy(spyView.domain_id, controller.get_name(spyView.topic_id))
-                }
-            }
-
-            Button {
-                id: expandButton
-                text: "Expand All"
-                onClicked: {
-                    treeView.expandAll()
-                }
-            }
-
-            Button {
-                id: collapseButton
-                text: "Collapse All"
-                onClicked: {
-                    treeView.collapseAll()
-                }
-            }
-
-            Button {
-                id: copyButton
-                text: "Copy JSON"
-                onClicked: {
-                    treeView.copyData()
-                }
-            }
+        ReusableTreeView {
+            id: reusableTree
+            width: parent.width
+            height: parent.height - 50
+            treeModel: spyView.model
+            columnSplitRatio: 0.5
+            expandOnUpdate: false
         }
     }
 }

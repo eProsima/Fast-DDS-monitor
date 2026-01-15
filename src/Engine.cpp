@@ -89,7 +89,7 @@ QObject* Engine::enable()
     // Creates a default structure for issue json and fills the tree model with it
     issue_model_ = new models::TreeModel();
     generate_new_issue_info_();
-    fill_issue_();
+    fill_first_issue_();
 
     // Creates a default json structure for logging messages and fills the tree model with it
     log_model_ = new models::TreeModel();
@@ -106,7 +106,7 @@ QObject* Engine::enable()
     // Creates a default json structure for statuses and fills the tree model with it
     alert_message_model_ = new models::TreeModel();
     generate_new_alert_message_info_();
-    fill_alert_message_();
+    fill_first_alert_message_();
 
     // Creates a default json structure for status messages and fills the tree model with it
     status_model_ = new models::TreeModel();
@@ -178,8 +178,10 @@ QObject* Engine::enable()
 
     rootContext()->setContextProperty("controller", controller_);
 
-    addImportPath(":/imports");
-    addImportPath(":/imports/TreeView");
+    addImportPath("qrc:/imports");
+    addImportPath("qrc:/qml/QtQuick/Controls");
+
+
     load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     // Connect Callback Listener to this object
@@ -568,10 +570,24 @@ bool Engine::fill_issue_()
     return true;
 }
 
+bool Engine::fill_first_issue_()
+{
+    EntityInfo info = R"({"No issues found":"-"})"_json;
+    issue_model_->update(info);
+    return true;
+}
+
 bool Engine::fill_first_alert_summary_()
 {
-    EntityInfo info = R"({"No alerts active.":"Start an alert in a specific domain"})"_json;
+    EntityInfo info = R"({"No alerts active":"Start an alert in a specific domain"})"_json;
     alerts_summary_model_->update(info);
+    return true;
+}
+
+bool Engine::fill_first_alert_message_()
+{
+    EntityInfo info = R"({"No alert messages found":"-"})"_json;
+    alert_message_model_->update(info);
     return true;
 }
 
@@ -623,11 +639,7 @@ void Engine::generate_new_alert_message_info_()
 
 void Engine::generate_new_issue_info_()
 {
-    EntityInfo info;
-
-    info["Issues"] = EntityInfo();
-
-    issue_info_ = info;
+    issue_info_ = EntityInfo();
 }
 
 void Engine::generate_new_log_info_()
@@ -688,7 +700,7 @@ bool Engine::add_issue_info_(
         std::string issue,
         std::string time)
 {
-    issue_info_["Issues"][time] = issue;
+    issue_info_[time] = issue;
     fill_issue_();
 
     return true;
@@ -696,8 +708,8 @@ bool Engine::add_issue_info_(
 
 void Engine::clear_issue_info_()
 {
-    issue_info_["Issues"] = EntityInfo();
-    fill_issue_();
+    issue_info_ = EntityInfo();
+    fill_first_issue_();
 }
 
 bool Engine::update_alerts_()
@@ -724,7 +736,7 @@ void Engine::clear_alert_message_info_()
 
 bool Engine::fill_first_entity_info_()
 {
-    EntityInfo info = R"({"No monitors active.":"Start a monitor in a specific domain"})"_json;
+    EntityInfo info = R"({"No monitors active":"Start a monitor in a specific domain"})"_json;
     info_model_->update(info);
     return true;
 }
@@ -1060,7 +1072,7 @@ bool Engine::on_selected_entity_kind(
     }
 }
 
-QtCharts::QVXYModelMapper* Engine::on_add_statistics_data_series(
+QVXYModelMapper* Engine::on_add_statistics_data_series(
         quint64 chartbox_id,
         backend::DataKind data_kind,
         backend::EntityId source_entity_id,
@@ -1437,7 +1449,7 @@ bool Engine::update_entity_status(
     if (id == backend::ID_ALL)
     {
         auto empty_item = new models::StatusTreeItem(backend::ID_ALL,
-                        std::string("No issues found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(
+                        std::string("No problems found"), backend::StatusLevel::OK_STATUS, std::string(""), std::string(
                             ""));
         entity_status_model_->addTopLevelItem(empty_item);
     }
@@ -1595,6 +1607,11 @@ bool Engine::update_entity_status(
                     if (sample.status != backend::StatusLevel::OK_STATUS)
                     {
                         std::string fastdds_version = "v" + controller_->fastdds_version().toStdString();
+                        // Remove tweak version only if format is "vX.Y.Z.W"
+                        if (std::count(fastdds_version.begin(), fastdds_version.end(), '.') == 3)
+                        {
+                            fastdds_version = fastdds_version.substr(0, fastdds_version.find_last_of('.'));
+                        }
                         backend::StatusLevel entity_status = backend_connection_.get_status(id);
                         auto entity_item = entity_status_model_->getTopLevelItem(
                             id, entity_kind + ": " + backend_connection_.get_name(
@@ -1618,7 +1635,8 @@ bool Engine::update_entity_status(
                                                 std::string(backend::policy_id_to_string(policy_id) + ":"),
                                                 sample.status, "",
                                                 std::string(
-                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ") +
+                                                    "<html><style type=\"text/css\"></style>Check for compatible rules ")
+                                                +
                                                 std::string(
                                                     "<a href=\"https://fast-dds.docs.eprosima.com/en/") +
                                                 fastdds_version +
@@ -1738,7 +1756,7 @@ bool Engine::remove_inactive_entities_from_status_model(
             if (entity_status_model_->rowCount(entity_status_model_->rootIndex()) == 0)
             {
                 entity_status_model_->addTopLevelItem(new models::StatusTreeItem(
-                            backend::ID_ALL, std::string("No issues found"), backend::StatusLevel::OK_STATUS,
+                            backend::ID_ALL, std::string("No problems found"), backend::StatusLevel::OK_STATUS,
                             std::string(""), std::string("")));
             }
 

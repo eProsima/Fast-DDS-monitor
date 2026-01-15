@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQml.Models 2.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
+import QtQml.Models 6.8
 import Theme 1.0
 
 Rectangle {
@@ -95,8 +95,8 @@ Rectangle {
                                 }
                             }
                         }
-                        onClicked: {
-                            if(mouse.button & Qt.RightButton) {
+                        onClicked: function(mouse) {
+                            if (mouse.button & Qt.RightButton) {
                                 openEntitiesMenu(domainId, id, name, kind, openMenuCaller.leftPanel)
                             } else {
                                 controller.domain_click(id)
@@ -165,8 +165,8 @@ Rectangle {
                                     anchors.fill: parent
                                     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                                    onClicked: {
-                                        if(mouse.button & Qt.RightButton) {
+                                    onClicked: function(mouse) {
+                                        if (mouse.button & Qt.RightButton) {
                                             openTopicMenu(domainId, domainName, id, name, kind, openMenuCaller.leftPanel)
                                         } else {
                                             controller.topic_click(id)

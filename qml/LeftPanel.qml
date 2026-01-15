@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
+import QtQml.Models 6.8
 import Theme 1.0
 
 RowLayout {
@@ -58,10 +58,10 @@ RowLayout {
         id: monitoringPanel
         Layout.fillHeight: true
         visible: (visiblePanel ===  panelItem[LeftPanel.LeftSubPanel.Explorer]) ? true : false
-        onExplorerDDSEntitiesChanged: leftPanel.explorerDDSEntitiesChanged(status)
-        onExplorerPhysicalChanged: leftPanel.explorerPhysicalChanged(status)
-        onExplorerLogicalChanged: leftPanel.explorerLogicalChanged(status)
-        onExplorerEntityInfoChanged: leftPanel.explorerEntityInfoChanged(status)
+        onExplorerDDSEntitiesChanged: function(status) { leftPanel.explorerDDSEntitiesChanged(status) }
+        onExplorerPhysicalChanged: function(status) { leftPanel.explorerPhysicalChanged(status) }
+        onExplorerLogicalChanged: function(status) { leftPanel.explorerLogicalChanged(status) }
+        onExplorerEntityInfoChanged: function(status) { leftPanel.explorerEntityInfoChanged(status) }
     }
 
     StatusPanel {
@@ -82,16 +82,16 @@ RowLayout {
 
     EntitiesMenu {
         id: entitiesMenu
-        onChangeAlias: leftPanel.changeAlias(domainEntityId, entityId, currentAlias, entityKind)
-        onFilterEntityStatusLog: leftPanel.filterEntityStatusLog(entityId)
-        onOpenTopicView: leftPanel.openTopicView(domainEntityId, domainId, topicId)
+        onChangeAlias: function(domainEntityId, entityId, currentAlias, entityKind) { leftPanel.changeAlias(domainEntityId, entityId, currentAlias, entityKind) }
+        onFilterEntityStatusLog: function(entityId) { leftPanel.filterEntityStatusLog(entityId) }
+        onOpenTopicView: function(domainEntityId, domainId, topicId) { leftPanel.openTopicView(domainEntityId, domainId, topicId) }
     }
 
     AlertsMenu {
         id: alertsMenu
         onRemoveAlert: leftPanel.removeAlert(alertsMenu.alertId)
     }
-
+    
     TopicMenu {
         id: topicMenu
     }

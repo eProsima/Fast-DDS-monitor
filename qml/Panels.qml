@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
+import QtQml.Models 6.8
 
 RowLayout {
     id: panels
@@ -51,7 +51,7 @@ RowLayout {
             iconsVBar.iconClicked(0)
         }
     }
-    onChangeChartboxLayout: {
+    onChangeChartboxLayout: function(chartsPerRow) {
         tabs.chartsLayout_boxesPerRow(chartsPerRow)
         tabs.chartsLayout_exitFullScreen()
     }
@@ -60,8 +60,7 @@ RowLayout {
         id: iconsVBar
         Layout.fillHeight: true
         width: 50
-
-        onIconClicked: {
+                onIconClicked: function(icon) {
             if (panels.showLeftSidebar) {
                 if (leftPanel.visiblePanel === leftPanel.panelItem[icon]) {
                     leftPanel.visiblePanel.visible = false
@@ -89,20 +88,20 @@ RowLayout {
 
         LeftPanel {
             id: leftPanel
-            SplitView.preferredWidth: parent.width / 4
-            SplitView.minimumWidth: parent.width / 6
+            SplitView.preferredWidth: Math.floor(parent.width / 4)
+            SplitView.minimumWidth: Math.floor(parent.width / 6)
             visible: panels.showLeftSidebar
             clip: true
-            onExplorerDDSEntitiesChanged: panels.explorerDDSEntitiesChanged(status)
-            onExplorerPhysicalChanged: panels.explorerPhysicalChanged(status)
-            onExplorerLogicalChanged: panels.explorerLogicalChanged(status)
-            onExplorerEntityInfoChanged: panels.explorerEntityInfoChanged(status)
-            onOpen_topic_view: tabs.open_topic_view(domainEntityId, domainId, entityId)
-            onRefresh_domain_graph_view: tabs.refresh_domain_graph_view(domainEntityId, entityId)
-            onFilter_entity_status_log: statusLayout.filter_entity_status_log(entityId)
-            onOpen_idl_view: tabs.open_idl_view(entityId)
-            onRemove_alert: panels.removeAlert(alertId)
-            onOpen_spy_view: tabs.open_spy_view(domainId, entityId)
+            onExplorerDDSEntitiesChanged: function(status) { panels.explorerDDSEntitiesChanged(status) }
+            onExplorerPhysicalChanged: function(status) { panels.explorerPhysicalChanged(status) }
+            onExplorerLogicalChanged: function(status) { panels.explorerLogicalChanged(status) }
+            onExplorerEntityInfoChanged: function(status) { panels.explorerEntityInfoChanged(status) }
+            onOpen_topic_view: function(domainEntityId, domainId, entityId) { tabs.open_topic_view(domainEntityId, domainId, entityId) }
+            onRefresh_domain_graph_view: function(domainEntityId, entityId) { tabs.refresh_domain_graph_view(domainEntityId, entityId) }
+            onFilter_entity_status_log: function(entityId) { statusLayout.filter_entity_status_log(entityId) }
+            onOpen_idl_view: function(entityId) { tabs.open_idl_view(entityId) }
+            onRemove_alert: function(alertId) { panels.removeAlert(alertId) }
+            onOpen_spy_view: function(domainId, entityId) { tabs.open_spy_view(domainId, entityId) }
         }
 
         Rectangle {
@@ -134,10 +133,10 @@ RowLayout {
                             }
                         }
                     }
-                    onOpenEntitiesMenu: {
+                    onOpenEntitiesMenu: function(domainEntityId, entityId, currentAlias, entityKind, caller) {
                         panels.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller)
                     }
-                    onOpenTopicMenu: {
+                    onOpenTopicMenu: function(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
                         panels.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
                     }
                     onOpenAlertsMenu: {

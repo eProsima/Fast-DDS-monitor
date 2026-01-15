@@ -1,16 +1,18 @@
 <RCC>
     <qresource prefix="/">
-        <file>controls/Button.qml</file>
-        <file>controls/ComboBox.qml</file>
-        <file>controls/ItemDelegate.qml</file>
-        <file>controls/MenuBar.qml</file>
-        <file>controls/MenuBarItem.qml</file>
-        <file>controls/ScrollBar.qml</file>
-        <file>controls/SplitView.qml</file>
-        <file>controls/TabBar.qml</file>
-        <file>controls/TabButton.qml</file>
-        <file>controls/ToolBar.qml</file>
-        <file>controls/ToolButton.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/qmldir</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/Button.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ComboBox.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ItemDelegate.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/MenuBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/CustomMenuBarItem.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/MenuItem.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ScrollBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/SplitView.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/TabBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/TabButton.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ToolBar.qml</file>
+        <file>qml/QtQuick/Controls/eProsimaBrand/ToolButton.qml</file>
         <file>imports/Theme/qmldir</file>
         <file>imports/Theme/Theme.qml</file>
         <file>qml/AboutDialog.qml</file>
@@ -21,7 +23,7 @@
         <file>qml/AlertList.qml</file>
         <file>qml/AlertsMenu.qml</file>
         <file>qml/AlertsPanel.qml</file>
-        <file>qml/AlertSummary.qml</file>
+        <file>qml/AlertsSummaryView.qml</file>
         <file>qml/ChangeAliasDialog.qml</file>
         <file>qml/ChartsLayout.qml</file>
         <file>qml/CustomLegend.qml</file>
@@ -61,6 +63,7 @@
         <file>qml/MonitorToolBarButton.qml</file>
         <file>qml/Panels.qml</file>
         <file>qml/PhysicalView.qml</file>
+        <file>qml/ReusableTreeView.qml</file>
         <file>qml/QosView.qml</file>
         <file>qml/ScheduleClearDialog.qml</file>
         <file>qml/SeriesSetMaxPointsDialog.qml</file>

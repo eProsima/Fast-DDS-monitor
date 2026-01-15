@@ -147,10 +147,10 @@ as it is explained in section :ref:`colcon_installation`.
 
 .. _qt_installation:
 
-Qt 5.15
+Qt 6.8
 ^^^^^^^
 
-Qt 5.15 is needed in order to build *Fast DDS Monitor*.
+Qt 6.8 is needed in order to build *Fast DDS Monitor*.
 To install this Qt version, refer to `Qt Downloads <https://www.qt.io/download>`_ website.
 
 .. note::
@@ -181,8 +181,8 @@ Colcon installation
         Refer to section :ref:`eprosima_dependencies` in order to check how to source *Fast DDS* and
         *Fast DDS Statistics Backend* libraries.
 
-    In order to build the project, it must be specified the path to the Qt 5.15 :code:`gcc_64` installation path.
-    Using the standard Qt installation, this path should be similar to :code:`/home/<user>/Qt/5.15.2/gcc_64`.
+    In order to build the project, it must be specified the path to the Qt 6.8 :code:`gcc_64` installation path.
+    Using the standard Qt installation, this path should be similar to :code:`/home/<user>/Qt/6.8.3/gcc_64`.
 
 #.  Build the packages:
 

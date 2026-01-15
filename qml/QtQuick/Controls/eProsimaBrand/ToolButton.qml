@@ -34,46 +34,54 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import QtQuick.Templates 2.12 as T
-import QtQuick.Controls.Universal 2.12
-
+import QtQuick 6.8
+import QtQuick.Templates 6.8 as T
+import QtQuick.Controls 6.8
+import QtQuick.Controls.impl 6.8
+import QtQuick.Controls.Universal 6.8
 import Theme 1.0
 
-T.TabBar {
-    id: control
+T.ToolButton {
+    id: tToolButton
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            contentWidth + leftPadding + rightPadding)
+                            implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             contentHeight)
+                             implicitContentHeight + topPadding + bottomPadding)
 
-    contentItem: ListView {
-        model: control.contentModel
-        currentIndex: control.currentIndex
+    padding: 6
+    spacing: 8
 
-        spacing: control.spacing
-        orientation: ListView.Horizontal
-        boundsBehavior: Flickable.StopAtBounds
-        flickableDirection: Flickable.AutoFlickIfNeeded
-        snapMode: ListView.SnapToItem
+    icon.width: 20
+    icon.height: 20
+    icon.color: Color.transparent(Universal.foreground, enabled ? 1.0 : 0.2)
 
-        highlightMoveDuration: 100
-        highlightRangeMode: ListView.ApplyRange
-        preferredHighlightBegin: 48
-        preferredHighlightEnd: width - 48
+    property bool useSystemFocusVisuals: true
+
+    contentItem: IconLabel {
+        spacing: tToolButton.spacing
+        mirrored: tToolButton.mirrored
+        display: tToolButton.display
+
+        icon: tToolButton.icon
+        text: tToolButton.text
+        font: tToolButton.font
+        color: Color.transparent(tToolButton.Universal.foreground, enabled ? 1.0 : 0.2)
     }
 
     background: Rectangle {
-        anchors.fill: parent
-        color: control.Universal.background
+        implicitWidth: 68
+        implicitHeight: 25 // AppBarThemeCompactHeight
+
+        color: tToolButton.enabled && (tToolButton.highlighted || tToolButton.checked) ? tToolButton.Universal.accent : "transparent"
 
         Rectangle {
-            visible: true
-            color: Theme.eProsimaLightBlue
             width: parent.width
-            height: 2
-            anchors.bottom: parent.bottom
+            height: parent.height - tToolButton.spacing
+            anchors.centerIn: parent
+            radius: 10
+            visible: tToolButton.down || tToolButton.hovered
+            color: tToolButton.down ? tToolButton.Universal.listMediumColor : tToolButton.Universal.listLowColor
         }
     }
 }

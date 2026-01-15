@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
+import QtQuick 6.8
+import QtQuick.Dialogs 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 import Theme 1.0
 
 Dialog {
@@ -88,10 +88,15 @@ Dialog {
         hostComboBox.currentIndex = 0
         topicComboBox.currentIndex = 0
         userComboBox.currentIndex = 0
+        manual_name_provided = false
+        manualHostCheckBox.checked = false
+        manualUserCheckBox.checked = false
+        manualTopicCheckBox.checked = false
         manualHostText.text = ""
         manualUserText.text = ""
         manualTopicText.text = ""
         filePathField.text = ""
+        currentScriptPath = ""
         thresholdUnits = ""
         updateDomains()
         updateTopics()
@@ -540,40 +545,60 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyAlertKind
         title: "Missing alert kind"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The alert kind field is empty. Please enter an alert kind."
-        onAccepted: alertDialog.open()
-        onDiscard: alertDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The alert kind field is empty. Please enter an alert kind."
+        }
+        onAccepted: {
+            alertDialog.open()
+        }
+        onRejected: {
+            alertDialog.close()
+        }
     }
 
-    MessageDialog {
+
+    Dialog {
         id: emptyAlertName
         title: "Missing alert name"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The alert name field is empty. Please enter an alert name."
-        onAccepted: alertDialog.open()
-        onDiscard: alertDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The alert name field is empty. Please enter an alert name."
+        }
+        onAccepted: {
+            alertDialog.open()
+        }
+        onRejected: {
+            alertDialog.close()
+        }
     }
 
-    MessageDialog {
+
+    
+    Dialog {
         id: emptyAlertDomain
         title: "Missing domain"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The domain field is empty. Please enter a domain."
-        onAccepted: alertDialog.open()
-        onDiscard: alertDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The domain field is empty. Please enter a domain."
+        }
+        onAccepted: {
+            alertDialog.open()
+        }
+        onRejected: {
+            alertDialog.close()
+        }
     }
 
     FileDialog {
         id: scriptFileDialog
         title: "Select a script file"
-        width: 130
         nameFilters: [
             "All files (*)",
             "Shell scripts (*.sh)",
@@ -581,11 +606,10 @@ Dialog {
             "Batch files (*.bat)",
             "PowerShell scripts (*.ps1)"
         ]
-        selectExisting: true
-        folder: Qt.resolvedUrl(".")
-
+        fileMode: FileDialog.OpenFile
+        currentFolder: Qt.resolvedUrl(".")
         onAccepted: {
-            currentScriptPath = fileUrl
+            currentScriptPath = selectedFile
             filePathField.text = currentScriptPath
         }
     }
