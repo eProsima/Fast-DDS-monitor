@@ -26,7 +26,7 @@
     <a href="https://github.com/eProsima/Fast-RTPS/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/eProsima/Fast-DDS-monitor.svg"/></a>
     <br>
     <a href="https://github.com/eProsima/Fast-DDS-monitor/actions/workflows/nightly.yml"><img alt="test" src="https://github.com/eProsima/Fast-DDS-monitor/actions/workflows/nightly.yml/badge.svg"/></a>
-    <a href="https://fast-dds-monitor.readthedocs.io/en/latest/"><img alt="Documentation Status" src="https://readthedocs.org/projects/fast-dds-monitor/badge/?version=latest"></a>
+    <a href="https://fast-dds-monitor.readthedocs.io/en/latest/"><img alt="Documentation Status" src="https://readthedocs.org/projects/fast-dds-monitor/badge/?version=v4.0.0"></a>
 </div>
 
 <br><br>
