@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Controls 2.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
 
 MouseArea {
     anchors.fill: parent
@@ -33,10 +33,10 @@ MouseArea {
         onTriggered: parent.singleClick()
     }
 
-    onClicked: {
-        if(mouse.button & Qt.RightButton) {
+    onClicked: function(mouse) {
+        if (mouse.button & Qt.RightButton) {
             rightClick(mouse)
-        } else if(timer.running) {
+        } else if (timer.running) {
             doubleClick()
             timer.stop()
         } else {

@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 
 import Theme 1.0
 import Clipboard 1.0
@@ -86,7 +86,6 @@ Item {
     ChartsLayout {
         visible: disable_chart_selection_
         id: chartsLayout
-        anchors.fill: stack_layout
         onFullScreenChanged: {
             tabLayout.fullScreen = fullScreen
         }
@@ -241,10 +240,10 @@ Item {
                         id: domainGraphLayout
                         component_id: stack.stack_id
 
-                        onUpdate_tab_name: {
+                        onUpdate_tab_name: function(new_name, new_icon, stackId) {
                             for (var i = 0; i<tabLayout.tab_model_.length; i++)
                             {
-                                if (tabLayout.tab_model_[i]["stack_id"] == stack_id)
+                                if (tabLayout.tab_model_[i]["stack_id"] == stackId)
                                 {
                                     tabLayout.tab_model_[i]["title"] = new_name
                                     tabLayout.tab_model_[i]["icon"] = new_icon
@@ -267,10 +266,10 @@ Item {
                             }
                         }
 
-                        onOpenEntitiesMenu: {
+                        onOpenEntitiesMenu: function(domainEntityId, entityId, currentAlias, entityKind, caller) {
                             tabLayout.openEntitiesMenu(domainEntityId, entityId, currentAlias, entityKind, caller)
                         }
-                        onOpenTopicMenu: {
+                        onOpenTopicMenu: function(domainEntityId, domainId, entityId, currentAlias, entityKind, caller) {
                             tabLayout.openTopicMenu(domainEntityId, domainId, entityId, currentAlias, entityKind, caller)
                         }
 
@@ -285,8 +284,8 @@ Item {
                         Connections {
                             target: tabLayout
 
-                            function onInitialize_domain_view_(stack_id, entity_id, domain_id) {
-                                if (domainGraphLayout.component_id == stack_id)
+                            function onInitialize_domain_view_(stackId, entity_id, domain_id) {
+                                if (domainGraphLayout.component_id == stackId)
                                 {
                                     domainGraphLayout.domain_entity_id = entity_id
                                     domainGraphLayout.domain_id = domain_id
@@ -294,8 +293,8 @@ Item {
                                 }
                             }
 
-                            function onFilter_domain_view_by_topic_(stack_id, domain_entity_id, topic_id) {
-                                if (domainGraphLayout.component_id == stack_id &&
+                            function onFilter_domain_view_by_topic_(stackId, domain_entity_id, topic_id) {
+                                if (domainGraphLayout.component_id == stackId &&
                                     domainGraphLayout.domain_entity_id == domain_entity_id)
                                 {
                                     domainGraphLayout.filter_model_by_topic(topic_id)
@@ -412,14 +411,14 @@ Item {
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
                             hoverEnabled: true
-                            onWheel: {
+                            onWheel: function(wheel) {
                                 if(wheel.angleDelta.y > 0){
                                   vertical_bar.decrease()
                                 }else{
                                   vertical_bar.increase()
                                 }
                             }
-                            onPressed: {
+                            onPressed: function(mouse) {
                                 if(mouse.button & Qt.RightButton) {
                                     var start = idl_text.selectionStart
                                     var end = idl_text.selectionEnd
@@ -429,7 +428,6 @@ Item {
                                 }
                             }
                         }
-
                         Menu {
                             id: contextMenu
                             MenuItem {
@@ -732,7 +730,7 @@ Item {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
-        width: dialog_width_
+        width: Math.max(dialog_width_, Math.min(custom_combobox.implicitWidth + 40, parent.width * 0.8))
 
         modal: true
         title: "Select DDS Domain"
@@ -763,7 +761,8 @@ Item {
                             : currentText
             model: entityModelFirst
 
-            width: parent.width > implicitWidth ? parent.width : implicitWidth
+            anchors.left: parent.left
+            anchors.right: parent.right
 
             Component.onCompleted:
             {
@@ -773,7 +772,7 @@ Item {
 
             onActivated: {
                 domain_id_dialog.enable_ok_button = true
-                custom_combobox.recalculateWidth()
+                Qt.callLater(custom_combobox.recalculateWidth)
             }
         }
 
@@ -870,6 +869,9 @@ Item {
         {
             // If spy view tab not created yet, create it
             create_new_custom_tab_(component_identifier, "")
+            tabLayout.tab_model_[current_]["title"] =  "Spy View"
+            tabLayout.tab_model_[current_]["icon"] = "idl"
+            refresh_layout(current_)
             spy_view_index_ = current_
             return
         }
@@ -1037,8 +1039,6 @@ Item {
     function open_spy_view(domainId, entityId) {
         var entityName = controller.get_name(entityId)
         create_or_reuse_spy_tab_("spyView_component", "")
-        tabLayout.tab_model_[current_]["title"] =  "Spy View"
-        tabLayout.tab_model_[current_]["icon"] = "idl"
         open_spy_view_(domainId, entityId, entityName)
     }
 

@@ -166,8 +166,7 @@ protected:
      */
     static void setup_model_data(
             const json& json_data,
-            TreeItem* parent,
-            bool _first = true);
+            TreeItem* parent);
 
     /**
      * @brief Recursive function that fills an internal node with data in json format without

@@ -181,7 +181,7 @@ quint64 Controller::get_min_uint()
     return std::numeric_limits<quint64>::min();
 }
 
-QtCharts::QVXYModelMapper* Controller::add_statistics_data(
+QVXYModelMapper* Controller::add_statistics_data(
         quint64 chartbox_id,
         QString data_kind,
         QString source_entity_id,

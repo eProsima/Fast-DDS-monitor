@@ -15,15 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQml.Models 2.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
+
 import Theme 1.0
 
-
 Rectangle {
-
     id: alertListRect
     Layout.fillHeight: true
     Layout.fillWidth: true
@@ -34,13 +32,14 @@ Rectangle {
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
     property int thirdIndentation: secondIndentation + iconSize + spacingIconLabel
+    property int selectedIndex: -1
 
     ListView {
         id: alertList
         model: alertModel
         delegate: alertListDelegate
         clip: true
-        anchors.fill : parent
+        anchors.fill: parent
         spacing: verticalSpacing
         boundsBehavior: Flickable.StopAtBounds
 
@@ -56,32 +55,38 @@ Rectangle {
             id: alertItem
             width: alertListRect.width
             height: alertHighlightRect.height
-            property var alertId: id
-            property int alertIdx: index
+
+            required property var id
+            required property int index
+            required property string name
+            required property bool alive
 
             Rectangle {
-
                 id: alertHighlightRect
                 width: alertList.width
-                height: alertIcon.height
-                color: clicked ? Theme.eProsimaLightBlue : "transparent"
-                property bool clicked : false
+                height: alertIcon.height + 10
+                color: alertListRect.selectedIndex === alertItem.index ? Theme.eProsimaLightBlue : "transparent"
 
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                    onClicked: {
-                        alertHighlightRect.clicked = !alertHighlightRect.clicked
-                        if(mouse.button & Qt.RightButton) {
-                            openAlertsMenu(id)
-                        } else  {
-                            controller.alert_click(id)
+                    onClicked: function(mouse) {
+                        if (mouse.button & Qt.RightButton) {
+                            alertListRect.selectedIndex = alertItem.index
+                            openAlertsMenu(alertItem.id)
+                        } else {
+                            if (alertListRect.selectedIndex === alertItem.index) {
+                                alertListRect.selectedIndex = -1
+                            } else {
+                                alertListRect.selectedIndex = alertItem.index
+                            }
+                            controller.alert_click(alertItem.id)
                         }
                     }
                 }
 
                 RowLayout {
+                    anchors.verticalCenter: parent.verticalCenter
                     spacing: spacingIconLabel
 
                     IconSVG {
@@ -89,11 +94,12 @@ Rectangle {
                         name: "alert"
                         size: iconSize
                         Layout.leftMargin: firstIndentation
-                        color: entityLabelColor(alertHighlightRect.clicked, alive)
+                        color: entityLabelColor(alertListRect.selectedIndex === alertItem.index, alertItem.alive)
                     }
+
                     Label {
-                        text: name
-                        color: entityLabelColor(alertHighlightRect.clicked, alive)
+                        text: alertItem.name
+                        color: entityLabelColor(alertListRect.selectedIndex === alertItem.index, alertItem.alive)
                     }
                 }
             }

@@ -39,9 +39,9 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 
 import Theme 1.0
 
@@ -96,16 +96,20 @@ Item {
         implicitWidth: 20
         implicitHeight: 20
         Layout.leftMargin: parent.spacing
-        rotation: currentRow.expanded ? 90 : 0
+        // 'collapse' icon points DOWN by default
+        // We want: expanded -> down (0deg), collapsed -> right (-90deg)
+        rotation: currentRow.expanded ? 0 : -90
         opacity: currentRow.hasChildren
         color: "transparent"
 
-        Text {
+        // Smooth rotation when toggling
+        Behavior on rotation { NumberAnimation { duration: 100; easing.type: Easing.OutQuart } }
+
+        IconSVG {
             anchors.centerIn: parent
-            text: defaultIndicator
-            font: root.font
-            antialiasing: true
-            color: currentRow.isSelectedIndex ? root.selectedItemColor : root.handleColor
+            name: "collapse"
+            color: "grey"
+            size: 10
         }
     }
 
@@ -164,7 +168,7 @@ Item {
                     "Entity ID:  " + currentRow.currentId : currentRow.currentDescription
             font.pointSize: Theme.font.pointSize
             font.italic: true
-            onLinkActivated: Qt.openUrlExternally(link)
+            onLinkActivated: function(link) { Qt.openUrlExternally(link) }
 
             MouseArea {
                 visible: currentRow.currentDescription.includes("href")
@@ -189,7 +193,7 @@ Item {
 
         Repeater {
             id: repeater
-            model: childCount
+            model: root.model ? childCount : 0  // Only create delegates when model exists
             Layout.fillWidth: true
 
             delegate: ColumnLayout {
@@ -229,6 +233,10 @@ Item {
                     }
 
                     function focus(){
+                        // Don't process clicks on the "all" or root node
+                        if (_prop.currentId === "all" || ! _prop.currentId || _prop.currentId === "-2") {
+                            return
+                        }
                         controller.endpoint_click(_prop.currentId)
                         controller.participant_click(_prop.currentId)
                     }
@@ -398,7 +406,7 @@ Item {
                     Binding { target: loader.item; property: "rowHeight"; value: root.rowHeight; when: loader.status == Loader.Ready }
                     Binding { target: loader.item; property: "rowPadding"; value: root.rowPadding; when: loader.status == Loader.Ready }
                     Binding { target: loader.item; property: "rowSpacing"; value: root.rowSpacing; when: loader.status == Loader.Ready }
-                    Binding { target: loader.item; property: "fontMetrics"; value: root.selectedItemColor; when: loader.status == Loader.Ready }
+                    Binding { target: loader.item; property: "fontMetrics"; value: root.fontMetrics; when: loader.status == Loader.Ready }
                 }
             }
         }

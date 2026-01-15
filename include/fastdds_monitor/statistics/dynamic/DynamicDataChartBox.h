@@ -110,7 +110,7 @@ public:
      *
      * @return The mapper created (and stored in \c mappers_ )
      */
-    QtCharts::QVXYModelMapper* add_series(
+    QVXYModelMapper* add_series(
             QString statistic_kind,
             bool cumulative,
             quint64 cumulative_interval,

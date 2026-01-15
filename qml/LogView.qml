@@ -15,52 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 
 Item {
     id: logView
-    visible: true
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
-    TreeView {
-        id: logTreeView
+    ReusableTreeView {
         anchors.fill: parent
-        model: logModel
-        selectionMode: SelectionMode.NoSelection
-        frameVisible: false
-        itemDelegate: Item {
-            Text {
-                anchors.fill: parent
-                elide: styleData.elideMode
-                text: {
-                    // Error when undefined value.
-                    // Do not know when this could happen, but happens
-                    styleData.value ? styleData.value : ""
-                }
-            }
-        }
-
-        TableViewColumn {
-            width: parent.width / 2
-            role: "name"
-            title: "Name"
-        }
-
-        TableViewColumn {
-            width: parent.width / 2
-            role: "value"
-            title: "Value"
-        }
-
-        Component.onCompleted: leftPanel.expandAll(logTreeView, logModel)
-
-        Connections {
-            target: logModel
-            function onUpdatedData() {
-                leftPanel.expandAll(logTreeView, logModel)
-            }
-        }
+        treeModel: logModel
+        columnSplitRatio: 0.5
     }
 }

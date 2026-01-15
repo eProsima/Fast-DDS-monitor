@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
 import Theme 1.0
 
 /*
@@ -30,6 +30,15 @@ Menu {
     property string currentAlias: ""
     property string entityKind: ""
     property string showGraphButtonName: ""
+
+    function canSpyOnTopic() {
+        if (entityId == "") return false;
+        var topicName = controller.get_name(entityId)
+        // Filter out statistics topics, monitor service, and metatraffic topics
+        return !topicName.startsWith("_fastdds_statistics_") && 
+               !topicName.startsWith("_fastdds_monitor_service") &&
+               !topicName.includes("METATRAFFIC")
+    }
 
     MenuItem {
         text: "Change alias"
@@ -55,7 +64,10 @@ Menu {
     }
     MenuItem {
         text: "Spy topic data"
+        enabled: topicMenu.canSpyOnTopic()
         onTriggered: openSpyView(menu.domainId, menu.entityId)
+        ToolTip.visible: hovered && !enabled
+        ToolTip.text: "Built-in Fast-DDS topics cannot be spied on"
     }
 }
 

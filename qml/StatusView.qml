@@ -15,48 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 
 Item {
     id: statusView
-    visible: true
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
-    TreeView {
-        id: statusTreeView
+    ReusableTreeView {
         anchors.fill: parent
-        model: statusModel
-        selectionMode: SelectionMode.NoSelection
-        frameVisible: false
-        itemDelegate: Item {
-            Text {
-                anchors.fill: parent
-                elide: styleData.elideMode
-                text: styleData.value
-            }
-        }
-
-        TableViewColumn {
-            width: parent.width / 2
-            role: "name"
-            title: "Name"
-        }
-
-        TableViewColumn {
-            width: parent.width / 2
-            role: "value"
-            title: "Value"
-        }
-
-        Component.onCompleted: leftPanel.expandAll(statusTreeView, statusModel)
-
-        Connections {
-            target: statusModel
-            function onUpdatedData() {
-                leftPanel.expandAll(statusTreeView, statusModel)
-            }
-        }
+        treeModel: statusModel
+        columnSplitRatio: 0.5
     }
 }

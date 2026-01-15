@@ -15,17 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Dialogs 6.8
 
 FileDialog {
     id: xmlFileDialog
     title: qsTr("Select XML File")
-    selectFolder: false
+    fileMode: FileDialog.OpenFile
     nameFilters: ["XML Files (*.xml)", "All Files (*)"]
 
     onAccepted: {
-        controller.load_xml_profiles_file(fileUrl)
+        controller.load_xml_profiles_file(selectedFile)
     }
 }

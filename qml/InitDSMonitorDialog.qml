@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
+import QtQuick 6.8
+import QtQuick.Layouts 6.8
+import QtQuick.Dialogs 6.8
+import QtQuick.Controls 6.8
 import Theme 1.0
 
 Dialog {
@@ -60,9 +60,19 @@ Dialog {
         }
 
         GridLayout {
+            id: dialogGridLayout
             Layout.fillWidth: true
             columns: 5
             columnSpacing: 10
+
+            Component.onCompleted: {
+                // Set widths after layout is initialized to avoid circular dependency
+                Qt.callLater(function() {
+                    discoveryServerTransportProtocolLabel.Layout.preferredWidth = dialogGridLayout.width / 3
+                    discoveryServerIPLabel.Layout.preferredWidth = dialogGridLayout.width / 3
+                    discoveryServerPortLabel.Layout.preferredWidth = dialogGridLayout.width / 5
+                })
+            }
 
             Label {
                 id: discoveryServerLocatorLabel
@@ -83,7 +93,7 @@ Dialog {
             Label {
                 id: discoveryServerTransportProtocolLabel
                 text: "Transport Protocol"
-                Layout.preferredWidth: parent.width / 3
+                Layout.preferredWidth: 200  // Will be set dynamically
                 InfoToolTip {
                     text: 'Transport protocol of the\n' +
                           'Discovery Server network\n' +
@@ -93,7 +103,7 @@ Dialog {
             Label {
                 id: discoveryServerIPLabel
                 text: "IP"
-                Layout.preferredWidth: parent.width / 3
+                Layout.preferredWidth: 200  // Will be set dynamically
                 InfoToolTip {
                     text: 'IP of the Discovery Server\n' +
                           'network address.\n'
@@ -102,7 +112,7 @@ Dialog {
             Label {
                 id: discoveryServerPortLabel
                 text: "Port"
-                Layout.preferredWidth: parent.width / 5
+                Layout.preferredWidth: 120  // Will be set dynamically
                 InfoToolTip {
                     text: 'Port of the Discovery Server\n' +
                           'network address.'
@@ -179,8 +189,8 @@ Dialog {
                                 selectByMouse: true
                                 Layout.preferredWidth: discoveryServerIPLabel.width
                                 text: ip
-                                validator: RegExpValidator {
-                                    regExp: {
+                                validator: RegularExpressionValidator {
+                                    regularExpression: {
                                         if (discoveryServerTransportProtocol.currentText.includes("v4")) {
                                             return ipv4Regex()
                                         } else if (discoveryServerTransportProtocol.currentText.includes("v6")) {
@@ -269,55 +279,84 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongIP
         title: "Invalid Discovery Server IP"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discar
-        text: "The inserted Discovery Server IP " + ip + " is not a valid " + ipType +  "."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
         property string ip: ""
         property string ipType: ""
-        onAccepted: initDSMonitorDialog.open()
+        ColumnLayout {
+            Label {
+                text: "The inserted Discovery Server IP " + wrongIP.ip +
+                " is not a valid " + wrongIP.ipType + "."
+            }
+        }
+        onAccepted: {
+            initDSMonitorDialog.open()
+        }
     }
 
-    MessageDialog {
+
+    Dialog {
         id: wrongPort
         title: "Invalid Discovery Server Port"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discard
-        text: "An invalid port has been inserted for the Discovery Server IP " + ip + ". " +
-              "Please fill in the ports of all network addresses."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
         property string ip: ""
-        onAccepted: initDSMonitorDialog.open()
+        ColumnLayout {
+            Label {
+                text: "An invalid port has been inserted for the Discovery Server IP " +
+                    wrongPort.ip + ". Please fill in the ports of all network addresses."
+            }
+        }
+        onAccepted: {
+            initDSMonitorDialog.open()
+        }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongLocator
         title: "Invalid Discovery Server Locator"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discard
-        text: "The locator of index " + locatorIdx + " has an empty IP address."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
         property int locatorIdx: 0
-        onAccepted: initDSMonitorDialog.open()
+        ColumnLayout {
+            Label {
+                text: "The locator of index " + wrongLocator.locatorIdx + " has an empty IP address."
+            }
+        }
+        onAccepted: {
+            initDSMonitorDialog.open()
+        }
     }
 
-    MessageDialog {
+    Dialog {
         id: duplicatedLocators
         title: "Duplicated Discovery Server Locators"
-        icon: StandardIcon.Warning
-        standardButtons:  StandardButton.Retry | StandardButton.Discard
-        text: ""
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        
         property var duplicates: []
-
+        
         onDuplicatesChanged: {
             var new_text = "The following duplicate locators have been found:\n"
             for (var i = 0; i < duplicates.length; i++) {
                 new_text = new_text.concat("    • " + duplicates[i] + "\n")
             }
-            text = new_text
+            duplicatesLabel.text = new_text
         }
-
-        onAccepted: initDSMonitorDialog.open()
+        
+        ColumnLayout {
+            Label {
+                id: duplicatesLabel
+                text: ""
+            }
+        }
+        
+        onAccepted: {
+            initDSMonitorDialog.open()
+        }
     }
 
     /**

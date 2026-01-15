@@ -15,60 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
-import QtQml.Models 2.11
-
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 
 Item {
-    id: summary_view
-    visible: true
+    id: summaryView
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
-    TreeView {
-        id: summary_tree_view
+    ReusableTreeView {
         anchors.fill: parent
-        model: summaryModel
-        frameVisible: false
-        selectionMode: SelectionMode.NoSelection
-        selection: ItemSelectionModel {
-            id: item_selection_model
-            model: summaryModel
-        }
-        itemDelegate: Item {
-            Text {
-                anchors.fill: parent
-                elide: styleData.elideMode
-                text: styleData.value
-            }
-        }
-        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
-
-        TableViewColumn {
-            width: parent.width / 2
-            role: "name"
-            title: "Name"
-        }
-
-        TableViewColumn {
-            width: parent.width / 2
-            role: "value"
-            title: "Value"
-        }
-
-        Component.onCompleted: leftPanel.expandAll(summary_tree_view, summaryModel)
-
-        Connections {
-            target: summaryModel
-            function onUpdatedData() {
-                leftPanel.expandAll(summary_tree_view, summaryModel)
-            }
-        }
+        treeModel: summaryModel
+        columnSplitRatio: 0.5
     }
 
-    // Timer to refresh summary each 10 seconds
-    Timer{
+    // Timer to refresh summary every 10 seconds
+    Timer {
         id: timer
         interval: 10000
         running: true
