@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.6
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
+import QtQml.Models 6.8
 import Theme 1.0
 
 /*
@@ -32,6 +32,9 @@ ColumnLayout {
     readonly property int logo_width_: 1080
     readonly property int max_logo_width_: 300
     readonly property int logo_margin_: 10
+    // Default height each SplitView section requests initially; avoids binding
+    // preferred sizes to parent height, which can create circular dependencies.
+    readonly property int default_split_section_height_: 220
 
     signal explorerDDSEntitiesChanged(bool status)
     signal explorerPhysicalChanged(bool status)
@@ -83,7 +86,7 @@ ColumnLayout {
                             entityListLayout.visible = checked
                             explorerDDSEntitiesChanged(checked)
                         }
-                        onCheckedChanged: entityListLayout.visible = checked
+                        onCheckedChanged: function() { entityListLayout.visible = checked }
                     }
                     Action {
                         id: contextMenuPhysical
@@ -93,7 +96,7 @@ ColumnLayout {
                             physicalViewLayout.visible = checked
                             explorerPhysicalChanged(checked)
                         }
-                        onCheckedChanged: physicalViewLayout.visible = checked
+                        onCheckedChanged: function() {  physicalViewLayout.visible = checked }
                     }
                     Action {
                         id: contextMenuLogical
@@ -103,7 +106,7 @@ ColumnLayout {
                             logicalViewLayout.visible = checked
                             explorerLogicalChanged(checked)
                         }
-                        onCheckedChanged: logicalViewLayout.visible = checked
+                        onCheckedChanged: function() {  logicalViewLayout.visible = checked }
                     }
                     Action {
                         id: contextMenuEntityInfo
@@ -114,7 +117,7 @@ ColumnLayout {
                             entityInfo.visible = checked
                             explorerEntityInfoChanged(checked)
                         }
-                        onCheckedChanged: entityInfo.visible = checked
+                        onCheckedChanged: function() {  entityInfo.visible = checked  }
                     }
                     delegate: MenuItem {
                         id: menuItem
@@ -164,12 +167,13 @@ ColumnLayout {
         Layout.fillWidth: true
 
         SplitView {
+            id: mainSplit
             orientation: Qt.Vertical
             anchors.fill: parent
 
             ColumnLayout {
                 id: entityListLayout
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: entityListTitle.height
                 spacing: 10
                 visible: true
@@ -203,8 +207,7 @@ ColumnLayout {
 
             ColumnLayout {
                 id: physicalViewLayout
-                SplitView.fillHeight: true
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: physicalViewTitle.height
                 spacing: 10
                 visible: false
@@ -238,7 +241,7 @@ ColumnLayout {
 
             ColumnLayout {
                 id: logicalViewLayout
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: logicalViewTitle.height
                 spacing: 10
                 visible: false
@@ -273,8 +276,7 @@ ColumnLayout {
             Item {
                 id: entityInfo
                 visible: true
-                SplitView.fillHeight: true
-                SplitView.preferredHeight: parent.height / 4
+                SplitView.preferredHeight: default_split_section_height_
                 SplitView.minimumHeight: infoTabBar.height
                 clip: true
 
@@ -283,6 +285,7 @@ ColumnLayout {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     width: parent.width
+                    currentIndex: 0
                     TabButton {
                         text: qsTr("Info")
                     }

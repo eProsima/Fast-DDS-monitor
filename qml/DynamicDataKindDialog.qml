@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
+import QtQuick 6.8
+import QtQuick.Dialogs 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 import Theme 1.0
 
 Dialog {
@@ -243,24 +243,36 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyTimeWindow
         title: "Empty Time Window"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The time window cannot be blank. Please set the time window duration."
-        onAccepted: dynamicDataKindDialog.open()
-        onDiscard: dynamicDataKindDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The time window cannot be blank. Please set the time window duration."
+        }
+        onAccepted: {
+            dynamicDataKindDialog.open()
+        }
+        onRejected: {
+            dynamicDataKindDialog.close()
+        }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyDataKind
         title: "Empty Data Kind"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The data kind field is empty. Please choose a data type from the list."
-        onAccepted: dynamicDataKindDialog.open()
-        onDiscard: dynamicDataKindDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The data kind field is empty. Please choose a data type from the list."
+        }
+        onAccepted: {
+            dynamicDataKindDialog.open()
+        }
+        onRejected: {
+            dynamicDataKindDialog.close()
+        }
     }
 
     function checkInputs() {

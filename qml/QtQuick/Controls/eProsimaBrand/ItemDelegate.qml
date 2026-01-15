@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2018 The Qt Company Ltd.
+** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Quick Controls 2 module of the Qt Toolkit.
@@ -34,24 +34,53 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.13
-import QtQuick.Templates 2.13 as T
-import QtQuick.Controls 2.13
-import QtQuick.Controls.impl 2.13
-import QtQuick.Controls.Universal 2.13
-import Theme 1.0
+import QtQuick 6.8
+import QtQuick.Templates 6.8 as T
+import QtQuick.Controls.impl 6.8
+import QtQuick.Controls.Universal 6.8
 
-T.SplitView {
-    id: control
+T.ItemDelegate {
+    id: tItemDelegate
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding)
+                             implicitContentHeight + topPadding + bottomPadding,
+                             implicitIndicatorHeight + topPadding + bottomPadding)
 
-    handle: Rectangle {
-        implicitWidth: control.orientation === Qt.Horizontal ? 3 : control.width
-        implicitHeight: control.orientation === Qt.Horizontal ? control.height : 3
-        color: T.SplitHandle.pressed ? Theme.eProsimaLightBlue
-            : (T.SplitHandle.hovered ? Theme.grey : Theme.grey)
+    spacing: 0
+
+    padding: 5
+    topPadding: padding - 1
+    bottomPadding: padding + 1
+
+    icon.width: 20
+    icon.height: 20
+    icon.color: Color.transparent(Universal.foreground, enabled ? 1.0 : 0.2)
+
+    contentItem: IconLabel {
+        spacing: tItemDelegate.spacing
+        mirrored: tItemDelegate.mirrored
+        display: tItemDelegate.display
+        alignment: tItemDelegate.display === IconLabel.IconOnly || tItemDelegate.display === IconLabel.TextUnderIcon ? Qt.AlignCenter : Qt.AlignLeft
+
+        icon: tItemDelegate.icon
+        text: tItemDelegate.text
+        font: tItemDelegate.font
+        color: Color.transparent(tItemDelegate.Universal.foreground, enabled ? 1.0 : 0.2)
+    }
+
+    background: Rectangle {
+        visible: tItemDelegate.down || tItemDelegate.highlighted || tItemDelegate.visualFocus || tItemDelegate.hovered
+        color: tItemDelegate.down ? tItemDelegate.Universal.altMediumLowColor :
+               tItemDelegate.hovered ? tItemDelegate.Universal.altMediumLowColor : tItemDelegate.Universal.altMediumLowColor
+        Rectangle {
+            width: parent.width
+            height: parent.height
+            visible: tItemDelegate.visualFocus || tItemDelegate.highlighted
+            color: tItemDelegate.Universal.accent
+            opacity: 0.4
+        }
+
     }
 }

@@ -34,39 +34,59 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import QtQuick.Templates 2.12 as T
-import QtQuick.Controls 2.12
-import QtQuick.Controls.impl 2.12
-import QtQuick.Controls.Universal 2.12
+import QtQuick 6.8
+import QtQuick.Templates 6.8 as T
+import QtQuick.Controls 6.8
+import QtQuick.Controls.impl 6.8
+import QtQuick.Controls.Universal 6.8
 import Theme 1.0
 
-T.MenuBar {
-    id: control
+T.TabButton {
+    id: tTabButton
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            contentWidth + leftPadding + rightPadding)
+                            implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             contentHeight + topPadding + bottomPadding)
+                             implicitContentHeight + topPadding + bottomPadding)
 
-    delegate: MenuBarItem { }
+    padding: 6 // PivotItemMargin
+    spacing: 8
 
-    contentItem: Row {
-        spacing: control.spacing
-        Repeater {
-            model: control.contentModel
+    icon.width: 15
+    icon.height: 15
+    icon.color: Color.transparent(tTabButton.hovered ? tTabButton.Universal.baseMediumHighColor : tTabButton.Universal.foreground,
+                                                    tTabButton.checked || tTabButton.down || tTabButton.hovered ? 1.0 : 0.2)
+
+    background: Rectangle {
+        // Underline that matches the content width (text + icon)
+        Rectangle {
+            id: underline
+            visible: tTabButton.checked || tTabButton.down
+            color: Theme.eProsimaLightBlue
+            height: 2
+            anchors.bottom: parent.bottom
+
+            // Use the content's implicit width (natural text+icon size) so the
+            // underline doesn't stretch when the tab expands to fill the row.
+            // Center the underline on the content's visual center.
+            width: tTabButton.contentItem ? tTabButton.contentItem.implicitWidth : 0
+            x: tTabButton.contentItem ? (tTabButton.contentItem.x + tTabButton.contentItem.width/2 - width/2) : 0
+
+            Behavior on width { NumberAnimation { duration: 120 } }
+            Behavior on x { NumberAnimation { duration: 120 } }
+            Behavior on visible { NumberAnimation { duration: 80 } }
         }
     }
 
-    background: Rectangle {
-        implicitHeight: 20
-        color: control.Universal.chromeMediumColor
+    contentItem: IconLabel {
+        spacing: tTabButton.spacing
+        mirrored: tTabButton.mirrored
+        display: tTabButton.display
 
-        Rectangle {
-            color: control.Universal.baseMediumColor
-            width: parent.width
-            height: 2
-            anchors.bottom: parent.bottom
-        }
+        icon: tTabButton.icon
+        text: tTabButton.text
+        font: Theme.font
+        color: Color.transparent(tTabButton.hovered ? tTabButton.Universal.baseMediumHighColor : tTabButton.Universal.foreground,
+                                 tTabButton.checked || tTabButton.down || tTabButton.hovered ? 1.0 : 0.2)
     }
 }

@@ -22,6 +22,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <QtQuick/QQuickView>
+#include <QQuickStyle>
 
 #include <fastdds_monitor/Engine.h>
 #include <fastdds_monitor/io/ClipboardHandler.h>
@@ -30,7 +31,6 @@ int main(
         int argc,
         char* argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/resources/images/eprosima_logo.ico"));
     app.setOrganizationName("eProsima");

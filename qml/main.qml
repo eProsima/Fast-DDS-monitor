@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.1
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.15
-import QtGraphicalEffects 1.15
-import QtQuick.Dialogs 1.2
+import QtQuick 6.8
+import QtQuick.Layouts 6.8
+import QtQuick.Window 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Dialogs 6.8
 
 import Theme 1.0
 
@@ -61,31 +60,31 @@ ApplicationWindow {
         onDashboardLayoutButtonHidden: toolBar.isVisibleDashboardLayout = !toolBar.isVisibleDashboardLayout
         onClearIssuesButtonHidden: toolBar.isVisibleClearIssues = !toolBar.isVisibleClearIssues
         onLeftSidebarHidden: panels.openCloseLeftSideBar()
-        onChangeChartboxLayout: {
+        onChangeChartboxLayout: function(chartsPerRow) {
             panels.changeChartboxLayout(chartsPerRow)
             toolBar.changeChartboxLayoutIcon(chartsPerRow)
         }
         onSaveAllCSV: {
             panels.saveAllCSV()
         }
-        onExplorerDDSEntitiesChanged: panels.changeExplorerDDSEntities(status)
-        onExplorerPhysicalChanged: panels.changeExplorerPhysical(status)
-        onExplorerLogicalChanged: panels.changeExplorerLogical(status)
-        onExplorerEntityInfoChanged: panels.changeExplorerEntityInfo(status)
+        onExplorerDDSEntitiesChanged: function(status) { panels.changeExplorerDDSEntities(status) }
+        onExplorerPhysicalChanged: function(status) { panels.changeExplorerPhysical(status) }
+        onExplorerLogicalChanged: function(status) { panels.changeExplorerLogical(status) }
+        onExplorerEntityInfoChanged: function(status) { panels.changeExplorerEntityInfo(status) }
     }
 
     header: MonitorToolBar {
         id: toolBar
-        onChangeChartboxLayout: monitorMenuBar.changeChartboxLayoutViewMenu(chartsPerRow)
+        onChangeChartboxLayout: function(chartsPerRow) { monitorMenuBar.changeChartboxLayoutViewMenu(chartsPerRow) }
     }
 
     Panels {
         id: panels
         visible: false
-        onExplorerDDSEntitiesChanged: monitorMenuBar.changeExplorerDDSEntities(status)
-        onExplorerPhysicalChanged: monitorMenuBar.changeExplorerPhysical(status)
-        onExplorerLogicalChanged: monitorMenuBar.changeExplorerLogical(status)
-        onExplorerEntityInfoChanged: monitorMenuBar.changeExplorerEntityInfo(status)
+        onExplorerDDSEntitiesChanged: function(status) { monitorMenuBar.changeExplorerDDSEntities(status) }
+        onExplorerPhysicalChanged: function(status) { monitorMenuBar.changeExplorerPhysical(status) }
+        onExplorerLogicalChanged: function(status) { monitorMenuBar.changeExplorerLogical(status) }
+        onExplorerEntityInfoChanged: function(status) { monitorMenuBar.changeExplorerEntityInfo(status) }
     }
 
     InitMonitorDialog {
@@ -112,25 +111,30 @@ ApplicationWindow {
 
     HistoricDataKindDialog {
         id: dataKindDialog
-        onCreateChart: panels.createHistoricChart(dataKind)
+        onCreateChart: function(dataKind) {
+            panels.createHistoricChart(dataKind)
+        }
     }
 
     DynamicDataKindDialog {
         id: dynamicDataKindDialog
-        onCreateChart: panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
+        onCreateChart: function(dataKind, timeWindowSeconds, updatePeriod, maxPoints) {
+            panels.createDynamicChart(dataKind, timeWindowSeconds, updatePeriod, maxPoints)
+        }
     }
 
     AlertDialog {
         id: alertDialog
-        onCreateAlert: {
+        onCreateAlert: function(alert_name, domain_name, host_name, user_name, topic_name, alert_type,
+                                t_between_triggers, threshold, alert_timeout, script_path) {
             panels.createAlert(alert_name, domain_name, host_name, user_name, topic_name, alert_type,
-                                t_between_triggers, threshold, alert_timeout, script_path)
+                            t_between_triggers, threshold, alert_timeout, script_path)
         }
     }
 
     AlertsSettingsDialog {
         id: alertsSettingsDialog
-        onSetAlertsPollingTime: {
+        onSetAlertsPollingTime: function(pollingTime) {
             controller.set_alerts_polling_time(pollingTime)
         }
     }
@@ -159,7 +163,7 @@ ApplicationWindow {
     Connections {
         target: controller
         function onError(errorMsg, errorType) {
-            errorDialog.text = errorMsg
+            errorDialog.errorText = errorMsg
             errorDialog.errorType = errorType
             errorDialog.open()
         }

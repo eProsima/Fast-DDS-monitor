@@ -383,7 +383,7 @@ public:
      *
      * Calls get_data with the params given and appends the new series to \c statistics_data_ (historic data)
      */
-    QtCharts::QVXYModelMapper* on_add_statistics_data_series(
+    QVXYModelMapper* on_add_statistics_data_series(
             quint64 chartbox_id,
             backend::DataKind data_kind,
             backend::EntityId source_entity_id,
@@ -755,6 +755,13 @@ protected:
     bool fill_issue_();
 
     /**
+     * @brief Initialize the Issue Model with a placeholder "No issues found" entry
+     *
+     * @return true always (indicates the model has been updated)
+     */
+    bool fill_first_issue_();
+
+    /**
      * @brief Clear and fill the Log Model
      *
      * @return true if any change in any model has been done
@@ -801,6 +808,14 @@ protected:
      * @return true if any change in any model has been done
      */
     bool fill_alert_message_();
+
+    /**
+     * @brief Initialize the Alert Message Model with a placeholder
+     * "No alert messages found" entry
+     *
+     * @return true always (indicates the model has been updated)
+     */
+    bool fill_first_alert_message_();
 
     //! Add a new callback message to the Log model
     bool add_log_callback_(

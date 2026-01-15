@@ -40,10 +40,10 @@
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
-import QtQml 2.15
+import QtQuick 6.8
+import QtQuick.Window 6.8
+import QtQuick.Controls 6.8
+import QtQml 6.8
 
 Flickable {
     id: root
@@ -66,11 +66,13 @@ Flickable {
     property alias selectionEnabled: tree.selectionEnabled
     property alias hoverEnabled: tree.hoverEnabled
 
-    property alias color: tree.color
-    property alias handleColor: tree.handleColor
-    property alias hoverColor: tree.hoverColor
-    property alias selectedColor: tree.selectedColor
-    property alias selectedItemColor: tree.selectedItemColor
+    // Color properties (do not alias to tree to avoid binding loops)
+    property color color: "black"
+    property color hoverColor: "lightgray"
+    // Themeable colors (defaults); avoid aliasing to prevent binding loops
+    property color handleColor: "black"
+    property color selectedColor: "silver"
+    property color selectedItemColor: "black"
 
     property alias rowHeight: tree.rowHeight
     property alias rowPadding: tree.rowPadding
@@ -124,17 +126,15 @@ Flickable {
         id: tree
 
         model: root.model
-        parentIndex: model.rootIndex()
-        childCount: model.rowCount(parentIndex)
+        parentIndex: root.model ? root.model.rootIndex() : null
+        childCount: root.model ? root.model.rowCount(parentIndex) : 0
 
         itemLeftPadding: 0
-        color: root.color
-        handleColor: root.handleColor
-        hoverColor: root.hoverColor
-        selectedColor: root.selectedColor
-        selectedItemColor: root.selectedItemColor
         defaultIndicator: indicatorToString(handleStyle)
         z: 1
+
+        // Only initialize when model is ready
+        visible: root.model !== null && root.model !== undefined
 
         Connections {
             target: root.model
@@ -144,6 +144,13 @@ Flickable {
             }
         }
     }
+
+    // Forward theme/color properties to the tree instance (one-way bindings)
+    Binding { target: tree; property: "color"; value: root.color; when: true }
+    Binding { target: tree; property: "handleColor"; value: root.handleColor; when: true }
+    Binding { target: tree; property: "hoverColor"; value: root.hoverColor; when: true }
+    Binding { target: tree; property: "selectedColor"; value: root.selectedColor; when: true }
+    Binding { target: tree; property: "selectedItemColor"; value: root.selectedItemColor; when: true }
 
     Loader {
         id: highlightLoader

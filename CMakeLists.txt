@@ -18,8 +18,7 @@
 ###############################################################################
 # CMake build rules for Fast DDS Monitor
 ###############################################################################
-cmake_minimum_required(VERSION 3.5)
-cmake_policy(VERSION 3.5...3.13)
+cmake_minimum_required(VERSION 3.16)
 
 # Set CMAKE_BUILD_TYPE to Release by default.
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -84,14 +83,15 @@ execute_process(
 set(QT_PATH "" CACHE STRING "Path to the Qt installation folder")
 list(APPEND CMAKE_PREFIX_PATH ${QT_PATH})
 
-find_package(Qt5 5.15 COMPONENTS Core Widgets Gui Qml Quick Charts QuickControls2 REQUIRED)
+# Prefer Qt6 but keep a clear error if not provided
+find_package(Qt6 COMPONENTS Core Gui Qml Quick Charts QuickControls2 Widgets REQUIRED)
 find_package(fastcdr REQUIRED)
 find_package(fastdds REQUIRED)
 find_package(fastdds_statistics_backend REQUIRED)
 
-foreach(c Core Widgets Gui Quick Qml Charts QuickControls2 Utils)
-    if(${Qt5${c}_FOUND})
-        message(STATUS "Found Qt5${c}: ${Qt5${c}_CONFIG} (found version ${Qt5${c}_VERSION})")
+foreach(c Core Gui Qml Quick Charts QuickControls2 Widgets)
+    if(TARGET Qt6::${c})
+        message(STATUS "Found Qt6::${c}")
     endif()
 endforeach()
 
@@ -136,9 +136,10 @@ endif()
 # Qt compiler flags, pthreads, and position independent code (PIE)
 ###############################################################################
 if(MSVC OR MSVC_IDE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+    # MSVC will get appropriate flags from the Qt targets
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -pthread -no-pie")
+    # Rely on Qt6 targets for compile/link flags; keep pthread/no-pie for non-MSVC
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -no-pie")
 endif()
 
 ###############################################################################
@@ -180,10 +181,7 @@ endif()
 ###############################################################################
 # Configure Qt project
 ###############################################################################
-# Include the Qt5Widgets and QtQml header files for the Qt Framework and QML functions.
-include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS})
-# Specify the needed Qt definitions
-add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${Qt5Quick_DEFINITIONS})
+# Qt6: Use imported targets for include dirs/definitions via target_link_libraries
 
 # WARNING
 # The creation of the qml_qrc.cpp file is managed by the rcc
@@ -195,7 +193,7 @@ add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${Qt5Quick_DEFINI
 set(APP_ICON_RESOURCE_WINDOWS ${CMAKE_CURRENT_SOURCE_DIR}/resources/fastdds_monitor.rc)
 
 # Set the qml.qrc file containing the QML and other resources of the application
-qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
+qt_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
 
 # Additional compilation steps required by a Qt program
 # User Interface Compiler (UIC)
@@ -304,15 +302,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
         $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}>)
 
-# Qt5 required libraries
-set(QT5_LIBRARY_LINKS
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::Gui
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::Charts
-    Qt5::QuickControls2)
+# Qt6 required libraries
+set(QT6_LIBRARY_LINKS
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Quick
+    Qt6::Charts
+    Qt6::QuickControls2
+    Qt6::Widgets)
 
 # If any mock CMake option has been set, the monitor will use the mock library
 if(COMPLEX_MOCK)
@@ -320,7 +318,7 @@ if(COMPLEX_MOCK)
     message(STATUS "Compiling monitor with Complex Mock backend library")
 
     target_link_libraries(${PROJECT_NAME}
-        ${QT5_LIBRARY_LINKS}
+        ${QT6_LIBRARY_LINKS}
         complex-backend-mock)
 
 elseif(STATIC_MOCK)
@@ -328,14 +326,14 @@ elseif(STATIC_MOCK)
     message(STATUS "Compiling monitor with Static Mock backend library")
 
     target_link_libraries(${PROJECT_NAME}
-        ${QT5_LIBRARY_LINKS}
+        ${QT6_LIBRARY_LINKS}
         static-backend-mock)
 
 else()
 
     # Link against fast backend and its dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC
-        ${QT5_LIBRARY_LINKS}
+        ${QT6_LIBRARY_LINKS}
         fastcdr
         fastdds
         fastdds_statistics_backend)

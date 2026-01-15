@@ -15,39 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
 
 import Theme 1.0
 
-Item
-{
+Item {
     id: statusLayout
 
-    // Public properties
-    enum Status {Closed, Expanded, Collapsed}
+    enum Status { Closed, Expanded, Collapsed }
     property int current_status: StatusLayout.Status.Closed
     required property int footer_height
 
-    // Public signals
     signal close_status_layout()
     signal expand_status_layout()
     signal collapse_status_layout()
 
-    // Private properties
     property bool filter_visible_: false
     property bool alert_icon_state: false
 
-    // Private signals
     signal focus_entity_(int entityId)
     signal clean_filter_()
 
-    // Read only design properties (sizes and colors)
     readonly property int tabs_height_: 30
-    readonly property int tabs_width_: 100
     readonly property int elements_spacing_: 8
     readonly property int separator_line_: 2
     readonly property string grey_background_: "#eaeaea"
@@ -57,225 +48,146 @@ Item
     property int firstIndentation: 5
     property int secondIndentation: firstIndentation + iconSize + spacingIconLabel
 
-    // Main tab view with possibility of multiple tabs
-    TabView {
-        id: tab_view
+    Rectangle {
+        id: tab_header
         anchors.top: parent.top
-        anchors.bottom: separator_line.top
         width: parent.width
+        height: tabs_height_
+        color: "white"
 
-        // Main Problems tab
-        Tab {
-            title: "Problems"
-            Rectangle {
+        TabBar {
+            id: headerTabBar
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: elements_spacing_
 
-                color: "white"
+            TabButton {
+                text: qsTr("Problems")
+                width: implicitWidth
+                onClicked: pages.currentIndex = 0
+            }
 
-                // Main content of problems tab: problem tree view with problems per entity
-                StatusTreeView {
-                    id: status_tree_view
-                    anchors.fill: parent
-                    anchors.margins: 1
-
-                    model: entityStatusModel        // problems model: entity status proxy model
-
-                    // display if hidden when problems filtered (from right-click dialog)
-                    onEntity_status_filtered:{
-                        collapse_status_layout()
-                    }
-
-                    // filter and clean filter signal-slots management
-                    Connections {
-                        target: statusLayout
-
-                        function onClean_filter_() {
-                            status_tree_view.clean_filter()
-                        }
-
-                        function onFocus_entity_(entityId) {
-                            status_tree_view.filter_model_by_id(entityId)
-                        }
-                    }
+            TabButton {
+                text: qsTr("Alerts")
+                width: implicitWidth
+                onClicked: {
+                    pages.currentIndex = 1
+                    alert_icon_state = false
                 }
             }
         }
 
-        // Main Alerts tab
-        Tab {
-            title: "Alerts"
-            Rectangle {
+        Row {
+            id: iconsRow
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: elements_spacing_
+            spacing: elements_spacing_
+            height: tab_header.height - elements_spacing_ * 3 / 2
 
-                color: "white"
-
-                // Main content of alerts tab: alert tree view with alerts per entity
-                TreeView {
-                    id: alertMessagesView
+            IconSVG {
+                id: filter_icon
+                name: statusLayout.filter_visible_ ? "filter_full" : "filter_empty"
+                size: parent.height
+                MouseArea {
                     anchors.fill: parent
-                    model: alertMessageModel
-                    selectionMode: SelectionMode.NoSelection
-                    frameVisible: false
-                    itemDelegate: Item {
-                        Text {
-                            anchors.fill: parent
-                            elide: styleData.elideMode
-                            text: {
-                                // Error when undefined value.
-                                // Do not know when this could happen, but happens
-                                styleData.value ? styleData.value : ""
-                            }
+                    onClicked: statusLayout.clean_filter_()
+                }
+            }
+
+            Connections {
+                target: statusLayout
+
+                function onFocus_entity_(entityId) {
+                    statusLayout.filter_visible_ = true
+                }
+
+                function onClean_filter_() {
+                    statusLayout.filter_visible_ = false
+                }
+            }
+
+            IconSVG {
+                id: expand_icon
+                name: statusLayout.current_status === StatusLayout.Status.Expanded ? "collapse" : "expand"
+                size: parent.height
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (statusLayout.current_status === StatusLayout.Status.Expanded) {
+                            collapse_status_layout()
+                        }
+                        else if (statusLayout.current_status === StatusLayout.Status.Collapsed) {
+                            expand_status_layout()
                         }
                     }
+                }
+            }
 
-                    TableViewColumn {
-                        width: parent.width / 2
-                        role: "name"
-                        title: "Name"
-                    }
-
-                    TableViewColumn {
-                        width: parent.width / 2
-                        role: "value"
-                        title: "Value"
-                    }
+            IconSVG {
+                id: close_icon
+                name: "cross"
+                size: parent.height - 3
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: close_status_layout()
                 }
             }
         }
+    }
 
+    StackLayout {
+        id: pages
+        anchors.top: tab_header.bottom
+        anchors.bottom: separator_line.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        currentIndex: headerTabBar.currentIndex
 
-        // Tab main stlye
-        style: TabViewStyle {
-            frameOverlap: 1
-            // Each tab style: simple rounded rect header with text
-            tab: Rectangle {
-                color: styleData.selected ? "white" : Theme.lightGrey
-                implicitWidth: Math.max(text.width + 10, tabs_width_)
-                implicitHeight: tabs_height_
-                radius: 4
+        // Problems Tab (index 0)
+        Rectangle {
+            color: "white"
 
-                Rectangle {
-                    width: parent.width
-                    height: parent.height/2
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    color: parent.color
-                }
-                Text {
-                    id: text
-                    anchors.centerIn: parent
-                    text: styleData.title
-                }
-            }
-            // Tab bar style: would contain all tabs, and the custom menu on the right section
-            // (close, expand/collapse, and filter buttons, from right to left)
-            tabBar: Rectangle {
-                anchors.top: parent.top
-                width: parent.width
-                height: tabs_height_
-                color: grey_background_
+            StatusTreeView {
+                id: status_tree_view
+                anchors.fill: parent
+                anchors.margins: 1
 
-                // Close button
-                IconSVG {
-                    id: close_icon
-                    anchors.right: parent.right
-                    anchors.rightMargin: elements_spacing_ *2
-                    anchors.verticalCenter: parent.verticalCenter
-                    name: "cross"
-                    size: parent.height - elements_spacing_ *3/2
+                model: entityStatusModel
 
-                    MouseArea {
-                        anchors.centerIn: parent
-                        width: parent.width + 2*elements_spacing_
-                        height: parent.height + 2*elements_spacing_
-
-                        onClicked: {
-                            close_status_layout()
-                        }
+                // Display if hidden when problems filtered (from right-click dialog)
+                onEntity_status_filtered: {
+                    if (pages.currentIndex === 1) {
+                        alert_icon_state = false
                     }
+                    collapse_status_layout()
                 }
 
-                // Container with expand and collapse buttons
-                Rectangle {
-                    id: rect
-                    anchors.right: close_icon.left
-                    anchors.rightMargin: elements_spacing_ *2
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.verticalCenterOffset: elements_spacing_/2
-                    width: parent.height - elements_spacing_
-                    height: parent.height - elements_spacing_
-                    color: "transparent"
-
-                    IconSVG {
-                        id: expand_icon
-
-                        name: statusLayout.current_status === StatusLayout.Status.Expanded
-                                ? "collapse" : "expand"
-                        size: parent.width
-                    }
-
-                    MouseArea {
-                        anchors.centerIn: parent
-                        width: parent.width + 2*elements_spacing_
-                        height: parent.height + 2*elements_spacing_
-
-                        onClicked: {
-                            if (statusLayout.current_status === StatusLayout.Status.Expanded)
-                            {
-                                collapse_status_layout()
-
-                            }
-                            else if (statusLayout.current_status === StatusLayout.Status.Collapsed)
-                            {
-                                expand_status_layout()
-                            }
-                        }
-                    }
-                }
-
-                // Container with filter buttons (filtered/not filtered icons)
-                Rectangle {
-                    id: filter_rect
-                    anchors.right: rect.left
-                    anchors.rightMargin: elements_spacing_ *2
-                    anchors.verticalCenter: parent.verticalCenter
-                    height: parent.height - elements_spacing_
-                    width: parent.height - elements_spacing_
-                    color: "transparent"
-
-                    IconSVG {
-                        id: filter_empty_icon
-                        visible: !statusLayout.filter_visible_
-                        anchors.centerIn: parent
-                        name: "filter_empty"
-                        size: parent.width
-                    }
-
-                    IconSVG {
-                        id: filter_full_icon
-                        visible: statusLayout.filter_visible_
-                        anchors.centerIn: parent
-                        name: "filter_full"
-                        size: parent.width
-                    }
-
-                    MouseArea {
-                        id: filter_btn
-                        anchors.fill: parent
-                        onClicked: statusLayout.clean_filter_()
-                    }
-                }
-
-                // connections to update filter icons
+                // Filter and clean filter signal-slots management
                 Connections {
                     target: statusLayout
 
-                    function onFocus_entity_(entityId) {
-                        statusLayout.filter_visible_ = true
+                    function onClean_filter_() {
+                        status_tree_view.clean_filter()
                     }
 
-                    function onClean_filter_() {
-                        statusLayout.filter_visible_ = false
+                    function onFocus_entity_(entityId) {
+                        status_tree_view.filter_model_by_id(entityId)
                     }
                 }
+            }
+        }
+
+        // Alerts Tab (index 1)
+        Rectangle {
+            color: "white"
+            
+            ReusableTreeView {
+                anchors.fill: parent
+                anchors.margins: 4
+                treeModel: alertMessageModel
+                columnSplitRatio: 0.5
+                expandOnUpdate: false
             }
         }
     }
@@ -285,11 +197,9 @@ Item
         anchors.bottom: icon_section.top
         width: parent.width
         height: separator_line_
-
         color: Theme.grey
     }
 
-    // footer (and ALWAYS displayed) error, warning and alerts counters bar section
     Rectangle {
         id: icon_section
         anchors.bottom: parent.bottom
@@ -297,7 +207,6 @@ Item
         width: parent.width
         color: grey_background_
 
-        // Close status so only this section is displayed, when component is loaded
         Component.onCompleted: {
             close_status_layout()
         }
@@ -310,13 +219,15 @@ Item
             name: "error"
             size: parent.height - elements_spacing_
         }
+
         Label {
             id: error_value
             anchors.left: error_icon.right
-            anchors.leftMargin: elements_spacing_/2
+            anchors.leftMargin: elements_spacing_ / 2
             anchors.verticalCenter: parent.verticalCenter
             text: "0"
         }
+
         IconSVG {
             id: warning_icon
             anchors.left: error_value.right
@@ -325,31 +236,44 @@ Item
             name: "issues"
             size: parent.height - elements_spacing_
         }
+
         Label {
             id: warning_value
             anchors.left: warning_icon.right
-            anchors.leftMargin: elements_spacing_/2
+            anchors.leftMargin: elements_spacing_ / 2
             anchors.verticalCenter: parent.verticalCenter
             text: "0"
         }
+
         IconSVG {
             id: alert_icon
             anchors.left: warning_value.right
             anchors.leftMargin: elements_spacing_
             anchors.verticalCenter: parent.verticalCenter
-            name: alert_icon_state > 0 ? "alert_on" : "alert_off"
+            name: alert_icon_state ? "alert_on" : "alert_off"
             size: parent.height - elements_spacing_
+
             Connections {
                 target: alertMessageModel
                 function onUpdatedData() {
-                    // Re-evaluate manually when model changes
-                    alert_icon_state = alertMessageModel.rowCount() > 0 ? true : false
+                    var leafCount = countLeafNodes(alertMessageModel)
+                    if (pages.currentIndex !== 1 || statusLayout.current_status === StatusLayout.Status.Closed) {
+                        alert_icon_state = leafCount > 0
+                    }
+                    alert_value.text = leafCount
                 }
             }
         }
 
-        Connections
-        {
+        Label {
+            id: alert_value
+            anchors.left: alert_icon.right
+            anchors.leftMargin: elements_spacing_ / 2
+            anchors.verticalCenter: parent.verticalCenter
+            text: "0"
+        }
+
+        Connections {
             target: controller
             function onUpdate_status_counters(errors, warnings) {
                 error_value.text = errors
@@ -360,12 +284,13 @@ Item
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                if (current_status === StatusLayout.Status.Collapsed)
-                {
+                if (current_status === StatusLayout.Status.Collapsed) {
                     close_status_layout()
                 }
-                else
-                {
+                else {
+                    if (pages.currentIndex === 1) {
+                        alert_icon_state = false
+                    }
                     collapse_status_layout()
                 }
             }
@@ -374,5 +299,36 @@ Item
 
     function filter_entity_status_log(entityId) {
         statusLayout.focus_entity_(entityId)
+    }
+
+    function countLeafNodes(model) {
+        if (!model) return 0
+        
+        var count = 0
+        var stack = []
+        
+        // Start with all top-level items
+        var topLevelCount = model.rowCount()
+        for (var i = 0; i < topLevelCount; i++) {
+            stack.push(model.index(i, 0))
+        }
+        
+        // Process the stack
+        while (stack.length > 0) {
+            var currentIndex = stack.pop()
+            var childCount = model.rowCount(currentIndex)
+            
+            if (childCount > 0) {
+                // Has children, add them to the stack
+                for (var j = 0; j < childCount; j++) {
+                    stack.push(model.index(j, 0, currentIndex))
+                }
+            } else {
+                // No children, it's a leaf
+                count++
+            }
+        }
+        
+        return count
     }
 }

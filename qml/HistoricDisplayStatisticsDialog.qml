@@ -15,15 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
-import Qt.labs.calendar 1.0
-import QtQuick.Controls 2.15
-import QtQuick.Controls 1.4 as QCC1
-import QtQuick.Controls.Styles 1.4
-import QtQml.Models 2.12
+import QtQuick 6.8
+import QtQuick.Dialogs 6.8
+import QtQuick.Layouts 6.8
+import QtQuick.Controls 6.8
+
 import Theme 1.0
 
 Dialog {
@@ -354,29 +350,89 @@ Dialog {
     Dialog {
         id: startTimeCalendarDialog
         title: "Choose the start timestamp"
-        standardButtons: StandardButton.Save | StandardButton.Cancel
+        standardButtons: Dialog.Save | Dialog.Cancel
 
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
         onAccepted: {
             activeOk = true
-            var tmpDate = new Date(startTimeCalendar.selectedDate)
+            var tmpDate = new Date(startYear.value, startMonth.value - 1, startDay.value)
             var timeDate = Date.fromLocaleTimeString(Qt.locale(), startTime.text, "HH:mm:ss")
             tmpDate.setHours(timeDate.getHours(),
-                             timeDate.getMinutes(),
-                             timeDate.getSeconds(),
-                             0)
+                            timeDate.getMinutes(),
+                            timeDate.getSeconds(),
+                            0)
             startTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
         ColumnLayout {
+            spacing: 10
 
             Label {
                 text: "Date: "
             }
-            QCC1.Calendar {
-                id: startTimeCalendar
+            
+            GridLayout {
+                columns: 3
+                rowSpacing: 5
+                columnSpacing: 10
+
+                Label { text: "Day:" }
+                Label { text: "Month:" }
+                Label { text: "Year:" }
+
+                SpinBox {
+                    id: startDay
+                    from: 1
+                    to: 31
+                    value: {
+                        var date = Date.fromLocaleString(Qt.locale(), startTimeDate, "dd.MM.yyyy HH:mm:ss")
+                        return date.getDate()
+                    }
+                    editable: true
+                }
+
+                SpinBox {
+                    id: startMonth
+                    from: 1
+                    to: 12
+                    value: {
+                        var date = Date.fromLocaleString(Qt.locale(), startTimeDate, "dd.MM.yyyy HH:mm:ss")
+                        return date.getMonth() + 1
+                    }
+                    editable: true
+                    
+                    textFromValue: function(value) {
+                        return ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][value - 1]
+                    }
+                    valueFromText: function(text) {
+                        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                        return months.indexOf(text) + 1
+                    }
+                }
+
+                SpinBox {
+                    id: startYear
+                    from: 1900
+                    to: 2100
+                    value: {
+                        var date = Date.fromLocaleString(Qt.locale(), startTimeDate, "dd.MM.yyyy HH:mm:ss")
+                        return date.getFullYear()
+                    }
+                    editable: true
+                    stepSize: 1
+                    
+                    textFromValue: function(value) {
+                        return value.toString()
+                    }
+                    
+                    valueFromText: function(text) {
+                        return parseInt(text)
+                    }
+                }
             }
 
             Rectangle {
@@ -391,11 +447,11 @@ Dialog {
             }
             TextField {
                 id: startTime
-                text : "00:00:00"
+                text: "00:00:00"
                 inputMask: "99:99:99"
                 inputMethodHints: Qt.ImhDigitsOnly
-                validator: RegExpValidator {
-                    regExp: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$ /
+                validator: RegularExpressionValidator {
+                    regularExpression: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$/
                 }
 
                 Layout.fillWidth: true
@@ -406,29 +462,89 @@ Dialog {
     Dialog {
         id: endTimeCalendarDialog
         title: "Choose the end timestamp"
-        standardButtons: StandardButton.Save | StandardButton.Cancel
+        standardButtons: Dialog.Save | Dialog.Cancel
 
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
         onAccepted: {
             activeOk = true
-            var tmpDate = new Date(endTimeCalendar.selectedDate)
+            var tmpDate = new Date(endYear.value, endMonth.value - 1, endDay.value)
             var timeDate = Date.fromLocaleTimeString(Qt.locale(), endTime.text, "HH:mm:ss")
             tmpDate.setHours(timeDate.getHours(),
-                             timeDate.getMinutes(),
-                             timeDate.getSeconds(),
-                             0)
+                            timeDate.getMinutes(),
+                            timeDate.getSeconds(),
+                            0)
             endTimeDate = tmpDate.toLocaleString(Qt.locale(), "dd.MM.yyyy HH:mm:ss")
         }
 
         ColumnLayout {
+            spacing: 10
 
             Label {
                 text: "Date: "
             }
-            QCC1.Calendar {
-                id: endTimeCalendar
+            
+            GridLayout {
+                columns: 3
+                rowSpacing: 5
+                columnSpacing: 10
+
+                Label { text: "Day:" }
+                Label { text: "Month:" }
+                Label { text: "Year:" }
+
+                SpinBox {
+                    id: endDay
+                    from: 1
+                    to: 31
+                    value: {
+                        var date = Date.fromLocaleString(Qt.locale(), endTimeDate, "dd.MM.yyyy HH:mm:ss")
+                        return date.getDate()
+                    }
+                    editable: true
+                }
+
+                SpinBox {
+                    id: endMonth
+                    from: 1
+                    to: 12
+                    value: {
+                        var date = Date.fromLocaleString(Qt.locale(), endTimeDate, "dd.MM.yyyy HH:mm:ss")
+                        return date.getMonth() + 1
+                    }
+                    editable: true
+                    
+                    textFromValue: function(value) {
+                        return ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][value - 1]
+                    }
+                    valueFromText: function(text) {
+                        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                        return months.indexOf(text) + 1
+                    }
+                }
+
+                SpinBox {
+                    id: endYear
+                    from: 1900
+                    to: 2100
+                    value: {
+                        var date = Date.fromLocaleString(Qt.locale(), endTimeDate, "dd.MM.yyyy HH:mm:ss")
+                        return date.getFullYear()
+                    }
+                    editable: true
+                    stepSize: 1
+                    
+                    textFromValue: function(value) {
+                        return value.toString()
+                    }
+                    
+                    valueFromText: function(text) {
+                        return parseInt(text)
+                    }
+                }
             }
 
             Rectangle {
@@ -443,11 +559,11 @@ Dialog {
             }
             TextField {
                 id: endTime
-                text : "00:00:00"
+                text: "00:00:00"
                 inputMask: "99:99:99"
                 inputMethodHints: Qt.ImhDigitsOnly
-                validator: RegExpValidator {
-                    regExp: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$ /
+                validator: RegularExpressionValidator {
+                    regularExpression: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):[0-5][0-9]$/
                 }
 
                 Layout.fillWidth: true
@@ -455,45 +571,65 @@ Dialog {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: wrongDatesDialog
         title: "Wrong Timestamps"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The start timestamp entered is posterior to the end timestamp."
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The start timestamp entered is posterior to the end timestamp."
+        }
         onAccepted: {
             displayStatisticsDialog.open()
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptySourceEntityIdDialog
         title: "Empty Source Entity Id"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: displayStatisticsDialog.open()
-        onDiscard: displayStatisticsDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The source Entity Id field is empty. Please choose an Entity Id from the list."
+        }
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+        onRejected: {
+            displayStatisticsDialog.close()
+        }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyTargetEntityIdDialog
         title: "Empty Target Entity Id"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
-        onAccepted: displayStatisticsDialog.open()
-        onDiscard: displayStatisticsDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The target Entity Id field is empty. Please choose an Entity Id from the list."
+        }
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+        onRejected: {
+            displayStatisticsDialog.close()
+        }
     }
 
-    MessageDialog {
+    Dialog {
         id: emptyStatisticKind
         title: "Empty Statistic Kind"
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Retry | StandardButton.Discard
-        text: "The statistic kind field is empty. Please choose a statistic from the list."
-        onAccepted: displayStatisticsDialog.open()
-        onDiscard: displayStatisticsDialog.close()
+        modal: true
+        standardButtons: Dialog.Retry | Dialog.Discard
+        Label {
+            text: "The statistic kind field is empty. Please choose a statistic from the list."
+        }
+        onAccepted: {
+            displayStatisticsDialog.open()
+        }
+        onRejected: {
+            displayStatisticsDialog.close()
+        }
     }
 
     function createSeries() {
@@ -572,13 +708,13 @@ Dialog {
 
     function updateSources() {
         controller.update_available_entity_ids(getDataDialogSourceEntityId.currentText, "getDataDialogSourceEntityId")
-        sourceEntityId.recalculateWidth()
+        Qt.callLater(sourceEntityId.recalculateWidth)
         regenerateSeriesLabel()
     }
 
     function updateTargets() {
         controller.update_available_entity_ids(getDataDialogTargetEntityId.currentText, "getDataDialogDestinationEntityId")
-        targetEntityId.recalculateWidth()
+        Qt.callLater(targetEntityId.recalculateWidth)
         regenerateSeriesLabel()
     }
 
@@ -587,5 +723,3 @@ Dialog {
         updateTargets()
     }
 }
-
-

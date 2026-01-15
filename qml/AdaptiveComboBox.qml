@@ -15,20 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
 
 ComboBox {
     popup.y: y + height
 
     property int textWidth
     property int desiredWidth : leftPadding + textWidth + indicator.width + rightPadding
-    property int maximumWidth : parent.width
 
-    implicitWidth: desiredWidth < maximumWidth ? desiredWidth : maximumWidth
+    implicitWidth: desiredWidth
 
-    Component.onCompleted: recalculateWidth()
-    onModelChanged: recalculateWidth()
+    Component.onCompleted: Qt.callLater(recalculateWidth)
+    onModelChanged: Qt.callLater(recalculateWidth)
+    onDisplayTextChanged: Qt.callLater(recalculateWidth)
 
     TextMetrics {
         id: minMetrics
@@ -47,6 +47,8 @@ ComboBox {
         textMetrics.font = font
         popupMetrics.font = popup.font
         textWidth = minMetrics.width
+        textMetrics.text = displayText
+        textWidth = Math.max(textMetrics.width, textWidth)
         for (var i = 0; i < count; i++){
             textMetrics.text = textAt(i)
             popupMetrics.text = textAt(i)

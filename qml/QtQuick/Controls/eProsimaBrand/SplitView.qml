@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2017 The Qt Company Ltd.
+** Copyright (C) 2018 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Quick Controls 2 module of the Qt Toolkit.
@@ -34,58 +34,23 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
-import QtQuick.Templates 2.12 as T
-import QtQuick.Controls 2.12
-import QtQuick.Controls.impl 2.12
-import QtQuick.Controls.Universal 2.12
+import QtQuick 6.8
+import QtQuick.Templates 6.8 as T
+import QtQuick.Controls.impl 6.8
+import QtQuick.Controls.Universal 6.8
 import Theme 1.0
 
-T.MenuBarItem {
-    id: control
-
+T.SplitView {
+    id: tSplitView
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding,
-                             implicitIndicatorHeight + topPadding + bottomPadding)
+                             implicitContentHeight + topPadding + bottomPadding)
 
-    padding: 5
-    topPadding: padding - 1
-    bottomPadding: padding + 1
-    spacing: 5
-
-    icon.width: 10
-    icon.height: 10
-    icon.color: !enabled ? Universal.baseLowColor : Universal.baseHighColor
-
-    contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
-        alignment: Qt.AlignLeft
-
-        icon: control.icon
-        text: control.text
-        font: Theme.font
-        color: !control.enabled ? control.Universal.baseLowColor : control.Universal.baseHighColor
-    }
-
-    background: Rectangle {
-        implicitWidth: 40
-        implicitHeight: 20
-
-        color: !control.enabled ? control.Universal.baseLowColor :
-                control.down ? control.Universal.listMediumColor :
-                control.highlighted ? control.Universal.listLowColor : "transparent"
-
-        Rectangle {
-            visible: control.highlighted ? true : false
-            color: Theme.eProsimaLightBlue
-            width: parent.width
-            height: 2
-            anchors.bottom: parent.bottom
-        }
-
+    handle: Rectangle {
+        implicitWidth: tSplitView.orientation === Qt.Horizontal ? 3 : tSplitView.width
+        implicitHeight: tSplitView.orientation === Qt.Horizontal ? tSplitView.height : 3
+        color: T.SplitHandle.pressed ? Theme.eProsimaLightBlue
+            : (T.SplitHandle.hovered ? Theme.grey : Theme.grey)
     }
 }

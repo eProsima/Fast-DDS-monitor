@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 2.15
-import QtCharts 2.0
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Dialogs 1.3 as QtDialogs
-import QtQml.Models 2.15
+import QtQuick 6.8
+import QtCharts 6.8
+import QtQuick.Controls 6.8
+import QtQuick.Layouts 6.8
+import QtQuick.Dialogs 6.8
 
 Rectangle {
     id: legend
@@ -85,7 +84,10 @@ Rectangle {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton
                         hoverEnabled: true
-                        onClicked: colorDialog.open()
+                        onClicked: {
+                            colorDialog.selectedColor = seriesColor
+                            colorDialog.open()
+                        }
                         onEntered: legendDelegateMouseArea.cursorShape = Qt.PointingHandCursor
                         onExited: legendDelegateMouseArea.cursorShape = Qt.ArrowCursor
                     }
@@ -112,7 +114,7 @@ Rectangle {
                 acceptedButtons: Qt.RightButton | Qt.LeftButton
                 propagateComposedEvents: true
 
-                onClicked: {
+                onClicked: function(mouse) {
                     if (mouse.button === Qt.RightButton) {
                         contextMenu.x = mouse.x;
                         contextMenu.y = mouse.y - contextMenu.contentHeight;
@@ -135,7 +137,10 @@ Rectangle {
                 }
                 MenuItem {
                     text: "Change color"
-                    onTriggered: colorDialog.open()
+                    onTriggered: {
+                        colorDialog.selectedColor = seriesColor
+                        colorDialog.open()
+                    }
                 }
                 MenuItem {
                     text: hidden ? "Display series" : "Hide series"
@@ -194,17 +199,18 @@ Rectangle {
                 }
             }
 
-            QtDialogs.ColorDialog {
+            ColorDialog {
                 id: colorDialog
                 title: "Please choose a color for the series " + seriesName
+                selectedColor: seriesColor
                 onAccepted: {
-                    seriesModel.setProperty(index, "seriesColor", colorDialog.color.toString())
-                    seriesModel.setProperty(index, "originalSeriesColor", colorDialog.color.toString())
-                    seriesColorUpdated(index, colorDialog.color);
+                    var chosenColor = colorDialog.selectedColor
+                    seriesModel.setProperty(index, "seriesColor", chosenColor.toString())
+                    seriesModel.setProperty(index, "originalSeriesColor", chosenColor.toString())
+                    seriesColorUpdated(index, chosenColor);
                 }
             }
         }
-
     }
 
     function addLeyend(name, color) {

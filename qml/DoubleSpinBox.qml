@@ -17,8 +17,8 @@
 
 // Reference: https://stackoverflow.com/questions/43406830/how-to-use-float-in-a-qml-spinbox/43407687#43407687
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 6.8
+import QtQuick.Controls 6.8
 
 SpinBox {
     id: spinbox

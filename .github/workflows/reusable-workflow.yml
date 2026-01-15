@@ -44,11 +44,11 @@ jobs:
           - Debug
         os:
           - version: ubuntu-22.04
-            aarch: 'gcc_64'
+            aarch: 'linux_gcc_64'
           - version: ubuntu-24.04
-            aarch: 'gcc_64'
+            aarch: 'linux_gcc_64'
           - version: windows-2022
-            aarch: 'win64_msvc2019_64'
+            aarch: 'win64_msvc2022_64'
 
     steps:
 
@@ -95,6 +95,7 @@ jobs:
           modules: 'qtcharts'
           arch: ${{ matrix.os.aarch }}
           setup-python: 'false'
+          version: '6.8.3'
 
       - name: Install OpenSSL in windows
         if: runner.os == 'Windows'
@@ -167,6 +168,8 @@ jobs:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
           setup-python: 'false'
+          arch: 'linux_gcc_64'
+          version: '6.8.3'
 
       - name: Compile and run tests
         uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
@@ -220,6 +223,8 @@ jobs:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
           setup-python: 'false'
+          arch: 'linux_gcc_64'
+          version: '6.8.3'
 
       - name: Install OpenSSL in windows
         if: runner.os == 'Windows'
