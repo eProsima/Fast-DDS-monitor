@@ -12,7 +12,7 @@ This release includes the following **features**:
 * Migrate from Qt5 to Qt6
 * Enable spying statistics topics
 
-This release includes the following **dependencies update**:
+This release has no **dependencies update**:
 
 .. list-table::
     :header-rows: 1
@@ -32,7 +32,7 @@ This release includes the following **dependencies update**:
     *   - Fast DDS Statistics Backend
         - `eProsima/Fast-DDS-statistics-backend <https://github.com/eProsima/Fast-DDS-statistics-backend>`__
         - `v2.4.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v2.4.0>`__
-        - `v2.5.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v2.5.0>`__
+        - `v2.4.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v2.4.0>`__
 
 
 #################
