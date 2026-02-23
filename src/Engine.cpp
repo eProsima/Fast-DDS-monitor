@@ -398,6 +398,9 @@ void Engine::init_monitor(
     {
         shared_init_monitor_(domain_id);
         active_monitors_[discovery_server_locators] = domain_id;
+        // Spy mode searches monitor by domain_name (usual id), so that mapping is needed
+        // to be able to find the monitor in the future when a topic spy is started
+        active_monitors_[QString::fromStdString(backend_connection_.get_name(domain_id))] = domain_id;
     }
     else
     {
@@ -428,6 +431,9 @@ void Engine::init_monitor_with_profile(
     {
         shared_init_monitor_(domain_id);
         active_monitors_[profile_name] = domain_id;
+        // Spy mode searches monitor by domain_name (usual id), so that mapping is needed
+        // to be able to find the monitor in the future when a topic spy is started
+        active_monitors_[QString::fromStdString(backend_connection_.get_name(domain_id))] = domain_id;
     }
     else
     {
