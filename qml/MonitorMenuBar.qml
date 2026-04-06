@@ -34,14 +34,17 @@ MenuBar {
         title: qsTr("&File")
         Action {
             text: qsTr("Initialize DDS &Monitor")
+            enabled: mainApplicationView.monitors < 1
             onTriggered: dialogInitMonitor.open()
         }
         Action {
             text: qsTr("Initialize Discovery Server Monitor")
+            enabled: mainApplicationView.monitors < 1
             onTriggered: dialogDSInitMonitor.open()
         }
         Action {
             text: qsTr("Initialize DDS Monitor with Profile")
+            enabled: mainApplicationView.monitors < 1
             onTriggered: initMonitorWithProfileDialog.open()
         }
         MenuSeparator { }
