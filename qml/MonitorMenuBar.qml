@@ -36,7 +36,7 @@ MenuBar {
             text: qsTr("Initialize DDS &Monitor")
             onTriggered: {
                 if (mainApplicationView.monitors >= 1) {
-                    errorDialog.errorText = "This version of Fast DDS Monitor only supports 1 active monitor."
+                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
                     errorDialog.errorType = 0
                     errorDialog.open()
                 } else {
@@ -48,7 +48,7 @@ MenuBar {
             text: qsTr("Initialize Discovery Server Monitor")
             onTriggered: {
                 if (mainApplicationView.monitors >= 1) {
-                    errorDialog.errorText = "This version of Fast DDS Monitor only supports 1 active monitor."
+                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
                     errorDialog.errorType = 0
                     errorDialog.open()
                 } else {
@@ -60,7 +60,7 @@ MenuBar {
             text: qsTr("Initialize DDS Monitor with Profile")
             onTriggered: {
                 if (mainApplicationView.monitors >= 1) {
-                    errorDialog.errorText = "This version of Fast DDS Monitor only supports 1 active monitor."
+                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
                     errorDialog.errorType = 0
                     errorDialog.open()
                 } else {

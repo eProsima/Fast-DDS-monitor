@@ -365,7 +365,7 @@ void Engine::init_monitor(
     if (unique_monitor_count_() >= 1)
     {
         process_error(
-            "This version of Fast DDS Monitor only supports 1 active monitor.",
+            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
             ErrorType::GENERIC);
         return;
     }
@@ -401,7 +401,7 @@ void Engine::init_monitor(
     if (unique_monitor_count_() >= 1)
     {
         process_error(
-            "This version of Fast DDS Monitor only supports 1 active monitor.",
+            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
             ErrorType::GENERIC);
         return;
     }
@@ -442,7 +442,7 @@ void Engine::init_monitor_with_profile(
     if (unique_monitor_count_() >= 1)
     {
         process_error(
-            "This version of Fast DDS Monitor only supports 1 active monitor.",
+            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
             ErrorType::GENERIC);
         return;
     }
