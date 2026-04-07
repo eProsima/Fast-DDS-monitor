@@ -34,15 +34,39 @@ MenuBar {
         title: qsTr("&File")
         Action {
             text: qsTr("Initialize DDS &Monitor")
-            onTriggered: dialogInitMonitor.open()
+            onTriggered: {
+                if (mainApplicationView.monitors >= 1) {
+                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
+                    errorDialog.errorType = 0
+                    errorDialog.open()
+                } else {
+                    dialogInitMonitor.open()
+                }
+            }
         }
         Action {
             text: qsTr("Initialize Discovery Server Monitor")
-            onTriggered: dialogDSInitMonitor.open()
+            onTriggered: {
+                if (mainApplicationView.monitors >= 1) {
+                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
+                    errorDialog.errorType = 0
+                    errorDialog.open()
+                } else {
+                    dialogDSInitMonitor.open()
+                }
+            }
         }
         Action {
             text: qsTr("Initialize DDS Monitor with Profile")
-            onTriggered: initMonitorWithProfileDialog.open()
+            onTriggered: {
+                if (mainApplicationView.monitors >= 1) {
+                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
+                    errorDialog.errorType = 0
+                    errorDialog.open()
+                } else {
+                    initMonitorWithProfileDialog.open()
+                }
+            }
         }
         MenuSeparator { }
         Action {

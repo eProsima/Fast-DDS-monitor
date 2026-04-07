@@ -893,6 +893,11 @@ protected:
     void shared_init_monitor_(
             backend::EntityId domain_id);
 
+    //! Returns the number of unique active monitors.
+    //! active_monitors_ can hold 2 entries per monitor (by id and by name),
+    //! so unique EntityId values are counted, not map size.
+    int unique_monitor_count_() const;
+
     //! True if there are callbacks in the callback queue
     bool are_callbacks_to_process_();
 

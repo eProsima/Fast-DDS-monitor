@@ -349,11 +349,26 @@ Engine::~Engine()
     }
 }
 
+int Engine::unique_monitor_count_() const
+{
+    QList<backend::EntityId> vals = active_monitors_.values();
+    std::set<backend::EntityId> unique_ids(vals.begin(), vals.end());
+    return static_cast<int>(unique_ids.size());
+}
+
 void Engine::init_monitor(
         int domain,
         std::string easy_mode_ip /* = "" */)
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
+    if (unique_monitor_count_() >= 1)
+    {
+        process_error(
+            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
+            ErrorType::GENERIC);
+        return;
+    }
 
     if (active_monitors_.find(QString::number(domain)) != active_monitors_.end())
     {
@@ -382,6 +397,14 @@ void Engine::init_monitor(
         QString discovery_server_locators)
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
+    if (unique_monitor_count_() >= 1)
+    {
+        process_error(
+            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
+            ErrorType::GENERIC);
+        return;
+    }
 
     if (active_monitors_.find(discovery_server_locators) != active_monitors_.end())
     {
@@ -415,6 +438,14 @@ void Engine::init_monitor_with_profile(
         const QString& profile_name)
 {
     std::lock_guard<std::recursive_mutex> lock(initializing_monitor_);
+
+    if (unique_monitor_count_() >= 1)
+    {
+        process_error(
+            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
+            ErrorType::GENERIC);
+        return;
+    }
 
     if (active_monitors_.find(profile_name) != active_monitors_.end())
     {

@@ -13,6 +13,10 @@ This section describes the operations that can be performed in *Fast DDS Monitor
 File
 ====
 
+.. note::
+    The free version of *Fast DDS Monitor* supports only **one active monitor** at a time.
+    Attempting to initialize a second monitor will show an error message.
+
 .. _init_monitor_button:
 
 Initialize DDS Monitor

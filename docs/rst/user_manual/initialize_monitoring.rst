@@ -10,6 +10,9 @@ Initialize Monitoring
 When the *eProsima Fast DDS Monitor* application is launched, the following screen is displayed.
 Click on the "Start monitoring!" button to start monitoring a Fast DDS application.
 
+.. note::
+    The free version of *Fast DDS Monitor* supports only **one active monitor** at a time.
+
 .. thumbnail:: /rst/figures/screenshots/main.png
     :align: center
 
