@@ -23,6 +23,21 @@
 
 namespace backend {
 
+static const char* discovery_status_to_str(
+        const int32_t current_count_change)
+{
+    if (current_count_change == 1)
+    {
+        return "DISCOVERED";
+    }
+    else if (current_count_change == -1)
+    {
+        return "UNDISCOVERED";
+    }
+
+    return "update info";
+}
+
 Listener::Listener(
         Engine* engine)
     : engine_(engine)
@@ -38,12 +53,14 @@ void Listener::on_participant_discovery(
 
     if (status.current_count_change == 1)
     {
-        qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " DISCOVERED";
+        qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT));
     }
     else
     {
-        qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id) << " update info";
+        qDebug() << "PARTICIPANT " << backend::backend_id_to_models_id(participant_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(participant_id, EntityKind::PARTICIPANT, true));
     }
 }
@@ -57,12 +74,14 @@ void Listener::on_datareader_discovery(
 
     if (status.current_count_change == 1)
     {
-        qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " DISCOVERED";
+        qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER));
     }
     else
     {
-        qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id) << " update info";
+        qDebug() << "DATAREADER " << backend::backend_id_to_models_id(datareader_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(datareader_id, EntityKind::DATAREADER, true));
     }
 }
@@ -76,12 +95,14 @@ void Listener::on_datawriter_discovery(
 
     if (status.current_count_change == 1)
     {
-        qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " DISCOVERED";
+        qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER));
     }
     else
     {
-        qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id) << " update info";
+        qDebug() << "DATAWRITER " << backend::backend_id_to_models_id(datawriter_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(datawriter_id, EntityKind::DATAWRITER, true));
     }
 }
@@ -92,12 +113,14 @@ void Listener::on_host_discovery(
 {
     if (status.current_count_change == 1)
     {
-        qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " DISCOVERED";
+        qDebug() << "HOST " << backend::backend_id_to_models_id(host_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(host_id, EntityKind::HOST));
     }
     else
     {
-        qDebug() << "HOST " << backend::backend_id_to_models_id(host_id) << " update info";
+        qDebug() << "HOST " << backend::backend_id_to_models_id(host_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(host_id, EntityKind::HOST, true));
     }
 }
@@ -108,12 +131,14 @@ void Listener::on_user_discovery(
 {
     if (status.current_count_change == 1)
     {
-        qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " DISCOVERED";
+        qDebug() << "USER " << backend::backend_id_to_models_id(user_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(user_id, EntityKind::USER));
     }
     else
     {
-        qDebug() << "USER " << backend::backend_id_to_models_id(user_id) << " update info";
+        qDebug() << "USER " << backend::backend_id_to_models_id(user_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(user_id, EntityKind::USER, true));
     }
 }
@@ -124,12 +149,14 @@ void Listener::on_process_discovery(
 {
     if (status.current_count_change == 1)
     {
-        qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " DISCOVERED";
+        qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(process_id, EntityKind::PROCESS));
     }
     else
     {
-        qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id) << " update info";
+        qDebug() << "PROCESS " << backend::backend_id_to_models_id(process_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(process_id, EntityKind::PROCESS, true));
     }
 }
@@ -140,12 +167,14 @@ void Listener::on_locator_discovery(
 {
     if (status.current_count_change == 1)
     {
-        qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " DISCOVERED";
+        qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR));
     }
     else
     {
-        qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id) << " update info";
+        qDebug() << "LOCATOR " << backend::backend_id_to_models_id(locator_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(locator_id, EntityKind::LOCATOR, true));
     }
 }
@@ -159,12 +188,14 @@ void Listener::on_topic_discovery(
 
     if (status.current_count_change == 1)
     {
-        qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " DISCOVERED";
+        qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(topic_id, EntityKind::TOPIC));
     }
     else
     {
-        qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id) << " update info";
+        qDebug() << "TOPIC " << backend::backend_id_to_models_id(topic_id)
+                 << discovery_status_to_str(status.current_count_change);
         engine_->add_callback(Callback(topic_id, EntityKind::TOPIC, true));
     }
 }
