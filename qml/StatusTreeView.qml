@@ -105,12 +105,18 @@ Flickable {
         root.clean_filter()
     }
 
+    function refreshTreeRoot() {
+        tree.childCount = root.model ? root.model.rowCount(tree.parentIndex) : 0
+    }
+
     Connections
     {
         target: root.model
-        function onLayoutChanged() {
-            root.filter_model_by_id(root.current_filter_)
-        }
+        ignoreUnknownSignals: true
+        function onLayoutChanged() { root.refreshTreeRoot() }
+        function onModelReset() { root.refreshTreeRoot() }
+        function onRowsInserted() { root.refreshTreeRoot() }
+        function onRowsRemoved() { root.refreshTreeRoot() }
     }
 
     Connections {
@@ -139,9 +145,10 @@ Flickable {
         Connections {
             target: root.model
             ignoreUnknownSignals: true
-            function onLayoutChanged() {
-               tree.childCount = root.model ? root.model.rowCount(tree.parentIndex) : 0
-            }
+            function onLayoutChanged() { root.refreshTreeRoot() }
+            function onModelReset() { root.refreshTreeRoot() }
+            function onRowsInserted() { root.refreshTreeRoot() }
+            function onRowsRemoved() { root.refreshTreeRoot() }
         }
     }
 

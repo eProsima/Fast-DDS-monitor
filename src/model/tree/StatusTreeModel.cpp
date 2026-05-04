@@ -42,6 +42,7 @@
 #include <fastdds_monitor/model/tree/StatusTreeModel.h>
 
 #include <iostream>
+#include <QDebug>
 #include <QQmlEngine>
 
 #include <fastdds_monitor/backend/backend_utils.h>
@@ -131,6 +132,11 @@ StatusTreeItem* StatusTreeModel::filtered_copy(
 int StatusTreeModel::rowCount(
         const QModelIndex& parent) const
 {
+    if (parent.column() > 0)
+    {
+        return 0;
+    }
+
     if (!parent.isValid())
     {
         return root_item_->childCount();
@@ -353,6 +359,9 @@ void StatusTreeModel::addItem(
     }
 
 
+    const bool parent_in_model = belongs_to_model(parent);
+    const QModelIndex parent_index = index_for_item(parent);
+
     // if parent is topLevelItem (entity item)
     if (parent->id() != backend::ID_ALL && parent->kind() == backend::StatusKind::INVALID)
     {
@@ -362,14 +371,19 @@ void StatusTreeModel::addItem(
             // if overriding status, remove previous status
             if (parent->child(i)->id() == child->id() && parent->child(i)->kind() == child->kind())
             {
-                emit layoutAboutToBeChanged();
                 // Prevent removing entity item if it is the only child
                 parent->set_delete_if_no_children(false);
-                beginRemoveRows(QModelIndex(), qMax(parent->childCount() - 1, 0), qMax(parent->childCount(), 0));
+                if (parent_in_model)
+                {
+                    beginRemoveRows(parent_index, i, i);
+                }
                 parent->removeChild(parent->child(i));
-                endRemoveRows();
+                if (parent_in_model)
+                {
+                    endRemoveRows();
+                }
                 parent->set_delete_if_no_children(true);
-                emit layoutChanged();
+                break;
             }
         }
     }
@@ -378,24 +392,51 @@ void StatusTreeModel::addItem(
         QObject::connect(this, &StatusTreeModel::itemRemoved, child, &StatusTreeItem::onItemRemoved);
     }
 
-    emit layoutAboutToBeChanged();
-
     // remove possible parent from new child
     if (child->parentItem())
     {
-        beginRemoveRows(QModelIndex(), qMax(parent->childCount() - 1, 0), qMax(parent->childCount(), 0));
-        child->parentItem()->removeChild(child);
-        endRemoveRows();
+        StatusTreeItem* previous_parent = child->parentItem();
+        const bool previous_parent_in_model = belongs_to_model(previous_parent);
+        const QModelIndex previous_parent_index = index_for_item(previous_parent);
+        const int previous_row = child->row();
+
+        if (previous_parent_in_model && previous_row >= 0)
+        {
+            beginRemoveRows(previous_parent_index, previous_row, previous_row);
+        }
+
+        if (previous_row >= 0)
+        {
+            previous_parent->child_items_.removeAt(previous_row);
+        }
+        else
+        {
+            // parent_item_ is set but child is not in parent's list — inconsistent tree state.
+            // Row-based view notifications are skipped because no valid row index exists.
+            qWarning() << "StatusTreeModel::addItem: child has parent pointer but row() == -1, tree state is inconsistent";
+            previous_parent->child_items_.removeAll(child);
+        }
+        child->setParentItem(nullptr);
+
+        if (previous_parent_in_model && previous_row >= 0)
+        {
+            endRemoveRows();
+        }
     }
 
-    beginInsertRows(QModelIndex(), qMax(parent->childCount() - 1, 0), qMax(parent->childCount() - 1, 0));
+    const int insert_row = parent->childCount();
+    if (parent_in_model)
+    {
+        beginInsertRows(parent_index, insert_row, insert_row);
+    }
     // set new parent in the child
     child->setParentItem(parent);
     // append child in parent's child list
     parent->appendChild(child);
-    endInsertRows();
-
-    emit layoutChanged();
+    if (parent_in_model)
+    {
+        endInsertRows();
+    }
 }
 
 void StatusTreeModel::removeItem(
@@ -406,16 +447,22 @@ void StatusTreeModel::removeItem(
         return;
     }
 
-    emit layoutAboutToBeChanged();
-
     if (item->parentItem())
     {
-        beginRemoveRows(QModelIndex(), qMax(item->childCount() - 1, 0), qMax(item->childCount(), 0));
-        item->parentItem()->removeChild(item);
-        endRemoveRows();
-    }
+        const QModelIndex parent_index = index_for_item(item->parentItem());
+        const int row = item->row();
+        const bool item_in_model = belongs_to_model(item);
 
-    emit layoutChanged();
+        if (item_in_model && row >= 0)
+        {
+            beginRemoveRows(parent_index, row, row);
+        }
+        item->parentItem()->removeChild(item);
+        if (item_in_model && row >= 0)
+        {
+            endRemoveRows();
+        }
+    }
 }
 
 StatusTreeItem* StatusTreeModel::rootItem() const
@@ -448,7 +495,6 @@ int StatusTreeModel::depth(
 
 void StatusTreeModel::clear()
 {
-    emit layoutAboutToBeChanged();
     beginResetModel();
     // NOTE: When the root item is deleted, all its children are also deleted. This causes every leaf node to receive a signal notifying the destruction
     // of every entity item, which is unnecessary. Disconnecting all signal-slot communications between the TreeModel and leaf nodes (i.e., disconnecting
@@ -456,14 +502,43 @@ void StatusTreeModel::clear()
     disconnect_all_item_signals();
     delete root_item_;
     root_item_ = new StatusTreeItem();
+    is_empty_ = false;
     endResetModel();
-    emit layoutChanged();
 }
 
 StatusTreeItem* StatusTreeModel::internalPointer(
         const QModelIndex& index) const
 {
     return static_cast<StatusTreeItem*>(index.internalPointer());
+}
+
+QModelIndex StatusTreeModel::index_for_item(
+        StatusTreeItem* item) const
+{
+    if (!item || item == root_item_ || !belongs_to_model(item))
+    {
+        return {};
+    }
+
+    const int row = item->row();
+    if (row < 0)
+    {
+        return {};
+    }
+
+    return createIndex(row, 0, item);
+}
+
+bool StatusTreeModel::belongs_to_model(
+        const StatusTreeItem* item) const
+{
+    const StatusTreeItem* current = item;
+    while (current && current->parent_item_)
+    {
+        current = current->parent_item_;
+    }
+
+    return current == root_item_;
 }
 
 bool StatusTreeModel::containsTopLevelItem(
@@ -513,17 +588,15 @@ bool StatusTreeModel::is_empty()
 
 void StatusTreeModel::removeEmptyItem()
 {
-    emit layoutAboutToBeChanged();
     for (int i = 0; i < root_item_->childCount(); i++)
     {
         if (root_item_->child(i)->id() == backend::ID_ALL)
         {
-            root_item_->removeChild(root_item_->child(i));
+            removeItem(root_item_->child(i));
             is_empty_ = false;
             break;
         }
     }
-    emit layoutChanged();
 }
 
 StatusTreeItem*  StatusTreeModel::getTopLevelItem(

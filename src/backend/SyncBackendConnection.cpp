@@ -637,6 +637,10 @@ EntityInfo SyncBackendConnection::get_info(
         // Refactor json info so there are no vectors
         return backend::refactor_json(StatisticsBackend::get_info(id));
     }
+    catch (const BadParameter& )
+    {
+        return EntityInfo();
+    }
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entity info: " << e.what();
@@ -649,9 +653,18 @@ EntityInfo SyncBackendConnection::get_info(
 AlertSummary SyncBackendConnection::get_info(
         AlertId id)
 {
+    if (id == AlertId())
+    {
+        return EntityInfo();
+    }
+
     try
     {
         return backend::refactor_json(StatisticsBackend::get_info(id));
+    }
+    catch (const BadParameter& )
+    {
+        return EntityInfo();
     }
     catch (const Exception& e)
     {
@@ -665,13 +678,31 @@ AlertSummary SyncBackendConnection::get_info(
 backend::EntityId SyncBackendConnection::get_endpoint_topic_id(
         backend::EntityId endpoint_id)
 {
-    return StatisticsBackend::get_endpoint_topic_id(endpoint_id);
+    try
+    {
+        return StatisticsBackend::get_endpoint_topic_id(endpoint_id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting endpoint topic id: " << e.what();
+        static_cast<void>(e);
+        return EntityId::invalid();
+    }
 }
 
 backend::EntityId SyncBackendConnection::get_domain_id(
         backend::EntityId entity_id)
 {
-    return StatisticsBackend::get_domain_id(entity_id);
+    try
+    {
+        return StatisticsBackend::get_domain_id(entity_id);
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting domain id: " << e.what();
+        static_cast<void>(e);
+        return EntityId::invalid();
+    }
 }
 
 bool SyncBackendConnection::get_alive(
@@ -680,6 +711,10 @@ bool SyncBackendConnection::get_alive(
     try
     {
         return StatisticsBackend::is_active(id);
+    }
+    catch (const BadParameter& )
+    {
+        return false;
     }
     catch (const Exception& e)
     {
@@ -697,6 +732,10 @@ bool SyncBackendConnection::is_metatraffic(
     {
         return StatisticsBackend::is_metatraffic(id);
     }
+    catch (const BadParameter& )
+    {
+        return false;
+    }
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entity metatraffic attribute: " << e.what();
@@ -712,6 +751,10 @@ bool SyncBackendConnection::is_proxy(
     try
     {
         return StatisticsBackend::is_proxy(id);
+    }
+    catch (const BadParameter& )
+    {
+        return false;
     }
     catch (const Exception& e)
     {
@@ -729,6 +772,10 @@ EntityKind SyncBackendConnection::get_type(
     {
         return StatisticsBackend::get_type(id);
     }
+    catch (const BadParameter& )
+    {
+        return EntityKind::INVALID;
+    }
     catch (const Exception& e)
     {
         qWarning() << "Fail getting entity type: " << e.what();
@@ -741,9 +788,18 @@ EntityKind SyncBackendConnection::get_type(
 backend::EntityId SyncBackendConnection::get_entity_by_guid(
         const std::string& guid)
 {
+    if (guid.empty())
+    {
+        return EntityId::invalid();
+    }
+
     try
     {
         return StatisticsBackend::get_entity_by_guid(guid);
+    }
+    catch (const BadParameter& )
+    {
+        return EntityId::invalid();
     }
     catch (const Exception& e)
     {
@@ -761,6 +817,10 @@ std::vector<EntityId> SyncBackendConnection::get_entities(
     try
     {
         return StatisticsBackend::get_entities(entity_type, entity_id);
+    }
+    catch (const BadParameter& )
+    {
+        return std::vector<EntityId>();
     }
     catch (const Exception& e)
     {
@@ -866,7 +926,20 @@ std::string SyncBackendConnection::get_guid(
 StatusLevel SyncBackendConnection:: get_status(
         EntityId id)
 {
-    return StatisticsBackend::get_status(id);
+    try
+    {
+        return StatisticsBackend::get_status(id);
+    }
+    catch (const BadParameter& )
+    {
+        return StatusLevel::OK_STATUS;
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail getting entity status: " << e.what();
+        static_cast<void>(e);
+        return StatusLevel::OK_STATUS;
+    }
 }
 
 std::vector<StatisticsData> SyncBackendConnection::get_data(
@@ -947,12 +1020,6 @@ void SyncBackendConnection::clear_statistics_data(
         Timestamp time_to /* = the_end_of_time() */)
 {
     return StatisticsBackend::clear_statistics_data(time_to);
-}
-
-bool SyncBackendConnection::entity_exists(
-        EntityId entity_id)
-{
-    return !get_info(entity_id).empty();
 }
 
 bool SyncBackendConnection::data_available(
@@ -1151,7 +1218,20 @@ bool SyncBackendConnection::get_status_data(
 std::string SyncBackendConnection::get_deserialized_guid(
         const backend::GUID_s& data)
 {
-    return StatisticsBackend::deserialize_guid(data);
+    try
+    {
+        return StatisticsBackend::deserialize_guid(data);
+    }
+    catch (const BadParameter&)
+    {
+        return std::string();
+    }
+    catch (const Exception& e)
+    {
+        qWarning() << "Fail deserializing GUID: " << e.what();
+        static_cast<void>(e);
+        return std::string();
+    }
 }
 
 backend::GUID_s SyncBackendConnection::get_serialize_guid(
