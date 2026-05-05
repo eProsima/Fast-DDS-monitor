@@ -282,13 +282,6 @@ public:
     void clear_statistics_data(
             Timestamp time_to = the_end_of_time());
 
-    /**********
-    * CREATE *
-    **********/
-
-    bool entity_exists(
-            EntityId entity_id);
-
 protected:
 
     //! Create a new \c ListItem of class \c Host related with the backend entity with id \c id

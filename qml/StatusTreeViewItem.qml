@@ -240,21 +240,29 @@ Item {
                         controller.endpoint_click(_prop.currentId)
                         controller.participant_click(_prop.currentId)
                     }
+
+                    function refresh(){
+                        currentIndex = root.model.index(index, 0, parentIndex)
+                        currentData = root.model.data(currentIndex)
+                        currentId = root.model.id(currentIndex)
+                        currentStatus = root.model.status(currentIndex)
+                        currentKind = root.model.kind(currentIndex)
+                        currentValue = root.model.value(currentIndex)
+                        currentDescription = root.model.description(currentIndex)
+                        currentAlive = root.model.alive(currentIndex)
+                        itemChildCount = root.model.rowCount(currentIndex)
+                    }
                 }
 
                 Connections {
                     target: root.model
                     ignoreUnknownSignals: true
                     function onLayoutChanged() {
-                        const parent = root.model.index(index, 0, parentIndex)
-                        _prop.itemChildCount = root.model.rowCount(parent)
-                        // refresh counter
-                        var new_value = root.model.value(_prop.currentIndex)
-                        if (new_value != undefined)
-                        {
-                            _prop.currentValue = new_value
-                        }
+                        _prop.refresh()
                     }
+                    function onModelReset() { _prop.refresh() }
+                    function onRowsInserted() { _prop.refresh() }
+                    function onRowsRemoved() { _prop.refresh() }
                 }
 
                 Connections {
@@ -380,6 +388,18 @@ Item {
                         target: root.model
                         ignoreUnknownSignals: true
                         function onLayoutChanged() {
+                            const parent = root.model.index(index, 0, parentIndex)
+                            loader.item.childCount = root.model.rowCount(parent)
+                        }
+                        function onModelReset() {
+                            const parent = root.model.index(index, 0, parentIndex)
+                            loader.item.childCount = root.model.rowCount(parent)
+                        }
+                        function onRowsInserted() {
+                            const parent = root.model.index(index, 0, parentIndex)
+                            loader.item.childCount = root.model.rowCount(parent)
+                        }
+                        function onRowsRemoved() {
                             const parent = root.model.index(index, 0, parentIndex)
                             loader.item.childCount = root.model.rowCount(parent)
                         }
