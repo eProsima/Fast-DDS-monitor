@@ -923,7 +923,7 @@ std::string SyncBackendConnection::get_guid(
     return backend::get_info_value(get_info(id), "guid");
 }
 
-StatusLevel SyncBackendConnection:: get_status(
+StatusLevel SyncBackendConnection::get_status(
         EntityId id)
 {
     try
@@ -2013,52 +2013,52 @@ std::vector<std::string> SyncBackendConnection::ds_supported_transports()
 std::vector<std::string> SyncBackendConnection::get_statistic_kinds()
 {
     return std::vector<std::string>({
-            "MEAN",
-            "STANDARD_DEVIATION",
-            "MAX",
-            "MIN",
-            "MEDIAN",
+                       "MEAN",
+                       "STANDARD_DEVIATION",
+                       "MAX",
+                       "MIN",
+                       "MEDIAN",
 #if !defined(NDEBUG)
-            "COUNT",
+                       "COUNT",
 #endif // if !defined(NDEBUG)
-            "SUM",
-            "RAW DATA"
-        });
+                       "SUM",
+                       "RAW DATA"
+                   });
 }
 
 std::vector<std::string> SyncBackendConnection::get_data_kinds()
 {
     return std::vector<std::string>({
-            "FASTDDS_LATENCY",
-            "PUBLICATION_THROUGHPUT",
-            "SUBSCRIPTION_THROUGHPUT",
-            // The following data kinds are currently under development and are therefore only displayed if the monitor
-            // is compiled in Debug.
+                       "FASTDDS_LATENCY",
+                       "PUBLICATION_THROUGHPUT",
+                       "SUBSCRIPTION_THROUGHPUT",
+                       // The following data kinds are currently under development and are therefore only displayed if the monitor
+                       // is compiled in Debug.
 #if !defined(NDEBUG)
-            "NETWORK_LATENCY",
-            "RTPS_PACKETS_SENT",
-            "RTPS_BYTES_SENT",
-            "RTPS_PACKETS_LOST",
-            "RTPS_BYTES_LOST",
-            "DISCOVERY_TIME",
-            "SAMPLE_DATAS",
+                       "NETWORK_LATENCY",
+                       "RTPS_PACKETS_SENT",
+                       "RTPS_BYTES_SENT",
+                       "RTPS_PACKETS_LOST",
+                       "RTPS_BYTES_LOST",
+                       "DISCOVERY_TIME",
+                       "SAMPLE_DATAS",
 #endif // #if !defined(NDEBUG)
-            "RESENT_DATA",
-            "HEARTBEAT_COUNT",
-            "ACKNACK_COUNT",
-            "NACKFRAG_COUNT",
-            "GAP_COUNT",
-            "DATA_COUNT",
-            "PDP_PACKETS",
-            "EDP_PACKETS"
-        });
+                       "RESENT_DATA",
+                       "HEARTBEAT_COUNT",
+                       "ACKNACK_COUNT",
+                       "NACKFRAG_COUNT",
+                       "GAP_COUNT",
+                       "DATA_COUNT",
+                       "PDP_PACKETS",
+                       "EDP_PACKETS"
+                   });
 }
 
 std::vector<std::string> SyncBackendConnection::get_alert_kinds()
 {
     return std::vector<std::string>({
-            "NEW_DATA",
-            "NO_DATA"});
+                       "NEW_DATA",
+                       "NO_DATA"});
 }
 
 std::vector<std::pair<EntityKind, EntityKind>> SyncBackendConnection::get_data_supported_entity_kinds(
