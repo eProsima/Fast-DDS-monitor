@@ -10,6 +10,8 @@ Version v4.1.0
 This release includes the following **bugfixes**:
 
 * Add domain_id to map so spy mode can start
+* Fixed Qt model protocol violations with emit `layoutChanged`
+
 
 This release includes the following **features**:
 
