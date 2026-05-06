@@ -37,7 +37,7 @@ std::vector<EntityId> Locator::get_entities(
         case EntityKind::USER:
         case EntityKind::PROCESS:
         case EntityKind::PARTICIPANT:
-        case EntityKind::DOMAIN:
+        case EntityKind::DOMAIN_ENTITY:
         case EntityKind::TOPIC:
             return get_entities_related(endpoints_, entity_type);
 

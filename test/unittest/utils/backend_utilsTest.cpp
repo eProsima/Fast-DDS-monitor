@@ -85,7 +85,7 @@ TEST(utilsBackendTest, string_to_entity_kind)
         {"Host", EntityKind::HOST},
         {"User", EntityKind::USER},
         {"Process", EntityKind::PROCESS},
-        {"Domain", EntityKind::DOMAIN},
+        {"Domain", EntityKind::DOMAIN_ENTITY},
         {"Topic", EntityKind::TOPIC},
         {"DomainParticipant", EntityKind::PARTICIPANT},
         {"DataWriter", EntityKind::DATAWRITER},
