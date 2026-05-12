@@ -59,6 +59,11 @@ the documentation.
 .. thumbnail:: /rst/figures/screenshots/problem_detail.png
     :align: center
 
+*Fast DDS Monitor Pro* adds three further pane types for visualizing live topic data:
+
+* :ref:`Topic Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a time-series chart.
+* :ref:`Image Pane <image_pane>` |Pro| for rendering live image or video data from DDS topics directly in the workspace.
+
 .. toctree::
     :maxdepth: 2
 

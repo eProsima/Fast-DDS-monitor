@@ -1,0 +1,6 @@
+/* Inline icon substitutions. Prevent Sphinx-generated SVG links from being clickable */
+a.reference.internal[href$=".svg"] {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+}
