@@ -136,5 +136,3 @@ Visible once at least one frame has been received. Shows three read-only fields:
 
 * **Split right** and **Split down** each expand a submenu to open a Statistics Chart, Topic Chart, Spy
   Topic View, Topic Type View (IDL), or Image View alongside the current pane.
-
-.. _image_pane_spy:

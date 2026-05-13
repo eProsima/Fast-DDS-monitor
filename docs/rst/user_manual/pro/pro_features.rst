@@ -13,7 +13,7 @@ tooling designed for real production deployments.
 
 .. note::
 
-    All features described in this section are exclusive to *Fast DDS Monitor Pro*
+    All features described in this section are exclusive to *Fast DDS Monitor Pro*.
 
 The following Pro features are covered in this section:
 
