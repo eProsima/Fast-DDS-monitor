@@ -136,6 +136,6 @@ When the :ref:`right_pane_config` sidebar is open for an IDL pane it shows four 
   **Apply & Reload** button, which fetches and displays the IDL for the new topic immediately.
 * **Display** has a toggle to enable or disable ROS 2 demangling for the current pane. This is the same
   setting as the one controlled by the **View** menu and applies to all IDL panes at once.
-* **Panel Actions** expands **Split right** and **Split down** submenus. Each submenu lets you open a new 
+* **Panel Actions** expands **Split right** and **Split down** submenus. Each submenu lets you open a new
   pane alongside the current one.
 * **Actions** provides a **Select All** button to select the full IDL text in one click.
