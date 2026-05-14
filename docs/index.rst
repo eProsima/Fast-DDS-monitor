@@ -60,6 +60,27 @@
    /rst/user_manual/export_data
 
 
+.. _index_pro_features:
+
+.. toctree::
+   :caption: Fast DDS Monitor Pro
+   :maxdepth: 2
+   :numbered: 5
+   :hidden:
+
+   /rst/user_manual/pro/pro_features
+   /rst/user_manual/pro/multiple_monitors
+   /rst/user_manual/pro/dockable_panes
+   /rst/user_manual/pro/topic_charts
+   /rst/user_manual/pro/image_pane
+   /rst/user_manual/pro/topics_panel
+   /rst/user_manual/pro/workspace
+   /rst/user_manual/pro/right_pane_config
+   /rst/user_manual/pro/entity_summary_bar
+   /rst/user_manual/pro/theming
+   /rst/user_manual/pro/license
+
+
 .. _index_developer_manual:
 
 .. toctree::

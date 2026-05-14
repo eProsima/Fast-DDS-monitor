@@ -349,10 +349,17 @@ exclude_patterns = [
 # If true, keep warnings as "system message" paragraphs in the built documents.
 # keep_warnings = False
 
-suppress_warnings = ["config.cache"]
+suppress_warnings = ["config.cache", "ref.duplicate_label"]
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
+
+# Global substitutions available in every RST file without needing an explicit include.
+rst_prolog = """
+.. |Pro| raw:: html
+
+    <span style="font-size: 0.75em; font-weight: bold; color: var(--color-brand-primary, #0072bc); border: 1px solid currentColor; border-radius: 3px; padding: 1px 5px; vertical-align: middle; white-space: nowrap;">Pro</span>
+"""
 
 
 # -- Options for HTML output ----------------------------------------------
@@ -376,7 +383,7 @@ html_theme_options.update(download_json())
 
 html_use_smartypants = True
 
-html_css_files = [select_css(project_source_docs_dir)]
+html_css_files = [select_css(project_source_docs_dir), "css/custom.css"]
 
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.

@@ -1,6 +1,50 @@
 .. |FastDDSDocs| replace:: `Fast DDS Documentation <https://fast-dds.docs.eprosima.com/en/v2.3.0/>`__
 .. |DDSSpecification| replace:: `DDS specification <https://www.omg.org/spec/DDS/1.4/About-DDS/>`__
 
+.. |save| image:: /rst/../../resources/images/icons/save/save_grey.svg
+    :width: 20
+    :alt: Save Workspace
+
+.. |moon| image:: /rst/../../resources/images/icons/moon/moon_grey.svg
+    :width: 20
+    :alt: Dark Mode
+
+.. |sun| image:: /rst/../../resources/images/icons/sun/sun_grey.svg
+    :width: 20
+    :alt: Light Mode
+
+.. |search| image:: /rst/../../resources/images/icons/search/search_grey.svg
+    :width: 20
+    :alt: Search / Filter
+
+.. |gear| image:: /rst/../../resources/images/icons/gear/gear_grey.svg
+    :width: 20
+    :alt: Configure Pane
+
+.. |legend| image:: /rst/../../resources/images/icons/legend/legend_grey.svg
+    :width: 20
+    :alt: Toggle Legend
+
+.. |add_series| image:: /rst/../../resources/images/icons/add_series/add_series_grey.svg
+    :width: 20
+    :alt: Add Series
+
+.. |topic_icon| image:: /rst/../../resources/images/icons/topic/topic_grey.svg
+    :width: 20
+    :alt: Topic
+
+.. |copy| image:: /rst/../../resources/images/icons/copy/copy_grey.svg
+    :width: 20
+    :alt: Copy to Clipboard
+
+.. |cross| image:: /rst/../../resources/images/icons/cross/cross_grey.svg
+    :width: 20
+    :alt: Close Pane
+
+.. |plus| image:: /rst/../../resources/images/icons/plus/plus_grey.svg
+    :width: 20
+    :alt: Add / New
+
 .. |dashboard_layout_1| image:: /rst/../../resources/images/icons/grid1/grid1_grey.svg
     :width: 20
     :alt: Dashboard Layout
