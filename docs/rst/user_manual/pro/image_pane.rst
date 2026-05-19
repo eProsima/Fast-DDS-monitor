@@ -51,15 +51,15 @@ Within each schema family the pane decodes the following payloads:
 
 The ``encoding`` field of the sample must be one of:
 
-* ``rgb8`` — 8-bit RGB.
-* ``bgr8`` — 8-bit BGR (channels swapped on decode).
-* ``rgba8`` — 8-bit RGBA.
-* ``bgra8`` — 8-bit BGRA (channels swapped on decode).
-* ``mono8`` — 8-bit grayscale.
-* ``8uc1`` — single-channel 8-bit (treated as grayscale).
+* ``rgb8`` 8-bit RGB.
+* ``bgr8`` 8-bit BGR (channels swapped on decode).
+* ``rgba8`` 8-bit RGBA.
+* ``bgra8`` 8-bit BGRA (channels swapped on decode).
+* ``mono8`` 8-bit grayscale.
+* ``8uc1`` single-channel 8-bit (treated as grayscale).
 
 Encoding matching is case-insensitive. Any other value (for example ``yuv422``, ``bayer_*``, ``16UC1``,
-``32FC1``) is rejected with a *"Unsupported raw encoding"* error. The maximum supported image dimension
+``32FC1``) is rejected with an *"Unsupported raw encoding"* error. The maximum supported image dimension
 is 16384 × 16384 pixels.
 
 **Compressed images and compressed video**
@@ -74,7 +74,7 @@ payload is one of:
 
 The decoder reads the ``format`` field as a hint and otherwise auto-detects from the payload header.
 Streaming video codecs such as H.264 and H.265 are **not supported yet**: a sample carrying such a
-payload arrives but cannot be decoded, and the pane displays a *"Unsupported video format"* error.
+payload arrives but cannot be decoded, and the pane displays an *"Unsupported video format"* error.
 
 .. _image_pane_creating:
 
@@ -86,9 +86,9 @@ There are several ways to open a new Image Pane:
 * Right-click a topic in the :ref:`topics_panel`, the :ref:`logical_panel`, or the domain graph and choose
   **Open image view**. This option is only visible and enabled for topics with a recognized image schema.
 
-* Use the :ref:`right_pane_config` sidebar. A **Image View** button is present in the configuration panel
-  of any existing pane type, letting you replace the current pane with a new Image Pane. A domain and topic
-  selection wizard appears before the pane is created.
+* Use the :ref:`right_pane_config` sidebar. An **Image** button is present in the pane type switcher at
+  the top of the configuration panel, letting you replace the current pane with a new Image Pane. A domain
+  and topic selection wizard appears before the pane is created.
 
 * Click the three-dots button in the header of any existing pane to open the split menu, then choose
   **Split right** or **Split down** and select **Image View** to open a new Image Pane alongside the
