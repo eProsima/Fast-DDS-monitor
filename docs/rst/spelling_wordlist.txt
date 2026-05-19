@@ -22,8 +22,10 @@ dialogs
 dockable
 Dockable
 domainId
+Encodings
 eProsima
 Foonathan
+grayscale
 gtest
 GTest
 IPv

@@ -7,11 +7,6 @@
 Image Pane |Pro|
 ################
 
-.. note::
-
-    The Image Pane is currently under active development. The details described here reflect the feature as
-    it is being built and may change before the final release.
-
 The *Image Pane* is a dockable panel that renders live image or video frames published on a DDS topic.
 When you subscribe to a compatible topic, the pane detects the image schema automatically, decodes each
 incoming sample, and displays the resulting frame inside the monitor workspace. The decoded image scales to
@@ -27,8 +22,8 @@ The pane detects the topic type automatically and supports two families of schem
 **ROS 2 sensor_msgs types**
 
 * ``sensor_msgs/msg/Image`` carrying a raw pixel buffer.
-* ``sensor_msgs/msg/CompressedImage`` carrying JPEG or PNG compressed frames.
-* ``sensor_msgs/msg/CompressedVideo`` carrying H.264 or H.265 encoded video.
+* ``sensor_msgs/msg/CompressedImage`` carrying compressed image frames.
+* ``sensor_msgs/msg/CompressedVideo`` carrying compressed video frames.
 
 Both the standard ROS 2 type names and their DDS-mangled variants (e.g.
 ``sensor_msgs::msg::dds_::Image_``) are recognized.
@@ -37,13 +32,49 @@ Both the standard ROS 2 type names and their DDS-mangled variants (e.g.
 
 * ``RawImage`` for raw pixel buffers.
 * ``CompressedImage`` for compressed image frames.
-* ``CompressedVideo`` for compressed video streams.
+* ``CompressedVideo`` for compressed video frames.
 
 These bare type names are matched regardless of which IDL module wraps them, so they work with any
 toolchain that publishes image data using those standard OMG IDL type definitions.
 
 Only topics with a recognized image schema appear in the topic selection lists. Topics that do not match
 any supported schema are excluded automatically.
+
+.. _image_pane_encodings:
+
+Supported Encodings
+===================
+
+Within each schema family the pane decodes the following payloads:
+
+**Raw pixel buffers** (``sensor_msgs/msg/Image`` and ``RawImage``)
+
+The ``encoding`` field of the sample must be one of:
+
+* ``rgb8`` 8-bit RGB.
+* ``bgr8`` 8-bit BGR (channels swapped on decode).
+* ``rgba8`` 8-bit RGBA.
+* ``bgra8`` 8-bit BGRA (channels swapped on decode).
+* ``mono8`` 8-bit grayscale.
+* ``8uc1`` single-channel 8-bit (treated as grayscale).
+
+Encoding matching is case-insensitive. Any other value (for example ``yuv422``, ``bayer_*``, ``16UC1``,
+``32FC1``) is rejected with an *"Unsupported raw encoding"* error. The maximum supported image dimension
+is 16384 × 16384 pixels.
+
+**Compressed images and compressed video**
+(``sensor_msgs/msg/CompressedImage``, ``CompressedImage``,
+``sensor_msgs/msg/CompressedVideo``, ``CompressedVideo``)
+
+Both compressed schemas are decoded the same way: every sample must be a self-contained frame whose
+payload is one of:
+
+* JPEG.
+* PNG.
+
+The decoder reads the ``format`` field as a hint and otherwise auto-detects from the payload header.
+Streaming video codecs such as H.264 and H.265 are **not supported yet**: a sample carrying such a
+payload arrives but cannot be decoded, and the pane displays an *"Unsupported video format"* error.
 
 .. _image_pane_creating:
 
@@ -55,9 +86,9 @@ There are several ways to open a new Image Pane:
 * Right-click a topic in the :ref:`topics_panel`, the :ref:`logical_panel`, or the domain graph and choose
   **Open image view**. This option is only visible and enabled for topics with a recognized image schema.
 
-* Use the :ref:`right_pane_config` sidebar. A **Image View** button is present in the configuration panel
-  of any existing pane type, letting you replace the current pane with a new Image Pane. A domain and topic
-  selection wizard appears before the pane is created.
+* Use the :ref:`right_pane_config` sidebar. An **Image** button is present in the pane type switcher at
+  the top of the configuration panel, letting you replace the current pane with a new Image Pane. A domain
+  and topic selection wizard appears before the pane is created.
 
 * Click the three-dots button in the header of any existing pane to open the split menu, then choose
   **Split right** or **Split down** and select **Image View** to open a new Image Pane alongside the
@@ -80,6 +111,13 @@ The content area of the pane shows one of the following states at any given time
 A metadata strip at the bottom of the content area becomes visible once at least one frame has been
 received. It shows the frame resolution (width × height), the encoding string, and a running count of
 total frames received.
+
+The encoding string reflects what the decoder reported for the current frame:
+
+* For raw frames it is the value of the sample's ``encoding`` field (for example ``rgb8``).
+* For compressed image and compressed video frames it is the value of the sample's ``format`` field
+  (typically ``jpeg`` or ``png``). When the publisher leaves ``format`` empty, the strip falls back to
+  ``compressed`` for compressed images and ``video-frame`` for compressed video.
 
 .. _image_pane_controls:
 
