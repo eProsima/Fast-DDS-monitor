@@ -89,6 +89,10 @@
     :width: 20
     :alt: Interactive Chart Control Info
 
+.. |help| image:: /rst/../../resources/images/icons/help/help_grey.svg
+    :width: 20
+    :alt: Help
+
 .. |editaxis| image:: /rst/../../resources/images/icons/editaxis/editaxis_grey.svg
     :width: 20
     :alt: Set Axes

@@ -93,8 +93,8 @@ The chart header provides the following buttons from left to right:
 * |pause| / |play| **Pause / Resume** pauses live data ingestion, freezing the chart at its current state.
   Samples received while paused are discarded. Resuming restarts the live feed from the current time.
 
-* |info| **Interactive Controls Info** opens a dialog summarising the mouse and keyboard shortcuts
-  available in the chart area.
+* |help| **Help** opens a contextual help panel with a description of the Topic Chart, usage tips,
+  available mouse and keyboard interactions, and a link to this documentation page.
 
 * The expand button maximizes the pane to fill the full workspace. Clicking it again restores the previous
   layout.

@@ -66,8 +66,9 @@ Please refer to section :ref:`export_data` for more information on the format of
 
 Chart Controls
 ^^^^^^^^^^^^^^
-Displays an informative dialog with the key combination to execute actions on the chart.
-It is also possible to access this dialog by clicking on the |info| button displayed in the same chart box.
+Opens a contextual help panel describing the chart type, usage tips, available mouse and keyboard
+interactions, and a link to the full documentation page.
+It is also possible to open this panel by clicking the |help| button in the chart header.
 
 
 .. figure:: /rst/figures/screenshots/Chartbox_info.png

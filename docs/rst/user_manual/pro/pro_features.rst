@@ -26,6 +26,10 @@ The following Pro features are covered in this section:
 * :ref:`Topic Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
   time-series chart, with support for multiple series, field selection, and pause/resume controls.
 
+* :ref:`XY Charts <xy_charts>` |Pro| for plotting two numeric DDS topic fields against each other as a
+  real-time scatter chart, enabling phase-space or correlation analysis between any pair of numeric fields
+  within the same DDS domain.
+
 * :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics inside the
   monitor, with automatic detection of ROS 2 sensor_msgs types and generic OMG IDL image types.
 

@@ -36,6 +36,8 @@ It extends the open-source version with premium features such as:
   statistics and topic charts, improved zoom, legend, and time-window controls.
 * :ref:`Topic Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
   time-series chart, supporting multiple series and field selection.
+* :ref:`XY Charts <xy_charts>` |Pro| for plotting two numeric DDS topic fields against each other as a
+  real-time scatter chart, enabling phase-space or correlation analysis between any pair of numeric fields.
 * :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics directly
   inside the monitor workspace.
 * :ref:`Topics Explorer <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
@@ -148,6 +150,11 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
       </tr>
       <tr>
         <th>Topic Charts (time series)</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>XY Charts (scatter plot)</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
