@@ -25,13 +25,13 @@ Opening XY Charts
 
 There are several ways to open a new XY Charts pane:
 
-* Use **Add XY Charts** in the application menu bar.
+* Use **Topic Charts View** in the application menu bar.
 
-* Use the :ref:`right_pane_config` sidebar. When the creation form is open, switch the plot mode to
+* Use the :ref:`right_pane_config` sidebar. When the New Topic Chart form is open, switch the plot mode to
   **XY Chart** to switch from a time-based topic chart to an XY scatter chart.
 
 * Click the three-dots button in the header of any existing pane to open the split menu, then choose
-  **Split right** or **Split down** and select **XY Charts** to open a new chart alongside the current
+  **Split right** or **Split down** and select **Topic Chart** to open a new chart alongside the current
   pane.
 
 .. _xy_charts_series:
@@ -44,8 +44,8 @@ Managing Series
 Click **+ Add XY Series** in the **Series** section to expand the series creation form.
 For each new series, select:
 
-* An **X Axis Topic** and an **X Field** — the topic and numeric field whose values drive the X axis.
-* A **Y Axis Topic** and a **Y Field** — the topic and numeric field whose values drive the Y axis.
+* An **X Axis Topic** and an **X Field** - the topic and numeric field whose values drive the X axis.
+* A **Y Axis Topic** and a **Y Field** - the topic and numeric field whose values drive the Y axis.
 
 Fields only appear after the first DDS sample has arrived on the selected topic.
 Click **Add** to confirm. The picker stays open so that additional series can be added without reopening
@@ -101,8 +101,8 @@ The chart header provides the following buttons from left to right:
 * |pause| / |play| **Pause / Resume** pauses live data ingestion, freezing the chart at its current state.
   Samples received while paused are discarded. Resuming restarts the live feed from the current time.
 
-* |info| **Interactive Controls Info** opens a dialog summarising the mouse and keyboard shortcuts
-  available in the chart area.
+* |help| **Help** opens a contextual help panel showing a brief description of XY Charts, usage tips,
+  and a link to this documentation page.
 
 * The expand button maximizes the pane to fill the full workspace. Clicking it again restores the previous
   layout.
@@ -165,11 +165,11 @@ expands the inline series-creation section described below.
 
 **Add XY Series** *(collapsible)*
 
-* **X Axis Topic** — filter and select the topic that provides the X values.
-* **X Field** — filter and select the numeric leaf field within that topic.
-* **Y Axis Topic** — filter and select the topic that provides the Y values.
-* **Y Field** — filter and select the numeric leaf field within that topic.
-* Click **Add** to create the series. The picker remains open for adding further series.
+* **X Axis Topic** - filter and select the topic that provides the X values.
+* **X Field** - filter and select the numeric leaf field within that topic.
+* **Y Axis Topic** - filter and select the topic that provides the Y values.
+* **Y Field** - filter and select the numeric leaf field within that topic.
+* Click **Add XY Series** to create the series. The picker remains open for adding further series.
 
 **Axes**
 
