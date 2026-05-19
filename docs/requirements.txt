@@ -2,7 +2,7 @@ doc8==0.10.1
 docutils==0.20.1
 furo==2024.8.6
 GitPython==3.1.44
-setuptools==75.8.2
+setuptools==78.1.1
 sphinx==7.4.7 # Fix in v7 because sphinxcontrib-images 0.9.4 doesn't support v8
 sphinxcontrib-imagehelper==1.1.1
 sphinxcontrib-images==0.9.4
