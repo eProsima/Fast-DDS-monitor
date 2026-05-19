@@ -110,6 +110,23 @@ The configuration panel for a topic chart covers:
 * Panel Actions with split submenus and screenshot options.
 * Bulk actions: Show All Series, Hide All Series, Clear Chart.
 
+XY Charts
+---------
+
+See :ref:`xy_charts` for the full XY charts documentation.
+
+The configuration panel for XY charts covers:
+
+* Chart name editing.
+* Domain, time window, and maximum data points, applied together with **Apply & Reset Chart**.
+* Series list with per-series controls for label, color, visibility, max data points, and removal.
+* An inline add-series form for selecting an X topic and field and a Y topic and field independently.
+  Click **+ Add XY Series** to expand it. X and Y values may come from the same or different topics.
+* X-axis and Y-axis locking with explicit minimum and maximum.
+* Display toggles for the legend, connecting lines, and the running (pause/resume) mode.
+* Panel Actions with split submenus and screenshot options.
+* Bulk actions: Show All Series, Hide All Series, Clear Chart.
+
 Spy Pane
 --------
 
