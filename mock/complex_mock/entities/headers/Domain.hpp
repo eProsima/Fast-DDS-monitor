@@ -54,7 +54,7 @@ public:
     //! Overwrite of \c kind method from Entity
     EntityKind kind() const override
     {
-        return EntityKind::DOMAIN;
+        return EntityKind::DOMAIN_ENTITY;
     }
 
 private:
