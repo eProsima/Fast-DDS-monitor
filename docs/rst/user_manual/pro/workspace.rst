@@ -91,6 +91,7 @@ of what is included.
   three monitor types are restored on load.
 * Created entity aliases within each domain view.
 * Active topic filter applied to each domain graph view.
+* Entity visibility settings (shown/hidden per alias) for each domain graph view.
 
 **Statistics Charts**
 

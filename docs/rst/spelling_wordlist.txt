@@ -5,6 +5,8 @@ Backend
 centric
 Centric
 chartbox
+checkbox
+checkboxes
 checkmark
 CMake
 colcon
