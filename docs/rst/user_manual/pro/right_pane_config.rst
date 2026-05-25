@@ -8,9 +8,10 @@ Right-Side Pane Configuration |Pro|
 ###################################
 
 The *Right-Side Pane Configuration* panel is a sidebar that slides in from the right edge of the workspace.
-It provides inline configuration for any pane in the workspace: you can create new panes, edit the
+For chart, spy, IDL, and image panes it provides inline configuration: you can create new panes, edit the
 settings of existing ones, and switch a pane from one type to another, all without opening a separate
-dialog.
+dialog. When a Domain Graph tab is active, the same sidebar shows a dedicated visibility control panel
+for managing which entities are displayed in the graph (see :ref:`domain-graph`).
 
 .. _right_pane_config_opening:
 
@@ -166,3 +167,44 @@ The configuration panel for an image pane covers:
 * A **Last Error** section visible only when a decode error has occurred.
 * A **Frame Info** section showing resolution, encoding, and frame count once frames arrive.
 * Panel Actions with split submenus.
+
+.. _domain-graph:
+
+Domain Graph
+============
+
+When a Domain Graph tab is the active and selected tab, the right-side panel shows a dedicated
+visibility control panel instead of the pane-type configuration described above.
+This panel has no pane-type switcher and no creation or apply flow; changes take effect immediately
+as checkboxes are toggled.
+
+See :ref:`domain_graph` for the full Domain View documentation.
+
+The panel lists all entities discovered in the domain, grouped into seven collapsible sections:
+**Topics**, **Hosts**, **Users**, **Processes**, **Participants**, **DataWriters**, and **DataReaders**.
+Each section shows the alias of every discovered entity of that kind alongside a checkbox and a
+visible/total count in the section header.
+
+The panel covers:
+
+* A **search field** at the top that filters all sections simultaneously. Sections with no matching
+  aliases collapse automatically while the filter is active.
+* **Per-entity checkboxes** to show or hide individual entities by alias. Unchecked entities are
+  removed from the graph but remain listed so they can be restored at any time.
+* **Collapsible sections** that can be expanded or collapsed by clicking the section header.
+* An **Actions** section with two bulk buttons:
+
+  * **Show All Entities** — makes every entity of every kind visible.
+  * **Hide All Entities** — hides every entity of every kind at once.
+
+When all entities of a given kind are hidden and a new entity of that same kind is subsequently
+discovered — for example after enabling metatraffic visibility or after a new participant joins —
+the new entity inherits the hidden state automatically. If at least one entity of that kind is
+visible, newly discovered ones appear visible by default. Manual checkbox selections are preserved
+across model refreshes and are never overridden by this rule.
+
+When a Domain Graph tab has been filtered to a specific topic (by right-clicking a topic node in the
+graph and selecting the filter action), the panel lists only the entities actually connected to that
+topic: the filtered topic itself, the DataWriters and DataReaders publishing or subscribing to it,
+and their parent Participants, Processes, Users, and Hosts. Entities not involved in the filtered
+view are omitted from the panel entirely, since they are not part of that graph.
