@@ -10,8 +10,9 @@ Right-Side Pane Configuration |Pro|
 The *Right-Side Pane Configuration* panel is a sidebar that slides in from the right edge of the workspace.
 For chart, spy, IDL, and image panes it provides inline configuration: you can create new panes, edit the
 settings of existing ones, and switch a pane from one type to another, all without opening a separate
-dialog. When a Domain Graph tab is active, the same sidebar shows a dedicated visibility control panel
-for managing which entities are displayed in the graph (see :ref:`domain-graph`).
+dialog. When a Domain Graph tab is active, clicking the |gear| button opens the same sidebar with a
+dedicated visibility control panel for managing which entities are displayed in the graph
+(see :ref:`domain-graph`).
 
 .. _right_pane_config_opening:
 
@@ -173,8 +174,8 @@ The configuration panel for an image pane covers:
 Domain Graph
 ============
 
-When a Domain Graph tab is the active and selected tab, the right-side panel shows a dedicated
-visibility control panel instead of the pane-type configuration described above.
+When a Domain Graph tab is active, click the |gear| button to open the right-side panel.
+It shows a dedicated visibility control panel instead of the pane-type configuration described above.
 This panel has no pane-type switcher and no creation or apply flow; changes take effect immediately
 as checkboxes are toggled.
 
@@ -191,14 +192,21 @@ The panel covers:
   aliases collapse automatically while the filter is active.
 * **Per-entity checkboxes** to show or hide individual entities by alias. Unchecked entities are
   removed from the graph but remain listed so they can be restored at any time.
+
+.. note::
+
+   Visibility is controlled by alias, not by internal entity identifier. If two or more entities of
+   the same kind share the same alias toggling that
+   entry hides or shows all entities that carry that alias simultaneously.
+
 * **Collapsible sections** that can be expanded or collapsed by clicking the section header.
 * An **Actions** section with two bulk buttons:
 
-  * **Show All Entities** — makes every entity of every kind visible.
-  * **Hide All Entities** — hides every entity of every kind at once.
+  * **Show All Entities** - makes every entity of every kind visible.
+  * **Hide All Entities** - hides every entity of every kind at once.
 
 When all entities of a given kind are hidden and a new entity of that same kind is subsequently
-discovered — for example after enabling metatraffic visibility or after a new participant joins —
+discovered - for example after enabling metatraffic visibility or after a new participant joins -
 the new entity inherits the hidden state automatically. If at least one entity of that kind is
 visible, newly discovered ones appear visible by default. Manual checkbox selections are preserved
 across model refreshes and are never overridden by this rule.

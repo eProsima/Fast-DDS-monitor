@@ -145,8 +145,8 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
       </tr>
       <tr>
         <th>Domain graph</th>
-        <td>✅ Improved</td>
-        <td>✅</td>
+        <td>✅ + Visibility control panel</td>
+        <td>⚠️ Filter by topic only</td>
       </tr>
       <tr>
         <th>Topic Charts (time series)</th>

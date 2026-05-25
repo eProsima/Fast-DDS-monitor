@@ -323,7 +323,7 @@ Right click allows changing the alias of the entity, filter the problems to disp
 and, in the case of topics, filtering the domain graph by topic so that only the entities related to the selected topic
 are displayed.
 
-The right-side configuration panel (|Pro|) provides per-entity visibility controls for the graph.
+The right-side configuration panel |Pro| provides per-entity visibility controls for the graph.
 Individual topics, hosts, users, processes, participants, writers, and readers can be shown or hidden
 by alias, with bulk *Show All* and *Hide All* actions.
 See :ref:`domain-graph` for details.
