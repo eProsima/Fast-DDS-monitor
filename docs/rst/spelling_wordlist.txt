@@ -2,6 +2,10 @@ allocator
 Asio
 backend
 Backend
+bitmasks
+Bitmasks
+Bitsets
+Booleans
 centric
 Centric
 chartbox
@@ -24,12 +28,16 @@ dialogs
 dockable
 Dockable
 domainId
+dropdown
 Encodings
+enums
+Enums
 eProsima
 Foonathan
 grayscale
 gtest
 GTest
+honours
 IPv
 labelled
 localhost
@@ -55,6 +63,8 @@ scrollbars
 snapshotted
 splittable
 Struct
+structs
+Structs
 submenu
 submenus
 subpanel
