@@ -92,6 +92,8 @@ Right-clicking any topic row opens a context menu with the following actions:
 * **Set alert** opens the alert configuration dialog for this topic.
 * **Spy topic data** opens a :ref:`Spy Pane <dockable_spy_pane>` subscribed to this topic. This action is
   disabled for built-in Fast DDS topics that cannot be subscribed to.
+* **Publish topic data** opens a :ref:`Publisher Pane <publisher_pane>` attached to this topic. This
+  action is disabled for built-in and statistics Fast DDS topics.
 * **Chart topic data** opens a :ref:`Topic Chart <topic_charts>` with this topic pre-selected. This action
   is disabled for built-in and statistics Fast DDS topics.
 

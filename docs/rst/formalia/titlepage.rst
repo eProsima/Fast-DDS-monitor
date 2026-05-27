@@ -40,6 +40,9 @@ It extends the open-source version with premium features such as:
   real-time scatter chart, enabling phase-space or correlation analysis between any pair of numeric fields.
 * :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics directly
   inside the monitor workspace.
+* :ref:`Publisher Pane <publisher_pane>` |Pro| for publishing user-defined samples on any discovered DDS
+  topic, with a form built automatically from the topic's dynamic type and support for one-shot and
+  continuous publishing.
 * :ref:`Topics Explorer <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
   expandable field trees, and context actions for opening Spy or Topic Chart panes.
 * :ref:`Workspace Save and Restore <workspace>` |Pro| to save and reload the full workspace state across
@@ -160,6 +163,11 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
       </tr>
       <tr>
         <th>Image / Video Pane</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>Publisher Pane (publish topic data)</th>
         <td>✅</td>
         <td>❌</td>
       </tr>

@@ -74,6 +74,7 @@
    /rst/user_manual/pro/topic_charts
    /rst/user_manual/pro/xy_charts
    /rst/user_manual/pro/image_pane
+   /rst/user_manual/pro/publisher_pane
    /rst/user_manual/pro/topics_panel
    /rst/user_manual/pro/workspace
    /rst/user_manual/pro/right_pane_config

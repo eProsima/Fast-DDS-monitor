@@ -123,6 +123,17 @@ For each topic chart pane:
 * Whether the pane was active (streaming) or paused when saved. The topic entity ID is not used for
   restoration since it is volatile; the pane is reconnected by topic name and domain on load.
 
+**Publisher Panes**
+
+* The target topic name and domain number. The pane re-resolves the topic from this stable pair on load,
+  not from the volatile entity identifier.
+* The complete map of form values entered by the user, keyed by field path. Values are snapshotted at
+  save time, so unpublished edits are preserved. The element count of every variable-length sequence and
+  map, and the active branch of every union, are captured so the form opens in the same shape it was
+  last saved with.
+* The per-field slider minimum and maximum bounds for every numeric scalar field.
+* The continuous-mode toggle state and the configured interval in milliseconds.
+
 **Pane layouts**
 
 * The full split tree for each monitor tab, including the type of every pane, its position, and the
