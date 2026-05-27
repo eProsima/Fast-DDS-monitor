@@ -52,6 +52,7 @@ schemas
 Schemas
 scrollable
 scrollbars
+snapshotted
 splittable
 Struct
 submenu
