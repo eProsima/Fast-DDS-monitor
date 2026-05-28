@@ -55,17 +55,17 @@ Primitive Fields
 
 The following IDL primitive types are rendered as scalar inputs:
 
-* Signed and unsigned integers of every width (``int8``, ``int16``, ``int32``, ``int64``, ``uint8``,
+* Signed and unsigned integers of every width (``byte``, ``int8``, ``int16``, ``int32``, ``int64``, ``uint8``,
   ``uint16``, ``uint32``, ``uint64``).
-* Floating-point numbers (``float``, ``double``).
-* Characters and wide characters (``char``, ``wchar``).
+* Floating-point numbers (``float32``, ``float64``, ``float128``).
+* Characters and wide characters (``char8``, ``char16``).
 * Booleans (``bool``), shown as a labelled toggle switch.
 * Strings and wide strings (``string``, ``wstring``).
 
 Each numeric input has a small stepper for increment and decrement, a randomize action that picks a value
 of the correct type, and an optional expandable slider with editable minimum and maximum bounds. Values
-typed into the field are coerced to the declared type before publishing; out-of-range values are clamped
-and non-numeric input is ignored.
+typed into the field are coerced to the declared type before publishing. Inputs that exceed the declared
+type's representable range are rejected with an out-of-range parsing error, and non-numeric input fails.
 
 .. _publisher_pane_form_enums:
 
@@ -97,7 +97,7 @@ Nested Structs
 
 Struct members appear as expandable rows. The header shows the member name and type, and clicking it
 toggles the nested form on and off. Nested structs start collapsed by default so that very deep types do
-not slow the pane down on first load. Expanded sections are marked with a blue left border for visual
+not slow the pane down on first load. Expanded sections are marked with a left border for visual
 nesting.
 
 .. _publisher_pane_form_sequences:
@@ -160,11 +160,13 @@ Per-field actions live next to the input itself:
 * **Randomize** picks a random value of the field's type. On scalars, enums and bitmasks it acts on the
   field directly. On sequences, arrays and maps it randomizes every element or entry at once.
 * **Reset** is available as a bulk action at the pane level and restores every field in the form to its
-  schema default.
+  schema default, resets the volatile sample counter and the last-publish status indicator and collapses
+  the state of nested containers.
 
 Pane-level bulk actions are available from the right-side configuration panel:
 
-* **Reset** restores every field to its schema default.
+* **Reset** restores every field to its schema default, resets the volatile sample counter and the
+  last-publish status indicator and collapses the state of nested containers.
 * **Randomize** fills every leaf field in the form with a random value of the correct type, including the
   contents of nested sequences and maps.
 
