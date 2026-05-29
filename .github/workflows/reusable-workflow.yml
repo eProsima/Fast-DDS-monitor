@@ -48,7 +48,7 @@ jobs:
           - version: ubuntu-24.04
             aarch: 'gcc_64'
           - version: windows-2022
-            aarch: 'win64_msvc2022_64'
+            aarch: 'win64_msvc2019_64'
 
     steps:
 
