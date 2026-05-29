@@ -69,20 +69,17 @@ Item {
             })
         }
 
-        Timer {
-            id: valueColTimer
-            interval: 0
-            running: false
-            repeat: false
-            onTriggered: treeView.applyValueColumnWidth()
+        columnWidthProvider: function(column) {
+            var total = reusableTreeView.width
+            if (total <= 0)
+                return 0
+            if (column === 0)
+                return total * reusableTreeView.columnSplitRatio
+            return total - (total * reusableTreeView.columnSplitRatio)
         }
 
         function updateValueColumnWidth() {
-            valueColTimer.start()
-        }
-
-        function applyValueColumnWidth() {
-            treeView.setColumnWidth(1, reusableTreeView.width - treeView.columnWidth(0))
+            treeView.forceLayout()
         }
 
         onWidthChanged: updateValueColumnWidth()
@@ -104,7 +101,9 @@ Item {
 
         delegate: Item {
             id: delegateRoot
-            implicitWidth: column === 0 ? reusableTreeView.width * reusableTreeView.columnSplitRatio : reusableTreeView.width - treeView.columnWidth(0)
+            implicitWidth: column === 0
+                ? Math.max(1, reusableTreeView.width * reusableTreeView.columnSplitRatio)
+                : Math.max(1, reusableTreeView.width - reusableTreeView.width * reusableTreeView.columnSplitRatio)
             implicitHeight: label.implicitHeight * 1.05
 
             readonly property real indentation: 20
