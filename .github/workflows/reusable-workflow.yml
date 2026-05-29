@@ -44,9 +44,9 @@ jobs:
           - Debug
         os:
           - version: ubuntu-22.04
-            aarch: 'linux_gcc_64'
+            aarch: 'gcc_64'
           - version: ubuntu-24.04
-            aarch: 'linux_gcc_64'
+            aarch: 'gcc_64'
           - version: windows-2022
             aarch: 'win64_msvc2022_64'
 
@@ -168,7 +168,7 @@ jobs:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
           setup-python: 'false'
-          arch: 'linux_gcc_64'
+          arch: 'gcc_64'
           version: '6.4.2'
 
       - name: Compile and run tests
@@ -223,7 +223,7 @@ jobs:
           dir: '${{ github.workspace }}/qt_installation/'
           modules: 'qtcharts'
           setup-python: 'false'
-          arch: 'linux_gcc_64'
+          arch: 'gcc_64'
           version: '6.4.2'
 
       - name: Install OpenSSL in windows
