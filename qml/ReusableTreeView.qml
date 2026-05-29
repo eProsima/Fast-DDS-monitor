@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 6.8
-import QtQuick.Controls 6.8
-import QtQuick.Layouts 6.8
-import QtQml.Models 6.8
+import QtQuick 6.4
+import QtQuick.Controls 6.4
+import QtQuick.Layouts 6.4
+import QtQml.Models 6.4
 
 import Theme 1.0
 
@@ -54,7 +54,6 @@ Item {
         id: treeView
         anchors.fill: parent
         clip: true
-        resizableColumns: true
         boundsBehavior: Flickable.StopAtBounds
         
         reuseItems: false
@@ -87,7 +86,6 @@ Item {
         }
 
         onWidthChanged: updateValueColumnWidth()
-        onLayoutChanged: updateValueColumnWidth()
 
         Connections {
             target: treeView.model
@@ -96,6 +94,9 @@ Item {
                 if (expandOnUpdate) {
                     Qt.callLater(function () { treeView.expandRecursively() })
                 }
+            }
+            function onLayoutChanged() {
+                treeView.updateValueColumnWidth()
             }
         }
 
