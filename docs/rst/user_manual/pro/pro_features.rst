@@ -33,6 +33,10 @@ The following Pro features are covered in this section:
 * :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics inside the
   monitor, with automatic detection of ROS 2 sensor_msgs types and generic OMG IDL image types.
 
+* :ref:`Publisher Pane <publisher_pane>` |Pro| for publishing user-defined samples on any discovered DDS
+  topic, with a form built automatically from the topic's dynamic type and support for one-shot and
+  continuous publishing.
+
 * :ref:`Topics Explorer <topics_panel>` |Pro| as a dedicated topic navigation panel in the left sidebar
   with text filtering, expandable field trees, and context actions for opening Spy or Topic Chart panes.
 

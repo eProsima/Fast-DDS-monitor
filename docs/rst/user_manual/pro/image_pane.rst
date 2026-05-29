@@ -86,6 +86,11 @@ There are several ways to open a new Image Pane:
 * Right-click a topic in the :ref:`topics_panel`, the :ref:`logical_panel`, or the domain graph and choose
   **Open image view**. This option is only visible and enabled for topics with a recognized image schema.
 
+* Use **Add Image View** in the application menu bar.
+
+* Click the **Image View** button shown in an empty pane placeholder or in the main panel selector
+  when no panes are open yet.
+
 * Use the :ref:`right_pane_config` sidebar. An **Image** button is present in the pane type switcher at
   the top of the configuration panel, letting you replace the current pane with a new Image Pane. A domain
   and topic selection wizard appears before the pane is created.

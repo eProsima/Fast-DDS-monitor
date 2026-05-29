@@ -8,9 +8,9 @@ Dockable Pane Workspace |Pro|
 #############################
 
 In *Fast DDS Monitor Pro*, every visualization and inspection view lives in a dockable pane. Statistics
-charts, topic charts, spy panes, IDL panes, and image panes can all be arranged side by side in
-a freely configurable split layout. You can resize, split, and close panes at any time to organize the
-workspace in a way that suits your monitoring session.
+charts, topic charts, spy panes, IDL panes, image panes, and publisher panes can all be arranged side by
+side in a freely configurable split layout. You can resize, split, and close panes at any time to
+organize the workspace in a way that suits your monitoring session.
 
 .. _dockable_panes_layout:
 
@@ -25,6 +25,7 @@ display any of the following view types:
 * :ref:`Spy Pane <dockable_spy_pane>`
 * :ref:`IDL Pane <dockable_idl_pane>`
 * :ref:`Image Pane <image_pane>`
+* :ref:`Publisher Pane <publisher_pane>`
 
 A single monitor tab supports up to **six panes** open at the same time.
 

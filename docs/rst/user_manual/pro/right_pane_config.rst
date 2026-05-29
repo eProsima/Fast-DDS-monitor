@@ -42,8 +42,8 @@ Shows the label *PANEL CONFIGURATION* and a close button on the right.
 
 **Pane type switcher**
 
-A row of buttons labelled **Stats**, **Topic**, **Spy**, **IDL**, and **Image** lets you switch which type
-of pane the panel is configuring. The active type is highlighted in blue.
+A row of buttons labelled **Stats**, **Topic**, **Spy**, **IDL**, **Image**, and **Pub** lets you switch
+which type of pane the panel is configuring. The active type is highlighted in blue.
 
 When a pane is already selected, clicking a different type button switches the configuration form shown in
 the panel so you can preview the creation options for that type. The pane in the workspace is not affected
@@ -167,6 +167,22 @@ The configuration panel for an image pane covers:
 * A read-only **Status** indicator (Streaming, Waiting for frames, Paused, or Error).
 * A **Last Error** section visible only when a decode error has occurred.
 * A **Frame Info** section showing resolution, encoding, and frame count once frames arrive.
+* Panel Actions with split submenus.
+
+Publisher Pane
+--------------
+
+See :ref:`publisher_pane` for the full publisher pane documentation.
+
+The configuration panel for a publisher pane covers:
+
+* A read-only **Current Topic** section showing the topic name, domain, resolved type name, publisher
+  status, and number of samples sent.
+* A **Change Topic** section with domain and topic selection and an **Apply & Restart** button that
+  rebuilds the dynamic-type form for the new topic.
+* A **Continuous** section with a **Publish continuously** toggle and an **Interval** spin box in
+  milliseconds (minimum 50 ms).
+* An **Actions** section with **Publish once**, **Reset**, and **Randomize** buttons.
 * Panel Actions with split submenus.
 
 .. _domain-graph:

@@ -98,8 +98,11 @@ The chart header provides the following buttons from left to right:
 
 * |legend| **Toggle Legend** shows or hides the legend listing all active series and their colors.
 
-* |pause| / |play| **Pause / Resume** pauses live data ingestion, freezing the chart at its current state.
-  Samples received while paused are discarded. Resuming restarts the live feed from the current time.
+* |pause| / |play| **Lock / Resume chart scroll** locks both the X and Y axes together so the chart stops
+  auto-scrolling, leaving the view fixed while data keeps flowing in. The button shows |pause| while at
+  least one axis is still auto-scrolling and switches to |play| once both are locked; clicking it again
+  unlocks both axes and resumes auto-scroll. Data reception is unaffected; to pause ingestion use the
+  **Running** toggle in the sidebar.
 
 * |help| **Help** opens a contextual help panel showing a brief description of XY Charts, usage tips,
   and a link to this documentation page.
@@ -154,8 +157,9 @@ A text field and confirm button to rename the chart title shown in the pane head
 
 * **Show legend** toggles the chart legend on or off.
 * **Show lines** connects successive scatter points with a line in addition to the scatter markers.
-* **Running** when on, the chart accepts new data in real time. When off, the chart is paused and the
-  view stays fixed; resuming restarts the live feed.
+* **Running** when on, the chart accepts new data in real time. When off, data ingestion is paused and
+  samples received while paused are discarded; resuming restarts the live feed from the current time.
+  This is independent from the header |pause| / |play| button, which only locks or unlocks axis scroll.
 
 **Series**
 
