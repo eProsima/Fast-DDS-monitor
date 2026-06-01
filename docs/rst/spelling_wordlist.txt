@@ -9,6 +9,7 @@ Booleans
 centric
 Centric
 chartbox
+chartboxes
 checkbox
 checkboxes
 checkmark
