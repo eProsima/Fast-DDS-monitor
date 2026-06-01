@@ -3,15 +3,18 @@
 
 .. _time_series:
 
-#######################
+########################
 Time Series Charts |Pro|
-#######################
+########################
 
 A *Time Series Chart* plots the live values of one or more numeric fields from DDS topics over time.
 Each series tracks one numeric field from one DDS topic and updates in real time as samples arrive.
 
 Fields that are integers, floats, or doubles can be plotted.
 Struct and array fields cannot be plotted directly but can be expanded to reach their numeric leaf fields.
+
+.. thumbnail:: /rst/figures/screenshots/topic_time_series_pro.png
+    :align: center
 
 .. _time_series_creating:
 

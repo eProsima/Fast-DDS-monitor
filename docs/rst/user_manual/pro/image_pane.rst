@@ -12,6 +12,9 @@ When you subscribe to a compatible topic, the pane detects the image schema auto
 incoming sample, and displays the resulting frame inside the monitor workspace. The decoded image scales to
 fit the pane while preserving the original aspect ratio.
 
+.. thumbnail:: /rst/figures/screenshots/image_pro.png
+    :align: center
+
 .. _image_pane_schemas:
 
 Supported Image Schemas

@@ -15,6 +15,9 @@ current values continuously at a configurable interval.
 The pane uses the type information that a subscriber publishes on the network, so as long as a remote
 participant has propagated the topic type, no local IDL file is needed to drive the form.
 
+.. thumbnail:: /rst/figures/screenshots/publish_pro.png
+    :align: center
+
 .. _publisher_pane_creating:
 
 Opening a Publisher Pane

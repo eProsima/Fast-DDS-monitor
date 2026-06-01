@@ -18,6 +18,9 @@ values, and the two values may come from the same topic or from different topics
 Fields that are integers, floats, or doubles can be plotted. Struct and array fields are not plotted
 directly but can be expanded to reach their numeric leaf fields.
 
+.. thumbnail:: /rst/figures/screenshots/xy_pro.png
+    :align: center
+
 .. _xy_charts_creating:
 
 Opening XY Charts
