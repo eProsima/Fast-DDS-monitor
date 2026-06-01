@@ -3,11 +3,11 @@
 
 pragma ComponentBehavior: Bound
 
-import QtQuick 6.8
-import QtQuick.Window 6.8
-import QtQuick.Controls.impl 6.8
-import QtQuick.Templates 6.8 as T
-import QtQuick.Controls.Universal 6.8
+import QtQuick 6.4
+import QtQuick.Window 6.4
+import QtQuick.Controls.impl 6.4
+import QtQuick.Templates 6.4 as T
+import QtQuick.Controls.Universal 6.4
 
 T.ComboBox {
     id: tComboBox
@@ -24,6 +24,7 @@ T.ComboBox {
     Universal.theme: editable && activeFocus ? Universal.Light : undefined
 
     delegate: ItemDelegate {
+        id: itemDelegate
         required property var model
         required property int index
 
@@ -31,10 +32,28 @@ T.ComboBox {
         // Make each item have the same height as the ComboBox tComboBox
         implicitHeight: tComboBox.implicitHeight
 
-        text: model[tComboBox.textRole]
+        text: {
+            if (tComboBox.textRole && model && model[tComboBox.textRole] !== undefined)
+                return model[tComboBox.textRole]
+            if (model && model.modelData !== undefined)
+                return model.modelData
+            if (model && model.display !== undefined)
+                return model.display
+            return tComboBox.textAt(index)
+        }
         font.weight: tComboBox.currentIndex === index ? Font.DemiBold : Font.Normal
         highlighted: tComboBox.highlightedIndex === index
         hoverEnabled: tComboBox.hoverEnabled
+
+        contentItem: Text {
+            text: itemDelegate.text
+            font: itemDelegate.font
+            color: tComboBox.Universal.foreground
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            leftPadding: 12
+            rightPadding: 12
+        }
 
         // Highlight hovered item with theme accent and preserve contrast
         background: Rectangle {

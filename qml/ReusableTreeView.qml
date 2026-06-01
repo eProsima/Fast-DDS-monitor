@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
-import QtQuick 6.8
-import QtQuick.Controls 6.8
-import QtQuick.Layouts 6.8
-import QtQml.Models 6.8
+import QtQuick 6.4
+import QtQuick.Controls 6.4
+import QtQuick.Layouts 6.4
+import QtQml.Models 6.4
 
 import Theme 1.0
 
@@ -54,7 +54,6 @@ Item {
         id: treeView
         anchors.fill: parent
         clip: true
-        resizableColumns: true
         boundsBehavior: Flickable.StopAtBounds
         
         reuseItems: false
@@ -70,24 +69,20 @@ Item {
             })
         }
 
-        Timer {
-            id: valueColTimer
-            interval: 0
-            running: false
-            repeat: false
-            onTriggered: treeView.applyValueColumnWidth()
+        columnWidthProvider: function(column) {
+            var total = reusableTreeView.width
+            if (total <= 0)
+                return 0
+            if (column === 0)
+                return total * reusableTreeView.columnSplitRatio
+            return total - (total * reusableTreeView.columnSplitRatio)
         }
 
         function updateValueColumnWidth() {
-            valueColTimer.start()
-        }
-
-        function applyValueColumnWidth() {
-            treeView.setColumnWidth(1, reusableTreeView.width - treeView.columnWidth(0))
+            treeView.forceLayout()
         }
 
         onWidthChanged: updateValueColumnWidth()
-        onLayoutChanged: updateValueColumnWidth()
 
         Connections {
             target: treeView.model
@@ -97,13 +92,26 @@ Item {
                     Qt.callLater(function () { treeView.expandRecursively() })
                 }
             }
+            function onLayoutChanged() {
+                treeView.updateValueColumnWidth()
+            }
         }
 
-        selectionModel: ItemSelectionModel { model: treeView.model }
+        selectionModel: treeView.model ? selectionModelLoader.item : null
+
+        Loader {
+            id: selectionModelLoader
+            active: treeView.model !== null
+            sourceComponent: Component {
+                ItemSelectionModel { model: treeView.model }
+            }
+        }
 
         delegate: Item {
             id: delegateRoot
-            implicitWidth: column === 0 ? reusableTreeView.width * reusableTreeView.columnSplitRatio : reusableTreeView.width - treeView.columnWidth(0)
+            implicitWidth: column === 0
+                ? Math.max(1, reusableTreeView.width * reusableTreeView.columnSplitRatio)
+                : Math.max(1, reusableTreeView.width - reusableTreeView.width * reusableTreeView.columnSplitRatio)
             implicitHeight: label.implicitHeight * 1.05
 
             readonly property real indentation: 20
