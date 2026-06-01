@@ -97,7 +97,15 @@ Item {
             }
         }
 
-        selectionModel: ItemSelectionModel { model: treeView.model }
+        selectionModel: treeView.model ? selectionModelLoader.item : null
+
+        Loader {
+            id: selectionModelLoader
+            active: treeView.model !== null
+            sourceComponent: Component {
+                ItemSelectionModel { model: treeView.model }
+            }
+        }
 
         delegate: Item {
             id: delegateRoot
