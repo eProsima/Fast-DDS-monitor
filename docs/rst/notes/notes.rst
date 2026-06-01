@@ -4,21 +4,12 @@
 .. .. include:: forthcoming_version.rst
 
 ##############
-Version v4.1.0
+Version v4.2.0
 ##############
-
-This release includes the following **bugfixes**:
-
-* Add domain_id to map so spy mode can start
-* Fixed Qt model protocol violations with emit `layoutChanged`
-
 
 This release includes the following **features**:
 
-* Handle endpoint undiscovery messages
-* Allow only one concurrent monitor
-* Enable spying statistics topics
-
+* Change Qt version to 6.4.2
 
 This release has no **dependencies update**:
 
@@ -47,6 +38,7 @@ This release has no **dependencies update**:
 Previous versions
 #################
 
+.. include:: previous_versions/v4.1.0.rst
 .. include:: previous_versions/v4.0.0.rst
 .. include:: previous_versions/v3.4.0.rst
 .. include:: previous_versions/v3.3.0.rst
