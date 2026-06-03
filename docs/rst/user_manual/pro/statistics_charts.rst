@@ -4,9 +4,9 @@
 .. _pro_chart_view:
 .. _pro_chartbox_layout:
 
-#################
-Statistics Charts
-#################
+#######################
+Statistics Charts |Pro|
+#######################
 
 A *Statistics Chartbox* plots pre-computed DDS metrics - such as latency, throughput, and packet
 counts - collected from the monitored DDS network.

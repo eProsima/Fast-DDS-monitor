@@ -102,7 +102,7 @@ The configuration panel for an image pane covers:
 
 .. figure:: /rst/figures/screenshots/config_image_pro.png
     :align: center
-    :width: 400px
+    :width: 350px
 
 Spy Pane
 --------
@@ -118,7 +118,7 @@ The configuration panel for a spy pane covers:
 
 .. figure:: /rst/figures/screenshots/config_spy_pro.png
     :align: center
-    :width: 400px
+    :width: 350px
 
 Topic Time Series Chart
 -----------------------
@@ -140,7 +140,7 @@ The configuration panel for a topic chart covers:
 
 .. figure:: /rst/figures/screenshots/config_topic_pro.png
     :align: center
-    :width: 400px
+    :width: 350px
 
 Topic XY Charts
 ---------------
@@ -161,7 +161,7 @@ The configuration panel for XY charts covers:
 
 .. figure:: /rst/figures/screenshots/config_xy_pro.png
     :align: center
-    :width: 400px
+    :width: 350px
 
 Publisher Pane
 --------------
@@ -181,7 +181,7 @@ The configuration panel for a publisher pane covers:
 
 .. figure:: /rst/figures/screenshots/config_publish_pro.png
     :align: center
-    :width: 400px
+    :width: 350px
 
 IDL Pane
 --------
@@ -198,7 +198,7 @@ The configuration panel for an IDL pane covers:
 
 .. figure:: /rst/figures/screenshots/config_idl_pro.png
     :align: center
-    :width: 400px
+    :width: 350px
 
 .. _domain-graph:
 
@@ -218,7 +218,7 @@ visible/total count in the section header.
 
 .. figure:: /rst/figures/screenshots/config_domain_pro.png
     :align: center
-    :width: 400px
+    :width: 350px
 
 The panel covers:
 

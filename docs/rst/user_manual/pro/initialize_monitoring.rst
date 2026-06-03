@@ -3,9 +3,9 @@
 
 .. _pro_initialize_monitoring:
 
-#####################
-Initialize Monitoring
-#####################
+###########################
+Initialize Monitoring |Pro|
+###########################
 
 When *Fast DDS Monitor Pro* is launched, the following start screen is displayed.
 Click the **Start monitoring!** button to begin monitoring a Fast DDS application.

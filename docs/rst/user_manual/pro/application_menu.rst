@@ -1,10 +1,11 @@
 .. include:: ../../exports/alias.include
+.. include:: ../../exports/roles.include
 
 .. _pro_application_menu:
 
-################
-Application Menu
-################
+######################
+Application Menu |Pro|
+######################
 
 The application menu bar provides access to all operations in *Fast DDS Monitor Pro*.
 It is divided into five groups: **File**, **Add**, **Edit**, **View**, and **Help**.

@@ -4,7 +4,7 @@
 .. _xy_charts:
 
 #################
-XY Charts  |Pro|
+XY Charts |Pro|
 #################
 
 An *XY Chart* (also called a *phase plot* or *scatter chart*) plots the relationship between two numeric

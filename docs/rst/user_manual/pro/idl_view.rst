@@ -3,9 +3,9 @@
 
 .. _dockable_idl_pane:
 
-#####################
-Topic Type View (IDL)
-#####################
+###########################
+Topic Type View (IDL) |Pro|
+###########################
 
 A *Topic Type View* displays the Interface Definition Language (IDL) type description for a selected
 DDS topic in a scrollable, selectable monospace text view.

@@ -1,10 +1,11 @@
 .. include:: ../exports/alias.include
+.. include:: ../exports/roles.include
 
 .. _start_tutorial:
 
-################
-Example of usage
-################
+######################
+Example of usage |Pro|
+######################
 
 This example will show how to monitor a DDS network using *Fast DDS Monitor* and how to understand the different
 application features and configurations.
@@ -106,8 +107,7 @@ Press :code:`Start monitoring!` in order to enter the application and start the 
 Initiate monitoring
 ===================
 
-Once in the application, the first Dialog that appear ask the user to insert a domain in order to start monitoring
-that domain.
+Once in the application, the first dialog that appears asks the user to enter a domain to begin monitoring it.
 Monitoring a domain means to listen in that domain for DDS entities that are running and reporting statistical data.
 Please refer to section :ref:`monitor_domain` for further information.
 
@@ -162,7 +162,7 @@ is running.
 This information is retrieved by the *DomainParticipant* thanks to activating the :code:`PHYSICAL_DATA_TOPIC`.
 There is also a new *Topic* :code:`hello_world_topic` under *Domain* :code:`0`.
 
-Making double click in any entity name we could see its specific information, such as name, backend id, QoS, etc.
+Double-clicking any entity name shows its specific information, such as name, backend id, QoS, etc.
 
 .. thumbnail:: /rst/figures/screenshots/usage_example/Information_subscriber.png
     :align: center
@@ -223,9 +223,8 @@ Change entity alias
 ===================
 
 In order to make the user experience easier, it is allowed to change the name of any specific entity.
-We are going to change the name of our *Publisher* and *Subscriber* *DomainParticipants*, as well as our *DataReader*
-and *DataWriter*, to make them easier to identify. For that, just do right-click over the entity name and menu with
-the available options for that entity will pop up. Click on *Change alias* to re-name the entity.
+Change the name of our *Publisher* and *Subscriber* *DomainParticipants*, as well as our *DataReader*
+and *DataWriter*, to make them easier to identify. For that, right-click the entity name and select **Change alias**.
 
 .. thumbnail:: /rst/figures/screenshots/usage_example/Alias_dialog.png
     :align: center
@@ -267,7 +266,7 @@ data sent in each time interval.
 .. thumbnail:: /rst/figures/screenshots/usage_example/Data_count_configuration.png
     :align: center
 
-Clicking :code:`Add` the series will be created in the main window, but the Dialog will no close.
+Clicking :code:`Add` the series will be created in the main window, but the dialog will not close.
 This is very useful in order to create a new series similar to the one already created.
 Here we are going to reuse all the information but we are going to change the :code:`Number of bins` to :code:`0`.
 Using the value :code:`0` means that we want to see all the different *datapoints* that the writer has stored.
@@ -286,17 +285,17 @@ Latency Plot
 -------------
 
 Next, you are going to see how to represent the latency between these *DomainParticipants*.
-First, go to *File->Display Historical Data*.
+First, go to *Edit->Display Historical Data*.
 This will open a Dialog where you should choose one of the topics in which you want to see the data collected.
 For this case, we will choose :code:`FASTDDS_LATENCY`.
 This data is called like this because it represents the time elapsed between the user calls the  :code:`write` function
 and the reader in the other endpoint receives it in the user callback.
 For the network latency there is another topic named :code:`NETWORK_LATENCY`. However our endpoints are neither storing
-nor publishing this type of data, and so it can not be monitored.
+nor publishing this type of data, and so it cannot be monitored.
 
 Once done, a new Dialog will open asking to configure the series that is going to be displayed.
 In the case of :code:`FASTDDS_LATENCY` the data to show is related to two entities.
-In our example we are going choose both *DomainParticipants*, and this will give us all the latency between the
+In our example we are going to choose both *DomainParticipants*, and this will give us all the latency between the
 *DataWriters* of the first participant and the *DataReaders* of the second one.
 
 For simplicity, we will use the same bins, start time, and end time configuration parameters as in the previous example.
@@ -317,8 +316,7 @@ The statistic kinds that we are going to use for this example are:
 .. thumbnail:: /rst/figures/screenshots/usage_example/Latency_chart.png
     :align: center
 
-It is worth mentioning that the series name, its color, the axis, and some features of the chart box could be changed
-as mentioned in :ref:`chartbox`.
+The series name, color, axes, and other chart properties can be changed as mentioned in :ref:`chartbox`.
 
 .. _tutorial_create_dynamic_series:
 
@@ -365,7 +363,7 @@ The statistic kinds that we are going to use for this example are:
 This chart will be updated each 5 seconds, displaying the data collected by the monitor within the last 5 seconds.
 The axis are updated periodically, and so the zoom and chart move is not available in this kind of charts while
 running.
-For this propose, the *play/pause* button stops the axis's update, allowing to zoom and move along the chart.
+For this purpose, the *play/pause* button stops the axis's update, allowing to zoom and move along the chart.
 Be aware that pausing the chart does not stop new points from appearing, as every 5 seconds the update of the data will
 still happen.
 
@@ -389,7 +387,7 @@ As you can see, the :code:`MEAN`, :code:`MAX` and :code:`MIN` in each interval a
     :align: center
 
 It is worth mentioning that dynamic series can be configurable, just like historic series.
-The label and color of each series is mutable, and the chart could zoom in and out and move along the axis
+The label and color of each series are mutable, and the chart could zoom in and out and move along the axis
 while paused.
 
 Set alert to watch events
@@ -409,9 +407,9 @@ Click on the *+* button to create a new alert. This will open a dialog where you
 
 In this dialog, you can set the name of the alert, its type, the domain to monitor and the conditions for triggering the alert.
 
-In general, all alerts filter the triggering entities using the fields `host`, `user` and `topic`. If any of these fields is left empty
+In general, all alerts filter the triggering entities using the fields `host`, `user` and `topic`. If any of these fields are left empty
 or the `ALL` option is selected, all entities will be compliant with that part of the filter. Note that the filter does not act like a regular expression,
-but like a simple equality check between strings. Also mind that the 3 conditions must be met for an entity to be compliant with the alert filter.
+but like a simple equality check between strings. Note also that all 3 conditions must be met for an entity to be compliant with the alert filter.
 
 If the alert type is *NEW_DATA*, the alert will be triggered when a positive `DATA_COUNT` is received from any entity that matches the fields
 `host`, `user` and `topic`.
@@ -431,4 +429,333 @@ Once the alert is set up, it will appear in the list of alerts and its metadata 
 .. thumbnail:: /rst/figures/screenshots/usage_example/alert_panel_post.png
     :align: center
 
-To remove an alert, just right-click on it and choose the `Remove` option.`
+To remove an alert, just right-click on it and choose the `Remove` option.
+
+.. _pro_features_tutorial:
+
+**************************
+Fast DDS Monitor |Pro|
+**************************
+
+The following sections walk through the main *Fast DDS Monitor Pro* features using the same
+``hello_world`` DDS network from the previous tutorial.
+
+Add a Second Monitor
+====================
+
+*Fast DDS Monitor Pro* can run several monitors at the same time.
+Each active monitor appears as a tab along the top edge of the main panel area.
+Click any tab to make that monitor active; the left sidebar, entity lists, and panes all update to
+show data for that monitor.
+
+To add a second monitor, open the **Add** menu and select **Add Monitor**.
+The initialization dialog appears — select **DDS Domain**, enter a different domain number such as
+:code:`1`, and click **OK**.
+A second tab labeled with the new domain appears alongside the first.
+
+.. figure:: /rst/figures/screenshots/2_monitors_pro.png
+    :align: center
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/add_monitor.png
+    :align: center
+
+Split Panes
+===========
+
+The main panel can show several views side by side within a single monitor tab.
+
+Click the **...** (three-dots) button in the header of any existing pane and select
+**Split right** or **Split down**.
+
+.. figure:: /rst/figures/screenshots/split_pro.png
+    :align: center
+    :width: 400px
+
+The new pane starts empty; click the |gear| button to open the configuration panel and choose what
+type of view to display there.
+Drag the divider line between panes to resize them.
+Up to six panes can be open in a single tab at once.
+
+.. figure:: /rst/figures/screenshots/tab_reordering_pro.png
+    :align: center
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/dockable_panes.png
+    :align: center
+
+Statistics Charts
+=================
+
+Statistics charts in *Fast DDS Monitor Pro* are configured entirely through the right-side panel.
+
+Click |historical_chart| or |dynamic_chart| in the shortcuts toolbar, or go to
+**Add -> Add Statistics Chart**.
+A new pane opens and the configuration panel slides in from the right showing
+**STATISTICS CHART LIVE** (or HISTORICAL) at the top.
+
+Under **PANE SETTINGS**:
+
+* **Chart type** -- choose *Live (real-time)* or *Historical*.
+* **Data kind** -- select the statistic to plot, for example :code:`FASTDDS_LATENCY`.
+* **Time window** -- visible time range in seconds (for example :code:`120`).
+* **Update period** (live) -- how often data is fetched, in seconds (for example :code:`5`).
+* **Max points** -- maximum data points kept across all series. :code:`0` keeps everything.
+* Click **Apply & Restart** to apply the settings.
+
+Click **Add Series** in the **SERIES** section.
+The inline form expands with entity and statistics kind selectors.
+Pick the source entity, target entity, and statistics kind (:code:`MEDIAN`, :code:`MEAN`,
+:code:`MAX`, :code:`MIN`, :code:`STANDARD_DEVIATION`, or :code:`SUM`), then click **Add Series**.
+The panel stays open so you can add further series by changing parameters and clicking **Add Series**
+again.
+
+Under **CHART NAME**, edit the label shown in the pane header.
+
+.. figure:: /rst/figures/screenshots/statistics_charts_pro.png
+    :align: center
+
+**Useful options:**
+
+* **DISPLAY** -- toggle *Show legend*, *Show points*, or *Running* to pause/resume ingestion.
+* **AXES** -- enable *Lock Y axis* or *Lock X axis* and set *min* / *max* to fix the range;
+  click *Reset Zoom* to return to auto-fit.
+* **ACTIONS** -- *Show All Series* / *Hide All Series*; *Export to CSV* saves chart data;
+  *Save Screenshot* / *Copy Screenshot* captures the chart as an image.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/statistics_chart.png
+    :align: center
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/statistics_chart_config.png
+    :align: center
+
+Spy a Topic
+===========
+
+The *Spy Topic View* displays the live content of every message published on a topic.
+
+Right-click :code:`hello_world_topic` in the **Topics** panel and select **Spy topic data**, or go
+to **Add -> Add Spy Topic View**.
+A new pane opens and the configuration panel shows **SPY VIEW** at the top.
+
+Under **PANE SETTINGS**:
+
+* Select a **Domain** from the dropdown and pick the topic from the filtered list.
+* Click **Apply & Restart** to start the subscription.
+
+Under **PLAYBACK**, toggle *Active (receiving messages)* to pause or resume the feed without
+closing the pane.
+
+Under **ACTIONS**: *Expand All* / *Collapse All* unfold or fold the entire sample tree; *Clear*
+discards all received samples; *Copy JSON to Clipboard* copies the last sample.
+
+Under **PANEL ACTIONS**: *Split right* / *Split down* open another pane alongside this one.
+
+.. figure:: /rst/figures/screenshots/spy_pro.png
+    :align: center
+
+Each incoming sample appears in the pane as an expandable tree.
+Click the arrow next to any struct field to expand it and see its sub-fields.
+Numeric leaf fields (integers, floats, doubles) can be used further:
+
+* **Right-click a numeric leaf field** and select **Plot field** to open a new Topic Live Chart
+  for that field immediately.
+* **Drag a numeric leaf field** onto an existing Topic Live Chart to add it as a new series,
+  or drop it onto an empty area to create a new chart.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/spy_pane.png
+    :align: center
+
+Plot a Topic Live Chart
+=======================
+
+The *Topic Live Chart* plots raw numeric values from any topic against time, updated live.
+
+Right-click :code:`hello_world_topic` in the **Topics** panel and choose **Chart topic data**, or
+go to **Add -> Add Topic Live Chart**.
+A new chart pane opens and the configuration panel shows **TIME SERIES CHART** at the top.
+
+A **PLOT MODE** row appears with two buttons -- **Time Series** and **XY Chart** -- that switch the
+chart between the two modes without opening a new pane.
+
+Under **PANE SETTINGS**:
+
+* **Domain** -- select the domain (for example :code:`Domain 0`).
+* **Time window** -- visible time range in seconds (for example :code:`120`).
+* **Max points** -- maximum data points retained (default :code:`500`).
+* Click **Apply & Reset Chart**.
+
+Under **CHART NAME**, rename the chart if desired.
+
+Click **Add Series** in the **SERIES** section:
+
+* Use **Filter topics** to narrow the list and select :code:`hello_world_topic`.
+* Wait for the first sample to arrive so fields populate, then select a numeric leaf field.
+* Click **Add Series**, or double-click the field to add immediately.
+
+You can also add series by dragging:
+
+* **From the Spy Topic View** -- drag a numeric leaf field from the sample tree onto the chart.
+* **From the Topics panel** -- drag a numeric leaf field from the topic tree in the left sidebar
+  onto the chart.
+
+.. figure:: /rst/figures/screenshots/topic_time_series_pro.png
+    :align: center
+
+**Useful options:**
+
+* **DISPLAY** -- *Show legend*, *Show points*, *Running* (pause/resume ingestion).
+* **AXES** -- *Lock Y axis* / *Lock X axis* with *min* / *max* fields; *Reset Zoom*.
+* **ACTIONS** -- *Show All Series* / *Hide All Series*; *Clear Chart* removes all series;
+  *Save screenshot* / *Copy screenshot to clipboard*.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/topic_live_chart.png
+    :align: center
+
+Plot an XY Chart
+================
+
+An *XY Chart* plots two numeric fields against each other as a real-time scatter chart.
+It shares the same pane type as the Topic Live Chart -- switch mode using the **PLOT MODE** buttons
+in the configuration panel, or open a dedicated pane via **Add -> Add XY Chart**.
+
+When **XY Chart** is selected in **PLOT MODE**, **PANE SETTINGS** shows:
+
+* **Domain** -- select the domain.
+* **Max points** -- maximum scatter points (default :code:`500`). No time window for XY.
+* Click **Apply & Reset Chart**.
+
+Click **Add XY Series** in the **SERIES** section:
+
+* **X Axis Topic** + **X Field** -- select the topic and numeric field for the X axis.
+* **Y Axis Topic** + **Y Field** -- select the topic and numeric field for the Y axis
+  (can be the same topic as X).
+* Click **Add XY Series**.
+
+.. figure:: /rst/figures/screenshots/xy_pro.png
+    :align: center
+
+When X and Y come from different topics, each new X sample is paired with the most recent Y value.
+
+**Useful options:**
+
+* **DISPLAY** -- *Show legend*; *Show lines* draws lines between scatter points; *Running*.
+* **AXES** -- *Lock Y axis* / *Lock X axis* with numeric *min* / *max*; *Reset Zoom*.
+* **ACTIONS** -- *Show All Series* / *Hide All Series*; *Clear Chart*; *Save Screenshot*.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/xy_chart.png
+    :align: center
+
+Filter the Domain View
+======================
+
+The Domain View graph can be filtered to show or hide specific entities without removing them from
+the monitor.
+
+With a Domain View tab active, click the |gear| button in the tab header to open the configuration
+panel, which shows **DOMAIN GRAPH** at the top.
+
+A **Filter entities...** search box at the top filters all sections simultaneously.
+Entities are grouped into seven collapsible sections -- **TOPICS**, **HOSTS**, **USERS**,
+**PROCESSES**, **PARTICIPANTS**, **DATAWRITERS**, **DATAREADERS** -- each showing a visible/total
+count.
+
+Clear the checkbox next to any entity alias to remove it from the graph.
+The entity remains listed so it can be restored at any time.
+
+.. figure:: /rst/figures/screenshots/domain_filter_pro.png
+    :align: center
+
+Under **ACTIONS**: **Show All Entities** makes every entity visible; **Hide All Entities** hides
+all of them at once.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/domain_graph_filter.png
+    :align: center
+
+View Live Image Data
+====================
+
+The *Image View* renders live image or video frames from a DDS topic inside the monitor.
+
+Right-click an image-compatible topic in the **Topics** panel and select **Open image view**, or
+go to **Add -> Add Image View**.
+A new pane opens and the configuration panel shows **IMAGE VIEW** at the top.
+
+* **TOPIC** shows the current topic and domain as read-only labels.
+* Under **CHANGE TOPIC**: select a **Domain**, use **Filter topics...** to narrow the list, then
+  pick a topic -- only topics with a recognized image schema appear (ROS 2
+  ``sensor_msgs/Image`` or compatible OMG IDL image types).
+* Click **Apply & Reload** to start the subscription.
+* Under **PLAYBACK**, toggle *Active (receiving frames)* to pause or resume the stream.
+* **STATUS** shows *Streaming*, *Waiting for frames*, *Paused*, or *Error*.
+* **FRAME INFO** (once frames arrive) shows image size, encoding, and total frame count.
+* Under **ACTIONS**: *Save Screenshot* saves the current frame; *Copy Screenshot* copies it.
+
+.. figure:: /rst/figures/screenshots/image_pro.png
+    :align: center
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/image_pane.png
+    :align: center
+
+Publish Topic Data
+==================
+
+The *Publisher View* lets you compose and send DDS samples on any discovered topic.
+
+Right-click :code:`hello_world_topic` in the **Topics** panel and select **Publish topic data**, or
+go to **Add -> Add Publisher View**.
+A new pane opens and the configuration panel shows **PUBLISHER** at the top.
+
+* **CURRENT TOPIC** shows the current topic, domain, type, status, and samples sent (read-only).
+* Under **CHANGE TOPIC**: select a **Domain**, use **Filter data types...** to narrow the type
+  list, pick a type, and type the topic name in **Topic name to publish on...** if needed.
+* Click **Apply & Restart** to attach the publisher.
+  The pane body fills with an auto-generated form -- one editable row per field in the message type.
+* Under **CONTINUOUS**: toggle *Publish continuously* and set **Interval (ms)** (minimum :code:`50`)
+  to publish at a fixed rate.
+* Under **ACTIONS**: **Publish once** (blue button) sends a single sample immediately;
+  **Reset** restores all fields to defaults; **Randomize** fills them with random valid values.
+
+.. figure:: /rst/figures/screenshots/publish_pro.png
+    :align: center
+
+Fill in the form fields in the pane body (numeric spin boxes, text inputs, expandable structs),
+then publish.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/publisher_pane.png
+    :align: center
+
+Save and Restore a Workspace
+==============================
+
+After setting up monitors, panes, charts, and alerts, save the session so it can be restored
+exactly as it is now.
+
+Click the |save| button in the shortcuts toolbar, or go to **File -> Save Workspace**.
+A file dialog opens; navigate to a folder, type a file name, and click **Save**.
+The file is written with the :code:`.fdmw` extension.
+
+To restore it, go to **File -> Load Workspace** and select the :code:`.fdmw` file.
+All monitors, pane layouts, chart series, alert rules, and display settings are restored.
+
+.. note::
+
+   The statistics database is not stored in the workspace.
+   Entity discovery restarts fresh on load; panes populate as DDS traffic is received.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/save_workspace.png
+    :align: center
+
+Switch Theme
+============
+
+Go to **View -> Theme** and select **Dark** to activate the dark palette.
+Every panel, chart, dialog, icon, and toolbar updates instantly without a restart.
+To revert, select **View -> Theme -> Light**.
+
+.. figure:: /rst/figures/screenshots/dark_theme_pro.png
+    :align: center
+
+The selected theme is saved in the workspace file and restored on the next load.
+If no workspace has been saved yet, the application follows the operating system color scheme.
+
+.. .. thumbnail:: /rst/figures/screenshots/pro/dark_mode.png
+    :align: center
