@@ -49,6 +49,7 @@
    /rst/user_manual/pro/pro_features
    /rst/user_manual/pro/initialize_monitoring
    /rst/user_manual/pro/application_menu
+   /rst/user_manual/pro/workspace
    /rst/user_manual/pro/left_sidebar
    /rst/user_manual/pro/bottom_panels
    /rst/user_manual/pro/statistics_charts

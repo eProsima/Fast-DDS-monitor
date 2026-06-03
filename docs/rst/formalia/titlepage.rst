@@ -38,7 +38,7 @@ It extends the open-source version with premium features such as:
   Servers, or XML-configured environments side by side in the same workspace.
 * :ref:`Workspace Save and Restore <workspace>` |Pro| to save and reload the full workspace state across
   sessions, preserving layouts, chart configuration, alerts, and tab order.
-* :ref:`Topics Explorer <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
+* :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
   expandable field trees, and context actions for opening Spy or Topic Chart panes.
 * :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live entity counters at the bottom of the
   window for a quick overview of the monitored DDS network.
@@ -190,7 +190,7 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Topics Explorer panel</th>
+        <th>Topics panel</th>
         <td>✅</td>
         <td>❌</td>
       </tr>

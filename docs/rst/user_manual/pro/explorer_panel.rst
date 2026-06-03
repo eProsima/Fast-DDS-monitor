@@ -16,6 +16,9 @@ The panel contains a variable number of sub-panels: the :ref:`pro_dds_panel_layo
 :ref:`pro_physical_panel_layout`, :ref:`pro_logical_panel_layout`, and :ref:`pro_info_panel_layout`.
 Each sub-panel groups entities by category.
 Use the ``...`` button in the upper bar of the panel to show or hide individual sub-panels.
+The |refresh| button in the same bar resets the currently selected entity and rebuilds the entity
+models from the current database state; use it if entities appear to be missing or the display
+seems out of sync (see also :ref:`pro_refresh_button`).
 Drag the panel border to resize it.
 To hide the entire left sidebar, use **View → Hide Left Sidebar**.
 
@@ -41,8 +44,8 @@ on that physical context.
 
 Every entity in this panel is interactive:
 
-- Click the Participant name or icon to expand or collapse its DataWriters and DataReaders.
-- Click a DataReader or DataWriter name or icon to expand or collapse its Locators.
+- Double-click the Participant name or icon to expand or collapse its DataWriters and DataReaders.
+- Double-click a DataReader or DataWriter name or icon to expand or collapse its Locators.
 - Double-click an entity to set it as the *selected entity*.
   See :ref:`pro_selected_entity` for details.
 
@@ -58,8 +61,8 @@ Physical Panel
 This panel displays all :ref:`physical_entities` discovered by the monitor: *Host*, *User*, and *Process*.
 Every entity is interactive:
 
-- Click a Host name or icon to expand or collapse its Users.
-- Click a User name or icon to expand or collapse its Processes.
+- Double-click a Host name or icon to expand or collapse its Users.
+- Double-click a User name or icon to expand or collapse its Processes.
 - Double-click an entity to set it as the *selected entity*.
   See :ref:`pro_selected_entity` for details.
 
@@ -81,7 +84,7 @@ along with its DataWriters and their topics - will appear in this panel under Do
 
 Every entity is interactive:
 
-- Click a Domain name or icon to expand or collapse its Topics.
+- Double-click a Domain name or icon to expand or collapse its Topics.
 - Double-click an entity to set it as the *selected entity*.
   See :ref:`pro_selected_entity` for details.
 
@@ -110,15 +113,15 @@ Some fields are common to all entity types; others are specific to each type:
 
 * **Common fields**
 
-  * **name**: internal name of the entity
-  * **id**: internal unique identifier
-  * **kind**: entity type (e.g. host)
-  * **alive**: whether the entity is currently alive
   * **alias**: user-assigned alias
-  * **metatraffic**: whether the entity processes metatraffic data
-  * **status**: current status of the entity
+  * **alive**: whether the entity is currently alive
   * **discovery_source**: how the entity was discovered (``discovery`` for DDS discovery protocol,
     ``proxy`` for discovery through statistics messages)
+  * **id**: internal unique identifier
+  * **kind**: entity type (e.g. host)
+  * **metatraffic**: whether the entity processes metatraffic data
+  * **name**: internal name of the entity
+  * **status**: current status of the entity
 
 * **Process**
 
@@ -161,9 +164,15 @@ This panel shows a summary of statistical data for the currently selected entity
 Data is aggregated across all entities related to the selected one, using a single bin spanning
 all available data.
 When no entity is selected, the summary covers all entities in the application.
+The values update automatically every 25 seconds; clicking |refresh| forces an immediate update.
 
 .. figure:: /rst/figures/screenshots/statistics_panel_pro.png
     :align: center
+
+The table below lists every data kind shown in this panel together with the aggregation function
+applied and a brief description of the metric.
+Each value is computed over a single time bin that spans all the data collected since monitoring
+started for the relevant entities.
 
 .. list-table::
     :header-rows: 1

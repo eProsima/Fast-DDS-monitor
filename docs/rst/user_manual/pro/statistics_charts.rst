@@ -13,9 +13,6 @@ counts - collected from the monitored DDS network.
 Where :ref:`Topic Charts <topic_charts>` work with raw values published on user-defined topics,
 Statistics Charts show the statistical summaries computed by the *Fast DDS* statistics module.
 
-.. thumbnail:: /rst/figures/screenshots/statistics_charts_pro.png
-    :align: center
-
 Two chart modes are available:
 
 * **Historical** - displays data over a user-specified past time range, using a fixed time window
@@ -33,13 +30,14 @@ To create a new Statistics Chartbox:
 * Use **Add → Add Statistics Chart** in the application menu.
 * Click the |historical_chart| button for a historical chart or |dynamic_chart| for a real-time
   chart in the shortcuts bar.
-* Use the :ref:`right_pane_config` sidebar from any existing pane and select **Statistics Chart**.
+* Click the **Statistics Charts View** button shown in an empty pane placeholder or in the main panel selector
+  when no panes are open yet.
 * Click the three-dots button in any pane header, choose **Split right** or **Split down**, and
-  select **Statistics Chart** from the pane-type menu.
+  select **Statistics Chart** from the pane-type menu, or choose **Replace panel** to replace the
+  current pane with a Statistics Chart.
 
-When the chart opens, a series creation dialog appears automatically.
-See :ref:`historic_series` for historical chart configuration and :ref:`dynamic_series` for
-real-time chart configuration.
+.. thumbnail:: /rst/figures/screenshots/statistics_charts_pro.png
+    :align: center
 
 .. _pro_create_new_series_layout:
 
@@ -77,12 +75,9 @@ The Chartbox toolbar provides the following actions from left to right:
   Also accessible from **Chart → Reset Zoom**.
 
 * |editaxis| **Set Axes** - opens a dialog to lock the Y axis to a fixed range.
-  Changing the X (time) axis is disabled by default, allowing dynamic charts to keep scrolling
-  while the Y axis stays fixed.
+  For real-time charts, changing the X (time) axis is disabled by default so the chart keeps
+  scrolling while the Y axis stays fixed.
   Also accessible from **Chart → Set axes**.
-
-* |historical_chart| / |dynamic_chart| **Chart mode** - indicates the chart type (historical or
-  real-time).
 
 * |play| / |pause| **Pause / Resume** (real-time charts only) - freezes or resumes the time-axis
   scroll.
@@ -92,12 +87,15 @@ The Chartbox toolbar provides the following actions from left to right:
 * |help| **Chart Controls** - opens a contextual help panel with usage tips and a link to this
   documentation page.
 
-* **Chart → Rename chart box** - change the title shown in the Chartbox header.
+* |maximize_square| / |minimize_square| - maximizes/ minimizes the pane; click again to restore the previous
+  layout.
 
-* **Chart → Export to CSV** - export all series in this chart to a CSV file.
-  See :ref:`pro_export_data` for the file format.
+* |gear| **Panel Settings** - opens the :ref:`statistics_chart_config` sidebar for this chart.
 
-* **Chart → Close chart box** - remove the Chartbox from the workspace.
+* The three-dots button opens the split menu to open a new pane to the right or below, replace
+  the current pane, or close it.
+
+* |cross| **Close** - removes the chart from the workspace.
 
 Interactive Chart Controls
 ==========================
@@ -107,11 +105,25 @@ The following mouse and keyboard interactions are available directly on the char
 * **Click a data point** to display an info box showing its exact timestamp and value.
 * **Ctrl + scroll wheel** to zoom in or out on the chart center.
 * **Ctrl + click and drag** to scroll (pan) the view without zooming.
-* **Reset Zoom** (|resize| button or **Chart → Reset Zoom**) to return to the default view.
 
 Right-Side Configuration Panel
 ================================
 
-When the :ref:`right_pane_config` sidebar is open for a Statistics Chart (via the |gear| button)
-it provides access to all the above actions in a single inline panel, including series management,
-axis controls, export, and split actions.
+When the :ref:`statistics_chart_config` sidebar is open for a Statistics Chart (via the |gear| button)
+it shows the following sections:
+
+* **Pane Settings** (creation mode) - configure the chart before adding series:
+
+  * **Chart type** - choose *Historical* (fixed past time range) or *Live (real-time)*.
+  * **Data kind** - select the DDS statistic to plot (e.g. :code:`FASTDDS_LATENCY`).
+  * Click **Apply & Restart** to apply the settings and prepare the chart for series.
+
+* **Chart Name** - rename the chart title shown in the pane header.
+* **Display** - toggles for legend, data points, and running (pause/resume ingestion).
+* **Series** - list of active series with per-series controls; **Add Series** button to expand
+  the inline form for selecting source entity, target entity, and statistics kind.
+* **Axes** - lock Y axis or X axis to a fixed range; **Reset Zoom**.
+* **Actions** - show/hide all series, export to CSV, save and copy screenshot.
+* **Panel Actions** - split and replace submenus.
+
+See :ref:`right_pane_config` for the full configuration panel reference.

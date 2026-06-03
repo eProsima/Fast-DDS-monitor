@@ -45,68 +45,14 @@ restoring workspaces, and closing the application.
     Select the XML file and then choose the profile that defines the DDS configuration to use.
     See :ref:`add_monitor_using_dds_xml_profiles` for step-by-step instructions.
 
-.. _workspace:
-
 **Save Workspace** |Pro|
-    Click the |save| button or select **File → Save Workspace** to save the complete visual state
-    of the current monitoring session to a ``.fdmw`` (*Fast DDS Monitor Workspace*) file.
-    A file dialog opens to choose the destination folder and file name.
-    An existing file at the selected path is overwritten.
-    The workspace is saved as a JSON file with the ``.fdmw`` extension.
-    The statistics backend is always reset on load.
-    Entities are resolved by type and name - not by volatile entity IDs - so workspaces are portable
-    across runs even when entity identifiers change.
-    The workspace file captures the complete visual state of the application:
+    Save the current session using the |save| button, **Ctrl+S**, or **File -> Save Workspace**.
+    See :ref:`workspace` for the full workspace documentation including what gets saved.
 
 **Load Workspace** |Pro|
-    Opens a previously saved ``.fdmw`` workspace file and fully restores the session state.
-    Before applying the workspace, the application clears all entity lists, alert status, status
-    logs, issues, problems, and alert messages.
-    Monitors are then started fresh and the rest of the state is reconstructed on top.
-    Malformed files show an error; unknown properties are ignored, allowing files from newer versions
-    to be opened in older builds.
-    Values outside valid ranges are clamped or ignored rather than stopping the load.
-
-    **Application settings** - theme selection, proxy/inactive/metatraffic visibility, ROS 2 demangling
-    state, toolbar and left sidebar visibility.
-
-    **Left sidebar** - selected icon, active sub-category, width ratio, all configured alert rules.
-
-    **Bottom bar** - open/collapsed/closed state, height ratio, selected sub-tab (Problems or Alerts),
-    active problem filter.
-
-    **Main panel** - all open monitor tabs, selected tab, tab order.
-    Each monitor is identified by its type and connection parameters (domain number, Discovery Server
-    locator, or XML profile path) and is fully restored on load.
-    The **Domain View** (graph) is also restored, including entity alias names, the active topic
-    filter, and per-entity visibility settings (shown/hidden per alias).
-
-    **Statistics Charts** - data kind, time window, update period, maximum data points; for each series:
-    source and target entity (resolved by type and name), statistics kind, label, color, visibility,
-    max data points, cumulative mode, and chart display settings (legend, pause state, axis locks).
-
-    **Topic Charts** - domain, time window, maximum data points; for each series: topic name, field
-    path, max data points, label, color, visibility, and chart display settings.
-
-    **Spy Panes** - subscribed topic and domain, running or paused state.
-
-    **IDL Panes** - the topic name and domain being viewed, so the pane reopens showing the same
-    type definition on load.
-
-    **Image Panes** - subscribed topic name and domain, active or paused state.
-
-    **Publisher Panes** - target topic name and domain; complete map of form field values keyed by field
-    path; slider bounds for every numeric scalar field; continuous-mode toggle and interval; variable-
-    length sequence counts and union branch selections, so the form opens in the same shape it was saved.
-
-    **Pane layouts** - the full split tree for each monitor tab, including the type of every pane, its
-    position, and the width/height ratios of all dividers.
-
-    .. note::
-
-        If a saved workspace references a DDS domain or Discovery Server that is not reachable at
-        load time, that monitor opens in a waiting state and its panes populate as entities are
-        discovered.
+    Restore a previously saved session.
+    Go to **File -> Load Workspace** and select a ``.fdmw`` file.
+    See :ref:`workspace` for details on the restore behavior.
 
 .. _pro_export_data:
 

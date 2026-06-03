@@ -449,7 +449,7 @@ Click any tab to make that monitor active; the left sidebar, entity lists, and p
 show data for that monitor.
 
 To add a second monitor, open the **Add** menu and select **Add Monitor**.
-The initialization dialog appears — select **DDS Domain**, enter a different domain number such as
+The initialization dialog appears - select **DDS Domain**, enter a different domain number such as
 :code:`1`, and click **OK**.
 A second tab labeled with the new domain appears alongside the first.
 
@@ -614,8 +614,8 @@ Plot an XY Chart
 ================
 
 An *XY Chart* plots two numeric fields against each other as a real-time scatter chart.
-It shares the same pane type as the Topic Live Chart -- switch mode using the **PLOT MODE** buttons
-in the configuration panel, or open a dedicated pane via **Add -> Add XY Chart**.
+It shares the same pane type as the Time Series Topic Chart -- switch mode using the **PLOT MODE** buttons
+in the configuration panel, or open a dedicated pane via **Add → Add XY Chart**.
 
 When **XY Chart** is selected in **PLOT MODE**, **PANE SETTINGS** shows:
 

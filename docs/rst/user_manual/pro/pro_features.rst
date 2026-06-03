@@ -30,7 +30,7 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
   reload it in a future session, preserving tab layouts, pane configurations, chart settings, alert rules,
   and tab order.
 
-* :ref:`Topics Explorer <topics_panel>` |Pro| as a dedicated topic navigation panel in the left sidebar
+* :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel in the left sidebar
   with text filtering, expandable field trees, and context actions for opening Spy or Topic Chart panes.
 
 * :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live counters for every type of monitored
@@ -42,7 +42,7 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
 * :ref:`Topic Time Series Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
   time-series chart, with support for multiple series, field selection, and pause/resume controls.
 
-* :ref:`Topic XY Charts <xy_charts>` |Pro| for plotting two numeric DDS topic fields against each other as a
+* :ref:`XY Topic Charts <xy_charts>` |Pro| for plotting two numeric DDS topic fields against each other as a
   real-time scatter chart, enabling phase-space or correlation analysis between any pair of numeric fields
   within the same DDS domain.
 

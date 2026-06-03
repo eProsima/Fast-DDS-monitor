@@ -68,10 +68,12 @@ Each pane type exposes a different set of sections in the configuration panel. T
 each type are documented in detail on the corresponding pane pages. The following is a summary with
 references.
 
+.. _statistics_chart_config:
+
 Statistics Chart
 ----------------
 
-See :ref:`chart_panel` for the full statistics chart documentation.
+See :ref:`pro_chart_view` for the full statistics chart documentation.
 
 The configuration panel for a statistics chart covers:
 
@@ -80,10 +82,14 @@ The configuration panel for a statistics chart covers:
   Reset Chart**.
 * Series list with per-series controls for label, color, visibility, max data points, and removal.
 * An inline add-series form with entity and statistics kind selection.
-* Y-axis locking with explicit minimum and maximum (and X-axis for historic charts).
+* X-axis and Y-axis locking with explicit minimum and maximum.
 * Display toggles for the legend and data points.
 * Pause/resume toggle.
-* Panel Actions with split submenus and screenshot options.
+* Actions with replace-split submenus, show and hide and screenshot options.
+
+.. figure:: /rst/figures/screenshots/config_stats_pro.png
+    :align: center
+    :width: 330px
 
 Image Pane
 ----------
@@ -98,11 +104,11 @@ The configuration panel for an image pane covers:
 * A read-only **Status** indicator (Streaming, Waiting for frames, Paused, or Error).
 * A **Last Error** section visible only when a decode error has occurred.
 * A **Frame Info** section showing resolution, encoding, and frame count once frames arrive.
-* Panel Actions with split submenus.
+* Actions with split submenus and screenshot options.
 
 .. figure:: /rst/figures/screenshots/config_image_pro.png
     :align: center
-    :width: 350px
+    :width: 330px
 
 Spy Pane
 --------
@@ -113,14 +119,13 @@ The configuration panel for a spy pane covers:
 
 * Domain and topic selection with **Apply & Restart** to switch the subscription.
 * Playback toggle to start or stop the live data feed.
-* Panel Actions with split submenus.
-* Actions: Expand All, Collapse All, Clear, Copy JSON to Clipboard.
+* Actions with replace-split submenus, show and hide and screenshot options.
 
 .. figure:: /rst/figures/screenshots/config_spy_pro.png
     :align: center
-    :width: 350px
+    :width: 330px
 
-Topic Time Series Chart
+Time Series Topic Chart
 -----------------------
 
 See :ref:`topic_charts` for the full topic chart documentation.
@@ -135,14 +140,13 @@ The configuration panel for a topic chart covers:
   confirm with **Add Series** or double-click the field.
 * Y-axis locking with explicit minimum and maximum.
 * Display toggles for the legend, data points, and the sliding window mode.
-* Panel Actions with split submenus and screenshot options.
-* Bulk actions: Show All Series, Hide All Series, Clear Chart.
+* Actions with replace-split submenus, show and hide and screenshot options.
 
 .. figure:: /rst/figures/screenshots/config_topic_pro.png
     :align: center
-    :width: 350px
+    :width: 330px
 
-Topic XY Charts
+XY Topic Charts
 ---------------
 
 See :ref:`xy_charts` for the full XY charts documentation.
@@ -156,12 +160,11 @@ The configuration panel for XY charts covers:
   Click **+ Add XY Series** to expand it. X and Y values may come from the same or different topics.
 * X-axis and Y-axis locking with explicit minimum and maximum.
 * Display toggles for the legend, connecting lines, and the running (pause/resume) mode.
-* Panel Actions with split submenus and screenshot options.
-* Bulk actions: Show All Series, Hide All Series, Clear Chart.
+* Actions with replace-split submenus, show and hide and screenshot options.
 
 .. figure:: /rst/figures/screenshots/config_xy_pro.png
     :align: center
-    :width: 350px
+    :width: 330px
 
 Publisher Pane
 --------------
@@ -177,11 +180,11 @@ The configuration panel for a publisher pane covers:
 * A **Continuous** section with a **Publish continuously** toggle and an **Interval** spin box in
   milliseconds (minimum 50 ms).
 * An **Actions** section with **Publish once**, **Reset**, and **Randomize** buttons.
-* Panel Actions with split submenus.
+* Panel Actions with replace-split submenus.
 
 .. figure:: /rst/figures/screenshots/config_publish_pro.png
     :align: center
-    :width: 350px
+    :width: 330px
 
 IDL Pane
 --------
@@ -193,12 +196,11 @@ The configuration panel for an IDL pane covers:
 * A read-only **Topic** section showing the current topic name, domain, and resolved type name.
 * A **Change Topic** section with domain and topic selection and an **Apply & Reload** button.
 * A **Display** toggle for ROS 2 demangling.
-* Panel Actions with split submenus.
-* Actions: Select All.
+* Actions with replace-split submenus and copying option.
 
 .. figure:: /rst/figures/screenshots/config_idl_pro.png
     :align: center
-    :width: 350px
+    :width: 330px
 
 .. _domain-graph:
 
@@ -209,7 +211,7 @@ When a Domain Graph tab is active, click the |gear| button to open the right-sid
 It shows a dedicated visibility control panel instead of the pane-type configuration described above.
 Changes take effect immediately as checkboxes are toggled; there is no apply step.
 
-See :ref:`domain_graph` for the full Domain View documentation.
+See :ref:`pro_domain_view` for the full Domain View documentation.
 
 The panel lists all entities discovered in the domain, grouped into seven collapsible sections:
 **Topics**, **Hosts**, **Users**, **Processes**, **Participants**, **DataWriters**, and **DataReaders**.
@@ -218,7 +220,7 @@ visible/total count in the section header.
 
 .. figure:: /rst/figures/screenshots/config_domain_pro.png
     :align: center
-    :width: 350px
+    :width: 330px
 
 The panel covers:
 

@@ -25,22 +25,18 @@ Opening a Publisher Pane
 
 There are several ways to open a new Publisher Pane:
 
-* Right-click a topic in the :ref:`topics_panel`, the :ref:`logical_panel`, or the domain graph and choose
+* Right-click a topic in the :ref:`topics_panel`, the :ref:`pro_logical_panel`, or the :ref:`domain graph <pro_domain_graph>` and choose
   **Publish topic data**. Built-in and statistics Fast DDS topics cannot be published and this option is
   disabled for them.
 
-* Use **Add Publisher View** in the application menu bar.
+* Use **Add → Add Publisher View** in the application menu bar.
 
 * Click the **Publisher View** button shown in an empty pane placeholder or in the main panel selector
   when no panes are open yet.
 
-* Use the :ref:`right_pane_config` sidebar. A **Pub** button is present in the pane type switcher at the
-  top of the configuration panel, letting you replace the current pane with a new Publisher Pane. A domain
-  and topic selection wizard appears before the pane is created.
-
 * Click the three-dots button in the header of any existing pane to open the split menu, then choose
   **Split right** or **Split down** and select **Publisher View** to open a new Publisher Pane alongside
-  the current one.
+  the current one, or choose **Replace panel** to replace the current pane with a Publisher Pane.
 
 .. _publisher_pane_form:
 
@@ -179,13 +175,13 @@ Pane Header Controls
 ====================
 
 * The header shows the topic name and domain number of the active publisher.
-* The |help| button opens a contextual help panel with a description of the Publisher Pane, usage tips,
+* |help| - opens a contextual help panel with a description of the Publisher Pane, usage tips,
   and a link to this documentation page.
-* The expand button maximizes the pane to fill the full workspace. Clicking it again restores the previous
+* |maximize_square| / |minimize_square| - maximizes/ minimizes the pane; click again to restore the previous
   layout.
-* The |gear| button opens the :ref:`right_pane_config` sidebar for this pane.
+* |gear| - opens the :ref:`right_pane_config` sidebar for this pane.
 * The three-dots button opens the split menu to open a new pane to the right or below the current one.
-* The |cross| button stops the publisher and removes the pane.
+* |cross| - stops the publisher and removes the pane.
 
 .. _publisher_pane_config:
 

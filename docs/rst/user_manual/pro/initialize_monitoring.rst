@@ -28,8 +28,8 @@ See :ref:`multiple_monitors` for details on opening and managing several monitor
 .. _dockable_panes_layout:
 .. _dockable_panes_splitting:
 
-Dockable Pane Workspace
-=======================
+Dockable Pane Workspace |Pro|
+=============================
 
 In *Fast DDS Monitor Pro*, every visualization and inspection view lives in a dockable pane.
 Statistics charts, topic charts, spy panes, IDL panes, image panes, and publisher panes can all be
@@ -40,7 +40,7 @@ The main content area of each monitor tab is a grid where each cell holds one pa
 A single monitor tab supports up to **six panes** open at the same time.
 
 To add a pane next to an existing one, click the three-dots button in any pane header, choose
-**Split right** or **Split down**, and select the view type to open.
+**Replace panel**, **Split right** or **Split down**, and select the view type to open.
 To resize, drag the divider between any two adjacent panes.
 The layout adjusts automatically whenever a pane is added or closed.
 
@@ -51,12 +51,12 @@ The layout adjusts automatically whenever a pane is added or closed.
 .. _theming_switching:
 .. _theming_coverage:
 
-Dark Mode
-=========
+Dark Mode |Pro|
+===============
 
 *Fast DDS Monitor Pro* also provides two themes: **Light** and **Dark**.
-When you switch themes, every part of the application updates instantly — panels, charts, dialogs,
-icons, controls, and the menu bar — without requiring a restart.
+When you switch themes, every part of the application updates instantly - panels, charts, dialogs,
+icons, controls, and the menu bar - without requiring a restart.
 
 To switch themes, open **View → Theme** and choose **Light** or **Dark**.
 Both entries are mutually exclusive checkable actions; the active theme shows a checkmark.
@@ -64,7 +64,7 @@ Both entries are mutually exclusive checkable actions; the active theme shows a 
 .. thumbnail:: /rst/figures/screenshots/main_dark_pro.png
     :align: center
 
-The selected theme is persisted in the workspace file and restored when the workspace is loaded.
+The selected theme is persisted in the :ref:`workspace file <workspace>` and restored when the workspace is loaded.
 If no workspace has been saved yet, the application follows the operating system color scheme:
 it starts in Dark mode on systems that report a dark scheme, and in Light mode otherwise.
 
@@ -73,7 +73,7 @@ The theme is applied across all components:
 - **Panels and sidebars** - backgrounds, text, row hover states, scrollbars, and dividers.
 - **Charts** - backgrounds, axis labels, grid lines, and legend text.
   Chart series colors are a fixed ten-color palette that is the same in both themes.
-- **Domain graph** - node and edge colors adapt; entity status colors (green/yellow/red) are fixed.
+- :ref:`Domain graph <pro_domain_graph>` - node and edge colors adapt; entity status colors (green/yellow/red) are fixed.
 - **Dialogs** - all dialogs, wizards, and alert/alias forms use the active palette.
 - **Controls** - buttons, inputs, toggles, sliders, and scroll bars are consistently themed.
 - **Icons** - automatically switch between dark and light stroke variants.
@@ -82,8 +82,8 @@ The theme is applied across all components:
 .. _multiple_monitors:
 .. _multiple_monitors_types:
 
-Multiple Monitor Support
-========================
+Multiple Monitor Support |Pro|
+==============================
 
 *Fast DDS Monitor Pro* lets you run several monitors at the same time within a single workspace.
 Each monitor connects to its own DDS environment.
@@ -115,30 +115,30 @@ Left Sidebar
 
 The left sidebar contains five panels:
 
-- :ref:`Explorer Panel <pro_left_panel>` — shows all entities discovered by the monitor in collapsible,
+- :ref:`Explorer Panel <pro_left_panel>` - shows all entities discovered by the monitor in collapsible,
   interactive lists.
-- :ref:`Topics Panel <topics_panel>` |Pro| — topic-centered view with filtering, field trees, and
+- :ref:`Topics Panel <topics_panel>` |Pro| - topic-centered view with filtering, field trees, and
   direct actions on any topic.
-- :ref:`Alerts Panel <pro_alerts_panel>` — lists the alerts configured by the user and shows alert
+- :ref:`Alerts Panel <pro_alerts_panel>` - lists the alerts configured by the user and shows alert
   details.
-- :ref:`Monitor Status Panel <pro_status_panel>` — shows entity counts, active domains, and the event
+- :ref:`Monitor Status Panel <pro_status_panel>` - shows entity counts, active domains, and the event
   log.
-- :ref:`Issues Panel <pro_issues_panel>` — lists error events reported by the application.
+- :ref:`Issues Panel <pro_issues_panel>` - lists error events reported by the application.
 
 Bottom Panels
 =============
 
 Three additional panels sit at the bottom of the application window:
 
-- :ref:`Alert Messages Panel <pro_alert_messages_panel>` — lists the alerts triggered by the
+- :ref:`Alert Messages Panel <pro_alert_messages_panel>` - lists the alerts triggered by the
   application, grouped by alert rule name with timestamps.
-- :ref:`Problem Summary <pro_problem_summary>` — collapsible section at the bottom of the main panel
+- :ref:`Problem Summary <pro_problem_summary>` - collapsible section at the bottom of the main panel
   listing detected DDS entity problems such as samples lost or incompatible QoS.
-- :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| — compact counter strip showing the live total
+- :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| - compact counter strip showing the live total
   of Participants, DataWriters, DataReaders, and Topics across all active monitors.
 
-Main Panel Views
-================
+Main Panel Views |Pro|
+======================
 
 The central panel hosts multiple tabs with different views.
 
@@ -148,15 +148,15 @@ The central panel hosts multiple tabs with different views.
 The central panel can display several types of views.
 Use the :ref:`Add menu <pro_add_menu>` to open any of them in the workspace.
 
-- :ref:`Statistics Chart <pro_chart_view>` — plots pre-computed DDS metrics (latency, throughput,
+- :ref:`Statistics Charts View <pro_chart_view>` - plots pre-computed DDS metrics (latency, throughput,
   packet counts) over a configurable time range, historical or real-time.
-- :ref:`Domain View <pro_domain_graph>` — interactive graph showing all DDS entities in a domain and
+- :ref:`Domain View <pro_domain_graph>` - interactive graph showing all DDS entities in a domain and
   the connections between DataWriters and DataReaders through their shared topics.
-- :ref:`Image View <image_pane>` |Pro| — renders live image or video data from a DDS topic directly
+- :ref:`Image View <image_pane>` |Pro| - renders live image or video data from a DDS topic directly
   inside the monitor.
-- :ref:`Spy Topic View <dockable_spy_pane>` — shows each incoming DDS topic sample as an
+- :ref:`Spy Topic View <dockable_spy_pane>` - shows each incoming DDS topic sample as an
   expandable field tree in real time.
-- :ref:`Topic Live Chart <time_series>` |Pro| — plots raw numeric values from any DDS topic against
+- :ref:`Topic Charts View <time_series>` |Pro| - plots raw numeric values from any DDS topic against
   time or other topic field, updated live; supports multiple series and XY scatter mode.
-- :ref:`Publisher View <publisher_pane>` |Pro| — compose and publish DDS samples on any discovered
+- :ref:`Publisher View <publisher_pane>` |Pro| - compose and publish DDS samples on any discovered
   topic using a form generated from the topic's dynamic type.

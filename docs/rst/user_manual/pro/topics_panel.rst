@@ -71,12 +71,12 @@ Field Rows
 
 Leaf fields that carry a numeric IDL type (integers, floats, and doubles) are interactive in two ways:
 
-* **Drag to a Topic Chart** by pressing and holding a numeric leaf field and dragging it onto an open
-  :ref:`Topic Chart <topic_charts>` pane. A drag badge appears under the cursor showing the field path
+* **Drag to a Time Series Topic Chart** by pressing and holding a numeric leaf field and dragging it onto an open
+  :ref:`Time Series Topic Chart <topic_charts>` pane. A drag badge appears under the cursor showing the field path
   while dragging. Dropping the field onto the chart adds it as a new series.
 
 * **Right-click** a numeric leaf field to open a small context menu with a **Plot field** action, which
-  opens a new :ref:`Topic Chart <topic_charts>` for that field directly.
+  opens a new :ref:`Time Series Topic Chart <topic_charts>` for that field directly.
 
 Non-numeric struct or array fields can be expanded to reach their numeric children but cannot be dragged
 or plotted themselves.

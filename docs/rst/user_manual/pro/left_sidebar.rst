@@ -12,7 +12,7 @@ Each icon switches the sidebar to the corresponding panel.
 The sidebar can be hidden entirely from **View → Hide Left Sidebar** and resized by dragging its border.
 
 - :ref:`Explorer Panel <pro_left_panel>` - shows all DDS entities discovered by the monitor in
-  collapsible, interactive lists organized by DDS, Physical, Logical, and Info sub-panels.
+  collapsible, interactive lists organized by DDS, Physical, Logical, and Info/Statistics sub-panels.
 - :ref:`Topics Panel <topics_panel>` |Pro| - topic-centered view with text filtering, expandable
   field trees, and direct actions (Spy, Chart, Publish, IDL) for any topic.
 - :ref:`Alerts Panel <pro_alerts_panel>` - define threshold-based alert rules and view their status

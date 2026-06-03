@@ -3,11 +3,11 @@
 
 .. _time_series:
 
-########################
-Time Series Charts |Pro|
-########################
+##############################
+Time Series Topic Charts |Pro|
+##############################
 
-A *Time Series Chart* plots the live values of one or more numeric fields from DDS topics over time.
+A *Time Series Topic Chart* plots the live values of one or more numeric fields from DDS topics over time.
 Each series tracks one numeric field from one DDS topic and updates in real time as samples arrive.
 
 Fields that are integers, floats, or doubles can be plotted.
@@ -18,23 +18,23 @@ Struct and array fields cannot be plotted directly but can be expanded to reach 
 
 .. _time_series_creating:
 
-Opening a Time Series Chart
-============================
+Opening a Time Series Topic Chart
+=================================
 
-There are several ways to open a new Time Series Chart pane:
+There are several ways to open a new Time Series Topic Chart pane:
 
-* Right-click a topic in the :ref:`topics_panel`, the :ref:`logical_panel`, or the domain graph and choose
+* Right-click a topic in the :ref:`topics_panel`, the :ref:`pro_logical_panel`, or the :ref:`domain graph <pro_domain_graph>` and choose
   **Chart topic data**. Built-in and statistics Fast DDS topics cannot be charted and this option is
   disabled for them.
 
-* Use **Add Topic Live Chart** in the application menu bar.
+* Use **Add → Add Topic Live Chart** in the application menu bar.
 
-* Use the :ref:`right_pane_config` sidebar. A **Topic Chart** button is present in the configuration panel
-  of any existing pane type, letting you replace the current pane with a new Time Series Chart.
+* Click the **Topic Charts View** button in an empty pane; when the chart opens, select **Time Series**
+  in the **PLOT MODE** row of the configuration panel.
 
 * Click the three-dots button in the header of any existing pane to open the split menu, then choose
   **Split right** or **Split down** and select **Topic Chart** to open a new chart alongside the current
-  pane.
+  pane, or choose **Replace panel** to replace the current pane with a Time Series Topic Chart.
 
 * Drag a numeric field from an open :ref:`Spy Pane <dockable_spy_pane>` and drop it onto an existing Time
   Series Chart. The field is added as a new series on that chart. Dropping it onto an empty area of the
@@ -100,8 +100,7 @@ The chart header provides the following buttons from left to right:
 * |help| **Help** opens a contextual help panel with a description of the chart, usage tips, available
   interactions, and a link to this documentation page.
 
-* The expand button maximizes the pane to fill the full workspace. Clicking it again restores the previous
-  layout.
+* |maximize_square| / |minimize_square| - maximizes/ minimizes the pane; click again to restore the previous layout.
 
 * |gear| **Panel Settings** opens the :ref:`right_pane_config` sidebar for this chart.
 
@@ -127,64 +126,16 @@ The following mouse and keyboard interactions are available directly on the char
 Right-Side Configuration Panel
 ===============================
 
-Opening the :ref:`right_pane_config` sidebar for a Time Series Chart (via the |gear| button) shows the
-following sections:
+Opening the :ref:`right_pane_config` sidebar for a Time Series Topic Chart (via the |gear| button)
+shows the following sections:
 
-**Pane Settings**
+* **Pane Settings** - domain selection, time window, max points, applied with **Apply & Reset Chart**.
+* **Chart Name** - rename the chart title shown in the pane header.
+* **Display** - toggles for legend, data points, and running (pause/resume ingestion).
+* **Series** - list of active series with per-series controls; **Add Series** button to expand the
+  inline series creation form.
+* **Axes** - lock Y axis or X axis to a fixed range; **Reset Zoom**.
+* **Panel Actions** - split and replace submenus, save and copy screenshot.
+* **Actions** - show/hide all series, clear chart.
 
-Controls that apply to the whole chart:
-
-* **Domain** selects which monitored DDS domain the chart subscribes to.
-* **Time window** sets the width of the visible time range in seconds (1 to 86400; default 120).
-* **Max points** sets the total number of data points the chart retains across all series (default 1000).
-  When the limit is reached, the oldest points are removed as new samples arrive.
-* **Apply & Reset Chart** applies any changes to these three fields and clears all existing series.
-  This button is disabled when no domain is selected.
-
-**Chart Name**
-
-A text field and confirm button to rename the chart title shown in the pane header.
-
-**Display**
-
-* **Show legend** toggles the chart legend on or off.
-* **Show points** toggles whether individual data points are drawn on series lines.
-* **Running** when on, the chart accepts new data in real time. When off, data ingestion is paused and
-  samples received while paused are discarded; resuming restarts the live feed from the current time.
-  This is independent from the header |pause| / |play| button, which only locks or unlocks axis scroll.
-
-**Series**
-
-Lists every series currently added to the chart. Each row shows the series name, a color swatch to change
-the line color, a visibility toggle, and a remove button. An **Add Series** button at the bottom expands
-the inline series-creation section described below.
-
-**Add Series** *(collapsible)*
-
-* **Filter topics** narrows the topic list by name.
-* The topic list shows all topics discovered on the selected domain. Selecting a topic populates the field
-  list.
-* **Filter fields** narrows the field path list by name.
-* The field list shows the numeric leaf fields available for the selected topic, populated after the first
-  DDS sample arrives on that topic. Double-clicking a field adds it as a series immediately.
-* **Add Series** confirms the selection and adds the field as a new series to the chart.
-
-**Axes**
-
-* **Lock Y axis** switches the Y axis from auto-scale to a fixed range. When locked, **Y min** and
-  **Y max** fields become editable.
-* **Lock X axis** switches the X axis to a fixed range, capturing the current viewport as the initial
-  bounds. When locked, **X min** and **X max** fields (format ``yyyy-MM-dd hh:mm:ss``) become editable.
-* **Reset Zoom** returns both axes to their default range, equivalent to the |resize| button in the header.
-
-**Panel Actions**
-
-* **Split right** and **Split down** each expand a submenu to open a new pane alongside the current pane.
-* **Save screenshot** saves a PNG image of the chart to disk.
-* **Copy screenshot to clipboard** copies the chart image to the clipboard.
-
-**Actions**
-
-* **Show All Series** makes every hidden series visible.
-* **Hide All Series** hides all series without removing them.
-* **Clear Chart** removes all series and resets the chart.
+See :ref:`right_pane_config` for the full configuration panel reference.

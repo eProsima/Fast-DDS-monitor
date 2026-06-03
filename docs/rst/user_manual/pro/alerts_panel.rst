@@ -33,7 +33,7 @@ Right-click an alert to remove it.
 Alert Info
 ==========
 
-Displays the configuration of the alert currently selected in the Alerts List, including its name,
-domain, host, user, topic, threshold, and duration.
+Displays the configuration of the alert currently selected in the Alerts List, including its
+domain, host, id, kind, name, time between triggers, topic, and user.
 
 For alert event notifications, see :ref:`pro_alert_messages_panel`.
