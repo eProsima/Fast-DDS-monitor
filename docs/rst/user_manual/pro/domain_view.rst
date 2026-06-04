@@ -4,9 +4,9 @@
 .. _pro_domain_view:
 .. _pro_domain_graph:
 
-#################
-Domain View |Pro|
-#################
+###########
+Domain View
+###########
 
 The *Domain View* shows all entities belonging to the same DDS domain as an interactive graph.
 Entities are displayed encapsulated inside their physical context, with arrows indicating the

@@ -234,9 +234,9 @@ Release Notes
 Link to the `Releases <https://github.com/eProsima/Fast-DDS-monitor/releases>`_ section of the
 `GitHub Fast DDS Monitor repository`_.
 
-Join Us on Twitter
-------------------
-Link to `eProsima Twitter account <https://twitter.com/EProsima>`_.
+Join Us on LinkedIn
+-------------------
+Link to `eProsima LinkedIn account <https://www.linkedin.com/company/eprosima>`_.
 
 Search Feature Requests
 -----------------------

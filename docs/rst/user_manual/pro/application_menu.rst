@@ -3,9 +3,9 @@
 
 .. _pro_application_menu:
 
-######################
-Application Menu |Pro|
-######################
+################
+Application Menu
+################
 
 The application menu bar provides access to all operations in *Fast DDS Monitor Pro*.
 It is divided into five groups: **File**, **Add**, **Edit**, **View**, and **Help**.

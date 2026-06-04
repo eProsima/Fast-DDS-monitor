@@ -4,9 +4,9 @@
 .. _pro_status_panel:
 .. _pro_monitor_status_panel_layout:
 
-##################
-Status Panel |Pro|
-##################
+############
+Status Panel
+############
 
 The status panel in the left sidebar displays data about the monitored entities and the current
 state of the application.

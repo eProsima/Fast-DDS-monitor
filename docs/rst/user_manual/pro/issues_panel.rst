@@ -4,9 +4,9 @@
 .. _pro_issues_panel:
 .. _pro_issues_panel_layout:
 
-##################
-Issues Panel |Pro|
-##################
+############
+Issues Panel
+############
 
 The issues panel lists error events reported by the application.
 Each entry describes what went wrong and, where applicable, offers a **Retry** button or a link to

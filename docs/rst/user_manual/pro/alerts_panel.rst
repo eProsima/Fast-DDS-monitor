@@ -4,9 +4,9 @@
 .. _pro_alerts_panel:
 .. _pro_alerts_panel_layout:
 
-##################
-Alerts Panel |Pro|
-##################
+############
+Alerts Panel
+############
 
 The alerts panel is located on the left side of the application window and allows the user to define
 conditions to monitor and receive notifications about specific events in the DDS network.

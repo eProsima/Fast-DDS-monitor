@@ -3,9 +3,9 @@
 
 .. _pro_left_sidebar:
 
-##################
-Left Sidebar |Pro|
-##################
+############
+Left Sidebar
+############
 
 The left sidebar contains five panels accessible via the icon bar on the left edge of the window.
 Each icon switches the sidebar to the corresponding panel.

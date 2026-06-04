@@ -7,7 +7,7 @@
 Topic Charts |Pro|
 ##################
 
-*Topic Charts* |Pro| visualize live data published on any user-defined DDS topic, working directly
+*Topic Charts* visualize live data published on any user-defined DDS topic, working directly
 with the raw values from incoming samples rather than pre-computed DDS statistics metrics.
 
 Two chart types are available:

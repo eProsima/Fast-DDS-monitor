@@ -3,9 +3,9 @@
 
 .. _bottom_panels:
 
-###################
-Bottom Panels |Pro|
-###################
+#############
+Bottom Panels
+#############
 
 Three panels sit at the bottom of the *Fast DDS Monitor Pro* window, providing notification,
 problem reporting, and a live entity counter.

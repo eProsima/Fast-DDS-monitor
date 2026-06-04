@@ -3,9 +3,9 @@
 
 .. _dockable_spy_pane:
 
-####################
-Spy Topic View |Pro|
-####################
+##############
+Spy Topic View
+##############
 
 A *Spy Topic View* subscribes to a DDS topic and shows the live data samples published on it in real
 time, displaying each incoming sample as an expandable field tree.
@@ -42,8 +42,8 @@ Pane Header Controls
 * The three-dots button opens the split menu to open a new pane to the right or below.
 * |cross| - stops the subscription and removes the pane.
 
-Right-Side Configuration Panel
-================================
+Right-Side Configuration Panel |Pro|
+====================================
 
 When the :ref:`right_pane_config` sidebar is open for a Spy Topic View it shows four sections:
 

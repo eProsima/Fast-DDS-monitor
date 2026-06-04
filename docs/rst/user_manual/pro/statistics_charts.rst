@@ -4,9 +4,9 @@
 .. _pro_chart_view:
 .. _pro_chartbox_layout:
 
-#######################
-Statistics Charts |Pro|
-#######################
+#################
+Statistics Charts
+#################
 
 A *Statistics Chartbox* plots pre-computed DDS metrics - such as latency, throughput, and packet
 counts - collected from the monitored DDS network.
@@ -106,8 +106,8 @@ The following mouse and keyboard interactions are available directly on the char
 * **Ctrl + scroll wheel** to zoom in or out on the chart center.
 * **Ctrl + click and drag** to scroll (pan) the view without zooming.
 
-Right-Side Configuration Panel
-================================
+Right-Side Configuration Panel |Pro|
+====================================
 
 When the :ref:`statistics_chart_config` sidebar is open for a Statistics Chart (via the |gear| button)
 it shows the following sections:

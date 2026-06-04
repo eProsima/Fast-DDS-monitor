@@ -3,9 +3,9 @@
 
 .. _dockable_idl_pane:
 
-###########################
-Topic Type View (IDL) |Pro|
-###########################
+#####################
+Topic Type View (IDL)
+#####################
 
 A *Topic Type View* displays the Interface Definition Language (IDL) type description for a selected
 DDS topic in a scrollable, selectable monospace text view.
@@ -69,8 +69,8 @@ It can be toggled in two ways:
 The same setting is also available as a toggle in the **DISPLAY** section of the right-side
 configuration panel for any open IDL pane.
 
-Right-Side Configuration Panel
-================================
+Right-Side Configuration Panel |Pro|
+====================================
 
 When the :ref:`right_pane_config` sidebar is open for a Topic Type View it shows five sections:
 

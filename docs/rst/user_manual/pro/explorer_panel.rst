@@ -4,9 +4,9 @@
 .. _pro_left_panel:
 .. _pro_left_sidebar_layout:
 
-####################
-Explorer Panel |Pro|
-####################
+##############
+Explorer Panel
+##############
 
 The left sidebar displays all entities known to the application along with their available information.
 It is recommended to read the :ref:`entities` section for an overview of the entity types and

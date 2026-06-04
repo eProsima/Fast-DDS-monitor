@@ -329,8 +329,8 @@ MenuBar {
         }
         MenuSeparator { }
         Action {
-            text: qsTr("Join Us on &Twitter")
-            onTriggered: Qt.openUrlExternally("https://twitter.com/EProsima")
+            text: qsTr("Join Us on &LinkedIn")
+            onTriggered: Qt.openUrlExternally("https://www.linkedin.com/company/eprosima/")
         }
         Action {
             text: qsTr("Search &Feature Requests")
