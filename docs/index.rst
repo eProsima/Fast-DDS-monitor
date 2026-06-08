@@ -38,10 +38,34 @@
    /rst/getting_started/tutorial
 
 
+.. _index_pro_features:
+
+.. toctree::
+   :caption: Fast DDS Monitor Pro
+   :maxdepth: 2
+   :numbered: 5
+   :hidden:
+
+   /rst/user_manual/pro/pro_features
+   /rst/user_manual/pro/initialize_monitoring
+   /rst/user_manual/pro/application_menu
+   /rst/user_manual/pro/workspace
+   /rst/user_manual/pro/left_sidebar
+   /rst/user_manual/pro/bottom_panels
+   /rst/user_manual/pro/statistics_charts
+   /rst/user_manual/pro/domain_view
+   /rst/user_manual/pro/image_pane
+   /rst/user_manual/pro/spy_view
+   /rst/user_manual/pro/topic_charts
+   /rst/user_manual/pro/publisher_pane
+   /rst/user_manual/pro/idl_view
+   /rst/user_manual/pro/right_pane_config
+
+
 .. _index_user_manual:
 
 .. toctree::
-   :caption: User Manual
+   :caption: Fast DDS Monitor Basic
    :maxdepth: 2
    :numbered: 5
    :hidden:
@@ -58,29 +82,6 @@
    /rst/user_manual/chart_panel_index
    /rst/user_manual/select_entity
    /rst/user_manual/export_data
-
-
-.. _index_pro_features:
-
-.. toctree::
-   :caption: Fast DDS Monitor Pro
-   :maxdepth: 2
-   :numbered: 5
-   :hidden:
-
-   /rst/user_manual/pro/pro_features
-   /rst/user_manual/pro/multiple_monitors
-   /rst/user_manual/pro/dockable_panes
-   /rst/user_manual/pro/topic_charts
-   /rst/user_manual/pro/xy_charts
-   /rst/user_manual/pro/image_pane
-   /rst/user_manual/pro/publisher_pane
-   /rst/user_manual/pro/topics_panel
-   /rst/user_manual/pro/workspace
-   /rst/user_manual/pro/right_pane_config
-   /rst/user_manual/pro/entity_summary_bar
-   /rst/user_manual/pro/theming
-   /rst/user_manual/pro/license
 
 
 .. _index_developer_manual:

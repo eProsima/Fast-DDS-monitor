@@ -411,7 +411,7 @@ void StatusTreeModel::addItem(
         }
         else
         {
-            // parent_item_ is set but child is not in parent's list — inconsistent tree state.
+            // parent_item_ is set but child is not in parent's list - inconsistent tree state.
             // Row-based view notifications are skipped because no valid row index exists.
             qWarning()
                 <<

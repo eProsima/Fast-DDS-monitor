@@ -12,6 +12,9 @@ When you subscribe to a compatible topic, the pane detects the image schema auto
 incoming sample, and displays the resulting frame inside the monitor workspace. The decoded image scales to
 fit the pane while preserving the original aspect ratio.
 
+.. thumbnail:: /rst/figures/screenshots/image_pro.png
+    :align: center
+
 .. _image_pane_schemas:
 
 Supported Image Schemas
@@ -83,21 +86,16 @@ Opening an Image Pane
 
 There are several ways to open a new Image Pane:
 
-* Right-click a topic in the :ref:`topics_panel`, the :ref:`logical_panel`, or the domain graph and choose
+* Right-click a topic in the :ref:`topics_panel`, the :ref:`pro_logical_panel`, or the :ref:`domain graph <pro_domain_graph>` and choose
   **Open image view**. This option is only visible and enabled for topics with a recognized image schema.
 
-* Use **Add Image View** in the application menu bar.
+* Use **Add → Add Image View** in the application menu bar.
 
-* Click the **Image View** button shown in an empty pane placeholder or in the main panel selector
-  when no panes are open yet.
-
-* Use the :ref:`right_pane_config` sidebar. An **Image** button is present in the pane type switcher at
-  the top of the configuration panel, letting you replace the current pane with a new Image Pane. A domain
-  and topic selection wizard appears before the pane is created.
+* Click the **Image View** button in an empty pane.
 
 * Click the three-dots button in the header of any existing pane to open the split menu, then choose
   **Split right** or **Split down** and select **Image View** to open a new Image Pane alongside the
-  current one.
+  current one, or choose **Replace panel** to replace the current pane with an Image Pane.
 
 .. _image_pane_display:
 
@@ -130,52 +128,32 @@ Pane Header Controls
 ====================
 
 * The header shows the topic name and domain number of the active subscription.
-* The play/pause button (|play| / |pause|) starts and stops the live frame stream without closing the pane.
-* The expand button maximizes the pane to fill the full workspace. Clicking it again restores the previous
+* |play| / |pause| - starts and stops the live frame stream without closing the pane.
+* |help| - opens a contextual help panel with usage tips and a link to this documentation page.
+* |maximize_square| / |minimize_square| - maximizes/ minimizes the pane; click again to restore the previous
   layout.
-* The |gear| button opens the :ref:`right_pane_config` sidebar for this pane.
-* The three-dots button opens the split menu to open a new pane to the right or below the current one.
-* The |cross| button stops the subscription and removes the pane.
+* |gear| - opens the :ref:`right_pane_config` sidebar for this pane.
+* The three-dots button opens the split menu to open a new pane to the right or below.
+* |cross| - stops the subscription and removes the pane.
 
 .. _image_pane_config:
 
 Right-Side Configuration Panel
 ===============================
 
-Opening the :ref:`right_pane_config` sidebar for an Image Pane shows the following sections:
+Opening the :ref:`right_pane_config` sidebar for an Image Pane (via the |gear| button) shows the
+following sections:
 
-**Topic**
+* **Topic** - read-only labels showing the current topic name and domain.
+* **Change Topic** - domain and topic selection; click **Apply & Reload** to switch to the new topic
+  and restart the subscription.
+* **Playback** - toggle *Active (receiving frames)* to start or stop the frame stream (equivalent to
+  the |play| / |pause| header button).
+* **Status** - current state: *Streaming*, *Waiting for frames*, *Paused*, or *Error*.
+* **Last Error** - visible only when a decode error occurred; shows the decoder error message.
+* **Frame Info** - visible once frames arrive; shows resolution, encoding, and frame count.
+* **Actions** - **Save Screenshot** saves the current frame as a PNG; **Copy Screenshot** copies it
+  to the clipboard.
+* **Panel Actions** - split and replace submenus.
 
-Read-only labels showing the current topic name and domain number.
-
-**Change Topic**
-
-* **Domain** selects a different monitored domain. Changing the domain refreshes the topic list.
-* **Topic** lists only the image-compatible topics discovered on the selected domain. If the domain has no
-  compatible topics, a notice is shown in place of the list.
-* **Apply & Reload** stops the current stream, switches to the new topic, and restarts the subscription
-  immediately. This button is enabled only when both a domain and a topic are selected.
-
-**Playback**
-
-A toggle labelled **Active (receiving frames)** starts or stops the live frame stream. This is equivalent
-to the play/pause button in the pane header.
-
-**Status**
-
-A read-only indicator showing the current state of the pane: **Streaming**, **Waiting for frames**,
-**Paused**, or **Error**.
-
-**Last Error**
-
-Visible only when a decode error has occurred. Shows the error message returned by the decoder.
-
-**Frame Info**
-
-Visible once at least one frame has been received. Shows three read-only fields: the frame resolution
-(width × height), the encoding, and the total number of frames received since the subscription started.
-
-**Panel Actions**
-
-* **Split right** and **Split down** each expand a submenu to open a Statistics Chart, Topic Chart, Spy
-  Topic View, Topic Type View (IDL), or Image View alongside the current pane.
+See :ref:`right_pane_config` for the full configuration panel reference.

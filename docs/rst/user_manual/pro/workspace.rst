@@ -2,34 +2,33 @@
 .. include:: ../../exports/roles.include
 
 .. _workspace:
+.. _workspace_saving:
+.. _workspace_restoring:
+.. _workspace_what_is_saved:
 
 ################################
 Workspace Save and Restore |Pro|
 ################################
 
-*Fast DDS Monitor Pro* lets you save the full visual state of your monitoring session to a file and reload
-it in a later session. When you restore a workspace the application rebuilds everything exactly as you left
-it, so you can continue where you stopped without having to reconfigure monitors, layouts, charts, and
-alerts from scratch.
+*Fast DDS Monitor Pro* can save the complete visual state of a monitoring session to a file and
+reload it in a later session, so you can resume exactly where you left off without reconfiguring
+monitors, layouts, charts, and alerts from scratch.
 
-The workspace is saved as a JSON file with the ``.fdmw`` (Fast DDS Monitor Workspace) extension. The
-statistics backend is always reset on load. Entity IDs are not used to identify entities in the file
+Saving a Workspace
+==================
+
+There are three ways to save the current workspace:
+
+- Click the |save| button in the top-right toolbar of the application window.
+- Press **Ctrl+S**.
+- Go to **File -> Save Workspace**.
+
+A file dialog opens to choose the destination folder and file name.
+An existing file at the selected path is overwritten.
+The workspace is saved as a JSON file with the ``.fdmw`` (*Fast DDS Monitor Workspace*) extension.
+The statistics backend is always reset on load. Entity IDs are not used to identify entities in the file
 because they are volatile and change between runs. Instead, entities are resolved by type and name when
 the workspace is loaded.
-
-.. _workspace_saving:
-
-Saving the Workspace
-====================
-
-To save the current workspace:
-
-* Click **File** in the menu bar and choose **Save Workspace As...**
-
-A file dialog opens where you can choose the destination folder and file name. If you select an existing
-file it will be overwritten.
-
-.. _workspace_restoring:
 
 Restoring a Workspace
 =====================
@@ -49,10 +48,11 @@ fresh and the rest of the workspace state is reconstructed on top.
 
 .. note::
 
-    If a saved workspace references a DDS domain or Discovery Server that is not reachable at load time,
-    that monitor opens in a waiting state and its panes populate as entities are discovered.
+    If a saved workspace references a DDS domain or Discovery Server that is not reachable at load time, that monitor opens in a waiting state and its panes populate as entities are discovered.
 
-.. _workspace_what_is_saved:
+The statistics backend is always reset on load.
+Entities are resolved by type and name - not by volatile entity IDs - so workspaces are portable
+across runs even when entity identifiers change.
 
 What Gets Saved
 ===============
@@ -64,15 +64,15 @@ of what is included.
 
 * Theme selection (dark, light, or follow system).
 * Show or hide proxy entities, inactive entities, and metatraffic.
-* ROS 2 Demangling state (reverted or applied).
+* :ref:`ROS 2 Demangling <ros2_demangling>` state (reverted or applied).
 * Toolbar visibility and which buttons are shown in the shortcuts toolbar.
 * Left sidebar visibility and which buttons are shown in it.
 * Alerts polling time and scheduler configuration.
 
 **Left sidebar**
 
-* The selected icon and the active sub-category within it (for example, the Log tab inside Monitor
-  Status).
+* The selected icon and the active sub-category within it (for example, the Log tab inside
+  :ref:`Monitor Status <pro_status_panel>`).
 * Width ratio of the left sidebar.
 * All configured alert rules.
 
@@ -89,11 +89,11 @@ of what is included.
 * Each monitor is identified by its type and connection parameters: domain number for regular monitors,
   Discovery Server locator for DS monitors, and the XML profile file path for XML-configured monitors. All
   three monitor types are restored on load.
-* Created entity aliases within each domain view.
-* Active topic filter applied to each domain graph view.
-* Entity visibility settings (shown/hidden per alias) for each domain graph view.
+* Created entity aliases within each :ref:`domain view <pro_domain_view>`.
+* Active topic filter applied to each :ref:`domain graph view <pro_domain_graph>`.
+* Entity visibility settings (shown/hidden per alias) for each :ref:`domain graph view <pro_domain_graph>`.
 
-**Statistics Charts**
+:ref:`Statistics Charts <pro_chart_view>`
 
 For each statistics chart pane:
 
@@ -103,7 +103,18 @@ For each statistics chart pane:
 * Chart name, legend visibility, pause state, expand state, and whether data points are shown.
 * Y-axis settings (and X-axis settings for historic charts).
 
-**Topic Charts**
+:ref:`Image Panes <image_pane>`
+
+* The subscribed topic name and domain number.
+* Whether the pane was active (streaming) or paused when saved. The topic entity ID is not used for
+  restoration since it is volatile; the pane is reconnected by topic name and domain on load.
+
+:ref:`Spy Panes <dockable_spy_pane>`
+
+* The subscribed topic and domain.
+* Whether the pane was paused or running.
+
+:ref:`Topic Charts <topic_charts>`
 
 For each topic chart pane:
 
@@ -112,18 +123,7 @@ For each topic chart pane:
 * Chart name, legend visibility, pause state, expand state, and whether data points are shown.
 * Y-axis lock and range (X-axis lock and range are not saved).
 
-**Spy Panes**
-
-* The subscribed topic and domain.
-* Whether the pane was paused or running.
-
-**Image Panes**
-
-* The subscribed topic name and domain number.
-* Whether the pane was active (streaming) or paused when saved. The topic entity ID is not used for
-  restoration since it is volatile; the pane is reconnected by topic name and domain on load.
-
-**Publisher Panes**
+:ref:`Publisher Panes <publisher_pane>`
 
 * The target topic name and domain number. The pane re-resolves the topic from this stable pair on load,
   not from the volatile entity identifier.
@@ -134,7 +134,12 @@ For each topic chart pane:
 * The per-field slider minimum and maximum bounds for every numeric scalar field.
 * The continuous-mode toggle state and the configured interval in milliseconds.
 
-**Pane layouts**
+:ref:`IDL Panes <dockable_idl_pane>`
+
+* The topic name and domain being viewed, so the pane reopens showing the same
+  type definition on load.
+
+:ref:`Pane layouts <dockable_panes>`
 
 * The full split tree for each monitor tab, including the type of every pane, its position, and the
   width and height ratios of all dividers.

@@ -30,29 +30,29 @@ deployments that require advanced monitoring capabilities and a richer user expe
 
 It extends the open-source version with premium features such as:
 
-* :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
-  Servers, or XML-configured environments side by side in the same workspace.
 * :ref:`Modern Chart Workspace <dockable_panes>` |Pro| with a dockable and splittable pane layout for
   statistics and topic charts, improved zoom, legend, and time-window controls.
-* :ref:`Topic Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
+* :ref:`Dark Mode <theming>` |Pro| offering light and dark palettes
+  applied consistently across the entire application.
+* :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
+  Servers, or XML-configured environments side by side in the same workspace.
+* :ref:`Workspace Save and Restore <workspace>` |Pro| to save and reload the full workspace state across
+  sessions, preserving layouts, chart configuration, alerts, and tab order.
+* :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
+  expandable field trees, and context actions for opening Spy or Topic Chart panes.
+* :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live entity counters at the bottom of the
+  window for a quick overview of the monitored DDS network.
+* :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics directly
+  inside the monitor workspace.
+* :ref:`Topic Time Series Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
   time-series chart, supporting multiple series and field selection.
 * :ref:`XY Charts <xy_charts>` |Pro| for plotting two numeric DDS topic fields against each other as a
   real-time scatter chart, enabling phase-space or correlation analysis between any pair of numeric fields.
-* :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics directly
-  inside the monitor workspace.
 * :ref:`Publisher Pane <publisher_pane>` |Pro| for publishing user-defined samples on any discovered DDS
   topic, with a form built automatically from the topic's dynamic type and support for one-shot and
   continuous publishing.
-* :ref:`Topics Explorer <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
-  expandable field trees, and context actions for opening Spy or Topic Chart panes.
-* :ref:`Workspace Save and Restore <workspace>` |Pro| to save and reload the full workspace state across
-  sessions, preserving layouts, chart configuration, alerts, and tab order.
 * :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
   from an inline sidebar without opening separate dialogs.
-* :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live entity counters at the bottom of the
-  window for a quick overview of the monitored DDS network.
-* :ref:`Dark Mode <theming>` |Pro| offering light and dark palettes
-  applied consistently across the entire application.
 
 The following table summarizes the differences between *Fast DDS Monitor* and *Fast DDS Monitor Pro*:
 
@@ -190,7 +190,7 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Topics Explorer panel</th>
+        <th>Topics panel</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
@@ -213,13 +213,29 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
 
 To discover all features and request a commercial license please |eprosima_monitor_pro_website|.
 
-##################
-Commercial Support
-##################
+#################################
+Commercial Support and Licenses
+#################################
 
-Looking for commercial support? Write us to info@eprosima.com
+*Fast DDS Monitor Pro* is distributed under the **eProsima Software License Agreement** and requires
+a valid license to run.
+The application checks for a license automatically at startup.
+If a valid license is found, the application launches normally; if no license is detected, an error
+message is shown and the application exits.
 
-Find more about us at `eProsima's webpage <https://eprosima.com/>`_.
+To get a commercial license or to request commercial support, reach out to eProsima through any of
+the following channels:
+
+* **Email:** info@eprosima.com
+* **Web:** `eProsima's webpage <https://eprosima.com/>`_
+* **License request form:** |eprosima_monitor_pro_website|.
+
+The *eProsima Software License Agreement* governs all use of *Fast DDS Monitor Pro*.
+A copy of the license is included with the software distribution.
+Using the application means you accept the terms of that agreement.
+
+The open-source *Fast DDS Monitor* is a separate product distributed under the GPL-3.0 license and
+does not require a commercial license.
 
 ########
 Overview

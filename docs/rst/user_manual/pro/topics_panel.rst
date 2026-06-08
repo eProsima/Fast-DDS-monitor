@@ -4,23 +4,23 @@
 .. _topics_panel:
 
 #####################
-Topics Explorer |Pro|
+Topics Panel |Pro|
 #####################
 
-The *Topics Explorer* is a panel in the left sidebar that gives you a topic-centered view of the DDS
+The *Topics Panel* is a panel in the left sidebar that gives you a topic-centered view of the DDS
 network. It lists every topic discovered across all active monitors in one place and lets you filter,
 inspect, and act on topics without having to navigate through the entity hierarchy.
 
 .. _topics_panel_location:
 
-Accessing the Topics Explorer
+Accessing the Topics Panel
 ==============================
 
-The Topics Explorer is opened from the vertical icon bar on the far left of the application window. The
-bar contains five icons stacked top to bottom: the main entity explorer, the Topics Explorer |topic_icon|,
-alerts, status, and issues. Click the |topic_icon| icon to open the Topics Explorer. It appears in the
+The Topics Panel is opened from the vertical icon bar on the far left of the application window. The
+bar contains five icons stacked top to bottom: the main entity explorer, the Topics Panel |topic_icon|,
+alerts, status, and issues. Click the |topic_icon| icon to open the Topics Panel. It appears in the
 left sidebar between the main entity monitoring panel and the alerts panel. Clicking the same icon again
-while the sidebar is already showing the Topics Explorer collapses the sidebar.
+while the sidebar is already showing the Topics Panel collapses the sidebar.
 
 .. _topics_panel_layout:
 
@@ -49,6 +49,10 @@ appear when the content overflows the panel width.
 
 .. _topics_panel_expand:
 
+.. thumbnail:: /rst/figures/screenshots/topics_panel_pro.png
+    :align: center
+    :width: 400px
+
 Expanding Topics
 ================
 
@@ -67,12 +71,12 @@ Field Rows
 
 Leaf fields that carry a numeric IDL type (integers, floats, and doubles) are interactive in two ways:
 
-* **Drag to a Topic Chart** by pressing and holding a numeric leaf field and dragging it onto an open
-  :ref:`Topic Chart <topic_charts>` pane. A drag badge appears under the cursor showing the field path
+* **Drag to a Time Series Topic Chart** by pressing and holding a numeric leaf field and dragging it onto an open
+  :ref:`Time Series Topic Chart <topic_charts>` pane. A drag badge appears under the cursor showing the field path
   while dragging. Dropping the field onto the chart adds it as a new series.
 
 * **Right-click** a numeric leaf field to open a small context menu with a **Plot field** action, which
-  opens a new :ref:`Topic Chart <topic_charts>` for that field directly.
+  opens a new :ref:`Time Series Topic Chart <topic_charts>` for that field directly.
 
 Non-numeric struct or array fields can be expanded to reach their numeric children but cannot be dragged
 or plotted themselves.
@@ -102,7 +106,7 @@ Right-clicking any topic row opens a context menu with the following actions:
 Multiple Monitors
 =================
 
-When more than one monitor is active (see :ref:`multiple_monitors`), the Topics Explorer shows topics from
+When more than one monitor is active (see :ref:`multiple_monitors`), the Topics Panel shows topics from
 all of them together. The domain identifier shown in the context menu and passed to any opened pane
 identifies which monitor the topic belongs to, so actions such as Spy or Chart always target the correct
 DDS environment even when the same topic name appears in more than one domain.

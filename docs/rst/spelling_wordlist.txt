@@ -9,6 +9,7 @@ Booleans
 centric
 Centric
 chartbox
+chartboxes
 checkbox
 checkboxes
 checkmark
@@ -50,6 +51,7 @@ NaN
 positionable
 pre
 programmatically
+proxied
 Qos
 QoS
 reactively

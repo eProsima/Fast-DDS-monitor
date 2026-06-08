@@ -77,13 +77,25 @@
     :width: 20
     :alt: Clear Issues
 
-.. |create_alert| image:: /rst/../../resources/images/icons/alert/alert_black.svg
+.. |create_alert| image:: /rst/../../resources/images/icons/alert/alert_grey.svg
     :width: 20
     :alt: Create Alert
 
 .. |resize| image:: /rst/../../resources/images/icons/resize/resize_grey.svg
     :width: 20
     :alt: Reset Chart Zoom
+
+.. |maximize| image:: /rst/../../resources/images/icons/maximize/maximize_grey.svg
+    :width: 20
+    :alt: Maximize Pane
+
+.. |maximize_square| image:: /rst/../../resources/images/icons/expand_square/expand_square_grey.svg
+    :width: 20
+    :alt: Maximize Pane
+
+.. |minimize_square| image:: /rst/../../resources/images/icons/collapse_square/collapse_square_grey.svg
+    :width: 20
+    :alt: Restore Pane
 
 .. |info| image:: /rst/../../resources/images/icons/originals/info.svg
     :width: 20
