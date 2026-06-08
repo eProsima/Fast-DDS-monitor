@@ -468,8 +468,9 @@ Once installed, two instances are needed to create the network used in this tuto
        source ~/shapes_demo_ws/install/setup.bash
        ShapesDemo
 
-   In the Shapes Demo GUI, go to **Options → Participant Configuration** and enable the
-   **Active statistics** toggle so the participant reports statistical data to the monitor.
+   In the Shapes Demo GUI, go to **Options → Participant Configuration** and make sure the
+   **Active statistics** toggle is enabled (it is on by default) so the participant reports
+   statistical data to the monitor.
    Then click **Publish** and create a **Square** publisher.
    Click **Publish** again and create a **Circle** publisher.
 
@@ -480,7 +481,7 @@ Once installed, two instances are needed to create the network used in this tuto
        source ~/shapes_demo_ws/install/setup.bash
        ShapesDemo
 
-   In this second GUI, enable **Active statistics** the same way under
+   In this second GUI, make sure **Active statistics** is enabled the same way under
    **Options → Participant Configuration**.
    Then click **Subscribe** and create a **Square** subscriber.
 
@@ -509,7 +510,7 @@ Once in the application, the initialization dialog asks you to select a monitori
 The Shapes Demo processes are running on domain :code:`0`.
 Select **DDS Domain**, enter :code:`0`, and click **OK**.
 
-.. figure:: /rst/figures/screenshots/usage_example/Init_domain.png
+.. figure:: /rst/figures/screenshots/init-monitor_pro.png
     :align: center
 
 The monitor starts discovering entities.
@@ -528,6 +529,9 @@ Explore the Domain View
 
 Click **Domain View** in the main panel selector, or go to **Add → Add Domain View**, to see
 the DDS network as an interactive graph.
+
+.. figure:: /rst/figures/screenshots/domain_pro.png
+    :align: center
 
 The graph shows both Shapes Demo processes as boxes inside the host.
 Each process contains its participant.
@@ -638,17 +642,16 @@ Split Panes
 *Fast DDS Monitor Pro* can hold several views side by side within the same monitor tab.
 With the Spy pane already open, let's split it to place a chart alongside it.
 
-Click the **...** (three-dots) button in the Spy pane header and select **Split right**.
-A new empty pane appears to the right of the Spy pane.
+Click the **...** (three-dots) button in the Spy pane header and hover over **Split right**.
+A submenu appears listing all available pane types — select **Topic Charts** to open a
+Time Series Topic Chart to the right of the Spy pane.
 
 .. figure:: /rst/figures/screenshots/resize_pro.png
     :align: center
-    :width: 500px
+    :width: 470px
 
 Drag the vertical divider between the panes to resize them as needed.
-The Spy pane stays on the left while the new empty pane on the right shows a set of view type
-buttons - click **Topic Charts View** to open a Time Series Topic Chart there.
-The configuration panel slides in from the right.
+The configuration panel opens automatically for the newly opened chart.
 
 Up to six panes can be open in a single tab at the same time.
 
@@ -710,7 +713,7 @@ The chart clears and the settings update for XY mode.
 Under **PANE SETTINGS**:
 
 * **Domain** -- :code:`Domain 0`.
-* **Max points** -- :code:`200` to keep the scatter plot readable.
+* **Max points** -- :code:`150` to keep the scatter plot readable.
 * Click **Apply & Reset Chart**.
 
 Click **Add XY Series** in the **SERIES** section:
@@ -722,7 +725,7 @@ Click **Add XY Series** in the **SERIES** section:
 .. figure:: /rst/figures/screenshots/xy_pro.png
     :align: center
 
-The scatter plot shows every position where the shape has been during the last :code:`500` samples.
+The scatter plot shows every position where the shape has been during the last :code:`200` samples.
 As the Shapes Demo keeps running, new points appear and old ones drop off once the buffer is full.
 Because the shape bounces between the edges of the canvas, the point cloud outlines the boundaries
 of the Shapes Demo window as a rectangle.
@@ -798,7 +801,7 @@ Click the toggle again to stop publishing.
 Add a Second Monitor
 ====================
 
-One of the most useful capabilities of *Fast DDS Monitor Pro* is the ability to run several
+A notable feature of *Fast DDS Monitor Pro* is the ability to run several
 independent monitors in the same window, each watching a different DDS environment.
 The image publisher used in the next section runs on domain :code:`1`, so let's start it now
 and add a second monitor tab for that domain.
@@ -861,7 +864,7 @@ waste to lose all that configuration when the application is closed.
 *Fast DDS Monitor Pro* saves the complete session state to a workspace file and restores it
 exactly on the next launch.
 
-Click the |save| button in the shortcuts toolbar at the top right of the window, or go to
+Click the |save| button in the toolbar at the top right of the window, or go to
 **File → Save Workspace**.
 A file dialog opens.
 Navigate to a suitable folder, type a name such as ``shapes_tutorial``, and click **Save**.
@@ -883,7 +886,7 @@ Switch Theme
 ============
 
 *Fast DDS Monitor Pro* ships with **Light** and **Dark** themes.
-Every part of the interface - panels, charts, icons, dialogs, the title bar, and the menu bar -
+Every part of the interface (panels, charts, icons, dialogs, the title bar, and the menu bar)
 switches instantly when the theme is changed, with no restart required.
 
 Go to **View → Theme** and select **Dark**, or use the |moon| / |sun| toggle in the shortcuts toolbar on the top right.

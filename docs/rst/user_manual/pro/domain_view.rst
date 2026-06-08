@@ -76,15 +76,19 @@ entities cannot remain visible as orphan nodes in the graph.
 
 See :ref:`domain-graph` for the full description of the visibility control panel.
 
-Routed Domains and Proxy Entities |Pro|
-=======================================
+Routed Domains and Proxy Entities
+==================================
 
 When multiple monitors are active (see :ref:`multiple_monitors`), each monitor tab shows its own
 independent domain graph.
 Entities from one domain are not shown in another domain's graph unless they are explicitly
 bridged or proxied.
 
-Proxy entities - entities from other domains whose statistics messages are reaching the current
-monitor's domain - can optionally be displayed.
+Proxy entities are entities from other domains whose statistics messages are reaching the current
+monitor's domain.
+This happens, for example, when a *Fast DDS Router* is routing traffic from a different DDS domain
+into the monitored domain: the remote entities appear as proxy entities in the graph of the local
+domain.
+Proxy entities can optionally be displayed.
 Go to **View -> Hide/Show Proxy Entities** to toggle their visibility.
 When visible, proxy entities appear in the graph and entity lists and their data can be charted.

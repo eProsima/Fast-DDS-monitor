@@ -55,8 +55,8 @@ Dark Mode |Pro|
 ===============
 
 *Fast DDS Monitor Pro* also provides two themes: **Light** and **Dark**.
-When you switch themes, every part of the application updates instantly - panels, charts, dialogs,
-icons, controls, and the menu bar - without requiring a restart.
+When you switch themes, every part of the application updates instantly (panels, charts, dialogs,
+icons, controls, and the menu bar) without requiring a restart.
 
 To switch themes, open **View → Theme** and choose **Light** or **Dark**.
 Both entries are mutually exclusive checkable actions; the active theme shows a checkmark.

@@ -8,8 +8,8 @@
 Statistics Charts
 #################
 
-A *Statistics Chartbox* plots pre-computed DDS metrics - such as latency, throughput, and packet
-counts - collected from the monitored DDS network.
+A *Statistics Chartbox* plots pre-computed DDS metrics (such as latency, throughput, and packet
+counts) collected from the monitored DDS network.
 Where :ref:`Topic Charts <topic_charts>` work with raw values published on user-defined topics,
 Statistics Charts show the statistical summaries computed by the *Fast DDS* statistics module.
 

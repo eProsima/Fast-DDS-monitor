@@ -46,7 +46,7 @@ Every entity in this panel is interactive:
 
 - Double-click the Participant name or icon to expand or collapse its DataWriters and DataReaders.
 - Double-click a DataReader or DataWriter name or icon to expand or collapse its Locators.
-- Double-click an entity to set it as the *selected entity*.
+- Click an entity to set it as the *selected entity*.
   See :ref:`pro_selected_entity` for details.
 
 .. figure:: /rst/figures/screenshots/dds_panel_pro.png
@@ -63,7 +63,7 @@ Every entity is interactive:
 
 - Double-click a Host name or icon to expand or collapse its Users.
 - Double-click a User name or icon to expand or collapse its Processes.
-- Double-click an entity to set it as the *selected entity*.
+- Click an entity to set it as the *selected entity*.
   See :ref:`pro_selected_entity` for details.
 
 .. figure:: /rst/figures/screenshots/physical_panel_pro.png
@@ -85,7 +85,7 @@ along with its DataWriters and their topics - will appear in this panel under Do
 Every entity is interactive:
 
 - Double-click a Domain name or icon to expand or collapse its Topics.
-- Double-click an entity to set it as the *selected entity*.
+- Click an entity to set it as the *selected entity*.
   See :ref:`pro_selected_entity` for details.
 
 .. figure:: /rst/figures/screenshots/logical_panel_pro.png
@@ -232,7 +232,7 @@ The application tracks one entity as the **last entity clicked** to determine wh
 displayed throughout the interface.
 An entity is any element that can be tracked by the monitor (see :ref:`entities`).
 
-To set an entity as selected, double-click it in any of the Explorer Panel sub-panels.
+To set an entity as selected, click it in any of the Explorer Panel sub-panels.
 The selected entity is then used as the context for the whole application.
 
 Selecting an entity has the following effects:
@@ -248,7 +248,7 @@ Selecting an entity has the following effects:
   Clicking a :ref:`dds_entities` entry in that state does not update the DDS panel.
   See :ref:`entities` for details on entity relationships.
 
-To change the selected entity, double-click a different entity in the Explorer Panel.
+To change the selected entity, click a different entity in the Explorer Panel.
 To clear the selection entirely, use the **Refresh** button (:ref:`pro_refresh_button`).
 
 When no entity is selected:

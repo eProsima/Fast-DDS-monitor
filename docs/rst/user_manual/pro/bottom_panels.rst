@@ -42,7 +42,6 @@ Entities with reported problems also display a warning or error icon next to the
 
 .. thumbnail:: /rst/figures/screenshots/problem_detail_pro.png
     :align: center
-    :width: 600px
 
 .. _entity_summary_bar:
 

@@ -24,7 +24,7 @@ restoring workspaces, and closing the application.
 .. _pro_init_monitor_button:
 
 **Initialize DDS Monitor**
-    Opens a dialog to start monitoring a DDS Domain by number (0–200).
+    Opens a dialog to start monitoring a DDS Domain by number (0–232).
     Once started, the monitor discovers all DDS entities in that domain and collects their connections,
     configuration, and statistical data in real time.
     See :ref:`monitor_domain` for a full explanation.
@@ -130,8 +130,7 @@ display.
 .. _pro_alerts_configuration:
 
 **Alerts Configuration**
-    Opens a dialog to configure the global notification and alert system settings, such as alert
-    thresholds, notification channels, and trigger conditions.
+    Opens a dialog to configure the pooling time for alerts.
 
 .. _pro_refresh_button:
 
@@ -298,5 +297,5 @@ application information.
     Displays a dialog with general information about the currently running *Fast DDS Monitor Pro*
     application, including the version number and license information.
 
-.. _GitHub Fast DDS Monitor repository: https://github.com/eProsima/Fast-DDS-Monitor-Pro
-.. _Issues: https://github.com/eProsima/Fast-DDS-Monitor-Pro/issues
+.. _GitHub Fast DDS Monitor repository: https://github.com/eProsima/Fast-DDS-Monitor
+.. _Issues: https://github.com/eProsima/Fast-DDS-Monitor/issues

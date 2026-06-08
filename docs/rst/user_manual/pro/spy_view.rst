@@ -68,8 +68,6 @@ having to navigate the Add menu.
 
 **Drag a numeric leaf field** from the sample tree and drop it onto an existing
 :ref:`Time Series Chart <time_series>` to add that field as a new series on the chart.
-Dropping onto an empty area of the workspace creates a new chart with the dragged field as its first
-series.
 
 Both interactions work with any field whose IDL type is an integer, float, or double.
 Struct and array fields can be expanded to reach their numeric children but cannot be dragged or
