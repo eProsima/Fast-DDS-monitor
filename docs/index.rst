@@ -122,7 +122,9 @@
 
 .. toctree::
    :caption: Release Notes
-   :maxdepth: 2
+   :maxdepth: 1
    :hidden:
 
-   /rst/notes/notes
+   /rst/notes/v5.0.0
+   /rst/notes/v4.2.0
+   /rst/notes/previous_versions

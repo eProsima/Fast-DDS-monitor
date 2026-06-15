@@ -814,12 +814,12 @@ and add a second monitor tab for that domain.
    The initialization dialog appears.
    Enter :code:`1`, and click **OK**.
 
+When you click the Domain View icon, there will appear a window allowing the user to choose a domain. Select domain :code:`1`.
 A second tab labeled with domain :code:`1` appears in the main panel area alongside the first.
 
 .. figure:: /rst/figures/screenshots/2_monitors_pro.png
     :align: center
 
-Click the domain :code:`1` tab to make it active.
 The Explorer Panel, entity lists, and the **Topics Panel** switch to show the entities from the
 second domain.
 The image topic appears in the **Topics Panel** and the image publisher's

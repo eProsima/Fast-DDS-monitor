@@ -41,6 +41,7 @@ GTest
 honours
 IPv
 labelled
+lifecycle
 localhost
 metatraffic
 middleware
@@ -61,6 +62,7 @@ scalable
 schemas
 Schemas
 scrollable
+Scrollbar
 scrollbars
 snapshotted
 splittable

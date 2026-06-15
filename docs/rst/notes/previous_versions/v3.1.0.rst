@@ -1,4 +1,4 @@
-Version v3.1.0
+Version 3.1.0
 ##############
 
 This release includes the following **dependencies update**:
