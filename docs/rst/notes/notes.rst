@@ -7,9 +7,20 @@
 Version v5.0.0 |Pro|
 ####################
 
+This release includes the following **internal changes**:
+
+* Preparation of Monitor Pro repository
+* Refactor ListItem and ListModel files
+* Addition of link to eProsima LinkedIn instead of Twitter
+* License update from GPL-3.0 to eProsima Software License Agreement Rev 03
+* Replacement of vendored Qt style overrides with eProsima.UI wrapper components
+* Creation of self-hosted CI and mirror
+
 This release includes the following **bugfixes**:
 
 * Fix spy mode initialization when starting from XML profiles
+* Fix hidden entities on monitoring panel
+* Fix enable_engine test
 
 This release includes the following **features**:
 
@@ -40,8 +51,8 @@ This release includes the following **features**:
 * Status bar buttons remain active while panes are being dragged or resized
 * CMake option to enforce static linking
 * Optimized summary refresh cycle and reduced backend polling frequency
-* Scrollbar rendering skips invisible connections for improved UI performance
-* Various interface improvements: updated icons, renamed actions, and visual polish
+* Domain view scrollbar rendering skips invisible connections for improved UI performance
+* Various interface improvements: updated icons, scrollbar and resize adjustments, renamed actions, and visual polish
 * Change Qt version to 6.8.3
 
 This release includes the following **dependencies**:
@@ -54,7 +65,7 @@ This release includes the following **dependencies**:
         - Version
     *   - Fast CDR
         - `eProsima/Fast-CDR <https://github.com/eProsima/Fast-CDR>`_
-        - `v2.3.5 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.3.5>`__
+        - `v2.3.6 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.3.6>`__
     *   - Fast DDS |Pro|
         - `eProsima/Fast-DDS-Pro <https://github.com/eProsima/Fast-DDS-Pro>`__
         - `v3.6.1.1 <https://github.com/eProsima/Fast-DDS-Pro/releases/tag/v3.6.1.1>`__

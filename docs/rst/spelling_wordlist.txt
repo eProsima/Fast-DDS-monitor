@@ -62,6 +62,7 @@ scalable
 schemas
 Schemas
 scrollable
+scrollbar
 Scrollbar
 scrollbars
 snapshotted
@@ -79,8 +80,10 @@ Todo
 toolchain
 tooltip
 Tooltip
+UI
 undiscovery
 unix
+vendored
 viewport
 walkthrough
 wget
