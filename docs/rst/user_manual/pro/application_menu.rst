@@ -45,6 +45,15 @@ restoring workspaces, and closing the application.
     Select the XML file and then choose the profile that defines the DDS configuration to use.
     See :ref:`add_monitor_using_dds_xml_profiles` for step-by-step instructions.
 
+.. _pro_stop_monitor:
+
+**Stop Monitor** |Pro|
+    Opens a submenu listing every domain currently being monitored.
+    Selecting a domain stops monitoring it: its panes and charts remain open but become inactive,
+    and the domain is no longer tracked.
+    This is the reverse operation of *Initialize DDS Monitor* and is useful when switching between
+    domains or freeing resources from a domain that is no longer of interest.
+
 **Save Workspace** |Pro|
     Save the current session using the |save| button, **Ctrl+S**, or **File -> Save Workspace**.
     See :ref:`workspace` for the full workspace documentation including what gets saved.
