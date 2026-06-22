@@ -36,10 +36,15 @@ It extends the open-source version with premium features such as:
   applied consistently across the entire application.
 * :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
   Servers, or XML-configured environments side by side in the same workspace.
+* :ref:`Domain Removal <pro_stop_monitor>` |Pro| to stop monitoring a specific domain at any time,
+  keeping all existing panes and charts open in an inactive state.
 * :ref:`Workspace Save and Restore <workspace>` |Pro| to save and reload the full workspace state across
   sessions, preserving layouts, chart configuration, alerts, and tab order.
 * :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
   expandable field trees, and context actions for opening Spy or Topic Chart panes.
+* :ref:`Alert Configuration Pane <pro_alert_configuration_panel>` |Pro| as an integrated form in
+  the left sidebar for creating and editing alert rules inline, replacing the previous dialog-based
+  workflow.
 * :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live entity counters at the bottom of the
   window for a quick overview of the monitored DDS network.
 * :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics directly
@@ -142,6 +147,11 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>⚠️ Single profile only</td>
       </tr>
       <tr>
+        <th>Domain removal</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
         <th>Statistics charts</th>
         <td>✅ Full (dockable panes)</td>
         <td>✅ Full (fixed layout)</td>
@@ -193,6 +203,11 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <th>Topics panel</th>
         <td>✅</td>
         <td>❌</td>
+      </tr>
+      <tr>
+        <th>Alert configuration</th>
+        <td>✅ Configuration pane</td>
+        <td>✅ Configuration dialog</td>
       </tr>
       <tr>
         <th>Workspace save &amp; restore</th>

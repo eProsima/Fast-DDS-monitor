@@ -643,7 +643,7 @@ Split Panes
 With the Spy pane already open, let's split it to place a chart alongside it.
 
 Click the **...** (three-dots) button in the Spy pane header and hover over **Split right**.
-A submenu appears listing all available pane types — select **Topic Charts** to open a
+A submenu appears listing all available pane types - select **Topic Charts** to open a
 Time Series Topic Chart to the right of the Spy pane.
 
 .. figure:: /rst/figures/screenshots/resize_pro.png
