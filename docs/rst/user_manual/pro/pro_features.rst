@@ -26,12 +26,18 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
 * :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
   Servers, or XML-configured environments side by side in the same workspace.
 
+* :ref:`Domain Removal <pro_stop_monitor>` |Pro| to stop monitoring a specific domain at any time, keeping all existing panes and charts open in an inactive state.
+
 * :ref:`Workspace Save and Restore <workspace>` |Pro| to save the full workspace state to a file and
   reload it in a future session, preserving tab layouts, pane configurations, chart settings, alert rules,
   and tab order.
 
 * :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel in the left sidebar
   with text filtering, expandable field trees, and context actions for opening Spy or Topic Chart panes.
+
+* :ref:`Alert Configuration Pane <pro_alert_configuration_panel>` |Pro| as an integrated form in
+  the left sidebar for creating and editing alert rules inline, replacing the previous dialog-based
+  workflow.
 
 * :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live counters for every type of monitored
   DDS entity at the bottom of the window, so the overall network size is always in view.

@@ -141,7 +141,7 @@ display.
 **Alerts Configuration**
     Switches to the **Configuration** tab of the :ref:`pro_alert_configuration_panel` in the left
     sidebar. Alert rules are created and edited there, and the polling time is also configured
-    inline — no separate dialog is opened.
+    inline - no separate dialog is opened.
 
 .. _pro_refresh_button:
 
