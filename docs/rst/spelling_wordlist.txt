@@ -10,10 +10,12 @@ centric
 Centric
 chartbox
 chartboxes
+checkable
 checkbox
 checkboxes
 checkmark
 CMake
+codec
 colcon
 DataKind
 datareader
@@ -56,6 +58,8 @@ proxied
 Qos
 QoS
 reactively
+reconfiguring
+representable
 resizable
 ros
 scalable
@@ -65,6 +69,7 @@ scrollable
 scrollbar
 Scrollbar
 scrollbars
+selectable
 snapshotted
 splittable
 Struct
@@ -72,6 +77,7 @@ structs
 Structs
 submenu
 submenus
+submodule
 subpanel
 subpanels
 summarising
@@ -80,6 +86,7 @@ Todo
 toolchain
 tooltip
 Tooltip
+tooltips
 UI
 undiscovery
 unix
@@ -87,3 +94,5 @@ vendored
 viewport
 walkthrough
 wget
+workspaces
+XTypes

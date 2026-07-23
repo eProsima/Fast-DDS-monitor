@@ -42,8 +42,9 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
 * :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live counters for every type of monitored
   DDS entity at the bottom of the window, so the overall network size is always in view.
 
-* :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics inside the
-  monitor, with automatic detection of ROS 2 sensor_msgs types and generic OMG IDL image types.
+* :ref:`Image Pane <image_pane>` |Pro| for rendering live image data from DDS topics inside the
+  monitor, with automatic detection of ROS 2 ``sensor_msgs`` and *eProsima Fast DDS* image types, plus
+  manual field mapping for arbitrary topics.
 
 * :ref:`Topic Time Series Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
   time-series chart, with support for multiple series, field selection, and pause/resume controls.
@@ -59,3 +60,20 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
 * :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
   from an inline configuration sidebar, including statistics charts, topic charts, spy panes, IDL panes, and
   image panes, without opening separate dialogs.
+
+* :ref:`Custom Series <custom_series_panel>` |Pro| for defining data series computed from a JavaScript
+  formula that binds one or more topic fields to variables, then plotting the result on a topic chart.
+
+* :ref:`Register Type <register_type>` |Pro| for registering a user-supplied data type from its IDL,
+  optionally under a custom name, so it can be used for spying, publishing, and charting on topics
+  whose type was never discovered on the network.
+
+* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
+  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
+  recorded timeline.
+
+* :ref:`On-Demand Statistics Readers <statistics_readers_panel>` |Pro| for controlling which
+  statistics DataReaders are active, so only the statistics you ask for are collected.
+
+* :ref:`Custom Image Topics <image_pane_custom_topic>` |Pro| for mapping an arbitrary topic's fields
+  to an image so it can be rendered in an Image Pane even when it does not use a standard image schema.

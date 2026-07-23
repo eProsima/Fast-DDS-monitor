@@ -48,6 +48,7 @@
 
    /rst/user_manual/pro/pro_features
    /rst/user_manual/pro/initialize_monitoring
+   /rst/user_manual/pro/offline_mode
    /rst/user_manual/pro/application_menu
    /rst/user_manual/pro/workspace
    /rst/user_manual/pro/left_sidebar
@@ -59,6 +60,7 @@
    /rst/user_manual/pro/topic_charts
    /rst/user_manual/pro/publisher_pane
    /rst/user_manual/pro/idl_view
+   /rst/user_manual/pro/register_type
    /rst/user_manual/pro/right_pane_config
 
 

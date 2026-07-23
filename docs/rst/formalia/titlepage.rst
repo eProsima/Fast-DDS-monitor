@@ -47,7 +47,7 @@ It extends the open-source version with premium features such as:
   workflow.
 * :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live entity counters at the bottom of the
   window for a quick overview of the monitored DDS network.
-* :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics directly
+* :ref:`Image Pane <image_pane>` |Pro| for rendering live image data from DDS topics directly
   inside the monitor workspace.
 * :ref:`Topic Time Series Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
   time-series chart, supporting multiple series and field selection.
@@ -58,6 +58,16 @@ It extends the open-source version with premium features such as:
   continuous publishing.
 * :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
   from an inline sidebar without opening separate dialogs.
+* :ref:`Custom Series <custom_series_panel>` |Pro| for defining data series computed from a JavaScript
+  formula that binds one or more topic fields to variables, then plotting the result on a topic chart.
+* :ref:`Register Type <register_type>` |Pro| for registering a user-supplied data type from its IDL,
+  optionally under a custom name, so it can be used for spying, publishing, and charting on topics
+  whose type was never discovered on the network.
+* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
+  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
+  recorded timeline.
+* :ref:`On-Demand Statistics Readers <statistics_readers_panel>` |Pro| for controlling which statistics
+  DataReaders are active, so only the statistics you ask for are collected.
 
 The following table summarizes the differences between *Fast DDS Monitor* and *Fast DDS Monitor Pro*:
 
@@ -172,12 +182,32 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Image / Video Pane</th>
+        <th>Image Pane</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
       <tr>
         <th>Publisher Pane (publish topic data)</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>Custom Series (JavaScript formulas)</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>Register Type from IDL</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>Offline mode (open recording)</th>
+        <td>✅ MCAP / SQLite playback</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>On-demand statistics readers</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
