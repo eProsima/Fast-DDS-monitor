@@ -55,6 +55,35 @@ def get_version(cmakelists):
     return version
 
 
+def get_pro_version(cmakelists):
+    """
+    Get the Pro edition version from a file
+
+    The function looks for PRODUCT_PRO_MAJOR_VERSION, PRODUCT_PRO_MINOR_VERSION,
+    and PRODUCT_PRO_PATCH_VERSION in the given file
+
+    :param cmakelists: The file to scan for the version
+    :return: A dict in the manner:
+        {
+            'major': int,
+            'minor': int,
+            'patch': int
+        }
+    """
+    version = {}
+    with open(cmakelists, "r") as f:
+        for line in f:
+            if re.search("PRODUCT_PRO_MAJOR_VERSION", line):
+                version["major"] = line.split()[1][:-1]
+            if re.search("PRODUCT_PRO_MINOR_VERSION", line):
+                version["minor"] = line.split()[1][:-1]
+            if re.search("PRODUCT_PRO_PATCH_VERSION", line):
+                version["patch"] = line.split()[1][:-1]
+            if "major" in version and "minor" in version and "patch" in version:
+                break
+    return version
+
+
 def download_json():
     """
     Download the common theme options of eProsima readthedocs documentation.
@@ -291,7 +320,8 @@ author = "eProsima"
 #
 # The short X.Y version.
 versions = get_version(os.path.abspath("{}/../CMakeLists.txt".format(script_path)))
-pro_release = '5.0.0'
+pro_versions = get_pro_version(os.path.abspath("{}/../CMakeLists.txt".format(script_path)))
+pro_release = "{}.{}.{}".format(pro_versions["major"], pro_versions["minor"], pro_versions["patch"])
 version = "{}.{} / {}".format(versions["major"], versions["minor"], pro_release)
 # The full version, including alpha/beta/rc tags.
 release = "{}.{}.{} / {} Pro".format(versions["major"], versions["minor"], versions["patch"], pro_release)
