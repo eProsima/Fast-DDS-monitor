@@ -823,6 +823,21 @@ Each statistic is listed with a toggle.
 The ``PUBLICATION_THROUGHPUT`` reader shows an information marker indicating it is active only because
 the throughput chart needs it - if you delete that chart, the reader is removed again automatically.
 
+Alerts create statistics readers the same way. Let's create one and watch its reader appear:
+
+#. Click the |create_alert| icon in the shortcuts toolbar, or the **+** button in the
+   :ref:`Alerts Panel <pro_alerts_panel>`, to open the alert creation form.
+#. Set an **Alert kind** of ``NEW_DATA`` (fires when a topic receives data), set the **Topic** filter
+   to ``Square``, and give the alert a name.
+#. Click **Create**.
+
+The ``NEW_DATA`` alert monitors the data count of the topic, so creating it automatically enables the
+``DATA_COUNT`` reader.
+Return to the **Enable / Disable Statistics** panel and note that ``DATA_COUNT`` now appears active
+with an information marker, exactly like ``PUBLICATION_THROUGHPUT`` did for the chart - it stays only
+as long as the alert exists.
+See :ref:`pro_alerts_panel` for the full alert configuration reference.
+
 Toggle a statistic on to keep its reader active permanently, even when no chart or alert uses it, so
 its data is always available.
 Toggle it off to stop collecting that statistic entirely.
@@ -994,6 +1009,21 @@ The topic becomes selectable under **IMAGE TOPIC**; select it and click **Create
 render it just like a standard image topic.
 See :ref:`image_pane_custom_topic` for the full mapping reference.
 
+Stop Monitoring a Domain
+========================
+
+Now that we are done inspecting the image topic on domain :code:`1`, we no longer need that monitor.
+*Fast DDS Monitor Pro* lets you stop monitoring a specific domain without closing its panes or
+affecting the other monitors.
+
+Go to **File → Stop Monitor** and select domain :code:`1` from the submenu.
+Monitoring of domain :code:`1` stops: its entities are no longer tracked and its tab and panes remain
+open but become inactive, while the Shapes Demo monitor on domain :code:`0` keeps running
+undisturbed.
+This is the reverse of *Initialize DDS Monitor* and is useful for freeing resources from a domain that
+is no longer of interest.
+See :ref:`pro_stop_monitor` for details.
+
 Save and Restore a Workspace
 ==============================
 
@@ -1073,7 +1103,7 @@ file).
 A **Select recording range** dialog appears first; click **Use full recording** to load the whole
 capture, or pick a sub-range and click **Apply range**.
 
-.. figure:: /rst/figures/screenshots/offline_pro.png
+.. figure:: /rst/figures/screenshots/offline_range_pro.png
     :align: center
 
 A playback bar appears at the bottom of the window with the recording name, the absolute start time
@@ -1082,6 +1112,9 @@ Drag the timeline (or left-drag directly on a chart plot) to move the playback c
 spy, and image panes all update to show the data at that point.
 On a Topic Chart, each series' value at the cursor is shown next to its entry in the legend, so the
 legend reads out the value of every series at the current playback point as you scrub.
+
+.. figure:: /rst/figures/screenshots/offline_pro.png
+    :align: center
 
 See :ref:`offline_mode` for the full list of playback controls and which panes are available while
 inspecting a recording.
