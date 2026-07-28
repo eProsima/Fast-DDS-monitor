@@ -47,7 +47,7 @@ restoring workspaces, and closing the application.
 
 .. _pro_open_recording:
 
-**Open Recording…** |Pro|
+**Open Recording...** |Pro|
     Opens a previously captured DDS recording (an ``.mcap`` or SQLite ``.db`` file) for offline
     inspection instead of connecting to a live DDS network. A playback bar appears at the bottom of
     the window with full timeline controls.
@@ -62,7 +62,7 @@ restoring workspaces, and closing the application.
     This is the reverse operation of *Initialize DDS Monitor* and is useful when switching between
     domains or freeing resources from a domain that is no longer of interest.
 
-**Save Workspace** |Pro|
+**Save Workspace As** |Pro|
     Save the current session using the |save| button, **Ctrl+S**, or **File -> Save Workspace**.
     See :ref:`workspace` for the full workspace documentation including what gets saved.
 
@@ -70,6 +70,16 @@ restoring workspaces, and closing the application.
     Restore a previously saved session.
     Go to **File -> Load Workspace** and select a ``.fdmw`` file.
     See :ref:`workspace` for details on the restore behavior.
+
+.. _pro_export_custom_series:
+
+**Export Custom Series...** |Pro|
+    Saves every defined :ref:`Custom Series <custom_series_panel>` to a ``.json`` file so the
+    definitions can be reused in another session or on another machine.
+
+**Import Custom Series...** |Pro|
+    Loads :ref:`Custom Series <custom_series_panel>` definitions from a ``.json`` file previously
+    written with *Export Custom Series...*.
 
 .. _pro_export_data:
 
@@ -96,16 +106,6 @@ restoring workspaces, and closing the application.
             - <Series name>
         *   - <unix_time>
             - <data_value>
-
-.. _pro_export_custom_series:
-
-**Export Custom Series...** |Pro|
-    Saves every defined :ref:`Custom Series <custom_series_panel>` to a ``.json`` file so the
-    definitions can be reused in another session or on another machine.
-
-**Import Custom Series...** |Pro|
-    Loads :ref:`Custom Series <custom_series_panel>` definitions from a ``.json`` file previously
-    written with *Export Custom Series...*.
 
 .. _pro_dump_button:
 
@@ -224,18 +224,18 @@ Every item here creates a panel that can be docked, split, or floated anywhere i
     read image data from an arbitrary topic (see :ref:`image_pane_custom_topic`).
     See :ref:`image_pane` for details.
 
-**Add Register Type View** |Pro|
-    Opens a new :ref:`Register Type View <register_type>` for registering a user-supplied data type
-    from its IDL definition, so it can be used for spying, publishing, and charting on topics whose
-    type was never discovered on the network.
-    See :ref:`register_type` for details.
-
 **Add Publisher View** |Pro|
     Opens a new :ref:`Publisher Pane <publisher_pane>` for composing and publishing DDS samples on any
     discovered topic.
     The form is generated automatically from the topic's dynamic type and supports both one-shot and
     continuous publishing modes.
     See :ref:`publisher_pane` for details.
+
+**Add Register Type View** |Pro|
+    Opens a new :ref:`Register Type View <register_type>` for registering a user-supplied data type
+    from its IDL definition, so it can be used for spying, publishing, and charting on topics whose
+    type was never discovered on the network.
+    See :ref:`register_type` for details.
 
 **Create Alert**
     Opens the alert creation dialog to define a new alert rule based on a DDS statistic threshold.
