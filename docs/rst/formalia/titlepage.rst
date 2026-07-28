@@ -234,6 +234,11 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
+        <th>Help pop-ups &amp; tooltips</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
         <th>Richer user experience</th>
         <td>✅ Entity summary bar, tab reordering, inline pane configuration, unified menu bar, domain removal...</td>
         <td>❌</td>
