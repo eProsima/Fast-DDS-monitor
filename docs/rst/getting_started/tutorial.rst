@@ -733,6 +733,48 @@ of the Shapes Demo window as a rectangle.
 When X and Y values come from different topics, each new X sample is paired with the most recent
 Y value, making it possible to plot correlations between any two numeric fields in the same domain.
 
+Create a Custom Series
+======================
+
+Beyond plotting topic fields directly, *Fast DDS Monitor Pro* can plot a series computed from a
+JavaScript formula that combines one or more topic fields with your own constants.
+Let's plot the Square's distance from the origin, computed live from its ``x`` and ``y`` fields.
+
+Open the **Custom Series** panel by clicking the |custom_series| icon in the vertical icon bar on the
+far left of the window, then click the |plus| button to create a new series.
+The formula editor opens in a central tab.
+
+Fill in the editor as follows:
+
+* Under **SERIES NAME**, type ``Square distance``.
+* Under **DATA SOURCES**, select **Domain 0** and topic ``Square``, pick the ``x`` field, type ``x``
+  in **As var**, and click **Add Binding**. Repeat for the ``y`` field with the variable name ``y``.
+* Under **GLOBAL VARIABLES**, add a variable named ``scale`` with the value ``0.1``.
+* Under **JAVASCRIPT FUNCTION BODY**, write a formula that returns the scaled distance from the
+  origin:
+
+  .. code-block:: javascript
+
+      return Math.sqrt(x * x + y * y) * scale;
+
+Click **Save & Exit**.
+The new series appears in the **Custom Series** panel.
+
+.. figure:: /rst/figures/screenshots/custom_series_editor_tutorial_pro.png
+    :align: center
+
+Open a Topic Chart (or reuse the ``Square Position`` chart) and drag the ``Square distance`` row from
+the **Custom Series** panel onto the chart, or right-click the row and choose **Plot on chart**.
+The computed series is plotted live alongside any other series, updating as new ``Square`` samples
+arrive.
+
+.. figure:: /rst/figures/screenshots/custom_series_chart_tutorial_pro.png
+    :align: center
+
+Custom series definitions can be exported to a ``.json`` file with the |file_up| button in the panel
+(or **File → Export Custom Series...**) and imported later with |file_down|, independently of the
+workspace.
+
 Statistics Charts
 =================
 
@@ -766,6 +808,26 @@ Under **AXES**, enable **Lock Y axis** to keep the vertical scale stable.
 Under **ACTIONS**, click **Export to CSV** at any time to save the chart data to a file for
 offline analysis.
 
+Enable and Disable Statistics
+=============================
+
+To save resources, *Fast DDS Monitor Pro* only collects a statistic while something is using it.
+Creating the throughput chart in the previous section automatically enabled the
+``PUBLICATION_THROUGHPUT`` reader behind the scenes.
+The **Enable / Disable Statistics** panel lets you see and control which statistics readers are
+active.
+
+Click the |enable_statistics| icon in the vertical icon bar on the far left of the window to open the
+panel.
+Each statistic is listed with a toggle.
+The ``PUBLICATION_THROUGHPUT`` reader shows an information marker indicating it is active only because
+the throughput chart needs it - if you delete that chart, the reader is removed again automatically.
+
+Toggle a statistic on to keep its reader active permanently, even when no chart or alert uses it, so
+its data is always available.
+Toggle it off to stop collecting that statistic entirely.
+See :ref:`statistics_readers_panel` for the full behavior, including which readers alerts create.
+
 Publish Topic Data
 ==================
 
@@ -798,19 +860,57 @@ the configuration panel and set **Interval** to :code:`100` milliseconds.
 The shape stays refreshed at the same position for as long as continuous mode is active.
 Click the toggle again to stop publishing.
 
+Register a Data Type
+====================
+
+The *Register Type View* lets you supply a data type from its IDL so it can be used on topics whose
+type was never discovered on the network - for example, *Safe DDS* topics.
+Let's use the ``ShapeType`` already on the network as a starting point to register a new type.
+
+Open **Add → Add Register Type View**.
+A Register Type pane opens.
+
+#. In the **SELECT AN EXISTING TYPE OR START FROM SCRATCH** dropdown, choose ``ShapeType``.
+   Its IDL loads into the editor.
+#. In the **REGISTER AS** field, change the name to a new one, for example ``MyShapeType``.
+   Because this name is not a struct in the loaded IDL, the type is registered under it as an
+   alias of ``ShapeType``.
+#. Click **Save**. The pane reports that the type was registered successfully.
+
+.. figure:: /rst/figures/screenshots/register_type_tutorial_pro.png
+    :align: center
+
+The registered type is now available on every monitored domain and can be paired with any topic
+name.
+Although there is no topic using ``MyShapeType`` in this tutorial, you could now publish it on any
+topic from the :ref:`Publisher Pane <publisher_pane>` shown in the previous section - the publisher
+form would be built automatically from the registered type.
+See :ref:`register_type` for the full workflow, including uploading IDL files with ``#include``
+directives.
+
 Add a Second Monitor
 ====================
 
 A notable feature of *Fast DDS Monitor Pro* is the ability to run several
 independent monitors in the same window, each watching a different DDS environment.
-The image publisher used in the next section runs on domain :code:`1`, so let's start it now
-and add a second monitor tab for that domain.
+To showcase this, the next section displays a live image topic, so we run an image publisher on a
+**separate domain** (:code:`1`) and add a second monitor tab for it.
 
-#. Open a third terminal and start the image publisher on domain :code:`1`.
+.. note::
 
-   The publisher starts sending image frames on the image topic in domain :code:`1`.
+    This tutorial does not ship an image publisher. Any DDS application that publishes an image-typed
+    topic works - a ROS 2 node publishing ``sensor_msgs/msg/Image``, or a *Fast DDS* application using
+    the *eProsima Fast DDS* image types. A ready-to-use IDL for the latter is available in the monitor
+    repository at `resources/idl/FastDdsImage.idl
+    <https://github.com/eProsima/Fast-DDS-monitor/blob/main/resources/idl/FastDdsImage.idl>`_; generate
+    a type from it with *Fast DDS Gen* and publish frames on a topic in domain :code:`1`.
+    See :ref:`image_pane` for the full list of supported image schemas.
+    The exact domain does not matter - any domain other than :code:`0` keeps this scenario separate
+    from the Shapes Demo network.
 
-#. In *Fast DDS Monitor Pro*, open the **FIle** menu and select **Initialize DDS Monitor**.
+#. Start your image publisher on domain :code:`1`, publishing frames on an image topic.
+
+#. In *Fast DDS Monitor Pro*, open the **File** menu and select **Initialize DDS Monitor**.
    The initialization dialog appears.
    Enter :code:`1`, and click **OK**.
 
@@ -843,7 +943,7 @@ A new Image Pane opens and the configuration panel shows **IMAGE VIEW** at the t
 Under **CHANGE TOPIC**, select **Domain 1** and pick your image topic from the list (the list shows only the image topics).
 Click **Apply & Reload**.
 
-.. figure:: /rst/figures/screenshots/image_pro.png
+.. figure:: /rst/figures/screenshots/image_tutorial_pro.png
     :align: center
 
 The pane starts displaying frames as soon as the first one arrives.
@@ -855,6 +955,44 @@ When paused, the last received frame stays visible so you can inspect it.
 
 Under **ACTIONS** in the configuration panel, click **Save Screenshot** to save the current frame
 as a PNG file, or **Copy Screenshot** to copy it to the clipboard.
+
+Map a Custom Image Topic
+========================
+
+The Image Pane recognizes the standard ROS 2 and *eProsima Fast DDS* image types automatically.
+When a topic carries image data under a non-standard type - different field names, or a byte buffer
+with no width/height/encoding fields - you can still render it by mapping its fields manually.
+
+.. note::
+
+    This step is optional and only applies when you have a topic whose type is **not** one of the
+    recognized image schemas. To try it out, take the ``resources/idl/FastDdsImage.idl`` type from
+    the previous section and rename its fields (for example ``width`` → ``cols``, ``height`` →
+    ``rows``, ``encoding`` → ``color_format``, ``step`` → ``line_size``, ``data`` → ``pixels``), then
+    publish a topic with that modified type. The monitor will no longer auto-detect it as an image,
+    which is exactly the case this mapping is for.
+
+Open a new Image View (**Add → Add Image View**).
+In the **NEW IMAGE VIEW** form, if the image topic does not appear under **IMAGE TOPIC**, select it
+under **CONFIGURE A CUSTOM TOPIC** instead and click **Configure as image topic**.
+The **CONFIGURE IMAGE TOPIC** panel opens.
+
+.. figure:: /rst/figures/screenshots/custom_image_mapping_pro.png
+    :align: center
+
+Choose the **Visualization Mode** (**Raw image** or **Compressed image**) and map each slot to a field
+of the topic type.
+For a raw image whose type names its fields ``cols``, ``rows``, ``color_format``, ``line_size``, and
+``pixels`` instead of the standard names, map **Width** → ``cols``, **Height** → ``rows``,
+**Encoding** → ``color_format``, **Step / row stride** → ``line_size``, and **Pixel data (bytes)** →
+``pixels``.
+Each slot's dropdown lists only fields of a compatible data type, and when the type has no suitable
+field you can enable **Use a fixed value** to supply a constant instead.
+
+Click **Save mapping**.
+The topic becomes selectable under **IMAGE TOPIC**; select it and click **Create Image View** to
+render it just like a standard image topic.
+See :ref:`image_pane_custom_topic` for the full mapping reference.
 
 Save and Restore a Workspace
 ==============================
@@ -904,3 +1042,46 @@ To revert, go to **View → Theme** and select **Light**.
 
 The active theme is included in the workspace file and is restored the next time the
 ``shapes_tutorial.fdmw`` workspace is loaded.
+
+Inspect a Recording (Offline Mode)
+==================================
+
+*Fast DDS Monitor Pro* can open a previously captured DDS recording and inspect it with full
+playback control, instead of connecting to a live network.
+This is useful for analyzing an issue after it happened, or sharing a captured session with a
+colleague.
+
+.. note::
+
+    This tutorial does not produce a recording. To obtain one, capture a DDS session with
+    `eProsima DDS Record & Replay <https://dds-recorder.readthedocs.io/en/latest/>`_, which saves DDS
+    traffic to an ``.mcap`` database - for example, record the Shapes Demo network used earlier in
+    this tutorial and then open the resulting file here. *Fast DDS Monitor Pro* opens ``.mcap`` files
+    and SQLite ``.db`` recordings.
+
+Go to **File → Open Recording...** and select a recording file (an ``.mcap`` or SQLite ``.db``
+file).
+
+.. note::
+
+    Opening a recording never interrupts your live session.
+    Because a monitor is already running in this window, the recording opens in a **new, independent
+    monitor application**, leaving the live Shapes Demo monitor running untouched.
+    You now have two separate monitor applications open at once, and closing one does not close the
+    other.
+
+A **Select recording range** dialog appears first; click **Use full recording** to load the whole
+capture, or pick a sub-range and click **Apply range**.
+
+.. figure:: /rst/figures/screenshots/offline_pro.png
+    :align: center
+
+A playback bar appears at the bottom of the window with the recording name, the absolute start time
+and duration, a scrubbable timeline, play/pause, back/forward, a loop toggle, and a speed control.
+Drag the timeline (or left-drag directly on a chart plot) to move the playback cursor; the charts,
+spy, and image panes all update to show the data at that point.
+On a Topic Chart, each series' value at the cursor is shown next to its entry in the legend, so the
+legend reads out the value of every series at the current playback point as you scrub.
+
+See :ref:`offline_mode` for the full list of playback controls and which panes are available while
+inspecting a recording.
