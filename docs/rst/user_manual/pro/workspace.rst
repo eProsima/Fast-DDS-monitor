@@ -21,7 +21,7 @@ There are three ways to save the current workspace:
 
 - Click the |save| button in the top-right toolbar of the application window.
 - Press **Ctrl+S**.
-- Go to **File -> Save Workspace**.
+- Go to **File -> Save Workspace As**.
 
 A file dialog opens to choose the destination folder and file name.
 An existing file at the selected path is overwritten.
@@ -68,6 +68,8 @@ of what is included.
 * Toolbar visibility and which buttons are shown in the shortcuts toolbar.
 * Left sidebar visibility and which buttons are shown in it.
 * Alerts polling time and scheduler configuration.
+* The active :ref:`statistics readers <statistics_readers_panel>`, so the same statistics are
+  collected when the workspace is reloaded.
 
 **Left sidebar**
 
