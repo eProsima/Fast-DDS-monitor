@@ -26,6 +26,10 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
 * :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
   Servers, or XML-configured environments side by side in the same workspace.
 
+* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
+  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
+  recorded timeline.
+
 * :ref:`Domain Removal <pro_stop_monitor>` |Pro| to stop monitoring a specific domain at any time, keeping all existing panes and charts open in an inactive state.
 
 * :ref:`Workspace Save and Restore <workspace>` |Pro| to save the full workspace state to a file and
@@ -34,6 +38,12 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
 
 * :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel in the left sidebar
   with text filtering, expandable field trees, and context actions for opening Spy or Topic Chart panes.
+
+* :ref:`Custom Series <custom_series_panel>` |Pro| for defining data series computed from a JavaScript
+  formula that binds one or more topic fields to variables, then plotting the result on a topic chart.
+
+* :ref:`On-Demand Statistics Readers <statistics_readers_panel>` |Pro| for controlling which
+  statistics DataReaders are active, so only the statistics you ask for are collected.
 
 * :ref:`Alert Configuration Pane <pro_alert_configuration_panel>` |Pro| as an integrated form in
   the left sidebar for creating and editing alert rules inline, replacing the previous dialog-based
@@ -57,23 +67,10 @@ Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*
   topic, with a form built automatically from the topic's dynamic type and support for one-shot and
   continuous publishing.
 
-* :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
-  from an inline configuration sidebar, including statistics charts, topic charts, spy panes, IDL panes, and
-  image panes, without opening separate dialogs.
-
-* :ref:`Custom Series <custom_series_panel>` |Pro| for defining data series computed from a JavaScript
-  formula that binds one or more topic fields to variables, then plotting the result on a topic chart.
-
 * :ref:`Register Type <register_type>` |Pro| for registering a user-supplied data type from its IDL,
   optionally under a custom name, so it can be used for spying, publishing, and charting on topics
   whose type was never discovered on the network.
 
-* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
-  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
-  recorded timeline.
-
-* :ref:`On-Demand Statistics Readers <statistics_readers_panel>` |Pro| for controlling which
-  statistics DataReaders are active, so only the statistics you ask for are collected.
-
-* :ref:`Custom Image Topics <image_pane_custom_topic>` |Pro| for mapping an arbitrary topic's fields
-  to an image so it can be rendered in an Image Pane even when it does not use a standard image schema.
+* :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
+  from an inline configuration sidebar, including statistics charts, topic charts, spy panes, IDL panes, and
+  image panes, without opening separate dialogs.
