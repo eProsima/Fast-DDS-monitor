@@ -32,13 +32,13 @@ It extends the open-source version with premium features such as:
 
 * :ref:`Modern Chart Workspace <dockable_panes>` |Pro| with a dockable and splittable pane layout for
   statistics and topic charts, improved zoom, legend, and time-window controls.
-* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
-  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
-  recorded timeline.
 * :ref:`Dark Mode <theming>` |Pro| offering light and dark palettes
   applied consistently across the entire application.
 * :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
   Servers, or XML-configured environments side by side in the same workspace.
+* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
+  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
+  recorded timeline.
 * :ref:`Domain Removal <pro_stop_monitor>` |Pro| to stop monitoring a specific domain at any time,
   keeping all existing panes and charts open in an inactive state.
 * :ref:`Workspace Save and Restore <workspace>` |Pro| to save and reload the full workspace state across
@@ -157,47 +157,12 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>⚠️ Single profile only</td>
       </tr>
       <tr>
-        <th>Domain removal</th>
-        <td>✅</td>
-        <td>❌</td>
-      </tr>
-      <tr>
         <th>Offline mode (open recording)</th>
         <td>✅ MCAP / SQLite playback</td>
         <td>❌</td>
       </tr>
       <tr>
-        <th>Domain graph</th>
-        <td>✅ + Visibility control panel</td>
-        <td>⚠️ Filter by topic only</td>
-      </tr>
-      <tr>
-        <th>Spy topics</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
-      </tr>
-      <tr>
-        <th>IDL view</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
-      </tr>
-      <tr>
-        <th>Image Pane</th>
-        <td>✅</td>
-        <td>❌</td>
-      </tr>
-      <tr>
-        <th>Statistics charts</th>
-        <td>✅ Full (dockable panes)</td>
-        <td>✅ Full (fixed layout)</td>
-      </tr>
-      <tr>
-        <th>Topic Charts (time series)</th>
-        <td>✅</td>
-        <td>❌</td>
-      </tr>
-      <tr>
-        <th>XY Charts (scatter plot)</th>
+        <th>Domain removal</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
@@ -212,9 +177,44 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
+        <th>Statistics charts</th>
+        <td>✅ Full (dockable panes)</td>
+        <td>✅ Full (fixed layout)</td>
+      </tr>
+      <tr>
+        <th>Domain graph</th>
+        <td>✅ + Visibility control panel</td>
+        <td>⚠️ Filter by topic only</td>
+      </tr>
+      <tr>
+        <th>Image Pane</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>Spy topics</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
+      </tr>
+      <tr>
+        <th>Topic Charts (time series)</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>XY Charts (scatter plot)</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
         <th>Publisher Pane (publish topic data)</th>
         <td>✅</td>
         <td>❌</td>
+      </tr>
+      <tr>
+        <th>IDL view</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
       </tr>
       <tr>
         <th>Register Type from IDL</th>
