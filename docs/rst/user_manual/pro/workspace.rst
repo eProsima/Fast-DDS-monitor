@@ -108,6 +108,10 @@ For each statistics chart pane:
 * The subscribed topic name and domain number.
 * Whether the pane was active (streaming) or paused when saved. The topic entity ID is not used for
   restoration since it is volatile; the pane is reconnected by topic name and domain on load.
+* Any :ref:`custom image topic mappings <image_pane_custom_topic>` defined in the session (the mode
+  and the field-path or fixed-value mapping for each configured topic). Mappings are restored globally
+  and re-validated against each topic's type when it is next used, so custom-mapped image panes reopen
+  correctly even before their topic is rediscovered.
 
 :ref:`Spy Panes <dockable_spy_pane>`
 
@@ -122,6 +126,13 @@ For each topic chart pane:
 * For each series: topic name, field path, max data points, label, color, and visibility.
 * Chart name, legend visibility, pause state, expand state, and whether data points are shown.
 * Y-axis lock and range (X-axis lock and range are not saved).
+
+:ref:`Custom Series <custom_series_panel>`
+
+* All :ref:`custom series <custom_series_panel>` defined in the session, including each series' name,
+  its data-source bindings, global variables, and JavaScript formula. Custom series are saved with the
+  workspace regardless of whether they are currently plotted on any chart, and can also be exported to
+  and imported from a separate ``.json`` file independently of the workspace.
 
 :ref:`Publisher Panes <publisher_pane>`
 
@@ -138,6 +149,14 @@ For each topic chart pane:
 
 * The topic name and domain being viewed, so the pane reopens showing the same
   type definition on load.
+
+:ref:`Register Type Panes <register_type>`
+
+* The IDL contents and the type name it is registered under, so the pane reopens with the same
+  definition on load.
+* Registered type definitions themselves are restored to the backend when the workspace is loaded, so
+  types registered before saving remain available for spying, publishing, and charting across the
+  session, even for topics that are not yet discovered.
 
 :ref:`Pane layouts <dockable_panes>`
 
