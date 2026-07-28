@@ -129,17 +129,24 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>Open Source (GPL-3.0)</td>
       </tr>
       <tr>
-        <th>Support</th>
-        <td>✅ Direct engineering support</td>
-        <td>❌ Community-based</td>
+        <th>Statistics charts</th>
+        <td>✅ Full (dockable panes)</td>
+        <td>✅ Full (fixed layout)</td>
       </tr>
       <tr>
-        <th>Maintenance / LTS</th>
-        <td>✅ Long-term support with backports</td>
-        <td>❌ No guaranteed maintenance</td>
+        <th>Spy topics</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
       </tr>
-      <tr class="section-header">
-        <td colspan="3">Monitoring</td>
+      <tr>
+        <th>IDL view</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
+      </tr>
+      <tr>
+        <th>Alert configuration</th>
+        <td>✅ Configuration pane</td>
+        <td>✅ Configuration dialog</td>
       </tr>
       <tr>
         <th>DDS Domain monitoring</th>
@@ -157,13 +164,23 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>⚠️ Single profile only</td>
       </tr>
       <tr>
-        <th>Offline mode (open recording)</th>
-        <td>✅ MCAP / SQLite playback</td>
-        <td>❌</td>
+        <th>Domain graph</th>
+        <td>✅ + Visibility control panel</td>
+        <td>⚠️ Filter by topic only</td>
       </tr>
       <tr>
-        <th>Domain removal</th>
-        <td>✅</td>
+        <th>Support</th>
+        <td>✅ Direct engineering support</td>
+        <td>❌ Community-based</td>
+      </tr>
+      <tr>
+        <th>Maintenance / LTS</th>
+        <td>✅ Long-term support with backports</td>
+        <td>❌ No guaranteed maintenance</td>
+      </tr>
+      <tr>
+        <th>Offline mode (open recording)</th>
+        <td>✅ MCAP / SQLite playback</td>
         <td>❌</td>
       </tr>
       <tr>
@@ -177,24 +194,9 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Statistics charts</th>
-        <td>✅ Full (dockable panes)</td>
-        <td>✅ Full (fixed layout)</td>
-      </tr>
-      <tr>
-        <th>Domain graph</th>
-        <td>✅ + Visibility control panel</td>
-        <td>⚠️ Filter by topic only</td>
-      </tr>
-      <tr>
         <th>Image Pane</th>
         <td>✅</td>
         <td>❌</td>
-      </tr>
-      <tr>
-        <th>Spy topics</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
       </tr>
       <tr>
         <th>Topic Charts (time series)</th>
@@ -212,17 +214,9 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>IDL view</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
-      </tr>
-      <tr>
         <th>Register Type from IDL</th>
         <td>✅</td>
         <td>❌</td>
-      </tr>
-      <tr class="section-header">
-        <td colspan="3">UI / UX</td>
       </tr>
       <tr>
         <th>Dark mode and theming</th>
@@ -235,18 +229,13 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Alert configuration</th>
-        <td>✅ Configuration pane</td>
-        <td>✅ Configuration dialog</td>
-      </tr>
-      <tr>
         <th>Workspace save &amp; restore</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
       <tr>
         <th>Richer user experience</th>
-        <td>✅ Entity summary bar, tab reordering, inline pane configuration, unified menu bar...</td>
+        <td>✅ Entity summary bar, tab reordering, inline pane configuration, unified menu bar, domain removal...</td>
         <td>❌</td>
       </tr>
     </tbody>
