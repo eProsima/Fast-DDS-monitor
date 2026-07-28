@@ -37,8 +37,8 @@ The sidebar can be hidden entirely from **View → Hide Left Sidebar** and resiz
 
     /rst/user_manual/pro/explorer_panel
     /rst/user_manual/pro/topics_panel
-    /rst/user_manual/pro/custom_series
-    /rst/user_manual/pro/statistics_readers
+    /rst/user_manual/pro/custom_series_panel
+    /rst/user_manual/pro/statistics_readers_panel
     /rst/user_manual/pro/alerts_panel
     /rst/user_manual/pro/status_panel
     /rst/user_manual/pro/issues_panel
