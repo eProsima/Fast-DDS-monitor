@@ -32,6 +32,9 @@ It extends the open-source version with premium features such as:
 
 * :ref:`Modern Chart Workspace <dockable_panes>` |Pro| with a dockable and splittable pane layout for
   statistics and topic charts, improved zoom, legend, and time-window controls.
+* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
+  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
+  recorded timeline.
 * :ref:`Dark Mode <theming>` |Pro| offering light and dark palettes
   applied consistently across the entire application.
 * :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
@@ -42,6 +45,10 @@ It extends the open-source version with premium features such as:
   sessions, preserving layouts, chart configuration, alerts, and tab order.
 * :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
   expandable field trees, and context actions for opening Spy or Topic Chart panes.
+* :ref:`Custom Series <custom_series_panel>` |Pro| for defining data series computed from a JavaScript
+  formula that binds one or more topic fields to variables, then plotting the result on a topic chart.
+* :ref:`On-Demand Statistics Readers <statistics_readers_panel>` |Pro| for controlling which statistics
+  DataReaders are active, so only the statistics you ask for are collected.
 * :ref:`Alert Configuration Pane <pro_alert_configuration_panel>` |Pro| as an integrated form in
   the left sidebar for creating and editing alert rules inline, replacing the previous dialog-based
   workflow.
@@ -56,18 +63,11 @@ It extends the open-source version with premium features such as:
 * :ref:`Publisher Pane <publisher_pane>` |Pro| for publishing user-defined samples on any discovered DDS
   topic, with a form built automatically from the topic's dynamic type and support for one-shot and
   continuous publishing.
-* :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
-  from an inline sidebar without opening separate dialogs.
-* :ref:`Custom Series <custom_series_panel>` |Pro| for defining data series computed from a JavaScript
-  formula that binds one or more topic fields to variables, then plotting the result on a topic chart.
 * :ref:`Register Type <register_type>` |Pro| for registering a user-supplied data type from its IDL,
   optionally under a custom name, so it can be used for spying, publishing, and charting on topics
   whose type was never discovered on the network.
-* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
-  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
-  recorded timeline.
-* :ref:`On-Demand Statistics Readers <statistics_readers_panel>` |Pro| for controlling which statistics
-  DataReaders are active, so only the statistics you ask for are collected.
+* :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
+  from an inline sidebar without opening separate dialogs.
 
 The following table summarizes the differences between *Fast DDS Monitor* and *Fast DDS Monitor Pro*:
 
@@ -162,14 +162,34 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Statistics charts</th>
-        <td>✅ Full (dockable panes)</td>
-        <td>✅ Full (fixed layout)</td>
+        <th>Offline mode (open recording)</th>
+        <td>✅ MCAP / SQLite playback</td>
+        <td>❌</td>
       </tr>
       <tr>
         <th>Domain graph</th>
         <td>✅ + Visibility control panel</td>
         <td>⚠️ Filter by topic only</td>
+      </tr>
+      <tr>
+        <th>Spy topics</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
+      </tr>
+      <tr>
+        <th>IDL view</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
+      </tr>
+      <tr>
+        <th>Image Pane</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>Statistics charts</th>
+        <td>✅ Full (dockable panes)</td>
+        <td>✅ Full (fixed layout)</td>
       </tr>
       <tr>
         <th>Topic Charts (time series)</th>
@@ -182,7 +202,12 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Image Pane</th>
+        <th>Custom Series (JavaScript formulas)</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>On-demand statistics readers</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
@@ -192,34 +217,9 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Custom Series (JavaScript formulas)</th>
-        <td>✅</td>
-        <td>❌</td>
-      </tr>
-      <tr>
         <th>Register Type from IDL</th>
         <td>✅</td>
         <td>❌</td>
-      </tr>
-      <tr>
-        <th>Offline mode (open recording)</th>
-        <td>✅ MCAP / SQLite playback</td>
-        <td>❌</td>
-      </tr>
-      <tr>
-        <th>On-demand statistics readers</th>
-        <td>✅</td>
-        <td>❌</td>
-      </tr>
-      <tr>
-        <th>Spy topics</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
-      </tr>
-      <tr>
-        <th>IDL view</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
       </tr>
       <tr class="section-header">
         <td colspan="3">UI / UX</td>
