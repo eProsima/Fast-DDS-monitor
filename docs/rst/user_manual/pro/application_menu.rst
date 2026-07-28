@@ -63,7 +63,7 @@ restoring workspaces, and closing the application.
     domains or freeing resources from a domain that is no longer of interest.
 
 **Save Workspace As** |Pro|
-    Save the current session using the |save| button, **Ctrl+S**, or **File -> Save Workspace**.
+    Save the current session using the |save| button, **Ctrl+S**, or **File -> Save Workspace As**.
     See :ref:`workspace` for the full workspace documentation including what gets saved.
 
 **Load Workspace** |Pro|
