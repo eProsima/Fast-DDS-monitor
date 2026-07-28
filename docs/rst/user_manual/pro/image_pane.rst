@@ -191,6 +191,10 @@ Map each required piece of the image to a field of the topic type, or - when the
 field - supply a constant with **Use a fixed value**. Nested fields appear as dotted paths (for
 example ``header.payload``). Required fields are marked with ``*``.
 
+Each slot's field dropdown lists only fields of a compatible data type, so it offers different options
+depending on the slot: the pixel/compressed data slot lists byte-array fields, width, height, and
+step list numeric fields, encoding lists string or enum fields, and format lists string fields.
+
 * For **Raw image**: **Pixel data (bytes)** (required), **Width** (required), **Height** (required),
   **Encoding** (required), and **Step / row stride** (optional). Width, height, and step accept a
   fixed integer value; encoding accepts a fixed value from ``rgb8``, ``bgr8``, ``rgba8``, ``bgra8``,
