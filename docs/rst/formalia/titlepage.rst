@@ -36,18 +36,25 @@ It extends the open-source version with premium features such as:
   applied consistently across the entire application.
 * :ref:`Multiple Monitor Support <multiple_monitors>` |Pro| to observe several DDS Domains, Discovery
   Servers, or XML-configured environments side by side in the same workspace.
+* :ref:`Offline Mode <offline_mode>` |Pro| for opening a captured DDS recording (MCAP or SQLite) and
+  inspecting it with full playback control - scrub, play, pause, loop, and change speed through the
+  recorded timeline.
 * :ref:`Domain Removal <pro_stop_monitor>` |Pro| to stop monitoring a specific domain at any time,
   keeping all existing panes and charts open in an inactive state.
 * :ref:`Workspace Save and Restore <workspace>` |Pro| to save and reload the full workspace state across
   sessions, preserving layouts, chart configuration, alerts, and tab order.
 * :ref:`Topics Panel <topics_panel>` |Pro| as a dedicated topic navigation panel with text filtering,
   expandable field trees, and context actions for opening Spy or Topic Chart panes.
+* :ref:`Custom Series <custom_series_panel>` |Pro| for defining data series computed from a JavaScript
+  formula that binds one or more topic fields to variables, then plotting the result on a topic chart.
+* :ref:`On-Demand Statistics Readers <statistics_readers_panel>` |Pro| for controlling which statistics
+  DataReaders are active, so only the statistics you ask for are collected.
 * :ref:`Alert Configuration Pane <pro_alert_configuration_panel>` |Pro| as an integrated form in
   the left sidebar for creating and editing alert rules inline, replacing the previous dialog-based
   workflow.
 * :ref:`Entity Summary Bar <entity_summary_bar>` |Pro| showing live entity counters at the bottom of the
   window for a quick overview of the monitored DDS network.
-* :ref:`Image Pane <image_pane>` |Pro| for rendering live image and video data from DDS topics directly
+* :ref:`Image Pane <image_pane>` |Pro| for rendering live image data from DDS topics directly
   inside the monitor workspace.
 * :ref:`Topic Time Series Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a
   time-series chart, supporting multiple series and field selection.
@@ -56,6 +63,9 @@ It extends the open-source version with premium features such as:
 * :ref:`Publisher Pane <publisher_pane>` |Pro| for publishing user-defined samples on any discovered DDS
   topic, with a form built automatically from the topic's dynamic type and support for one-shot and
   continuous publishing.
+* :ref:`Register Type <register_type>` |Pro| for registering a user-supplied data type from its IDL,
+  optionally under a custom name, so it can be used for spying, publishing, and charting on topics
+  whose type was never discovered on the network.
 * :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
   from an inline sidebar without opening separate dialogs.
 
@@ -119,17 +129,24 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>Open Source (GPL-3.0)</td>
       </tr>
       <tr>
-        <th>Support</th>
-        <td>✅ Direct engineering support</td>
-        <td>❌ Community-based</td>
+        <th>Statistics charts</th>
+        <td>✅ Full (dockable panes)</td>
+        <td>✅ Full (fixed layout)</td>
       </tr>
       <tr>
-        <th>Maintenance / LTS</th>
-        <td>✅ Long-term support with backports</td>
-        <td>❌ No guaranteed maintenance</td>
+        <th>Spy topics</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
       </tr>
-      <tr class="section-header">
-        <td colspan="3">Monitoring</td>
+      <tr>
+        <th>IDL view</th>
+        <td>✅ Multiple dockable panes</td>
+        <td>✅ Single fixed tab view</td>
+      </tr>
+      <tr>
+        <th>Alert configuration</th>
+        <td>✅ Configuration pane</td>
+        <td>✅ Configuration dialog</td>
       </tr>
       <tr>
         <th>DDS Domain monitoring</th>
@@ -147,19 +164,39 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>⚠️ Single profile only</td>
       </tr>
       <tr>
-        <th>Domain removal</th>
+        <th>Domain graph</th>
+        <td>✅ + Visibility control panel</td>
+        <td>⚠️ Filter by topic only</td>
+      </tr>
+      <tr>
+        <th>Support</th>
+        <td>✅ Direct engineering support</td>
+        <td>❌ Community-based</td>
+      </tr>
+      <tr>
+        <th>Maintenance / LTS</th>
+        <td>✅ Long-term support with backports</td>
+        <td>❌ No guaranteed maintenance</td>
+      </tr>
+      <tr>
+        <th>Offline mode (open recording)</th>
+        <td>✅ MCAP / SQLite playback</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <th>Custom Series (JavaScript formulas)</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
       <tr>
-        <th>Statistics charts</th>
-        <td>✅ Full (dockable panes)</td>
-        <td>✅ Full (fixed layout)</td>
+        <th>On-demand statistics readers</th>
+        <td>✅</td>
+        <td>❌</td>
       </tr>
       <tr>
-        <th>Domain graph</th>
-        <td>✅ + Visibility control panel</td>
-        <td>⚠️ Filter by topic only</td>
+        <th>Image Pane</th>
+        <td>✅</td>
+        <td>❌</td>
       </tr>
       <tr>
         <th>Topic Charts (time series)</th>
@@ -172,27 +209,14 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Image / Video Pane</th>
-        <td>✅</td>
-        <td>❌</td>
-      </tr>
-      <tr>
         <th>Publisher Pane (publish topic data)</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
       <tr>
-        <th>Spy topics</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
-      </tr>
-      <tr>
-        <th>IDL view</th>
-        <td>✅ Multiple dockable panes</td>
-        <td>✅ Single fixed tab view</td>
-      </tr>
-      <tr class="section-header">
-        <td colspan="3">UI / UX</td>
+        <th>Register Type from IDL</th>
+        <td>✅</td>
+        <td>❌</td>
       </tr>
       <tr>
         <th>Dark mode and theming</th>
@@ -205,18 +229,18 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
         <td>❌</td>
       </tr>
       <tr>
-        <th>Alert configuration</th>
-        <td>✅ Configuration pane</td>
-        <td>✅ Configuration dialog</td>
-      </tr>
-      <tr>
         <th>Workspace save &amp; restore</th>
         <td>✅</td>
         <td>❌</td>
       </tr>
       <tr>
+        <th>Help pop-ups &amp; tooltips</th>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
         <th>Richer user experience</th>
-        <td>✅ Entity summary bar, tab reordering, inline pane configuration, unified menu bar...</td>
+        <td>✅ Entity summary bar, tab reordering, inline pane configuration, unified menu bar, domain removal...</td>
         <td>❌</td>
       </tr>
     </tbody>

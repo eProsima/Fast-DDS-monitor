@@ -45,6 +45,14 @@ restoring workspaces, and closing the application.
     Select the XML file and then choose the profile that defines the DDS configuration to use.
     See :ref:`add_monitor_using_dds_xml_profiles` for step-by-step instructions.
 
+.. _pro_open_recording:
+
+**Open Recording...** |Pro|
+    Opens a previously captured DDS recording (an ``.mcap`` or SQLite ``.db`` file) for offline
+    inspection instead of connecting to a live DDS network. A playback bar appears at the bottom of
+    the window with full timeline controls.
+    See :ref:`offline_mode` for details.
+
 .. _pro_stop_monitor:
 
 **Stop Monitor** |Pro|
@@ -54,14 +62,24 @@ restoring workspaces, and closing the application.
     This is the reverse operation of *Initialize DDS Monitor* and is useful when switching between
     domains or freeing resources from a domain that is no longer of interest.
 
-**Save Workspace** |Pro|
-    Save the current session using the |save| button, **Ctrl+S**, or **File -> Save Workspace**.
+**Save Workspace As** |Pro|
+    Save the current session using the |save| button, **Ctrl+S**, or **File -> Save Workspace As**.
     See :ref:`workspace` for the full workspace documentation including what gets saved.
 
 **Load Workspace** |Pro|
     Restore a previously saved session.
     Go to **File -> Load Workspace** and select a ``.fdmw`` file.
     See :ref:`workspace` for details on the restore behavior.
+
+.. _pro_export_custom_series:
+
+**Export Custom Series...** |Pro|
+    Saves every defined :ref:`Custom Series <custom_series_panel>` to a ``.json`` file so the
+    definitions can be reused in another session or on another machine.
+
+**Import Custom Series...** |Pro|
+    Loads :ref:`Custom Series <custom_series_panel>` definitions from a ``.json`` file previously
+    written with *Export Custom Series...*.
 
 .. _pro_export_data:
 
@@ -200,9 +218,10 @@ Every item here creates a panel that can be docked, split, or floated anywhere i
     ROS 2 types are shown demangled by default (toggle with **View → Revert ROS 2 Demangling**).
 
 **Add Image View** |Pro|
-    Opens a new :ref:`Image Pane <image_pane>` that renders live image or video data streamed over a
+    Opens a new :ref:`Image Pane <image_pane>` that renders live image data streamed over a
     DDS topic directly inside the monitor.
-    Supports ROS 2 ``sensor_msgs/Image`` and generic OMG IDL image types.
+    Supports ROS 2 ``sensor_msgs`` and *eProsima Fast DDS* image types, and can be configured to
+    read image data from an arbitrary topic (see :ref:`image_pane_custom_topic`).
     See :ref:`image_pane` for details.
 
 **Add Publisher View** |Pro|
@@ -211,6 +230,12 @@ Every item here creates a panel that can be docked, split, or floated anywhere i
     The form is generated automatically from the topic's dynamic type and supports both one-shot and
     continuous publishing modes.
     See :ref:`publisher_pane` for details.
+
+**Add Register Type View** |Pro|
+    Opens a new :ref:`Register Type View <register_type>` for registering a user-supplied data type
+    from its IDL definition, so it can be used for spying, publishing, and charting on topics whose
+    type was never discovered on the network.
+    See :ref:`register_type` for details.
 
 **Create Alert**
     Opens the alert creation dialog to define a new alert rule based on a DDS statistic threshold.

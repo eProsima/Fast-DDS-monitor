@@ -1,0 +1,53 @@
+// Copyright(C) 2026, Proyectos y Sistemas de Mantenimiento SL(eProsima)
+//
+// This program is commercial software licensed under the terms of the
+// eProsima Software License Agreement Rev 03 (the "License")
+//
+// You may obtain a copy of the License at
+// https://www.eprosima.com/licenses/LICENSE-REV03
+
+// eProsima Fast DDS image types.
+//
+// Canonical definition of the raw and compressed image types owned by eProsima
+// under the `eprosima::fastdds::msg` module. They carry the same information as
+// the ROS 2 sensor_msgs image messages, but are flat and self-contained: rather
+// than a nested std_msgs Header they hold a plain `frame_id` string, which is
+// all a viewer needs to render the image while keeping the type simple.
+//
+// The Fast DDS Monitor Image Pane recognizes a topic as one of these types when
+// the leaf name of its registered type is `Image` (raw pixel buffer) or
+// `CompressedImage` (JPEG/PNG frame), regardless of the enclosing module, so any
+// publisher that uses these struct names is displayed automatically.
+//
+// Raw pixel encodings: rgb8, bgr8, rgba8, bgra8, mono8, 8uc1.
+// Compressed formats:  JPEG, PNG.
+
+module eprosima {
+module fastdds {
+module msg {
+
+// Raw, uncompressed image. `data` holds height * step bytes of pixel data laid
+// out row-major; `step` is the full row length in bytes (width * bytes-per-pixel
+// unless the rows are padded).
+struct Image
+{
+    string frame_id;
+    unsigned long height;
+    unsigned long width;
+    string encoding;
+    uint8 is_bigendian;
+    unsigned long step;
+    sequence<uint8> data;
+};
+
+// Compressed image. `data` holds a single self-contained JPEG or PNG frame;
+// `format` is an optional hint (e.g. "jpeg", "png") - the decoder otherwise
+// auto-detects the format from the payload header.
+struct CompressedImage
+{
+    string frame_id;
+    string format;
+    sequence<uint8> data;
+};
+
+}; }; };

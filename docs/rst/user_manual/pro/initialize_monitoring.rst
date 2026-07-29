@@ -152,7 +152,7 @@ Use the :ref:`Add menu <pro_add_menu>` to open any of them in the workspace.
   packet counts) over a configurable time range, historical or real-time.
 - :ref:`Domain View <pro_domain_graph>` - interactive graph showing all DDS entities in a domain and
   the connections between DataWriters and DataReaders through their shared topics.
-- :ref:`Image View <image_pane>` |Pro| - renders live image or video data from a DDS topic directly
+- :ref:`Image View <image_pane>` |Pro| - renders live image data from a DDS topic directly
   inside the monitor.
 - :ref:`Spy Topic View <dockable_spy_pane>` - shows each incoming DDS topic sample as an
   expandable field tree in real time.

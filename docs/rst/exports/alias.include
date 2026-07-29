@@ -5,6 +5,22 @@
     :width: 20
     :alt: Save Workspace
 
+.. |file_up| image:: /rst/../../resources/images/icons/file_up/file_up_grey.svg
+    :width: 20
+    :alt: Export
+
+.. |file_down| image:: /rst/../../resources/images/icons/file_down/file_down_grey.svg
+    :width: 20
+    :alt: Import
+
+.. |custom_series| image:: /rst/../../resources/images/icons/custom_series/custom_series_grey.svg
+    :width: 20
+    :alt: Custom Series
+
+.. |enable_statistics| image:: /rst/../../resources/images/icons/enable_statistics/enable_statistics_grey.svg
+    :width: 20
+    :alt: Enable / Disable Statistics
+
 .. |moon| image:: /rst/../../resources/images/icons/moon/moon_grey.svg
     :width: 20
     :alt: Dark Mode

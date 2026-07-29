@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 375" version="1.2">
+  <!-- Y axis -->
+  <rect x="18" y="18" width="22" height="310" rx="8" fill="#8b8b8b"/>
+  <!-- X axis -->
+  <rect x="18" y="308" width="340" height="22" rx="8" fill="#8b8b8b"/>
+  <!-- Smooth waveform area fill -->
+  <path d="M 40,240
+           C 70,240 90,55 135,75
+           C 180,95 200,295 248,265
+           C 296,235 325,80 358,90
+           L 358,308 L 40,308 Z"
+        fill="#8b8b8b" opacity="0.55"/>
+  <!-- Smooth waveform line (thick stroke rendered as fat path) -->
+  <path d="M 40,240
+           C 70,240 90,55 135,75
+           C 180,95 200,295 248,265
+           C 296,235 325,80 358,90"
+        fill="none" stroke="#8b8b8b" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
