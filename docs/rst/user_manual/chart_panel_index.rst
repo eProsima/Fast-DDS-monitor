@@ -37,7 +37,9 @@ Topic would be represented in the view. The filtered graph open in a new Tab.
 .. thumbnail:: /rst/figures/screenshots/shapes_topic.png
     :align: center
 
-Additionally, one can access the data type IDL corresponding to each Topic through the *Domain view*.
+Additionally, one can access the data type IDL corresponding to each Topic through the *Domain view*,
+and inspect its live data content with a :ref:`Spy Topic View <spy_view>` via the **Spy topic data**
+right-click option.
 
 .. thumbnail:: /rst/figures/screenshots/IDL_img.png
     :align: center
@@ -62,7 +64,7 @@ the documentation.
 *Fast DDS Monitor Pro* adds further pane types for visualizing live topic data:
 
 * :ref:`Topic Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a :ref:`Time Series Topic Chart <time_series>`, including :ref:`XY Charts <xy_charts>` for scatter plots of one field against another.
-* :ref:`Spy Pane <dockable_spy_pane>` |Pro| for inspecting raw live message data from any DDS topic as a structured tree.
+* :ref:`Dockable Spy Pane <dockable_spy_pane>` |Pro| upgrading the :ref:`Spy Topic View <spy_view>` into a freely positionable, splittable pane that can be opened multiple times at once.
 * :ref:`Image Pane <image_pane>` |Pro| for rendering live image data from DDS topics directly in the workspace.
 
 .. toctree::
