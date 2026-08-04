@@ -10,7 +10,7 @@ Spy Topic View
 A *Spy Topic View* subscribes to a DDS Topic and shows the live data samples published on it in
 real time, displaying each incoming sample as an expandable field tree.
 It is useful for verifying that the expected data is being published and for inspecting individual
-field values as they arrive, without needing to configure a chart.
+field values as they arrive.
 
 Opening a Spy Topic View
 ========================
