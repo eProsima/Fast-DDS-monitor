@@ -69,6 +69,10 @@ It extends the open-source version with premium features such as:
 * :ref:`Right-Side Pane Configuration <right_pane_config>` |Pro| for creating and editing all pane types
   from an inline sidebar without opening separate dialogs.
 
+##################
+Feature Comparison
+##################
+
 The following table summarizes the differences between *Fast DDS Monitor* and *Fast DDS Monitor Pro*:
 
 .. raw:: html
@@ -312,8 +316,8 @@ This documentation is organized into the sections below.
 
 * :ref:`Installation Manual <installation_manual_linux>`
 * :ref:`Getting Started <entities>`
-* :ref:`User Manual <initialize_monitoring>`
 * :ref:`Fast DDS Monitor Pro <pro_features>`
+* :ref:`Fast DDS Monitor Basic <initialize_monitoring>`
 * :ref:`Developer Manual <developer_manual_installation_sources_linux>`
 * :ref:`ROS 2 <ros_section>`
 * :ref:`Docker Image <docker>`

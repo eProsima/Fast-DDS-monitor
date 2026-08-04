@@ -70,7 +70,8 @@ You can access the documentation online, which is hosted on [Read the Docs](http
 
 * [Installation Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/installation/linux.html)
 * [Getting Started](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/entities.html)
-* [User Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html)
+* [Fast DDS Monitor Pro](https://fast-dds-monitor--310.org.readthedocs.build/en/310/rst/user_manual/pro/pro_features.html)
+* [Fast DDS Monitor Basic](https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html)
 * [Developer Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/developer_manual/installation/sources/linux.html)
 * [ROS 2](https://fast-dds-monitor.readthedocs.io/en/latest/rst/ros/ros.html)
 * [Docker Image](https://fast-dds-monitor.readthedocs.io/en/latest/rst/docker/docker.html)
