@@ -117,5 +117,5 @@ To launch the Fast DDS Monitor, from a terminal run
 
  $ fastdds_monitor
 
-eProsima Fast DDS Monitor usage information can be located on the `Fast DDS Monitor User Manual
+eProsima Fast DDS Monitor usage information can be located on the `Fast DDS Monitor Basic
 <https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html>`_.
