@@ -536,7 +536,7 @@ EntityId SyncBackendConnection::init_monitor(
     try
     {
         return StatisticsBackend::init_monitor(domain, nullptr, CallbackMask::all(),
-                       DataKindMask::none(), FASTDDS_MONITOR_APP, "", easy_mode_ip);
+                       DataKindMask::none(), DDS_MONITOR_APP, "", easy_mode_ip);
     }
     catch (const Error& e)
     {
@@ -557,7 +557,7 @@ EntityId SyncBackendConnection::init_monitor(
     {
         return StatisticsBackend::init_monitor(
             discovery_server_locators,
-            nullptr, CallbackMask::all(), DataKindMask::none(), FASTDDS_MONITOR_APP);
+            nullptr, CallbackMask::all(), DataKindMask::none(), DDS_MONITOR_APP);
     }
     catch (const Error& e)
     {
@@ -578,7 +578,7 @@ EntityId SyncBackendConnection::init_monitor_with_profile(
     {
         return StatisticsBackend::init_monitor_with_profile(
             profile_name,
-            nullptr, CallbackMask::all(), DataKindMask::none(), FASTDDS_MONITOR_APP);
+            nullptr, CallbackMask::all(), DataKindMask::none(), DDS_MONITOR_APP);
     }
     catch (const Error& e)
     {

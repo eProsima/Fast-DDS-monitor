@@ -26,6 +26,14 @@ on:
         type: string
         default: 'main'
 
+      qt_version:
+        description: >
+          Qt version to install for the build. Must match what the checked-out
+          ref's CMakeLists.txt requires (e.g. '5.15.2' for the 3.x branch, '6.4.2' for main).
+        required: false
+        type: string
+        default: '6.4.2'
+
 env:
   default_dependencies_artifact_postfix: '_nightly'
 
@@ -95,7 +103,7 @@ jobs:
           modules: 'qtcharts'
           arch: ${{ matrix.os.aarch }}
           setup-python: 'false'
-          version: '6.4.2'
+          version: ${{ inputs.qt_version }}
 
       - name: Install OpenSSL in windows
         if: runner.os == 'Windows'
@@ -169,7 +177,7 @@ jobs:
           modules: 'qtcharts'
           setup-python: 'false'
           arch: 'gcc_64'
-          version: '6.4.2'
+          version: ${{ inputs.qt_version }}
 
       - name: Compile and run tests
         uses: eProsima/eProsima-CI/multiplatform/colcon_build_test@v0
@@ -224,7 +232,7 @@ jobs:
           modules: 'qtcharts'
           setup-python: 'false'
           arch: 'gcc_64'
-          version: '6.4.2'
+          version: ${{ inputs.qt_version }}
 
       - name: Install OpenSSL in windows
         if: runner.os == 'Windows'

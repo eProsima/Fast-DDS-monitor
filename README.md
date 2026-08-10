@@ -58,6 +58,13 @@ are running.
     <img src="docs/rst/figures/screenshots/working_example2.gif" alt="Example of use">
 </div>
 
+*DDS Monitor Pro* is the commercial edition of *eProsima DDS Monitor*, building on the open-source version with
+more advanced monitoring capabilities, a richer interface, and tooling designed for real production deployments.
+
+<div align="center">
+    <img src="docs/rst/figures/screenshots/working_example_pro.gif" alt="Example of use of DDS Monitor Pro">
+</div>
+
 ## Commercial support
 
 Looking for commercial support? Write us to info@eprosima.com
