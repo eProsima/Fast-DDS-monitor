@@ -10,14 +10,14 @@ Main Panel
 In the central panel, there is a tab section that allows multiple views, including a collapsed menu that reports the
 possible problems that have been detected on the DDS entities.
 
-The main feature of the *Fast DDS Monitor* application is to graphically display the data that is being monitored in
+The main feature of the *DDS Monitor* application is to graphically display the data that is being monitored in
 the *Chart View*.
 DDS entities have associated different types of data (so-called *DataKind*) that could be visualized by configuring
 a *Chart*.
 For example, the mean, median and standard deviation latency between two machines (*Hosts*) running
 *Fast DDS* applications for the period of two hours in intervals of ten minutes could be displayed.
 
-The *Fast DDS Monitor* can also show the detected entities in a graph.
+The *DDS Monitor* can also show the detected entities in a graph.
 The *Domain view* would filter all entities that belong to the same DDS Domain, and represent the inheritance of the
 physical and DDS entities (the DataWriters or DataReaders that belong to a DomainParticipant, the
 DomainParticipants that run on the same Process, the Processes that a User is running, and the Users that are on a
@@ -61,7 +61,7 @@ the documentation.
 .. thumbnail:: /rst/figures/screenshots/problem_detail.png
     :align: center
 
-*Fast DDS Monitor Pro* adds further pane types for visualizing live topic data:
+*DDS Monitor Pro* adds further pane types for visualizing live topic data:
 
 * :ref:`Topic Charts <topic_charts>` |Pro| for plotting live numeric values from any DDS topic as a :ref:`Time Series Topic Chart <time_series>`, including :ref:`XY Charts <xy_charts>` for scatter plots of one field against another.
 * :ref:`Dockable Spy Pane <dockable_spy_pane>` |Pro| upgrading the :ref:`Spy Topic View <spy_view>` into a freely positionable, splittable pane that can be opened multiple times at once.

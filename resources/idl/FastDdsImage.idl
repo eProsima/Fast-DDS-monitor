@@ -14,7 +14,7 @@
 // than a nested std_msgs Header they hold a plain `frame_id` string, which is
 // all a viewer needs to render the image while keeping the type simple.
 //
-// The Fast DDS Monitor Image Pane recognizes a topic as one of these types when
+// The DDS Monitor Image Pane recognizes a topic as one of these types when
 // the leaf name of its registered type is `Image` (raw pixel buffer) or
 // `CompressedImage` (JPEG/PNG frame), regardless of the enclosing module, so any
 // publisher that uses these struct names is displayed automatically.

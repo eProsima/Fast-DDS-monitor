@@ -1,4 +1,4 @@
-.. eProsima Fast DDS Monitor documentation master file.
+.. eProsima DDS Monitor documentation master file.
 
 .. include:: rst/formalia/titlepage.rst
 
@@ -41,7 +41,7 @@
 .. _index_pro_features:
 
 .. toctree::
-   :caption: Fast DDS Monitor Pro
+   :caption: DDS Monitor Pro
    :maxdepth: 2
    :numbered: 5
    :hidden:
@@ -67,7 +67,7 @@
 .. _index_user_manual:
 
 .. toctree::
-   :caption: Fast DDS Monitor Basic
+   :caption: DDS Monitor Basic
    :maxdepth: 2
    :numbered: 5
    :hidden:

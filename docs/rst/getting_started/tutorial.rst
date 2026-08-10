@@ -7,7 +7,7 @@
 Example of usage
 ################
 
-This example will show how to monitor a DDS network using *Fast DDS Monitor* and how to understand the different
+This example will show how to monitor a DDS network using *DDS Monitor* and how to understand the different
 application features and configurations.
 
 .. _fastdds-with-statistics:
@@ -16,7 +16,7 @@ application features and configurations.
 Fast DDS with Statistics module
 *******************************
 
-In order to show the *Fast DDS Monitor* application running and monitoring a real DDS network, this tutorial uses a
+In order to show the *DDS Monitor* application running and monitoring a real DDS network, this tutorial uses a
 *Fast DDS* example to create a simple and understandable DDS network.
 The example proposed by this tutorial uses the :code:`hello_world` example of *Fast DDS* repository.
 
@@ -24,8 +24,8 @@ In order to execute this minimum DDS scenario where each entity publishes its st
 
 #. Compile *Fast DDS* library with CMake option :code:`COMPILE_EXAMPLES` to build the examples
    (:code:`-DCOMPILE_EXAMPLES=ON`).
-#. Have *Fast DDS Monitor* installed or a working environment with *Fast DDS*, *Fast DDS Statistics Backend* and
-   *Fast DDS Monitor* built.
+#. Have *DDS Monitor* installed or a working environment with *Fast DDS*, *Fast DDS Statistics Backend* and
+   *DDS Monitor* built.
 #. Use the environment variable :code:`FASTDDS_STATISTICS` to activate the statistics writers in the DDS execution (see
    following section).
 
@@ -89,16 +89,16 @@ Please refer to
 for further information about the available statistical topics.
 
 **************************
-Fast DDS Monitor Execution
+DDS Monitor Execution
 **************************
 
-The following section presents a complete *Fast DDS Monitor* execution, monitoring a real DDS network.
+The following section presents a complete *DDS Monitor* execution, monitoring a real DDS network.
 
 Initial Window
 ==============
 
 The Monitor starts with no DDS entities running.
-First of all, the *Fast DDS Monitor* initial window is shown.
+First of all, the *DDS Monitor* initial window is shown.
 Press :code:`Start monitoring!` in order to enter the application and start the monitoring.
 
 .. thumbnail:: /rst/figures/screenshots/main.png
@@ -434,12 +434,12 @@ To remove an alert, just right-click on it and choose the `Remove` option.
 .. _pro_features_tutorial:
 
 **************************
-Fast DDS Monitor |Pro|
+DDS Monitor |Pro|
 **************************
 
-*Fast DDS Monitor Pro* includes all the features of the open-source edition - everything
+*DDS Monitor Pro* includes all the features of the open-source edition - everything
 demonstrated in the previous sections of this tutorial works in Pro exactly the same way.
-The sections below walk through the features that are exclusive to *Fast DDS Monitor Pro*.
+The sections below walk through the features that are exclusive to *DDS Monitor Pro*.
 
 To showcase these capabilities a richer DDS network is needed than the minimal ``hello_world``
 example.
@@ -494,10 +494,10 @@ Keep both Shapes Demo windows open throughout the tutorial.
 
 .. _pro_monitor_launch:
 
-Fast DDS Monitor Pro Execution
+DDS Monitor Pro Execution
 ================================
 
-Start *Fast DDS Monitor Pro*.
+Start *DDS Monitor Pro*.
 The start screen appears; press **Start monitoring!** to enter the main interface.
 
 .. figure:: /rst/figures/screenshots/main_pro.png
@@ -639,7 +639,7 @@ While paused, the last received sample stays visible for inspection.
 Split Panes
 ===========
 
-*Fast DDS Monitor Pro* can hold several views side by side within the same monitor tab.
+*DDS Monitor Pro* can hold several views side by side within the same monitor tab.
 With the Spy pane already open, let's split it to place a chart alongside it.
 
 Click the **...** (three-dots) button in the Spy pane header and hover over **Split right**.
@@ -736,7 +736,7 @@ Y value, making it possible to plot correlations between any two numeric fields 
 Create a Custom Series
 ======================
 
-Beyond plotting topic fields directly, *Fast DDS Monitor Pro* can plot a series computed from a
+Beyond plotting topic fields directly, *DDS Monitor Pro* can plot a series computed from a
 JavaScript formula that combines one or more topic fields with your own constants.
 Let's plot the Square's distance from the origin, computed live from its ``x`` and ``y`` fields.
 
@@ -778,7 +778,7 @@ workspace.
 Statistics Charts
 =================
 
-Beyond raw topic values, *Fast DDS Monitor Pro* can also visualize pre-computed DDS statistics.
+Beyond raw topic values, *DDS Monitor Pro* can also visualize pre-computed DDS statistics.
 Let's add a live publication throughput chart for the Square publisher.
 
 Click |dynamic_chart| in the shortcuts toolbar, or go to **Add → Add Statistics Chart**.
@@ -811,7 +811,7 @@ offline analysis.
 Enable and Disable Statistics
 =============================
 
-To save resources, *Fast DDS Monitor Pro* only collects a statistic while something is using it.
+To save resources, *DDS Monitor Pro* only collects a statistic while something is using it.
 Creating the throughput chart in the previous section automatically enabled the
 ``PUBLICATION_THROUGHPUT`` reader behind the scenes.
 The **Enable / Disable Statistics** panel lets you see and control which statistics readers are
@@ -906,7 +906,7 @@ directives.
 Add a Second Monitor
 ====================
 
-A notable feature of *Fast DDS Monitor Pro* is the ability to run several
+A notable feature of *DDS Monitor Pro* is the ability to run several
 independent monitors in the same window, each watching a different DDS environment.
 To showcase this, the next section displays a live image topic, so we run an image publisher on a
 **separate domain** (:code:`1`) and add a second monitor tab for it.
@@ -925,7 +925,7 @@ To showcase this, the next section displays a live image topic, so we run an ima
 
 #. Start your image publisher on domain :code:`1`, publishing frames on an image topic.
 
-#. In *Fast DDS Monitor Pro*, open the **File** menu and select **Initialize DDS Monitor**.
+#. In *DDS Monitor Pro*, open the **File** menu and select **Initialize DDS Monitor**.
    The initialization dialog appears.
    Enter :code:`1`, and click **OK**.
 
@@ -1013,7 +1013,7 @@ Stop Monitoring a Domain
 ========================
 
 Now that we are done inspecting the image topic on domain :code:`1`, we no longer need that monitor.
-*Fast DDS Monitor Pro* lets you stop monitoring a specific domain without closing its panes or
+*DDS Monitor Pro* lets you stop monitoring a specific domain without closing its panes or
 affecting the other monitors.
 
 Go to **File → Stop Monitor** and select domain :code:`1` from the submenu.
@@ -1029,7 +1029,7 @@ Save and Restore a Workspace
 
 After spending time setting up monitors, pane layouts, charts, and alert rules, it would be a
 waste to lose all that configuration when the application is closed.
-*Fast DDS Monitor Pro* saves the complete session state to a workspace file and restores it
+*DDS Monitor Pro* saves the complete session state to a workspace file and restores it
 exactly on the next launch.
 
 Click the |save| button in the toolbar at the top right of the window, or go to
@@ -1053,7 +1053,7 @@ Each monitor reopens in a waiting state and populates as the Shapes Demo process
 Switch Theme
 ============
 
-*Fast DDS Monitor Pro* ships with **Light** and **Dark** themes.
+*DDS Monitor Pro* ships with **Light** and **Dark** themes.
 Every part of the interface (panels, charts, icons, dialogs, the title bar, and the menu bar)
 switches instantly when the theme is changed, with no restart required.
 
@@ -1076,7 +1076,7 @@ The active theme is included in the workspace file and is restored the next time
 Inspect a Recording (Offline Mode)
 ==================================
 
-*Fast DDS Monitor Pro* can open a previously captured DDS recording and inspect it with full
+*DDS Monitor Pro* can open a previously captured DDS recording and inspect it with full
 playback control, instead of connecting to a live network.
 This is useful for analyzing an issue after it happened, or sharing a captured session with a
 colleague.
@@ -1086,7 +1086,7 @@ colleague.
     This tutorial does not produce a recording. To obtain one, capture a DDS session with
     `eProsima DDS Record & Replay <https://dds-recorder.readthedocs.io/en/latest/>`_, which saves DDS
     traffic to an ``.mcap`` database - for example, record the Shapes Demo network used earlier in
-    this tutorial and then open the resulting file here. *Fast DDS Monitor Pro* opens ``.mcap`` files
+    this tutorial and then open the resulting file here. *DDS Monitor Pro* opens ``.mcap`` files
     and SQLite ``.db`` recordings.
 
 Go to **File → Open Recording...** and select a recording file (an ``.mcap`` or SQLite ``.db``

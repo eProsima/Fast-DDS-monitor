@@ -1,4 +1,4 @@
-# Nightly test workflow for Fast DDS Monitor
+# Nightly test workflow for DDS Monitor
 name: nightly
 
 on:

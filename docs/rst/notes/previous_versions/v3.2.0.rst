@@ -12,7 +12,7 @@ This release includes the following **improvements**:
 
 * Improve endpoints display and topic traceability.
 * Improve topic view.
-* Refactor Fast DDS Monitor documentation.
+* Refactor DDS Monitor documentation.
 * Do not display unknown physical data.
 * Add vendor icon to the user interface.
 * Added IDL references.

@@ -1,22 +1,22 @@
 # Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
-# This file is part of eProsima Fast DDS Monitor.
+# This file is part of eProsima DDS Monitor.
 #
-# eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+# eProsima DDS Monitor is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+# eProsima DDS Monitor is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+# along with eProsima DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 ###############################################################################
-# CMake build rules for Fast DDS Monitor
+# CMake build rules for DDS Monitor
 ###############################################################################
 cmake_minimum_required(VERSION 3.16)
 
@@ -45,13 +45,13 @@ set(PRODUCT_PRO_VERSION_STR ${PRODUCT_PRO_MAJOR_VERSION}.${PRODUCT_PRO_MINOR_VER
 ###############################################################################
 # Project
 ###############################################################################
-project(fastdds_monitor)
+project(dds_monitor)
 set(PROJECT_VERSION_MAJOR "${PRODUCT_MAJOR_VERSION}")
 set(PROJECT_VERSION_MINOR "${PRODUCT_MINOR_VERSION}")
 set(PROJECT_VERSION_PATCH "${PRODUCT_PATCH_VERSION}")
 set(PROJECT_VERSION "${PRODUCT_VERSION_STR}")
 
-set(PROJECT_NAME_LARGE "Fast DDS Monitor")
+set(PROJECT_NAME_LARGE "DDS Monitor")
 string(TOUPPER "${PROJECT_NAME}" PROJECT_NAME_UPPER)
 set(${PROJECT_NAME}_DESCRIPTION_SUMMARY "Qt application to display and interact with the Fast DDS statistics module data")
 set(${PROJECT_NAME}_DESCRIPTION
@@ -195,7 +195,7 @@ endif()
 # CMakeList of the executable (Use different name for QT_RESOURCES variable)
 
 # Set the app icon resource file for windows
-set(APP_ICON_RESOURCE_WINDOWS ${CMAKE_CURRENT_SOURCE_DIR}/resources/fastdds_monitor.rc)
+set(APP_ICON_RESOURCE_WINDOWS ${CMAKE_CURRENT_SOURCE_DIR}/resources/dds_monitor.rc)
 
 # Set the qml.qrc file containing the QML and other resources of the application
 qt_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/qml.qrc)
@@ -360,9 +360,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 ###############################################################################
 # Test
 ###############################################################################
-option(BUILD_TESTS "Build Fast DDS Monitor appliction and documentation tests" OFF)
-option(BUILD_APP_TESTS "Build Fast DDS Monitor application tests" OFF)
-option(BUILD_DOCUMENTATION_TESTS "Build Fast DDS Monitor documentation tests" OFF)
+option(BUILD_TESTS "Build DDS Monitor appliction and documentation tests" OFF)
+option(BUILD_APP_TESTS "Build DDS Monitor application tests" OFF)
+option(BUILD_DOCUMENTATION_TESTS "Build DDS Monitor documentation tests" OFF)
 
 if (BUILD_TESTS)
     set(BUILD_APP_TESTS ON)
@@ -402,3 +402,13 @@ set(CPACK_COMPONENT_LICENSES_HIDDEN 1)
 #Install executable
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION ${BIN_INSTALL_DIR})
+
+# Install a symlink under the previous executable name (fastdds_monitor) so existing
+# launchers/scripts keep working after the DDS Monitor rename.
+install(CODE "
+    file(CREATE_LINK
+        \"${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}\"
+        \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}/fastdds_monitor${CMAKE_EXECUTABLE_SUFFIX}\"
+        SYMBOLIC COPY_ON_ERROR
+    )
+    ")

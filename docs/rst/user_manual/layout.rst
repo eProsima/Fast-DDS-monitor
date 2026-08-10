@@ -5,10 +5,10 @@
 ######
 Layout
 ######
-This section explains the Graphical User Interface (GUI) of the *Fast DDS Monitor* application.
+This section explains the Graphical User Interface (GUI) of the *DDS Monitor* application.
 It will briefly explain the main menus and windows that could be seen, in order to familiarize the user
 with where to find the buttons and information.
-Below is a screenshot of the *Fast DDS Monitor* application in operation.
+Below is a screenshot of the *DDS Monitor* application in operation.
 
 .. thumbnail:: /rst/figures/screenshots/App_run.png
     :align: center

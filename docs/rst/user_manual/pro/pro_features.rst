@@ -4,18 +4,18 @@
 .. _pro_features:
 
 ######################
-Fast DDS Monitor |Pro|
+DDS Monitor |Pro|
 ######################
 
-*Fast DDS Monitor Pro* is the commercial edition of *eProsima Fast DDS Monitor*.
+*DDS Monitor Pro* is the commercial edition of *eProsima DDS Monitor*.
 It builds on the open-source version with more advanced monitoring capabilities, a richer interface, and
 tooling designed for real production deployments.
 
 .. note::
 
-    All features described in this section are exclusive to *Fast DDS Monitor Pro*.
+    All features described in this section are exclusive to *DDS Monitor Pro*.
 
-Except for the basic functionalities inherited from the *Fast DDS Monitor Basic*, it includes the following Pro features:
+Except for the basic functionalities inherited from the *DDS Monitor Basic*, it includes the following Pro features:
 
 * :ref:`Dockable Panes <dockable_panes>` |Pro| so that Charts, Spy Topic and IDL views open as freely
   positionable and splittable panes rather than fixed tab views.

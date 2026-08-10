@@ -7,7 +7,7 @@
 Initialize Monitoring
 #####################
 
-When *Fast DDS Monitor Pro* is launched, the following start screen is displayed.
+When *DDS Monitor Pro* is launched, the following start screen is displayed.
 Click the **Start monitoring!** button to begin monitoring a Fast DDS application.
 
 .. thumbnail:: /rst/figures/screenshots/main_pro.png
@@ -20,7 +20,7 @@ a DDS Domain or a Discovery Server network.
 .. thumbnail:: /rst/figures/screenshots/init-monitor_pro.png
     :align: center
 
-*Fast DDS Monitor Pro* supports multiple active monitors simultaneously.
+*DDS Monitor Pro* supports multiple active monitors simultaneously.
 Each monitor operates independently on its own DDS domain or Discovery Server network.
 See :ref:`multiple_monitors` for details on opening and managing several monitors side by side.
 
@@ -31,7 +31,7 @@ See :ref:`multiple_monitors` for details on opening and managing several monitor
 Dockable Pane Workspace |Pro|
 =============================
 
-In *Fast DDS Monitor Pro*, every visualization and inspection view lives in a dockable pane.
+In *DDS Monitor Pro*, every visualization and inspection view lives in a dockable pane.
 Statistics charts, topic charts, spy panes, IDL panes, image panes, and publisher panes can all be
 arranged side by side in a freely configurable split layout.
 You can resize, split, and close panes at any time to organize the workspace to suit your session.
@@ -54,7 +54,7 @@ The layout adjusts automatically whenever a pane is added or closed.
 Dark Mode |Pro|
 ===============
 
-*Fast DDS Monitor Pro* also provides two themes: **Light** and **Dark**.
+*DDS Monitor Pro* also provides two themes: **Light** and **Dark**.
 When you switch themes, every part of the application updates instantly (panels, charts, dialogs,
 icons, controls, and the menu bar) without requiring a restart.
 
@@ -85,7 +85,7 @@ The theme is applied across all components:
 Multiple Monitor Support |Pro|
 ==============================
 
-*Fast DDS Monitor Pro* lets you run several monitors at the same time within a single workspace.
+*DDS Monitor Pro* lets you run several monitors at the same time within a single workspace.
 Each monitor connects to its own DDS environment.
 You can freely switch between monitors, open panes from different monitors simultaneously, or add
 new ones at any time during a session.

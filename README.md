@@ -31,7 +31,7 @@
 
 <br><br>
 
-*eProsima Fast DDS Monitor* is a graphical desktop application aimed at monitoring DDS environments deployed using the
+*eProsima DDS Monitor* is a graphical desktop application aimed at monitoring DDS environments deployed using the
 *eProsima Fast DDS* library.
 Thus, the user can monitor in real time the status of publication/subscription communications between DDS entities.
 They can also choose from a wide variety of communication parameters to be measured (latency, throughput, packet loss,
@@ -44,7 +44,7 @@ they publish under or they subscribe to, respectively.
 It is also possible to visualize the physical architecture of the network on which the DDS applications that use *Fast DDS*
 are running.
 
-*eProsima Fast DDS Monitor* is designed to meet the following criteria:
+*eProsima DDS Monitor* is designed to meet the following criteria:
 
 * **Monitoring**: real-time tracking of network status and DDS communication.
 * **Intuitive**: graphical user interface developed following a user experience design approach.
@@ -70,8 +70,8 @@ You can access the documentation online, which is hosted on [Read the Docs](http
 
 * [Installation Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/installation/linux.html)
 * [Getting Started](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/entities.html)
-* [Fast DDS Monitor Pro](https://fast-dds-monitor--310.org.readthedocs.build/en/310/rst/user_manual/pro/pro_features.html)
-* [Fast DDS Monitor Basic](https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html)
+* [DDS Monitor Pro](https://fast-dds-monitor--310.org.readthedocs.build/en/310/rst/user_manual/pro/pro_features.html)
+* [DDS Monitor Basic](https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html)
 * [Developer Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/developer_manual/installation/sources/linux.html)
 * [ROS 2](https://fast-dds-monitor.readthedocs.io/en/latest/rst/ros/ros.html)
 * [Docker Image](https://fast-dds-monitor.readthedocs.io/en/latest/rst/docker/docker.html)

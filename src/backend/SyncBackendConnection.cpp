@@ -1,19 +1,19 @@
 // Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
-// This file is part of eProsima Fast DDS Monitor.
+// This file is part of eProsima DDS Monitor.
 //
-// eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+// eProsima DDS Monitor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+// eProsima DDS Monitor is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+// along with eProsima DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * @file SyncBackendConnection.cpp
@@ -32,22 +32,22 @@
 #include <fastdds_statistics_backend/StatisticsBackend.hpp>
 #include <fastdds_statistics_backend/exception/Exception.hpp>
 
-#include <fastdds_monitor/backend/backend_utils.h>
-#include <fastdds_monitor/backend/SyncBackendConnection.h>
-#include <fastdds_monitor/model/dds/EndpointModelItem.h>
-#include <fastdds_monitor/model/dds/LocatorModelItem.h>
-#include <fastdds_monitor/model/dds/ParticipantModelItem.h>
-#include <fastdds_monitor/model/ListItem.h>
-#include <fastdds_monitor/model/ListModel.h>
-#include <fastdds_monitor/model/logical/DomainModelItem.h>
-#include <fastdds_monitor/model/logical/TopicModelItem.h>
-#include <fastdds_monitor/model/physical/HostModelItem.h>
-#include <fastdds_monitor/model/physical/ProcessModelItem.h>
-#include <fastdds_monitor/model/physical/UserModelItem.h>
-#include <fastdds_monitor/model/statistics/EntityItem.h>
-#include <fastdds_monitor/model/SubListedListModel.h>
-#include <fastdds_monitor/model/tree/TreeModel.h>
-#include <fastdds_monitor/utils.h>
+#include <dds_monitor/backend/backend_utils.h>
+#include <dds_monitor/backend/SyncBackendConnection.h>
+#include <dds_monitor/model/dds/EndpointModelItem.h>
+#include <dds_monitor/model/dds/LocatorModelItem.h>
+#include <dds_monitor/model/dds/ParticipantModelItem.h>
+#include <dds_monitor/model/ListItem.h>
+#include <dds_monitor/model/ListModel.h>
+#include <dds_monitor/model/logical/DomainModelItem.h>
+#include <dds_monitor/model/logical/TopicModelItem.h>
+#include <dds_monitor/model/physical/HostModelItem.h>
+#include <dds_monitor/model/physical/ProcessModelItem.h>
+#include <dds_monitor/model/physical/UserModelItem.h>
+#include <dds_monitor/model/statistics/EntityItem.h>
+#include <dds_monitor/model/SubListedListModel.h>
+#include <dds_monitor/model/tree/TreeModel.h>
+#include <dds_monitor/utils.h>
 
 namespace backend {
 

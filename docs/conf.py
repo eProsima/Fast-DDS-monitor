@@ -310,7 +310,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "Fast DDS Monitor"
+project = "DDS Monitor"
 copyright = "2021, eProsima"
 author = "eProsima"
 
@@ -428,7 +428,7 @@ html_title = f"<center><i>{release}</i></center>"
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 
-html_logo = "rst/_static/fastdds-monitor-logo.png"
+html_logo = "rst/_static/dds-monitor-logo.png"
 
 # The name of an image file (relative to this directory) to use as a favicon of
 # the docs. This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -524,7 +524,7 @@ html_show_sphinx = False
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "FastDDS Monitor Manual"
+htmlhelp_basename = "DDS Monitor Manual"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -549,8 +549,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "fastdds_monitor.tex",
-        "Fast DDS Monitor Documentation",
+        "dds_monitor.tex",
+        "DDS Monitor Documentation",
         "eProsima",
         "manual",
     ),
@@ -594,7 +594,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, "Fast DDS Monitor", "Fast DDS Monitor Documentation", [author], 1)
+    (master_doc, "DDS Monitor", "DDS Monitor Documentation", [author], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -610,11 +610,11 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "Fast DDS Monitor",
-        "Fast DDS Monitor Documentation",
+        "DDS Monitor",
+        "DDS Monitor Documentation",
         author,
-        "Fast DDS Monitor",
-        "Documentation of eProsima Fast DDS Monitor",
+        "DDS Monitor",
+        "Documentation of eProsima DDS Monitor",
         "Miscellaneous",
     ),
 ]

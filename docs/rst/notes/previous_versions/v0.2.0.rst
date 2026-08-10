@@ -7,7 +7,7 @@ This release includes the following **improvements**:
 * Add Real-Time charts
 * Refactor sidebars
   * New left sidebar with all the DDS, physical and logical entities together with its corresponding information.
-  * Separated panel for Fast DDS Monitor status.
+  * Separated panel for DDS Monitor status.
   * New panel to display Issues information.
 * Possibility to change the Entity name setting an alias for it.
 * Entities not alive are marked in gray color.

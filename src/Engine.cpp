@@ -1,19 +1,19 @@
 // Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
-// This file is part of eProsima Fast DDS Monitor.
+// This file is part of eProsima DDS Monitor.
 //
-// eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+// eProsima DDS Monitor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+// eProsima DDS Monitor is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+// along with eProsima DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 #include <chrono>
 #include <sstream>
@@ -33,25 +33,25 @@
 #include <QStringListModel>
 #include <QtCore/QRandomGenerator>
 
-#include <fastdds_monitor/backend/backend_utils.h>
-#include <fastdds_monitor/backend/backend_types.h>
-#include <fastdds_monitor/backend/Listener.h>
-#include <fastdds_monitor/backend/SyncBackendConnection.h>
-#include <fastdds_monitor/Controller.h>
-#include <fastdds_monitor/Engine.h>
-#include <fastdds_monitor/io/csv.h>
-#include <fastdds_monitor/model/alerts/AlertListModel.h>
-#include <fastdds_monitor/model/alerts/AlertListItem.h>
-#include <fastdds_monitor/model/dds/ParticipantModelItem.h>
-#include <fastdds_monitor/model/logical/DomainModelItem.h>
-#include <fastdds_monitor/model/physical/HostModelItem.h>
-#include <fastdds_monitor/model/statistics/EntityItem.h>
-#include <fastdds_monitor/model/SubListedListItem.h>
-#include <fastdds_monitor/model/SubListedListModel.h>
-#include <fastdds_monitor/model/tree/TreeModel.h>
-#include <fastdds_monitor/statistics/StatisticsData.h>
-#include <fastdds_monitor/statistics/dynamic/DynamicStatisticsData.h>
-#include <fastdds_monitor/statistics/historic/HistoricStatisticsData.h>
+#include <dds_monitor/backend/backend_utils.h>
+#include <dds_monitor/backend/backend_types.h>
+#include <dds_monitor/backend/Listener.h>
+#include <dds_monitor/backend/SyncBackendConnection.h>
+#include <dds_monitor/Controller.h>
+#include <dds_monitor/Engine.h>
+#include <dds_monitor/io/csv.h>
+#include <dds_monitor/model/alerts/AlertListModel.h>
+#include <dds_monitor/model/alerts/AlertListItem.h>
+#include <dds_monitor/model/dds/ParticipantModelItem.h>
+#include <dds_monitor/model/logical/DomainModelItem.h>
+#include <dds_monitor/model/physical/HostModelItem.h>
+#include <dds_monitor/model/statistics/EntityItem.h>
+#include <dds_monitor/model/SubListedListItem.h>
+#include <dds_monitor/model/SubListedListModel.h>
+#include <dds_monitor/model/tree/TreeModel.h>
+#include <dds_monitor/statistics/StatisticsData.h>
+#include <dds_monitor/statistics/dynamic/DynamicStatisticsData.h>
+#include <dds_monitor/statistics/historic/HistoricStatisticsData.h>
 
 using EntityInfo = backend::EntityInfo;
 using UserDataInfo = backend::UserDataInfo;
@@ -403,7 +403,7 @@ Engine::~Engine()
         // qrc:/qml/AboutDialog.qml:57: TypeError: Cannot call method '...' of null
         // The elements that fail are:
         // system_info; qt_version; fastdds_statistics_backend_version; fastdds_version;
-        // build_date; git_commit; fastdds_monitor_version; inactive_visible
+        // build_date; git_commit; dds_monitor_version; inactive_visible
         if (controller_)
         {
             // delete controller_;
@@ -427,7 +427,7 @@ void Engine::init_monitor(
     if (unique_monitor_count_() >= 1)
     {
         process_error(
-            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
+            "The free version of DDS Monitor supports only one active monitor at a time.",
             ErrorType::GENERIC);
         return;
     }
@@ -463,7 +463,7 @@ void Engine::init_monitor(
     if (unique_monitor_count_() >= 1)
     {
         process_error(
-            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
+            "The free version of DDS Monitor supports only one active monitor at a time.",
             ErrorType::GENERIC);
         return;
     }
@@ -504,7 +504,7 @@ void Engine::init_monitor_with_profile(
     if (unique_monitor_count_() >= 1)
     {
         process_error(
-            "The free version of Fast DDS Monitor supports only one active monitor at a time.",
+            "The free version of DDS Monitor supports only one active monitor at a time.",
             ErrorType::GENERIC);
         return;
     }

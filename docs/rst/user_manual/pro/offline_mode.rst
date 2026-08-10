@@ -25,7 +25,7 @@ Use **File → Open Recording...** to select a recording file. Two formats are s
 * **MCAP** (``.mcap``).
 * **SQLite** (``.db``).
 
-While a recording is open, the window title shows ``Fast DDS Monitor Pro | Offline: <filename>`` and a
+While a recording is open, the window title shows ``DDS Monitor Pro | Offline: <filename>`` and a
 playback bar appears at the bottom of the window.
 
 Opening a recording never interrupts a live session. If the current window has never started a

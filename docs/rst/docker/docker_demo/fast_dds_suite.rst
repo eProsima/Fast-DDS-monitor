@@ -25,7 +25,7 @@ This Docker image contains the complete Fast DDS suite. This includes:
 
   You can read more about this application on the `Shapes Demo documentation page <https://eprosima-shapes-demo.readthedocs.io/>`_.
 
-- :ref:`Fast DDS Monitor <fast_dds_suite_monitor>`: eProsima Fast DDS Monitor is a graphical desktop application aimed
+- :ref:`DDS Monitor <fast_dds_suite_monitor>`: eProsima DDS Monitor is a graphical desktop application aimed
   at monitoring DDS environments deployed using the *eProsima Fast DDS* library. Thus, the user can monitor in real
   time the status of publication/subscription communications between DDS entities. They can also choose from a wide
   variety of communication parameters to be measured (latency, throughput, packet loss, etc.), as well as record and
@@ -108,14 +108,14 @@ eProsima Shapes Demo usage information can be found on the `Shapes Demo First St
 
 .. _fast_dds_suite_monitor:
 
-Fast DDS Monitor
+DDS Monitor
 ----------------
 
-To launch the Fast DDS Monitor, from a terminal run
+To launch the DDS Monitor, from a terminal run
 
 .. code-block:: bash
 
- $ fastdds_monitor
+ $ dds_monitor
 
-eProsima Fast DDS Monitor usage information can be located on the `Fast DDS Monitor Basic
+eProsima DDS Monitor usage information can be located on the `DDS Monitor Basic
 <https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html>`_.

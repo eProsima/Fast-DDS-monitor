@@ -1,7 +1,7 @@
 Version 0.1.0
 ##############
 
-This is the first release of *eProsima Fast DDS Monitor*.
+This is the first release of *eProsima DDS Monitor*.
 
 This release includes several **features** regarding the monitoring of DDS network and the visualization
 of a real time working network, as instrumentation data related with this network:

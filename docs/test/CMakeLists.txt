@@ -1,25 +1,25 @@
 # Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
-# This file is part of eProsima Fast DDS Monitor.
+# This file is part of eProsima DDS Monitor.
 #
-# eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+# eProsima DDS Monitor is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+# eProsima DDS Monitor is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+# along with eProsima DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 ####################################################################################################
 # Add tests
 ####################################################################################################
 
-message(STATUS "Building the Fast DDS Monitor documentation tests.")
+message(STATUS "Building the DDS Monitor documentation tests.")
 
 find_package(Python COMPONENTS Interpreter Development)
 if(NOT(${Python_FOUND} AND (${Python_VERSION} VERSION_GREATER "3.6")))
