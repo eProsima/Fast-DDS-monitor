@@ -1,4 +1,4 @@
-[![Fast DDS](resources/images/monitor_repo_banner.png)](https://www.eprosima.com/middleware/tools/fast-dds-monitor)
+[![DDS Monitor](resources/images/monitor_repo_banner.png)](https://www.eprosima.com/middleware/tools/fast-dds-monitor)
 
 <br>
 
@@ -10,9 +10,11 @@
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
         <a href="https://eprosima.com/index.php/company-all/news">News</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-        <a href="https://twitter.com/EProsima">Twitter</a>
+        <a href="https://www.linkedin.com/company/eprosima">LinkedIn</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
         <a href="mailto:info@eprosima.com">Contact Us</a>
+        <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+        <a href="https://www.eprosima.com/contact-us">Request Pro Evaluation</a>
     </strong>
 </div>
 
