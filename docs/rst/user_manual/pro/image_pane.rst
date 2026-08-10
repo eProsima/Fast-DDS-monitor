@@ -69,7 +69,7 @@ recognized.
 
 The canonical IDL definition of the *eProsima Fast DDS* image types is published in the monitor
 repository, in `resources/idl/FastDdsImage.idl
-<https://github.com/eProsima/Fast-DDS-monitor/blob/main/resources/idl/FastDdsImage.idl>`__:
+<https://github.com/eProsima/DDS-Monitor/blob/main/resources/idl/FastDdsImage.idl>`__:
 
 .. code-block:: omg-idl
 

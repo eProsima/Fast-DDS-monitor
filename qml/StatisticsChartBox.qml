@@ -658,7 +658,7 @@ Rectangle {
             standardButton(Dialog.Help).text = qsTrId("Extra Help...")
         }
 
-        onHelpRequested: Qt.openUrlExternally("https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/chart_panel_index.html")
+        onHelpRequested: Qt.openUrlExternally("https://dds-monitor.docs.eprosima.com/en/latest/rst/user_manual/chart_panel_index.html")
 
         RowLayout {
             spacing: 20

@@ -917,7 +917,7 @@ To showcase this, the next section displays a live image topic, so we run an ima
     topic works - a ROS 2 node publishing ``sensor_msgs/msg/Image``, or a *Fast DDS* application using
     the *eProsima Fast DDS* image types. A ready-to-use IDL for the latter is available in the monitor
     repository at `resources/idl/FastDdsImage.idl
-    <https://github.com/eProsima/Fast-DDS-monitor/blob/main/resources/idl/FastDdsImage.idl>`_; generate
+    <https://github.com/eProsima/DDS-Monitor/blob/main/resources/idl/FastDdsImage.idl>`_; generate
     a type from it with *Fast DDS Gen* and publish frames on a topic in domain :code:`1`.
     See :ref:`image_pane` for the full list of supported image schemas.
     The exact domain does not matter - any domain other than :code:`0` keeps this scenario separate

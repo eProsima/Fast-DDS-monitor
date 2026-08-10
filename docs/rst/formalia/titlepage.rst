@@ -296,7 +296,7 @@ Overview
     :align: center
 
 The source code for the Monitor application and the documentation can be found in our
-`GitHub repository <https://github.com/eProsima/Fast-DDS-monitor>`_.
+`GitHub repository <https://github.com/eProsima/DDS-Monitor>`_.
 
 ############
 Contributing

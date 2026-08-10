@@ -6,7 +6,7 @@
     <strong>
         <a href="https://eprosima.com/index.php/downloads-all">Download</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-        <a href="https://fast-dds-monitor.readthedocs.io/en/latest/">Docs</a>
+        <a href="https://dds-monitor.docs.eprosima.com/en/latest/">Docs</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
         <a href="https://eprosima.com/index.php/company-all/news">News</a>
         <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -19,14 +19,14 @@
 <br><br>
 
 <div class="badges" align="center">
-    <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img alt="License" src="https://img.shields.io/github/license/eProsima/Fast-DDS-monitor.svg"/></a>
-    <a href="https://github.com/eProsima/Fast-DDS-monitor/releases"><img alt="Releases" src="https://img.shields.io/github/v/release/eProsima/Fast-DDS-monitor?sort=semver"/></a>
-    <a href="https://github.com/eProsima/Fast-DDS-monitor/issues"><img alt="Issues" src="https://img.shields.io/github/issues/eProsima/Fast-DDS-monitor.svg"/></a>
-    <a href="https://github.com/eProsima/Fast-DDS-monitor/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/eProsima/Fast-DDS-monitor.svg"/></a>
-    <a href="https://github.com/eProsima/Fast-RTPS/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/eProsima/Fast-DDS-monitor.svg"/></a>
+    <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img alt="License" src="https://img.shields.io/github/license/eProsima/DDS-Monitor.svg"/></a>
+    <a href="https://github.com/eProsima/DDS-Monitor/releases"><img alt="Releases" src="https://img.shields.io/github/v/release/eProsima/DDS-Monitor?sort=semver"/></a>
+    <a href="https://github.com/eProsima/DDS-Monitor/issues"><img alt="Issues" src="https://img.shields.io/github/issues/eProsima/DDS-Monitor.svg"/></a>
+    <a href="https://github.com/eProsima/DDS-Monitor/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/eProsima/DDS-Monitor.svg"/></a>
+    <a href="https://github.com/eProsima/Fast-RTPS/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/eProsima/DDS-Monitor.svg"/></a>
     <br>
-    <a href="https://github.com/eProsima/Fast-DDS-monitor/actions/workflows/nightly.yml"><img alt="test" src="https://github.com/eProsima/Fast-DDS-monitor/actions/workflows/nightly.yml/badge.svg"/></a>
-    <a href="https://fast-dds-monitor.readthedocs.io/en/latest/"><img alt="Documentation Status" src="https://readthedocs.org/projects/fast-dds-monitor/badge/?version=latest"></a>
+    <a href="https://github.com/eProsima/DDS-Monitor/actions/workflows/nightly.yml"><img alt="test" src="https://github.com/eProsima/DDS-Monitor/actions/workflows/nightly.yml/badge.svg"/></a>
+    <a href="https://dds-monitor.docs.eprosima.com/en/latest/"><img alt="Documentation Status" src="https://readthedocs.org/projects/fast-dds-monitor/badge/?version=latest"></a>
 </div>
 
 <br><br>
@@ -66,13 +66,13 @@ Find more about us at [eProsima’s webpage](https://eprosima.com/).
 
 ## Documentation
 
-You can access the documentation online, which is hosted on [Read the Docs](https://fast-dds-monitor.readthedocs.io/en/latest/index.html).
+You can access the documentation online, which is hosted on [Read the Docs](https://dds-monitor.docs.eprosima.com/en/latest/index.html).
 
-* [Installation Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/installation/linux.html)
-* [Getting Started](https://fast-dds-monitor.readthedocs.io/en/latest/rst/getting_started/entities.html)
-* [DDS Monitor Pro](https://fast-dds-monitor--310.org.readthedocs.build/en/310/rst/user_manual/pro/pro_features.html)
-* [DDS Monitor Basic](https://fast-dds-monitor.readthedocs.io/en/latest/rst/user_manual/initialize_monitoring.html)
-* [Developer Manual](https://fast-dds-monitor.readthedocs.io/en/latest/rst/developer_manual/installation/sources/linux.html)
-* [ROS 2](https://fast-dds-monitor.readthedocs.io/en/latest/rst/ros/ros.html)
-* [Docker Image](https://fast-dds-monitor.readthedocs.io/en/latest/rst/docker/docker.html)
-* [Release Notes](https://fast-dds-monitor.readthedocs.io/en/latest/rst/notes/notes.html)
+* [Installation Manual](https://dds-monitor.docs.eprosima.com/en/latest/rst/installation/linux.html)
+* [Getting Started](https://dds-monitor.docs.eprosima.com/en/latest/rst/getting_started/entities.html)
+* [DDS Monitor Pro](https://dds-monitor.docs.eprosima.com/en/latest/rst/user_manual/pro/pro_features.html)
+* [DDS Monitor Basic](https://dds-monitor.docs.eprosima.com/en/latest/rst/user_manual/initialize_monitoring.html)
+* [Developer Manual](https://dds-monitor.docs.eprosima.com/en/latest/rst/developer_manual/installation/sources/linux.html)
+* [ROS 2](https://dds-monitor.docs.eprosima.com/en/latest/rst/ros/ros.html)
+* [Docker Image](https://dds-monitor.docs.eprosima.com/en/latest/rst/docker/docker.html)
+* [Release Notes](https://dds-monitor.docs.eprosima.com/en/latest/rst/notes/notes.html)

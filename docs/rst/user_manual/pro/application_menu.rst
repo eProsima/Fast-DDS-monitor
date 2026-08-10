@@ -314,7 +314,7 @@ application information.
     Opens this documentation in the default browser.
 
 **Release Notes**
-    Opens the `Releases <https://github.com/eProsima/Fast-DDS-monitor/releases>`_ page of the
+    Opens the `Releases <https://github.com/eProsima/DDS-Monitor/releases>`_ page of the
     `GitHub DDS Monitor repository`_ in the default browser.
 
 **Join Us on LinkedIn**
@@ -333,5 +333,5 @@ application information.
     Displays a dialog with general information about the currently running *DDS Monitor Pro*
     application, including the version number and license information.
 
-.. _GitHub DDS Monitor repository: https://github.com/eProsima/Fast-DDS-Monitor
-.. _Issues: https://github.com/eProsima/Fast-DDS-Monitor/issues
+.. _GitHub DDS Monitor repository: https://github.com/eProsima/DDS-Monitor
+.. _Issues: https://github.com/eProsima/DDS-Monitor/issues

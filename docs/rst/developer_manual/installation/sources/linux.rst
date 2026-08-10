@@ -170,7 +170,7 @@ Colcon installation
 
         mkdir -p ~/DDS-Monitor/src
         cd ~/DDS-Monitor
-        wget https://raw.githubusercontent.com/eProsima/Fast-DDS-monitor/main/dds_monitor.repos
+        wget https://raw.githubusercontent.com/eProsima/DDS-Monitor/main/dds_monitor.repos
         vcs import src < dds_monitor.repos
 
     .. note::
@@ -272,7 +272,7 @@ Local installation
     .. code-block:: bash
 
         cd ~/DDS-Monitor
-        git clone https://github.com/eProsima/Fast-DDS-monitor.git
+        git clone https://github.com/eProsima/DDS-Monitor.git
         mkdir DDS-monitor/build
         cd DDS-monitor/build
         cmake .. \

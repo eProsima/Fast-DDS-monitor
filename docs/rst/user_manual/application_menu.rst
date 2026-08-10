@@ -231,7 +231,7 @@ Link to this documentation.
 Release Notes
 -------------
 
-Link to the `Releases <https://github.com/eProsima/Fast-DDS-monitor/releases>`_ section of the
+Link to the `Releases <https://github.com/eProsima/DDS-Monitor/releases>`_ section of the
 `GitHub DDS Monitor repository`_.
 
 Join Us on LinkedIn
@@ -250,5 +250,5 @@ About
 -----
 General information of the currently running *DDS Monitor* application.
 
-.. _GitHub DDS Monitor repository: https://github.com/eProsima/Fast-DDS-monitor
-.. _Issues: https://github.com/eProsima/Fast-DDS-monitor/issues
+.. _GitHub DDS Monitor repository: https://github.com/eProsima/DDS-Monitor
+.. _Issues: https://github.com/eProsima/DDS-Monitor/issues
