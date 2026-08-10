@@ -42,7 +42,7 @@ std::vector<EntityId> Domain::get_entities(
         case EntityKind::PARTICIPANT:
             return get_ids(participants_);
 
-        case EntityKind::DOMAIN:
+        case EntityKind::DOMAIN_ENTITY:
             return ids;
 
         case EntityKind::TOPIC:

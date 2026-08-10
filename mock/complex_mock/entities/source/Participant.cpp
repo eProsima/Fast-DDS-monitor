@@ -46,7 +46,7 @@ std::vector<EntityId> Participant::get_entities(
         case EntityKind::PARTICIPANT:
             return ids;
 
-        case EntityKind::DOMAIN:
+        case EntityKind::DOMAIN_ENTITY:
             ids.push_back(domain_->id());
             return ids;
 
