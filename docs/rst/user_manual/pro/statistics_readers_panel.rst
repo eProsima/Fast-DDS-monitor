@@ -7,7 +7,7 @@
 Enable / Disable Statistics Panel |Pro|
 #######################################
 
-*Fast DDS Monitor Pro* creates its statistics DataReaders **on demand** to save resources: a reader
+*DDS Monitor Pro* creates its statistics DataReaders **on demand** to save resources: a reader
 that collects a particular statistic is only created when something actually needs it. The
 *Enable / Disable Statistics* panel gives you direct control over which statistics readers are active,
 so you only gather the data you ask for.

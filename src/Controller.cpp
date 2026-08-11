@@ -1,31 +1,31 @@
 // Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
-// This file is part of eProsima Fast DDS Monitor.
+// This file is part of eProsima DDS Monitor.
 //
-// eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+// eProsima DDS Monitor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+// eProsima DDS Monitor is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+// along with eProsima DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 #include <QDebug>
 #include <QStringBuilder>
 #include <QtGlobal>
 
-#include <fastdds_monitor/config.h>
+#include <dds_monitor/config.h>
 #include <fastdds_statistics_backend/config.h>
 #include <fastdds/config.hpp>
 
-#include <fastdds_monitor/Controller.h>
-#include <fastdds_monitor/Engine.h>
-#include <fastdds_monitor/utils.h>
+#include <dds_monitor/Controller.h>
+#include <dds_monitor/Engine.h>
+#include <dds_monitor/utils.h>
 
 void Controller::init_monitor(
         int domain,
@@ -222,9 +222,9 @@ QString Controller::qt_version()
     return utils::to_QString(qVersion());
 }
 
-QString Controller::fastdds_monitor_version()
+QString Controller::dds_monitor_version()
 {
-    return utils::to_QString(FASTDDS_MONITOR_VERSION_STR);
+    return utils::to_QString(DDS_MONITOR_VERSION_STR);
 }
 
 QString Controller::system_info()

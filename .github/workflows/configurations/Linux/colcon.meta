@@ -8,7 +8,7 @@
                 "-DTHIRDPARTY=ON",
             ]
         },
-        "fastdds_monitor":
+        "dds_monitor":
         {
             "cmake-args":
             [

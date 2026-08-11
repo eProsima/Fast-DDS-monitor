@@ -25,7 +25,7 @@ Fast DDS statistics topics and the monitor service topic can be spied on like an
 
 .. note::
 
-    The free version of *Fast DDS Monitor* only has a single Spy View tab.
+    The free version of *DDS Monitor* only has a single Spy View tab.
     Spying on a different topic reuses that same tab: it stops the previous subscription, clears
     the previously received samples, and starts spying on the newly selected topic.
 

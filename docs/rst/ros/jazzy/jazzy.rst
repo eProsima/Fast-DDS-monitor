@@ -4,24 +4,24 @@
 Monitor Tutorial with ROS 2 Jazzy
 #################################
 
-This section shows how to install and deploy some ROS 2 Jazzy nodes in order to monitor them with Fast DDS Monitor.
+This section shows how to install and deploy some ROS 2 Jazzy nodes in order to monitor them with DDS Monitor.
 
 Installation
 ============
 
 First of all, follow the :ref:`installation_manual_linux` or the :ref:`installation_manual_windows` on this
-documentation to install Fast DDS Monitor. Additionally, make sure to also have a ROS 2 Jazzy installation available.
+documentation to install DDS Monitor. Additionally, make sure to also have a ROS 2 Jazzy installation available.
 
 Execution
 =========
 
 We are going to recreate a simple DDS network with one :code:`talker` and one :code:`listener` from ROS 2 demo nodes.
 
-Execute Fast DDS Monitor
+Execute DDS Monitor
 ------------------------
 
-Initiate Fast DDS Monitor by running the executable file created in the installation process.
-Once Fast DDS Monitor is launched, start a monitor in domain :code:`0` (default domain).
+Initiate DDS Monitor by running the executable file created in the installation process.
+Once DDS Monitor is launched, start a monitor in domain :code:`0` (default domain).
 
 .. thumbnail:: /rst/figures/screenshots/usage_example/Init_domain.png
     :align: center
@@ -125,7 +125,7 @@ in a real time chart.
 Introspect metatraffic topics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Fast DDS Monitor filters by default the topics used for sharing metatraffic and the endpoints related to them
+DDS Monitor filters by default the topics used for sharing metatraffic and the endpoints related to them
 so the user can inspect their network easily.
 These topics are the ones that ROS 2 uses for discovery and configuration purposes, such as :code:`ros_discovery_info`,
 as well as those used by Fast DDS to report statistical data.

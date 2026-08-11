@@ -1,2 +1,2 @@
 fixes:
-  - "src/Fast-DDS-monitor/::"
+  - "src/dds_monitor/::"

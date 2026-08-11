@@ -17,7 +17,7 @@ DDS Panel
 =========
 This panel displays all the :ref:`dds_entities` that have been discovered by the monitor so far under every
 DDS domain or Discovery Server monitored.
-This panel displays specific DDS entities related with the Fast DDS Monitor entity currently selected
+This panel displays specific DDS entities related with the DDS Monitor entity currently selected
 (see :ref:`selected_entity`).
 For example, it is possible to track the DDS entities created from an application running on a specific *Host*,
 *User*, or *Process*, as well as the DDS entities that are working on a specific DDS domain or are publishing or
@@ -48,7 +48,7 @@ Similar to the :ref:`dds_panel`, every entity in this panel is interactive:
 Logical Panel
 =============
 This panel displays all the :ref:`logical_entities` being monitored.
-The DDS domains monitored by Fast DDS Monitor those specified by the user (see :ref:`monitor_domain`).
+The DDS domains monitored by DDS Monitor those specified by the user (see :ref:`monitor_domain`).
 No additional domains will or can be discovered beyond these, as domains cannot be dynamically discovered
 and must be predefined. Therefore, this panel will only update the information.
 For example, having enabled the monitoring of Domain X,

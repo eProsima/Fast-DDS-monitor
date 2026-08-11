@@ -54,7 +54,7 @@ ROS 2 Demangling
 ROS 2 wraps its type names in a mangled format when publishing over DDS (for example,
 ``rosidl_typesupport_fastrtps_cpp::std_msgs::msg::dds_::String_`` instead of
 ``std_msgs/msg/String``).
-*Fast DDS Monitor* can reverse this mangling to show the original ROS 2 type name and a clean IDL
+*DDS Monitor* can reverse this mangling to show the original ROS 2 type name and a clean IDL
 representation that is directly usable with *Fast DDS Gen*.
 
 When demangling is active, a badge reading **ROS 2 Demangling applied** appears in the upper-right

@@ -107,7 +107,7 @@ to all the data collected by the monitor in that defined time interval.
 This allows the update interval of the chart and the time interval for calculating the statistics to be independent.
 
 Let's look into a simple example of monitoring the latency of a publisher and a subscriber in the Shapes Demo
-application launched with statistics enabled (a detailed example of Fast DDS Monitor monitoring a Shapes Demo
+application launched with statistics enabled (a detailed example of DDS Monitor monitoring a Shapes Demo
 application is shown in the following `video tutorial <https://www.youtube.com/watch?v=6ZEb0a7Ei4Y>`_).
 First, a chart is created to monitor the application latency with a time window of 5 minutes and an update period of
 5 seconds.

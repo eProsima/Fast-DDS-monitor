@@ -4,7 +4,7 @@
 Linux installation from sources
 ###############################
 
-The instructions for installing the *eProsima Fast DDS Monitor application* from sources and the required
+The instructions for installing the *eProsima DDS Monitor application* from sources and the required
 `Qt` installation are provided in this page.
 It is organized as follows:
 
@@ -13,7 +13,7 @@ It is organized as follows:
 Dependencies installation
 =========================
 
-*Fast DDS Monitor* depends on *eProsima Fast DDS* library, *eProsima Fast DDS Statistics Backend* library, Qt and
+*DDS Monitor* depends on *eProsima Fast DDS* library, *eProsima Fast DDS Statistics Backend* library, Qt and
 certain Debian packages.
 This section describes the instructions for installing *eProsima Fast DDS* dependencies and requirements in a Linux
 environment from sources.
@@ -80,7 +80,7 @@ Gtest
 ^^^^^
 
 Gtest is a unit testing library for C++.
-By default, *eProsima Fast DDS Monitor* does not compile tests.
+By default, *eProsima DDS Monitor* does not compile tests.
 It is possible to activate them with the opportune
 `CMake options <https://colcon.readthedocs.io/en/released/reference/verb/build.html#cmake-options>`_
 when calling colcon_ or CMake_.
@@ -135,13 +135,13 @@ eProsima dependencies
 
 If there is already in the system an installation of *Fast DDS* library with version greater than `2.3.0` and
 an installation of *Fast DDS Statistics Backend*, just source these
-libraries when building the *Fast DDS Monitor* by using the command:
+libraries when building the *DDS Monitor* by using the command:
 
 .. code-block:: bash
 
     source <fastdds-installation-path>/install/setup.bash
 
-Otherwise, just download *Fast DDS* project from sources and build it together with *Fast DDS Monitor* using colcon
+Otherwise, just download *Fast DDS* project from sources and build it together with *DDS Monitor* using colcon
 as it is explained in section :ref:`colcon_installation`.
 
 
@@ -150,7 +150,7 @@ as it is explained in section :ref:`colcon_installation`.
 Qt 6.4
 ^^^^^^^
 
-Qt 6.4 is needed in order to build *Fast DDS Monitor*.
+Qt 6.4 is needed in order to build *DDS Monitor*.
 To install this Qt version, refer to `Qt Downloads <https://www.qt.io/download>`_ website.
 
 .. note::
@@ -163,21 +163,21 @@ To install this Qt version, refer to `Qt Downloads <https://www.qt.io/download>`
 Colcon installation
 ===================
 
-#.  Create a :code:`Fast-DDS-Monitor` directory and download the :code:`.repos` file that will be used to install
-    *eProsima Fast DDS Monitor* and its dependencies:
+#.  Create a :code:`DDS-Monitor` directory and download the :code:`.repos` file that will be used to install
+    *eProsima DDS Monitor* and its dependencies:
 
     .. code-block:: bash
 
-        mkdir -p ~/Fast-DDS-Monitor/src
-        cd ~/Fast-DDS-Monitor
-        wget https://raw.githubusercontent.com/eProsima/Fast-DDS-monitor/main/fastdds_monitor.repos
-        vcs import src < fastdds_monitor.repos
+        mkdir -p ~/DDS-Monitor/src
+        cd ~/DDS-Monitor
+        wget https://raw.githubusercontent.com/eProsima/DDS-Monitor/main/dds_monitor.repos
+        vcs import src < dds_monitor.repos
 
     .. note::
 
         In case there is an already *Fast DDS* installation in the system it is not required to download and build
         every dependency in the :code:`.repos` file.
-        It is just needed to download and build the *Fast DDS Monitor* project having sourced its dependencies.
+        It is just needed to download and build the *DDS Monitor* project having sourced its dependencies.
         Refer to section :ref:`eprosima_dependencies` in order to check how to source *Fast DDS* and
         *Fast DDS Statistics Backend* libraries.
 
@@ -207,7 +207,7 @@ CMake installation
 
     Only use this installation method if the colcon_ installation method is not suitable for your needs.
 
-This section explains how to compile *eProsima Fast DDS Monitor* with CMake_, either
+This section explains how to compile *eProsima DDS Monitor* with CMake_, either
 :ref:`locally <local_installation_sl>` or :ref:`globally <global_installation_sl>`.
 
 .. _local_installation_sl:
@@ -215,11 +215,11 @@ This section explains how to compile *eProsima Fast DDS Monitor* with CMake_, ei
 Local installation
 ------------------
 
-#.  Create a :code:`Fast-DDS` directory where to download and build *eProsima Fast DDS Monitor* and its dependencies:
+#.  Create a :code:`Fast-DDS` directory where to download and build *eProsima DDS Monitor* and its dependencies:
 
     .. code-block:: bash
 
-        mkdir ~/Fast-DDS-Monitor
+        mkdir ~/DDS-Monitor
 
 #.  Clone the following dependencies and compile them using CMake_.
 
@@ -227,64 +227,64 @@ Local installation
 
       .. code-block:: bash
 
-          cd ~/Fast-DDS-Monitor
+          cd ~/DDS-Monitor
           git clone https://github.com/eProsima/foonathan_memory_vendor.git
           mkdir foonathan_memory_vendor/build
           cd foonathan_memory_vendor/build
-          cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DBUILD_SHARED_LIBS=ON
+          cmake .. -DCMAKE_INSTALL_PREFIX=~/DDS-Monitor/install -DBUILD_SHARED_LIBS=ON
           cmake --build . --target install
 
     * `Fast CDR <https://github.com/eProsima/Fast-CDR.git>`_
 
       .. code-block:: bash
 
-          cd ~/Fast-DDS-Monitor
+          cd ~/DDS-Monitor
           git clone https://github.com/eProsima/Fast-CDR.git
           mkdir Fast-CDR/build
           cd Fast-CDR/build
-          cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install
+          cmake .. -DCMAKE_INSTALL_PREFIX=~/DDS-Monitor/install
           cmake --build . --target install
 
     * `Fast DDS <https://github.com/eProsima/Fast-DDS.git>`_
 
         .. code-block:: bash
 
-            cd ~/Fast-DDS-Monitor
+            cd ~/DDS-Monitor
             git clone https://github.com/eProsima/Fast-DDS.git
             mkdir Fast-DDS/build
             cd Fast-DDS/build
-            cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install
+            cmake .. -DCMAKE_INSTALL_PREFIX=~/DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/DDS-Monitor/install
             cmake --build . --target install
 
     * `Fast DDS Statistics Backend <https://github.com/eProsima/Fast-DDS-statistics-backend.git>`_
 
       .. code-block:: bash
 
-          cd ~/Fast-DDS-Monitor
+          cd ~/DDS-Monitor
           git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
           mkdir Fast-DDS-statistics-backend/build
           cd Fast-DDS-statistics-backend/build
-          cmake .. -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install
+          cmake .. -DCMAKE_INSTALL_PREFIX=~/DDS-Monitor/install -DCMAKE_PREFIX_PATH=~/DDS-Monitor/install
           cmake --build . --target install
 
-#.  Once all dependencies are installed, install *eProsima Fast DDS Monitor*:
+#.  Once all dependencies are installed, install *eProsima DDS Monitor*:
 
     .. code-block:: bash
 
-        cd ~/Fast-DDS-Monitor
-        git clone https://github.com/eProsima/Fast-DDS-monitor.git
-        mkdir Fast-DDS-monitor/build
-        cd Fast-DDS-monitor/build
+        cd ~/DDS-Monitor
+        git clone https://github.com/eProsima/DDS-Monitor.git
+        mkdir DDS-monitor/build
+        cd DDS-monitor/build
         cmake .. \
-            -DCMAKE_INSTALL_PREFIX=~/Fast-DDS-Monitor/install \
-            -DCMAKE_PREFIX_PATH=~/Fast-DDS-Monitor/install \
+            -DCMAKE_INSTALL_PREFIX=~/DDS-Monitor/install \
+            -DCMAKE_PREFIX_PATH=~/DDS-Monitor/install \
             -DQT_PATH=<qt-installation-path>
         cmake --build . --target install
 
 
 .. note::
 
-    By default, *eProsima Fast DDS Monitor* does not compile tests.
+    By default, *eProsima DDS Monitor* does not compile tests.
     However, they can be activated by downloading and installing `Gtest <https://github.com/google/googletest>`_
     and building with CMake option ``-DBUILD_TESTS=ON``.
 
@@ -296,7 +296,7 @@ Global installation
 
 To install *eProsima Fast DDS* system-wide instead of locally, remove all the flags that
 appear in the configuration steps of :code:`Fast-CDR`, :code:`Fast-DDS`, :code:`Fast-DDS-Statistics-Backend`, and
-:code:`Fast-DDS-Monitor`, and change the flags in the configuration step of :code:`foonathan_memory_vendor` to the
+:code:`DDS-Monitor`, and change the flags in the configuration step of :code:`foonathan_memory_vendor` to the
 following:
 
 .. code-block:: bash
@@ -308,14 +308,14 @@ following:
 Run an application
 ==================
 
-To run the *eProsima Fast DDS Monitor* application, source the *Fast DDS* and *Fast DDS Statistics Backend* libraries
-and execute the executable file that has been installed in :code:`<install-path>/fastdds_monitor/bin/fastdds_monitor`:
+To run the *eProsima DDS Monitor* application, source the *Fast DDS* and *Fast DDS Statistics Backend* libraries
+and execute the executable file that has been installed in :code:`<install-path>/dds_monitor/bin/dds_monitor`:
 
 .. code-block:: bash
 
     # If built has been done using colcon, all projects could be sourced as follows
     source install/setup.bash
-    ./<build-path>/fastdds_monitor/fastdds_monitor
+    ./<build-path>/dds_monitor/dds_monitor
 
 Be sure that this executable has execute permissions.
 

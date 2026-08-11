@@ -1,5 +1,5 @@
 #######################################
-eProsima Fast DDS Monitor Documentation
+eProsima DDS Monitor Documentation
 #######################################
 
 .. image:: /rst/figures/Logo.png
@@ -8,7 +8,7 @@ eProsima Fast DDS Monitor Documentation
   :alt: eProsima
   :target: http://www.eprosima.com/
 
-*eProsima Fast DDS Monitor* is a graphical desktop application aimed at monitoring DDS environments deployed using the
+*eProsima DDS Monitor* is a graphical desktop application aimed at monitoring DDS environments deployed using the
 *eProsima Fast DDS* library.
 Thus, the user can monitor in real time the status of publication/subscription communications between DDS entities.
 They can also choose from a wide variety of communication parameters to be measured (latency, throughput, packet loss,
@@ -22,10 +22,10 @@ It is also possible to visualize the physical architecture of the network on whi
 *Fast DDS* are running.
 
 ########################
-Fast DDS Monitor |Pro|
+DDS Monitor |Pro|
 ########################
 
-*Fast DDS Monitor Pro* is the commercial edition of *eProsima Fast DDS Monitor*, designed for professional
+*DDS Monitor Pro* is the commercial edition of *eProsima DDS Monitor*, designed for professional
 deployments that require advanced monitoring capabilities and a richer user experience.
 
 It extends the open-source version with premium features such as:
@@ -73,7 +73,7 @@ It extends the open-source version with premium features such as:
 Feature Comparison
 ##################
 
-The following table summarizes the differences between *Fast DDS Monitor* and *Fast DDS Monitor Pro*:
+The following table summarizes the differences between *DDS Monitor* and *DDS Monitor Pro*:
 
 .. raw:: html
 
@@ -117,8 +117,8 @@ The following table summarizes the differences between *Fast DDS Monitor* and *F
     <thead>
       <tr>
         <th style="width:30%"></th>
-        <th style="width:35%; text-align:center;">Fast DDS Monitor Pro</th>
-        <th style="width:35%; text-align:center;">Fast DDS Monitor (Community)</th>
+        <th style="width:35%; text-align:center;">DDS Monitor Pro</th>
+        <th style="width:35%; text-align:center;">DDS Monitor (Community)</th>
       </tr>
     </thead>
     <tbody>
@@ -260,7 +260,7 @@ To discover all features and request a commercial license please |eprosima_monit
 Commercial Support and Licenses
 #################################
 
-*Fast DDS Monitor Pro* is distributed under the **eProsima Software License Agreement** and requires
+*DDS Monitor Pro* is distributed under the **eProsima Software License Agreement** and requires
 a valid license to run.
 The application checks for a license automatically at startup.
 If a valid license is found, the application launches normally; if no license is detected, an error
@@ -273,18 +273,18 @@ the following channels:
 * **Web:** `eProsima's webpage <https://eprosima.com/>`_
 * **License request form:** |eprosima_monitor_pro_website|.
 
-The *eProsima Software License Agreement* governs all use of *Fast DDS Monitor Pro*.
+The *eProsima Software License Agreement* governs all use of *DDS Monitor Pro*.
 A copy of the license is included with the software distribution.
 Using the application means you accept the terms of that agreement.
 
-The open-source *Fast DDS Monitor* is a separate product distributed under the GPL-3.0 license and
+The open-source *DDS Monitor* is a separate product distributed under the GPL-3.0 license and
 does not require a commercial license.
 
 ########
 Overview
 ########
 
-*eProsima Fast DDS Monitor* is designed to meet the following criteria:
+*eProsima DDS Monitor* is designed to meet the following criteria:
 
 #. **Monitoring**: real-time tracking of network status and DDS communication.
 #. **Intuitive**: graphical user interface developed following a user experience design approach.
@@ -295,14 +295,21 @@ Overview
 .. thumbnail:: /rst/figures/screenshots/working_example2.gif
     :align: center
 
+*DDS Monitor Pro* builds on this same workspace with a dockable pane layout, image and publisher pane, custom series, topic and XY charts, multi-domain
+monitoring, offline analysis of recorded traffic, and several other features described in the
+Feature Comparison section above.
+
+.. thumbnail:: /rst/figures/screenshots/working_example_pro.gif
+    :align: center
+
 The source code for the Monitor application and the documentation can be found in our
-`GitHub repository <https://github.com/eProsima/Fast-DDS-monitor>`_.
+`GitHub repository <https://github.com/eProsima/DDS-Monitor>`_.
 
 ############
 Contributing
 ############
 
-*Fast DDS Monitor* is an open source project, and as such all contributions, both in the form of
+*DDS Monitor* is an open source project, and as such all contributions, both in the form of
 feedback and content generation, are most welcomed.
 To make such contributions, please refer to the
 `Contribution Guidelines <https://github.com/eProsima/all-docs/blob/master/CONTRIBUTING.md>`_ hosted in our GitHub
@@ -316,8 +323,8 @@ This documentation is organized into the sections below.
 
 * :ref:`Installation Manual <installation_manual_linux>`
 * :ref:`Getting Started <entities>`
-* :ref:`Fast DDS Monitor Pro <pro_features>`
-* :ref:`Fast DDS Monitor Basic <initialize_monitoring>`
+* :ref:`DDS Monitor Pro <pro_features>`
+* :ref:`DDS Monitor Basic <initialize_monitoring>`
 * :ref:`Developer Manual <developer_manual_installation_sources_linux>`
 * :ref:`ROS 2 <ros_section>`
 * :ref:`Docker Image <docker>`

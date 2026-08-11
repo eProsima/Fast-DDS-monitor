@@ -11,7 +11,7 @@ In this panel, the different *Chartboxes* with the different series the user cre
 
 Chart series
 ============
-A *DataPoint* in a *Chart Series* in the *Fast DDS Monitor* refers to a specific data type of the DDS network
+A *DataPoint* in a *Chart Series* in the *DDS Monitor* refers to a specific data type of the DDS network
 monitoring. Each *DataPoint* consists in a timestamp and a real value.
 The *timestamp* is the moment the data has been created, reported, received, etc. depending on the *DataKind*.
 The *value* refers to the real value of this *DataPoint* for this *DataKind* at the moment of the *timestamp* value.

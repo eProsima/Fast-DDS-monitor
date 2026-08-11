@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>fastdds_monitor</name>
+  <name>dds_monitor</name>
   <!-->There must be a release. Update version accordingly<-->
   <version>4.2.0</version>
   <description>
-    eProsima Fast DDS Monitor is a graphical desktop application aimed at monitoring DDS environments deployed using the eProsima Fast DDS library.
+    eProsima DDS Monitor is a graphical desktop application aimed at monitoring DDS environments deployed using the eProsima Fast DDS library.
   </description>
   <!-->Update maintainer information<-->
   <maintainer email="RaulSanchezMateos@eprosima.com">Raul Sánchez-Mateos</maintainer>
@@ -14,8 +14,8 @@
   <license file="LICENSE">GNU general public license</license>
 
   <url type="website">https://www.eprosima.com/</url>
-  <url type="bugtracker">https://github.com/eProsima/Fast-DDS-monitor/issues</url>
-  <url type="repository">https://github.com/eProsima/Fast-DDS-monitor</url>
+  <url type="bugtracker">https://github.com/eProsima/DDS-Monitor/issues</url>
+  <url type="repository">https://github.com/eProsima/DDS-Monitor</url>
 
   <depend>fastcdr</depend>
   <depend>fastdds</depend>

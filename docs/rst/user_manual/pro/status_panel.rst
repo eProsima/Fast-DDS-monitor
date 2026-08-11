@@ -21,7 +21,7 @@ To hide the panel, use **View → Hide Left Sidebar**.
 Status Sub-Panel
 ================
 
-Displays a brief summary of the current state of *Fast DDS Monitor Pro*:
+Displays a brief summary of the current state of *DDS Monitor Pro*:
 
 - **Entities**: the total number of entities currently being tracked.
 - **Domains**: the list of domains initialized in the monitor so far.

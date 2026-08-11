@@ -7,7 +7,7 @@
 Export data
 ###########
 
-One of the main functionalities of the *Fast DDS Monitor* is the possibility of exporting the data generated in each
+One of the main functionalities of the *DDS Monitor* is the possibility of exporting the data generated in each
 monitoring session. The different monitor capabilities for exporting user data are explained below.
 
 Export charts in a CSV file

@@ -13,7 +13,7 @@ information about the state and the events of the monitor.
 Status SubPanel
 ===============
 
-This panel displays brief information of the current state of the *Fast DDS Monitor*,
+This panel displays brief information of the current state of the *DDS Monitor*,
 
 * Entities
   * *Domains*: A list of the Domains that have been initialized in the Monitor so far.

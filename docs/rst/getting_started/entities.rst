@@ -7,7 +7,7 @@ Entities
 ########
 
 The monitoring functions of this application relay on tracking the activity of certain *Entities* retrieved by the
-*Fast DDS Monitor*, as well as on storing connections and interchanged data between them
+*DDS Monitor*, as well as on storing connections and interchanged data between them
 for their presentation to the user.
 These entities represent DDS communication entities, or different physical elements related to DDS entities.
 

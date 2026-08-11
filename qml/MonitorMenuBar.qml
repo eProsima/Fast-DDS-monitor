@@ -36,7 +36,7 @@ MenuBar {
             text: qsTr("Initialize DDS &Monitor")
             onTriggered: {
                 if (mainApplicationView.monitors >= 1) {
-                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
+                    errorDialog.errorText = "The free version of DDS Monitor supports only one active monitor at a time."
                     errorDialog.errorType = 0
                     errorDialog.open()
                 } else {
@@ -48,7 +48,7 @@ MenuBar {
             text: qsTr("Initialize Discovery Server Monitor")
             onTriggered: {
                 if (mainApplicationView.monitors >= 1) {
-                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
+                    errorDialog.errorText = "The free version of DDS Monitor supports only one active monitor at a time."
                     errorDialog.errorType = 0
                     errorDialog.open()
                 } else {
@@ -60,7 +60,7 @@ MenuBar {
             text: qsTr("Initialize DDS Monitor with Profile")
             onTriggered: {
                 if (mainApplicationView.monitors >= 1) {
-                    errorDialog.errorText = "The free version of Fast DDS Monitor supports only one active monitor at a time."
+                    errorDialog.errorText = "The free version of DDS Monitor supports only one active monitor at a time."
                     errorDialog.errorType = 0
                     errorDialog.open()
                 } else {
@@ -321,11 +321,11 @@ MenuBar {
         title: qsTr("&Help")
         Action {
             text: qsTr("&Documentation")
-            onTriggered: Qt.openUrlExternally("https://fast-dds-monitor.readthedocs.io/en/latest/")
+            onTriggered: Qt.openUrlExternally("https://dds-monitor.docs.eprosima.com/en/latest/")
         }
         Action {
             text: qsTr("&Release Notes")
-            onTriggered: Qt.openUrlExternally("https://github.com/eProsima/Fast-DDS-monitor/releases")
+            onTriggered: Qt.openUrlExternally("https://github.com/eProsima/DDS-Monitor/releases")
         }
         MenuSeparator { }
         Action {
@@ -334,11 +334,11 @@ MenuBar {
         }
         Action {
             text: qsTr("Search &Feature Requests")
-            onTriggered: Qt.openUrlExternally("https://github.com/eProsima/Fast-DDS-monitor/issues")
+            onTriggered: Qt.openUrlExternally("https://github.com/eProsima/DDS-Monitor/issues")
         }
         Action {
             text: qsTr("Report &Issue")
-            onTriggered: Qt.openUrlExternally("https://github.com/eProsima/Fast-DDS-monitor/issues/new")
+            onTriggered: Qt.openUrlExternally("https://github.com/eProsima/DDS-Monitor/issues/new")
         }
         MenuSeparator { }
         Action {

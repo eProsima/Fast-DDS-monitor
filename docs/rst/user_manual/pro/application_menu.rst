@@ -7,7 +7,7 @@
 Application Menu
 ################
 
-The application menu bar provides access to all operations in *Fast DDS Monitor Pro*.
+The application menu bar provides access to all operations in *DDS Monitor Pro*.
 It is divided into five groups: **File**, **Add**, **Edit**, **View**, and **Help**.
 
 .. figure:: /rst/figures/screenshots/application_menu_pro.png
@@ -287,14 +287,14 @@ including entity filters, sidebar layout, theming, and the shortcuts toolbar.
 **Customize Shortcuts Toolbar**
     Opens a dialog to independently show or hide each button in the shortcuts toolbar.
     This toolbar exposes shortcuts to buttons with the main functionality to interact with the
-    *Fast DDS Monitor Pro* application.
+    *DDS Monitor Pro* application.
 
     The meaning of each of the icons available in the shortcut bar is explained below:
 
     * |historical_chart| - Display historical data.
     * |dynamic_chart| - Display real-time data.
     * |create_alert| - Open the create alerts panel.
-    * |refresh| - Refresh Fast DDS Monitor.
+    * |refresh| - Refresh DDS Monitor.
     * |clear_log| - Clear the list of logs.
     * |clear_issues| - Clear the issues panel.
 
@@ -314,24 +314,24 @@ application information.
     Opens this documentation in the default browser.
 
 **Release Notes**
-    Opens the `Releases <https://github.com/eProsima/Fast-DDS-monitor/releases>`_ page of the
-    `GitHub Fast DDS Monitor repository`_ in the default browser.
+    Opens the `Releases <https://github.com/eProsima/DDS-Monitor/releases>`_ page of the
+    `GitHub DDS Monitor repository`_ in the default browser.
 
 **Join Us on LinkedIn**
     Opens the `eProsima LinkedIn page <https://www.linkedin.com/company/eprosima>`_ in the default
     browser.
 
 **Search Feature Requests**
-    Opens the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_ to search for or browse
+    Opens the `Issues`_ section of the `GitHub DDS Monitor repository`_ to search for or browse
     existing feature requests and bug reports.
 
 **Report Issue**
-    Opens a new issue form in the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_
+    Opens a new issue form in the `Issues`_ section of the `GitHub DDS Monitor repository`_
     to report a bug or request a feature.
 
 **About**
-    Displays a dialog with general information about the currently running *Fast DDS Monitor Pro*
+    Displays a dialog with general information about the currently running *DDS Monitor Pro*
     application, including the version number and license information.
 
-.. _GitHub Fast DDS Monitor repository: https://github.com/eProsima/Fast-DDS-Monitor
-.. _Issues: https://github.com/eProsima/Fast-DDS-Monitor/issues
+.. _GitHub DDS Monitor repository: https://github.com/eProsima/DDS-Monitor
+.. _Issues: https://github.com/eProsima/DDS-Monitor/issues

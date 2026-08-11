@@ -6,7 +6,7 @@
 Application Menu
 ################
 
-This section describes the operations that can be performed in *Fast DDS Monitor* through the application menu.
+This section describes the operations that can be performed in *DDS Monitor* through the application menu.
 
 .. _application_menu_file:
 
@@ -14,7 +14,7 @@ File
 ====
 
 .. note::
-    The free version of *Fast DDS Monitor* supports only **one active monitor** at a time.
+    The free version of *DDS Monitor* supports only **one active monitor** at a time.
     Attempting to initialize a second monitor will show an error message.
 
 .. _init_monitor_button:
@@ -55,7 +55,7 @@ a specific string format to connect with one or more *Fast DDS Discovery Servers
 This string must contain the IP-port pair where the Discovery Server is listening in the format ``ip:port``
 separated by ``;``.
 
-This will connect the *Fast DDS Monitor* to the Discovery Servers listening on the addresses set,
+This will connect the *DDS Monitor* to the Discovery Servers listening on the addresses set,
 and it will get all the discovery information of the entities connecting through them.
 
 .. note::
@@ -66,7 +66,7 @@ and it will get all the discovery information of the entities connecting through
 Export Charts to CSV
 --------------------
 
-Export all the data displayed in the current Fast DDS Monitor session to a CSV file.
+Export all the data displayed in the current DDS Monitor session to a CSV file.
 Please refer to section :ref:`export_data` for more information on the format of the generated CSV file.
 
 .. _dump_button:
@@ -231,8 +231,8 @@ Link to this documentation.
 Release Notes
 -------------
 
-Link to the `Releases <https://github.com/eProsima/Fast-DDS-monitor/releases>`_ section of the
-`GitHub Fast DDS Monitor repository`_.
+Link to the `Releases <https://github.com/eProsima/DDS-Monitor/releases>`_ section of the
+`GitHub DDS Monitor repository`_.
 
 Join Us on LinkedIn
 -------------------
@@ -240,15 +240,15 @@ Link to `eProsima LinkedIn account <https://www.linkedin.com/company/eprosima>`_
 
 Search Feature Requests
 -----------------------
-Link to the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
+Link to the `Issues`_ section of the `GitHub DDS Monitor repository`_.
 
 Report Issue
 ------------
-Link to create a new Issue in the `Issues`_ section of the `GitHub Fast DDS Monitor repository`_.
+Link to create a new Issue in the `Issues`_ section of the `GitHub DDS Monitor repository`_.
 
 About
 -----
-General information of the currently running *Fast DDS Monitor* application.
+General information of the currently running *DDS Monitor* application.
 
-.. _GitHub Fast DDS Monitor repository: https://github.com/eProsima/Fast-DDS-monitor
-.. _Issues: https://github.com/eProsima/Fast-DDS-monitor/issues
+.. _GitHub DDS Monitor repository: https://github.com/eProsima/DDS-Monitor
+.. _Issues: https://github.com/eProsima/DDS-Monitor/issues

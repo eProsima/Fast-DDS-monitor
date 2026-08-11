@@ -1,19 +1,19 @@
 // Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
-// This file is part of eProsima Fast DDS Monitor.
+// This file is part of eProsima DDS Monitor.
 //
-// eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+// eProsima DDS Monitor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+// eProsima DDS Monitor is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+// along with eProsima DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 #include <iostream>
 
@@ -24,8 +24,8 @@
 #include <QtQuick/QQuickView>
 #include <QQuickStyle>
 
-#include <fastdds_monitor/Engine.h>
-#include <fastdds_monitor/io/ClipboardHandler.h>
+#include <dds_monitor/Engine.h>
+#include <dds_monitor/io/ClipboardHandler.h>
 
 int main(
         int argc,
@@ -35,7 +35,7 @@ int main(
     app.setWindowIcon(QIcon(":/resources/images/eprosima_logo.ico"));
     app.setOrganizationName("eProsima");
     app.setOrganizationDomain("eprosima.com");
-    app.setApplicationName("Fast DDS Monitor");
+    app.setApplicationName("DDS Monitor");
 
     /******************************************************************************************************************
     * Application engine                                                                                             *

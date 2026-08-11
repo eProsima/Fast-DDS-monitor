@@ -1,19 +1,19 @@
 // Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
-// This file is part of eProsima Fast DDS Monitor.
+// This file is part of eProsima DDS Monitor.
 //
-// eProsima Fast DDS Monitor is free software: you can redistribute it and/or modify
+// eProsima DDS Monitor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// eProsima Fast DDS Monitor is distributed in the hope that it will be useful,
+// eProsima DDS Monitor is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with eProsima Fast DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
+// along with eProsima DDS Monitor. If not, see <https://www.gnu.org/licenses/>.
 
 import QtQuick 6.4
 import QtQuick.Controls 6.4
@@ -22,7 +22,7 @@ import QtQuick.Layouts 6.4
 Dialog {
     id: aboutDialog
     modal: false
-    title: "About Fast DDS Monitor"
+    title: "About DDS Monitor"
     standardButtons: Dialog.Close
 
     x: (parent.width - width) / 2
@@ -32,8 +32,8 @@ Dialog {
         spacing: 20
 
         Image {
-            id: fastddsMonitorLogo
-            source: "/resources/images/fastdds-monitor-logo.png"
+            id: ddsMonitorLogo
+            source: "/resources/images/dds-monitor-logo.png"
             sourceSize.width: 200
             sourceSize.height: 200
             Layout.alignment: Qt.AlignTop
@@ -51,7 +51,7 @@ Dialog {
                 spacing: 20
 
                 ColumnLayout {
-                    Label { text:"Version: " + controller.fastdds_monitor_version() }
+                    Label { text:"Version: " + controller.dds_monitor_version() }
                     Label { text:"Commit: " + controller.git_commit() }
                     Label { text:"Date: " + controller.build_date() }
                     Label { text:"eProsima Fast DDS: " + controller.fastdds_version() }

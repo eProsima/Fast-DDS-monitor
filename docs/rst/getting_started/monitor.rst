@@ -28,7 +28,7 @@ Every new entity or data discovered will be notified as a callback in the :ref:`
 
 .. note::
 
-    Be aware that the discovery of the *Fast DDS Monitor* entities is made by DDS protocol,
+    Be aware that the discovery of the *DDS Monitor* entities is made by DDS protocol,
     and so it will not be instantaneous or simultaneous.
 
 .. _simple_discovery_monitor:
@@ -46,7 +46,7 @@ Additional options can be configured using the *Advanced Options* button (see :r
 
 Advanced Options
 ----------------
-*Fast DDS Monitor* allows configuring additional parameters using
+*DDS Monitor* allows configuring additional parameters using
 the *Advanced Options* button in the *Initialize Monitor* dialog.
 
 In case of enabling some of the supported advanced options, *OK* button will be enabled only if all inputs are correct,
@@ -94,7 +94,7 @@ input to the CLI command.
 DDS XML Profile configured Monitor
 ==================================
 
-The *Fast DDS Monitor* allows users to configure and initialize monitoring using DDS XML profiles.
+The *DDS Monitor* allows users to configure and initialize monitoring using DDS XML profiles.
 These profiles define the configuration of DDS entities, such as DomainParticipants, Topics, and QoS settings.
 
 To add a monitor using DDS XML profiles, follow these steps:
@@ -106,7 +106,7 @@ To add a monitor using DDS XML profiles, follow these steps:
    for details on how to structure the XML profiles.
 
 2. **Load the XML Profiles File**:
-    Click on the *File -> Initialize DDS Monitor with Profile* button in the *Fast DDS Monitor* application menu.
+    Click on the *File -> Initialize DDS Monitor with Profile* button in the *DDS Monitor* application menu.
 
 3. **Upload the XML File**:
    In the dialog that appears, select the XML file you prepared in step 1.

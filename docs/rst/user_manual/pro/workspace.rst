@@ -10,7 +10,7 @@
 Workspace Save and Restore |Pro|
 ################################
 
-*Fast DDS Monitor Pro* can save the complete visual state of a monitoring session to a file and
+*DDS Monitor Pro* can save the complete visual state of a monitoring session to a file and
 reload it in a later session, so you can resume exactly where you left off without reconfiguring
 monitors, layouts, charts, and alerts from scratch.
 
@@ -25,7 +25,7 @@ There are three ways to save the current workspace:
 
 A file dialog opens to choose the destination folder and file name.
 An existing file at the selected path is overwritten.
-The workspace is saved as a JSON file with the ``.fdmw`` (*Fast DDS Monitor Workspace*) extension.
+The workspace is saved as a JSON file with the ``.fdmw`` (*DDS Monitor Workspace*) extension.
 The statistics backend is always reset on load. Entity IDs are not used to identify entities in the file
 because they are volatile and change between runs. Instead, entities are resolved by type and name when
 the workspace is loaded.
