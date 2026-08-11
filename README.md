@@ -1,4 +1,4 @@
-[![DDS Monitor](resources/images/monitor_repo_banner.png)](https://www.eprosima.com/middleware/tools/fast-dds-monitor)
+[![DDS Monitor](resources/images/monitor_repo_banner.png)](https://www.eprosima.com/middleware/tools/fast-dds-monitor) <!-- TODO update web link -->
 
 <br>
 
@@ -60,16 +60,63 @@ are running.
 
 *DDS Monitor Pro* is the commercial edition of *eProsima DDS Monitor*, building on the open-source version with
 more advanced monitoring capabilities, a richer interface, and tooling designed for real production deployments.
+It adds a modern dockable pane workspace, dark mode theming, and the ability to monitor multiple DDS Domains,
+Discovery Servers, or XML-configured environments side by side in the same session.
+Pro also unlocks offline analysis of recorded DDS traffic (MCAP/SQLite), on-demand statistics readers, custom
+JavaScript-driven data series, an image pane for live topic visualization, and direct engineering support with
+long-term maintenance.
 
 <div align="center">
     <img src="docs/rst/figures/screenshots/working_example_pro.gif" alt="Example of use of DDS Monitor Pro">
 </div>
 
-## Commercial support
+## Feature Comparison
 
-Looking for commercial support? Write us to info@eprosima.com
+The following table summarizes the differences between *DDS Monitor* and *DDS Monitor Pro*. See the
+[full, interactive comparison](https://dds-monitor.docs.eprosima.com/en/latest/#feature-comparison) for more details.
 
-Find more about us at [eProsima’s webpage](https://eprosima.com/).
+|  | DDS Monitor Pro | DDS Monitor (Community) |
+|---|---|---|
+| Target usage | Production systems, robotics, industrial, defense | Evaluation, prototyping, development, research |
+| License | Commercial (eProsima Software License Agreement) | Open Source (GPL-3.0) |
+| Statistics charts | ✅ Full (dockable panes) | ✅ Full (fixed layout) |
+| Spy topics | ✅ Multiple dockable panes | ✅ Single fixed tab view |
+| IDL view | ✅ Multiple dockable panes | ✅ Single fixed tab view |
+| Alert configuration | ✅ Configuration pane | ✅ Configuration dialog |
+| DDS Domain monitoring | ✅ Multiple domains simultaneously | ⚠️ Single domain only |
+| Discovery Server monitoring | ✅ Multiple servers simultaneously | ⚠️ Single server only |
+| XML profile monitoring | ✅ Multiple profiles simultaneously | ⚠️ Single profile only |
+| Domain graph | ✅ + Visibility control panel | ⚠️ Filter by topic only |
+| Support | ✅ Direct engineering support | ❌ Community-based |
+| Maintenance / LTS | ✅ Long-term support with backports | ❌ No guaranteed maintenance |
+| Offline mode (open recording) | ✅ MCAP / SQLite playback | ❌ |
+| Custom Series (JavaScript formulas) | ✅ | ❌ |
+| On-demand statistics readers | ✅ | ❌ |
+| Image Pane | ✅ | ❌ |
+| Topic Charts (time series) | ✅ | ❌ |
+| XY Charts (scatter plot) | ✅ | ❌ |
+| Publisher Pane (publish topic data) | ✅ | ❌ |
+| Register Type from IDL | ✅ | ❌ |
+| Dark mode and theming | ✅ | ❌ |
+| Topics panel | ✅ | ❌ |
+| Workspace save & restore | ✅ | ❌ |
+| Help pop-ups & tooltips | ✅ | ❌ |
+| Richer user experience | ✅ Entity summary bar, tab reordering, inline pane configuration, unified menu bar, domain removal... | ❌ |
+
+## Commercial Support and Licenses
+
+*DDS Monitor Pro* is distributed under the **eProsima Software License Agreement** and requires a valid license to
+run.
+
+To get a commercial license or to request commercial support, reach out to eProsima through any of the following
+channels:
+
+* **License request form:** [share your contact details](https://forms.eprosima.com/reach/form/CommercialSupportRequest/formperma/Ac8GwewD7PTDadQZIV92qDEzNFfMlJnYmA029mSJtJ8)
+* **Email:** info@eprosima.com
+* **Web:** [eProsima's webpage](https://eprosima.com/)
+
+The open-source *DDS Monitor* is a separate product distributed under the GPL-3.0 license and does not require a
+commercial license.
 
 ---
 

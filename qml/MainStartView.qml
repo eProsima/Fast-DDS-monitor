@@ -39,7 +39,7 @@ ColumnLayout {
         color: "white"
 
         Image {
-            width: parent.width
+            width: parent.width * 0.6
             height: parent.height/0.9
             fillMode: Image.PreserveAspectFit
             source: "/resources/images/dds-monitor-logo.png"
