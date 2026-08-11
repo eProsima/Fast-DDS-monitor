@@ -295,6 +295,13 @@ Overview
 .. thumbnail:: /rst/figures/screenshots/working_example2.gif
     :align: center
 
+*DDS Monitor Pro* builds on this same workspace with a dockable pane layout, image and publisher pane, custom series, topic and XY charts, multi-domain
+monitoring, offline analysis of recorded traffic, and several other features described in the
+Feature Comparison section above.
+
+.. thumbnail:: /rst/figures/screenshots/working_example_pro.gif
+    :align: center
+
 The source code for the Monitor application and the documentation can be found in our
 `GitHub repository <https://github.com/eProsima/DDS-Monitor>`_.
 
