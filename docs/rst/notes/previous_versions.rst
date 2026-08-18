@@ -1,6 +1,14 @@
-######################
+#################
 Previous versions
-######################
+#################
+
+DDS Monitor |Pro|
+=================
+
+.. include:: previous_versions/v5.0.0-pro.rst
+
+DDS Monitor
+===========
 
 .. include:: previous_versions/v4.1.0.rst
 .. include:: previous_versions/v4.0.0.rst

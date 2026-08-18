@@ -1,0 +1,80 @@
+.. _release_notes:
+
+.. TODO uncomment when there are forthcoming notes
+.. .. include:: forthcoming_version.rst
+
+###################
+Version 6.0.0 |Pro|
+###################
+
+This release includes the following **features**:
+
+* Menu option to stop monitoring a domain
+* Migrate Alert Configuration From Dialog to Integrated Pane
+* Add help button for the alert configuration panel
+* On demand statistics readers with toggle panel
+* Icon tooltips on left sidebar and new statistics readers icon
+* Register Data Type from IDL under a custom name
+* Export topics charts time series to CSV
+* Update tab icons and leave enough space for save icon when many open tabs
+* Custom computed series
+* Spy types with large truncated collections
+* Offline mode (Open recording)
+* Reappearance of starting icons after any panel is being closed
+* Configure Custom User Topics as Image-Compatible Topics
+* Register SOME IP Bridge app
+* If the license is not available, a message is shown on the monitor
+* IDL / Spy view now show a message to inform the user that the type is not available
+* Exchanged the position of the the topics charts and statistics charts buttons and renamed main app features
+* Added an x/y/both rate update button in XY series
+* Link in issues now gives a templated mail window
+* Rename references of Fast DDS Monitor to DDS Monitor
+
+This release includes the following **bugfixes**:
+
+* Allow finding the topics being published continuously in publisher pane
+* Fix domain graph arrows not following hosts during incremental load
+* Preserve float precision in spy
+* Entity list does not collapse properly after hiding metatraffic
+* Added margin so scrollbars do not cover letters
+* Fix image counter overflow
+* XY chart decreases max points number after a domain is being removed and restored
+* Fix zoom-in in charts
+* Buttons reset and randomize in publisher pane did not have the same layout as other buttons
+* In domain view, when there is enough space the complete topic name is now seen
+* Tooltips now have the same look throughout the monitor
+* The left panel now has a maximum size
+* Solve issues related to warning messages shown when filtering topics in the topic view
+* Solved an issue that caused the right panel configuration to randomly close when going back to a tab that had it opened
+* Removed the first line in chart csv exports
+* Fixed blinking when opening a panel, splitting right without actual panel creation and trying to split right again
+* Solved an issue that caused the Create pane button to show "Replace pane" instead on certain circumstances
+* Fix domain graph not refreshing on filtered topics
+* Hide axis source toggle and default to topic fields when no custom series exist
+
+This release includes the following **internal changes**:
+
+* Fix typo in workflow step name
+
+This release includes the following **dependencies update**:
+
+.. list-table::
+    :header-rows: 1
+    :widths: 32 38 15 15
+
+    *   -
+        - Repository
+        - Old Version
+        - New Version
+    *   - Fast CDR
+        - `eProsima/Fast-CDR <https://github.com/eProsima/Fast-CDR>`_
+        - `v2.3.5 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.3.5>`__
+        - `v2.4.0 <https://github.com/eProsima/Fast-CDR/releases/tag/v2.4.0>`__
+    *   - Fast DDS |Pro|
+        - `eProsima/Fast-DDS-Pro <https://github.com/eProsima/Fast-DDS-Pro>`_
+        - `v3.6.1.1 <https://github.com/eProsima/Fast-DDS-Pro/releases/tag/v3.6.1.1>`__
+        - `v3.7.0.1 <https://github.com/eProsima/Fast-DDS-Pro/releases/tag/v3.7.0.1>`__
+    *   - Fast DDS Statistics Backend |Pro|
+        - `eProsima/Fast-DDS-Statistics-Backend-Pro <https://github.com/eProsima/Fast-DDS-Statistics-Backend-Pro>`_
+        - `v3.0.0 <https://github.com/eProsima/Fast-DDS-Statistics-Backend-Pro/releases/tag/v3.0.0>`__
+        - `v4.0.0 <https://github.com/eProsima/Fast-DDS-Statistics-Backend-Pro/releases/tag/v4.0.0>`__
