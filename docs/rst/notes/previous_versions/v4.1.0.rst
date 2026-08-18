@@ -1,11 +1,5 @@
 Version 4.1.0
-##############
-
-This release includes the following **bugfixes**:
-
-* Add domain_id to map so spy mode can start
-* Fixed Qt model protocol violations with emit `layoutChanged`
-
+-------------
 
 This release includes the following **features**:
 
@@ -14,10 +8,17 @@ This release includes the following **features**:
 * Enable spying statistics topics
 
 
+This release includes the following **bugfixes**:
+
+* Add domain_id to map so spy mode can start
+* Fixed Qt model protocol violations with emit `layoutChanged`
+
+
 This release has no **dependencies update**:
 
 .. list-table::
     :header-rows: 1
+    :widths: 32 38 15 15
 
     *   -
         - Repository

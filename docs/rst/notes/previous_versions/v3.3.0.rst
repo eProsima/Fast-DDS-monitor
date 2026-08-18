@@ -1,5 +1,5 @@
 Version 3.3.0
-##############
+-------------
 
 This release includes the following **features**:
 
@@ -17,6 +17,7 @@ This release includes the following **dependencies update**:
 
 .. list-table::
     :header-rows: 1
+    :widths: 32 38 15 15
 
     *   -
         - Repository
@@ -34,4 +35,3 @@ This release includes the following **dependencies update**:
         - `eProsima/Fast-DDS-statistics-backend <https://github.com/eProsima/Fast-DDS-statistics-backend>`__
         - `v2.2.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v2.2.0>`__
         - `v2.3.0 <https://github.com/eProsima/Fast-DDS-statistics-backend/releases/tag/v2.3.0>`__
-

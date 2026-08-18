@@ -128,6 +128,6 @@
    :maxdepth: 1
    :hidden:
 
-   /rst/notes/v5.0.0
+   /rst/notes/v6.0.0-pro
    /rst/notes/v4.2.0
    /rst/notes/previous_versions

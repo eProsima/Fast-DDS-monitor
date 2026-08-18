@@ -82,6 +82,7 @@ submodule
 subpanel
 subpanels
 summarising
+templated
 theming
 Todo
 toolchain
