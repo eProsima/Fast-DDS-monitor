@@ -406,9 +406,10 @@ install(TARGETS ${PROJECT_NAME}
 # Install a symlink under the previous executable name (fastdds_monitor) so existing
 # launchers/scripts keep working after the DDS Monitor rename.
 install(CODE "
+    set(_ddsmon_bin_dir \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}\")
     file(CREATE_LINK
-        \"${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}\"
-        \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}/fastdds_monitor${CMAKE_EXECUTABLE_SUFFIX}\"
+        \"\${_ddsmon_bin_dir}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}\"
+        \"\${_ddsmon_bin_dir}/fastdds_monitor${CMAKE_EXECUTABLE_SUFFIX}\"
         SYMBOLIC COPY_ON_ERROR
     )
     ")
